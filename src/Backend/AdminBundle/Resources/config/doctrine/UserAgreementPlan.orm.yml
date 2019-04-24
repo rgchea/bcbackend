@@ -1,0 +1,110 @@
+Backend\AdminBundle\Entity\UserAgreementPlan:
+    type: entity
+    table: user_agreement_plan
+    repositoryClass: Backend\AdminBundle\Repository\UserAgreementPlanRepository
+    indexes:
+        updated_by:
+            columns:
+                - updated_by
+        user_id:
+            columns:
+                - user_id
+        agreement_plan_id:
+            columns:
+                - agreement_plan_id
+        created_by:
+            columns:
+                - created_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        isActive:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: is_active
+        expirationDate:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: expiration_date
+        monthlyPayment:
+            type: boolean
+            nullable: false
+            options:
+                default: '0'
+            column: monthly_payment
+        annualPayment:
+            type: boolean
+            nullable: false
+            options:
+                default: '0'
+            column: annual_payment
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        agreementPlan:
+            targetEntity: AgreementPlan
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                agreement_plan_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

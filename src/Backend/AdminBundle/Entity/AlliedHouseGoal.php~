@@ -1,0 +1,146 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouseGoal
+ */
+class AlliedHouseGoal
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var float
+     */
+    private $amountGoal;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $user;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    private $alliedHouse;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set amountGoal
+     *
+     * @param float $amountGoal
+     *
+     * @return AlliedHouseGoal
+     */
+    public function setAmountGoal($amountGoal)
+    {
+        $this->amountGoal = $amountGoal;
+
+        return $this;
+    }
+
+    /**
+     * Get amountGoal
+     *
+     * @return float
+     */
+    public function getAmountGoal()
+    {
+        return $this->amountGoal;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return AlliedHouseGoal
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Backend\AdminBundle\Entity\User $user
+     *
+     * @return AlliedHouseGoal
+     */
+    public function setUser(\Backend\AdminBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set alliedHouse
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouse $alliedHouse
+     *
+     * @return AlliedHouseGoal
+     */
+    public function setAlliedHouse(\Backend\AdminBundle\Entity\AlliedHouse $alliedHouse = null)
+    {
+        $this->alliedHouse = $alliedHouse;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouse
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    public function getAlliedHouse()
+    {
+        return $this->alliedHouse;
+    }
+	
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }		
+}

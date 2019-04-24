@@ -1,0 +1,29 @@
+{% extends "PizoteArkAdminBundle::securityv2.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+		<div class="register-wrap">    
+		    <div class="panel bg-gray no-padding">        
+		        <div class="panel-body">
+					<section style="padding: 10px">
+				    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+				    
+				    </section>
+    				
+    			</div>
+    		</div>
+    		<a href="{{ path('fos_user_security_logout')}}" class="btn btn-ps" >Ingresar</a>
+    	</div>
+	
+	<script type="text/javascript">
+		function goToLogin() {
+		    var x = window.location.href;
+		    var com = x.indexOf("register");
+		    //alert(x.substring(0, com));
+		    document.location.href = x.substring(0, com);
+		}		
+	</script>    
+{% endblock fos_user_content %}
+

@@ -1,0 +1,3 @@
+backend_admin_company_index:
+  path:     /
+  defaults: { _controller: "BackendAdminBundle:Company:index" }

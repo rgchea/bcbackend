@@ -1,0 +1,3 @@
+pizote_ark_admin_homepage:
+     pattern:  /
+     defaults: { _controller: PizoteArkAdminBundle:Security:login }

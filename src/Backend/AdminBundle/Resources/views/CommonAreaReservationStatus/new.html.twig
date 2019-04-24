@@ -1,0 +1,18 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_common_area_reservation_status_index') }}">{{ 'label_menu.common_area_reservation_status'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_common_area_reservation_status_new') }}">{{ 'label_new'|trans  }}</a> </li>
+    {% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:CommonAreaReservationStatus:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+
+
+{% endblock %}

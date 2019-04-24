@@ -1,0 +1,176 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouseProductLog
+ */
+class AlliedHouseProductLog
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $actionLog;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouseProduct
+     */
+    private $alliedHouseProduct;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set actionLog
+     *
+     * @param string $actionLog
+     *
+     * @return AlliedHouseProductLog
+     */
+    public function setActionLog($actionLog)
+    {
+        $this->actionLog = $actionLog;
+
+        return $this;
+    }
+
+    /**
+     * Get actionLog
+     *
+     * @return string
+     */
+    public function getActionLog()
+    {
+        return $this->actionLog;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return AlliedHouseProductLog
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return AlliedHouseProductLog
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \Backend\AdminBundle\Entity\User $createdBy
+     *
+     * @return AlliedHouseProductLog
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set alliedHouseProduct
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouseProduct $alliedHouseProduct
+     *
+     * @return AlliedHouseProductLog
+     */
+    public function setAlliedHouseProduct(\Backend\AdminBundle\Entity\AlliedHouseProduct $alliedHouseProduct = null)
+    {
+        $this->alliedHouseProduct = $alliedHouseProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouseProduct
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouseProduct
+     */
+    public function getAlliedHouseProduct()
+    {
+        return $this->alliedHouseProduct;
+    }
+	
+	
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }		
+}

@@ -1,0 +1,108 @@
+<style>
+    .input-group {
+        z-index: 0;
+    }
+</style>
+
+<div class="row">
+	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+			<header role="heading">
+				<h2>{{ 'label_form'|trans }}</h2>
+			</header>
+
+			<!-- widget div-->
+			<div role="content">
+
+				<!-- widget edit box -->
+				<div class="jarviswidget-editbox">
+					<!-- This area used as dropdown edit box -->
+
+				</div>
+				<!-- end widget edit box -->
+
+				<!-- widget content -->
+				<div class="widget-body">
+
+					{#<form id="backend_adminbundle_ticket_status" action="{{path('backend_admin_ticket_status_create')}}" method="POST" name="backend_adminbundle_ticket_status">#}
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+						<fieldset>
+
+                        <div class="form-group col-md-6">
+                            {{ form_label(form.name) }}
+                            {{ form_errors(form.name) }}
+                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.isPublic) }}
+								{{ form_errors(form.isPublic) }}
+								{{ form_widget(form.isPublic, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+						<div class="clearfix"></div>
+						<div class="form-group col-md-6">
+							{{ form_label(form.complex) }}
+							{{ form_errors(form.complex) }}
+							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+							<div class="hide">
+                            {{ form_rest(form) }}
+                        </div>
+
+						</fieldset>
+
+						<div class="form-actions">
+							<a href="{{ path('backend_admin_ticket_status_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
+
+							<button type="submit" class="btn btn-primary">
+								<i class="fa fa-save"></i>
+								{{ 'label_save'|trans  }}
+							</button>
+						</div>
+
+					<!--</form>-->
+					{{ form_end(form) }}					
+
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget div -->
+
+		</div>
+
+		<div class="clearfix"></div>
+
+	</article>
+</div>
+
+<script type="text/javascript" language="Javascript">
+
+	$( document ).ready(function() {
+
+            $('[name="ticket_status"]').validate();
+
+		$('[name="ticket_status"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='ticket_status']").valid()){
+				$('#pizote_spinner').show();
+				return true;
+
+			}
+			else{
+
+				return false;
+			}
+
+		});
+
+	});
+
+
+</script>

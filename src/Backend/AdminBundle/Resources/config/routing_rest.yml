@@ -1,0 +1,6 @@
+#src/Backend/AdminBundle/Resources/config/routing_rest.yml
+global: 
+  type: rest
+  resource:     "BackendAdminBundle:Rest"
+  name_prefix:  api_
+  methods:  [GET, POST, OPTIONS]

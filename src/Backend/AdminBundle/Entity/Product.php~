@@ -1,0 +1,574 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+ 
+// codes not relevant to this example has been removed
+ 
+/**
+ * @UniqueEntity(fields="code", message="El SKU ya está siendo utilizado por otro producto")
+ */
+
+/**
+ * Product
+ */
+class Product
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+	 * @ORM\Column(name="code", type="string", length=32, unique=true)
+     */
+    private $code = '';
+
+    /**
+     * @var string
+     */
+    private $name = '';
+
+    /**
+     * @var float
+     */
+    private $suggestedPrice = 0.00;
+
+    /**
+     * @var float
+     */
+    private $costPrice = 0.00;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\ProductMeasurement
+     */
+    private $productMeasurement;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\ProductCategory
+     */
+    private $productCategory;
+	
+    /**
+     * @var string
+     */
+    private $photoPath;
+	
+    /**
+     * Image file
+     *
+     * @var File
+     *
+     * @Assert\File(
+     *     maxSize = "3M",
+     *     mimeTypes = {"image/jpeg", "image/gif", "image/png", "image/tiff"},
+     *     maxSizeMessage = "The maxmimum allowed file size is 3MB.",
+     *     mimeTypesMessage = "Only the filetypes image are allowed."
+     * )
+     */
+    protected $file;		
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Product
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Product
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set suggestedPrice
+     *
+     * @param float $suggestedPrice
+     *
+     * @return Product
+     */
+    public function setSuggestedPrice($suggestedPrice)
+    {
+        $this->suggestedPrice = $suggestedPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get suggestedPrice
+     *
+     * @return float
+     */
+    public function getSuggestedPrice()
+    {
+        return $this->suggestedPrice;
+    }
+
+    /**
+     * Set costPrice
+     *
+     * @param float $costPrice
+     *
+     * @return Product
+     */
+    public function setCostPrice($costPrice)
+    {
+        $this->costPrice = $costPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get costPrice
+     *
+     * @return float
+     */
+    public function getCostPrice()
+    {
+        return $this->costPrice;
+    }
+
+    /**
+     * Set productMeasurement
+     *
+     * @param \Backend\AdminBundle\Entity\ProductMeasurement $productMeasurement
+     *
+     * @return Product
+     */
+    public function setProductMeasurement(\Backend\AdminBundle\Entity\ProductMeasurement $productMeasurement = null)
+    {
+        $this->productMeasurement = $productMeasurement;
+
+        return $this;
+    }
+
+    /**
+     * Get productMeasurement
+     *
+     * @return \Backend\AdminBundle\Entity\ProductMeasurement
+     */
+    public function getProductMeasurement()
+    {
+        return $this->productMeasurement;
+    }
+
+    /**
+     * Set productCategory
+     *
+     * @param \Backend\AdminBundle\Entity\ProductCategory $productCategory
+     *
+     * @return Product
+     */
+    public function setProductCategory(\Backend\AdminBundle\Entity\ProductCategory $productCategory = null)
+    {
+        $this->productCategory = $productCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get productCategory
+     *
+     * @return \Backend\AdminBundle\Entity\ProductCategory
+     */
+    public function getProductCategory()
+    {
+        return $this->productCategory;
+    }
+	
+	public function __toString(){
+		return $this->getName();
+	}	
+    /**
+     * @var string
+     */
+    private $conversion = '';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $parent;
+
+
+    /**
+     * Set conversion
+     *
+     * @param string $conversion
+     *
+     * @return Product
+     */
+    public function setConversion($conversion)
+    {
+        $this->conversion = $conversion;
+
+        return $this;
+    }
+
+    /**
+     * Get conversion
+     *
+     * @return string
+     */
+    public function getConversion()
+    {
+        return $this->conversion;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Backend\AdminBundle\Entity\Product $parent
+     *
+     * @return Product
+     */
+    public function setParent(\Backend\AdminBundle\Entity\Product $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $productParent;
+
+
+    /**
+     * Set productParent
+     *
+     * @param \Backend\AdminBundle\Entity\Product $productParent
+     *
+     * @return Product
+     */
+    public function setProductParent(\Backend\AdminBundle\Entity\Product $productParent = null)
+    {
+        $this->productParent = $productParent;
+
+        return $this;
+    }
+
+    /**
+     * Get productParent
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProductParent()
+    {
+        return $this->productParent;
+    }
+	
+
+
+    /**
+     * Set photoPath
+     *
+     * @param string $photoPath
+     *
+     * @return Product
+     */
+    public function setPhotoPath($photoPath)
+    {
+        $this->photoPath = $photoPath;
+
+        return $this;
+    }
+
+    /**
+     * Get photoPath
+     *
+     * @return string
+     */
+    public function getPhotoPath()
+    {
+        return $this->photoPath;
+    }
+	
+	
+
+
+	
+	/**
+	 * Called after entity persistence
+	 *
+	 * @ORM\PostPersist()
+	 * @ORM\PostUpdate()
+	 */
+	public function upload()
+	{
+		
+		
+	    // The file property can be empty if the field is not required
+	    if (null === $this->file) {
+	    	
+	        return;
+	    }
+		
+		
+   
+	    if (null !== $this->file) {
+	        // do whatever you want to generate a unique name
+	        $filename = sha1(uniqid(mt_rand(), true));
+	        $this->photoPath = $filename.'.'.$this->file->guessExtension();
+	    }
+	
+	    // Use the original file name here but you should
+	    // sanitize it at least to avoid any security issues
+	
+	    // move takes the target directory and then the
+	    // target filename to move to
+	    $this->file->move($this->getUploadRootDir(), $this->photoPath);
+	
+	    // Set the path property to the filename where you've saved the file
+	    //$this->path = $this->file->getClientOriginalName();
+	
+	    // Clean up the file property as you won't need it anymore
+	    $this->file = null;
+	}
+
+
+	/**
+	 * Called before entity removal
+	 *
+	 * @ORM\PreRemove()
+	 */
+	public function removeUpload()
+	{
+	    if ($file = $this->getAbsolutePath()) {
+	        unlink($file); 
+	    }
+	}	
+	
+	
+ 	public function getAbsolutePath()
+    {
+        return null === $this->photoPath ? null : $this->getUploadRootDir().'/'.$this->photoPath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->photoPath
+            ? null
+            : $this->getUploadDir().'/'.$this->photoPath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/product/';
+    }
+	
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+ 		if (isset($this->photoPath)) {
+            unlink($this->getAbsolutePath());
+        } 		
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }		
+	
+	
+	
+	
+    /**
+     * @var float
+     */
+    private $avgWeight = '0.00';
+
+
+    /**
+     * Set avgWeight
+     *
+     * @param float $avgWeight
+     *
+     * @return Product
+     */
+    public function setAvgWeight($avgWeight)
+    {
+        $this->avgWeight = $avgWeight;
+
+        return $this;
+    }
+
+    /**
+     * Get avgWeight
+     *
+     * @return float
+     */
+    public function getAvgWeight()
+    {
+        return $this->avgWeight;
+    }
+    /**
+     * @var boolean
+     */
+    private $enabled = '1';
+
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Product
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+    /**
+     * @var boolean
+     */
+    private $isLocal = '0';
+
+
+    /**
+     * Set isLocal
+     *
+     * @param boolean $isLocal
+     *
+     * @return Product
+     */
+    public function setIsLocal($isLocal)
+    {
+        $this->isLocal = $isLocal;
+
+        return $this;
+    }
+
+    /**
+     * Get isLocal
+     *
+     * @return boolean
+     */
+    public function getIsLocal()
+    {
+        return $this->isLocal;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $productReference;
+
+
+    /**
+     * Set productReference
+     *
+     * @param \Backend\AdminBundle\Entity\Product $productReference
+     *
+     * @return Product
+     */
+    public function setProductReference(\Backend\AdminBundle\Entity\Product $productReference = null)
+    {
+        $this->productReference = $productReference;
+
+        return $this;
+    }
+
+    /**
+     * Get productReference
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProductReference()
+    {
+        return $this->productReference;
+    }
+}

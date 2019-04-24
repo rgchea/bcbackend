@@ -1,0 +1,72 @@
+{% extends "PizoteArkAdminBundle::security.html.twig" %}
+
+{% block title %}
+{{ parent() }}
+Login
+{% endblock %}
+
+{% block fos_user_content %}
+
+<form action="{{ path("fos_user_security_check") }}" method="post" class="smart-form client-form">
+
+
+    <fieldset>
+        
+        {% if error %}
+            <div class="alert alert-danger fade in">
+                    <button data-dismiss="alert" class="close">
+                            ×
+                    </button>
+                    <i class="fa-fw fa fa-times"></i>
+                    {{ error|trans({}, 'FOSUserBundle') }}
+            </div>
+            <br>
+        {% endif %}
+        <section class="section_login">
+        	<img style="width: 100%;" src="{{ asset('bundles/pizotearkadmin/img/logo/logo.png')}}" alt="Backend">
+        </section>
+        <section>
+            <label for="username">{{ 'label_email'|trans }}</label><br />
+            <label class="input"> 
+                <input type="text" id="username" name="_username" value="" required="required" value="{{ last_username }}">&nbsp;<i class="icon-append fa fa-user"></i>
+                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> </b></label>
+        </section>
+
+        <section>
+            <label for="password">{{ 'label_login_password'|trans }}</label><br />
+            <label class="input"> 
+                <input type="password" id="password" name="_password" required="required">&nbsp;<i class="icon-append fa fa-lock"></i>
+                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> </b> </label>
+            <div class="note">
+                <a href="{{ path('my_fos_user_resetting_request') }}">{{ 'label_login_forgot_password'|trans }}</a>
+            </div>
+        </section>
+  
+		
+        <section>
+        	
+            <label class="checkbox" style="padding-left: 20px">
+            	<input type="checkbox" id="remember_me" name="_remember_me" checked="" >{{ 'label_login_keep_active'|trans }}
+            </label>
+        </section>
+
+        {#
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        #}
+
+
+    </fieldset>
+
+    <footer>
+        <button type="submit" class="btn btn-primary">
+            {{ 'label_login_login'|trans }}
+        </button>
+    </footer>
+    
+</form>
+
+
+  
+        
+
+{% endblock fos_user_content %}

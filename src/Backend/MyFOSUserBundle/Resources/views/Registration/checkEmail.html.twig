@@ -1,0 +1,15 @@
+{% extends "PizoteArkAdminBundle::securityv2.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+		<div class="register-wrap">    
+		    <div class="panel bg-gray no-padding">        
+		        <div class="panel-body">
+    				<section style="padding: 10px">{{ 'registration.check_email'|trans({'%email%': user.email}) }}</section>
+    			</div>
+    		</div>
+    		<a href="{{ path('fos_user_security_logout')}}" class="btn btn-ps" >Regresar</a>
+    	</div>
+    	
+{% endblock fos_user_content %}

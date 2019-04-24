@@ -1,0 +1,59 @@
+Backend\AdminBundle\Entity\ModuleAccess:
+    type: entity
+    table: module_access
+    repositoryClass: Backend\AdminBundle\Repository\ModuleAccessRepository
+    indexes:
+        module_id:
+            columns:
+                - module_id
+        role_id:
+            columns:
+                - role_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        canRead:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: can_read
+        canWrite:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: can_write
+    manyToOne:
+        module:
+            targetEntity: Module
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                module_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: true                    
+            
+        role:
+            targetEntity: Role
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                role_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: true                    
+            
+    lifecycleCallbacks: {  }

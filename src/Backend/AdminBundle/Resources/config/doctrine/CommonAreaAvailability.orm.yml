@@ -1,0 +1,103 @@
+Backend\AdminBundle\Entity\CommonAreaAvailability:
+    type: entity
+    table: common_area_availability
+    repositoryClass: Backend\AdminBundle\Repository\CommonAreaAvailabilityRepository
+    indexes:
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
+        common_area_id:
+            columns:
+                - common_area_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        weekDayRangeStart:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: week_day_range_start
+        weekDayRangeFinish:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: week_day_range_finish
+        weekdaySingle:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                comment: '1 es lunes y 7 es domingo'
+            column: weekday_single
+        hourFrom:
+            type: string
+            nullable: false
+            length: 8
+            options:
+                fixed: false
+                default: ''
+            column: hour_from
+        hourTo:
+            type: string
+            nullable: false
+            length: 8
+            options:
+                fixed: false
+                default: ''
+            column: hour_to
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+    manyToOne:
+        commonArea:
+            targetEntity: CommonArea
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

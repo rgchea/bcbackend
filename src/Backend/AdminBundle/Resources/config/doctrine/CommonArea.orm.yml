@@ -1,0 +1,147 @@
+Backend\AdminBundle\Entity\CommonArea:
+    type: entity
+    table: common_area
+    repositoryClass: Backend\AdminBundle\Repository\CommonAreaRepository
+    indexes:
+        common_area_type_id:
+            columns:
+                - common_area_type_id
+        updated_by:
+            columns:
+                - updated_by
+        complex_id:
+            columns:
+                - complex_id
+        created_by:
+            columns:
+                - created_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+        description:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        regulation:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        termCondition:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+                comment: 'terminos y condiciones'
+            column: term_condition
+        price:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            options:
+                default: '0.00'
+        reservationHourPeriod:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: reservation_hour_period
+        requiredPayment:
+            type: boolean
+            nullable: false
+            options:
+                comment: 'si requiere pago para su reserva o no'
+                default: '1'
+            column: required_payment
+        hasEquipment:
+            type: boolean
+            nullable: false
+            options:
+                comment: 'si se da equipada o no'
+                default: '1'
+            column: has_equipment
+        equipmentDescription:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: equipment_description
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        complex:
+            targetEntity: Complex
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        commonAreaType:
+            targetEntity: CommonAreaType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

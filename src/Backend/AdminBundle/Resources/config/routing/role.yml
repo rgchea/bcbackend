@@ -1,0 +1,34 @@
+backend_admin_role_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:Role:index
+
+role_list_datatables:
+    path: /role/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Role:listDatatables
+
+backend_admin_role_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:Role:new" }
+    #methods:  [GET, POST]
+
+backend_admin_role_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:Role:edit" }
+
+backend_admin_role_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:Role:create" }
+    methods:  POST
+
+backend_admin_role_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:Role:update" }
+    methods:  POST
+
+backend_admin_role_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:Role:delete" }
+
+    #methods:  DELETE

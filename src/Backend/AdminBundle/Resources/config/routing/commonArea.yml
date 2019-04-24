@@ -1,0 +1,33 @@
+backend_admin_common_area_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:CommonArea:index
+
+common_area_list_datatables:
+    path: /common_area/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:CommonArea:listDatatables
+
+backend_admin_common_area_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:CommonArea:new" }
+    #methods:  [GET, POST]
+
+backend_admin_common_area_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:CommonArea:edit" }
+
+backend_admin_common_area_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:CommonArea:create" }
+    methods:  POST
+
+backend_admin_common_area_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:CommonArea:update" }
+    methods:  POST
+
+backend_admin_common_area_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:CommonArea:delete" }
+    #methods:  DELETE

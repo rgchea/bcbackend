@@ -1,0 +1,161 @@
+label_welcome: Welcome
+label_create_new: 'Create new'
+label_new: New
+label_edit: Edit
+label_list: List
+label_cancel: Cancel
+label_save: Save
+label_form: Form
+label_actions: Actions
+label_back: Back
+label_are_you_sure: 'Are you sure?'
+label_send: Send
+label_flash_save_success_msg: 'Changes were saved'
+label_flash_success: Success
+label_flash_warning: Warning
+label_flash_info: Info
+label_flash_danger: Danger
+label_flash_save_warning_msg: 'Changes were not saved, try again'
+label_flash_delete_msg: 'Cannot delete'
+label_mail_taken: 'Mail is already taken by other user'
+label_username_taken: 'Username is already taken by other user'
+label_name: Name
+label_code: Code
+label_owner: Owner
+label_tenant: Tenant
+label_short_name: Short Name
+label_nombre: 'Name ES'
+label_description: Description
+label_descripcion: 'Description ES'
+label_last_name: 'Last name'
+label_enabled: Enabled
+label_type: Type
+label_login_forgot_password: 'Forgot Password'
+label_login_keep_active: 'Keep me active'
+label_login_login: Login
+label_login_restore_pass: 'Restore password'
+label_register: Register
+label_register_complete: Welcome
+label_register_complete_msg: Now you are part of the best platform to manage building business www.bettercondos.tech/admin
+label_register_bc_info: You can access to you billing portal through www.bettercondos.info
+label_register_contact: info@bettercondos.com / +180 000 0000
+label_accept_terms: I Accept the terms & conditions
+label_phone: Phone
+label_country: Country
+label_state: City
+label_zip_code: Zip Code
+label_timezone: Timezone
+label_address: Address
+label_tax_name: Tax Name
+label_tax_id: Tax ID
+label_role: Role
+label_ticket_type: 'Ticket Type'
+label_ticket_category: 'Ticket Category'
+label_agreement_plan: 'Agreement Plan'
+label_property_limit_from: 'Property Limit From'
+label_property_limit_to: 'Property Limit To'
+label_user: User
+label_email: Email
+label_username: Username
+label_birthdate: Birthdate
+label_login_user: Username
+label_login_password: Password
+label_login_password_retype: Retype Password
+label_es: ES
+label_en: EN
+label_other: Other
+label_complex: Complex
+label_business: Business
+label_business_check_email: Email already has been associated with other account
+label_business_check_phone: Phone already has been associated with other account
+label_user_taken: 'User already taken'
+label_complex_sector_type: 'Sector Types'
+label_complex_sector: 'Sections'
+label_complex_type: 'Complex Type'
+label_complex_structure: Complex Structure
+label_notification_type: 'Notification Types'
+label_geo_country: 'Country'
+label_geo_state: 'City'
+label_poll_question_type: 'Poll Question Type'
+label_property_type:  'Property Type'
+label_property: 'Property'
+label_common_area_type:  'Common Area Type'
+label_complex_faq: 'Complex FAQ'
+label_property_transaction_type: 'Property Transaction Type'
+label_common_area_reservation_status: 'Common Area Reservation Status'
+label_ticket_status: 'Ticket Status'
+label_shift: 'Shift'
+label_roles: Roles
+label_ticket_types: 'Ticket Types'
+label_users: Users
+label_term_condition: 'Terms & Conditions'
+label_billing_information: Billing Information
+label_billing_copy: Use the same address for billing
+label_question: Question
+label_order_list: Order List
+label_answer: Answer
+label_last_payment_day: Last Payment Day
+label_ticket_limit: Ticket Limit
+label_user_limit: User Limit
+label_fee: Fee $
+label_montly_payment: Montly Payment
+label_yearly_payment: Yearly Payment
+label_comment: Comment
+label_is_public: 'Is Public'
+label_hour_from: Hour From
+label_hour_to: Hour To
+label_week_day: Week Day
+label_shift_date: Shift Date
+label_overtime: Overtime
+label_flexible_hours: Flexible Hours
+label_flexitour: Flexitour
+label_regulation: Regulation
+label_common_area: Common Area
+label_price: Price
+label_reservation_hour_period: Reservation Hour Period
+label_required_payment: Required Payment
+label_has_equipment: Has Equipment
+label_equipment_description: Equipment Description
+label_menu:
+    home: Home
+    config: Configuration
+    permissions: Permissions
+    users: Users
+    roles: Roles
+    admin: Admin
+    profile: Profile
+    logout: Logout
+    ticket_type: 'Ticket Types'
+    ticket_category: 'Ticket Categories'
+    company: Companies
+    term_condition: 'Terms & Conditions'
+    complex_sector_type: 'Sector Types'
+    business: Business
+    complex: Complex
+    complex_type: 'Complex Types'
+    notification_type: 'Notification Types'
+    poll_question_type: 'Poll Question Types'
+    property_type: 'Property Types'
+    property: 'Properties'
+    common_area_type: 'Common Area Types'
+    geo_country: 'Country'
+    geo_state: 'City'
+    complex_faq: 'Complex FAQ'
+    property_transaction_type: 'Property Transaction Type'
+    agreement_plan: 'Agreement Plan'
+    common_area_reservation_status: Common Area Reservation Status
+    ticket_status: 'Ticket Status'
+    shift: Shift
+    complex_sector: Sections
+    common_area: Common Area
+resetting:
+    title: 'Reset Password'
+    message: 'Clicking on the next link you will be redirected to a page in order to restore your password'
+complex:
+    section:
+        name: How do you name your sections?
+        how_many: How many sections do you have?
+    properties:
+        name: How do you name your properties?
+        identify: How do you identify your properties/units?
+        per_section: How many properties do you have per section?

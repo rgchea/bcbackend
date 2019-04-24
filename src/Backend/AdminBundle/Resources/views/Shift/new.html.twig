@@ -1,0 +1,18 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_shift_index') }}">{{ 'label_menu.shift'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_shift_new') }}">{{ 'label_new'|trans  }}</a> </li>
+    {% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:Shift:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+
+
+{% endblock %}

@@ -1,0 +1,107 @@
+Backend\AdminBundle\Entity\Device:
+    type: entity
+    table: device
+    repositoryClass: Backend\AdminBundle\Repository\DeviceRepository
+    indexes:
+        updated_by:
+            columns:
+                - updated_by
+        user_id:
+            columns:
+                - user_id
+        created_by:
+            columns:
+                - created_by
+        token:
+            columns:
+                - token_push
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        uuid:
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
+                default: ''
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+        tokenPush:
+            type: string
+            nullable: true
+            length: 128
+            options:
+                fixed: false
+            column: token_push
+        tokenUpdatedAt:
+            type: datetime
+            nullable: true
+            column: token_updated_at
+        platform:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+        tokenAppSession:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+            column: token_app_session
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

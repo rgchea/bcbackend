@@ -1,0 +1,218 @@
+<style>
+    .input-group {
+        z-index: 0;
+    }
+</style>
+
+<div class="row">
+	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+			<header role="heading">
+				<h2>{{ 'label_form'|trans }}</h2>
+			</header>
+
+			<!-- widget div-->
+			<div role="content">
+
+				<!-- widget edit box -->
+				<div class="jarviswidget-editbox">
+					<!-- This area used as dropdown edit box -->
+
+				</div>
+				<!-- end widget edit box -->
+
+				<!-- widget content -->
+				<div class="widget-body">
+
+					{#<form id="backend_adminbundle_complex_sector" action="{{path('backend_admin_complex_sector_create')}}" method="POST" name="backend_adminbundle_complex_sector">#}
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+						<fieldset>
+
+                        <div class="form-group col-md-6">
+                            {{ form_label(form.name) }}
+                            {{ form_errors(form.name) }}
+                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+						<div class="form-group col-md-6">
+							{{ form_label(form.address) }}
+							{{ form_errors(form.address) }}
+							{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group col-md-6">
+							{{ form_label(form.complex) }}
+							{{ form_errors(form.complex) }}
+							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+
+						<div class="clearfix"></div>
+
+							<div class="form-group col-md-6">
+								{{ form_label(form.complexSectorType) }}
+								{{ form_errors(form.complexSectorType) }}
+								{{ form_widget(form.complexSectorType, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							{#
+							<div class="col-md-2">
+								<label for="">&nbsp;</label>
+								<input type="text" class="form-control" id="inputSectionName" name="extra[sectorTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}" >
+							</div>
+
+							#}
+
+
+							<div>
+
+								
+								{% if new is defined %}
+
+
+									<div class="col-md-4">
+										<label for="name">GENERATE</label>
+									</div>
+
+
+									<div class="clearfix"></div>
+
+									<div class="col-md-4">
+										<label for="name">{{ 'complex.properties.name'|trans }}</label>
+									</div>
+									<div class="col-md-2">
+										<select id="propertyType" name="extra[propertyType]" class="form-control">
+											{% for propertyType in propertyTypes %}
+												<option value="{{ propertyType.id }}">{{ propertyType }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="col-md-2">
+										<input type="text" class="form-control" id="inputPropertyType" name="extra[propertyTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}">
+									</div>
+
+									<div class="clearfix"></div>
+
+
+									<div class="clearfix"></div>
+
+									<div class="col-md-4">
+										<label for="name">{{ 'complex.properties.per_section'|trans }}</label>
+									</div>
+									<div class="col-md-2">
+										{#propertiesPerSection#}
+										{{ form_errors(form.propertiesPerSection) }}
+										{{ form_widget(form.propertiesPerSection, { 'attr': {'class' : 'form-control' } }
+										) }}
+									</div>
+									<div class="col-md-2">
+
+									</div>
+									
+									
+								{% endif %}
+
+
+
+
+							</div>
+
+							<div class="hide">
+                            {{ form_rest(form) }}
+                        </div>
+
+						</fieldset>
+
+						<div class="form-actions">
+							<a href="{{ path('backend_admin_complex_sector_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
+
+							<button type="submit" class="btn btn-primary">
+								<i class="fa fa-save"></i>
+								{{ 'label_save'|trans  }}
+							</button>
+						</div>
+
+					<!--</form>-->
+					{{ form_end(form) }}					
+
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget div -->
+
+		</div>
+
+		<div class="clearfix"></div>
+
+	</article>
+</div>
+
+<script type="text/javascript" language="Javascript">
+
+	$( document ).ready(function() {
+
+		//propertyType
+		$('[name="complex_sector"]').validate();
+
+		$("#propertyType").change(function(){
+			myValue =$("#propertyType option:selected").attr('value');
+
+			if(myValue == 0){
+				$("#inputPropertyType").show();
+				$("#inputPropertyType").rules("add", {required:true});
+			}
+			else{
+				$("#inputPropertyType").hide();
+				$("#inputPropertyType-error").hide();
+				$("#inputPropertyType").rules("add", {required:false});
+			}
+
+		});
+
+		$("#complex_sector_propertiesPerSection").rules("add", {required:true, digits:true, max: 99});
+		/*
+		$("#complex_sector_complexSectorType").change(function(){
+			myValue =$("#complex_sector_complexSectorType option:selected").attr('value');
+
+			if(myValue == 0){
+				$("#inputSectionName").show();
+				$("#inputSectionName").rules("add", {required:true});
+
+			}
+			else{
+				$("#inputSectionName").hide();
+				$("#inputSectionName-error").hide();
+				$("#inputSectionName").rules("add", {required:false});
+			}
+
+
+		});
+
+		 */
+
+
+
+		$('[name="complex_sector"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='complex_sector']").valid()){
+				$('#pizote_spinner').show();
+				return true;
+
+			}
+			else{
+
+				return false;
+			}
+
+		});
+
+	});
+
+
+</script>

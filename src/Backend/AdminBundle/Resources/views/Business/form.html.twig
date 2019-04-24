@@ -1,0 +1,446 @@
+<link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
+<script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
+
+<style>
+    .input-group {
+        z-index: 0;
+    }
+</style>
+
+<div class="row">
+	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+			<header role="heading">
+				<h2>{{ 'label_form'|trans }}</h2>
+
+			</header>
+
+			<!-- widget div-->
+			<div role="content">
+
+				<!-- widget edit box -->
+				<div class="jarviswidget-editbox">
+					<!-- This area used as dropdown edit box -->
+
+				</div>
+				<!-- end widget edit box -->
+
+				<!-- widget content -->
+				<div class="widget-body">
+
+					{#<form id="backend_adminbundle_ticket_type" action="{{path('backend_admin_ticket_type_create')}}" method="POST" name="backend_adminbundle_ticket_type">#}
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+						<fieldset>
+							{#THE USER WHO CREATES THE BUSINESS #}
+							{% if new is defined %}
+								<input type="hidden" name="userID" value="{{ userID }}">
+							{% endif %}
+							<div id="checkEmailAlert" class="alert alert-warning" role="alert" style="display: none" >
+								{{ 'label_business_check_email'|trans }}
+							</div>
+							<div id="checkPhoneAlert" class="alert alert-warning" role="alert" style="display: none" >
+								{{ 'label_business_check_phone'|trans }}
+							</div>
+
+							<div class="form-group col-md-4">
+								{{ form_label(form.name) }}
+								{{ form_errors(form.name) }}
+								{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
+							<div class="clearfix"></div>
+
+							<div class="col-md-4"  >
+								<label for="name">{{ 'label_country'|trans }}</label>
+
+								{% if edit is defined %}
+									<div id="" class="flagstrap" data-input-name="business_country" data-selected-country="{{ entity.geoState.geoCountry.shortName }}"></div>
+								{% else %}
+									<div id="" class="flagstrap" data-input-name="business_country" data-selected-country="US"></div>
+								{% endif %}
+
+							</div>
+
+							<div class="form-group col-md-4">
+								{{ form_label(form.geoState) }}
+								{{ form_errors(form.geoState) }}
+
+								<div id="divGeoState">
+									{{ form_widget(form.geoState, { 'attr': {'class' : 'form-control' } }) }}
+								</div>
+							</div>
+							<div class="form-group col-md-4">
+								{{ form_label(form.zipCode) }}
+								{{ form_errors(form.zipCode) }}
+								{{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
+							<div class="clearfix"></div>
+							<div class="form-group col-md-8">
+								{{ form_label(form.address) }}
+								{{ form_errors(form.address) }}
+								{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
+							<div class="clearfix"></div>
+							<div class="form-group col-md-4">
+								{{ form_label(form.phoneNumber) }}
+								{{ form_errors(form.phoneNumber) }}
+								{{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							<div class="form-group col-md-4">
+								{{ form_label(form.email) }}
+								{{ form_errors(form.email) }}
+								{{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							<div class="clearfix"></div>
+							<h2>{{ 'label_billing_information'|trans }}</h2>
+							<div class="clearfix"></div>
+							<input type="checkbox"  class="" id="copyBillingInfo" onclick="">
+							<a target="" href="#">{{ 'label_billing_copy'|trans }}</a>
+
+
+							<div class="clearfix"></div>
+							<div id="billing_info">
+								<div class="col-md-4">
+									<label for="name">{{ 'label_country'|trans }}</label>
+									<div id="divBillingCountry">
+
+										{% if edit is defined %}
+											<div id="myFlagstrap"  class="flagstrap" data-input-name="business_billing_country" data-selected-country="{{ entity.billingGeoState.geoCountry.shortName }}"></div>
+
+										{% else %}
+											<div id="myFlagstrap"  class="flagstrap" data-input-name="business_billing_country" data-selected-country="US"></div>
+										{% endif %}
+
+
+
+									</div>
+
+
+								</div>
+
+								<div class="form-group col-md-4">
+									{{ form_label(form.billingGeoState) }}
+									{{ form_errors(form.billingGeoState) }}
+									<div id="divBillingGeoState">
+										{{ form_widget(form.billingGeoState, { 'attr': {'class' : 'form-control' } }) }}
+									</div>
+
+
+								</div>
+								<div class="form-group col-md-4">
+									{{ form_label(form.billingZipCode) }}
+									{{ form_errors(form.billingZipCode) }}
+									{{ form_widget(form.billingZipCode, { 'attr': {'class' : 'form-control' } }
+									) }}
+								</div>
+
+								<div class="clearfix"></div>
+								<div class="form-group col-md-8">
+									{{ form_label(form.billingAddress) }}
+									{{ form_errors(form.billingAddress) }}
+									{{ form_widget(form.billingAddress, { 'attr': {'class' : 'form-control' } }
+									) }}
+								</div>
+
+
+							</div>
+
+
+
+							<div class="clearfix"></div>
+
+							<div class="form-group col-md-4">
+								{{ form_label(form.taxName) }}
+								{{ form_errors(form.taxName) }}
+								{{ form_widget(form.taxName, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							<div class="form-group col-md-4">
+								{{ form_label(form.taxIdentifier) }}
+								{{ form_errors(form.taxIdentifier) }}
+								{{ form_widget(form.taxIdentifier, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
+
+								<div class="hide">
+								{{ form_rest(form) }}
+							</div>
+
+						</fieldset>
+
+						<div class="form-actions">
+							<a href="{{ path('backend_admin_ticket_type_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
+
+							<button class="btn btn-primary">
+								<i class="fa fa-save"></i>
+								{{ 'label_save'|trans  }}
+							</button>
+						</div>
+
+					<!--</form>-->
+					{{ form_end(form) }}					
+
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget div -->
+
+		</div>
+
+		<div class="clearfix"></div>
+
+	</article>
+</div>
+
+<script type="text/javascript" language="Javascript">
+
+	$( document ).ready(function() {
+
+
+
+		$('.flagstrap').flagStrap({
+
+			placeholder: {
+				value: "",
+				text: ""
+			},
+			countries: {
+				{% for country in countries %}
+				"{{ country.shortName }}": "{{ country.name }} +{{ country.code }}",
+				{% endfor %}
+			},
+
+		});
+
+
+		$("[name='business']").validate({
+			success: function(error){
+
+				return true;
+			},
+
+		});
+
+		$("#business_zipCode").rules("add", {required:true, minlength: 5, digits:true});
+		$("#business_billingZipCode").rules("add", {required:true, minlength: 4, digits:true});
+
+		$("#business_phoneNumber").rules("add", {required:true, minlength: 8, digits:true});
+		$("#business_email").rules("add", {required:true, email:true});
+
+		//$("#business_taxIdentifier").
+
+
+		$('[name="business"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='business']").valid()){
+
+				checkEmail = checkEmail();
+				if(checkEmail.result == 0){
+					return false;
+				}
+
+				checkPhone = checkPhone();
+				if(checkPhone.result == 0){
+					return false;
+				}
+
+				$('#pizote_spinner').show();
+				return true;
+
+			}
+			else{
+				return false;
+			}
+
+		});
+
+		$("#copyBillingInfo").change(function(){
+
+			//alert($('[name="business_country"]').val());
+			$('#pizote_spinner').show();
+
+			if(this.checked){
+				$("#business_billingAddress").val($("#business_address").val());
+				$("#business_billingZipCode").val($("#business_zipCode").val());
+				$("#divBillingCountry").html('<div id="myFlagstrap" class="flagstrap" data-input-name="business_billing_country" data-selected-country="'+$('[name="business_country"]').val()+'"></div>');
+
+				$('#myFlagstrap').flagStrap({
+
+					placeholder: {
+						value: "",
+						text: ""
+					},
+					countries: {
+						{% for country in countries %}
+						"{{ country.shortName }}": "{{ country.name }} +{{ country.code }}",
+						{% endfor %}
+					},
+
+				});
+
+				changeState(1);
+				$("#business_billingGeoState").val($("#business_geoState").val());
+
+
+			}
+			else{
+				$("#business_billingAddress").val("");
+				$("#business_billingZipCode").val("");
+				$("#divBillingCountry").html('<div id="myFlagstrap" class="flagstrap" data-input-name="business_billing_country" data-selected-country="US"></div>');
+
+				$('#myFlagstrap').flagStrap({
+
+					placeholder: {
+						value: "",
+						text: ""
+					},
+					countries: {
+						{% for country in countries %}
+						"{{ country.shortName }}": "{{ country.name }} +{{ country.code }}",
+						{% endfor %}
+					},
+
+				});
+
+				changeState(1);
+
+			}
+
+			$('#pizote_spinner').hide();
+
+		});
+
+		$('#business_email').change(function(){
+			checkEmail();
+		});
+
+		$('#business_phoneNumber').change(function(){
+			checkPhone();
+		});
+
+
+
+
+
+		$('[name="business_country"]').change(function(){
+			changeState(0);
+		});
+
+		$('[name="business_billing_country"]').change(function(){
+			changeState(1);
+		});
+
+		changeState(0);
+		changeState(1);
+
+
+
+	});
+
+
+	function changeState(billing){
+
+
+		if(billing){//==1 if it is a billing call
+			myCountry = $('[name="business_billing_country"]').val();
+			{% if edit is defined %}
+				myState = {{ entity.billingGeoState.id }};
+			{% endif %}
+
+		}
+		else{
+			myCountry = $('[name="business_country"]').val();
+			{% if edit is defined %}
+				myState = {{ entity.geoState.id }};
+			{% endif %}
+		}
+
+
+		$.ajax({
+			type:"POST",
+			dataType:"html",
+			async:false,
+			url:"{{ path('backend_admin_business_update_state') }}",
+			//data:"countryShort="+myCountry,
+			{% if edit is defined %}
+				data: {countryShort: myCountry, billing: billing, selectedState: myState},
+			{% else %}
+				data: {countryShort: myCountry, billing: billing},
+			{% endif %}
+			success:function(data){
+				if(billing){
+					$("#divBillingGeoState").html(data);
+				}
+				else{
+					$("#divGeoState").html(data);
+				}
+
+			}
+		});
+
+	}
+
+
+	function checkEmail(){
+
+		$.ajax({
+			type:"POST",
+			dataType:"json",
+			url:"{{ path('backend_admin_business_check_email') }}",
+			data:"email="+$( "#business_email" ).val(),
+			success:function(data){
+				//console.log(data);
+				if(data.result == 0){
+					$("#checkEmailAlert").show();
+					$( "#business_email" ).val("");
+					$( "#business_email" ).focus();
+				}
+
+				if(data.result == 1){
+					$("#checkEmailAlert").hide();
+				}
+			}
+		});
+
+	}
+
+	function checkPhone(){
+
+		$.ajax({
+			type:"POST",
+			dataType:"json",
+			url:"{{ path('backend_admin_business_check_phone') }}",
+			data:"phone="+$( "#business_phoneNumber" ).val(),
+			success:function(data){
+				//console.log(data);
+				if(data.result == 0){
+					$("#checkPhoneAlert").show();
+					$( "#business_phoneNumber" ).val("");
+					$( "#business_phoneNumber" ).focus();
+				}
+
+				if(data.result == 1){
+					$("#checkPhoneAlert").hide();
+				}
+			}
+		});
+
+
+	}
+
+
+
+</script>

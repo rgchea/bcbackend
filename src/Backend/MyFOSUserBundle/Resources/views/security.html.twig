@@ -1,0 +1,150 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>
+        {% set _block_title = block('title') %}
+        {% if _block_title is not empty %}
+          {% block title %}{% endblock %} |
+        {% endif %}
+        Registro
+
+        </title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <!-- Basic Styles -->
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/bootstrap.min.css') }}"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/font-awesome.min.css') }}">
+
+        <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/ark.css') }}"> 
+
+        <!-- FAVICONS -->
+        <link rel="shortcut icon" href="{{ asset('bundles/pizotearkadmin/img/favicon/favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ asset('bundles/pizotearkadmin/img/favicon/favicon.ico') }}" type="image/x-icon">
+
+        <!-- GOOGLE FONT -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+
+    </head>
+    <body id="login" class="animated fadeInDown">
+        <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
+        <header id="header">
+            <!--<span id="logo"></span>-->
+
+            <div id="logo-group">
+                {#<span id="logo"> <img src="{{ asset('bundles/wbcadministrator/images/opera_logo.png') }}" alt="{{ project.name }}"> </span>#}
+                <!-- END AJAX-DROPDOWN -->
+            </div>
+
+
+        </header>
+
+        <div id="main" role="main">
+
+            <!-- MAIN CONTENT -->
+            <div id="content" class="container">
+
+				
+                <div class="row">
+                    
+                    <div style="position: relative;left: 40%">
+                    	{#<img width="250px" src="{{ asset('bundles/wbcadministrator/images/Logo_Opera.png') }}" alt="{{ project.name }}">#}
+                    	<img style="width:200px; margin-top:-7px" src="{{ asset('bundles/pizotearkadmin/img/logo/logo_gestor_horizontal.png')}}" alt="">
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4" style="position: relative;left: 35%">
+                        <br><br><br>
+                        <div class="well no-padding">
+
+                            {% block fos_user_content %}
+                            {% endblock %}
+
+                        </div>                        
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--================================================== -->  
+
+        <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
+        <script src="{{ asset('bundles/pizotearkadmin/js/pace/pace.min.js') }}"></script>
+
+        <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/libs/jquery-2.0.2.min.js') }}"></script>
+
+        <script src="{{ asset('bundles/pizotearkadmin/js/libs/jquery-ui-1.10.3.min.js') }}"></script>
+
+        <!-- BOOTSTRAP JS -->       
+        <script src="{{ asset('bundles/pizotearkadmin/js/bootstrap.min.js') }}"></script>
+
+        <!-- CUSTOM NOTIFICATION -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/notification/SmartNotification.min.js') }}"></script>
+
+        
+        <!-- JQUERY VALIDATE -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/jquery-validate/jquery.validate.min.js') }}"></script>
+        {%  if app.request.getLocale() == "es" %}
+            <script src="{{ asset('bundles/pizotearkadmin/js/jquery-validate/messages_es.js') }}"></script>
+        {% else  %}
+            <script src="{{ asset('bundles/pizotearkadmin/js/jquery-validate/messages_en.js') }}"></script>
+        {% endif %}
+
+        
+        
+        <!--[if IE 7]>
+            
+            <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+            
+        <![endif]-->
+
+        <!-- MAIN APP JS FILE -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/ark.js') }}"></script>
+
+        <script type="text/javascript">
+            runAllForms();
+
+            $(function() {
+                // Validation
+                $("#login-form").validate({
+                    // Rules for form validation
+                    rules : {
+                        email : {
+                            required : true,
+                            email : true
+                        },
+                        password : {
+                            required : true,
+                            minlength : 3,
+                            maxlength : 20
+                        }
+                    },
+
+                    // Messages for form validation
+                    messages : {
+                        email : {
+                            required : 'Please enter your email address',
+                            email : 'Please enter a VALID email address'
+                        },
+                        password : {
+                            required : 'Please enter your password'
+                        }
+                    },
+
+                    // Do not change code below
+                    errorPlacement : function(error, element) {
+                        error.insertAfter(element.parent());
+                    }
+                });
+            });
+        </script>
+
+    </body>
+</html>
+{% endspaceless %}

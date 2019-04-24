@@ -1,0 +1,147 @@
+Backend\AdminBundle\Entity\PropertyContractTransaction:
+    type: entity
+    table: property_contract_transaction
+    repositoryClass: Backend\AdminBundle\Repository\PropertyContractTransactionRepository
+    indexes:
+        common_area_reservation_id:
+            columns:
+                - common_area_reservation_id
+        paid_by:
+            columns:
+                - paid_by
+        property_contract_id:
+            columns:
+                - property_contract_id
+        property_transaction_type_id:
+            columns:
+                - property_transaction_type_id
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        paymentAmount:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            options:
+                default: '0.00'
+            column: payment_amount
+        status:
+            type: boolean
+            nullable: false
+            options:
+                comment: 'pagado es 1, pendiente es 0'
+                default: '0'
+        paymentType:
+            type: string
+            nullable: true
+            length: 16
+            options:
+                fixed: false
+                comment: 'Check'', ''Cash'', ''Transfer'''
+            column: payment_type
+        transactionNumber:
+            type: string
+            nullable: true
+            length: 32
+            options:
+                fixed: false
+            column: transaction_number
+        paymentDate:
+            type: datetime
+            nullable: true
+            options:
+                default: '0000-00-00 00:00:00'
+            column: payment_date
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        propertyContract:
+            targetEntity: PropertyContract
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_contract_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        commonAreaReservation:
+            targetEntity: CommonAreaReservation
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_reservation_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        propertyTransactionType:
+            targetEntity: PropertyTransactionType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_transaction_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        paidBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                paid_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

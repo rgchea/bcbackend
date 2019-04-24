@@ -1,0 +1,156 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * DailyAdvice
+ */
+class DailyAdvice
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $title = '';
+
+    /**
+     * @var string
+     */
+    private $description;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return DailyAdvice
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return DailyAdvice
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+	
+	
+	public function __toString(){
+		return $this->getTitle();
+	}		
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return DailyAdvice
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+	
+    public function setCreatedAtValue()
+
+
+    {
+
+        $this->createdAt = new \DateTime();
+
+    }	
+	
+    /**
+     * @var string
+     */
+    private $scheduledTime = '';
+
+
+    /**
+     * Set scheduledTime
+     *
+     * @param string $scheduledTime
+     *
+     * @return DailyAdvice
+     */
+    public function setScheduledTime($scheduledTime)
+    {
+        $this->scheduledTime = $scheduledTime;
+
+        return $this;
+    }
+
+    /**
+     * Get scheduledTime
+     *
+     * @return string
+     */
+    public function getScheduledTime()
+    {
+        return $this->scheduledTime;
+    }
+}

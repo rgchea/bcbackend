@@ -1,0 +1,19 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+{{ parent() }}
+    <li> <a href="{{ path('backend_admin_common_area_type_index') }}">{{ 'label_menu.common_area_type'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_common_area_type_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:CommonAreaType:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+    
+
+{% endblock %}

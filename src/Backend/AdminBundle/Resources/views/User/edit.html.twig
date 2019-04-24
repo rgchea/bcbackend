@@ -1,0 +1,23 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+{{ parent() }}
+
+    <li> <a href="{{ path('backend_admin_user_index') }}">{{ 'label_users'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_user_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:User:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+    
+    $("[name='user']").validate();
+    
+    $("#user_email").rules("add", {required:true, email:true});
+    
+
+{% endblock %}

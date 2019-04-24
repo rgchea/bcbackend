@@ -1,0 +1,151 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * News
+ */
+class News
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $title = '';
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var string
+     */
+    private $external_link = '';
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return News
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return News
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set externalLink
+     *
+     * @param string $externalLink
+     *
+     * @return News
+     */
+    public function setExternalLink($externalLink)
+    {
+        $this->external_link = $externalLink;
+
+        return $this;
+    }
+
+    /**
+     * Get externalLink
+     *
+     * @return string
+     */
+    public function getExternalLink()
+    {
+        return $this->external_link;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return News
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+	
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }	
+	
+	public function __toString(){
+		return $this->getTitle();
+	}		
+	
+}

@@ -1,0 +1,33 @@
+backend_admin_property_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:Property:index
+
+property_list_datatables:
+    path: /property/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Property:listDatatables
+
+backend_admin_property_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:Property:new" }
+    #methods:  [GET, POST]
+
+backend_admin_property_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:Property:edit" }
+
+backend_admin_property_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:Property:create" }
+    methods:  POST
+
+backend_admin_property_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:Property:update" }
+    methods:  POST
+
+backend_admin_property_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:Property:delete" }
+    #methods:  DELETE

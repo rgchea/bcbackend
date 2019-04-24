@@ -1,0 +1,32 @@
+backend_admin_term_condition_index:
+  path:     /
+  defaults: { _controller: "BackendAdminBundle:TermCondition:index" }
+  
+term_condition_list_datatables:
+  path: /termCondition/list/datatables
+  defaults:
+    _controller: BackendAdminBundle:TermCondition:listDatatables
+
+backend_admin_term_condition_new:
+  path:     /new/
+  defaults: { _controller: "BackendAdminBundle:TermCondition:new" }
+  #methods:  [GET, POST]
+
+backend_admin_term_condition_edit:
+  path:     /{id}/edit
+  defaults: { _controller: "BackendAdminBundle:TermCondition:edit" }
+
+backend_admin_term_condition_create:
+  path:     /create
+  defaults: { _controller: "BackendAdminBundle:TermCondition:create" }
+  methods:  POST
+
+backend_admin_term_condition_update:
+  path:     /{id}/update
+  defaults: { _controller: "BackendAdminBundle:TermCondition:update" }
+  methods:  POST
+
+backend_admin_term_condition_delete:
+  path:     /{id}/delete
+  defaults: { _controller: "BackendAdminBundle:TermCondition:delete" }
+  #methods:  DELETE  

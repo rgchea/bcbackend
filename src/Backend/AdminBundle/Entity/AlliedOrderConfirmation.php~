@@ -1,0 +1,89 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedOrderConfirmation
+ */
+class AlliedOrderConfirmation
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedOrder
+     */
+    private $alliedOrder;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return AlliedOrderConfirmation
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set alliedOrder
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedOrder $alliedOrder
+     *
+     * @return AlliedOrderConfirmation
+     */
+    public function setAlliedOrder(\Backend\AdminBundle\Entity\AlliedOrder $alliedOrder = null)
+    {
+        $this->alliedOrder = $alliedOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedOrder
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedOrder
+     */
+    public function getAlliedOrder()
+    {
+        return $this->alliedOrder;
+    }
+	
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }	
+	
+}

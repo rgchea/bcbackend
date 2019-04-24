@@ -1,0 +1,478 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouse
+ */
+class AlliedHouse
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $address;
+
+    /**
+     * @var integer
+     */
+    private $zone;
+
+    /**
+     * @var string
+     */
+    private $sapCode;
+
+    /**
+     * @var string
+     */
+    private $phone;
+
+    /**
+     * @var string
+     */
+    private $photoPath;
+
+    /**
+     * @var string
+     */
+    private $openHour = '';
+
+    /**
+     * @var string
+     */
+    private $closeHour = '';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\State
+     */
+    private $state;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $allied;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Town
+     */
+    private $town;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return AlliedHouse
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return AlliedHouse
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set zone
+     *
+     * @param integer $zone
+     *
+     * @return AlliedHouse
+     */
+    public function setZone($zone)
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * Get zone
+     *
+     * @return integer
+     */
+    public function getZone()
+    {
+        return $this->zone;
+    }
+
+    /**
+     * Set sapCode
+     *
+     * @param string $sapCode
+     *
+     * @return AlliedHouse
+     */
+    public function setSapCode($sapCode)
+    {
+        $this->sapCode = $sapCode;
+
+        return $this;
+    }
+
+    /**
+     * Get sapCode
+     *
+     * @return string
+     */
+    public function getSapCode()
+    {
+        return $this->sapCode;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     *
+     * @return AlliedHouse
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set photoPath
+     *
+     * @param string $photoPath
+     *
+     * @return AlliedHouse
+     */
+    public function setPhotoPath($photoPath)
+    {
+        $this->photoPath = $photoPath;
+
+        return $this;
+    }
+
+    /**
+     * Get photoPath
+     *
+     * @return string
+     */
+    public function getPhotoPath()
+    {
+        return $this->photoPath;
+    }
+
+    /**
+     * Set openHour
+     *
+     * @param string $openHour
+     *
+     * @return AlliedHouse
+     */
+    public function setOpenHour($openHour)
+    {
+        $this->openHour = $openHour;
+
+        return $this;
+    }
+
+    /**
+     * Get openHour
+     *
+     * @return string
+     */
+    public function getOpenHour()
+    {
+        return $this->openHour;
+    }
+
+    /**
+     * Set closeHour
+     *
+     * @param string $closeHour
+     *
+     * @return AlliedHouse
+     */
+    public function setCloseHour($closeHour)
+    {
+        $this->closeHour = $closeHour;
+
+        return $this;
+    }
+
+    /**
+     * Get closeHour
+     *
+     * @return string
+     */
+    public function getCloseHour()
+    {
+        return $this->closeHour;
+    }
+
+
+    /**
+     * Set allied
+     *
+     * @param \Backend\AdminBundle\Entity\User $allied
+     *
+     * @return AlliedHouse
+     */
+    public function setAllied(\Backend\AdminBundle\Entity\User $allied = null)
+    {
+        $this->allied = $allied;
+
+        return $this;
+    }
+
+    /**
+     * Get allied
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getAllied()
+    {
+        return $this->allied;
+    }
+
+
+	
+	public function __toString(){
+		return $this->getSapCode()."";
+	}	
+	
+    /**
+     * @var \Backend\AdminBundle\Entity\Region
+     */
+    private $region;
+
+
+    /**
+     * Set region
+     *
+     * @param \Backend\AdminBundle\Entity\Region $region
+     *
+     * @return AlliedHouse
+     */
+    public function setRegion(\Backend\AdminBundle\Entity\Region $region = null)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return \Backend\AdminBundle\Entity\Region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+    /**
+     * @var string
+     */
+    private $businessName = '';
+
+
+    /**
+     * Set businessName
+     *
+     * @param string $businessName
+     *
+     * @return AlliedHouse
+     */
+    public function setBusinessName($businessName)
+    {
+        $this->businessName = $businessName;
+
+        return $this;
+    }
+
+    /**
+     * Get businessName
+     *
+     * @return string
+     */
+    public function getBusinessName()
+    {
+        return $this->businessName;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\ListPrice
+     */
+    private $listPrice;
+
+
+    /**
+     * Set listPrice
+     *
+     * @param \Backend\AdminBundle\Entity\ListPrice $listPrice
+     *
+     * @return AlliedHouse
+     */
+    public function setListPrice(\Backend\AdminBundle\Entity\ListPrice $listPrice = null)
+    {
+        $this->listPrice = $listPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get listPrice
+     *
+     * @return \Backend\AdminBundle\Entity\ListPrice
+     */
+    public function getListPrice()
+    {
+        return $this->listPrice;
+    }
+    /**
+     * @var string
+     */
+    private $latitude = '0';
+
+    /**
+     * @var string
+     */
+    private $longitude = '0';
+
+
+    /**
+     * Set latitude
+     *
+     * @param string $latitude
+     *
+     * @return AlliedHouse
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param string $longitude
+     *
+     * @return AlliedHouse
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+    /**
+     * @var string
+     */
+    private $deliveryDay;
+
+
+    /**
+     * Set deliveryDay
+     *
+     * @param string $deliveryDay
+     *
+     * @return AlliedHouse
+     */
+    public function setDeliveryDay($deliveryDay)
+    {
+        $this->deliveryDay = $deliveryDay;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryDay
+     *
+     * @return string
+     */
+    public function getDeliveryDay()
+    {
+        return $this->deliveryDay;
+    }
+}

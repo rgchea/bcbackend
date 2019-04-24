@@ -1,0 +1,33 @@
+backend_admin_complex_faq_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:ComplexFaq:index
+
+complex_faq_list_datatables:
+    path: /complexFaq/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:ComplexFaq:listDatatables
+
+backend_admin_complex_faq_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:ComplexFaq:new" }
+    #methods:  [GET, POST]
+
+backend_admin_complex_faq_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:ComplexFaq:edit" }
+
+backend_admin_complex_faq_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:ComplexFaq:create" }
+    methods:  POST
+
+backend_admin_complex_faq_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:ComplexFaq:update" }
+    methods:  POST
+
+backend_admin_complex_faq_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:ComplexFaq:delete" }
+    #methods:  DELETE

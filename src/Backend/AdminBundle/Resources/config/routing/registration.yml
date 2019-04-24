@@ -1,0 +1,9 @@
+backend_admin_register_new:
+  path: /
+  defaults:
+    _controller: BackendAdminBundle:Register:new
+
+backend_admin_register_create:
+  path: /create
+  defaults:
+    _controller: BackendAdminBundle:Register:create

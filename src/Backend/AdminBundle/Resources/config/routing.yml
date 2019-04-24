@@ -1,0 +1,112 @@
+backend_admin_homepage:
+    path:     /
+    defaults: { _controller: BackendAdminBundle:Default:index }
+
+backend_admin_moduleaccess:
+    resource: "@BackendAdminBundle/Resources/config/routing/moduleaccess.yml"
+    prefix:   /moduleaccess
+
+backend_admin_role:
+    resource: "@BackendAdminBundle/Resources/config/routing/role.yml"
+    prefix:   /role
+
+backend_admin_ticket_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/ticketType.yml"
+    prefix:   /ticketType
+
+backend_admin_ticket_category:
+    resource: "@BackendAdminBundle/Resources/config/routing/ticketCategory.yml"
+    prefix:   /ticketCategory
+
+backend_admin_user:
+    resource: "@BackendAdminBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
+backend_admin_company:
+    resource: "@BackendAdminBundle/Resources/config/routing/company.yml"
+    prefix:   /company
+
+
+backend_admin_term_condition:
+    resource: "@BackendAdminBundle/Resources/config/routing/termCondition.yml"
+    prefix:   /termcondition
+
+backend_admin_complex_sector_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/complexSectorType.yml"
+    prefix:   /complexSectorType
+
+
+backend_admin_business:
+    resource: "@BackendAdminBundle/Resources/config/routing/business.yml"
+    prefix:   /business
+
+backend_admin_complex:
+    resource: "@BackendAdminBundle/Resources/config/routing/complex.yml"
+    prefix:   /complex
+
+backend_admin_complex_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/complexType.yml"
+    prefix:   /complexType
+    
+backend_admin_notification_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/notificationType.yml"
+    prefix:   /notificationType    
+    
+backend_admin_poll_question_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/pollQuestionType.yml"
+    prefix:   /pollQuestionType    
+    
+backend_admin_property_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/propertyType.yml"
+    prefix:   /propertyType    
+    
+backend_admin_common_area_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/commonAreaType.yml"
+    prefix:   /commonAreaType    
+    
+backend_admin_geo_country:
+    resource: "@BackendAdminBundle/Resources/config/routing/geoCountry.yml"
+    prefix:   /geoCountry    
+
+backend_admin_geo_state:
+    resource: "@BackendAdminBundle/Resources/config/routing/geoState.yml"
+    prefix:   /geoState
+
+backend_admin_complex_faq:
+    resource: "@BackendAdminBundle/Resources/config/routing/complexFaq.yml"
+    prefix:   /complexFaq
+
+backend_admin_property_transaction_type:
+    resource: "@BackendAdminBundle/Resources/config/routing/propertyTransactionType.yml"
+    prefix:   /propertyTransactionType
+
+backend_admin_agreement_plan:
+    resource: "@BackendAdminBundle/Resources/config/routing/agreementPlan.yml"
+    prefix:   /agreementPlan
+
+
+backend_admin_common_area_reservation_status:
+    resource: "@BackendAdminBundle/Resources/config/routing/commonAreaReservationStatus.yml"
+    prefix:   /commonAreaReservationStatus
+
+
+backend_admin_ticket_status:
+    resource: "@BackendAdminBundle/Resources/config/routing/ticketStatus.yml"
+    prefix:   /ticketStatus
+
+
+backend_admin_shift:
+    resource: "@BackendAdminBundle/Resources/config/routing/shift.yml"
+    prefix:   /shift
+
+backend_admin_complex_sector:
+    resource: "@BackendAdminBundle/Resources/config/routing/complexSector.yml"
+    prefix:   /complexSector
+
+backend_admin_property:
+    resource: "@BackendAdminBundle/Resources/config/routing/property.yml"
+    prefix:   /property
+    
+backend_admin_common_area:
+    resource: "@BackendAdminBundle/Resources/config/routing/commonArea.yml"
+    prefix:   /commonArea

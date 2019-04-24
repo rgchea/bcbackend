@@ -1,0 +1,53 @@
+    {% for module in user_access %}
+
+    	{% if(module.moduleType == 'link') %}
+    		
+    		{% if(module.visible == 1) %}
+    			<li {{app.session.get('item') == module.systemName ? 'class="active"' : '' }} >
+                    <a href="{{ path(module.systemRoute)}}">
+                        {% if module.icon is null %}
+							<i class="fas fa-home"></i>
+                        {% else %}
+							{{ module.icon | raw }}
+                            {#<img style="width:20px" src="{{asset(module.icon)}}">#}
+                        {% endif %}
+                        <span class="item-label">{{ module.translation_label | trans }}</span>
+                    </a>
+                </li>
+    		{% endif %}
+    		
+    	{% elseif(module.moduleType == 'menu') %}
+    	
+	        <li  class="menu">
+	            <a href="#" class="menu-toggle" alt="{{module.icon}}">
+                    
+                    {% if module.icon is null %}
+                        <i class="fa fa-dashboard fa-fw"></i>
+                    {% else %}
+						{{ module.icon | raw }}
+                    {% endif %}
+                    <span class="item-label">{{ module.translation_label | trans }}</span>
+                    <i class="caret"></i>
+                </a>
+	            <ul class="submenu">
+	            	
+	                {% for submenu in module %}
+	                	{% if submenu is iterable %}
+							<li id="{{submenu.systemName}}" {{app.session.get('item') == submenu.systemName ? 'class="active"' : '' }} ><a href="{{ path(submenu.systemRoute)}}"><span>{{ submenu.translation_label | trans  }}</span></a></li>
+							<script type="text/javascript" language="JavaScript">
+								{% if(app.session.get('item') == submenu.systemName)  %}
+									$("#"+'{{submenu.systemName}}').parent().parent().attr('class', 'menu open');
+								{% endif %}
+								
+							</script>
+						{% endif %}				                								
+	                {% endfor %}
+	            	
+	            </ul>
+	        </li>    	    		
+    	
+    	{%else%}
+
+    	
+    	{% endif %}
+    {% endfor %}

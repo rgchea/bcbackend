@@ -1,0 +1,197 @@
+<link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
+<script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
+
+<style>
+	.input-group {
+		z-index: 0;
+	}
+</style>
+
+<div class="row">
+	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+			<header role="heading">
+				<h2>{{ 'label_form'|trans }}</h2>
+
+			</header>
+
+			<!-- widget div-->
+			<div role="content">
+
+				<!-- widget edit box -->
+				<div class="jarviswidget-editbox">
+					<!-- This area used as dropdown edit box -->
+
+				</div>
+				<!-- end widget edit box -->
+
+				<!-- widget content -->
+				<div class="widget-body">
+
+					{#<form id="backend_adminbundle_complex" action="{{path('backend_admin_property_create')}}" method="POST" name="backend_adminbundle_complex">#}
+					{{ form_start(form) }}
+					{{ form_errors(form) }}
+
+					<fieldset>
+
+
+						<div class="form-group col-md-4">
+							{{ form_label(form.name) }}
+							{{ form_errors(form.name) }}
+							{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+						<div class="form-group col-md-4">
+							{{ form_label(form.code) }}
+							{{ form_errors(form.code) }}
+							{{ form_widget(form.code, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group col-md-4">
+							{{ form_label(form.complexSector) }}
+							{{ form_errors(form.complexSector) }}
+							{{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+
+
+						<div class="form-group col-md-4">
+							{{ form_label(form.propertyType) }}
+							{{ form_errors(form.propertyType) }}
+							{{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+						<div class="col-md-2">
+							<label>&nbsp;</label>
+							<input type="text" class="form-control" id="inputPropertyType" name="extra[propertyTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}">
+						</div>
+						<div class="clearfix"></div>
+
+						<div class="form-group col-md-4">
+							{{ form_label(form.address) }}
+							{{ form_errors(form.address) }}
+							{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+
+
+
+						<div class="clearfix"></div>
+
+
+						<div class="hide">
+							{{ form_rest(form) }}
+						</div>
+
+					</fieldset>
+
+					<div class="form-actions">
+						<a href="{{ path('backend_admin_property_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
+
+						<button class="btn btn-primary">
+							<i class="fa fa-save"></i>
+							{{ 'label_save'|trans  }}
+						</button>
+					</div>
+
+					<!--</form>-->
+					{{ form_end(form) }}
+
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget div -->
+
+		</div>
+
+		<div class="clearfix"></div>
+
+	</article>
+</div>
+
+<script type="text/javascript" language="Javascript">
+
+	$( document ).ready(function() {
+
+
+		//alert($("#complexSectorType").val());
+
+
+		$("#complexSectorType").change(function(){
+			myValue =$("#complexSectorType option:selected").attr('value');
+
+			if(myValue == 0){
+				$("#inputSectionName").show();
+				$("#inputSectionName").rules("add", {required:true});
+
+			}
+			else{
+				$("#inputSectionName").hide();
+				$("#inputSectionName-error").hide();
+				$("#inputSectionName").rules("add", {required:false});
+			}
+
+
+		});
+
+
+
+		//propertyType
+		$("#property_propertyType").change(function(){
+			myValue =$("#property_propertyType option:selected").attr('value');
+
+			if(myValue == 0){
+				$("#inputPropertyType").show();
+				$("#inputPropertyType").rules("add", {required:true});
+			}
+			else{
+				$("#inputPropertyType").hide();
+				$("#inputPropertyType-error").hide();
+				$("#inputPropertyType").rules("add", {required:false});
+			}
+
+		});
+
+
+
+
+
+		$("[name='property']").validate({
+			success: function(error){
+
+				return true;
+			},
+
+		});
+		//$("#property_zipCode").rules("add", {required:true, minlength: 4, digits:true});
+
+
+		$('[name="property"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='complex']").valid()){
+				$('#pizote_spinner').show();
+				return true;
+
+			}
+			else{
+				return false;
+			}
+
+		});
+
+
+
+
+
+
+	});
+
+
+
+
+
+</script>

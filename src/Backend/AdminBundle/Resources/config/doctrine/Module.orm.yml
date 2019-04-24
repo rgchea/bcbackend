@@ -1,0 +1,90 @@
+Backend\AdminBundle\Entity\Module:
+    type: entity
+    table: module
+    indexes:
+        parent_module_id:
+            columns:
+                - parent_module_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
+                default: ''
+        systemName:
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
+                default: ''
+            column: system_name
+        systemRoute:
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
+                default: ''
+            column: system_route
+        menuType:
+            type: string
+            nullable: false
+            length: 16
+            options:
+                fixed: false
+                default: menu
+            column: menu_type
+        menuOrder:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: menu_order
+        visible:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+        icon:
+            type: string
+            nullable: true
+            length: 512
+            options:
+                fixed: false
+                default: ''
+
+        translationLabel:
+            type: string
+            nullable: true
+            length: 64
+            options:
+                fixed: false
+                default: ''
+            column: translation_label
+    manyToOne:
+        parentModule:
+            targetEntity: Module
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                parent_module_id:
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: true                    
+            
+    lifecycleCallbacks: {  }

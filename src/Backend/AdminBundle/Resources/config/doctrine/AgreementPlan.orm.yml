@@ -1,0 +1,99 @@
+Backend\AdminBundle\Entity\AgreementPlan:
+    type: entity
+    table: agreement_plan
+    repositoryClass: Backend\AdminBundle\Repository\AgreementPlanRepository
+    indexes:
+        created_by:
+            columns:
+                - created_by
+        updated_by:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        propertyLimitFrom:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '1'
+            column: property_limit_from
+
+        propertyLimitTo:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '1'
+            column: property_limit_to
+        fee:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            options:
+                comment: 'monto a pagar en dólares'
+                default: '0.00'
+
+#        montlyPayment:
+#            type: boolean
+#            nullable: false
+#            options:
+#                default: '0'
+#            column: montly_payment
+#        yearlyPayment:
+#            type: boolean
+#            nullable: false
+#            options:
+#                comment: 'si el contrato es anual'
+#                default: '0'
+#            column: yearly_payment
+
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                comment: 'si el contrato es anual'
+                default: '1'
+    manyToOne:
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,161 @@
+label_welcome: Bienvenidos
+label_create_new: Crear
+label_new: Nuevo
+label_edit: Editar
+label_list: Listado
+label_cancel: Cancelar
+label_save: Guardar
+label_form: Formulario
+label_actions: Acciones
+label_back: Regresar
+label_are_you_sure: 'Está seguro?'
+label_send: Enviar
+label_flash_save_success_msg: 'Cambios guardados'
+label_flash_success: Listo
+label_flash_warning: Advertencia
+label_flash_info: Info
+label_flash_danger: Peligro
+label_flash_save_warning_msg: 'Cambios no guardados, intenta de nuevo'
+label_flash_delete_msg: 'No es posible borrar'
+label_mail_taken: 'El correo ya existe en el sistema'
+label_username_taken: 'El usuario ya existe en el sistema'
+label_name: Nombre
+label_code: Codigo
+label_owner: Propietario
+label_tenant: Inquilino
+label_short_name: Abreviatura
+label_nombre: 'Nombre ES'
+label_description: Descripción
+label_descripcion: 'Descripción ES'
+label_last_name: Apellido
+label_enabled: Habilitado
+label_type: Tipo
+label_login_forgot_password: 'Olvidé mi contraseña'
+label_login_keep_active: 'Mantenerme activo'
+label_login_login: Ingresar
+label_login_restore_pass: 'Restaurar contraseña'
+label_register: Registrarse
+label_register_complete: Bienvenido
+label_register_complete_msg: Ahora eres parte de la mejor plataforma para gestionar complejos estructurales www.bettercondos.tech/admin
+label_register_bc_info: Puedes accesar a tu portal de cobros por medio de www.bettercondos.info
+label_register_contact: info@bettercondos.com / +502 41568954
+label_accept_terms: Acepto los términos y condiciones
+label_phone: Teléfono
+label_country: País
+label_state: Ciudad
+label_zip_code: Código Zip
+label_timezone: Zona Horaria
+label_address: Dirección
+label_tax_name: Nombre
+label_tax_id: NIT
+label_role: Rol
+label_ticket_type: 'Tipo de Ticket'
+label_ticket_category: 'Categoría de Ticket'
+label_user: Usuario
+label_username: Usuario
+label_email: Correo
+label_birthdate: 'Fecha de nacimiento'
+label_login_user: Usuario
+label_login_password: Contraseña
+label_login_password_retype: Repetir Contraseña
+label_es: ES
+label_en: EN
+label_other: Otro
+label_complex: Complejo
+label_business: Empresa
+label_business_check_email: El correo ingresado ya tiene una cuenta asociada anteriormente
+label_business_check_phone: El teléfono ingresado ya tiene una cuenta asociada anteriormente
+label_user_taken: 'El usuario sugerido ya existe'
+label_complex_sector_type: 'Tipo de Sector'
+label_complex_sector: 'Sección'
+label_complex_type: 'Tipo de Complejo'
+label_complex_structure: Estructura de Complejo
+label_notification_type: 'Tipo de Notificacion'
+label_poll_question_type: 'Tipo de Pregunta de Encuesta'
+label_property_type: 'Tipo de propiedad'
+label_property: 'Propiedad'
+label_common_area_type: 'Tipo de Area Comun'
+label_geo_country: 'Pais'
+label_geo_state: 'Ciudad'
+label_complex_faq: 'Complejo FAQ'
+label_property_transaction_type: 'Tipos de transaccion de propiedad'
+label_common_area_reservation_status: 'Estado de Reservacion de Area Comun'
+label_ticket_status: 'Estado de Ticket'
+label_shift: 'Turno'
+label_roles: Roles
+label_ticket_types: 'Tipos de Ticket'
+label_agreement_plan: 'Plan de Acuerdo'
+label_users: Usuarios
+label_term_condition: 'Términos y Condiciones'
+label_billing_information: Información de Facturación
+label_billing_copy: Utilizar la misma dirección para facturación
+label_question: Pregunta
+label_answer: Respuesta
+label_order_list: Orden de lista
+label_last_payment_day: Ultimo dia de pago
+label_ticket_limit: Limite de Ticket
+label_user_limit: Limite de Usuario
+label_fee: Cuota $
+label_montly_payment: Pago Mensual
+label_yearly_payment: Pago Anual
+label_property_limit_from: 'Cantidad Minima de Propiedades'
+label_property_limit_to: 'Cantidad Maxima de Propiedades'
+label_comment: Comentario
+label_is_public: Es publico
+label_hour_from: Hora Desde
+label_hour_to: Hora Hasta
+label_week_day: Dia de la Semana
+label_shift_date: Fecha de Turno
+label_overtime: Hora Extra
+label_flexible_hours: Horas Flexibles
+label_flexitour: Flexitour
+label_common_area: Area Comun 
+label_regulation: Regulacion
+label_price: Precio
+label_reservation_hour_period: Periodo de Reservacion por Hora
+label_required_payment: Pago Requerido
+label_has_equipment: Tiene equipo
+label_equipment_description: Descripcion de Equipo
+label_menu:
+    home: Inicio
+    config: Configuración
+    permissions: Permisos
+    users: Usuarios
+    roles: Roles
+    admin: Admin
+    profile: Perfil
+    logout: Salir
+    ticket_type: 'Tipos de Tickets'
+    ticket_category: 'Categorias de Tickets'
+    company: Compañias
+    term_condition: 'Términos y Condiciones'
+    complex_sector_type: 'Tipos de Sectores'
+    business: Empresas
+    complex: Complejos
+    complex_type: 'Tipos de Complejos'
+    notification_type: 'Tipos de Notificacion'
+    poll_question_type: 'Tipos de Pregunta de Encuesta'
+    property_type: 'Tipos de Propiedad'
+    property: 'Propiedades'
+    common_area_type: 'Tipos de Area Comun'
+    geo_country: 'Paises'
+    geo_state: 'Ciudades'
+    complex_faq: 'Complejos FAQ'
+    property_transaction_type: 'Tipos de Transacciones de Propiedad'
+    agreement_plan: 'Plan de Acuerdo'
+    common_area_reservation_status: Estados de Reservacion de Area Comun
+    ticket_status: 'Estados de Ticket'
+    shift: Turnos
+    complex_sector: Secciones
+    common_area: Area Comun
+resetting:
+    title: 'Reiniciar Contraseña'
+    message: 'Al presionar el siguiente link se direccionará a la página para ingresar su nueva contraseña'
+complex:
+    section:
+        name: ¿Cómo nombras tus secciones?
+        how_many: ¿Cuántas secciones tienes?
+    properties:
+        name: ¿Cómo nombras tus propiedades?
+        identify: ¿Cómo identificas tus propiedades/unidades?
+        per_section: ¿Cuántas propiedades tienes por sección?

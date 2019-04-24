@@ -1,0 +1,8 @@
+'Bad credentials.': 'Credenciales Inválidas'
+label_login_restore_pass: 'Restaurar contraseña'
+label_login_user: Usuario
+label_send: Enviar
+label_ok: Aceptar
+label_check_email: 'Se ha enviado un correo para re establecer su contraseña.'
+resetting:
+    check_email: 'Se ha enviado un correo electrónico a tu cuenta de correo. Contiene un enlace de activación al que debes acceder para restablecer tu contraseña. Si no recibes un correo electrónico, comprueba tu carpeta de correo no deseado o inténtalo de nuevo.'

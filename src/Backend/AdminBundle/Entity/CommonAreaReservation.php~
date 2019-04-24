@@ -1,0 +1,373 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * CommonAreaReservation
+ */
+class CommonAreaReservation
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     */
+    private $availableDateFrom = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $availableDateTo = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var bool
+     */
+    private $enabled = '1';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\CommonArea
+     */
+    private $commonArea;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\CommonAreaReservationStatus
+     */
+    private $commonAreaResevationStatus;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $reservedBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $updatedBy;
+
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set availableDateFrom.
+     *
+     * @param \DateTime $availableDateFrom
+     *
+     * @return CommonAreaReservation
+     */
+    public function setAvailableDateFrom($availableDateFrom)
+    {
+        $this->availableDateFrom = $availableDateFrom;
+
+        return $this;
+    }
+
+    /**
+     * Get availableDateFrom.
+     *
+     * @return \DateTime
+     */
+    public function getAvailableDateFrom()
+    {
+        return $this->availableDateFrom;
+    }
+
+    /**
+     * Set availableDateTo.
+     *
+     * @param \DateTime $availableDateTo
+     *
+     * @return CommonAreaReservation
+     */
+    public function setAvailableDateTo($availableDateTo)
+    {
+        $this->availableDateTo = $availableDateTo;
+
+        return $this;
+    }
+
+    /**
+     * Get availableDateTo.
+     *
+     * @return \DateTime
+     */
+    public function getAvailableDateTo()
+    {
+        return $this->availableDateTo;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return CommonAreaReservation
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return CommonAreaReservation
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set enabled.
+     *
+     * @param bool $enabled
+     *
+     * @return CommonAreaReservation
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled.
+     *
+     * @return bool
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set commonArea.
+     *
+     * @param \Backend\AdminBundle\Entity\CommonArea|null $commonArea
+     *
+     * @return CommonAreaReservation
+     */
+    public function setCommonArea(\Backend\AdminBundle\Entity\CommonArea $commonArea = null)
+    {
+        $this->commonArea = $commonArea;
+
+        return $this;
+    }
+
+    /**
+     * Get commonArea.
+     *
+     * @return \Backend\AdminBundle\Entity\CommonArea|null
+     */
+    public function getCommonArea()
+    {
+        return $this->commonArea;
+    }
+
+    /**
+     * Set commonAreaResevationStatus.
+     *
+     * @param \Backend\AdminBundle\Entity\CommonAreaReservationStatus|null $commonAreaResevationStatus
+     *
+     * @return CommonAreaReservation
+     */
+    public function setCommonAreaResevationStatus(\Backend\AdminBundle\Entity\CommonAreaReservationStatus $commonAreaResevationStatus = null)
+    {
+        $this->commonAreaResevationStatus = $commonAreaResevationStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get commonAreaResevationStatus.
+     *
+     * @return \Backend\AdminBundle\Entity\CommonAreaReservationStatus|null
+     */
+    public function getCommonAreaResevationStatus()
+    {
+        return $this->commonAreaResevationStatus;
+    }
+
+    /**
+     * Set reservedBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $reservedBy
+     *
+     * @return CommonAreaReservation
+     */
+    public function setReservedBy(\Backend\AdminBundle\Entity\User $reservedBy = null)
+    {
+        $this->reservedBy = $reservedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get reservedBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getReservedBy()
+    {
+        return $this->reservedBy;
+    }
+
+    /**
+     * Set createdBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $createdBy
+     *
+     * @return CommonAreaReservation
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $updatedBy
+     *
+     * @return CommonAreaReservation
+     */
+    public function setUpdatedBy(\Backend\AdminBundle\Entity\User $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $reservationDateFrom = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $reservationDateTo = '0000-00-00 00:00:00';
+
+
+    /**
+     * Set reservationDateFrom.
+     *
+     * @param \DateTime $reservationDateFrom
+     *
+     * @return CommonAreaReservation
+     */
+    public function setReservationDateFrom($reservationDateFrom)
+    {
+        $this->reservationDateFrom = $reservationDateFrom;
+
+        return $this;
+    }
+
+    /**
+     * Get reservationDateFrom.
+     *
+     * @return \DateTime
+     */
+    public function getReservationDateFrom()
+    {
+        return $this->reservationDateFrom;
+    }
+
+    /**
+     * Set reservationDateTo.
+     *
+     * @param \DateTime $reservationDateTo
+     *
+     * @return CommonAreaReservation
+     */
+    public function setReservationDateTo($reservationDateTo)
+    {
+        $this->reservationDateTo = $reservationDateTo;
+
+        return $this;
+    }
+
+    /**
+     * Get reservationDateTo.
+     *
+     * @return \DateTime
+     */
+    public function getReservationDateTo()
+    {
+        return $this->reservationDateTo;
+    }
+}

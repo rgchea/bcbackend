@@ -1,0 +1,112 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedOrderProduct
+ */
+class AlliedOrderProduct
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $quantity = '1';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $product;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedOrder
+     */
+    private $alliedOrder;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return AlliedOrderProduct
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Backend\AdminBundle\Entity\Product $product
+     *
+     * @return AlliedOrderProduct
+     */
+    public function setProduct(\Backend\AdminBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set alliedOrder
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedOrder $alliedOrder
+     *
+     * @return AlliedOrderProduct
+     */
+    public function setAlliedOrder(\Backend\AdminBundle\Entity\AlliedOrder $alliedOrder = null)
+    {
+        $this->alliedOrder = $alliedOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedOrder
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedOrder
+     */
+    public function getAlliedOrder()
+    {
+        return $this->alliedOrder;
+    }
+}

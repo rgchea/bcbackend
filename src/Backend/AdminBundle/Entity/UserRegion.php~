@@ -1,0 +1,83 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * UserRegion
+ */
+class UserRegion
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Region
+     */
+    private $region;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $user;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set region
+     *
+     * @param \Backend\AdminBundle\Entity\Region $region
+     *
+     * @return UserRegion
+     */
+    public function setRegion(\Backend\AdminBundle\Entity\Region $region = null)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return \Backend\AdminBundle\Entity\Region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Backend\AdminBundle\Entity\User $user
+     *
+     * @return UserRegion
+     */
+    public function setUser(\Backend\AdminBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

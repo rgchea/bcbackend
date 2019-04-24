@@ -1,0 +1,229 @@
+Backend\AdminBundle\Entity\Ticket:
+    type: entity
+    table: ticket
+    repositoryClass: Backend\AdminBundle\Repository\TicketRepository
+    indexes:
+        property_id:
+            columns:
+                - property_id
+        assigned_to:
+            columns:
+                - assigned_to
+        ticket_status_id:
+            columns:
+                - ticket_status_id
+        created_by:
+            columns:
+                - created_by
+        ticket_type_id:
+            columns:
+                - ticket_type_id
+        complex_id:
+            columns:
+                - complex_id
+        common_area_reservation_id:
+            columns:
+                - common_area_reservation_id
+        tenant_contract_id:
+            columns:
+                - tenant_contract_id
+        ticket_category_id:
+            columns:
+                - ticket_category_id
+        updated_by:
+            columns:
+                - updated_by
+        business_id:
+            columns:
+                - business_id
+        complex_sector_id:
+            columns:
+                - complex_sector_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+        description:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        possibleSolution:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        isPublic:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: is_public
+        ratingToUser:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                comment: 'el rating que se le dio al gerente que manejó el ticket'
+            column: rating_to_user
+        ratingToTenant:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                comment: 'el rating que se le dio al inquilino'
+            column: rating_to_tenant
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        tenantContract:
+            targetEntity: TenantContract
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                tenant_contract_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        property:
+            targetEntity: Property
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        commonAreaReservation:
+            targetEntity: CommonAreaReservation
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_reservation_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        assignedTo:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                assigned_to:
+                    referencedColumnName: id
+            orphanRemoval: false
+        ticketStatus:
+            targetEntity: TicketStatus
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                ticket_status_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        ticketCategory:
+            targetEntity: TicketCategory
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                ticket_category_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        ticketType:
+            targetEntity: TicketType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                ticket_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        business:
+            targetEntity: Business
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                business_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        complex:
+            targetEntity: Complex
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        complexSector:
+            targetEntity: ComplexSector
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_sector_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

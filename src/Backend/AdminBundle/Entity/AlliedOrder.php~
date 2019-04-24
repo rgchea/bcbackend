@@ -1,0 +1,263 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedOrder
+ */
+class AlliedOrder
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $sapCorrelative;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedOrderStatus
+     */
+    private $alliedOrderStatus;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    private $alliedHouse;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set sapCorrelative
+     *
+     * @param string $sapCorrelative
+     *
+     * @return AlliedOrder
+     */
+    public function setSapCorrelative($sapCorrelative)
+    {
+        $this->sapCorrelative = $sapCorrelative;
+
+        return $this;
+    }
+
+    /**
+     * Get sapCorrelative
+     *
+     * @return string
+     */
+    public function getSapCorrelative()
+    {
+        return $this->sapCorrelative;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return AlliedOrder
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set alliedOrderStatus
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedOrderStatus $alliedOrderStatus
+     *
+     * @return AlliedOrder
+     */
+    public function setAlliedOrderStatus(\Backend\AdminBundle\Entity\AlliedOrderStatus $alliedOrderStatus = null)
+    {
+        $this->alliedOrderStatus = $alliedOrderStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedOrderStatus
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedOrderStatus
+     */
+    public function getAlliedOrderStatus()
+    {
+        return $this->alliedOrderStatus;
+    }
+
+    /**
+     * Set alliedHouse
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouse $alliedHouse
+     *
+     * @return AlliedOrder
+     */
+    public function setAlliedHouse(\Backend\AdminBundle\Entity\AlliedHouse $alliedHouse = null)
+    {
+        $this->alliedHouse = $alliedHouse;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouse
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    public function getAlliedHouse()
+    {
+        return $this->alliedHouse;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \Backend\AdminBundle\Entity\User $createdBy
+     *
+     * @return AlliedOrder
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+    /**
+     * @var integer
+     */
+    private $rating = '5';
+
+    /**
+     * @var string
+     */
+    private $suggestion;
+
+
+    /**
+     * Set rating
+     *
+     * @param integer $rating
+     *
+     * @return AlliedOrder
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return integer
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set suggestion
+     *
+     * @param string $suggestion
+     *
+     * @return AlliedOrder
+     */
+    public function setSuggestion($suggestion)
+    {
+        $this->suggestion = $suggestion;
+
+        return $this;
+    }
+
+    /**
+     * Get suggestion
+     *
+     * @return string
+     */
+    public function getSuggestion()
+    {
+        return $this->suggestion;
+    }
+    /**
+     * @var \DateTime
+     */
+    private $estimatedDeliveryDate;
+
+
+    /**
+     * Set estimatedDeliveryDate
+     *
+     * @param \DateTime $estimatedDeliveryDate
+     *
+     * @return AlliedOrder
+     */
+    public function setEstimatedDeliveryDate($estimatedDeliveryDate)
+    {
+        $this->estimatedDeliveryDate = $estimatedDeliveryDate;
+
+        return $this;
+    }
+
+    /**
+     * Get estimatedDeliveryDate
+     *
+     * @return \DateTime
+     */
+    public function getEstimatedDeliveryDate()
+    {
+        return $this->estimatedDeliveryDate;
+    }
+	
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }	
+		
+}

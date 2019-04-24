@@ -1,0 +1,8 @@
+'Bad credentials.': 'Bad credentials.'
+label_login_restore_pass: 'Restore password'
+label_login_user: Username
+label_send: Send
+label_ok: Ok
+label_check_email: 'An email has been sent to restore your password'
+resetting:
+    check_email: 'An email has been sent. It contains a link you must click to reset your password.If you don''t get an email check your spam folder or try again.'

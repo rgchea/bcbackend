@@ -1,0 +1,29 @@
+<!-- HEAD NAV -->
+<div class="navbar navbar-default navbar-static-top navbar-main" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path('backend_admin_homepage') }}">
+            {#<img style="width:120px;" src="{{ asset('bundles/pizotearkadmin/img/logo/logo.png')}}" alt="Backend">#}
+            <img  src="{{ asset('bundles/pizotearkadmin/img/logo/logo.png')}}" alt="">
+            
+        </a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="visible-xs">
+            <a href="#" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar">
+                <span class="sr-only">Cambiar Navegaci&oacute;n</span>
+                <i class="fa fa-bars"></i>
+            </a>
+        </li>
+        
+        
+        {{ include('BackendAdminBundle:Partials:notification.html.twig') }}
+        {# include('BackendAdminBundle:Partials:messages.html.twig') #}
+		{{ include('BackendAdminBundle:Partials:user.html.twig') }}
+        {{ include('BackendAdminBundle:Partials:flags.html.twig') }}
+ 
+
+    </ul>
+
+</div>
+<div id="pizote_spinner" class="pizote-spinner" style="display:none; z-index: 999"></div>
+<!-- END: HEAD NAV -->

@@ -1,0 +1,21 @@
+{% extends "PizoteArkAdminBundle::security.html.twig" %}
+
+{% block fos_user_content %}
+
+{% block title %}
+    
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+
+    <br><br>
+    <center>
+        <h1 style="font-size: 20px;">Oops! 404 HTTP la p&aacute;gina sugerida no existe</h1>
+    </center>
+
+
+{% endblock %}
+
+{% endblock fos_user_content %}

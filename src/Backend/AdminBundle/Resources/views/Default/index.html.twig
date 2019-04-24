@@ -1,0 +1,48 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+
+{% block body %}
+  
+	<br><br>
+    <div class="row">        
+        <div class="col-md-12">                                    
+            <br><br>
+            <h1 class="text-red text-center text-welcome">{{ 'label_welcome'|trans }}</h1>
+            <br><br>
+        </div>
+    </div>    
+
+  	{#
+	  <style>
+	     .imgHome {
+	      width: 100%;
+	     }
+	  </style>
+
+
+	<script>
+		$("#pizote_spinner").show();
+	</script>
+
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+  	#}
+
+
+
+	{#
+		<center>
+	    {% if(role == 'ALUMNO')%}
+	      <img class="imgHome" src="{{ asset('bundles/backendadmin/img/home_alumno2.jpg')}}" alt="">
+	    {% else %}
+	      <img class="imgHome" src="{{ asset('bundles/backendadmin/img/home2.jpg')}}" alt="">
+	    {% endif %}
+
+
+
+		</center>
+
+	#}
+
+{% endblock %}

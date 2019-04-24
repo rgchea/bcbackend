@@ -1,0 +1,220 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+/**
+ * PromoNotification
+ */
+class PromoNotification
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $photoPath;
+	
+
+    /**
+     * Image file
+     *
+     * @var File
+     *
+     * @Assert\File(
+     *     maxSize = "3M",
+     *     mimeTypes = {"image/jpeg", "image/gif", "image/png", "image/tiff"},
+     *     maxSizeMessage = "The maxmimum allowed file size is 3MB.",
+     *     mimeTypesMessage = "Only the filetypes image are allowed."
+     * )
+     */
+    protected $file;		
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param integer $name
+     *
+     * @return PromoNotification
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return integer
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set photoPath
+     *
+     * @param string $photoPath
+     *
+     * @return PromoNotification
+     */
+    public function setPhotoPath($photoPath)
+    {
+        $this->photoPath = $photoPath;
+
+        return $this;
+    }
+
+    /**
+     * Get photoPath
+     *
+     * @return string
+     */
+    public function getPhotoPath()
+    {
+        return $this->photoPath;
+    }
+	
+	
+	public function __toString(){
+		return $this->getName();
+	}
+	
+	
+	
+	/**
+	 * Called before saving the entity
+	 * 
+	 * @ORM\PrePersist()
+	 * @ORM\PreUpdate()
+	 */
+	public function preUpload()
+	{   
+	    if (null !== $this->file) {
+	        // do whatever you want to generate a unique name
+	        $filename = sha1(uniqid(mt_rand(), true));
+	        $this->photoPath = $filename.'.'.$this->file->guessExtension();
+	    }
+	}
+
+	
+	/**
+	 * Called after entity persistence
+	 *
+	 * @ORM\PostPersist()
+	 * @ORM\PostUpdate()
+	 */
+	public function upload()
+	{
+	    // The file property can be empty if the field is not required
+	    if (null === $this->file) {
+	        return;
+	    }
+	
+	    // Use the original file name here but you should
+	    // sanitize it at least to avoid any security issues
+	
+	    // move takes the target directory and then the
+	    // target filename to move to
+	    $this->file->move($this->getUploadRootDir(), $this->photoPath);
+	
+	    // Set the path property to the filename where you've saved the file
+	    //$this->path = $this->file->getClientOriginalName();
+	
+	    // Clean up the file property as you won't need it anymore
+	    $this->file = null;
+	}
+
+
+	/**
+	 * Called before entity removal
+	 *
+	 * @ORM\PreRemove()
+	 */
+	public function removeUpload()
+	{
+	    if ($file = $this->getAbsolutePath()) {
+	        unlink($file); 
+	    }
+	}	
+	
+	
+ 	public function getAbsolutePath()
+    {
+        return null === $this->photoPath ? null : $this->getUploadRootDir().'/'.$this->photoPath;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->photoPath
+            ? null
+            : $this->getUploadDir().'/'.$this->photoPath;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/promos/';
+    }
+	
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+ 		if (isset($this->photoPath)) {
+            unlink($this->getAbsolutePath());
+        } 		
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }		
+		
+				
+}

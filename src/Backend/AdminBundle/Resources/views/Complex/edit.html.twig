@@ -1,0 +1,19 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+{{ parent() }}
+    <li> <a href="{{ path('backend_admin_complex_index') }}">{{ 'label_menu.complex'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_complex_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:Complex:editForm.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+    
+
+{% endblock %}

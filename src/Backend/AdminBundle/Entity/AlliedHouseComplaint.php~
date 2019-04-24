@@ -1,0 +1,199 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouseComplaint
+ */
+class AlliedHouseComplaint
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $complaint;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt = '0000-00-00';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouseComplaintCategory
+     */
+    private $alliedHouseComplaintCateory;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set complaint
+     *
+     * @param string $complaint
+     *
+     * @return AlliedHouseComplaint
+     */
+    public function setComplaint($complaint)
+    {
+        $this->complaint = $complaint;
+
+        return $this;
+    }
+
+    /**
+     * Get complaint
+     *
+     * @return string
+     */
+    public function getComplaint()
+    {
+        return $this->complaint;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return AlliedHouseComplaint
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \Backend\AdminBundle\Entity\User $createdBy
+     *
+     * @return AlliedHouseComplaint
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set alliedHouseComplaintCateory
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouseComplaintCategory $alliedHouseComplaintCateory
+     *
+     * @return AlliedHouseComplaint
+     */
+    public function setAlliedHouseComplaintCateory(\Backend\AdminBundle\Entity\AlliedHouseComplaintCategory $alliedHouseComplaintCateory = null)
+    {
+        $this->alliedHouseComplaintCateory = $alliedHouseComplaintCateory;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouseComplaintCateory
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouseComplaintCategory
+     */
+    public function getAlliedHouseComplaintCateory()
+    {
+        return $this->alliedHouseComplaintCateory;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouseComplaintCategory
+     */
+    private $alliedHouseComplaintCategory;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouseComplaint
+     */
+    private $alliedHouseComplaintReply;
+
+
+    /**
+     * Set alliedHouseComplaintCategory
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouseComplaintCategory $alliedHouseComplaintCategory
+     *
+     * @return AlliedHouseComplaint
+     */
+    public function setAlliedHouseComplaintCategory(\Backend\AdminBundle\Entity\AlliedHouseComplaintCategory $alliedHouseComplaintCategory = null)
+    {
+        $this->alliedHouseComplaintCategory = $alliedHouseComplaintCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouseComplaintCategory
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouseComplaintCategory
+     */
+    public function getAlliedHouseComplaintCategory()
+    {
+        return $this->alliedHouseComplaintCategory;
+    }
+
+    /**
+     * Set alliedHouseComplaintReply
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouseComplaint $alliedHouseComplaintReply
+     *
+     * @return AlliedHouseComplaint
+     */
+    public function setAlliedHouseComplaintReply(\Backend\AdminBundle\Entity\AlliedHouseComplaint $alliedHouseComplaintReply = null)
+    {
+        $this->alliedHouseComplaintReply = $alliedHouseComplaintReply;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouseComplaintReply
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouseComplaint
+     */
+    public function getAlliedHouseComplaintReply()
+    {
+        return $this->alliedHouseComplaintReply;
+    }
+}

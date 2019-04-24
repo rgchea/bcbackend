@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html >
+    <head>
+
+    
+        <title>
+	      {% set _block_title = block('title') %}
+	      {% if _block_title is not empty %}
+	          {% block title %}{% endblock %} |
+	      {% endif %}
+	      Backend        	
+        </title>
+        
+        
+    {% block metas %}    
+        <meta charset="utf-8" />
+        
+    {% endblock %}
+    {% block stylesheets %}
+		
+		{#
+       <link href="{{ asset('bundles/pizotearkadmin/css/bootstrap.min.css')  }}" rel="stylesheet" />
+	    <!--<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />-->
+	    <link href="{{ asset('bundles/pizotearkadmin/css/font-awesome.css')  }}" rel="stylesheet" type="text/css"  />
+	    <link href="{{ asset('bundles/pizotearkadmin/css/ark.css')  }}" rel="stylesheet" type="text/css" />
+			
+		#}
+	
+      
+    {% endblock %}        
+    <!--<script src="{{ asset('bundles/pizotearkadmin/js/libs/jquery-2.0.2.min.js') }}"></script> 
+    <script src="{{ asset('bundles/pizotearkadmin/js/libs/jquery-ui-1.10.3.min.js') }}"></script>-->
+
+	{% block javascripts %}
+        <!-- JS -->
+
+        <script src="{{ asset('bundles/pizotearkadmin/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('bundles/pizotearkadmin/js/ark.min.js')  }}"></script>
+   
+        
+	{% endblock %}    
+      
+
+    </head>
+    
+    <body>
+
+
+		{% block body %}
+		
+	
+		{% endblock %}
+		
+		
+	    
+	    
+    <script type="text/javascript">
+      
+	$(document).ready(function(){      
+	  {% block extrascripts %}
+	  {% endblock %}
+ 	});
+    </script>
+	    		
+
+    </body>
+</html>

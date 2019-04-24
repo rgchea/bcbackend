@@ -1,0 +1,112 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouseEquipment
+ */
+class AlliedHouseEquipment
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    private $alliedHouse;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Equipment
+     */
+    private $equipment;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set alliedHouse
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouse $alliedHouse
+     *
+     * @return AlliedHouseEquipment
+     */
+    public function setAlliedHouse(\Backend\AdminBundle\Entity\AlliedHouse $alliedHouse = null)
+    {
+        $this->alliedHouse = $alliedHouse;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouse
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    public function getAlliedHouse()
+    {
+        return $this->alliedHouse;
+    }
+
+    /**
+     * Set equipment
+     *
+     * @param \Backend\AdminBundle\Entity\Equipment $equipment
+     *
+     * @return AlliedHouseEquipment
+     */
+    public function setEquipment(\Backend\AdminBundle\Entity\Equipment $equipment = null)
+    {
+        $this->equipment = $equipment;
+
+        return $this;
+    }
+
+    /**
+     * Get equipment
+     *
+     * @return \Backend\AdminBundle\Entity\Equipment
+     */
+    public function getEquipment()
+    {
+        return $this->equipment;
+    }
+    /**
+     * @var integer
+     */
+    private $quantity = 0;
+
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return AlliedHouseEquipment
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+}

@@ -1,0 +1,18 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_term_condition_index') }}">{{ 'label_menu.term_condition'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_term_condition_new') }}">{{ 'label_new'|trans  }}</a> </li>
+    {% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:TermCondition:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+
+
+{% endblock %}

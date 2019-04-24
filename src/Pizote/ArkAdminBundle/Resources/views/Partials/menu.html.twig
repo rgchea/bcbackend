@@ -1,0 +1,98 @@
+<nav>
+  <ul>
+    
+    
+    <li {% if(item == 'dashboard') %} class="active" {% endif %} >
+      <a href="{{ path('backend_admin_homepage') }}" title="Panel Principal"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Panel Principal</span></a>
+    </li>
+
+
+    {% if is_granted('ROLE_ADMIN') %} 
+    <li {% if(item == 'users') %} class="active" {% endif %} >
+      <a href="{{ path('user') }}" title="Usuarios"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Usuarios</span></a>
+    </li>
+    {% endif %}
+
+	
+    {% if is_granted('ROLE_SUPER_ADMIN') or app.session.get('showmenu') %} 
+    <li {% if(item == 'maps') or (item == 'countries') or (item == 'states') or (item == 'towns') or (item == 'frontiers') or (item == 'nodes') %} class="active" {% endif %} >
+      <a href="#" title="Mapas"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Mapas</span></a>
+
+		<ul>
+	        <li {% if(item == 'countries') %} class="active" {% endif %}>
+	            <a href="{{ path('mapcountry') }}" title="Paises"> <span class="menu-item-parent">Paises</span></a>
+	        </li>
+	        <li {% if(item == 'states') %} class="active" {% endif %}>
+	            <a href="{{ path('mapstate') }}" title="Departamentos"> <span class="menu-item-parent">Departamentos</span></a>
+	        </li>
+	        <li {% if(item == 'towns') %} class="active" {% endif %}>
+	            <a href="{{ path('maptown') }}" title="Municipios"> <span class="menu-item-parent">Municipios</span></a>
+	        </li>                                                                    	        
+	        <li {% if(item == 'routes') %} class="active" {% endif %}>
+	            <a href="{{ path('maproute') }}" title="Rutas"> <span class="menu-item-parent">Rutas</span></a>
+	        </li>      
+	            	
+
+  		</ul>
+    </li>
+    {% endif %}
+    {% if is_granted('ROLE_SUPER_ADMIN') or app.session.get('showmenu') %} 
+    <li {% if(item == 'management') or (item == 'notificationtypes') or (item == 'vehicletypes') or (item == 'vehiclemaintenancetypes') or (item == 'paymenttypes') %} class="active" {% endif %} >
+      <a href="#" title="Administraci&oacute;n"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Administraci&oacute;n</span></a>
+		<ul>
+			{#
+	        <li {% if(item == 'notificationtypes') %} class="active" {% endif %}>
+	            <a href="{{ path('notificationtype') }}" title="Notification Type"> <span class="menu-item-parent">Notification Type</span></a>
+	        </li>
+				
+			#}
+	        <li {% if(item == 'vehicletypes') %} class="active" {% endif %}>
+	            <a href="{{ path('vehicletype') }}" title="Tipos de Veh&iacute;culo"> <span class="menu-item-parent">Tipos de Veh&iacute;culo</span></a>
+	        </li>
+	        <li {% if(item == 'modules') %} class="active" {% endif %}>
+	            <a href="{{ path('module') }}" title="M&oacute;dulos"> <span class="menu-item-parent">M&oacute;dulos</span></a>
+	        </li>
+	        
+	        
+  		</ul>
+    </li>
+    {% endif %} 
+    
+    {% if is_granted('ROLE_ADMIN')  or app.session.get('showmenu')%} 
+    <li {% if(item == 'movement') %} class="active" {% endif %}>
+      <a href="{{ path('movement') }}" title="Retornos"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Retornos</span></a>
+    </li>
+    <li {% if(item == 'article') %} class="active" {% endif %}>
+      <a href="{{ path('article') }}" title="Noticias"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Noticias</span></a>
+    </li>    	
+     {#
+     <li {% if(item == 'general') %} class="active" {% endif %}>
+      <a href="{{ path('notification_general') }}" title="Notificaciones"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">Notificaciones</span></a>
+    </li>
+    #}
+    {% endif %}
+    
+
+    {#
+    {% endif %}
+    {% if is_granted('ROLE_SUPER_ADMIN') or app.session.get('showmenu') %} 
+    <li {% if(item == 'client') %} class="active" {% endif %} >
+      <a href="#" title="Client"><i class="fa fa-lg fa-fw fa-cogs"></i> <span class="menu-item-parent">Client</span></a>
+		<ul>
+	        <li {% if(item == 'notificationtypes') %} class="active" {% endif %}>
+	            <a href="{{ path('notificationtype') }}" title="Notification Type"> <span class="menu-item-parent">Notification Type</span></a>
+	        </li>
+	        <li {% if(item == 'vehicletypes') %} class="active" {% endif %}>
+	            <a href="{{ path('vehicletype') }}" title="Vehicle Type"> <span class="menu-item-parent">Vehicle Type</span></a>
+	        </li>
+	        <li {% if(item == 'modules') %} class="active" {% endif %}>
+	            <a href="{{ path('module') }}" title="Modules"> <span class="menu-item-parent">Modules</span></a>
+	        </li>
+	        
+  		</ul>
+    </li>
+    {% endif %}   
+    	
+    #}
+  </ul>
+</nav>

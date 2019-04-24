@@ -1,0 +1,178 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedOrderComplaint
+ */
+class AlliedOrderComplaint
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt = '0000-00-00';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedOrder
+     */
+    private $alliedOrder;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $product;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedOrderComplaintStatement
+     */
+    private $alliedOrderComplaintStatement;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return AlliedOrderComplaint
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \Backend\AdminBundle\Entity\User $createdBy
+     *
+     * @return AlliedOrderComplaint
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set alliedOrder
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedOrder $alliedOrder
+     *
+     * @return AlliedOrderComplaint
+     */
+    public function setAlliedOrder(\Backend\AdminBundle\Entity\AlliedOrder $alliedOrder = null)
+    {
+        $this->alliedOrder = $alliedOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedOrder
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedOrder
+     */
+    public function getAlliedOrder()
+    {
+        return $this->alliedOrder;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Backend\AdminBundle\Entity\Product $product
+     *
+     * @return AlliedOrderComplaint
+     */
+    public function setProduct(\Backend\AdminBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set alliedOrderComplaintStatement
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedOrderComplaintStatement $alliedOrderComplaintStatement
+     *
+     * @return AlliedOrderComplaint
+     */
+    public function setAlliedOrderComplaintStatement(\Backend\AdminBundle\Entity\AlliedOrderComplaintStatement $alliedOrderComplaintStatement = null)
+    {
+        $this->alliedOrderComplaintStatement = $alliedOrderComplaintStatement;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedOrderComplaintStatement
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedOrderComplaintStatement
+     */
+    public function getAlliedOrderComplaintStatement()
+    {
+        return $this->alliedOrderComplaintStatement;
+    }
+	
+	
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }	
+	
+	
+}

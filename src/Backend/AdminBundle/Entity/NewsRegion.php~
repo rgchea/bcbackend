@@ -1,0 +1,83 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * NewsRegion
+ */
+class NewsRegion
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Region
+     */
+    private $region;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\News
+     */
+    private $news;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set region
+     *
+     * @param \Backend\AdminBundle\Entity\Region $region
+     *
+     * @return NewsRegion
+     */
+    public function setRegion(\Backend\AdminBundle\Entity\Region $region = null)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return \Backend\AdminBundle\Entity\Region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * Set news
+     *
+     * @param \Backend\AdminBundle\Entity\News $news
+     *
+     * @return NewsRegion
+     */
+    public function setNews(\Backend\AdminBundle\Entity\News $news = null)
+    {
+        $this->news = $news;
+
+        return $this;
+    }
+
+    /**
+     * Get news
+     *
+     * @return \Backend\AdminBundle\Entity\News
+     */
+    public function getNews()
+    {
+        return $this->news;
+    }
+}

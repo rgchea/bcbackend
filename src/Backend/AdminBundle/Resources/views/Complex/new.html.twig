@@ -1,0 +1,24 @@
+{% if register == 1 %}
+    {% set myLayout = "layoutPlain.html.twig" %}
+{% else %}
+    {% set myLayout = "layout.html.twig" %}
+{% endif %}
+
+{% extends 'BackendAdminBundle::'~myLayout %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_complex_index') }}">{{ 'label_menu.complex'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_complex_new') }}">{{ 'label_new'|trans  }}</a> </li>
+    {% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:Complex:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+
+
+{% endblock %}

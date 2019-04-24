@@ -1,0 +1,129 @@
+Backend\AdminBundle\Entity\User:
+    type: entity
+    table: user
+    repositoryClass: Backend\AdminBundle\Repository\UserRepository
+    indexes:
+        business_id:
+            columns:
+                - business_id
+
+        role_id:
+            columns:
+                - role_id
+        created_by:
+            columns:
+                - created_by
+        updated_by:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+        birthdate:
+            type: date
+            nullable: true
+            options:
+                default: '0000-00-00'
+            column: birthdate
+
+        rating:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: 1
+        generalRating:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: 1
+            column: general_rating
+        activationConfirmCode:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: activation_confirm_code
+        level:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: 1
+        avatarPath:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+            column: avatar_path
+        createdAt:
+            type: datetime
+            nullable: true
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+
+    manyToOne:
+        business:
+            targetEntity: Business
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                business_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        role:
+            targetEntity: Role
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                role_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+    lifecycleCallbacks: {  }

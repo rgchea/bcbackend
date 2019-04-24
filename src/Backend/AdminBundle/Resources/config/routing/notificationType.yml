@@ -1,0 +1,34 @@
+backend_admin_notification_type_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:NotificationType:index
+
+notification_type_list_datatables:
+    path: /complexType/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:NotificationType:listDatatables
+
+backend_admin_notification_type_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:NotificationType:new" }
+    #methods:  [GET, POST]
+
+backend_admin_notification_type_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:NotificationType:edit" }
+
+backend_admin_notification_type_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:NotificationType:create" }
+    methods:  POST
+
+backend_admin_notification_type_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:NotificationType:update" }
+    methods:  POST
+
+backend_admin_notification_type_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:NotificationType:delete" }
+
+    #methods:  DELETE

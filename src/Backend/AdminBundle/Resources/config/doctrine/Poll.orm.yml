@@ -1,0 +1,91 @@
+Backend\AdminBundle\Entity\Poll:
+    type: entity
+    table: poll
+    repositoryClass: Backend\AdminBundle\Repository\PollRepository
+    indexes:
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+
+        name:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+            column: name
+        description:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+            column: description
+        activeFrom:
+            type: date
+            nullable: false
+            column: active_from
+        activeTo:
+            type: date
+            nullable: false
+            column: active_to
+        extraPoints:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+                default: '0'
+            column: extra_points
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

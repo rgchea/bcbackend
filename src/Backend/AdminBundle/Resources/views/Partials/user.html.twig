@@ -1,0 +1,29 @@
+<li class="dropdown">
+    {% set userLogged = app.session.get('userLogged') %}
+
+    <a href="#" class="dropdown-toggle avatar pull-right" data-toggle="dropdown">
+        {% if userLogged.avatarPath is null %}
+            <span style="font-size: 2em; color: white; position: relative; top: 5px">
+                <i class="fas fa-user"></i>
+            </span>
+
+        {% else %}
+            {% set avatar =  url('backend_admin_homepage')~userLogged.avatarPath %}
+            {% set avatar = avatar|replace({'app_dev.php/': ''}) %}
+            {% set avatar = avatar|replace({'/en/': '/'}) %}
+            {% set avatar = avatar|replace({'/es/': '/'}) %}
+
+            <img src="{{ avatar }}" alt="" class="img-avatar" />
+        {% endif %}
+
+
+
+        <span class="hidden-small">{{ userLogged.username }}<b class="caret"></b></span>
+    </a>
+    <ul class="dropdown-menu pull-right">
+        {#<li><a href="#"><i class="fa fa-gear"></i>Account Settings</a></li>#}
+        <li><a href="{{ path('backend_admin_user_edit', { 'id': userLogged.id })  }}"><i class="fa fa-user"></i>{{ 'label_menu.profile' | trans }}</a></li>
+        <li class="divider"></li>
+        <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i>{{ 'label_menu.logout' | trans }}</a></li>
+    </ul>
+</li>

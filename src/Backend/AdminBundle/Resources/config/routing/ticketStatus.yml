@@ -1,0 +1,33 @@
+backend_admin_ticket_status_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:TicketStatus:index
+
+ticket_status_list_datatables:
+    path: /ticketStatus/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:TicketStatus:listDatatables
+
+backend_admin_ticket_status_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:TicketStatus:new" }
+    #methods:  [GET, POST]
+
+backend_admin_ticket_status_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:TicketStatus:edit" }
+
+backend_admin_ticket_status_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:TicketStatus:create" }
+    methods:  POST
+
+backend_admin_ticket_status_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:TicketStatus:update" }
+    methods:  POST
+
+backend_admin_ticket_status_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:TicketStatus:delete" }
+    #methods:  DELETE

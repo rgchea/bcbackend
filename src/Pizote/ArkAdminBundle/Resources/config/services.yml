@@ -1,0 +1,4 @@
+services:
+#    pizote_ark_admin.example:
+#        class: Pizote\ArkAdminBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

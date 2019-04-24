@@ -1,0 +1,33 @@
+backend_admin_geo_state_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:GeoState:index
+
+geo_state_list_datatables:
+    path: /geoState/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:GeoState:listDatatables
+
+backend_admin_geo_state_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:GeoState:new" }
+    #methods:  [GET, POST]
+
+backend_admin_geo_state_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:GeoState:edit" }
+
+backend_admin_geo_state_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:GeoState:create" }
+    methods:  POST
+
+backend_admin_geo_state_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:GeoState:update" }
+    methods:  POST
+
+backend_admin_geo_state_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:GeoState:delete" }
+    #methods:  DELETE

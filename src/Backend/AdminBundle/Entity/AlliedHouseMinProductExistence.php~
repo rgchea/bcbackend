@@ -1,0 +1,112 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouseMinProductExistence
+ */
+class AlliedHouseMinProductExistence
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $quantity = '1';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $product;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return AlliedHouseMinProductExistence
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Backend\AdminBundle\Entity\Product $product
+     *
+     * @return AlliedHouseMinProductExistence
+     */
+    public function setProduct(\Backend\AdminBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    private $alliedHouse;
+
+
+    /**
+     * Set alliedHouse
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouse $alliedHouse
+     *
+     * @return AlliedHouseMinProductExistence
+     */
+    public function setAlliedHouse(\Backend\AdminBundle\Entity\AlliedHouse $alliedHouse = null)
+    {
+        $this->alliedHouse = $alliedHouse;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouse
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    public function getAlliedHouse()
+    {
+        return $this->alliedHouse;
+    }
+}

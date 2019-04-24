@@ -1,0 +1,83 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouseUser
+ */
+class AlliedHouseUser
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $user;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    private $alliedHouse;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Backend\AdminBundle\Entity\User $user
+     *
+     * @return AlliedHouseUser
+     */
+    public function setUser(\Backend\AdminBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set alliedHouse
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouse $alliedHouse
+     *
+     * @return AlliedHouseUser
+     */
+    public function setAlliedHouse(\Backend\AdminBundle\Entity\AlliedHouse $alliedHouse = null)
+    {
+        $this->alliedHouse = $alliedHouse;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouse
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    public function getAlliedHouse()
+    {
+        return $this->alliedHouse;
+    }
+}

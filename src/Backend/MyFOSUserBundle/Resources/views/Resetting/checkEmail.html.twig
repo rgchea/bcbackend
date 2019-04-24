@@ -1,0 +1,24 @@
+{% extends "PizoteArkAdminBundle::security.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+	<div class="login-wrap">    
+	    <div class="panel bg-gray no-padding">        
+	        <div class="panel-body">
+				<p>
+					{{ 'resetting.check_email'|trans({'%email%': email}) }}
+				</p>
+
+				<div style="padding: 10px">
+					<a class="btn btn-ps" onclick='document.location.href = "{{ path('fos_user_security_login')}}" '>{{ 'label_ok'|trans}}</a>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

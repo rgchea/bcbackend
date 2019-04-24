@@ -1,0 +1,19 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+{{ parent() }}
+    <li> <a href="{{ path('backend_admin_ticket_status_index') }}">{{ 'label_menu.ticket_status'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_ticket_status_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:TicketStatus:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+    
+
+{% endblock %}

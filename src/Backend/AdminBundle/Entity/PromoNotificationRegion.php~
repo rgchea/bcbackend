@@ -1,0 +1,83 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * PromoNotificationRegion
+ */
+class PromoNotificationRegion
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Region
+     */
+    private $region;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\PromoNotification
+     */
+    private $promoNotification;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set region
+     *
+     * @param \Backend\AdminBundle\Entity\Region $region
+     *
+     * @return PromoNotificationRegion
+     */
+    public function setRegion(\Backend\AdminBundle\Entity\Region $region = null)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get region
+     *
+     * @return \Backend\AdminBundle\Entity\Region
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * Set promoNotification
+     *
+     * @param \Backend\AdminBundle\Entity\PromoNotification $promoNotification
+     *
+     * @return PromoNotificationRegion
+     */
+    public function setPromoNotification(\Backend\AdminBundle\Entity\PromoNotification $promoNotification = null)
+    {
+        $this->promoNotification = $promoNotification;
+
+        return $this;
+    }
+
+    /**
+     * Get promoNotification
+     *
+     * @return \Backend\AdminBundle\Entity\PromoNotification
+     */
+    public function getPromoNotification()
+    {
+        return $this->promoNotification;
+    }
+}

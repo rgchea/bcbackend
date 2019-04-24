@@ -1,0 +1,112 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedOrderProductConfirmation
+ */
+class AlliedOrderProductConfirmation
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $quantity = 1;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $product;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedOrderConfirmation
+     */
+    private $alliedOrderConfirmation;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return AlliedOrderProductConfirmation
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Backend\AdminBundle\Entity\Product $product
+     *
+     * @return AlliedOrderProductConfirmation
+     */
+    public function setProduct(\Backend\AdminBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set alliedOrderConfirmation
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedOrderConfirmation $alliedOrderConfirmation
+     *
+     * @return AlliedOrderProductConfirmation
+     */
+    public function setAlliedOrderConfirmation(\Backend\AdminBundle\Entity\AlliedOrderConfirmation $alliedOrderConfirmation = null)
+    {
+        $this->alliedOrderConfirmation = $alliedOrderConfirmation;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedOrderConfirmation
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedOrderConfirmation
+     */
+    public function getAlliedOrderConfirmation()
+    {
+        return $this->alliedOrderConfirmation;
+    }
+}

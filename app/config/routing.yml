@@ -1,0 +1,83 @@
+backend_admin:
+    resource: "@BackendAdminBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}
+    requirements:
+        _locale: en|es
+    methods:  [GET, POST]
+    #pizote_ark_admin:
+    #    resource: "@PizoteArkAdminBundle/Resources/config/routing.yml"
+    #    prefix:   /arkadmin
+
+    # app:
+    # resource: "@AppBundle/Controller/"
+    # type:     annotation
+
+    #
+    #backend_my_fos_user:
+    #     resource: "@BackendMyFOSUserBundle/Resources/config/routing.yml"
+    #     prefix:   /
+
+#wbc_services:
+#     resource: "@PizoteServicesBundle/Resources/config/routing.yml"
+#     prefix:   /
+
+fos_user_security:
+    resource: "@PizoteArkAdminBundle/Resources/config/routing/security.xml"
+    prefix: /{_locale}/auth
+    requirements:
+        _locale: en|es
+    methods:  [GET, POST]
+
+#fos_user_register:
+    #resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+#    resource: "@BackendMyFOSUserBundle/Resources/config/routing/registration.xml"
+#    prefix: /{_locale}/register
+#    requirements:
+#        _locale: en|es
+#    methods:  [GET, POST]
+#
+
+user_register:
+    resource: "@BackendAdminBundle/Resources/config/routing/registration.yml"
+    prefix: /{_locale}/register
+    requirements:
+        _locale: en|es
+    methods:  [GET, POST]
+
+
+fos_user_resetting:
+    resource: "@BackendMyFOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /{_locale}/resetting
+    requirements:
+        _locale: en|es
+    methods:  [GET, POST]
+
+#fos_user_change_password:
+#    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+#    prefix: /profile
+
+#REST
+rest:
+    type: rest
+    resource: "@BackendAdminBundle/Resources/config/routing_rest.yml"
+    prefix: /api
+
+lexik_translation_edition:
+    resource: "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:   /translations
+
+api_login_check:
+    path: /api/login_check
+    methods:  [POST]
+
+
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+
+#app.swagger:
+#    path: /api/doc.json
+#    methods: GET
+#    defaults: { _controller: nelmio_api_doc.controller.swagger }

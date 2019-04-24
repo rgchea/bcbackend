@@ -1,0 +1,156 @@
+{% extends "PizoteArkAdminBundle::security.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+    {{ 'label_register'|trans }}
+{% endblock %}
+
+
+{% block fos_user_content %}
+
+
+
+    <form action="{{path('fos_user_registration_register')}}"  method="POST" class="smart-form client-form" role="form" id="registerForm" name="registerForm">
+
+        <input type="hidden" name="submit" />
+
+        <fieldset>
+            {{ form_errors(form) }}
+            {#
+                {% if error %}
+                    <div class="alert alert-danger fade in">
+                        <button data-dismiss="alert" class="close">
+                            ×
+                        </button>
+                        <i class="fa-fw fa fa-times"></i>
+                        {{ error|trans({}, 'FOSUserBundle') }}
+                    </div>
+                    <br>
+                {% endif %}
+
+            #}
+            <section class="section_login">
+                <img style="width: 100%;" src="{{ asset('bundles/pizotearkadmin/img/logo/logo.png')}}" alt="BetterCondos">
+            </section>
+
+            <section>
+                <label for="name">{{ 'label_name'|trans }}</label>
+                <input type="text" id="fos_user_registration_form_name" name="form[name]" required="required" maxlength="32" class="form-control">
+            </section>
+            <section>
+                <label for="lastName">{{ 'label_last_name'|trans }}</label>
+                <input type="text" id="fos_user_registration_form_lastName" name="form[lastName]" required="required" maxlength="32" class="form-control">
+            </section>
+            <section>
+                <label for="phone">{{ 'label_phone'|trans }}</label>
+                <input type="text" id="fos_user_registration_form_phone" name="form[phone]" required="required" maxlength="32" class="form-control">
+            </section>
+
+
+            <section>
+                <label for="birthdate">{{ 'label_birthdate'|trans }}</label>
+                <input id="fos_user_registration_form_birthdate" name="form[birthdate]" type="date" class="form-control"/>
+            </section>
+
+
+            <section id="section_username">
+                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                {% if form.username.vars.errors[0].message is defined %}
+                    <span class="help-block">{{ form.username.vars.errors[0].message }}</span>
+                {% endif %}
+
+            </section>
+
+
+
+            <section>
+                <label for="email">{{ 'label_email'|trans }}</label><br />
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                {% if form.email.vars.errors[0].message is defined %}
+                    <span class="help-block">{{ form.email.vars.errors[0].message }}</span>
+                {% endif %}
+
+
+            </section>
+
+            <section>
+                <label for="password">{{ 'label_login_password'|trans }}</label><br />
+                {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+                {% if form.plainPassword.first.vars.errors[0].message is defined %}
+                    <span class="help-block">{{ form.plainPassword.first.vars.errors[0].message }}</span>
+                {% endif %}
+            </section>
+
+            <section>
+                <label for="password">{{ 'label_login_password'|trans }}</label><br />
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+                {% if form.plainPassword.second.vars.errors[0].message is defined %}
+                    <span class="help-block">{{ form.plainPassword.second.vars.errors[0].message }}</span>
+                {% endif %}
+            </section>
+
+
+        </fieldset>
+
+        <footer>
+            <br>
+            <button class="btn btn-ps">{{ 'label_register'|trans }}</button>
+            <br>
+        </footer>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+    <script language="JavaScript" type="text/javascript" >
+
+        $( document ).ready(function() {
+
+
+            $("#section_username").hide();
+            $("[name='registerForm']").validate({
+                success: function(error){
+                    setUsername();
+                    return true;
+                },
+
+            });
+            $("#fos_user_registration_form_plainPassword_first").rules("add", {required:true});
+            $("#fos_user_registration_form_plainPassword_second").rules("add", {required:true, equalTo:"#fos_user_registration_form_plainPassword_first"});
+
+            //$("#fos_user_registration_form_school").rules("add", {required:true});
+            //$("#fos_user_registration_form_grade").rules("add", {required:true});
+            //$("#fos_user_registration_form_section").rules("add", {required:true});
+            $("#fos_user_registration_form_birthdate").rules("add", {required:true});
+
+
+            {#
+                $(".classPicker").datepicker({
+                       changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    //dateFormat: 'yyyy-mm-dd',
+                    onClose: function(dateText, inst) {
+                        $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
+                    }
+                });
+
+            #}
+
+
+
+        });
+
+
+        function setUsername(){
+            email = $("#fos_user_registration_form_email").val();
+            $("#fos_user_registration_form_username").val(email);
+        }
+
+
+
+
+    </script>
+
+
+{% endblock fos_user_content %}
+

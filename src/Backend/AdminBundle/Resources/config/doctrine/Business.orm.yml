@@ -1,0 +1,166 @@
+Backend\AdminBundle\Entity\Business:
+    type: entity
+    table: business
+    repositoryClass: Backend\AdminBundle\Repository\BusinessRepository
+    indexes:
+        created_by:
+            columns:
+                - created_by
+        geo_state_id:
+            columns:
+                - geo_state_id
+        billing_geo_state_id:
+            columns:
+                - billing_geo_state_id
+        updated_by:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+
+        customerId:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: customer_id
+        taxIdentifier:
+            type: string
+            nullable: true
+            length: 16
+            options:
+                fixed: false
+            column: tax_identifier
+
+        taxName:
+            type: string
+            nullable: true
+            length: 32
+            options:
+                fixed: false
+            column: tax_name
+        name:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+        address:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+                default: ''
+
+        billingAddress:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+                default: ''
+            column: billing_address
+        billingZipCode:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+            column: billing_zip_code
+
+        zipCode:
+            type: string
+            nullable: true
+            length: 8
+            options:
+                fixed: false
+            column: zip_code
+        phoneNumber:
+            type: string
+            nullable: true
+            length: 16
+            options:
+                fixed: false
+            column: phone_number
+        email:
+            type: string
+            nullable: true
+            length: 32
+            options:
+                fixed: false
+        responsiblePerson:
+            type: string
+            nullable: true
+            length: 32
+            options:
+                fixed: false
+            column: responsible_person
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        geoState:
+            targetEntity: GeoState
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                geo_state_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        billingGeoState:
+            targetEntity: GeoState
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                billing_geo_state_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

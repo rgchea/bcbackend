@@ -1,0 +1,33 @@
+backend_admin_property_transaction_type_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:PropertyTransactionType:index
+
+property_transaction_type_list_datatables:
+    path: /propertyTransactionType/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:PropertyTransactionType:listDatatables
+
+backend_admin_property_transaction_type_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:PropertyTransactionType:new" }
+    #methods:  [GET, POST]
+
+backend_admin_property_transaction_type_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:PropertyTransactionType:edit" }
+
+backend_admin_property_transaction_type_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:PropertyTransactionType:create" }
+    methods:  POST
+
+backend_admin_property_transaction_type_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:PropertyTransactionType:update" }
+    methods:  POST
+
+backend_admin_property_transaction_type_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:PropertyTransactionType:delete" }
+    #methods:  DELETE

@@ -1,0 +1,33 @@
+backend_admin_shift_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:Shift:index
+
+shift_list_datatables:
+    path: /shift/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Shift:listDatatables
+
+backend_admin_shift_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:Shift:new" }
+    #methods:  [GET, POST]
+
+backend_admin_shift_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:Shift:edit" }
+
+backend_admin_shift_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:Shift:create" }
+    methods:  POST
+
+backend_admin_shift_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:Shift:update" }
+    methods:  POST
+
+backend_admin_shift_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:Shift:delete" }
+    #methods:  DELETE

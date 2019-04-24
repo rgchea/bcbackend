@@ -1,0 +1,45 @@
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <ul class="nav nav-stacked">
+    	{#
+	        {% for module in entitiesModule %}
+	        	
+	        	{% if(module.menuType == 'menu') %}
+	                <tr>
+	                	<td><b>{{ module.name }}</b></td>
+		                <td colspan="{{entitiesRole|length}}">&nbsp;</td>
+		                {% for role in entitiesRole %}
+							<input style="display: none" name="{{role.id}}_{{module.id}}" type="checkbox" checked="checked"/>				                								
+		                {% endfor %}
+		                
+	                </tr>
+	        	
+	        	{%else%}
+	                <tr>
+	                	{% if(module.parentModule == null and (module.menuType == 'menu' or module.menuType == 'link') ) %}
+	                		<td><b>{{ module.name }}</b></td>
+	                		
+	                	{% else %}
+	                		<td><b style="margin-left:3em" >{{ module.name }}</b></td>
+	                	{% endif %}
+	                	
+		                {% for role in entitiesRole %}
+		                	{% set checked = false %}
+		                	{% for access in entitiesAccess %}
+				                {% if access.role.id == role.id and access.module.id == module.id%}
+									{% set checked = true %}									
+				                {% endif %}
+							{% endfor %}
+							<td><input name="{{role.id}}_{{module.id}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} /> </td>				                								
+		                {% endfor %}
+	                </tr>
+	        	
+	        	{% endif %}
+	        {% endfor %}       		
+    	#}
+    	
+ 	
+    	
+    </ul>
+</aside>
+<!-- END: SIDEBAR -->

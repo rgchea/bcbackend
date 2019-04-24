@@ -1,0 +1,4 @@
+client_register:
+    path:     /client
+    defaults: { _controller: "FOSUserBundle:Registration:register" }
+    

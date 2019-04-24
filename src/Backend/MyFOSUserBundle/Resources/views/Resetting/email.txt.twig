@@ -1,0 +1,13 @@
+{% block subject %}
+{% autoescape false %}
+{{ 'resetting.title'|trans }}
+{% endautoescape %}
+{% endblock %}
+{% block body_text %}
+{% autoescape false %}
+{{ user.username }}
+{{ 'resetting.message'|trans}}
+{{ confirmationUrl }}
+{% endautoescape %}
+{% endblock %}
+{% block body_html %}{% endblock %}

@@ -1,0 +1,152 @@
+Backend\AdminBundle\Entity\Property:
+    type: entity
+    table: property
+    repositoryClass: Backend\AdminBundle\Repository\PropertyRepository
+    indexes:
+        created_by:
+            columns:
+                - created_by
+        property_type_id:
+            columns:
+                - property_type_id
+        complex_sector_id:
+            columns:
+                - complex_sector_id
+        updated_by:
+            columns:
+                - updated_by
+        mainTenant:
+            columns:
+                - main_tenant_id
+        owner:
+            columns:
+                - owner_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        teamCorrelative:
+            type: integer
+            nullable: true
+            options:
+                unsigned: true
+                comment: 'correlativo de gamification'
+            column: team_correlative
+        name:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+        address:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+        code:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+        qrCodePath:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+            column: qr_code_path
+        isAvailable:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: is_available
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        complexSector:
+            targetEntity: ComplexSector
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_sector_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        propertyType:
+            targetEntity: PropertyType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        owner:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                owner_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        mainTenant:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                main_tenant_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+    lifecycleCallbacks: {  }

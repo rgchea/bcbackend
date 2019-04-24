@@ -1,0 +1,170 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedSaleProduct
+ */
+class AlliedSaleProduct
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $quantity = '1';
+
+    /**
+     * @var integer
+     */
+    private $unitPrice = '1';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $product;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedSale
+     */
+    private $alliedSale;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return AlliedSaleProduct
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set unitPrice
+     *
+     * @param integer $unitPrice
+     *
+     * @return AlliedSaleProduct
+     */
+    public function setUnitPrice($unitPrice)
+    {
+        $this->unitPrice = $unitPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get unitPrice
+     *
+     * @return integer
+     */
+    public function getUnitPrice()
+    {
+        return $this->unitPrice;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Backend\AdminBundle\Entity\Product $product
+     *
+     * @return AlliedSaleProduct
+     */
+    public function setProduct(\Backend\AdminBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set alliedSale
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedSale $alliedSale
+     *
+     * @return AlliedSaleProduct
+     */
+    public function setAlliedSale(\Backend\AdminBundle\Entity\AlliedSale $alliedSale = null)
+    {
+        $this->alliedSale = $alliedSale;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedSale
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedSale
+     */
+    public function getAlliedSale()
+    {
+        return $this->alliedSale;
+    }
+    /**
+     * @var float
+     */
+    private $unitCostPrice = '0.00';
+
+
+    /**
+     * Set unitCostPrice
+     *
+     * @param float $unitCostPrice
+     *
+     * @return AlliedSaleProduct
+     */
+    public function setUnitCostPrice($unitCostPrice)
+    {
+        $this->unitCostPrice = $unitCostPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get unitCostPrice
+     *
+     * @return float
+     */
+    public function getUnitCostPrice()
+    {
+        return $this->unitCostPrice;
+    }
+}

@@ -1,0 +1,34 @@
+backend_admin_complex_type_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:ComplexType:index
+
+complex_type_list_datatables:
+    path: /complexType/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:ComplexType:listDatatables
+
+backend_admin_complex_type_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:ComplexType:new" }
+    #methods:  [GET, POST]
+
+backend_admin_complex_type_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:ComplexType:edit" }
+
+backend_admin_complex_type_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:ComplexType:create" }
+    methods:  POST
+
+backend_admin_complex_type_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:ComplexType:update" }
+    methods:  POST
+
+backend_admin_complex_type_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:ComplexType:delete" }
+
+    #methods:  DELETE

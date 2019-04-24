@@ -1,0 +1,172 @@
+{% extends "PizoteArkAdminBundle::security.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+    {{ 'label_register'|trans }}
+{% endblock %}
+
+{% block fos_user_content %}
+
+    <style>
+
+        .noPad{
+            padding-left:0px!important;
+            padding-right:0px!important;
+        }
+    </style>
+
+    <link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
+    <script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
+
+<form action="{{path('backend_admin_register_create')}}"  method="POST" class="smart-form client-form" role="form" id="registerForm" name="registerForm">
+
+    <input type="hidden" name="submit" />
+
+    <fieldset>
+
+        <section class="section_login">
+            <img style="width: 100%;" src="{{ asset('bundles/pizotearkadmin/img/logo/logo.png')}}" alt="BetterCondos">
+        </section>
+
+        <section>
+            <label for="name">{{ 'label_name'|trans }}</label>
+            <input type="text" id="fos_user_registration_form_name" name="register[name]" required="required" maxlength="32" class="form-control">
+        </section>
+        <section>
+            <label for="email">{{ 'label_email'|trans }}</label><br />
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        </section>
+        <section>
+            <label for="phone">{{ 'label_phone'|trans }}</label>
+            <div class="clearfix"></div>
+            <div class="col-lg-12 noPad"  >
+
+                <div class="col-lg-4 noPad">
+                    <div class="flagstrap" data-input-name="register_country" data-selected-country="US"></div>
+                </div>
+
+                <div class="col-lg-8 noPad">
+
+                    <input type="text" id="fos_user_registration_form_phone" name="register[phone]" required="required" maxlength="32" class="form-control">
+
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </section>
+
+
+        <section>
+            <label for="birthdate">{{ 'label_birthdate'|trans }}</label>
+            <input id="fos_user_registration_form_birthdate" name="register[birthdate]" type="date" class="form-control"/>
+        </section>
+
+
+        <section id="section_username">
+            {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+
+        </section>
+
+        <section>
+            <label for="password">{{ 'label_login_password'|trans }}</label><br />
+            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+        </section>
+
+        <section>
+            <label for="password">{{ 'label_login_password_retype'|trans }}</label><br />
+            <input  type="password" id="register_password_retype" name="register[password_retype]" class="form-control">
+        </section>
+
+        <section>
+            <div class="col-lg-12" style="padding-left: 20px!important;">
+
+                    <input type="checkbox" name="register[conditions]" class="" id="checkTerms">
+                    <a target="_blank" href="http://www.pizotesoft.com">{{ 'label_accept_terms'|trans }}</a>
+
+            </div>
+            <div class="clearfix"></div>
+        </section>
+
+
+
+    </fieldset>
+
+    <footer>
+        <br>
+        <button class="btn btn-ps">{{ 'label_register'|trans }}</button>
+        <br>
+    </footer>
+
+</form>
+
+    <script language="JavaScript" type="text/javascript" >
+
+
+
+        $( document ).ready(function() {
+
+            $('.flagstrap').flagStrap({
+
+                placeholder: {
+                    value: "",
+                    text: ""
+                },
+                countries: {
+                    {% for country in countries %}
+                        "{{ country.shortName }}": "{{ country.shortName }} +{{ country.code }}",
+                    {% endfor %}
+                },
+
+            });
+            $("#section_username").hide();
+            $("[name='registerForm']").validate({
+                success: function(error){
+                    setUsername();
+                    return true;
+                },
+
+            });
+
+
+
+            $("#register_password").rules("add", {required:true, minlength: 8});
+            $("#register_password_retype").rules("add", {required:true, equalTo:"#register_password"});
+
+            $("#checkTerms").rules("add", {required:true});
+
+            //$("#fos_user_registration_form_school").rules("add", {required:true});
+            //$("#fos_user_registration_form_grade").rules("add", {required:true});
+            //$("#fos_user_registration_form_section").rules("add", {required:true});
+            $("#fos_user_registration_form_birthdate").rules("add", {required:true});
+            $("#fos_user_registration_form_phone").rules("add", {minlength: 8, digits:true});
+
+
+            {#
+                $(".classPicker").datepicker({
+                       changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    //dateFormat: 'yyyy-mm-dd',
+                    onClose: function(dateText, inst) {
+                        $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
+                    }
+                });
+
+            #}
+
+        });
+
+
+        function setUsername(){
+            email = $("#fos_user_registration_form_email").val();
+            $("#fos_user_registration_form_username").val(email);
+        }
+
+
+
+
+    </script>
+
+
+    {% endblock fos_user_content %}
+

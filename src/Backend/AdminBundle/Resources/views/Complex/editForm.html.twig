@@ -1,0 +1,227 @@
+<link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
+<script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
+
+<style>
+    .input-group {
+        z-index: 0;
+    }
+</style>
+
+<div class="row">
+    <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+        <div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+            <header role="heading">
+                <h2>{{ 'label_form'|trans }}</h2>
+
+            </header>
+
+            <!-- widget div-->
+            <div role="content">
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    {#<form id="backend_adminbundle_complex" action="{{path('backend_admin_complex_create')}}" method="POST" name="backend_adminbundle_complex">#}
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    <fieldset>
+
+
+                        <div class="form-group col-md-4">
+                            {{ form_label(form.name) }}
+                            {{ form_errors(form.name) }}
+                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            {{ form_label(form.complexType) }}
+                            {{ form_errors(form.complexType) }}
+                            {{ form_widget(form.complexType, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+
+
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-4"  >
+                            <label for="name">{{ 'label_country'|trans }}</label>
+
+                            <div id="" class="flagstrap" data-input-name="complex_country" data-selected-country="{{ entity.geoState.geoCountry.shortName }}"></div>
+
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            {{ form_label(form.geoState) }}
+                            {{ form_errors(form.geoState) }}
+                            <div id="divGeoState">
+                                {{ form_widget(form.geoState, { 'attr': {'class' : 'form-control' } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form_label(form.zipCode) }}
+                            {{ form_errors(form.zipCode) }}
+                            {{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="form-group col-md-8">
+                            {{ form_label(form.address) }}
+                            {{ form_errors(form.address) }}
+                            {{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="form-group col-md-4">
+                            {{ form_label(form.phoneNumber) }}
+                            {{ form_errors(form.phoneNumber) }}
+                            {{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{ form_label(form.email) }}
+                            {{ form_errors(form.email) }}
+                            {{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+
+                        <div class="clearfix"></div>
+
+
+                        <div class="hide">
+                            {{ form_rest(form) }}
+                        </div>
+
+                    </fieldset>
+
+                    <div class="form-actions">
+                        <a href="{{ path('backend_admin_complex_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
+
+                        <button class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            {{ 'label_save'|trans  }}
+                        </button>
+                    </div>
+
+                    <!--</form>-->
+                    {{ form_end(form) }}
+
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+
+        </div>
+
+        <div class="clearfix"></div>
+
+    </article>
+</div>
+
+<script type="text/javascript" language="Javascript">
+
+    $( document ).ready(function() {
+
+
+        //alert($("#complexSectorType").val());
+
+        $('.flagstrap').flagStrap({
+
+            placeholder: {
+                value: "",
+                text: ""
+            },
+            countries: {
+                {% for country in countries %}
+                "{{ country.shortName }}": "{{ country.name }} +{{ country.code }}",
+                {% endfor %}
+            },
+
+        });
+
+
+        $("[name='complex']").validate({
+            success: function(error){
+                return true;
+            },
+
+        });
+        $("#complex_zipCode").rules("add", {required:true, minlength: 5, digits:true});
+        $("#complex_phoneNumber").rules("add", {required:true, minlength: 8, digits:true});
+        $("#complex_email").rules("add", {required:true, email:true});
+
+
+        $('[name="complex"]').on("submit", function(){
+            //Code: Action (like ajax...)
+            if($("[name='complex']").valid()){
+                $('#pizote_spinner').show();
+                return true;
+
+            }
+            else{
+                return false;
+            }
+
+        });
+
+
+
+        $('[name="complex_country"]').change(function(){
+            changeState(0);
+        });
+
+
+        changeState(0);
+
+
+
+
+    });
+
+
+    function changeState(billing){
+
+        myCountry = $('[name="complex_country"]').val();
+
+        $("[name='complex']").validate();
+        //propertiesPerSection
+        $("[name='complex']").validate({
+            success: function(error){
+                $("#pizote_spinner").show();
+                return true;
+            },
+
+        });
+
+        $.ajax({
+            type:"POST",
+            dataType:"html",
+            async:false,
+            url:"{{ path('backend_admin_business_update_state') }}",
+            //data:"countryShort="+myCountry,
+            data: {countryShort: myCountry, billing: billing, selectedState: "{{ entity.geoState.id }}"},
+            success:function(data){
+
+                $("#divGeoState").html(data);
+
+            }
+        });
+
+    }
+
+
+
+</script>

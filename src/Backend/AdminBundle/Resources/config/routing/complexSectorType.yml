@@ -1,0 +1,34 @@
+backend_admin_complex_sector_type_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:ComplexSectorType:index
+
+complex_sector_type_list_datatables:
+    path: /complexSectorType/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:ComplexSectorType:listDatatables
+
+backend_admin_complex_sector_type_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:ComplexSectorType:new" }
+    #methods:  [GET, POST]
+
+backend_admin_complex_sector_type_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:ComplexSectorType:edit" }
+
+backend_admin_complex_sector_type_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:ComplexSectorType:create" }
+    methods:  POST
+
+backend_admin_complex_sector_type_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:ComplexSectorType:update" }
+    methods:  POST
+
+backend_admin_complex_sector_type_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:ComplexSectorType:delete" }
+
+    #methods:  DELETE

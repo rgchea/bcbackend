@@ -1,0 +1,1130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f24eff6c-8405-41c4-b317-20c8758f1a67" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/.project" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/app/AppKernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesTestCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesTestCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouse.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouse.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaint.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaint.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaintCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaintCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseEquipment.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseEquipment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseGoal.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseGoal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseMinProductExistence.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseMinProductExistence.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProduct.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProductLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProductLog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaint.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaint.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaintStatement.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaintStatement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderConfirmation.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderConfirmation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderLog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProduct.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProductConfirmation.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProductConfirmation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderReceipt.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderReceipt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedProductListPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedProductListPrice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSale.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSale.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSaleProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSaleProduct.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/DailyAdvice.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/DailyAdvice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Equipment.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Equipment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPrice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPriceProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPriceProduct.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Message.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Module.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Module.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ModuleAccess.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ModuleAccess.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/News.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/NewsRegion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/NewsRegion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductMeasurement.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductMeasurement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotification.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotificationRegion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotificationRegion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Region.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Region.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Tutorial.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Tutorial.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/UserRegion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/UserRegion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/VersionControl.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/VersionControl.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedHouseProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedHouseProductRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedOrderReceiptRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedOrderReceiptRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/MessageRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/MessageRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/AlliedOrderReceipt.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/AlliedOrderReceipt.orm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPrice.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPrice.orm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPriceProduct.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPriceProduct.orm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/AppKernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/services.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/services.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Lib/CloudOnex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Lib/CloudOnex.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Lib/MailManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Lib/MailManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/business.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/business.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/email.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/email.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Form/GuideType.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Form/GuideType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/animate.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/animate.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/owl.carousel.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/owl.carousel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/owl.theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/owl.theme.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/progressbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/progressbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/remodal-theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/remodal-theme.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/remodal.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/remodal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/responsive.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/README.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/animation.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/animation.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-codes.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-codes.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-embedded.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-embedded.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-ie7-codes.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-ie7-codes.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-ie7.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello-ie7.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/css/fontello.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/demo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.eot" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.woff" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/font/fontello/font/fontello.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/header-bg-backup.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/header-bg-backup.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/header-bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/header-bg.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-1backup.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-1backup.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-2backup.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-2backup.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-3backup.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-3backup.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-4backup.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-4backup.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-5.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-5backup.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-5backup.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/product-6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/promo-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/promo-1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/promo-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/promo-2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/promo-2backup.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/promo-2backup.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/reviewer-1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/reviewer-1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/reviewer-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/reviewer-2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/reviewer-3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/reviewer-3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/rob1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/rob1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/rob2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/rob2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-3.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-3.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/image/u-3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/contact_me.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/contact_me.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/jqBootstrapValidation.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/jqBootstrapValidation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/jquery.easing.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/jquery.easing.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/jquery.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/jquery.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/owl.carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/owl.carousel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/progressbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/progressbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/remodal.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/remodal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/scrolling-nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/scrolling-nav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/wow.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/js/wow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/.project" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/.project" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/.htaccess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/AppCache.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/AppCache.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/AppKernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/accessdeniedexception.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/accessdeniedexception.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/backup_exception_full.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/backup_exception_full.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/error403.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/error403.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/error404.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/TwigBundle/views/Exception/error404.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/default/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/default/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/professorcourse/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/school/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoolbook/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/schoollevel/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/Resources/views/studentbookexchange/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/SymfonyRequirements.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/SymfonyRequirements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/autoload.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/autoload.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/cache/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/cache/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/check.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/check.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/config_dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/config_dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/config_prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/config_prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/config_test.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/config_test.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/parameters.yml.dist" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/parameters.yml.dist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/routing.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/routing_dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/routing_dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/security.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/security.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/config/services.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/config/services.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/console" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/console" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/logs/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/logs/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/app/phpunit.xml.dist" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/app/phpunit.xml.dist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/error_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Book.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Book.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/BookContent.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/BookContent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Code.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Code.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Content.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Content.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Course.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/FosUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/FosUser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Grade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Grade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Level.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Level.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Module.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Module.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/ModuleAccess.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/ModuleAccess.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/School.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/School.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/SchoolBook.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/SchoolBook.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/SchoolLevel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/SchoolLevel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Section.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Section.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/StudentBookExchange.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/StudentBookExchange.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Subject.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/Subject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/src/Backend/AdminBundle/Resources/views/SchoolBook/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/tests/BackendAdminBundle/Controller/DefaultControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/tests/BackendAdminBundle/Controller/DefaultControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/tests/UmbraAdminBundle/Controller/DefaultControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/tests/UmbraAdminBundle/Controller/DefaultControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/.htaccess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/.well-known/pki-validation/8052A0D85E32A4ED5DA988C04CFAF9B7.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/.well-known/pki-validation/8052A0D85E32A4ED5DA988C04CFAF9B7.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/8052A0D85E32A4ED5DA988C04CFAF9B7.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/8052A0D85E32A4ED5DA988C04CFAF9B7.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/app_dev.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/app_dev.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/apple-touch-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/apple-touch-icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/error_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/phpinfo.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/phpinfo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/preview-2018-04-30.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/preview-2018-04-30.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/promoters.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/promoters.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/promotersDistinct.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/promotersDistinct.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/robots.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/AppKernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/Resources/translations/FOSUserBundle.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/Resources/translations/FOSUserBundle.en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/SymfonyRequirements.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/SymfonyRequirements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/config/routing.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/donotreadme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/donotreadme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/error_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/web/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/web/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/web/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/web/error_log" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="sf_better_condos" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/GuideController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="32">
+              <caret line="337" column="31" selection-start-line="337" selection-start-column="31" selection-end-line="337" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/form.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="623">
+              <caret line="118" column="109" selection-start-line="118" selection-start-column="109" selection-end-line="118" selection-end-column="109" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Form/GuideType.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="44" column="99" selection-start-line="44" selection-start-column="99" selection-end-line="44" selection-end-column="99" />
+              <folding>
+                <element signature="e#44#84#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>cors</find>
+      <find>label_register_complete</find>
+      <find>label_register_bc_info</find>
+      <find>label_register_complete_msg</find>
+      <find>heigh</find>
+      <find>heigth</find>
+      <find>ajax</find>
+      <find>checkem</find>
+      <find>json</find>
+      <find>em-&gt;</find>
+      <find>checkEmail</find>
+      <find>form</find>
+      <find>business</find>
+      <find>email</find>
+      <find>busines</find>
+      <find>checkEmailAlert</find>
+      <find>label_business_check_phone</find>
+      <find>submit</find>
+      <find>&lt;br&gt;</find>
+      <find>setCustomerID</find>
+      <find>createaction</find>
+      <find>datatab</find>
+      <find>getComplexForInvoice</find>
+      <find>ContainerAwareCommand</find>
+      <find>callBCInfo</find>
+      <find>duedate</find>
+      <find>twilio</find>
+      <find>var_dump</find>
+      <find>die</find>
+      <find>sms</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>label_menu.roles</replace>
+      <replace>label_menu.ticket_types</replace>
+      <replace>label_menu.term_condition</replace>
+      <replace>label_menu.ticket_category</replace>
+      <replace>ticket_type</replace>
+      <replace>'complexSectorType'</replace>
+      <replace>ComplexSectorType</replace>
+      <replace>complex_sector_type</replace>
+      <replace>path=</replace>
+      <replace>register[</replace>
+      <replace>role=&quot;</replace>
+      <replace>Business</replace>
+      <replace>phoneNumber</replace>
+      <replace>(0)</replace>
+      <replace>'complex'</replace>
+      <replace>complex</replace>
+      <replace>Complex</replace>
+      <replace>complex_</replace>
+      <replace>propertiesPerSection</replace>
+      <replace>repeat</replace>
+      <replace>_property</replace>
+      <replace>business</replace>
+      <replace>ComplexSector</replace>
+      <replace>$businessLocale</replace>
+      <replace>complex_sector</replace>
+      <replace>Property</replace>
+      <replace>property</replace>
+      <replace>property_</replace>
+      <replace>#2C2E3D</replace>
+      <replace>&lt;br/&gt;</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../mayaexpress/work_process_new" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyType.php" />
+        <option value="$PROJECT_DIR$/app/config/parameters.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing_rest.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ApiController.php" />
+        <option value="$PROJECT_DIR$/app/config/routing.yml" />
+        <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/doctrine/SystemLog.orm.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/editForm.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" />
+        <option value="$PROJECT_DIR$/app/config/security.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/AgreementPlan/form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/AgreementPlan/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Business.orm.yml" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/checkout.html.twig" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Manifiesto/form.html.twig" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/preCheck.html.twig" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ProcessController.php" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/parameters.yml" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/services.yml" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/composer.json" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/app/AppKernel.php" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/config.yml" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Command/SendSmsCommand.php" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/layout.html.twig" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/doctrine/Guide.orm.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Lib/CloudOnex.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/AdminSetting.orm.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AdminSetting.php" />
+        <option value="$PROJECT_DIR$/app/config/services.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Lib/MailManager.php" />
+        <option value="$PROJECT_DIR$/app/config/config.yml" />
+        <option value="$PROJECT_DIR$/app/AppKernel.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/business.yml" />
+        <option value="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" />
+        <option value="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/email.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexRepository.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/GuideController.php" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/form.html.twig" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Form/GuideType.php" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php70" />
+      <path value="$PROJECT_DIR$/vendor/symfony/symfony" />
+      <path value="$PROJECT_DIR$/vendor/symfony/monolog-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-util" />
+      <path value="$PROJECT_DIR$/vendor/fig/link-util" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php56" />
+      <path value="$PROJECT_DIR$/vendor/symfony/swiftmailer-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/sensiolabs/security-checker" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-icu" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-apcu" />
+      <path value="$PROJECT_DIR$/vendor/symfony/phpunit-bridge" />
+      <path value="$PROJECT_DIR$/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/link" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/sensio/generator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/incenteev/composer-parameter-handler" />
+      <path value="$PROJECT_DIR$/vendor/sensio/distribution-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-cache-bundle" />
+      <path value="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/vendor/jms/serializer" />
+      <path value="$PROJECT_DIR$/vendor/jms/metadata" />
+      <path value="$PROJECT_DIR$/vendor/stof/doctrine-extensions-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jms/parser-lib" />
+      <path value="$PROJECT_DIR$/vendor/behat/transliterator" />
+      <path value="$PROJECT_DIR$/vendor/vich/uploader-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jbzoo/image" />
+      <path value="$PROJECT_DIR$/vendor/gedmo/doctrine-extensions" />
+      <path value="$PROJECT_DIR$/vendor/jbzoo/utils" />
+      <path value="$PROJECT_DIR$/vendor/jbzoo/data" />
+      <path value="$PROJECT_DIR$/vendor/salva/jshrink-bundle" />
+      <path value="$PROJECT_DIR$/vendor/lexik/translation-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jean85/pretty-package-versions" />
+      <path value="$PROJECT_DIR$/vendor/vresh/twilio-bundle" />
+      <path value="$PROJECT_DIR$/vendor/nelmio/api-doc-bundle" />
+      <path value="$PROJECT_DIR$/vendor/nelmio/cors-bundle" />
+      <path value="$PROJECT_DIR$/vendor/sentry/sentry-symfony" />
+      <path value="$PROJECT_DIR$/vendor/pimple/pimple" />
+      <path value="$PROJECT_DIR$/vendor/tedivm/jshrink" />
+      <path value="$PROJECT_DIR$/vendor/sentry/sentry" />
+      <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
+      <path value="$PROJECT_DIR$/vendor/michelf/php-markdown" />
+      <path value="$PROJECT_DIR$/vendor/deployer/phar-update" />
+      <path value="$PROJECT_DIR$/vendor/deployer/deployer" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/package-versions" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/sendgrid/sendgrid" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/proxy-manager" />
+      <path value="$PROJECT_DIR$/vendor/fergusean/nusoap" />
+      <path value="$PROJECT_DIR$/vendor/sendgrid/php-http-client" />
+      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/vendor/noiselabs/nusoap-bundle" />
+      <path value="$PROJECT_DIR$/vendor/datatables/datatables" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/pagerfanta/pagerfanta" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/vendor/willdurand/js-translation-bundle" />
+      <path value="$PROJECT_DIR$/vendor/willdurand/jsonp-callback-validator" />
+      <path value="$PROJECT_DIR$/vendor/kriswallsmith/assetic" />
+      <path value="$PROJECT_DIR$/vendor/willdurand/negotiation" />
+      <path value="$PROJECT_DIR$/vendor/white-october/pagerfanta-bundle" />
+      <path value="$PROJECT_DIR$/vendor/phpcollection/phpcollection" />
+      <path value="$PROJECT_DIR$/vendor/zendframework/zend-eventmanager" />
+      <path value="$PROJECT_DIR$/vendor/zendframework/zend-code" />
+      <path value="$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle" />
+      <path value="$PROJECT_DIR$/vendor/friendsofsymfony/jsrouting-bundle" />
+      <path value="$PROJECT_DIR$/vendor/friendsofsymfony/rest-bundle" />
+      <path value="$PROJECT_DIR$/vendor/friendsofsymfony/oauth-server-bundle" />
+      <path value="$PROJECT_DIR$/vendor/friendsofsymfony/oauth2-php" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/symfony/assetic-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/twig/extensions" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-migrations-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/vendor/jms/serializer-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/orm-pack" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/lexik/form-filter-bundle" />
+      <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/vendor/namshi/jose" />
+      <path value="$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/vendor/zircote/swagger-php" />
+      <path value="$PROJECT_DIR$/vendor/exsyst/swagger" />
+      <path value="$PROJECT_DIR$/vendor/symfony/webpack-encore-pack" />
+    </include_path>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-1879" />
+    <option name="y" value="62" />
+    <option name="width" value="1879" />
+    <option name="height" value="1012" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Form" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="work_process_new" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="Guide" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="editor.config.ad.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Command" />
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Command" />
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Controller" />
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Lib" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Lib" />
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views" />
+      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/js" />
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/public" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f24eff6c-8405-41c4-b317-20c8758f1a67" name="Default Changelist" comment="" />
+      <created>1552404811042</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1552404811042</updated>
+      <workItem from="1552404812793" duration="11718000" />
+      <workItem from="1552490320228" duration="27675000" />
+      <workItem from="1552626027325" duration="3207000" />
+      <workItem from="1552943195678" duration="856000" />
+      <workItem from="1552944154784" duration="1671000" />
+      <workItem from="1553007874068" duration="1551000" />
+      <workItem from="1553014240525" duration="3274000" />
+      <workItem from="1553031948749" duration="10085000" />
+      <workItem from="1553093701710" duration="3806000" />
+      <workItem from="1553123942979" duration="119000" />
+      <workItem from="1553124066195" duration="35859000" />
+      <workItem from="1553312305509" duration="146000" />
+      <workItem from="1553469670149" duration="32000" />
+      <workItem from="1553547413276" duration="7678000" />
+      <workItem from="1553557023195" duration="22715000" />
+      <workItem from="1553714701942" duration="10178000" />
+      <workItem from="1553783406027" duration="11171000" />
+      <workItem from="1553882239703" duration="760000" />
+      <workItem from="1553885190014" duration="422000" />
+      <workItem from="1553885616634" duration="18000" />
+      <workItem from="1553885714315" duration="113000" />
+      <workItem from="1553885992391" duration="71000" />
+      <workItem from="1554049186052" duration="10411000" />
+      <workItem from="1554084595816" duration="9154000" />
+      <workItem from="1554134038689" duration="8763000" />
+      <workItem from="1554217476727" duration="3177000" />
+      <workItem from="1554304065726" duration="3669000" />
+      <workItem from="1554331967854" duration="10605000" />
+      <workItem from="1554390958892" duration="5590000" />
+      <workItem from="1554415109459" duration="17156000" />
+      <workItem from="1554477615535" duration="106560000" />
+      <workItem from="1554991530065" duration="51790000" />
+      <workItem from="1555420791158" duration="13255000" />
+      <workItem from="1555466859052" duration="5640000" />
+      <workItem from="1555621064568" duration="31747000" />
+      <workItem from="1556034787255" duration="7669000" />
+      <workItem from="1556116127597" duration="1004000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="439315000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-1879" y="62" width="1879" height="1012" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4949833" visible="true" weight="0.17800762" />
+      <window_info id="Structure" order="1" sideWeight="0.50501674" side_tool="true" weight="0.17474143" />
+      <window_info id="Favorites" order="2" sideWeight="0.5022272" side_tool="true" weight="0.22364217" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32899022" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32887402" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Command Line Tools Console" order="12" weight="0.32998884" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.3298857" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ManifiestoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="76" column="35" selection-start-line="76" selection-start-column="35" selection-end-line="76" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ProcessController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="263" column="10" selection-start-line="263" selection-start-column="10" selection-end-line="263" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Manifiesto/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="42" column="52" selection-start-line="42" selection-start-column="52" selection-end-line="42" selection-end-column="52" />
+          <folding>
+            <element signature="e#1361#1367#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/checkout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="267" column="67" selection-start-line="267" selection-start-column="67" selection-end-line="267" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/preCheck.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="730" selection-start-line="730" selection-end-line="730" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Lib/twilio-php-master/Services/Twilio.php" />
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Lib/twilio-php-master/Twilio/Exceptions/ConfigurationException.php" />
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Lib/twilio-php-master/Twilio/Deserialize.php" />
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Lib/twilio-php-master/Dockerfile" />
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Lib/twilio-php-master/Twilio/autoload.php" />
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/services.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="59" column="43" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Command/SendSmsCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="25" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="25" />
+          <folding>
+            <element signature="e#48#113#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/doctrine/Guide.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="602">
+          <caret line="178" column="31" selection-start-line="178" selection-start-column="31" selection-end-line="178" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/layout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="89" column="87" selection-start-line="89" selection-start-column="87" selection-end-line="89" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/preCheckReadCode.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="93" column="73" selection-start-line="93" selection-start-column="10" selection-end-line="93" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/app/AppKernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="29" column="55" selection-start-line="29" selection-start-column="55" selection-end-line="29" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="715">
+          <caret line="110" column="4" selection-start-line="110" selection-start-column="4" selection-end-line="110" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+          <folding>
+            <element signature="e#50#98#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RoleController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Complex.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="44" selection-start-line="44" selection-end-line="50" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/AdminSetting.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AdminSetting.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="51" column="7" lean-forward="true" selection-start-line="51" selection-start-column="7" selection-end-line="51" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Lib/CloudOnex.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/services.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="62" column="16" selection-start-line="62" selection-start-column="16" selection-end-line="62" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Lib/MailManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="38" column="33" selection-start-line="38" selection-start-column="33" selection-end-line="38" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="17" column="80" selection-start-line="17" selection-start-column="80" selection-end-line="17" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="42" column="20" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/AgreementPlan/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="112" column="25" lean-forward="true" selection-start-line="112" selection-start-column="25" selection-end-line="112" selection-end-column="25" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../solucel/sflow/src/Solucel/AdminBundle/Resources/views/RepairOrderFix/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="771" selection-start-line="755" selection-end-line="771" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/business.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="43" column="34" selection-start-line="43" selection-end-line="43" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../solucel/sflow/src/Solucel/AdminBundle/Resources/views/Default/email.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="232" column="16" lean-forward="true" selection-start-line="232" selection-start-column="16" selection-end-line="232" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/email.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="230" column="53" selection-start-line="230" selection-start-column="53" selection-end-line="230" selection-end-column="53" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#td#1;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2175">
+          <caret line="161" selection-start-line="161" selection-end-line="161" />
+          <folding>
+            <element signature="e#50#95#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5100">
+          <caret line="352" column="39" selection-start-line="352" selection-start-column="39" selection-end-line="352" selection-end-column="39" />
+          <folding>
+            <element signature="e#50#95#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="33" column="8" lean-forward="true" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="96" column="18" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="18" />
+          <folding>
+            <element signature="e#47#112#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="373" column="32" selection-start-line="373" selection-start-column="20" selection-end-line="373" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="702">
+          <caret line="646" column="10" selection-start-line="646" selection-start-column="10" selection-end-line="646" selection-end-column="10" />
+          <folding>
+            <element signature="e#47#104#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="64" selection-start-line="64" selection-end-line="72" selection-end-column="40" />
+          <folding>
+            <element signature="e#50#107#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="246" column="10" selection-start-line="246" selection-start-column="10" selection-end-line="246" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="56" column="92" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="396" column="26" selection-start-line="396" selection-start-column="26" selection-end-line="396" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="69" column="80" selection-start-line="69" selection-end-line="69" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="65" column="60" selection-start-line="65" selection-start-column="57" selection-end-line="65" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="184" column="17" selection-start-line="184" selection-start-column="17" selection-end-line="184" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/GuideController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="337" column="31" selection-start-line="337" selection-start-column="31" selection-end-line="337" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="623">
+          <caret line="118" column="109" selection-start-line="118" selection-start-column="109" selection-end-line="118" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Form/GuideType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="44" column="99" selection-start-line="44" selection-start-column="99" selection-end-line="44" selection-end-column="99" />
+          <folding>
+            <element signature="e#44#84#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

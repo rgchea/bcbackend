@@ -1,0 +1,111 @@
+Backend\AdminBundle\Entity\CommonAreaReservation:
+    type: entity
+    table: common_area_reservation
+    repositoryClass: Backend\AdminBundle\Repository\CommonAreaReservationRepository
+    indexes:
+        common_area_resevation_status_id:
+            columns:
+                - common_area_resevation_status_id
+        created_by:
+            columns:
+                - created_by
+        common_area_id:
+            columns:
+                - common_area_id
+        reserved_by:
+            columns:
+                - reserved_by
+        updated_by:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        reservationDateFrom:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: reservation_date_from
+        reservationDateTo:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: reservation_date_to
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        commonArea:
+            targetEntity: CommonArea
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        commonAreaResevationStatus:
+            targetEntity: CommonAreaReservationStatus
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_resevation_status_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        reservedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                reserved_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,16 @@
+backend_admin_moduleaccess:
+    path:     /
+    defaults: { _controller: "BackendAdminBundle:ModuleAccess:index" }
+
+backend_admin_moduleaccess_new:
+    path:     /new
+    defaults: { _controller: "BackendAdminBundle:ModuleAccess:new" }
+
+backend_admin_moduleaccess_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:ModuleAccess:create" }
+    requirements: { _method: post }
+
+backend_admin_moduleaccess_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:ModuleAccess:delete" }

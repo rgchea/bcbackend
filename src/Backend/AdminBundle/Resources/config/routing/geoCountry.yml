@@ -1,0 +1,34 @@
+backend_admin_geo_country_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:GeoCountry:index
+
+geo_country_list_datatables:
+    path: /role/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:GeoCountry:listDatatables
+
+backend_admin_geo_country_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:GeoCountry:new" }
+    #methods:  [GET, POST]
+
+backend_admin_geo_country_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:GeoCountry:edit" }
+
+backend_admin_geo_country_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:GeoCountry:create" }
+    methods:  POST
+
+backend_admin_geo_country_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:GeoCountry:update" }
+    methods:  POST
+
+backend_admin_geo_country_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:GeoCountry:delete" }
+
+    #methods:  DELETE

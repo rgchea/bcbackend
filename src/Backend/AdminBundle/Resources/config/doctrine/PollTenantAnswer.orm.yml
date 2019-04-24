@@ -1,0 +1,81 @@
+Backend\AdminBundle\Entity\PollTenantAnswer:
+    type: entity
+    table: poll_tenant_answer
+    repositoryClass: Backend\AdminBundle\Repository\PollTenantAnswerRepository
+    indexes:
+        poll_question_id:
+            columns:
+                - poll_question_id
+        user_id:
+            columns:
+                - user_id
+        poll_question_option_id:
+            columns:
+                - poll_question_option_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        answerText:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: answer_text
+        answerRating:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                default: '1'
+            column: answer_rating
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        user:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pollQuestion:
+            targetEntity: PollQuestion
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                poll_question_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pollQuestionOption:
+            targetEntity: PollQuestionOption
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                poll_question_option_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

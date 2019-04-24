@@ -1,0 +1,71 @@
+Backend\AdminBundle\Entity\AdminSetting:
+    type: entity
+    table: admin_setting
+    repositoryClass: Backend\AdminBundle\Repository\AdminSetting
+    indexes:
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        spaceApiToken:
+            type: string
+            nullable: false
+            length: 1024
+            options:
+                fixed: false
+                default: ''
+            column: space_api_token
+        duePaymentDay:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                comment: 'fecha límite de pago, si no está seteada acá se adquiere de property_contract'
+                default: '28'
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

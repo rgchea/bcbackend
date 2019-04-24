@@ -1,0 +1,105 @@
+Backend\AdminBundle\Entity\UserNotification:
+    type: entity
+    table: user_notification
+    repositoryClass: Backend\AdminBundle\Repository\UserNotificationRepository
+    indexes:
+        notification_type_id:
+            columns:
+                - notification_type_id
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
+        ticket_id:
+            columns:
+                - ticket_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        read:
+            type: boolean
+            nullable: false
+            options:
+                default: '0'
+        description:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+
+        notice:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        notificationType:
+            targetEntity: NotificationType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                notification_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        ticket:
+            targetEntity: Ticket
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                ticket_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

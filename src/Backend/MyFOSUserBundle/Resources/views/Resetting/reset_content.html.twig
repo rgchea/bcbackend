@@ -1,0 +1,33 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<style>
+
+	.help-block {
+	    display: block;
+	    margin-top: 5px;
+	    margin-bottom: 10px;
+	    color: #eb3323;
+	}
+	#fos_user_resetting_form_plainPassword_first, #fos_user_resetting_form_plainPassword_second{
+
+	    color: #000000;
+	    padding: 3px 10px;
+	    margin-bottom: 5px;
+	    width: 100%;
+	    float:left;
+
+	}
+
+</style>
+	<div class="login-wrap">
+	    <div class="panel bg-gray no-padding">
+	        <div class="panel-body">
+				<form id="resetForm" style="padding: 10px" action="{{ path('fos_user_resetting_reset_new', {'token': token}) }}"  method="POST" class="fos_user_resetting_reset">
+				    {{ form_widget(form) }}
+				    <div>
+				        <input class="btn btn-ps" type="submit" value="{{ 'label_send'|trans }}" />
+				    </div>
+				</form>
+	        </div>
+	    </div>
+	</div>

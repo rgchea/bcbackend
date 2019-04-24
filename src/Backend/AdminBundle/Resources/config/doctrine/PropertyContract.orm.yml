@@ -1,0 +1,132 @@
+Backend\AdminBundle\Entity\PropertyContract:
+    type: entity
+    table: property_contract
+    repositoryClass: Backend\AdminBundle\Repository\PropertyContractRepository
+    indexes:
+        created_by:
+            columns:
+                - created_by
+        property_id:
+            columns:
+                - property_id
+        updated_by:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        teamCorrelative:
+            type: integer
+            nullable: true
+            options:
+                unsigned: true
+                comment: 'correlativo gamification'
+            column: team_correlative
+        startDate:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: start_date
+        endDate:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: end_date
+        isActive:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: is_active
+        duePaymentDay:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                default: '5'
+            column: due_payment_day
+        rentalPrice:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            options:
+                default: '0.00'
+            column: rental_price
+        maintenancePrice:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            column: maintenance_price
+        amenityIncluded:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: amenity_included
+        totalVisibleAmount:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+            column: total_visible_amount
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        property:
+            targetEntity: Property
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

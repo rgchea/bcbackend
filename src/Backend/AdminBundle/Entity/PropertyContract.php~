@@ -1,0 +1,460 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * PropertyContract
+ */
+class PropertyContract
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var int|null
+     */
+    private $teamCorrelative;
+
+    /**
+     * @var \DateTime
+     */
+    private $startDate = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $endDate = '0000-00-00 00:00:00';
+
+    /**
+     * @var bool
+     */
+    private $isActive = '1';
+
+    /**
+     * @var int|null
+     */
+    private $duePaymentDay = '5';
+
+    /**
+     * @var float|null
+     */
+    private $rentalPrice = '0.00';
+
+    /**
+     * @var float|null
+     */
+    private $maintenancePrice;
+
+    /**
+     * @var string|null
+     */
+    private $amenityIncluded;
+
+    /**
+     * @var bool
+     */
+    private $totalVisibleAmount = '1';
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var bool
+     */
+    private $enabled = '1';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Property
+     */
+    private $property;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $updatedBy;
+
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set teamCorrelative.
+     *
+     * @param int|null $teamCorrelative
+     *
+     * @return PropertyContract
+     */
+    public function setTeamCorrelative($teamCorrelative = null)
+    {
+        $this->teamCorrelative = $teamCorrelative;
+
+        return $this;
+    }
+
+    /**
+     * Get teamCorrelative.
+     *
+     * @return int|null
+     */
+    public function getTeamCorrelative()
+    {
+        return $this->teamCorrelative;
+    }
+
+    /**
+     * Set startDate.
+     *
+     * @param \DateTime $startDate
+     *
+     * @return PropertyContract
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    /**
+     * Get startDate.
+     *
+     * @return \DateTime
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * Set endDate.
+     *
+     * @param \DateTime $endDate
+     *
+     * @return PropertyContract
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Get endDate.
+     *
+     * @return \DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * Set isActive.
+     *
+     * @param bool $isActive
+     *
+     * @return PropertyContract
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive.
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set duePaymentDay.
+     *
+     * @param int|null $duePaymentDay
+     *
+     * @return PropertyContract
+     */
+    public function setDuePaymentDay($duePaymentDay = null)
+    {
+        $this->duePaymentDay = $duePaymentDay;
+
+        return $this;
+    }
+
+    /**
+     * Get duePaymentDay.
+     *
+     * @return int|null
+     */
+    public function getDuePaymentDay()
+    {
+        return $this->duePaymentDay;
+    }
+
+    /**
+     * Set rentalPrice.
+     *
+     * @param float|null $rentalPrice
+     *
+     * @return PropertyContract
+     */
+    public function setRentalPrice($rentalPrice = null)
+    {
+        $this->rentalPrice = $rentalPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get rentalPrice.
+     *
+     * @return float|null
+     */
+    public function getRentalPrice()
+    {
+        return $this->rentalPrice;
+    }
+
+    /**
+     * Set maintenancePrice.
+     *
+     * @param float|null $maintenancePrice
+     *
+     * @return PropertyContract
+     */
+    public function setMaintenancePrice($maintenancePrice = null)
+    {
+        $this->maintenancePrice = $maintenancePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get maintenancePrice.
+     *
+     * @return float|null
+     */
+    public function getMaintenancePrice()
+    {
+        return $this->maintenancePrice;
+    }
+
+    /**
+     * Set amenityIncluded.
+     *
+     * @param string|null $amenityIncluded
+     *
+     * @return PropertyContract
+     */
+    public function setAmenityIncluded($amenityIncluded = null)
+    {
+        $this->amenityIncluded = $amenityIncluded;
+
+        return $this;
+    }
+
+    /**
+     * Get amenityIncluded.
+     *
+     * @return string|null
+     */
+    public function getAmenityIncluded()
+    {
+        return $this->amenityIncluded;
+    }
+
+    /**
+     * Set totalVisibleAmount.
+     *
+     * @param bool $totalVisibleAmount
+     *
+     * @return PropertyContract
+     */
+    public function setTotalVisibleAmount($totalVisibleAmount)
+    {
+        $this->totalVisibleAmount = $totalVisibleAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get totalVisibleAmount.
+     *
+     * @return bool
+     */
+    public function getTotalVisibleAmount()
+    {
+        return $this->totalVisibleAmount;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return PropertyContract
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return PropertyContract
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set enabled.
+     *
+     * @param bool $enabled
+     *
+     * @return PropertyContract
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled.
+     *
+     * @return bool
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set property.
+     *
+     * @param \Backend\AdminBundle\Entity\Property|null $property
+     *
+     * @return PropertyContract
+     */
+    public function setProperty(\Backend\AdminBundle\Entity\Property $property = null)
+    {
+        $this->property = $property;
+
+        return $this;
+    }
+
+    /**
+     * Get property.
+     *
+     * @return \Backend\AdminBundle\Entity\Property|null
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * Set createdBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $createdBy
+     *
+     * @return PropertyContract
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $updatedBy
+     *
+     * @return PropertyContract
+     */
+    public function setUpdatedBy(\Backend\AdminBundle\Entity\User $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+}

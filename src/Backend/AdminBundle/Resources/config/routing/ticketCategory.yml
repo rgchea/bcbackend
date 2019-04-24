@@ -1,0 +1,33 @@
+backend_admin_ticket_category_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:TicketCategory:index
+
+ticket_category_list_datatables:
+    path: /ticketCategory/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:TicketCategory:listDatatables
+
+backend_admin_ticket_category_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:TicketCategory:new" }
+    #methods:  [GET, POST]
+
+backend_admin_ticket_category_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:TicketCategory:edit" }
+
+backend_admin_ticket_category_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:TicketCategory:create" }
+    methods:  POST
+
+backend_admin_ticket_category_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:TicketCategory:update" }
+    methods:  POST
+
+backend_admin_ticket_category_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:TicketCategory:delete" }
+    #methods:  DELETE

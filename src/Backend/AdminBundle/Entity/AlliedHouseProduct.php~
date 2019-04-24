@@ -1,0 +1,257 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedHouseProduct
+ */
+class AlliedHouseProduct
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var float
+     */
+    private $inStock = '0.00';
+
+    /**
+     * @var float
+     */
+    private $price = '0.00';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    private $alliedHouse;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $product;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set inStock
+     *
+     * @param float $inStock
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setInStock($inStock)
+    {
+        $this->inStock = $inStock;
+
+        return $this;
+    }
+
+    /**
+     * Get inStock
+     *
+     * @return float
+     */
+    public function getInStock()
+    {
+        return $this->inStock;
+    }
+
+    /**
+     * Set price
+     *
+     * @param float $price
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set alliedHouse
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouse $alliedHouse
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setAlliedHouse(\Backend\AdminBundle\Entity\AlliedHouse $alliedHouse = null)
+    {
+        $this->alliedHouse = $alliedHouse;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouse
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    public function getAlliedHouse()
+    {
+        return $this->alliedHouse;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Backend\AdminBundle\Entity\Product $product
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setProduct(\Backend\AdminBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+    /**
+     * @var integer
+     */
+    private $minStock = '1';
+
+    /**
+     * @var integer
+     */
+    private $maxStock = '10';
+
+
+    /**
+     * Set minStock
+     *
+     * @param integer $minStock
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setMinStock($minStock)
+    {
+        $this->minStock = $minStock;
+
+        return $this;
+    }
+
+    /**
+     * Get minStock
+     *
+     * @return integer
+     */
+    public function getMinStock()
+    {
+        return $this->minStock;
+    }
+
+    /**
+     * Set maxStock
+     *
+     * @param integer $maxStock
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setMaxStock($maxStock)
+    {
+        $this->maxStock = $maxStock;
+
+        return $this;
+    }
+
+    /**
+     * Get maxStock
+     *
+     * @return integer
+     */
+    public function getMaxStock()
+    {
+        return $this->maxStock;
+    }
+    /**
+     * @var float
+     */
+    private $salePrice = '0.00';
+
+
+    /**
+     * Set salePrice
+     *
+     * @param float $salePrice
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setSalePrice($salePrice)
+    {
+        $this->salePrice = $salePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get salePrice
+     *
+     * @return float
+     */
+    public function getSalePrice()
+    {
+        return $this->salePrice;
+    }
+    /**
+     * @var boolean
+     */
+    private $isFav = '0';
+
+
+    /**
+     * Set isFav
+     *
+     * @param boolean $isFav
+     *
+     * @return AlliedHouseProduct
+     */
+    public function setIsFav($isFav)
+    {
+        $this->isFav = $isFav;
+
+        return $this;
+    }
+
+    /**
+     * Get isFav
+     *
+     * @return boolean
+     */
+    public function getIsFav()
+    {
+        return $this->isFav;
+    }
+}

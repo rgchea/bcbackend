@@ -1,0 +1,100 @@
+Backend\AdminBundle\Entity\PollQuestion:
+    type: entity
+    table: poll_question
+    repositoryClass: Backend\AdminBundle\Repository\PollQuestionRepository
+    indexes:
+        created_by:
+            columns:
+                - created_by
+        poll_question_type_id:
+            columns:
+                - poll_question_type_id
+        poll_id:
+            columns:
+                - poll_id
+        updated_by:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        question:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+            column: question
+        pollFilePhoto:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+            column: poll_file_photo
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        poll:
+            targetEntity: Poll
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                poll_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pollQuestionType:
+            targetEntity: PollQuestionType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                poll_question_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

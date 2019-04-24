@@ -1,0 +1,315 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AlliedOrderReceipt
+ */
+class AlliedOrderReceipt
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $sapCode;
+
+    /**
+     * @var integer
+     */
+    private $units = 1;
+
+    /**
+     * @var float
+     */
+    private $price = '0.00';
+
+    /**
+     * @var float
+     */
+    private $weight = '0.00';
+
+    /**
+     * @var \DateTime
+     */
+    private $deliveryDate;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Product
+     */
+    private $product;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    private $alliedHouse;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set sapCode
+     *
+     * @param string $sapCode
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setSapCode($sapCode)
+    {
+        $this->sapCode = $sapCode;
+
+        return $this;
+    }
+
+    /**
+     * Get sapCode
+     *
+     * @return string
+     */
+    public function getSapCode()
+    {
+        return $this->sapCode;
+    }
+
+    /**
+     * Set units
+     *
+     * @param integer $units
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setUnits($units)
+    {
+        $this->units = $units;
+
+        return $this;
+    }
+
+    /**
+     * Get units
+     *
+     * @return integer
+     */
+    public function getUnits()
+    {
+        return $this->units;
+    }
+
+    /**
+     * Set price
+     *
+     * @param float $price
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param float $weight
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return float
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * Set deliveryDate
+     *
+     * @param \DateTime $deliveryDate
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setDeliveryDate($deliveryDate)
+    {
+        $this->deliveryDate = $deliveryDate;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryDate
+     *
+     * @return \DateTime
+     */
+    public function getDeliveryDate()
+    {
+        return $this->deliveryDate;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Backend\AdminBundle\Entity\Product $product
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setProduct(\Backend\AdminBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Backend\AdminBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set alliedHouse
+     *
+     * @param \Backend\AdminBundle\Entity\AlliedHouse $alliedHouse
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setAlliedHouse(\Backend\AdminBundle\Entity\AlliedHouse $alliedHouse = null)
+    {
+        $this->alliedHouse = $alliedHouse;
+
+        return $this;
+    }
+
+    /**
+     * Get alliedHouse
+     *
+     * @return \Backend\AdminBundle\Entity\AlliedHouse
+     */
+    public function getAlliedHouse()
+    {
+        return $this->alliedHouse;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \Backend\AdminBundle\Entity\User $createdBy
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \Backend\AdminBundle\Entity\User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+    /**
+     * @var string
+     */
+    private $unidadFacturacion;
+
+
+    /**
+     * Set unidadFacturacion
+     *
+     * @param string $unidadFacturacion
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setUnidadFacturacion($unidadFacturacion)
+    {
+        $this->unidadFacturacion = $unidadFacturacion;
+
+        return $this;
+    }
+
+    /**
+     * Get unidadFacturacion
+     *
+     * @return string
+     */
+    public function getUnidadFacturacion()
+    {
+        return $this->unidadFacturacion;
+    }
+    /**
+     * @var string
+     */
+    private $sapCorrelative;
+
+
+    /**
+     * Set sapCorrelative
+     *
+     * @param string $sapCorrelative
+     *
+     * @return AlliedOrderReceipt
+     */
+    public function setSapCorrelative($sapCorrelative)
+    {
+        $this->sapCorrelative = $sapCorrelative;
+
+        return $this;
+    }
+
+    /**
+     * Get sapCorrelative
+     *
+     * @return string
+     */
+    public function getSapCorrelative()
+    {
+        return $this->sapCorrelative;
+    }
+}

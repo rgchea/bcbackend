@@ -1,0 +1,113 @@
+Backend\AdminBundle\Entity\ComplexSector:
+    type: entity
+    table: complex_sector
+    repositoryClass: Backend\AdminBundle\Repository\ComplexSectorRepository
+    indexes:
+        created_by:
+            columns:
+                - created_by
+        complex_sector_type_id:
+            columns:
+                - complex_sector_type_id
+        complex_id:
+            columns:
+                - complex_id
+        updated_by:
+            columns:
+                - updated_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+        qrCodePath:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+            column: qr_code_path
+        address:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+        responsiblePerson:
+            type: string
+            nullable: true
+            length: 32
+            options:
+                fixed: false
+            column: responsible_person
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
+    manyToOne:
+        complex:
+            targetEntity: Complex
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        complexSectorType:
+            targetEntity: ComplexSectorType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_sector_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

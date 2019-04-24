@@ -1,0 +1,47 @@
+backend_admin_business_new:
+  path:     /new/
+  defaults: { _controller: "BackendAdminBundle:Business:new" }
+  #methods:  [GET, POST]
+
+backend_admin_business_index:
+  path:     /index
+  defaults: { _controller: "BackendAdminBundle:Business:index" }
+
+business_list_datatables:
+  path: /business/list/datatables
+  defaults:
+    _controller: BackendAdminBundle:Business:listDatatables
+
+backend_admin_business_edit:
+  path:     /{id}/edit
+  defaults: { _controller: "BackendAdminBundle:Business:edit" }
+
+backend_admin_business_create:
+  path:     /create
+  defaults: { _controller: "BackendAdminBundle:Business:create" }
+  methods:  POST
+
+backend_admin_business_update:
+  path:     /{id}/update
+  defaults: { _controller: "BackendAdminBundle:Business:update" }
+  methods:  POST
+
+
+backend_admin_business_update_state:
+  path:     /updateState
+  defaults: { _controller: "BackendAdminBundle:Business:updateState" }
+  #methods:  POST
+
+backend_admin_business_delete:
+  path:     /{id}/delete
+  defaults: { _controller: "BackendAdminBundle:Business:delete" }
+
+
+backend_admin_business_check_email:
+  path:     /checkEmail
+  defaults: { _controller: "BackendAdminBundle:Business:checkEmail" }
+
+backend_admin_business_check_phone:
+  path:     /checkPhone
+  defaults: { _controller: "BackendAdminBundle:Business:checkPhone" }
+

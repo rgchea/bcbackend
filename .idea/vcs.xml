@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../../cmi/chicken_house" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../mayaexpress/work_process" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../mayaexpress/work_process_new" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../robertohernandezchea" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../santillana/classManager" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../solucel/sflow" vcs="Git" />
+  </component>
+</project>

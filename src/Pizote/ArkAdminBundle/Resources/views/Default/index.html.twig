@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<title>Backend</title>
+	<style type="text/css">
+	body{ background-color: #2881BF; }
+	#goto { font-family: 'Lato', sans-serif }
+	#wraper { font-family: 'Lobster', cursive; }
+	#wraper { width: 100%; display: block; text-align: center; margin-top: 20%; font-size: 30px; line-height: 50px; }
+	#wraper img { margin: 0 auto; }
+	a { color: white; text-decoration: none; font-size: 40px; }
+	</style>
+	<script src="{{ asset('/bundles/wbcsmartadmin/js/libs/jquery-2.0.2.min.js') }}"></script>
+</head>
+<body>
+<div id="wraper">
+	
+	<br>
+	<a id="goto" href="{{ path('backend_admin_homepage') }}">Ir a administración</a>
+
+	<script>
+	$(document).ready(function(){
+		$('#goto').click(function(e){
+			e.preventDefault();
+			var url = $(this).attr('href');
+			$('#wraper').fadeOut('slow', function(){
+				window.location = url;
+			});
+		});
+	});
+	</script>
+	
+</div>
+</body>
+</html>

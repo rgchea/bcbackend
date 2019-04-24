@@ -1,0 +1,199 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * AdminSetting
+ */
+class AdminSetting
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $space_api_token = '';
+
+    /**
+     * @var int|null
+     */
+    private $duePaymentDay = '28';
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $updatedBy;
+
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set spaceApiToken.
+     *
+     * @param string $spaceApiToken
+     *
+     * @return AdminSetting
+     */
+    public function setSpaceApiToken($spaceApiToken)
+    {
+        $this->space_api_token = $spaceApiToken;
+
+        return $this;
+    }
+
+    /**
+     * Get spaceApiToken.
+     *
+     * @return string
+     */
+    public function getSpaceApiToken()
+    {
+        return $this->space_api_token;
+    }
+
+    /**
+     * Set duePaymentDay.
+     *
+     * @param int|null $duePaymentDay
+     *
+     * @return AdminSetting
+     */
+    public function setDuePaymentDay($duePaymentDay = null)
+    {
+        $this->duePaymentDay = $duePaymentDay;
+
+        return $this;
+    }
+
+    /**
+     * Get duePaymentDay.
+     *
+     * @return int|null
+     */
+    public function getDuePaymentDay()
+    {
+        return $this->duePaymentDay;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return AdminSetting
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return AdminSetting
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set createdBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $createdBy
+     *
+     * @return AdminSetting
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $updatedBy
+     *
+     * @return AdminSetting
+     */
+    public function setUpdatedBy(\Backend\AdminBundle\Entity\User $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+}

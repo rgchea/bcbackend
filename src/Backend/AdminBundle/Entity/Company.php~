@@ -1,0 +1,402 @@
+<?php
+
+namespace Backend\AdminBundle\Entity;
+
+/**
+ * Company
+ */
+class Company
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $name = '';
+
+    /**
+     * @var string|null
+     */
+    private $responsiblePerson;
+
+    /**
+     * @var string|null
+     */
+    private $phoneNumber;
+
+    /**
+     * @var string|null
+     */
+    private $email;
+
+    /**
+     * @var string|null
+     */
+    private $address;
+
+    /**
+     * @var string|null
+     */
+    private $help;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt = '0000-00-00 00:00:00';
+
+    /**
+     * @var bool
+     */
+    private $enabled = '1';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\GeoState
+     */
+    private $geoState;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $updatedBy;
+
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Company
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set responsiblePerson.
+     *
+     * @param string|null $responsiblePerson
+     *
+     * @return Company
+     */
+    public function setResponsiblePerson($responsiblePerson = null)
+    {
+        $this->responsiblePerson = $responsiblePerson;
+
+        return $this;
+    }
+
+    /**
+     * Get responsiblePerson.
+     *
+     * @return string|null
+     */
+    public function getResponsiblePerson()
+    {
+        return $this->responsiblePerson;
+    }
+
+    /**
+     * Set phoneNumber.
+     *
+     * @param string|null $phoneNumber
+     *
+     * @return Company
+     */
+    public function setPhoneNumber($phoneNumber = null)
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneNumber.
+     *
+     * @return string|null
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * Set email.
+     *
+     * @param string|null $email
+     *
+     * @return Company
+     */
+    public function setEmail($email = null)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email.
+     *
+     * @return string|null
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set address.
+     *
+     * @param string|null $address
+     *
+     * @return Company
+     */
+    public function setAddress($address = null)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address.
+     *
+     * @return string|null
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set help.
+     *
+     * @param string|null $help
+     *
+     * @return Company
+     */
+    public function setHelp($help = null)
+    {
+        $this->help = $help;
+
+        return $this;
+    }
+
+    /**
+     * Get help.
+     *
+     * @return string|null
+     */
+    public function getHelp()
+    {
+        return $this->help;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Company
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Company
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set enabled.
+     *
+     * @param bool $enabled
+     *
+     * @return Company
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled.
+     *
+     * @return bool
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set geoState.
+     *
+     * @param \Backend\AdminBundle\Entity\GeoState|null $geoState
+     *
+     * @return Company
+     */
+    public function setGeoState(\Backend\AdminBundle\Entity\GeoState $geoState = null)
+    {
+        $this->geoState = $geoState;
+
+        return $this;
+    }
+
+    /**
+     * Get geoState.
+     *
+     * @return \Backend\AdminBundle\Entity\GeoState|null
+     */
+    public function getGeoState()
+    {
+        return $this->geoState;
+    }
+
+    /**
+     * Set createdBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $createdBy
+     *
+     * @return Company
+     */
+    public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Set updatedBy.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $updatedBy
+     *
+     * @return Company
+     */
+    public function setUpdatedBy(\Backend\AdminBundle\Entity\User $updatedBy = null)
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedBy.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\GeoCountry
+     */
+    private $geoCountry;
+
+
+    /**
+     * Set geoCountry.
+     *
+     * @param \Backend\AdminBundle\Entity\GeoCountry|null $geoCountry
+     *
+     * @return Company
+     */
+    public function setGeoCountry(\Backend\AdminBundle\Entity\GeoCountry $geoCountry = null)
+    {
+        $this->geoCountry = $geoCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get geoCountry.
+     *
+     * @return \Backend\AdminBundle\Entity\GeoCountry|null
+     */
+    public function getGeoCountry()
+    {
+        return $this->geoCountry;
+    }
+}

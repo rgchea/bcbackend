@@ -1,0 +1,18 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_geo_country_index') }}">{{ 'label_menu.geo_country'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_geo_country_new') }}">{{ 'label_new'|trans  }}</a> </li>
+    {% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:GeoCountry:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+
+
+{% endblock %}
