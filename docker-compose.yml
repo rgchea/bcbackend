@@ -1,0 +1,62 @@
+version: '3.3'
+
+services:
+    db:
+        image: mysql:8.0.3
+        networks:
+          - backend
+#        ports:
+#          - "3306:3306" # Expose for quick access via localhost
+        expose:
+          - "3306"
+        volumes:
+          - db-data:/var/lib/mysql
+          - ./db:/restore
+        restart: always
+        env_file: ./mysql.env
+    php:
+        build: ./docker/php-fpm
+        expose:
+          - "9001"
+        networks:
+          - backend
+        links:
+          - db
+        volumes:
+          - ./:/var/www/symfony:cached
+#          - ./logs/symfony:/var/www/symfony/var/logs
+        restart: always
+        env_file: ./mysql.env
+    tools:
+        build: ./docker/php-tools
+        volumes:
+            - ./:/var/www/symfony:cached
+        networks:
+          - backend
+        links:
+          - db
+        env_file: ./mysql.env
+    nginx:
+        build: ./docker/nginx
+        ports:
+            - "8580:80"
+        networks:
+          - backend
+          - frontend
+        depends_on:
+          - php
+          - db
+        volumes:
+#          - ./web:/var/www/symfony/web:cached # Ideally this is better, but then the bundles folder needs to have hardlinks
+          - ./:/var/www/symfony:cached
+          - ./docker/nginx/conf-main:/etc/nginx/conf.d:cached
+#          - ./logs/nginx/:/var/log/nginx
+        restart: always
+
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
