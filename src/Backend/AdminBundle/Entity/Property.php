@@ -2,8 +2,12 @@
 
 namespace Backend\AdminBundle\Entity;
 
+use JMS\Serializer\Annotation as Serializer;
+use Swagger\Annotations as SWG;
+
 /**
  * Property
+ * @Serializer\ExclusionPolicy("all")
  */
 class Property
 {
@@ -14,21 +18,29 @@ class Property
 
     /**
      * @var int|null
+     * @SWG\Property(description="Team player ID", example="1")
+     * @Serializer\Expose
      */
     private $teamCorrelative;
 
     /**
      * @var string
+     * @SWG\Property(description="Name", example="Casa Modelo")
+     * @Serializer\Expose
      */
     private $name = '';
 
     /**
      * @var string|null
+     * @SWG\Property(description="Address", example="1 Avenue des Champs-Elysees")
+     * @Serializer\Expose
      */
     private $address;
 
     /**
      * @var string
+     * @SWG\Property(description="Code", example="101")
+     * @Serializer\Expose
      */
     private $code;
 
@@ -59,6 +71,8 @@ class Property
 
     /**
      * @var \Backend\AdminBundle\Entity\ComplexSector
+     * @SWG\Property(type="integer", description="Sector ID", example="1")
+     * @Serializer\Expose
      */
     private $complexSector;
 
@@ -74,6 +88,8 @@ class Property
 
     /**
      * @var \Backend\AdminBundle\Entity\PropertyType
+     * @SWG\Property(type="integer", description="Property Type ID", example="1")
+     * @Serializer\Expose
      */
     private $propertyType;
 

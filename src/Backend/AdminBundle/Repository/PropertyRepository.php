@@ -11,6 +11,20 @@ namespace Backend\AdminBundle\Repository;
 class PropertyRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getApiProperty($code) {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, s.id, p.id')
+            ->leftJoin('a.complexSector', 's')
+            ->leftJoin('a.propertyType', 'p')
+            ->where('a.enabled = 1 AND a.code = :code')
+            ->setParameter('code', $code)
+            ->orderBy('a.createdAt', 'ASC')
+        ;
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
 
 
     //getRequiredDTData($start, $length, $orders, $search, $columns, $filters);
