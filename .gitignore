@@ -16,3 +16,6 @@
 /vendor/
 /web/bundles/
 /nbproject/private/
+mysql.env
+db/*
+.idea/*
