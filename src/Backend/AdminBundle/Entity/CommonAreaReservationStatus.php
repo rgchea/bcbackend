@@ -1,6 +1,7 @@
 <?php
 
 namespace Backend\AdminBundle\Entity;
+use Symfony\Component\Intl\Locale;
 
 /**
  * CommonAreaReservationStatus
@@ -15,7 +16,12 @@ class CommonAreaReservationStatus
     /**
      * @var string
      */
-    private $name = '';
+    private $nameES = '';
+
+    /**
+     * @var string
+     */
+    private $nameEN = '';
 
     /**
      * @var string|null
@@ -47,11 +53,6 @@ class CommonAreaReservationStatus
      */
     private $updatedBy;
 
-    /**
-     * @var \Backend\AdminBundle\Entity\Complex
-     */
-    private $complex;
-
 
     /**
      * Get id.
@@ -64,27 +65,51 @@ class CommonAreaReservationStatus
     }
 
     /**
-     * Set name.
+     * Set nameES.
      *
-     * @param string $name
+     * @param string $nameES
      *
      * @return CommonAreaReservationStatus
      */
-    public function setName($name)
+    public function setNameES($nameES)
     {
-        $this->name = $name;
+        $this->nameES = $nameES;
 
         return $this;
     }
 
     /**
-     * Get name.
+     * Get nameES.
      *
      * @return string
      */
-    public function getName()
+    public function getNameES()
     {
-        return $this->name;
+        return $this->nameES;
+    }
+
+    /**
+     * Set nameEN.
+     *
+     * @param string $nameEN
+     *
+     * @return CommonAreaReservationStatus
+     */
+    public function setNameEN($nameEN)
+    {
+        $this->nameEN = $nameEN;
+
+        return $this;
+    }
+
+    /**
+     * Get nameEN.
+     *
+     * @return string
+     */
+    public function getNameEN()
+    {
+        return $this->nameEN;
     }
 
     /**
@@ -231,33 +256,11 @@ class CommonAreaReservationStatus
         return $this->updatedBy;
     }
 
-    /**
-     * Set complex.
-     *
-     * @param \Backend\AdminBundle\Entity\Complex|null $complex
-     *
-     * @return CommonAreaReservationStatus
-     */
-    public function setComplex(\Backend\AdminBundle\Entity\Complex $complex = null)
-    {
-        $this->complex = $complex;
+    public function __toString(){
 
-        return $this;
+        $locale = Locale::getDefault();
+
+        return $locale == "en" ? $this->getNameEN() : $this->getNameES();
     }
-
-    /**
-     * Get complex.
-     *
-     * @return \Backend\AdminBundle\Entity\Complex|null
-     */
-    public function getComplex()
-    {
-        return $this->complex;
-    }
-
-
-
-
-
 
 }

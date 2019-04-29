@@ -17,16 +17,17 @@ class PropertyTransactionTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $role = $options["role"];
-        $repository = $options["repository"];
+        //$role = $options["role"];
+        //$repository = $options["repository"];
 
         $builder
-            ->add('name',  null, array('label'=>"label_name", 'required'=>true))
-            ->add('description',  null, array('label'=>"label_description", 'required'=>true))
-            ->add('lastPaymentDay',  null, array('label'=>"label_last_payment_day", 'required'=>true));
+            ->add('nameEN',  null, array('label'=>"label_name", 'required'=>true))
+            ->add('nameES',  null, array('label'=>"label_nombre", 'required'=>true))
+            ->add('descriptionEN',  null, array('label'=>"label_description", 'required'=>true))
+            ->add('descriptionES',  null, array('label'=>"label_descripcion", 'required'=>true))            //->add('lastPaymentDay',  null, array('label'=>"label_last_payment_day", 'required'=>true))
 //            ->add('complex',  null, array('label'=>"label_complex", 'required'=>true))
-
-
+            ;
+            /*
             //IF ROLE IS SUPER ADMIN VIEW ALL
             if($role == "SUPER ADMIN"){
                 $builder->add('complex', null, array('label'=>"label_complex", 'required' => true,
@@ -44,6 +45,7 @@ class PropertyTransactionTypeType extends AbstractType
                 $builder->add('complex', ChoiceType::class, array('choices' => $array, 'label'=>"label_complex", 'required' => true, 'mapped' => false));
 
             }
+            */
 
 
 
@@ -56,9 +58,9 @@ class PropertyTransactionTypeType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Backend\AdminBundle\Entity\PropertyTransactionType',
-            'role' => null,
-            'repository' => null,
-            'userID' => null,
+            //'role' => null,
+            //'repository' => null,
+            //'userID' => null,
 
 
         ));

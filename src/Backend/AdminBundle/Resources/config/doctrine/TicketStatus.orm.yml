@@ -9,9 +9,7 @@ Backend\AdminBundle\Entity\TicketStatus:
         created_by:
             columns:
                 - created_by
-        complex_id:
-            columns:
-                - complex_id
+
     id:
         id:
             type: integer
@@ -22,19 +20,27 @@ Backend\AdminBundle\Entity\TicketStatus:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
+        nameES:
             type: string
             nullable: false
-            length: 16
+            length: 32
             options:
                 fixed: false
                 default: ''
+            column: name_es
+        nameEN:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+            column: name_en
         isPublic:
             type: boolean
             nullable: false
             options:
-                default: '0'
-            column: is_public
+                default: false
         createdAt:
             type: datetime
             nullable: false
@@ -51,7 +57,7 @@ Backend\AdminBundle\Entity\TicketStatus:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         createdBy:
             targetEntity: User
@@ -71,16 +77,6 @@ Backend\AdminBundle\Entity\TicketStatus:
             inversedBy: null
             joinColumns:
                 updated_by:
-                    referencedColumnName: id
-            orphanRemoval: false
-        complex:
-            targetEntity: Complex
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                complex_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

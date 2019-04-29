@@ -85,24 +85,10 @@ class CommonAreaReservationStatusController extends Controller
             die;
 
 
-         $filters = array();
-
-        ///FILTER BY ROLE
-        $filters = null;
-        if($this->role != "SUPER ADMIN"){
-
-            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-            foreach ($arrComplex as $k =>$v) {
-                $filters[$v] = $v;//the complex id
-            }
-
-        }
-
-
 
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null, $filters);
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -128,9 +114,15 @@ class CommonAreaReservationStatusController extends Controller
 
                             break;
                         }
-                    case 'name':
+                    case 'nameEN':
                         {
-                            $responseTemp = $entity->getName();
+                            $responseTemp = $entity->getNameEN();
+                            break;
+                        }
+
+                    case 'nameES':
+                        {
+                            $responseTemp = $entity->getNameES();
                             break;
                         }
                         
@@ -140,11 +132,6 @@ class CommonAreaReservationStatusController extends Controller
                             break;
                         }
 
-                    case 'complex':
-                        {
-                            $responseTemp = $entity->getComplex()->getName();
-                            break;
-                        }
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_common_area_reservation_status_edit', array('id' => $entity->getId()));
@@ -346,9 +333,10 @@ class CommonAreaReservationStatusController extends Controller
      */
     public function createAction(Request $request)
     {
-        //print "<pre>";
-        //var_dump($_REQUEST);DIE;
+
+
         $this->get("services")->setVars('commonAreaReservationStatus');
+        $this->initialise();
 
 
         $entity = new CommonAreaReservationStatus();
@@ -359,15 +347,11 @@ class CommonAreaReservationStatusController extends Controller
          * */
 
         if ($form->isValid()) {
-            $myRequest = $request->request->get('commonAreaReservationStatus');
-            //var_dump($myRequest);die;
-            $em = $this->getDoctrine()->getManager();
-            //var_dump($request->get('commonAreaReservationStatus');die;
 
             $this->get("services")->blameOnMe($entity, "create");
 
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -400,9 +384,6 @@ class CommonAreaReservationStatusController extends Controller
         $form = $this->createForm(CommonAreaReservationStatusType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_common_area_reservation_status_create'),
             'method' => 'POST',
-            'role' => $this->role,
-            'userID' => $this->userLogged->getId(),
-            'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
         ));
 
 
@@ -426,9 +407,6 @@ class CommonAreaReservationStatusController extends Controller
 
         $form = $this->createForm(CommonAreaReservationStatusType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_common_area_reservation_status_update', array('id' => $entity->getId())),
-            'role' => $this->role,
-            'userID' => $this->userLogged->getId(),
-            'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
         ));
 
 
@@ -443,9 +421,10 @@ class CommonAreaReservationStatusController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('commonAreaReservationStatus');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:CommonAreaReservationStatus')->find($id);
+
+        $entity = $this->em->getRepository('BackendAdminBundle:CommonAreaReservationStatus')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CommonAreaReservationStatus entity.');
@@ -456,10 +435,9 @@ class CommonAreaReservationStatusController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $myRequest = $request->request->get('commonAreaReservationStatus');
 
             $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_status_index', array('id' => $id)));

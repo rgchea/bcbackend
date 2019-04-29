@@ -6,7 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 
 class TicketStatusType extends AbstractType
 {
@@ -17,32 +18,13 @@ class TicketStatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $role = $options["role"];
-        $repository = $options["repository"];
-
         $builder
-            ->add('name',  null, array('label'=>"label_name", 'required'=>true))
-            ->add('isPublic',  TextareaType::class, array('label'=>"label_is_public", 'required'=>true));
+            ->add('nameEN',  null, array('label'=>"label_name", 'required'=>true))
+            ->add('nameES',  null, array('label'=>"label_nombre", 'required'=>true))
+            ->add('isPublic',  CheckboxType::class, array('label'=>"label_is_public", 'required'=>true));
             //->add('complex',  null, array('label'=>"label_complex", 'required'=>true))
 
 
-            //IF ROLE IS SUPER ADMIN VIEW ALL
-            if($role == "SUPER ADMIN"){
-                $builder->add('complex', null, array('label'=>"label_complex", 'required' => true,
-                    'class' => 'Backend\AdminBundle\Entity\Complex',
-                    'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
-                        return $er->createQueryBuilder('c')
-                            ->where('c.enabled = 1')
-                            ->orderBy("c.name", "ASC")
-                            ;
-                    }
-                ));
-            }
-            else{
-                $array = $repository->getComplexByUser($options["userID"]);
-                $builder->add('complex', ChoiceType::class, array('choices' => $array, 'label'=>"label_complex", 'required' => true, 'mapped' => false));
-
-            }
 
 
 
@@ -55,9 +37,6 @@ class TicketStatusType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Backend\AdminBundle\Entity\TicketStatus',
-            'role' => null,
-            'repository' => null,
-            'userID' => null,
 
 
         ));

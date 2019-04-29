@@ -2,8 +2,6 @@
 
 namespace Backend\AdminBundle\Entity;
 
-use Symfony\Component\Intl\Locale;
-
 /**
  * TicketCategory
  */
@@ -18,6 +16,11 @@ class TicketCategory
      * @var string
      */
     private $name = '';
+
+    /**
+     * @var string
+     */
+    private $description;
 
     /**
      * @var \DateTime
@@ -82,6 +85,30 @@ class TicketCategory
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set description.
+     *
+     * @param string $description
+     *
+     * @return TicketCategory
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
@@ -228,34 +255,66 @@ class TicketCategory
         return $this->complex;
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+    /**
+     * @var string
+     */
+    private $color = '';
 
     /**
      * @var string
      */
-    private $description;
+    private $iconUrl = '';
 
 
     /**
-     * Set description.
+     * Set color.
      *
-     * @param string $description
+     * @param string $color
      *
      * @return TicketCategory
      */
-    public function setDescription($description)
+    public function setColor($color)
     {
-        $this->description = $description;
+        $this->color = $color;
 
         return $this;
     }
 
     /**
-     * Get description.
+     * Get color.
      *
      * @return string
      */
-    public function getDescription()
+    public function getColor()
     {
-        return $this->description;
+        return $this->color;
+    }
+
+    /**
+     * Set iconUrl.
+     *
+     * @param string $iconUrl
+     *
+     * @return TicketCategory
+     */
+    public function setIconUrl($iconUrl)
+    {
+        $this->iconUrl = $iconUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get iconUrl.
+     *
+     * @return string
+     */
+    public function getIconUrl()
+    {
+        return $this->iconUrl;
     }
 }

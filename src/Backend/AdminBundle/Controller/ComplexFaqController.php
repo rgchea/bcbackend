@@ -85,8 +85,6 @@ class ComplexFaqController extends Controller
             die;
 
 
-        ///FILTER BY ROLE
-         $filters = array();
 
         ///FILTER BY ROLE
         $filters = null;
@@ -357,6 +355,7 @@ class ComplexFaqController extends Controller
         //print "<pre>";
         //var_dump($_REQUEST);DIE;
         $this->get("services")->setVars('complexFaq');
+        $this->initialise();
 
 
         $entity = new ComplexFaq();
@@ -367,15 +366,16 @@ class ComplexFaqController extends Controller
          * */
 
         if ($form->isValid()) {
-            $myRequest = $request->request->get('complexFaq');
+            //$myRequest = $request->request->get('complexFaq');
             //var_dump($myRequest);die;
-            $em = $this->getDoctrine()->getManager();
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["complex_faq"]["complex"]));
+
             //var_dump($request->get('complexFaq');die;
 
             $this->get("services")->blameOnMe($entity, "create");
 
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -451,7 +451,7 @@ class ComplexFaqController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('complexFaq');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
         $entity = $em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
 
@@ -464,10 +464,11 @@ class ComplexFaqController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $myRequest = $request->request->get('complexFaq');
+            //$myRequest = $request->request->get('complexFaq');
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["complex_faq"]["complex"]));
 
             $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_complex_faq_index', array('id' => $id)));

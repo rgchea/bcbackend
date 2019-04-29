@@ -11,7 +11,7 @@ namespace Backend\AdminBundle\Repository;
 class PropertyTransactionTypeRepository extends \Doctrine\ORM\EntityRepository
 {
     
-     public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions, $filterComplex)
+     public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions)
     {
         //print "entra";die;
         // Create Main Query
@@ -22,22 +22,25 @@ class PropertyTransactionTypeRepository extends \Doctrine\ORM\EntityRepository
         $countQuery->select('COUNT(e)');
 
         // Create inner joins
-        $query->join('e.complex', 'c');
-        $countQuery->join('e.complex', 'c');
+        //$query->join('e.complex', 'c');
+        //$countQuery->join('e.complex', 'c');
 
 
         //ENABLED
         $query->andWhere("e.enabled = 1");
         $countQuery->andWhere("e.enabled = 1");
 
-        $query->andWhere("c.enabled = 1");
-        $countQuery->andWhere("c.enabled = 1");
+        //$query->andWhere("c.enabled = 1");
+        //$countQuery->andWhere("c.enabled = 1");
 
-
+        /*
         if($filterComplex != null){
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
             $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
         }
+        */
+
+
         // Fields Search
         foreach ($columns as $key => $column)
         {
@@ -54,28 +57,26 @@ class PropertyTransactionTypeRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.id ='. $searchItem;
                             break;
                         }
-                    case 'name':
+                    case 'nameEN':
                         {
-                            $searchQuery = 'e.name LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'e.nameEN LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
-                        
-                    case 'description':
+                    case 'nameES':
                         {
-                            $searchQuery = 'e.description LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'e.nameES LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
-                        
+
+
+                        /*
                     case 'lastPaymentDay':
                         {
                             $searchQuery = 'e.lastPaymentDay LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
-                    case 'complex':
-                        {
-                            $searchQuery = 'c.name LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
+                        */
+
 
 
                 }
@@ -116,18 +117,18 @@ class PropertyTransactionTypeRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.id';
                             break;
                         }
-                     case 'name':
+                    case 'nameEN':
                         {
-                            $orderColumn = 'e.name';
+                            $orderColumn = 'e.nameEN';
                             break;
                         }
-                        
-                    case 'description':
+                    case 'nameES':
                         {
-                            $orderColumn = 'e.description';
+                            $orderColumn = 'e.nameES';
                             break;
                         }
-                        
+
+                    /*
                     case 'lastPaymentDay':
                         {
                             $orderColumn = 'e.lastPaymentDay';
@@ -139,6 +140,7 @@ class PropertyTransactionTypeRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'c.name';
                             break;
                         }
+                    */
 
                 }
 

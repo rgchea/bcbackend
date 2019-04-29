@@ -1,0 +1,64 @@
+Backend\AdminBundle\Entity\Invoice:
+  type: entity
+  table: invoice
+  repositoryClass: Backend\AdminBundle\Repository\InvoiceRepository
+  indexes:
+    business:
+      columns:
+        - business_id
+
+  id:
+    id:
+      type: integer
+      nullable: false
+      options:
+        unsigned: true
+      id: true
+      generator:
+        strategy: IDENTITY
+  fields:
+    description:
+      type: text
+      nullable: false
+      length: 65535
+      options:
+        fixed: false
+      column: description
+    amount:
+      type: float
+      nullable: false
+      precision: 10
+      scale: 2
+      options:
+        default: '0.00'
+    sent:
+      type: boolean
+      nullable: false
+      options:
+        default: false
+    createdAt:
+      type: datetime
+      nullable: false
+      options:
+        default: '0000-00-00 00:00:00'
+      column: created_at
+    updatedAt:
+      type: datetime
+      nullable: false
+      options:
+        default: '0000-00-00 00:00:00'
+      column: updated_at
+
+  manyToOne:
+    business:
+      targetEntity: Business
+      cascade: {  }
+      fetch: LAZY
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        business_id:
+          referencedColumnName: id
+      orphanRemoval: false
+
+  lifecycleCallbacks: {  }

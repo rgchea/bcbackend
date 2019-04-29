@@ -642,13 +642,20 @@ class Services extends Controller
         $response = $client->request($method, 'https://bettercondos.info/?ng=api/v2/'.$service, $params);
         //var_dump($response);die;
 
-        //var_dump($response->getStatusCode()); # 200
+        $code = $response->getStatusCode();
+
+        if($code == 200){
+            $arrResponse = json_decode($response->getBody(), true);
+        }
+        else{
+            $arrResponse =  array("error" => true);
+        }
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
-        $arrResponse = json_decode($response->getBody(), true);
+
 
 
         //var_dump($arrResponse); # '{"id": 1420053, "name": "guzzle", ...}'
-
+        //die;
         return $arrResponse;
 
 
@@ -675,6 +682,14 @@ class Services extends Controller
         else{
             return false;
         }
+
+    }
+
+
+
+
+
+    public function loadCommonAreaType($complex){
 
     }
 

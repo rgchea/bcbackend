@@ -389,16 +389,15 @@ class BusinessController extends Controller
 
             //iBilling
             $bodyHtml = $this->translator->trans('label_register_bc_info')."<br/>";
-            $bodyHtml .= "<b>Email:</b>".$entity->getEmail()."<br/>";
-            $bodyHtml .= "<b>Password:</b>".$billingPassword."<br/><br/>";
+            $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
+            $bodyHtml .= "<b>Password:&nbsp;</b>".$billingPassword."<br/><br/>";
 
             //contact
             $bodyHtml .= $this->translator->trans('label_register_contact');
 
             //var_dump($bodyHtml);die;
 
-            $to = "cheametal@gmail.com";
-            //$to = $entity->getEmail();
+            $to = $entity->getEmail();
             //($subject, $to, $bodyHtml, $from = null){
             $message = $this->get('services')->generalTemplateMail("BetterCondos iBilling", $to, $bodyHtml);
 

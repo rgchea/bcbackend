@@ -86,8 +86,6 @@ class ComplexSectorController extends Controller
             die;
 
 
-        ///FILTER BY ROLE
-        $filters = array();
 
         ///FILTER BY ROLE
         $filters = null;
@@ -358,7 +356,7 @@ class ComplexSectorController extends Controller
 
 
         $entity = new ComplexSector();
-        $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["complex_sector"]["complex"]));
+        //$entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["complex_sector"]["complex"]));
         $form = $this->createCreateForm($entity);
         //var_dump($request);die;
         $form->handleRequest($request);
@@ -507,7 +505,7 @@ class ComplexSectorController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_category"]["complex"]));
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["complex_sector"]["complex"]));
 
             $this->get("services")->blameOnMe($entity);
             $this->em->flush();

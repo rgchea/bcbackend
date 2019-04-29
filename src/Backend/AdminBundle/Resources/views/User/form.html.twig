@@ -1,8 +1,5 @@
-<style>
-    .input-group {
-        z-index: 0;
-    }
-</style>
+
+
 
 <div class="row">
 
@@ -58,39 +55,57 @@
 								{{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
 								) }}
 							</div>
-	                        <div class="form-group col-md-6">
-	                            {{ form_label(form.password) }}
-	                            {{ form_errors(form.password) }}
-	                            {{ form_widget(form.password, { 'attr': {'class' : 'form-control' } }
-	                            ) }}
-	                        </div>	
-							<div class="clearfix"></div>			
+
+							{% if edit is defined and role == "ADMIN" %}
+								<div class="form-group col-md-6">
+									{{ form_label(form.password) }}
+									{{ form_errors(form.password) }}
+									{{ form_widget(form.password, { 'attr': {'class' : 'form-control' } }
+									) }}
+									<label>{{ 'label_set_password'|trans }}</label>
+								</div>
 
 
-
-
-							<div class="form-group col-md-6">
-								<label for="user_birthdate" class="required">{{ 'label_birthdate'|trans }}</label>
-								{% if edit is defined %}
-
-									<input id="form_birthdate" name="user[birthdate]" type="date" class="form-control" value="{{entity.birthdate|date('Y-m-d')}}"/>
-								{% else %}
-									<input id="form_birthdate" name="user[birthdate]" type="date" class="form-control"/>
-								{% endif %}
-
-								{#
-
-
-								{% if edit is defined %}
-									<input readonly="readonly" id="birthdate" name="user[birthdate]" type="text" class="classPicker form-control" value="{{entity.birthdate|date('m-d-Y')}}" data-date-format='mm-dd-yyyy' />
-								{% else %}
-									<input readonly="readonly" id="birthdate" name="user[birthdate]" type="text" class="classPicker form-control" value="{{'now'|date('m-d-Y')}}" data-date-format='mm-dd-yyyy' />
-								{% endif %}
-								#}
-
-							</div>
-
+							{% endif %}
 							<div class="clearfix"></div>
+
+							{% if edit is defined %}
+								<div class="form-group col-md-6">
+									<label for="user_birthdate" class="required">{{ 'label_birthdate'|trans }}</label>
+									{% if edit is defined %}
+
+										<input id="form_birthdate" name="user[birthdate]" type="date" class="form-control" value="{{entity.birthdate|date('Y-m-d')}}"/>
+									{% else %}
+										<input id="form_birthdate" name="user[birthdate]" type="date" class="form-control"/>
+									{% endif %}
+
+									{#
+
+
+                                    {% if edit is defined %}
+                                        <input readonly="readonly" id="birthdate" name="user[birthdate]" type="text" class="classPicker form-control" value="{{entity.birthdate|date('m-d-Y')}}" data-date-format='mm-dd-yyyy' />
+                                    {% else %}
+                                        <input readonly="readonly" id="birthdate" name="user[birthdate]" type="text" class="classPicker form-control" value="{{'now'|date('m-d-Y')}}" data-date-format='mm-dd-yyyy' />
+                                    {% endif %}
+                                    #}
+
+								</div>
+								<div class="form-group col-md-6">
+									{{ form_label(form.avatarPath) }}
+									{{ form_errors(form.avatarPath) }}
+									{{ form_widget(form.avatarPath, { 'attr': {'class' : 'form-control' } }
+									) }}
+
+								</div>
+
+
+								<div class="clearfix"></div>
+
+
+
+							{% endif %}
+
+							{#
 							{% if role == "SUPER ADMIN" %}
 
 								<div class="form-group col-md-6">
@@ -102,36 +117,69 @@
 								</div>
 
 							{% endif %}
+							#}
 
 
-							<div class="form-group col-md-6">
-	                            {{ form_label(form.role) }}
-	                            {{ form_errors(form.role) }}
-	                            {{ form_widget(form.role, { 'attr': {'class' : 'form-control' } }
-	                            ) }}
-								
-							</div>
+
+
+							{% if edit is defined %}
+
+
+								{% if role != "ADMIN" %}
+
+									<div class="form-group col-md-6">
+										{{ form_label(form.role) }}
+										{{ form_errors(form.role) }}
+										{{ form_widget(form.role, { 'attr': {'class' : 'form-control', 'disabled':'disabled' } }
+										) }}
+
+									</div>
+
+
+								{% elseif role == "ADMIN" and userLooged != entity.id %}
+									<div class="form-group col-md-6">
+										{{ form_label(form.role) }}
+										{{ form_errors(form.role) }}
+										{{ form_widget(form.role, { 'attr': {'class' : 'form-control' } }
+										) }}
+									</div>
+
+								{% endif %}
+
+
+							{% else %}
+								<div class="form-group col-md-6">
+									{{ form_label(form.role) }}
+									{{ form_errors(form.role) }}
+									{{ form_widget(form.role, { 'attr': {'class' : 'form-control' } }
+									) }}
+								</div>
+
+							{% endif %}
+
 
 							<div class="clearfix"></div>
-
-							<div class="form-group col-md-6">
-								{{ form_label(form.avatarPath) }}
-								{{ form_errors(form.avatarPath) }}
-								{{ form_widget(form.avatarPath, { 'attr': {'class' : 'form-control' } }
+							<div class="form-group col-md-6" id="supervisorSelect">
+								{{ form_label(form.supervisor) }}
+								{{ form_errors(form.supervisor) }}
+								{{ form_widget(form.supervisor, { 'attr': {'class' : 'form-control' } }
 								) }}
 
 							</div>
-
-
 							<div class="clearfix"></div>
 
-							<div class="form-group col-md-6">
-								{{ form_label(form.enabled) }}
-								{{ form_errors(form.enabled) }}
-								{{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
-								) }}
 
-							</div>
+
+							{% if role == "ADMIN" and edit is defined%}
+								<div class="form-group col-md-6">
+									{{ form_label(form.enabled) }}
+									{{ form_errors(form.enabled) }}
+									{{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
+									) }}
+
+								</div>
+
+							{% endif %}
 
 	                        <div class="hide">
 	                            {{ form_rest(form) }}
@@ -147,9 +195,57 @@
 								{{ 'label_save'|trans  }}
 							</button>
 						</div>
+						<div class="clearfix"></div>
+						<br/>
+						<div class="clearfix"></div>
+						<table id="complexTable" class="table table-striped table-bordered table-hover" style="width: 60%">
+							<thead>
+							<tr>
+								{# sorting of properties based on query components #}
+								<th>ID</th>
+								<th>{{ 'label_complex'|trans }}</th>
+								<th>{{ 'label_assign'|trans }}</th>
+							</tr>
 
+							</thead>
+							<tbody>
+
+							{% for complex in arrComplex %}
+								<tr>
+									<td>{{ complex.id }}</td>
+									<td>{{ complex.name }}</td>
+									{% if edit is defined %}
+										<td>
+											{% if complex.assigned == 1%}
+												<input type="checkbox" checked name="complex[{{ complex.id }}]">
+											{% else %}
+												<input type="checkbox" name="complex[{{ complex.id }}]">
+											{% endif %}
+
+										</td>
+
+									{% else %}
+										<td>
+											<input type="checkbox" name="complex[{{ complex.id }}]">
+										</td>
+
+										{#<td><a href="#" onclick="assignComplex({{ complex.id }})"> <i class="fas fa-times"></i></a></td>#}
+
+									{% endif %}
+
+
+								</tr>
+							{% endfor %}
+
+							</tbody>
+
+						</table>
 					<!--</form>-->
-					{{ form_end(form) }}					
+					{{ form_end(form) }}
+
+
+
+
 
 				</div>
 				<!-- end widget content -->
@@ -168,6 +264,12 @@
 
 	$( document ).ready(function() {
 
+
+		$("#user_role").change(function() {
+			//console.log($("#user_role").val());
+			checkRoles();
+		});
+
 		$("#section_username").hide();
 		$("[name='user']").validate({
 			success: function(error){
@@ -180,13 +282,16 @@
 		{% if new is defined %}
 
 			$("[name='user']").validate();
-			$("#user_password").rules("add", {required:true});
+			//$("#user_password").rules("add", {required:true});
 			$("#user_email").rules("add", {required:true, email:true});
-			$("#form_birthdate").rules("add", {required:true});
+			//$("#form_birthdate").rules("add", {required:true});
 
 		{% endif %}
 
-		$("#user_avatarPath").rules("add", {required:false});
+		{% if edit is defined %}
+			$("#user_avatarPath").rules("add", {required:false});
+		{% endif %}
+
 		
 		 $('[name="user"]').on("submit", function(){
 		   //Code: Action (like ajax...)
@@ -200,8 +305,60 @@
 		   }
 
 		 });
+
+		 checkRoles();
 		
 	});
+
+	function checkRoles(){
+
+		myRole = $("#user_role").val();
+		if(myRole == 2){//COMPLEX ADMIN
+			toggleComplexTable("show");
+			toggleSupervisorSelect("show");
+			$("#user_supervisor").rules("add", {required:true});
+
+		}
+		else if(myRole == 3){//SUPERVISOR
+			toggleComplexTable("show");
+			toggleSupervisorSelect("hide");
+			$("#user_supervisor").rules("add", {required:false});
+		}
+		else{
+			toggleComplexTable("hide");
+			toggleSupervisorSelect("hide");
+			$("#user_supervisor").rules("add", {required:false});
+
+		}
+
+
+
+	}
+
+
+	function toggleComplexTable(action)
+	{
+		if(action == "show"){
+			$("#complexTable").show();
+		}
+		else{
+			$("#complexTable").hide();
+		}
+
+
+	}
+
+	function toggleSupervisorSelect(action)
+	{
+		if(action == "show"){
+			$("#supervisorSelect").show();
+		}
+		else{
+			$("#supervisorSelect").hide();
+		}
+
+
+	}
 
 
 	function setUsername(){
@@ -209,6 +366,10 @@
 		$("#fos_user_registration_form_username").val(email);
 	}
 
+
+	function assignComplex(complex){
+		console.log(complex);
+	}
 
 	{#
 		$(".classPicker").datepicker({

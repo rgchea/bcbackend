@@ -61,36 +61,10 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
                         }
                     case 'name':
                         {
-                            $searchQuery = 'e.name LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
-                    case 'description':
-                        {
-                            $searchQuery = 'e.description LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'e.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
                         
-                    case 'regulation':
-                        {
-                            $searchQuery = 'e.regulation LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
-                    case 'termCondition':
-                        {
-                            $searchQuery = 'e.termCondition LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
-                        
-                    case 'price':
-                        {
-                            $searchQuery = 'e.price LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
-                    case 'reservationHourPeriod':
-                        {
-                            $searchQuery = 'e.reservationHourPeriod LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
                     case 'requiredPayment':
                         {
                             $searchQuery = 'e.requiredPayment LIKE \'%'.$searchItem.'%\'';
@@ -101,20 +75,10 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.hasEquipment LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
-                    case 'equipmentDescription':
-                        {
-                            $searchQuery = 'e.equipmentDescription LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
 
                     case 'complex':
                         {
                             $searchQuery = 'c.name LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
-                    case 'commonAreaType':
-                        {
-                            $searchQuery = 's.name LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
 
@@ -161,33 +125,6 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.name';
                             break;
                         }
-                    case 'description':
-                        {
-                            $orderColumn = 'e.description';
-                            break;
-                        }
-                        
-                    case 'regulation':
-                        {
-                            $orderColumn = 'e.regulation';
-                            break;
-                        }
-                    case 'termCondition':
-                        {
-                            $orderColumn = 'e.termCondition';
-                            break;
-                        }
-                        
-                    case 'price':
-                        {
-                            $orderColumn = 'e.price';
-                            break;
-                        }
-                    case 'reservationHourPeriod':
-                        {
-                            $orderColumn = 'e.reservationHourPeriod';
-                            break;
-                        }
                     case 'requiredPayment':
                         {
                             $orderColumn = 'e.requiredPayment';
@@ -198,20 +135,10 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.hasEquipment';
                             break;
                         }
-                    case 'equipmentDescription':
-                        {
-                            $orderColumn = 'e.equipmentDescription';
-                            break;
-                        }
 
                     case 'complex':
                         {
                             $orderColumn = 'c.complex';
-                            break;
-                        }
-                    case 'commonAreaType':
-                        {
-                            $orderColumn = 's.commonAreaType';
                             break;
                         }
 

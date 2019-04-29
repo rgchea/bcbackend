@@ -12,8 +12,6 @@ class ComplexSectorRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
-
-
     public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $businessLocale)
     {
         //print "entra";die;

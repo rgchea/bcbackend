@@ -85,26 +85,12 @@ class TicketStatusController extends Controller
             die;
 
 
-        ///FILTER BY ROLE
-         $filters = array();
-
-        ///FILTER BY ROLE
-        $filters = null;
-        if($this->role != "SUPER ADMIN"){
-
-            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-            foreach ($arrComplex as $k =>$v) {
-                $filters[$v] = $v;//the complex id
-            }
-
-        }
-
 
 
 
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null, $filters);
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -130,23 +116,30 @@ class TicketStatusController extends Controller
 
                             break;
                         }
-                    case 'name':
+                    case 'nameEN':
                         {
-                            $responseTemp = $entity->getName();
+                            $responseTemp = $entity->getNameEN();
+                            break;
+                        }
+
+                    case 'nameES':
+                        {
+                            $responseTemp = $entity->getNameES();
                             break;
                         }
                         
                     case 'isPublic':
                         {
-                            $responseTemp = $entity->getIsPublic();
+                            $responseTemp = $entity->getIsPublic() ? "Yes" : "No";
                             break;
                         }
-
+                    /*
                     case 'complex':
                         {
                             $responseTemp = $entity->getComplex()->getName();
                             break;
                         }
+                    */
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_ticket_status_edit', array('id' => $entity->getId()));
@@ -351,7 +344,7 @@ class TicketStatusController extends Controller
         //print "<pre>";
         //var_dump($_REQUEST);DIE;
         $this->get("services")->setVars('ticketStatus');
-
+        $this->initialise();
 
         $entity = new TicketStatus();
         $form = $this->createCreateForm($entity);
@@ -361,15 +354,12 @@ class TicketStatusController extends Controller
          * */
 
         if ($form->isValid()) {
-            $myRequest = $request->request->get('ticketStatus');
-            //var_dump($myRequest);die;
-            $em = $this->getDoctrine()->getManager();
-            //var_dump($request->get('ticketStatus');die;
+            //$entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_status"]["complex"]));
 
             $this->get("services")->blameOnMe($entity, "create");
 
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -402,9 +392,11 @@ class TicketStatusController extends Controller
         $form = $this->createForm(TicketStatusType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_ticket_status_create'),
             'method' => 'POST',
+            /*
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
             'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
+            */
         ));
 
 
@@ -428,9 +420,11 @@ class TicketStatusController extends Controller
 
         $form = $this->createForm(TicketStatusType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_ticket_status_update', array('id' => $entity->getId())),
+            /*
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
             'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
+            */
         ));
 
 
@@ -445,9 +439,9 @@ class TicketStatusController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('ticketStatus');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:TicketStatus')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:TicketStatus')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find TicketStatus entity.');
@@ -458,10 +452,10 @@ class TicketStatusController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $myRequest = $request->request->get('ticketStatus');
+            //$entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_status"]["complex"]));
 
             $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_ticket_status_index', array('id' => $id)));

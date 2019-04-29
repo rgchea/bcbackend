@@ -1,6 +1,7 @@
 <?php
 
 namespace Backend\AdminBundle\Repository;
+use Backend\AdminBundle\Entity\CommonAreaType;
 
 /**
  * CommonAreaTypeRepository
@@ -144,5 +145,40 @@ public function getRequiredDTData($start, $length, $orders, $search, $columns, $
             "countResult"	=> $countResult
         );
     }
+
+
+    /*
+    public function loadCommonAreaType($complex){
+
+        //OJO DEBE DE SER SEGUN EL IDIOMA DEL SU COMPLEX/BUSINESS
+        //club social
+        //gimnasio
+        //piscina
+
+        $em = $this->getEntityManager();
+
+        $arr = array();
+        $arr["EN"] = array("Social club", "Gym", "Pool");
+        $arr["ES"] = array("Club social", "Gimnasio", "Piscina");
+
+
+        $myLocale = $complex->getGeoState()->getGeoCountry()->getLocale();
+
+        foreach ($arr[$myLocale] as $key => $cat ){
+
+            $ticketCat = new CommonAreaType();
+            $ticketCat->setName($cat);
+            $ticketCat->setDescription($cat);
+            $ticketCat->setComplex($complex);
+            $ticketCat->setEnabled(1);
+
+            $em->persist($ticketCat);
+
+        }
+
+        $em->flush();
+
+    }
+    */
     
 }

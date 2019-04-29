@@ -28,6 +28,7 @@ class UserType extends AbstractType
             ->add('email',  null, array('label'=>"label_email", 'required'=>true))
             ->add('enabled', null, array('label'=>"label_enabled", 'required' => false))
             ->add('password', PasswordType::class, array('label'=>"label_login_password", 'required' => false))
+            //->add('supervisor',  null, array('label'=>"label_supervisor", 'required'=>false))
             ->add('avatarPath', FileType::class,
                     array(
                         'data_class' => null,
@@ -49,6 +50,19 @@ class UserType extends AbstractType
                     )
                 )
             ;
+
+            $builder->add('supervisor', null, array('label'=>"label_supervisor", 'required' => false,
+                'class' => 'Backend\AdminBundle\Entity\User',
+                'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
+                    return $er->createQueryBuilder('User')
+                        ->where('User.role = 3')///ROL SUPERVISOR
+                        ->andWhere('User.business = :param_type')
+                        ->setParameter('param_type', $options["business"])
+                        ->orderBy("User.name", "ASC")
+                        ;
+                }
+            ));
+
 
             //IF ROLE IS SUPER ADMIN VIEW ALL
             if($role == "SUPER ADMIN"){
@@ -110,7 +124,8 @@ class UserType extends AbstractType
             'data_class' => 'Backend\AdminBundle\Entity\User',
             'allow_extra_fields' => true,
             'role' => null,
-            'userID' => null
+            'userID' => null,
+            'business' => null
         ));
     }
 }

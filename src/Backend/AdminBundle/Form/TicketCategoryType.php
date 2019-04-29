@@ -22,9 +22,10 @@ class TicketCategoryType extends AbstractType
 
         $builder
             ->add('name',  null, array('label'=>"label_name", 'required'=>true))
-            ->add('description',  TextareaType::class, array('label'=>"label_description", 'required'=>true));
+            ->add('description',  TextareaType::class, array('label'=>"label_description", 'required'=>true))
             //->add('complex',  null, array('label'=>"label_complex", 'required'=>true))
-
+            //->add('color',  null, array('label'=>"color", 'required'=>true))
+            ;
 
             //IF ROLE IS SUPER ADMIN VIEW ALL
             if($role == "SUPER ADMIN"){
@@ -55,6 +56,7 @@ class TicketCategoryType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Backend\AdminBundle\Entity\TicketCategory',
+            'allow_extra_fields' => true,
             'role' => null,
             'repository' => null,
             'userID' => null,

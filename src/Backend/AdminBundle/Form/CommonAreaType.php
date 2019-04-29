@@ -50,33 +50,7 @@ class CommonAreaType extends AbstractType
 
             }
             
-            
-            
-            
-             if($role == "SUPER ADMIN"){
-                $builder->add('commonAreaType', null, array('label'=>"label_common_area_type", 'required' => true,
-                    'class' => 'Backend\AdminBundle\Entity\CommonAreaType',
-                    'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
-                        return $er->createQueryBuilder('c')
-                            ->where('s.enabled = 1')
-                            ->orderBy("s.name", "ASC")
-                            ;
-                    }
-                ));
-            }
-            else{
-                $array = $repository->getComplexByUser($options["userID"]);
-                $builder->add('commonAreaType', ChoiceType::class, array('choices' => $array, 'label'=>"label_common_area_type", 'required' => true, 'mapped' => false));
 
-            }
-
-        $arrComplex = $repository->getComplexByUser($options["userID"]);
-        $filters = array();
-        foreach ($arrComplex as $k =>$v) {
-            $filters[$v] = $v;//the complex id
-        }
-
-        
 
 
 

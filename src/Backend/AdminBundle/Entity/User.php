@@ -654,4 +654,33 @@ class User extends BaseUser
     {
         return $this->business;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $supervisor;
+
+
+    /**
+     * Set supervisor.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $supervisor
+     *
+     * @return User
+     */
+    public function setSupervisor(\Backend\AdminBundle\Entity\User $supervisor = null)
+    {
+        $this->supervisor = $supervisor;
+
+        return $this;
+    }
+
+    /**
+     * Get supervisor.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getSupervisor()
+    {
+        return $this->supervisor;
+    }
 }

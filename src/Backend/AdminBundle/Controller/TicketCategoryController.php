@@ -241,6 +241,7 @@ class TicketCategoryController extends Controller
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'edit' => 1
         ));
     }
 
@@ -355,8 +356,8 @@ class TicketCategoryController extends Controller
 
 
         if ($form->isValid()) {
-            $myRequest = $request->request->get('ticketCategory');
-            //var_dump($myRequest);die;
+
+            $entity->setColor(trim($_REQUEST["ticket_category"]["color"]));
             $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_category"]["complex"]));
 
             $this->get("services")->blameOnMe($entity, "create");
@@ -451,6 +452,8 @@ class TicketCategoryController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+
+            $entity->setColor(trim($_REQUEST["ticket_category"]["color"]));
 
             $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_category"]["complex"]));
 

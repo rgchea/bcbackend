@@ -56,10 +56,9 @@
                     <tfoot class="dt_tfoot">
                         <tr>
                             <th>ID</th>
-                            <th>{{ 'label_name'|trans }}</th>
-                            <th>{{ 'label_description'|trans }}</th>
-                            <th>{{ 'label_last_payment_day'|trans }}</th>
-                            <th>{{ 'label_complex'|trans }}</th>
+                            <th>{{ 'label_name'|trans }} {{ 'label_en'|trans }}</th>
+                            <th>{{ 'label_name'|trans }} {{ 'label_es'|trans }}</th>
+
                             <th>&nbsp;</th>
 
                         </tr>
@@ -68,10 +67,10 @@
                         <tr>
                             {# sorting of properties based on query components #}
                             <th>ID</th>
-                            <th>{{ 'label_name'|trans }}</th>
-                            <th>{{ 'label_description'|trans }}</th>
-                            <th>{{ 'label_last_payment_day'|trans }}</th>
-                            <th>{{ 'label_complex'|trans }}</th>
+                            <th>{{ 'label_name'|trans }} {{ 'label_en'|trans }}</th>
+                            <th>{{ 'label_name'|trans }} {{ 'label_es'|trans }}</th>
+
+
                             <th>{{ 'label_actions'|trans }}</th>
                         </tr>
 
@@ -102,11 +101,9 @@
 
                     // These are the column name variables that will be sent to the server
                     { "name": "id",   "targets": 0 },
-                    { "name": "name",   "targets": 1 },
-                    { "name": "description",   "targets": 2 },
-                    { "name": "lastPaymentDay",   "targets": 3 },
-                    { "name": "complex",   "targets": 4 },
-                    { "name": "actions",  "targets": 5 },
+                    { "name": "nameEN",   "targets": 1 },
+                    { "name": "nameES",   "targets": 2 },
+                    { "name": "actions",  "targets": 3 },
 
                 ],
                 // Server-side parameters
@@ -142,7 +139,7 @@
             var pos = 1;
             $('#dt_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos != 6){//columna Actions
+                if(pos != 4){//columna Actions
                     $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
                 }
 
