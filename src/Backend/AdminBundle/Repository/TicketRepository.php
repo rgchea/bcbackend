@@ -11,7 +11,7 @@ namespace Backend\AdminBundle\Repository;
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiTicketCategories( $categoryId, $complexId )
+    public function getApiTicketCategories( $categoryId, $complexId)
     {
         $qb = $this->createQueryBuilder('a');
 
@@ -23,6 +23,33 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('c.id = :com_id')
             ->setParameter('cat_id', $categoryId)
             ->setParameter('com_id', $complexId)
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getApiFeed($propertyId, $categoryId, $pageId = 1, $limit = 10 ) {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
+            ->innerJoin('a.ticketCategory', 'tc')
+            ->leftJoin('a.ticketType', 'tt')
+            ->leftJoin('a.ticketStatus', 'ts')
+            ->leftJoin('a.createdBy', 'u')
+            ->leftJoin('a.commonAreaReservation', 'car')
+            ->leftJoin('car.commonArea', 'ca')
+            ->leftJoin('car.commonAreaReservationStatus', 'cars')
+            ->leftJoin('a.property', 'p')
+
+            ->where('a.enabled = 1')
+            ->andWhere('p.id = :prop_id')
+            ->andWhere('tc.id = :cot_id')
+            ->setParameter('prop_id', $propertyId)
+            ->setParameter('cat_id', $categoryId)
+
+            ->setFirstResult($pageId * $limit) // Offset
+            ->setMaxResults($limit) // Limit
+
             ->orderBy('a.createdAt', 'ASC');
 
         return $qb->getQuery()->getResult();

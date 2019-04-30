@@ -5,6 +5,7 @@ namespace Backend\AdminBundle\Controller;
 use Backend\AdminBundle\Entity\GeoCountry;
 use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\TermCondition;
+use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
 use Backend\AdminBundle\Entity\TicketComment;
 use Backend\AdminBundle\Entity\User;
@@ -395,7 +396,8 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="notification_notice", type="string", description="Notification notice", example="Notice" ),
      *              )
      *          ),
-     *          @SWG\Property( property="message", type="string", example="" )
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property( property="page", type="integer", example="1" )
      *      )
      * )
      *
@@ -410,11 +412,12 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="User")
      */
 
-    public function getInboxAction($page)
+    public function getInboxAction(Request $request, $page = 1)
     {
         try {
             $this->initialise();
             $data = array();
+            $lang = $request->get('language');
 
             $notifications = $this->em->getRepository('BackendAdminBundle:UserNotification')->getApiInbox($this->getUser(), $page);
 
@@ -434,25 +437,23 @@ class RestController extends FOSRestController
                 $commentsReplies[$comment->getTicket()->getId()] += 1;
             }
 
-            $date_utc = new \DateTime("now", new \DateTimeZone("UTC"));
-
             /** @var UserNotification $notification */
             foreach ($notifications as $notification) {
                 $data[] = array(
-                    'avatar_path' => $notification->getSentBy()->getAvatarPath(),
-                    'username' => $notification->getSentBy()->getUsername(),
-                    'role' => $notification->getSentBy()->getRole()->getName(),
+                    'avatar_path' => $notification->getCreatedBy()->getAvatarPath(),
+                    'username' => $notification->getCreatedBy()->getUsername(),
+                    'role' => (($lang=='en')?$notification->getCreatedBy()->getRole()->getName():$notification->getCreatedBy()->getRole()->getNameES()),
                     'user_notification' => array(
                         'description' => $notification->getDescription(),
-                        'notification_type' => $notification->getNotificationType()->getName()),
+                        'notification_type' => (($lang=='en')?$notification->getNotificationType()->getNameEN():$notification->getNotificationType()->getNameES())),
                     'replies_quantity' => $commentsReplies[$notification->getTicket()->getId()],
-                    'timestamp' => $date_utc->format(\DateTime::RFC850),
-                    'notification_type' => $notification->getNotificationType()->getName(),
+                    'timestamp' => $notification->getCreatedAt()->format(\DateTime::RFC850),
+                    'notification_type' => (($lang=='en')?$notification->getNotificationType()->getNameEN():$notification->getNotificationType()->getNameES()),
                     'notification_notice' => $notification->getNotice(),
                 );
             }
 
-            $response = array('message' => "", 'data' => $data);
+            $response = array('message' => "", 'page' => $page, 'data' => $data);
 
             return new JsonResponse($response);
         } catch (Exception $ex) {
@@ -463,6 +464,15 @@ class RestController extends FOSRestController
 
     /**
      * @Rest\Get("/ticketCategory/{property_id}/{complex_id}", name="ticket_categories")
+     *
+     * @SWG\Parameter(
+     *     name="property_id", in="path", type="integer",
+     *     description="The ID of the property.",
+     * )
+     * @SWG\Parameter(
+     *     name="complex_id", in="path", type="integer",
+     *     description="The ID of the Complex.",
+     * )
      *
      * @SWG\Response(
      *     response=200,
@@ -504,11 +514,101 @@ class RestController extends FOSRestController
                 $data[] = array(
                     'category_id' => $category->getId(),
                     'category_name' => $category->getName(),
-                    'icon_url' => "",
+                    'icon_url' => $category->getIconUrl(),
                 );
             }
 
             $response = array('message' => "", 'data' => $data);
+
+            return new JsonResponse($response);
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @Rest\Get("/feed/{property_id}/{filter_category_id}/{page}", name="feed")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of ticket categories for the filter.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="ticket_id", type="string", description="", example="" ),
+     *                  @SWG\Property( property="ticket_type_id", type="string", description="", example="" ),
+     *                  @SWG\Property( property="ticket_type_name", type="string", description="", example="" ),
+     *                  @SWG\Property( property="status", type="string", description="", example="" ),
+     *                  @SWG\Property( property="ticket_title", type="string", description="", example="" ),
+     *                  @SWG\Property( property="ticket_description", type="string", description="", example="" ),
+     *                  @SWG\Property( property="ticket_is_public", type="boolean", description="", example="" ),
+     *                  @SWG\Property( property="username", type="string", description="", example="" ),
+     *                  @SWG\Property( property="role", type="string", description="", example="" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="", example="" ),
+     *                  @SWG\Property( property="followers_quantity", type="string", description="", example="" ),
+     *                  @SWG\Property( property="common_area", type="object",
+     *                      @SWG\Property( property="id", type="string", description="", example="" ),
+     *                      @SWG\Property( property="name", type="string", description="", example="" ),
+     *                      @SWG\Property( property="reservation_status", type="string", description="", example="" ),
+     *                      @SWG\Property( property="reservation_from", type="string", description="", example="" ),
+     *                      @SWG\Property( property="reservation_to", type="string", description="", example="" ),
+     *                  ),
+     *                  @SWG\Property( property="comments_quantity", type="string", description="", example="" ),
+     *              )
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property( property="page", type="integer", example="1" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+    public function getFeedAction(Request $request, $property_id, $complex_id, $page = 1)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+            $lang = $request->get('language');
+
+            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $complex_id, $page);
+
+            /** @var Ticket $ticket */
+            foreach ($tickets as $ticket) {
+                $data[] = array(
+                    'ticket_id' => $ticket->getId(),
+                    'ticket_type_id' => $ticket->getTicketType()->getId(),
+                    'ticket_type_name' => $ticket->getTicketType()->getName(),
+                    'status' => (($lang=='en')?$ticket->getTicketStatus()->getNameEN():$ticket->getTicketStatus()->getNameES()),
+                    'ticket_title' => $ticket->getTitle(),
+                    'ticket_description' => $ticket->getDescription(),
+                    'ticket_is_public' => $ticket->getIsPublic(),
+                    'username' => $ticket->getCreatedBy()->getUsername(),
+                    'role' => (($lang=='en')?$ticket->getCreatedBy()->getRole()->getName():$ticket->getCreatedBy()->getRole()->getNameES()),
+                    'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
+                    'followers_quantity' => "", // ToDo
+                    'common_area' => array(
+                        "id" => $ticket->getCommonAreaReservation()->getCommonArea()->getId(),
+                        "name" => $ticket->getCommonAreaReservation()->getCommonArea()->getName(),
+                        "status" => (($lang=='en')?$ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameEN():$ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameES()),
+                        "reservation_from" => $ticket->getCommonAreaReservation()->getReservationDateFrom()->format(\DateTime::RFC850),
+                        "reservation_to" => $ticket->getCommonAreaReservation()->getReservationDateTo()->format(\DateTime::RFC850),
+                    ),
+                    'comments_quantity' => "", // ToDo
+
+                );
+            }
+
+            $response = array('message' => "", 'page' => $page, 'data' => $data);
 
             return new JsonResponse($response);
         } catch (Exception $ex) {
