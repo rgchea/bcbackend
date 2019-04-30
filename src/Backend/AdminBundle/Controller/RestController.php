@@ -7,12 +7,10 @@ use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\TermCondition;
 use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
-use Backend\AdminBundle\Entity\TicketComment;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -313,10 +311,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/property/{code}", name="property")
      *
-     * @SWG\Parameter(
-     *     name="code", in="path", type="string",
-     *     description="The code of the property.",
-     * )
+     * @SWG\Parameter( name="code", in="path", type="string", description="The code of the property." )
      *
      * @SWG\Response(
      *     response=200,
@@ -371,10 +366,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/inbox/{page}", name="inbox")
      *
-     * @SWG\Parameter(
-     *     name="page", in="path", type="string",
-     *     description="The code of the property.",
-     * )
+     * @SWG\Parameter(  name="page", in="path", type="string", description="The code of the property." )
      *
      * @SWG\Response(
      *     response=200,
@@ -422,19 +414,17 @@ class RestController extends FOSRestController
             $notifications = $this->em->getRepository('BackendAdminBundle:UserNotification')->getApiInbox($this->getUser(), $page);
 
             $ticketIds = array();
-            $commentsReplies = array();
             /** @var UserNotification $notification */
             foreach ($notifications as $notification) {
                 $id = $notification->getTicket()->getId();
                 $ticketIds[] = $id;
-                $commentsReplies[$id] = 0;
             }
             $ticketIds = array_unique($ticketIds);
 
-            $preComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiRepliesQuantities($ticketIds);
-            /** @var TicketComment $comment */
+            $preComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiCountPerTickets($ticketIds);
+            $commentsReplies = array();
             foreach ($preComments as $comment) {
-                $commentsReplies[$comment->getTicket()->getId()] += 1;
+                $commentsReplies[$comment['id']] = $comment['count'];
             }
 
             /** @var UserNotification $notification */
@@ -442,13 +432,13 @@ class RestController extends FOSRestController
                 $data[] = array(
                     'avatar_path' => $notification->getCreatedBy()->getAvatarPath(),
                     'username' => $notification->getCreatedBy()->getUsername(),
-                    'role' => (($lang=='en')?$notification->getCreatedBy()->getRole()->getName():$notification->getCreatedBy()->getRole()->getNameES()),
+                    'role' => (($lang == 'en') ? $notification->getCreatedBy()->getRole()->getName() : $notification->getCreatedBy()->getRole()->getNameES()),
                     'user_notification' => array(
                         'description' => $notification->getDescription(),
-                        'notification_type' => (($lang=='en')?$notification->getNotificationType()->getNameEN():$notification->getNotificationType()->getNameES())),
-                    'replies_quantity' => $commentsReplies[$notification->getTicket()->getId()],
+                        'notification_type' => (($lang == 'en') ? $notification->getNotificationType()->getNameEN() : $notification->getNotificationType()->getNameES())),
+                    'replies_quantity' => (array_key_exists($notification->getTicket()->getId(), $commentsReplies)) ? $commentsReplies[$notification->getTicket()->getId()] : 0,
                     'timestamp' => $notification->getCreatedAt()->format(\DateTime::RFC850),
-                    'notification_type' => (($lang=='en')?$notification->getNotificationType()->getNameEN():$notification->getNotificationType()->getNameES()),
+                    'notification_type' => (($lang == 'en') ? $notification->getNotificationType()->getNameEN() : $notification->getNotificationType()->getNameES()),
                     'notification_notice' => $notification->getNotice(),
                 );
             }
@@ -465,14 +455,8 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/ticketCategory/{property_id}/{complex_id}", name="ticket_categories")
      *
-     * @SWG\Parameter(
-     *     name="property_id", in="path", type="integer",
-     *     description="The ID of the property.",
-     * )
-     * @SWG\Parameter(
-     *     name="complex_id", in="path", type="integer",
-     *     description="The ID of the Complex.",
-     * )
+     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="complex_id", in="path", type="string", description="The ID of the Complex." )
      *
      * @SWG\Response(
      *     response=200,
@@ -481,7 +465,7 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
-     *                  @SWG\Property( property="id", type="integer", description="Category ID", example="1 ),
+     *                  @SWG\Property( property="id", type="integer", description="Category ID", example="1" ),
      *                  @SWG\Property( property="name", type="string", description="Name of the category", example="Category" ),
      *                  @SWG\Property( property="icon_url", type="string", description="URL for the category's icon", example="/icons/1.jpg" ),
      *              )
@@ -493,14 +477,13 @@ class RestController extends FOSRestController
      * @SWG\Response(
      *     response=500, description="Internal error.",
      *     @SWG\Schema (
-     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="data", type="string", example="" ),
      *          @SWG\Property( property="message", type="string", example="Internal error." )
      *     )
      * )
      *
      * @SWG\Tag(name="User")
      */
-
     public function getTicketCategoriesAction($property_id, $complex_id)
     {
         try {
@@ -582,29 +565,47 @@ class RestController extends FOSRestController
 
             $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $complex_id, $page);
 
+            $ticketIds = array();
+            /** @var Ticket $ticket */
+            foreach ($tickets as $ticket) {
+                $ticketIds[] = $ticket->getId();
+            }
+            $ticketIds = array_unique($ticketIds);
+
+            $preComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiCountPerTickets($ticketIds);
+            $comments = array();
+            foreach ($preComments as $comment) {
+                $comments[$comment['id']] = $comment['count'];
+            }
+
+            $preFollowers = $this->em->getRepository('BackendAdminBundle:TicketFollower')->getApiCountPerTickets($ticketIds);
+            $followers = array();
+            foreach ($preFollowers as $follower) {
+                $followers[$follower['id']] = $follower['count'];
+            }
+
             /** @var Ticket $ticket */
             foreach ($tickets as $ticket) {
                 $data[] = array(
                     'ticket_id' => $ticket->getId(),
                     'ticket_type_id' => $ticket->getTicketType()->getId(),
                     'ticket_type_name' => $ticket->getTicketType()->getName(),
-                    'status' => (($lang=='en')?$ticket->getTicketStatus()->getNameEN():$ticket->getTicketStatus()->getNameES()),
+                    'status' => (($lang == 'en') ? $ticket->getTicketStatus()->getNameEN() : $ticket->getTicketStatus()->getNameES()),
                     'ticket_title' => $ticket->getTitle(),
                     'ticket_description' => $ticket->getDescription(),
                     'ticket_is_public' => $ticket->getIsPublic(),
                     'username' => $ticket->getCreatedBy()->getUsername(),
-                    'role' => (($lang=='en')?$ticket->getCreatedBy()->getRole()->getName():$ticket->getCreatedBy()->getRole()->getNameES()),
+                    'role' => (($lang == 'en') ? $ticket->getCreatedBy()->getRole()->getName() : $ticket->getCreatedBy()->getRole()->getNameES()),
                     'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
-                    'followers_quantity' => "", // ToDo
+                    'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
                     'common_area' => array(
                         "id" => $ticket->getCommonAreaReservation()->getCommonArea()->getId(),
                         "name" => $ticket->getCommonAreaReservation()->getCommonArea()->getName(),
-                        "status" => (($lang=='en')?$ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameEN():$ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameES()),
+                        "status" => (($lang == 'en') ? $ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameEN() : $ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameES()),
                         "reservation_from" => $ticket->getCommonAreaReservation()->getReservationDateFrom()->format(\DateTime::RFC850),
                         "reservation_to" => $ticket->getCommonAreaReservation()->getReservationDateTo()->format(\DateTime::RFC850),
                     ),
-                    'comments_quantity' => "", // ToDo
-
+                    'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
                 );
             }
 

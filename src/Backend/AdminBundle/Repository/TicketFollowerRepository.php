@@ -10,4 +10,22 @@ namespace Backend\AdminBundle\Repository;
  */
 class TicketFollowerRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiCountPerTickets( $ids )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('t.id as id, count(a.id) as count')
+            ->innerJoin('a.ticket', 't')
+            ->where('a.enabled = 1')
+            ->andWhere('t.enabled = 1')
+            ->groupBy('t.id');
+
+        if ( count( $ids ) > 0 ) {
+            $qb->andWhere($qb->expr()->in('t.id', $ids));
+        }
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
 }

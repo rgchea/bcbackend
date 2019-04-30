@@ -11,22 +11,21 @@ namespace Backend\AdminBundle\Repository;
 class TicketCommentRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiRepliesQuantities( $ids )
+    public function getApiCountPerTickets( $ids )
     {
         $qb = $this->createQueryBuilder('a');
 
-        $qb->select('a, t')
+        $qb->select('t.id as id, count(a.id) as count')
             ->innerJoin('a.ticket', 't')
             ->where('a.enabled = 1')
-            ->orderBy('a.createdAt', 'ASC');
+            ->andWhere('t.enabled = 1')
+            ->groupBy('t.id');
 
         if ( count( $ids ) > 0 ) {
             $qb->andWhere($qb->expr()->in('t.id', $ids));
-        } else {
-            $qb->andWhere($qb->expr()->in('t.id', array( 0 )));
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getArrayResult();
     }
 
 }
