@@ -196,9 +196,9 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                     FROM    complex c
                    	INNER JOIN business b ON (b.id = c.business_id)
                     WHERE   c.enabled = 1
-                    AND     DATE_ADD(DATE(c.created_at), INTERVAL 1 MONTH) <= DATE(NOW());
+                    AND     DATE_ADD(DATE(c.created_at), INTERVAL 2 MONTH) <= DATE(NOW());
                     ";
-        //el date add +1 es para un mes de prueba gratis
+        //el date add +2 es para un mes de prueba gratis
 
         //print $sql;die;
 

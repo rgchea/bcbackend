@@ -22,12 +22,15 @@ class ShiftType extends AbstractType
         $repository = $options["repository"];
 
         if($options["locale"] == "es"){
-            $arrRepeat = array("Nunca" => 0, "Todos los días" => 1);
+            $arrRepeat = array("Nunca" => 0, "Todos los días" => 1, "Cada semana" => 2, "Cada mes" => 3);
 
         }
         else{
-            $arrRepeat = array("Never" => 0, "Every Day" => 1);
+            $arrRepeat = array("Never" => 0, "Every Day" => 1, "Every Week" => 2, "Every Month" => 3);
         }
+
+
+        $arrHour = array("00" => 0, "01" => 1);
 
 
         $builder

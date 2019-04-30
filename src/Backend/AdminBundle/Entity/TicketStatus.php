@@ -1,6 +1,7 @@
 <?php
 
 namespace Backend\AdminBundle\Entity;
+use Symfony\Component\Intl\Locale;
 
 /**
  * TicketStatus
@@ -15,12 +16,17 @@ class TicketStatus
     /**
      * @var string
      */
-    private $name = '';
+    private $nameES = '';
+
+    /**
+     * @var string
+     */
+    private $nameEN = '';
 
     /**
      * @var bool
      */
-    private $isPublic = '0';
+    private $isPublic = false;
 
     /**
      * @var \DateTime
@@ -35,7 +41,7 @@ class TicketStatus
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -46,11 +52,6 @@ class TicketStatus
      * @var \Backend\AdminBundle\Entity\User
      */
     private $updatedBy;
-
-    /**
-     * @var \Backend\AdminBundle\Entity\Complex
-     */
-    private $complex;
 
 
     /**
@@ -64,27 +65,51 @@ class TicketStatus
     }
 
     /**
-     * Set name.
+     * Set nameES.
      *
-     * @param string $name
+     * @param string $nameES
      *
      * @return TicketStatus
      */
-    public function setName($name)
+    public function setNameES($nameES)
     {
-        $this->name = $name;
+        $this->nameES = $nameES;
 
         return $this;
     }
 
     /**
-     * Get name.
+     * Get nameES.
      *
      * @return string
      */
-    public function getName()
+    public function getNameES()
     {
-        return $this->name;
+        return $this->nameES;
+    }
+
+    /**
+     * Set nameEN.
+     *
+     * @param string $nameEN
+     *
+     * @return TicketStatus
+     */
+    public function setNameEN($nameEN)
+    {
+        $this->nameEN = $nameEN;
+
+        return $this;
+    }
+
+    /**
+     * Get nameEN.
+     *
+     * @return string
+     */
+    public function getNameEN()
+    {
+        return $this->nameEN;
     }
 
     /**
@@ -231,27 +256,10 @@ class TicketStatus
         return $this->updatedBy;
     }
 
-    /**
-     * Set complex.
-     *
-     * @param \Backend\AdminBundle\Entity\Complex|null $complex
-     *
-     * @return TicketStatus
-     */
-    public function setComplex(\Backend\AdminBundle\Entity\Complex $complex = null)
-    {
-        $this->complex = $complex;
+    public function __toString(){
 
-        return $this;
-    }
+        $locale = Locale::getDefault();
 
-    /**
-     * Get complex.
-     *
-     * @return \Backend\AdminBundle\Entity\Complex|null
-     */
-    public function getComplex()
-    {
-        return $this->complex;
+        return $locale == "en" ? $this->getNameEN() : $this->getNameES();
     }
 }

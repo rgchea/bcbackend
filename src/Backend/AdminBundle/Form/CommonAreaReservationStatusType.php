@@ -17,32 +17,15 @@ class CommonAreaReservationStatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $role = $options["role"];
-        $repository = $options["repository"];
 
         $builder
-            ->add('name',  null, array('label'=>"label_name", 'required'=>true))
+            ->add('nameEN',  null, array('label'=>"label_name", 'required'=>true))
+            ->add('nameES',  null, array('label'=>"label_nombre", 'required'=>true))
+
             ->add('comment',  TextareaType::class, array('label'=>"label_comment", 'required'=>true));
             //->add('complex',  null, array('label'=>"label_complex", 'required'=>true))
 
 
-            //IF ROLE IS SUPER ADMIN VIEW ALL
-            if($role == "SUPER ADMIN"){
-                $builder->add('complex', null, array('label'=>"label_complex", 'required' => true,
-                    'class' => 'Backend\AdminBundle\Entity\Complex',
-                    'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
-                        return $er->createQueryBuilder('c')
-                            ->where('c.enabled = 1')
-                            ->orderBy("c.name", "ASC")
-                            ;
-                    }
-                ));
-            }
-            else{
-                $array = $repository->getComplexByUser($options["userID"]);
-                $builder->add('complex', ChoiceType::class, array('choices' => $array, 'label'=>"label_complex", 'required' => true, 'mapped' => false));
-
-            }
 
 
 
@@ -55,9 +38,6 @@ class CommonAreaReservationStatusType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Backend\AdminBundle\Entity\CommonAreaReservationStatus',
-            'role' => null,
-            'repository' => null,
-            'userID' => null,
 
 
         ));

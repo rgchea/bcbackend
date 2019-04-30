@@ -1,6 +1,7 @@
 <?php
 
 namespace Backend\AdminBundle\Entity;
+use Symfony\Component\Intl\Locale;
 
 /**
  * PropertyTransactionType
@@ -15,12 +16,22 @@ class PropertyTransactionType
     /**
      * @var string
      */
-    private $name = '';
+    private $nameES = '';
 
     /**
      * @var string
      */
-    private $description;
+    private $nameEN = '';
+
+    /**
+     * @var string
+     */
+    private $descriptionEN;
+
+    /**
+     * @var string
+     */
+    private $descriptionES;
 
     /**
      * @var \DateTime
@@ -33,7 +44,7 @@ class PropertyTransactionType
     private $updatedAt = '0000-00-00 00:00:00';
 
     /**
-     * @var int
+     * @var int|null
      */
     private $lastPaymentDay;
 
@@ -52,11 +63,6 @@ class PropertyTransactionType
      */
     private $updatedBy;
 
-    /**
-     * @var \Backend\AdminBundle\Entity\Complex
-     */
-    private $complex;
-
 
     /**
      * Get id.
@@ -69,51 +75,99 @@ class PropertyTransactionType
     }
 
     /**
-     * Set name.
+     * Set nameES.
      *
-     * @param string $name
+     * @param string $nameES
      *
      * @return PropertyTransactionType
      */
-    public function setName($name)
+    public function setNameES($nameES)
     {
-        $this->name = $name;
+        $this->nameES = $nameES;
 
         return $this;
     }
 
     /**
-     * Get name.
+     * Get nameES.
      *
      * @return string
      */
-    public function getName()
+    public function getNameES()
     {
-        return $this->name;
+        return $this->nameES;
     }
 
     /**
-     * Set description.
+     * Set nameEN.
      *
-     * @param string $description
+     * @param string $nameEN
      *
      * @return PropertyTransactionType
      */
-    public function setDescription($description)
+    public function setNameEN($nameEN)
     {
-        $this->description = $description;
+        $this->nameEN = $nameEN;
 
         return $this;
     }
 
     /**
-     * Get description.
+     * Get nameEN.
      *
      * @return string
      */
-    public function getDescription()
+    public function getNameEN()
     {
-        return $this->description;
+        return $this->nameEN;
+    }
+
+    /**
+     * Set descriptionEN.
+     *
+     * @param string $descriptionEN
+     *
+     * @return PropertyTransactionType
+     */
+    public function setDescriptionEN($descriptionEN)
+    {
+        $this->descriptionEN = $descriptionEN;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionEN.
+     *
+     * @return string
+     */
+    public function getDescriptionEN()
+    {
+        return $this->descriptionEN;
+    }
+
+    /**
+     * Set descriptionES.
+     *
+     * @param string $descriptionES
+     *
+     * @return PropertyTransactionType
+     */
+    public function setDescriptionES($descriptionES)
+    {
+        $this->descriptionES = $descriptionES;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionES.
+     *
+     * @return string
+     */
+    public function getDescriptionES()
+    {
+        return $this->descriptionES;
     }
 
     /**
@@ -167,11 +221,11 @@ class PropertyTransactionType
     /**
      * Set lastPaymentDay.
      *
-     * @param int $lastPaymentDay
+     * @param int|null $lastPaymentDay
      *
      * @return PropertyTransactionType
      */
-    public function setLastPaymentDay($lastPaymentDay)
+    public function setLastPaymentDay($lastPaymentDay = null)
     {
         $this->lastPaymentDay = $lastPaymentDay;
 
@@ -181,7 +235,7 @@ class PropertyTransactionType
     /**
      * Get lastPaymentDay.
      *
-     * @return int
+     * @return int|null
      */
     public function getLastPaymentDay()
     {
@@ -260,27 +314,10 @@ class PropertyTransactionType
         return $this->updatedBy;
     }
 
-    /**
-     * Set complex.
-     *
-     * @param \Backend\AdminBundle\Entity\Complex|null $complex
-     *
-     * @return PropertyTransactionType
-     */
-    public function setComplex(\Backend\AdminBundle\Entity\Complex $complex = null)
-    {
-        $this->complex = $complex;
+    public function __toString(){
 
-        return $this;
-    }
+        $locale = Locale::getDefault();
 
-    /**
-     * Get complex.
-     *
-     * @return \Backend\AdminBundle\Entity\Complex|null
-     */
-    public function getComplex()
-    {
-        return $this->complex;
+        return $locale == "en" ? $this->getNameEN() : $this->getNameES();
     }
 }

@@ -43,7 +43,8 @@ class ModuleAccessRepository extends \Doctrine\ORM\EntityRepository
 							INNER JOIN role r ON (ma.role_id = r.id)
 						WHERE 	ma.role_id = '{$roleID}'
 						AND     r.enabled = 1
-						ORDER BY m.menu_order, m.id";
+						ORDER BY m.name, m.id";
+			            //ORDER BY m.menu_order, m.id
 			
 		}
 		else{
@@ -117,7 +118,7 @@ class ModuleAccessRepository extends \Doctrine\ORM\EntityRepository
 		$sql = "	SELECT 	m.id moduleID, m.name moduleName, m.translation_label, m.system_name systemName, m.parent_module_id parent, 
 							m.system_route systemRoute, m.menu_type menuType, m.menu_order menuOrder, m.icon 
 					FROM	module m
-					ORDER BY m.menu_order, m.id";					
+					ORDER BY m.name, m.id";
 				
 		$stmt = $this->getEntityManager()->getConnection()->prepare($sql);
 	    $stmt->execute();

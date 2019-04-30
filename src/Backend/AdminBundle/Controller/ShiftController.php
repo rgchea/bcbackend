@@ -46,7 +46,7 @@ class ShiftController extends Controller
 
     public function indexAction(Request $request)
     {
-
+        die;
 
         //var_dump($this->translator->trans('label_welcome'));
         $this->get("services")->setVars('shift');

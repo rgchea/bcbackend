@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-use Backend\AdminBundle\Lib\CloudOnex;
+use Backend\AdminBundle\Entity\Invoice;
 
  
 class SendInvoiceCommand extends ContainerAwareCommand
@@ -51,9 +51,11 @@ class SendInvoiceCommand extends ContainerAwareCommand
                 );
                 */
 
+                $myFee = floatval($complex["fee"]);
+
                 $body = array(
-                    //array('name' => 'cid', 'contents' => $complex["customer_id"]),
-                    array('name' => 'cid', 'contents' => 295),
+                    array('name' => 'cid', 'contents' => $complex["customer_id"]),
+                    //array('name' => 'cid', 'contents' => 295),//CUSTOMER ID
                     array('name' => 'admin_id', 'contents' => 0),
                     array('name' => 'status', 'contents' => 'Published'),
                     array('name' => 'currency', 'contents' => 'USD'),
@@ -78,10 +80,10 @@ class SendInvoiceCommand extends ContainerAwareCommand
                     array('name' => 'discount_amount', 'contents' => '0'),
                     array('name' => 'notes', 'contents' => ''),
 
-                    array('name' => 'items[0][description]', 'contents' => $complex["complex_name"]),
+                    array('name' => 'items[0][description]', 'contents' => $complex["complex_name"]),///detalle
                     array('name' => 'items[0][item_code]', 'contents' => ''),
                     array('name' => 'items[0][qty]', 'contents' => 1),
-                    array('name' => 'items[0][amount]', 'contents' => 100),
+                    array('name' => 'items[0][amount]', 'contents' => $myFee),
                     array('name' => 'items[0][taxed]', 'contents' => 0),
 
 
@@ -97,23 +99,29 @@ class SendInvoiceCommand extends ContainerAwareCommand
                 //var_dump($response);die;
 
 
-                /*
-                $body = array(
-                    array('name' => 'account', 'contents' => 'Alissa WhiteGluz50'),
-                    array('name' => 'phone', 'contents' => '+18000006934')
-                )
-                ;
-                */
 
-                //$createCustomer = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo("POST", "customer", $body);
-                //var_dump($createCustomer);die;
+                $business = $em->getRepository('BackendAdminBundle:Business')->findBycustomerId($complex["customer_id"]);
+                if($business){
+                    $business = $business[0];
 
-
-                die;
-
-                if($response){
-                    ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
+                    $invoice = new Invoice();
+                    $invoice->setBusiness($business);
+                    $invoice->setDescription($complex["complex_name"]);
+                    $invoice->setCreatedAt(new \DateTime(gmdate('Y-m-d h:i:s')));
+                    $invoice->setUpdatedAt(new \DateTime(gmdate('Y-m-d h:i:s    ')));
+                    $invoice->setSent(0);
+                    $invoice->setAmount($myFee);
                 }
+
+
+                if($response["error"] == false){//CODE 200 ok and Error false
+                    ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
+                    $invoice->setSent(1);
+
+                }
+
+                $em->persist($invoice);
+                $em->flush();
 
 
 

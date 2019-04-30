@@ -30,6 +30,22 @@ Backend\AdminBundle\Entity\TicketCategory:
                 fixed: false
                 default: ''
             column: name
+        color:
+            type: string
+            nullable: false
+            length: 7
+            options:
+                fixed: false
+                default: ''
+            column: color
+        iconUrl:
+            type: string
+            nullable: true
+            length: 256
+            options:
+                fixed: false
+                default: ''
+            column: icon_url
         description:
             type: text
             nullable: false

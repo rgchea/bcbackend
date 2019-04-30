@@ -2,6 +2,7 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Backend\AdminBundle\Entity\TicketCategory;
 /**
  * TicketCategoryRepository
  *
@@ -137,6 +138,54 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
             "countResult"	=> $countResult
         );
     }
+
+
+    public function loadTicketCategories($complex){
+
+
+        //OJO DEBE DE SER SEGUN EL IDIOMA DEL SU COMPLEX/BUSINESS
+        //general fixes
+        //security
+        //Billing
+        //cleaning
+        //electricity
+        //water
+        //neighborhood
+        $em = $this->getEntityManager();
+
+        $arr = array();
+        $arr["en"] = array("General fixes", "Security", "Billing", "Cleaning", "Electricity", "Water", "Neighborhood");
+        $arr["es"] = array("Reparaciones generales", "Seguridad", "Cuentas", "Limpieza", "Electricidad", "Agua", "Vecindario");
+
+
+        $myLocale = $complex->getGeoState()->getGeoCountry()->getLocale();
+
+        foreach ($arr[$myLocale] as $key => $cat ){
+
+            $ticketCat = new TicketCategory();
+            $ticketCat->setName($cat);
+            $ticketCat->setDescription($cat);
+            $ticketCat->setComplex($complex);
+            $ticketCat->setEnabled(1);
+            $gtmNow = gmdate("Y-m-d H:i:s");
+
+            $ticketCat->setCreatedAt(new \DateTime($gtmNow));
+            $ticketCat->setUpdatedAt(new \DateTime($gtmNow));
+            $ticketCat->setCreatedBy(null);
+            $ticketCat->setUpdatedBy(null);
+
+            $em->persist($ticketCat);
+
+
+        }
+        $em->flush();
+
+
+
+    }
+
+
+
 
 
 }

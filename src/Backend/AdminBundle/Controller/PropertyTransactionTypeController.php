@@ -84,9 +84,7 @@ class PropertyTransactionTypeController extends Controller
         else // If the request is not a POST one, die hard
             die;
 
-
-        ///FILTER BY ROLE
-        $filters = array();
+        /*
 
         ///FILTER BY ROLE
         $filters = null;
@@ -98,13 +96,14 @@ class PropertyTransactionTypeController extends Controller
             }
 
         }
+        */
 
 
 
 
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null, $filters);
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -130,29 +129,27 @@ class PropertyTransactionTypeController extends Controller
 
                             break;
                         }
-                    case 'name':
+                    case 'nameEN':
                         {
-                            $responseTemp = $entity->getName();
+                            $responseTemp = $entity->getNameEN();
+                            break;
+                        }
+
+                    case 'nameES':
+                        {
+                            $responseTemp = $entity->getNameES();
                             break;
                         }
                         
-                    case 'description':
-                        {
-                            $responseTemp = $entity->getDescription();
-                            break;
-                        }
-                    
+
+                    /*
                     case 'lastPaymentDay':
                         {
                             $responseTemp = $entity->getLastPaymentDay();
                             break;
                         }
-                        
-                    case 'complex':
-                        {
-                            $responseTemp = $entity->getComplex()->getName();
-                            break;
-                        }
+                    */
+
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_property_transaction_type_edit', array('id' => $entity->getId()));
@@ -357,6 +354,7 @@ class PropertyTransactionTypeController extends Controller
         //print "<pre>";
         //var_dump($_REQUEST);DIE;
         $this->get("services")->setVars('propertyTransactionType');
+        $this->initialise();
 
 
         $entity = new PropertyTransactionType();
@@ -367,15 +365,14 @@ class PropertyTransactionTypeController extends Controller
          * */
 
         if ($form->isValid()) {
-            $myRequest = $request->request->get('propertyTransactionType');
+            //$myRequest = $request->request->get('propertyTransactionType');
             //var_dump($myRequest);die;
-            $em = $this->getDoctrine()->getManager();
-            //var_dump($request->get('propertyTransactionType');die;
+            //$entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["property_transaction_type"]["complex"]));
 
             $this->get("services")->blameOnMe($entity, "create");
 
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -408,9 +405,9 @@ class PropertyTransactionTypeController extends Controller
         $form = $this->createForm(PropertyTransactionTypeType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_property_transaction_type_create'),
             'method' => 'POST',
-            'role' => $this->role,
-            'userID' => $this->userLogged->getId(),
-            'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
+            //'role' => $this->role,
+            //'userID' => $this->userLogged->getId(),
+            //'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
         ));
 
 
@@ -434,9 +431,9 @@ class PropertyTransactionTypeController extends Controller
 
         $form = $this->createForm(PropertyTransactionTypeType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_property_transaction_type_update', array('id' => $entity->getId())),
-            'role' => $this->role,
-            'userID' => $this->userLogged->getId(),
-            'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
+            //'role' => $this->role,
+            //'userID' => $this->userLogged->getId(),
+            //'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
         ));
 
 
@@ -451,9 +448,9 @@ class PropertyTransactionTypeController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('propertyTransactionType');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:PropertyTransactionType')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find PropertyTransactionType entity.');
@@ -464,10 +461,11 @@ class PropertyTransactionTypeController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $myRequest = $request->request->get('propertyTransactionType');
+            //$myRequest = $request->request->get('propertyTransactionType');
+            //$entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["property_transaction_type"]["complex"]));
 
             $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_property_transaction_type_index', array('id' => $id)));

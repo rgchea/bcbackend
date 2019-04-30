@@ -32,12 +32,21 @@
 
 						<fieldset>
 
-                        <div class="form-group col-md-6">
-                            {{ form_label(form.name) }}
-                            {{ form_errors(form.name) }}
-                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
-                            ) }}
-                        </div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.nameEN) }}
+								{{ form_errors(form.nameEN) }}
+								{{ form_widget(form.nameEN, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
+
+							<div class="form-group col-md-6">
+								{{ form_label(form.nameES) }}
+								{{ form_errors(form.nameES) }}
+								{{ form_widget(form.nameES, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
 							<div class="form-group col-md-6">
 								{{ form_label(form.isPublic) }}
 								{{ form_errors(form.isPublic) }}
@@ -45,12 +54,6 @@
 								) }}
 							</div>
 						<div class="clearfix"></div>
-						<div class="form-group col-md-6">
-							{{ form_label(form.complex) }}
-							{{ form_errors(form.complex) }}
-							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
 							<div class="hide">
                             {{ form_rest(form) }}
                         </div>

@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Form\UserType;
+use Backend\AdminBundle\Entity\UserComplex;
 
 /**
  * User controller.
@@ -56,9 +57,10 @@ class UserController extends Controller
         $this->get("services")->setVars('user');
         $this->initialise();
 
-        //print $this->translator->getLocale();die;
 
-        return $this->render('BackendAdminBundle:User:index.html.twig');
+        return $this->render('BackendAdminBundle:User:index.html.twig', array(
+                'role' => $this->role
+        ));
 
 
     }
@@ -181,14 +183,17 @@ class UserController extends Controller
 
         $entity = new User();
         $form   = $this->createCreateForm($entity);
-		 
-	
+
+        $businessID = $this->userLogged->getBusiness()->getId();
+        $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
+
         return $this->render('BackendAdminBundle:User:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
             'new' => 1,
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
+            'arrComplex' => $arrComplex
 
         ));
     }
@@ -223,12 +228,41 @@ class UserController extends Controller
             return $this->redirectToRoute('backend_admin_user_edit', array('id' => $id));
         }
 
+
+        $businessID = $entity->getBusiness()->getId();
+
+        $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
+        $assignedComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($entity->getId());
+        //var_dump($assignedComplex);die;
+
+        $arrComplexReturn = array();
+        foreach ($arrComplex as $complex ){
+
+            $complexID = $complex->getId();
+            $arrComplexReturn[$complexID] = array();
+            $arrComplexReturn[$complexID]["id"] = $complexID;
+            $arrComplexReturn[$complexID]["name"] = $complex->getName();
+            $arrComplexReturn[$complexID]["assigned"] = 0;
+
+
+            if(array_search($complex->getId(), $assignedComplex)){
+                $arrComplexReturn[$complexID]["assigned"] = 1;
+            }
+
+
+        }
+
+
+
+
         return $this->render('BackendAdminBundle:User:edit.html.twig', array(
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'edit' => 1,
-            'role' => $this->role
+            'edit' => $id,
+            'role' => $this->role,
+            'arrComplex' => $arrComplexReturn,
+            "userLooged" => $this->userLogged->getId()
         ));
     }
 	
@@ -328,10 +362,10 @@ class UserController extends Controller
     public function createAction(Request $request)
     {
 
-        /*
-        print "<pre>";
-        var_dump($_REQUEST);DIE;
-        */
+
+        //print "<pre>";
+        //var_dump($_REQUEST);DIE;
+
 
         if(!isset($_REQUEST["user"])){
             return $this->redirect($this->generateUrl('backend_admin_user_new'));
@@ -346,7 +380,7 @@ class UserController extends Controller
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
-        $plainPassword = $form['password']->getData();
+        //$plainPassword = $form['password']->getData();
 
         $email = trim($_REQUEST["user"]["email"]);
         $checkExistence = $this->get('services')->checkExistence($email, 0);
@@ -359,18 +393,26 @@ class UserController extends Controller
 
 
             $entity->setUsername($email);
+            $plainPassword = uniqid();
             $entity->setPlainPassword($plainPassword);
             //var_dump($entity);die;
 
             $roleID = intval($_REQUEST["user"]["role"]);
 
             $objRole = $this->em->getRepository('BackendAdminBundle:Role')->find($roleID);
-            $role = $objRole->getName();
+            $role = $objRole->getName(); //GETS THE NAME IN ENGLISH
             $entity->setRole($objRole);
 
-            $newDate = $this->get('services')->dateUSAToMysql($_REQUEST["user"]["birthdate"]);
-            $birthdate = new \DateTime($newDate);
-            $entity->setBirthdate($birthdate);
+            if(isset($_REQUEST["user"]["birthdate"])){
+                $reqBirthdate = $_REQUEST["user"]["birthdate"];
+
+                $newDate = $this->get('services')->dateUSAToMysql($reqBirthdate);
+                $birthdate = new \DateTime($newDate);
+                $entity->setBirthdate($birthdate);
+
+            }
+
+
 
 
 
@@ -385,18 +427,48 @@ class UserController extends Controller
 
             }
 
+            //IMPORTANT link user to the business
+            $entity->setBusiness($this->userLogged->getBusiness());
 
 
-            //link to the business
-            if($this->role != "SUPER ADMIN"){
-                $entity->setBusiness($this->userLogged->getBusiness());
+            $bodyHtml =  $this->userLogged->getEmail()."&nbsp;".$this->translator->trans('label_register_invite_msg')."<br/>";
+            $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
+            $bodyHtml .= "<b>Password:&nbsp;</b>".$plainPassword."<br/><br/>";
 
-            }
+            //contact
+            $bodyHtml .= $this->translator->trans('label_register_contact');
+
+            //var_dump($bodyHtml);die;
+
+
+            $to = $entity->getEmail();
+            //($subject, $to, $bodyHtml, $from = null){
+            $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_welcome'), $to, $bodyHtml);
+
 
 
             $this->get("services")->blameOnMe($entity, "create");
-			
+			$entity->setEnabled(1);
             $this->em->persist($entity);
+            $this->em->flush();
+
+
+            //COMPLEX ASSIGNMENT
+            if(isset($_REQUEST["complex"])){
+
+                foreach ($_REQUEST["complex"] as $key => $cValue){
+
+                    $userComplex = new UserComplex();
+                    $userComplex->setUser($entity);
+                    $objComplex = $this->em->getRepository('BackendAdminBundle:Complex')->find($key);
+                    $userComplex->setComplex($objComplex);
+                    $userComplex->setEnabled(1);
+
+                    $this->get("services")->blameOnMe($userComplex, "create");
+                    $this->em->persist($userComplex);
+
+                }
+            }
             $this->em->flush();
 
 
@@ -405,6 +477,8 @@ class UserController extends Controller
 			 
         }
 
+        $businessID = $this->userLogged->getBusiness()->getId();
+        $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
 
 
         return $this->render('BackendAdminBundle:User:new.html.twig', array(
@@ -413,6 +487,7 @@ class UserController extends Controller
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
             'new' => 1,
+            'arrComplex' => $arrComplex
 
         ));
     }
@@ -433,6 +508,7 @@ class UserController extends Controller
             'method' => 'POST',
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
+            'business' => $this->userLogged->getBusiness()->getId(),
         ));
 
 
@@ -458,6 +534,7 @@ class UserController extends Controller
             'action' => $this->generateUrl('backend_admin_user_update', array('id' => $entity->getId())),
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
+            'business' => $this->userLogged->getBusiness()->getId(),
         ));
 
 
@@ -545,6 +622,32 @@ class UserController extends Controller
 
             $this->get("services")->blameOnMe($entity);
             $this->em->flush();
+
+
+            //print "<pre>";
+            //var_dump($_REQUEST["complex"]);die;
+            //COMPLEX ASSIGNMENT
+            if(isset($_REQUEST["complex"])){
+
+                $this->em->getRepository('BackendAdminBundle:UserComplex')->cleanUserComplex($entity->getId());
+
+                foreach ($_REQUEST["complex"] as $key => $cValue){
+
+                    $userComplex = new UserComplex();
+                    $userComplex->setUser($entity);
+                    $objComplex = $this->em->getRepository('BackendAdminBundle:Complex')->find($key);
+                    $userComplex->setComplex($objComplex);
+                    $userComplex->setEnabled(1);
+
+                    $this->get("services")->blameOnMe($userComplex, "create");
+                    $this->em->persist($userComplex);
+
+                }
+                $this->em->flush();
+            }
+
+
+
 
 			$this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_user_index', array('id' => $id)));

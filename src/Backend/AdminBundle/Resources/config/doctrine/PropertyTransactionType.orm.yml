@@ -9,9 +9,6 @@ Backend\AdminBundle\Entity\PropertyTransactionType:
         created_by:
             columns:
                 - created_by
-        complex_id:
-            columns:
-                - complex_id
     id:
         id:
             type: integer
@@ -22,19 +19,35 @@ Backend\AdminBundle\Entity\PropertyTransactionType:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
+        nameES:
             type: string
             nullable: false
             length: 32
             options:
                 fixed: false
                 default: ''
-        description:
+            column: name_es
+        nameEN:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+            column: name_en
+        descriptionEN:
             type: text
             nullable: false
             length: 65535
             options:
                 fixed: false
+        descriptionES:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+
         createdAt:
             type: datetime
             nullable: false
@@ -49,7 +62,7 @@ Backend\AdminBundle\Entity\PropertyTransactionType:
             column: updated_at
         lastPaymentDay:
             type: integer
-            nullable: false
+            nullable: true
             options:
                 unsigned: false
             column: last_payment_day
@@ -77,16 +90,6 @@ Backend\AdminBundle\Entity\PropertyTransactionType:
             inversedBy: null
             joinColumns:
                 updated_by:
-                    referencedColumnName: id
-            orphanRemoval: false
-        complex:
-            targetEntity: Complex
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                complex_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

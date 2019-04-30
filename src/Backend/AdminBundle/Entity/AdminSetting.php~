@@ -15,7 +15,7 @@ class AdminSetting
     /**
      * @var string
      */
-    private $space_api_token = '';
+    private $spaceApiToken = '';
 
     /**
      * @var int|null
@@ -62,7 +62,7 @@ class AdminSetting
      */
     public function setSpaceApiToken($spaceApiToken)
     {
-        $this->space_api_token = $spaceApiToken;
+        $this->spaceApiToken = $spaceApiToken;
 
         return $this;
     }
@@ -74,7 +74,7 @@ class AdminSetting
      */
     public function getSpaceApiToken()
     {
-        return $this->space_api_token;
+        return $this->spaceApiToken;
     }
 
     /**

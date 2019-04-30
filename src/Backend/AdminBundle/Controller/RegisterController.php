@@ -156,7 +156,8 @@ class RegisterController extends Controller
             //contact
             $bodyHtml .= $this->translator->trans('label_register_contact');
 
-            $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_register_complete'), "cheametal@gmail.com", $bodyHtml);
+            $to = $entity->getEmail();
+            $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_register_complete'), $to, $bodyHtml);
 
             //var_dump($message);die;
 

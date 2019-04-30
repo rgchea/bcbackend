@@ -2,7 +2,24 @@
     .input-group {
         z-index: 0;
     }
+
+	.foo {
+		float: left;
+		width: 20px;
+		height: 20px;
+		margin: 5px;
+		border: 1px solid rgba(0, 0, 0, .2);
+	}
+
+	.blue {
+		background: #000000;
+	}
 </style>
+
+{#http://rachel-carvalho.github.io/simple-color-picker/#}
+<link href="{{ asset('bundles/pizotearkadmin/js/simple-color-picker-master/jquery.simple-color-picker.css')  }}" rel="stylesheet" type="text/css" media="screen" />
+<script src="{{ asset('bundles/pizotearkadmin/js/simple-color-picker-master/jquery.simple-color-picker.js')  }}"></script>
+
 
 <div class="row">
 	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
@@ -38,12 +55,26 @@
                             {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
                             ) }}
                         </div>
-							<div class="form-group col-md-6">
-								{{ form_label(form.description) }}
-								{{ form_errors(form.description) }}
-								{{ form_widget(form.description, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
+						<div class="form-group col-md-6">
+							<label for="color" class="required" aria-required="true">Color</label><br/>
+							{% if edit is defined %}
+								<input value="{{ entity.color }}" name="ticket_category[color]" id="myColorPicker" onchange="changeColor()" readonly/>
+							{% else %}
+								<input name="ticket_category[color]" id="myColorPicker" onchange="changeColor()" readonly/>
+							{% endif %}
+
+							<div id="myColor" class="foo blue"></div>
+						</div>
+
+						<div class="clearfix"></div>
+
+
+						<div class="form-group col-md-6">
+							{{ form_label(form.description) }}
+							{{ form_errors(form.description) }}
+							{{ form_widget(form.description, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
 						<div class="clearfix"></div>
 						<div class="form-group col-md-6">
 							{{ form_label(form.complex) }}
@@ -86,7 +117,10 @@
 
 	$( document ).ready(function() {
 
-            $('[name="ticket_category"]').validate();
+
+		$('#myColorPicker').simpleColorPicker({ onChangeColor: function(color) { $('#myColor').css("background-color",color); } });
+
+		$('[name="ticket_category"]').validate();
 
 		$('[name="ticket_category"]').on("submit", function(){
 			//Code: Action (like ajax...)
@@ -102,7 +136,16 @@
 
 		});
 
+		{% if edit is defined %}
+			$('#myColor').css("background-color", $("#myColorPicker").val());
+		{% endif %}
+
+
+
 	});
+
+
+
 
 
 </script>

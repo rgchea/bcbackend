@@ -11,7 +11,7 @@ namespace Backend\AdminBundle\Repository;
 class TicketStatusRepository extends \Doctrine\ORM\EntityRepository
 {
     
-    public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions, $filterComplex)
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions)
     {
         //print "entra";die;
         // Create Main Query
@@ -21,24 +21,13 @@ class TicketStatusRepository extends \Doctrine\ORM\EntityRepository
         $countQuery = $this->createQueryBuilder('e');
         $countQuery->select('COUNT(e)');
 
-        // Create inner joins
-        $query->join('e.complex', 'c');
-        $countQuery->join('e.complex', 'c');
 
 
         //ENABLED
         $query->andWhere("e.enabled = 1");
         $countQuery->andWhere("e.enabled = 1");
 
-        $query->andWhere("c.enabled = 1");
-        $countQuery->andWhere("c.enabled = 1");
 
-
-        if($filterComplex != null){
-            $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
-            $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
-        }
-        
         // Fields Search
         foreach ($columns as $key => $column)
         {
@@ -55,9 +44,14 @@ class TicketStatusRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.id ='. $searchItem;
                             break;
                         }
-                    case 'name':
+                    case 'nameEN':
                         {
-                            $searchQuery = 'e.name LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'e.nameEN LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+                    case 'nameES':
+                        {
+                            $searchQuery = 'e.nameES LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
                     case 'isPublic':
@@ -65,11 +59,7 @@ class TicketStatusRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.isPublic LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
-                    case 'complex':
-                        {
-                            $searchQuery = 'c.name LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
+
 
 
                 }
@@ -110,9 +100,14 @@ class TicketStatusRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.id';
                             break;
                         }
-                    case 'name':
+                    case 'nameEN':
                         {
-                            $orderColumn = 'e.name';
+                            $orderColumn = 'e.nameEN';
+                            break;
+                        }
+                    case 'nameES':
+                        {
+                            $orderColumn = 'e.nameES';
                             break;
                         }
                      case 'isPublic':
@@ -120,11 +115,7 @@ class TicketStatusRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.isPublic';
                             break;
                         }
-                    case 'complex':
-                        {
-                            $orderColumn = 'c.name';
-                            break;
-                        }
+
 
                 }
 

@@ -85,9 +85,6 @@ class CommonAreaTypeController extends Controller
             die;
 
 
-        ///FILTER BY ROLE
-
-        $filters = array();
 
         ///FILTER BY ROLE
         $filters = null;
@@ -351,7 +348,7 @@ class CommonAreaTypeController extends Controller
         //print "<pre>";
         //var_dump($_REQUEST);DIE;
         $this->get("services")->setVars('commonAreaType');
-
+        $this->initialise();
 
         $entity = new CommonAreaType();
         $form = $this->createCreateForm($entity);
@@ -361,15 +358,17 @@ class CommonAreaTypeController extends Controller
          * */
 
         if ($form->isValid()) {
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["common_area_type"]["complex"]));
+
             $myRequest = $request->request->get('commonAreaType');
             //var_dump($myRequest);die;
-            $em = $this->getDoctrine()->getManager();
+
             //var_dump($request->get('commonAreaType');die;
 
             $this->get("services")->blameOnMe($entity, "create");
 
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -445,9 +444,9 @@ class CommonAreaTypeController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('commonAreaType');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:CommonAreaType')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:CommonAreaType')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CommonAreaType entity.');
@@ -458,10 +457,12 @@ class CommonAreaTypeController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["common_area_type"]["complex"]));
             $myRequest = $request->request->get('commonAreaType');
 
             $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_common_area_type_index', array('id' => $id)));

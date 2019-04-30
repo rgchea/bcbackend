@@ -9,9 +9,7 @@ Backend\AdminBundle\Entity\CommonAreaReservationStatus:
         created_by:
             columns:
                 - created_by
-        complex_id:
-            columns:
-                - complex_id
+
     id:
         id:
             type: integer
@@ -22,14 +20,22 @@ Backend\AdminBundle\Entity\CommonAreaReservationStatus:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
+        nameES:
             type: string
             nullable: false
             length: 32
             options:
                 fixed: false
                 default: ''
-            column: name
+            column: name_es
+        nameEN:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+            column: name_en
         comment:
             type: text
             nullable: true
@@ -73,16 +79,6 @@ Backend\AdminBundle\Entity\CommonAreaReservationStatus:
             inversedBy: null
             joinColumns:
                 updated_by:
-                    referencedColumnName: id
-            orphanRemoval: false
-        complex:
-            targetEntity: Complex
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                complex_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

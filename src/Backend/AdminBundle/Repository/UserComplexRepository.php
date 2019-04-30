@@ -12,4 +12,23 @@ class UserComplexRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
+    //cleanUserComplex
+    public function cleanUserComplex($userID){
+
+        $sql = "	DELETE
+					FROM 	user_complex
+                    WHERE 	user_id = '{$userID}'";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        //return $stmt->fetchAll();
+
+    }
+
+
+
+
+
+
 }

@@ -99,8 +99,14 @@ class ComplexController extends Controller
         }
 
         // Process Parameters
-        $businessLocale = $this->userLogged->getBusiness()->getGeoState()->getGeoCountry()->getLocale();
-        //$businessLocale = $this->translator->getLocale();
+        if($this->role != "SUPER ADMIN"){
+            $businessLocale = $this->userLogged->getBusiness()->getGeoState()->getGeoCountry()->getLocale();
+        }
+        else{
+            $businessLocale = $this->translator->getLocale();
+        }
+
+
 
         $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filters, $businessLocale);
         $objects = $results["results"];
@@ -404,12 +410,6 @@ class ComplexController extends Controller
             $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
 
 
-            //USER COMPLEX
-            $userComplex = new UserComplex();
-            $userComplex->setComplex($entity);
-            $userComplex->setUser($this->userLogged);
-            $this->get("services")->blameOnMe($userComplex, "create");
-            $this->em->persist($userComplex);
 
 
             //CREATE SECTORS and PROPERTIES
@@ -443,6 +443,18 @@ class ComplexController extends Controller
 
             $this->em->persist($entity);
             $this->em->flush();
+
+            //USER COMPLEX
+            $userComplex = new UserComplex();
+            $userComplex->setComplex($entity);
+            $userComplex->setUser($this->userLogged);
+            $this->get("services")->blameOnMe($userComplex, "create");
+            $this->em->persist($userComplex);
+
+
+            ///TICKET CATEGORIES FOR THE COMPLEX
+            $this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories($entity);
+
 
             //sectorType
             for($i=1; $i <= $sectorQuantity; $i++){
