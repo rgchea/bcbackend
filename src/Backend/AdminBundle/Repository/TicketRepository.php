@@ -10,4 +10,22 @@ namespace Backend\AdminBundle\Repository;
  */
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiTicketCategories( $categoryId, $complexId )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, tc, c')
+            ->innerJoin('a.ticketCategory', 'tc')
+            ->leftJoin('tc.complex', 'c')
+            ->where('a.enabled = 1')
+            ->andWhere('tc.id = :cat_id')
+            ->andWhere('c.id = :com_id')
+            ->setParameter('cat_id', $categoryId)
+            ->setParameter('com_id', $complexId)
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
