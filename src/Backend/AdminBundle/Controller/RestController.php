@@ -3,6 +3,7 @@
 namespace Backend\AdminBundle\Controller;
 
 use Backend\AdminBundle\Entity\CommonArea;
+use Backend\AdminBundle\Entity\CommonAreaAvailability;
 use Backend\AdminBundle\Entity\CommonAreaPhoto;
 use Backend\AdminBundle\Entity\CommonAreaReservation;
 use Backend\AdminBundle\Entity\CommonAreaReservationStatus;
@@ -1201,7 +1202,96 @@ class RestController extends FOSRestController
     }
 
 
-    
+    /**
+     * @Rest\Get("/commonAreaAvailability/{common_area_id}", name="common_area_availability")
+     *
+     * @SWG\Parameter( name="common_area_id", in="path", type="string", description="The ID of the common area." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of common areas of a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *                  @SWG\Property( property="reservation", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="common_area_resevation_status", type="string", description="Reservation status for the common area", example="status" ),
+     *                          @SWG\Property( property="reservation_date_from", type="string", description="Reservation date from UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                          @SWG\Property( property="reservation_date_to", type="string", description="Reservation date to UTC formatted with RFC850", example="Monday, 16-Aug-05 15:52:01 UTC" ),
+     *                      )
+     *                  ),
+     *                  @SWG\Property( property="common_area_availability", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="week_day_range_start", type="integer", description="The day of the week that the range starts", example="1" ),
+     *                          @SWG\Property( property="week_day_range_finish", type="integer", description="The day of the week that the range ends", example="5" ),
+     *                          @SWG\Property( property="week_day", type="integer", description="The day of the week", example="2" ),
+     *                          @SWG\Property( property="hour_from", type="integer", description="From hour", example="10" ),
+     *                          @SWG\Property( property="hour_from", type="integer", description="To hour", example="15" ),
+     *                      )
+     *                  ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Common Area")
+     */
+    public function getCommonAreaAvailabilityAction(Request $request, $common_area_id)
+    {
+        try {
+            $this->initialise();
+            $lang = strtolower(trim($request->get('language')));
+            $data = array( 'reservations' => array(), 'availabilities' => array() );
+
+            $availabilities = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getApiCommonAreaAvailability($common_area_id);
+            $reservations = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getApiCommonAreaAvailability($common_area_id);
+
+            /** @var CommonAreaReservation $reservation */
+            foreach ($reservations as $reservation) {
+                $status = $reservation->getCommonAreaResevationStatus();
+                if ($status == null) {
+                    $status = new CommonAreaReservationStatus();
+                }
+
+                $data['reservations'][] = array(
+                    'common_area_resevation_status' => ($lang == 'en') ? $status->getNameEN() : $status->getNameES(),
+                    'reservation_date_from' => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
+                    'reservation_date_to' => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
+                );
+            }
+
+            /** @var CommonAreaAvailability $availability */
+            foreach ($availabilities as $availability) {
+                $data['availabilities'][] = array(
+                    'week_day_range_start' => $availability->getWeekDayRangeStart(),
+                    'week_day_range_finish' => $availability->getWeekDayRangeFinish(),
+                    'week_day' => $availability->getWeekdaySingle(),
+                    'hour_from' => $availability->getHourFrom(),
+                    'hour_to' => $availability->getHourTo(),
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 
