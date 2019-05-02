@@ -1214,7 +1214,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of common areas of a property.",
+     *     description="Returns a list of availabilities and other list of reservations from a common area.",
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="object",
@@ -1292,6 +1292,76 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * @Rest\Get("/commonArea/{common_area_id}", name="common_area")
+     *
+     * @SWG\Parameter( name="common_area_id", in="path", type="string", description="The ID of the common area." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the details from a common area.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *                  @SWG\Property( property="name", type="string", description="Name of the common area", example="Common area" ),
+     *                  @SWG\Property( property="description", type="string", description="Description of the common area", example="Description" ),
+     *                  @SWG\Property( property="regulation", type="string", description="Regulation of the common area", example="Regulation" ),
+     *                  @SWG\Property( property="term_condition", type="string", description="Terms and conditions of the common area", example="Terms and conditions" ),
+     *                  @SWG\Property( property="price", type="float", description="Price of the common area", example="100" ),
+     *                  @SWG\Property( property="reservation_hour_period", type="integer", description="The reservation hour period of the common area", example="" ),
+     *                  @SWG\Property( property="required_payment", type="boolean", description="The required payment for the reservation of the common area", example="true" ),
+     *                  @SWG\Property( property="has_equipment", type="boolean", description="If the common area is equiped", example="true" ),
+     *                  @SWG\Property( property="equipment_description", type="string", description="Description of the equipement of the common area", example="" ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Common Area")
+     */
+    public function getCommonAreaAction($common_area_id)
+    {
+        try {
+            $this->initialise();
+
+            /** @var CommonArea $commonArea */
+            $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findById($common_area_id);
+
+            $data = array(
+                'name' => $commonArea->getName(),
+                'description' => $commonArea->getDescription(),
+                'regulation' => $commonArea->getRegulation(),
+                'term_condition' => $commonArea->getTermCondition(),
+                'price' => $commonArea->getPrice(),
+                'reservation_hour_period' => $commonArea->getReservationHourPeriod(),
+                'required_payment' => $commonArea->getRequiredPayment(),
+                'has_equipment' => $commonArea->getHasEquipment(),
+                'equipment_description' => $commonArea->getEquipmentDescription(),
+            );
+
+            return new JsonResponse(array(
+                'message' => "",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 
