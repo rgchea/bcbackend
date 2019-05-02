@@ -10,4 +10,21 @@ namespace Backend\AdminBundle\Repository;
  */
 class PollQuestionRepository extends \Doctrine\ORM\EntityRepository
 {
+    private function getApiPoll($pollId)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, p, pqt')
+            ->innerJoin('a.poll', 'p')
+            ->leftJoin('a.pollQuestionType', 'pqt')
+
+            ->where('a.enabled = 1')
+            ->andWhere('p.enabled = 1')
+            ->andWhere('pqt.enabled = 1')
+            ->andWhere('p.id = :poll_id')
+            ->setParameter('poll_id', $pollId)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

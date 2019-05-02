@@ -8,6 +8,9 @@ use Backend\AdminBundle\Entity\CommonAreaReservationStatus;
 use Backend\AdminBundle\Entity\ComplexSector;
 use Backend\AdminBundle\Entity\GeoCountry;
 use Backend\AdminBundle\Entity\NotificationType;
+use Backend\AdminBundle\Entity\Poll;
+use Backend\AdminBundle\Entity\PollQuestion;
+use Backend\AdminBundle\Entity\PollQuestionOption;
 use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\PropertyType;
 use Backend\AdminBundle\Entity\TermCondition;
@@ -909,6 +912,181 @@ class RestController extends FOSRestController
                     "status" => (($lang == 'en') ? $commonAreaReservationStatus->getNameEN() : $commonAreaReservationStatus->getNameES()),
                     "reservation_from" => $commonAreaReservation->getReservationDateFrom()->format(\DateTime::RFC850),
                     "reservation_to" => $commonAreaReservation->getReservationDateTo()->format(\DateTime::RFC850),
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Get("/polls/{page_id}", name="polls")
+     *
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of active polls bby date.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="Poll ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the poll", example="Poll" ),
+     *              )
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Poll")
+     */
+    public function getPollsAction($page_id = 1)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            $polls = $this->em->getRepository('BackendAdminBundle:Poll')->getApiPolls($page_id);
+            $total = $this->em->getRepository('BackendAdminBundle:Poll')->countApiPolls();
+
+            /** @var Poll $poll */
+            foreach ($polls as $poll) {
+                $data[] = array(
+                    'id' => $poll->getId(),
+                    'name' => $poll->getName(),
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Get("/poll/{poll_id}", name="poll")
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the poll including all of its details.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *                  @SWG\Property( property="id", type="integer", description="Poll ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the poll", example="Poll" ),
+     *                  @SWG\Property( property="questions", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="poll_question", type="string", description="Poll question", example="Question" ),
+     *                          @SWG\Property( property="poll_file_photo", type="string", description="Poll file photo", example="/photo.jpg" ),
+     *                          @SWG\Property( property="question", type="string", description="Poll question", example="Question" ),
+     *                          @SWG\Property( property="question_type", type="string", description="Poll question type", example="Type" ),
+     *                          @SWG\Property( property="poll_question_options", type="array",
+     *                              @SWG\Items(
+     *                              @SWG\Property( property="option", type="string", description="Question's option", example="Option" ),
+     *                              )
+     *                          ),
+     *                      )
+     *                  ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Poll")
+     */
+    public function getPollAction($poll_id)
+    {
+        try {
+            $this->initialise();
+
+            $poll = $this->em->getRepository('BackendAdminBundle:Poll')->findById($poll_id);
+            $questions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiPoll($poll_id);
+
+            $qids = array();
+            /** @var PollQuestion $question */
+            foreach ($questions as $question) {
+                $qids[] = $question->getId();
+            }
+            $qids = array_unique($qids);
+
+            $rawAnswers = $this->em->getRepository('BackendAdminBundle:PollQuestionOption')->getApiPoll($qids);
+            $answers = array();
+            /** @var PollQuestionOption $answer */
+            foreach ($rawAnswers as $answer) {
+                $answers[$answer->getPollQuestion()->getId()] = $answer;
+            }
+
+            $data = array(
+                'id' => $poll->getId(),
+                'name' => $poll->getName(),
+            );
+
+
+            $data['questions'] = array();
+            /** @var PollQuestion $question */
+            foreach ($questions as $question) {
+
+                $options = array();
+                foreach( $answers[$question->getId()] as $answer ) {
+                    $options[] = array( 'option' => $answer->getQuestionOption() );
+                }
+
+                $data['questions'][] = array(
+                    'poll_question' => $question->getQuestion(),
+                    'poll_file_photo' => $question->getPollFilePhoto(),
+                    'question' => $question->getQuestion(), // ToDo: Question -> Cual es la diferencia entre question y poll_question?
+                    'question_type' => $question->getPollQuestionType()->getName(),
+                    'poll_question_options' => $options, // ToDo: Question -> Esto seria un array tambien?
                 );
             }
 

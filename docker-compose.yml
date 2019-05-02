@@ -5,8 +5,8 @@ services:
         image: mysql:8.0.3
         networks:
           - backend
-#        ports:
-#          - "3306:3306" # Expose for quick access via localhost
+        ports:
+          - "3306:3306" # Expose for quick access via localhost
         expose:
           - "3306"
         volumes:
