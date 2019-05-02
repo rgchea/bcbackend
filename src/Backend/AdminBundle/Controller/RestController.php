@@ -2,11 +2,20 @@
 
 namespace Backend\AdminBundle\Controller;
 
+use Backend\AdminBundle\Entity\CommonArea;
+use Backend\AdminBundle\Entity\CommonAreaReservation;
+use Backend\AdminBundle\Entity\CommonAreaReservationStatus;
+use Backend\AdminBundle\Entity\ComplexSector;
 use Backend\AdminBundle\Entity\GeoCountry;
+use Backend\AdminBundle\Entity\NotificationType;
 use Backend\AdminBundle\Entity\Property;
+use Backend\AdminBundle\Entity\PropertyType;
 use Backend\AdminBundle\Entity\TermCondition;
 use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
+use Backend\AdminBundle\Entity\TicketComment;
+use Backend\AdminBundle\Entity\TicketStatus;
+use Backend\AdminBundle\Entity\TicketType;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -145,7 +154,12 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/termsConditions/{lang}", name="terms_and_conditions")
+     * @Rest\Get("/termsConditions", name="terms_and_conditions")
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
@@ -167,35 +181,22 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Parameter(
-     *     name="lang", in="path", type="string",
-     *     description="The language of the Terms and Conditions.",
-     * )
-     *
      * @SWG\Tag(name="Admin")
      */
 
-    public function getTermsAndConditionsAction($lang)
+    public function getTermsAndConditionsAction(Request $request)
     {
         try {
             $this->initialise();
-            $response = array('data' => '');
+            $lang = strtolower(trim($request->get('language')));
 
             /** @var TermCondition $terms */
             $terms = $this->em->getRepository('BackendAdminBundle:TermCondition')->findOneBy(array('enabled' => true), array('updatedAt' => 'DESC'));
 
-            switch (strtolower(trim($lang))) {
-                case 'en':
-                    $response['data'] = htmlspecialchars_decode($terms->getDescriptionEN());
-                    break;
-                case 'es':
-                    $response['data'] = htmlspecialchars_decode($terms->getDescriptionES());
-                    break;
-                default:
-                    throw new Exception('Unrecognized language');
-            }
-
-            return new JsonResponse($response);
+            return new JsonResponse(array(
+                'message' => "",
+                'data' => ($lang == 'en') ? htmlspecialchars_decode($terms->getDescriptionEN()) : htmlspecialchars_decode($terms->getDescriptionES())
+            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -203,7 +204,12 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/country", name="countries")
+     * @Rest\Get("/countries", name="countries")
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
@@ -241,11 +247,17 @@ class RestController extends FOSRestController
             $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array('enabled' => true), array('code' => 'ASC'));
             /** @var GeoCountry $country */
             foreach ($countries as $country) {
-                $data[] = array('name' => $country->getName(), 'code' => $country->getCode(), 'locale' => $country->getLocale());
+                $data[] = array(
+                    'name' => $country->getName(),
+                    'code' => $country->getCode(),
+                    'locale' => $country->getLocale()
+                );
             }
-            $response = array('message' => "", 'data' => $data);
 
-            return new JsonResponse($response);
+            return new JsonResponse(array(
+                'message' => "",
+                'data' => $data
+            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -253,7 +265,14 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/property", name="properties")
+     * @Rest\Get("/properties/{page_id}", name="properties")
+     *
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
@@ -270,7 +289,14 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="player_id", type="integer", description="Team player ID", example="1" ),
      *              )
      *          ),
-     *          @SWG\Property( property="message", type="string", example="" )
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
      *      )
      * )
      *
@@ -285,23 +311,40 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Property")
      */
 
-    public function getPropertiesAction()
+    public function getPropertiesAction($page_id)
     {
         try {
             $this->initialise();
             $data = array();
 
-            $properties = $this->em->getRepository('BackendAdminBundle:Property')->findBy(array('enabled' => true), array('code' => 'ASC'));
+            $properties = $this->em->getRepository('BackendAdminBundle:Property')->findBy(
+                array('enabled' => true),
+                array('code' => 'ASC')
+            );
+            $total = $this->em->getRepository('BackendAdminBundle:Property')->countApiProperties();
+
             /** @var Property $property */
             foreach ($properties as $property) {
+                $propertyType = $property->getPropertyType();
+                if ($propertyType == null) {
+                    $propertyType = new PropertyType();
+                }
+                $complexSector = $property->getComplexSector();
+                if ($complexSector == null) {
+                    $complexSector = new ComplexSector();
+                }
+
                 $data[] = array(
                     'code' => $property->getCode(), 'name' => $property->getName(),
-                    'address' => $property->getAddress(), 'property_type_id' => $property->getPropertyType()->getId(),
-                    'sector_id' => $property->getComplexSector()->getId(), 'player_id' => $property->getTeamCorrelative());
+                    'address' => $property->getAddress(), 'property_type_id' => $propertyType->getId(),
+                    'sector_id' => $complexSector->getId(), 'player_id' => $property->getTeamCorrelative());
             }
-            $response = array('message' => "", 'data' => $data);
 
-            return new JsonResponse($response);
+            return new JsonResponse(array(
+                'message' => "",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -312,6 +355,11 @@ class RestController extends FOSRestController
      * @Rest\Get("/property/{code}", name="property")
      *
      * @SWG\Parameter( name="code", in="path", type="string", description="The code of the property." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
@@ -349,14 +397,22 @@ class RestController extends FOSRestController
             /** @var Property $property */
             $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code);
             $property = $propertyResult[0];
+
+            $propertyType = $property->getPropertyType();
+            if ($propertyType == null) {
+                $propertyType = new PropertyType();
+            }
+            $complexSector = $property->getComplexSector();
+            if ($complexSector == null) {
+                $complexSector = new ComplexSector();
+            }
+
             $data = array(
                 'code' => $property->getCode(), 'name' => $property->getName(),
-                'address' => $property->getAddress(), 'property_type_id' => $property->getPropertyType()->getId(),
-                'sector_id' => $property->getComplexSector()->getId(), 'teamCorrelative' => $property->getTeamCorrelative());
+                'address' => $property->getAddress(), 'property_type_id' => $propertyType->getId(),
+                'sector_id' => $complexSector->getId(), 'teamCorrelative' => $property->getTeamCorrelative());
 
-            $response = array('message' => "", 'data' => $data);
-
-            return new JsonResponse($response);
+            return new JsonResponse(array('message' => "", 'data' => $data));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -364,9 +420,14 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/inbox/{page}", name="inbox")
+     * @Rest\Get("/inbox/{page_id}", name="inbox")
      *
-     * @SWG\Parameter(  name="page", in="path", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
@@ -389,7 +450,13 @@ class RestController extends FOSRestController
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
-     *          @SWG\Property( property="page", type="integer", example="1" )
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
      *      )
      * )
      *
@@ -404,14 +471,15 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="User")
      */
 
-    public function getInboxAction(Request $request, $page = 1)
+    public function getInboxAction(Request $request, $page_id = 1)
     {
         try {
             $this->initialise();
             $data = array();
-            $lang = $request->get('language');
+            $lang = strtolower(trim($request->get('language')));
 
-            $notifications = $this->em->getRepository('BackendAdminBundle:UserNotification')->getApiInbox($this->getUser(), $page);
+            $notifications = $this->em->getRepository('BackendAdminBundle:UserNotification')->getApiInbox($this->getUser(), $page_id);
+            $total = $this->em->getRepository('BackendAdminBundle:UserNotification')->countApiInbox($this->getUser());
 
             $ticketIds = array();
             /** @var UserNotification $notification */
@@ -429,23 +497,39 @@ class RestController extends FOSRestController
 
             /** @var UserNotification $notification */
             foreach ($notifications as $notification) {
+                $notificationUser = $notification->getCreatedBy();
+                if ($notificationUser == null) {
+                    $notificationUser = new User();
+                }
+                $notificationType = $notification->getNotificationType();
+                if ($notificationType == null) {
+                    $notificationType = new NotificationType();
+                }
+                $ticket = $notification->getTicket();
+                if ($ticket == null) {
+                    $ticket = new Ticket();
+                }
+
+
                 $data[] = array(
-                    'avatar_path' => $notification->getCreatedBy()->getAvatarPath(),
-                    'username' => $notification->getCreatedBy()->getUsername(),
-                    'role' => (($lang == 'en') ? $notification->getCreatedBy()->getRole()->getName() : $notification->getCreatedBy()->getRole()->getNameES()),
+                    'avatar_path' => $notificationUser->getAvatarPath(),
+                    'username' => $notificationUser->getUsername(),
+                    'role' => (($lang == 'en') ? $notificationUser->getRole()->getName() : $notificationUser->getRole()->getNameES()),
                     'user_notification' => array(
                         'description' => $notification->getDescription(),
-                        'notification_type' => (($lang == 'en') ? $notification->getNotificationType()->getNameEN() : $notification->getNotificationType()->getNameES())),
-                    'replies_quantity' => (array_key_exists($notification->getTicket()->getId(), $commentsReplies)) ? $commentsReplies[$notification->getTicket()->getId()] : 0,
-                    'timestamp' => $notification->getCreatedAt()->format(\DateTime::RFC850),
-                    'notification_type' => (($lang == 'en') ? $notification->getNotificationType()->getNameEN() : $notification->getNotificationType()->getNameES()),
+                        'notification_type' => (($lang == 'en') ? $notificationType->getNameEN() : $notificationType->getNameES())),
+                    'replies_quantity' => (array_key_exists($ticket->getId(), $commentsReplies)) ? $commentsReplies[$ticket->getId()] : 0,
+                    'timestamp' => $notificationUser->format(\DateTime::RFC850),
+                    'notification_type' => (($lang == 'en') ? $notificationType->getNameEN() : $notificationType->getNameES()),
                     'notification_notice' => $notification->getNotice(),
                 );
             }
 
-            $response = array('message' => "", 'page' => $page, 'data' => $data);
-
-            return new JsonResponse($response);
+            return new JsonResponse(array(
+                'message' => "",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -453,10 +537,16 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/ticketCategory/{property_id}/{complex_id}", name="ticket_categories")
+     * @Rest\Get("/ticketCategory/{property_id}/{complex_id}/{page_id}", name="ticket_categories")
      *
      * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
      * @SWG\Parameter( name="complex_id", in="path", type="string", description="The ID of the Complex." )
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
@@ -470,7 +560,14 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="icon_url", type="string", description="URL for the category's icon", example="/icons/1.jpg" ),
      *              )
      *          ),
-     *          @SWG\Property( property="message", type="string", example="" )
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
      *      )
      * )
      *
@@ -484,13 +581,14 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="User")
      */
-    public function getTicketCategoriesAction($property_id, $complex_id)
+    public function getTicketCategoriesAction($property_id, $complex_id, $page_id = 1)
     {
         try {
             $this->initialise();
             $data = array();
 
             $categories = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiTicketCategories($property_id, $complex_id);
+            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiTicketCategories($property_id, $complex_id);
 
             /** @var TicketCategory $category */
             foreach ($categories as $category) {
@@ -501,9 +599,11 @@ class RestController extends FOSRestController
                 );
             }
 
-            $response = array('message' => "", 'data' => $data);
-
-            return new JsonResponse($response);
+            return new JsonResponse(array(
+                'message' => "",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -511,7 +611,16 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/feed/{property_id}/{filter_category_id}/{page}", name="feed")
+     * @Rest\Get("/feed/{property_id}/{filter_category_id}/{page_id}", name="feed")
+     *
+     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="filter_category_id", in="path", type="string", description="The ID of the Filter Category." )
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
@@ -520,29 +629,35 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
-     *                  @SWG\Property( property="ticket_id", type="string", description="", example="" ),
-     *                  @SWG\Property( property="ticket_type_id", type="string", description="", example="" ),
-     *                  @SWG\Property( property="ticket_type_name", type="string", description="", example="" ),
-     *                  @SWG\Property( property="status", type="string", description="", example="" ),
-     *                  @SWG\Property( property="ticket_title", type="string", description="", example="" ),
-     *                  @SWG\Property( property="ticket_description", type="string", description="", example="" ),
-     *                  @SWG\Property( property="ticket_is_public", type="boolean", description="", example="" ),
-     *                  @SWG\Property( property="username", type="string", description="", example="" ),
-     *                  @SWG\Property( property="role", type="string", description="", example="" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="", example="" ),
-     *                  @SWG\Property( property="followers_quantity", type="string", description="", example="" ),
+     *                  @SWG\Property( property="ticket_id", type="string", description="Ticket ID", example="1" ),
+     *                  @SWG\Property( property="ticket_type_id", type="string", description="Ticket type ID", example="1" ),
+     *                  @SWG\Property( property="ticket_type_name", type="string", description="Ticket type name", example="TicketTypeName" ),
+     *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
+     *                  @SWG\Property( property="ticket_title", type="string", description="Ticket title", example="TicketTile" ),
+     *                  @SWG\Property( property="ticket_description", type="string", description="Ticket description", example="Lorem ipsum." ),
+     *                  @SWG\Property( property="ticket_is_public", type="boolean", description="Is ticket public?", example="true" ),
+     *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
+     *                  @SWG\Property( property="role", type="string", description="Ticket's creator role", example="Admin" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
      *                  @SWG\Property( property="common_area", type="object",
-     *                      @SWG\Property( property="id", type="string", description="", example="" ),
-     *                      @SWG\Property( property="name", type="string", description="", example="" ),
-     *                      @SWG\Property( property="reservation_status", type="string", description="", example="" ),
-     *                      @SWG\Property( property="reservation_from", type="string", description="", example="" ),
-     *                      @SWG\Property( property="reservation_to", type="string", description="", example="" ),
+     *                      @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
+     *                      @SWG\Property( property="name", type="string", description="Common area name", example="Common area" ),
+     *                      @SWG\Property( property="reservation_status", type="string", description="Common area reservation status", example="" ),
+     *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="Monday, 16-Aug-05 15:52:01 UTC" ),
+     *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="Monday, 17-Aug-05 15:52:01 UTC" ),
      *                  ),
-     *                  @SWG\Property( property="comments_quantity", type="string", description="", example="" ),
+     *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
-     *          @SWG\Property( property="page", type="integer", example="1" )
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
      *      )
      * )
      *
@@ -554,16 +669,17 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Tag(name="User")
+     * @SWG\Tag(name="Ticket")
      */
-    public function getFeedAction(Request $request, $property_id, $complex_id, $page = 1)
+    public function getFeedAction(Request $request, $property_id, $complex_id, $page_id = 1)
     {
         try {
             $this->initialise();
             $data = array();
-            $lang = $request->get('language');
+            $lang = strtolower(trim($request->get('language')));
 
-            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $complex_id, $page);
+            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $complex_id, $page_id);
+            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($property_id, $complex_id);
 
             $ticketIds = array();
             /** @var Ticket $ticket */
@@ -586,35 +702,233 @@ class RestController extends FOSRestController
 
             /** @var Ticket $ticket */
             foreach ($tickets as $ticket) {
+                $ticketType = $ticket->getTicketType();
+                if ($ticketType == null) {
+                    $ticketType = new TicketType();
+                }
+                $ticketStatus = $ticket->getTicketStatus();
+                if ($ticketStatus == null) {
+                    $ticketStatus = new TicketStatus();
+                }
+                $ticketUser = $ticket->getCreatedBy();
+                if ($ticketUser == null) {
+                    $ticketUser = new User();
+                }
+
+                $commonAreaReservation = $ticket->getCommonAreaReservation();
+                if ($commonAreaReservation == null) {
+                    $commonAreaReservation = new CommonAreaReservation();
+                }
+                $commonAreaReservationStatus = $commonAreaReservation->getCommonAreaResevationStatus();
+                if ($commonAreaReservationStatus == null) {
+                    $commonAreaReservationStatus = new CommonAreaReservationStatus();
+                }
+                $commonArea = $commonAreaReservation->getCommonArea();
+                if ($commonArea == null) {
+                    $commonArea = new CommonArea();
+                }
+
                 $data[] = array(
                     'ticket_id' => $ticket->getId(),
-                    'ticket_type_id' => $ticket->getTicketType()->getId(),
-                    'ticket_type_name' => $ticket->getTicketType()->getName(),
-                    'status' => (($lang == 'en') ? $ticket->getTicketStatus()->getNameEN() : $ticket->getTicketStatus()->getNameES()),
+                    'ticket_type_id' => $ticketType->getId(),
+                    'ticket_type_name' => $ticketType->getName(),
+                    'status' => (($lang == 'en') ? $ticketStatus->getNameEN() : $ticketStatus->getNameES()),
                     'ticket_title' => $ticket->getTitle(),
                     'ticket_description' => $ticket->getDescription(),
                     'ticket_is_public' => $ticket->getIsPublic(),
-                    'username' => $ticket->getCreatedBy()->getUsername(),
-                    'role' => (($lang == 'en') ? $ticket->getCreatedBy()->getRole()->getName() : $ticket->getCreatedBy()->getRole()->getNameES()),
+                    'username' => $ticketUser->getUsername(),
+                    'role' => (($lang == 'en') ? $ticketUser->getRole()->getName() : $ticketUser->getRole()->getNameES()),
                     'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
                     'common_area' => array(
-                        "id" => $ticket->getCommonAreaReservation()->getCommonArea()->getId(),
-                        "name" => $ticket->getCommonAreaReservation()->getCommonArea()->getName(),
-                        "status" => (($lang == 'en') ? $ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameEN() : $ticket->getCommonAreaReservation()->getCommonAreaResevationStatus()->getNameES()),
-                        "reservation_from" => $ticket->getCommonAreaReservation()->getReservationDateFrom()->format(\DateTime::RFC850),
-                        "reservation_to" => $ticket->getCommonAreaReservation()->getReservationDateTo()->format(\DateTime::RFC850),
+                        "id" => $commonArea->getId(),
+                        "name" => $commonArea->getName(),
+                        "status" => (($lang == 'en') ? $commonAreaReservationStatus->getNameEN() : $commonAreaReservationStatus->getNameES()),
+                        "reservation_from" => $commonAreaReservation->getReservationDateFrom()->format(\DateTime::RFC850),
+                        "reservation_to" => $commonAreaReservation->getReservationDateTo()->format(\DateTime::RFC850),
                     ),
                     'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
                 );
             }
 
-            $response = array('message' => "", 'page' => $page, 'data' => $data);
-
-            return new JsonResponse($response);
+            return new JsonResponse(array(
+                'message' => "",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * @Rest\Get("/ticket/{ticket_id}", name="ticket")
+     *
+     * @SWG\Parameter( name="ticket_id", in="path", type="string", description="The ID of the ticket." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the ticket alongside comments, followers and reservations (if its the case).",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *                  @SWG\Property( property="ticket_title", type="string", description="Ticket title", example="TicketTile" ),
+     *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
+     *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
+     *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
+     *                  @SWG\Property( property="ticket_description", type="string", description="Ticket description", example="Lorem ipsum." ),
+     *                  @SWG\Property( property="comments", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="username", type="string", description="Comments's creator username", example="2" ),
+     *                          @SWG\Property( property="timestamp", type="string", description="Comment's creation time", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                          @SWG\Property( property="like", type="string", description="User that liked the comment", example="user2" ),
+     *                          @SWG\Property( property="comment", type="string", description="Comment content", example="Comment" ),
+     *                          @SWG\Property( property="icon_url", type="string", description="URL for the icon", example="/icons/1.jpg" ),
+     *                      )
+     *                  ),
+     *                  @SWG\Property( property="common_area", type="object",
+     *                      @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
+     *                      @SWG\Property( property="name", type="string", description="Common area name", example="Common area" ),
+     *                      @SWG\Property( property="reservation_status", type="string", description="Common area reservation status", example="" ),
+     *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="Monday, 16-Aug-05 15:52:01 UTC" ),
+     *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="Monday, 17-Aug-05 15:52:01 UTC" ),
+     *                  ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+    public function getTicketAction(Request $request, $ticket_id)
+    {
+        try {
+            $this->initialise();
+            $lang = strtolower(trim($request->get('language')));
+
+            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiSingleTicket($ticket_id);
+            $ticket = $tickets[0];
+
+            $ticketIds = array($ticket->getId());
+
+            // Fetching the ticket comment counts
+            $rawCommentsCount = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiCountPerTickets($ticketIds);
+            $commentsCount = array();
+            foreach ($rawCommentsCount as $comment) {
+                $commentsCount[$comment['id']] = $comment['count'];
+            }
+
+            // Fetching the ticket followers counts
+            $rawFollowersCount = $this->em->getRepository('BackendAdminBundle:TicketFollower')->getApiCountPerTickets($ticketIds);
+            $followersCount = array();
+            foreach ($rawFollowersCount as $follower) {
+                $followersCount[$follower['id']] = $follower['count'];
+            }
+
+            // Fetching the ticket comments
+            $comments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiSingleTicketComments($ticket_id);
+
+//            $ticketType = $ticket->getTicketType();
+//            if ($ticketType == null) {
+//                $ticketType = new TicketType();
+//            }
+            $ticketStatus = $ticket->getTicketStatus();
+            if ($ticketStatus == null) {
+                $ticketStatus = new TicketStatus();
+            }
+            $ticketUser = $ticket->getCreatedBy();
+            if ($ticketUser == null) {
+                $ticketUser = new User();
+            }
+
+            $data = array(
+                'ticket_title' => $ticket->getTitle(),
+                'username' => $ticketUser->getUsername(),
+                'status' => (($lang == 'en') ? $ticketStatus->getNameEN() : $ticketStatus->getNameES()),
+                'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
+                'followers_quantity' => (array_key_exists($ticket->getId(), $followersCount)) ? $followersCount[$ticket->getId()] : 0,
+                'comments_quantity' => (array_key_exists($ticket->getId(), $commentsCount)) ? $commentsCount[$ticket->getId()] : 0,
+                'ticket_description' => $ticket->getDescription(),
+            );
+
+
+            $data['comments'] = array();
+            /** @var TicketComment $comment */
+            foreach ($comments as $comment) {
+                $commentUser = $comment->getCreatedBy();
+                if ($commentUser == null) {
+                    $commentUser = new User();
+                }
+                $likeUser = $comment->getLikedBy();
+                if ($likeUser == null) {
+                    $likeUser = new User();
+                }
+
+                $data['comments'][] = array(
+                    'username' => $commentUser->getUsername(),
+                    'timestamp' => $comment->getCreatedAt()->format(\DateTime::RFC850),
+                    'like' => $likeUser->getUsername(), // ToDo: Question -> Solo un usuario le puede dar like o varios?
+                    'comment' => $comment->getCommentDescription(),
+                    'icon_url' => "", // ToDo: Question -> De donde sale este campo? Y porque tienen q estar cargados en la app (asi dice el doc)?
+                );
+            }
+
+
+            if ($ticket->getCommonAreaReservation() != null) {
+                $commonAreaReservation = $ticket->getCommonAreaReservation();
+                if ($commonAreaReservation == null) {
+                    $commonAreaReservation = new CommonAreaReservation();
+                }
+                $commonAreaReservationStatus = $commonAreaReservation->getCommonAreaResevationStatus();
+                if ($commonAreaReservationStatus == null) {
+                    $commonAreaReservationStatus = new CommonAreaReservationStatus();
+                }
+                $commonArea = $commonAreaReservation->getCommonArea();
+                if ($commonArea == null) {
+                    $commonArea = new CommonArea();
+                }
+
+                $data['common_area'] = array(
+                    "id" => $commonArea->getId(),
+                    "name" => $commonArea->getName(),
+                    "status" => (($lang == 'en') ? $commonAreaReservationStatus->getNameEN() : $commonAreaReservationStatus->getNameES()),
+                    "reservation_from" => $commonAreaReservation->getReservationDateFrom()->format(\DateTime::RFC850),
+                    "reservation_to" => $commonAreaReservation->getReservationDateTo()->format(\DateTime::RFC850),
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function calculatePagesMetadata($page, $total)
+    {
+        return array(
+            'my_page' => $page,
+            'prev_page' => ($page <= 1) ? 1 : $page - 1,
+            'next_page' => ($page >= $total) ? $total : $page + 1,
+            'last_page' => round($total / 10, 0, PHP_ROUND_HALF_UP) // ToDo
+        );
     }
 
 }

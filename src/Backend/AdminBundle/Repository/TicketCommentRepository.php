@@ -28,4 +28,20 @@ class TicketCommentRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getArrayResult();
     }
 
+    public function getApiSingleTicketComments ($ticketId) {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, t, u, l')
+            ->innerJoin('a.ticket', 't')
+            ->leftJoin('a.createdBy', 'u')
+            ->leftJoin('a.likedBy', 'l')
+            ->where('a.enabled = 1')
+            ->andWhere('t.enabled = 1')
+            ->andWhere('t.id = :ticket_id')
+            ->setParameter('ticket_id', $ticketId)
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
