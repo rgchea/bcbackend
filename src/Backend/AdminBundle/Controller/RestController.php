@@ -3,8 +3,10 @@
 namespace Backend\AdminBundle\Controller;
 
 use Backend\AdminBundle\Entity\CommonArea;
+use Backend\AdminBundle\Entity\CommonAreaPhoto;
 use Backend\AdminBundle\Entity\CommonAreaReservation;
 use Backend\AdminBundle\Entity\CommonAreaReservationStatus;
+use Backend\AdminBundle\Entity\CommonAreaType;
 use Backend\AdminBundle\Entity\ComplexSector;
 use Backend\AdminBundle\Entity\GeoCountry;
 use Backend\AdminBundle\Entity\NotificationType;
@@ -684,12 +686,7 @@ class RestController extends FOSRestController
             $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $complex_id, $page_id);
             $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($property_id, $complex_id);
 
-            $ticketIds = array();
-            /** @var Ticket $ticket */
-            foreach ($tickets as $ticket) {
-                $ticketIds[] = $ticket->getId();
-            }
-            $ticketIds = array_unique($ticketIds);
+            $ticketIds = $this->getArrayOfIds($tickets);
 
             $preComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiCountPerTickets($ticketIds);
             $comments = array();
@@ -996,6 +993,8 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/poll/{poll_id}", name="poll")
      *
+     * @SWG\Parameter( name="poll_id", in="path", type="string", description="The ID of the poll." )
+     *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
      * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
@@ -1052,12 +1051,7 @@ class RestController extends FOSRestController
             $poll = $this->em->getRepository('BackendAdminBundle:Poll')->findById($poll_id);
             $questions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiPoll($poll_id);
 
-            $qids = array();
-            /** @var PollQuestion $question */
-            foreach ($questions as $question) {
-                $qids[] = $question->getId();
-            }
-            $qids = array_unique($qids);
+            $qids = $this->getArrayOfIds($questions);
 
             $rawAnswers = $this->em->getRepository('BackendAdminBundle:PollQuestionOption')->getApiPoll($qids);
             $answers = array();
@@ -1099,6 +1093,120 @@ class RestController extends FOSRestController
         }
     }
 
+
+    /**
+     * @Rest\Get("/commonAreas/{property_id}/{page_id}", name="common_areas")
+     *
+     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of common areas of a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *                  @SWG\Property( property="id", type="integer", description="Common area ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the common area", example="Common area" ),
+     *                  @SWG\Property( property="description", type="string", description="Description of the common area", example="Description" ),
+     *                  @SWG\Property( property="common_area_type", type="string", description="Type of the common area", example="Description" ),
+     *                  @SWG\Property( property="common_area_photos", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="url", type="string", description="URL of common area photo", example="/photo.jpg" ),
+     *                      )
+     *                  ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Common Area")
+     */
+    public function getCommonAreasAction($property_id, $page_id = 1)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            $properties = $this->em->getRepository('BackendAdminBundle:Property')->getApiCommonAreas($property_id);
+
+            $complexIds = array();
+            /** @var Property $property */
+            foreach ($properties as $property) {
+                $complexIds[] = $property->getComplexSector()->getComplex()->getId();
+            }
+
+            $commonAreas = $this->em->getRepository('BackendAdminBundle:CommonArea')->getApiCommonAreas($complexIds, $page_id);
+            $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complexIds);
+
+            $cids = $this->getArrayOfIds($commonAreas);
+
+            $rawPhotos = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->getApiCommonAreas($cids);
+            $photos = array();
+            /** @var CommonAreaPhoto $photo */
+            foreach ($rawPhotos as $photo) {
+                $photos[$photo->getCommonArea()->getId()] = $photo;
+            }
+
+            /** @var CommonArea $commonArea */
+            foreach ($commonAreas as $commonArea) {
+                $commonAreaPhotos = array();
+                /** @var CommonAreaPhoto $photo */
+                foreach ($photos[$commonArea->getId()] as $photo) {
+                    $commonAreaPhotos[] = array( 'url' => $photo->getPhotoPath() ); // ToDo: Question -> Esta propiedad es int.
+                }
+
+                $commonAreaType = $commonArea->getCommonAreaType();
+                if ($commonAreaType == null) {
+                    $commonAreaType = new CommonAreaType();
+                }
+
+                $data[] = array(
+                    'id' => $commonArea->getId(), // ToDo: Question -> No esta en el spec.
+                    'name' => $commonArea->getName(),
+                    'description' => $commonArea->getDescription(),
+                    'common_area_type' => $commonAreaType->getName(),
+                    'common_area_photos' => $commonAreaPhotos,
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    
+
+
+
+
+
     private function calculatePagesMetadata($page, $total)
     {
         return array(
@@ -1107,6 +1215,16 @@ class RestController extends FOSRestController
             'next_page' => ($page >= $total) ? $total : $page + 1,
             'last_page' => round($total / 10, 0, PHP_ROUND_HALF_UP) // ToDo
         );
+    }
+
+    private function getArrayOfIds($items) {
+        $ids = array();
+
+        foreach ($items as $item) {
+            $ids[] = $item->getId();
+        }
+
+        return array_unique($ids);
     }
 
 }

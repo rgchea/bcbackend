@@ -10,4 +10,22 @@ namespace Backend\AdminBundle\Repository;
  */
 class CommonAreaPhotoRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    private function getApiCommonAreas($commonAreaIds)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a, c')
+            ->innerJoin('a.commonArea', 'c')
+            ->where('a.enabled = 1')
+            ->andWhere('c.enabled = 1');
+
+        if ( count( $commonAreaIds ) > 0 ) {
+            $qb->andWhere($qb->expr()->in('c.id', $commonAreaIds));
+        } else {
+            $qb->andWhere('c.id = 0');
+        }
+
+        return $qb;
+    }
+
 }

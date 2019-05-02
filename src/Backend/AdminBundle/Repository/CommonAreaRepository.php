@@ -10,6 +10,45 @@ namespace Backend\AdminBundle\Repository;
  */
 class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getApiCommonAreas($complexIds, $pageId = 1, $limit = 10)
+    {
+        $qb = $this->queryBuilderForApiCommonAreas($complexIds);
+
+        $qb->setFirstResult($pageId * $limit)// Offset
+        ->setMaxResults($limit)// Limit
+        ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiCommonAreas($complexIds)
+    {
+        $qb = $this->queryBuilderForApiCommonAreas($complexIds);
+        $qb->select('count(a.id)');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function queryBuilderForApiCommonAreas($complexIds)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a, c, cat')
+            ->innerJoin('a.complex', 'c')
+            ->leftJoin('a.commonAreaType', 'cat')
+            ->where('a.enabled = 1')
+            ->andWhere('c.enabled = 1')
+            ->andWhere('cat.enabled = 1');
+
+        if ( count( $complexIds ) > 0 ) {
+            $qb->andWhere($qb->expr()->in('c.id', $complexIds));
+        } else {
+            $qb->andWhere('c.id = 0');
+        }
+
+        return $qb;
+    }
+
+
+
     
     public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex)
     {

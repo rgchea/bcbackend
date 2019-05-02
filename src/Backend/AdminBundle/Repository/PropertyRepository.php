@@ -11,6 +11,23 @@ namespace Backend\AdminBundle\Repository;
 class PropertyRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getApiCommonAreas($propertyId)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, cs, c')
+            ->innerJoin('a.complexSector', 's')
+            ->innerJoin('s.complex', 'c')
+            ->where('a.enabled = 1')
+            ->andWhere('cs.enabled = 1')
+            ->andWhere('c.enabled = 1')
+            ->andWhere('a.id = :property_id')
+            ->setParameter('property_id', $propertyId)
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function getApiProperty($code)
     {
         $qb = $this->createQueryBuilder('a');
