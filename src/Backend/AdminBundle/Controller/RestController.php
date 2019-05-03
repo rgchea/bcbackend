@@ -331,9 +331,9 @@ class RestController extends FOSRestController
 
             /** @var Property $property */
             foreach ($properties as $property) {
-                $propertyType = $property->getPropertyType();
-                if ($propertyType == null) {
-                    $propertyType = new PropertyType();
+                $type = $property->getPropertyType();
+                if ($type == null) {
+                    $type = new PropertyType();
                 }
                 $complexSector = $property->getComplexSector();
                 if ($complexSector == null) {
@@ -341,8 +341,9 @@ class RestController extends FOSRestController
                 }
 
                 $data[] = array(
+                    'id' => $property->getId(),
                     'code' => $property->getCode(), 'name' => $property->getName(),
-                    'address' => $property->getAddress(), 'property_type_id' => $propertyType->getId(),
+                    'address' => $property->getAddress(), 'property_type_id' => $type->getId(),
                     'sector_id' => $complexSector->getId(), 'player_id' => $property->getTeamCorrelative());
             }
 
@@ -404,9 +405,9 @@ class RestController extends FOSRestController
             $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code);
             $property = $propertyResult[0];
 
-            $propertyType = $property->getPropertyType();
-            if ($propertyType == null) {
-                $propertyType = new PropertyType();
+            $type = $property->getPropertyType();
+            if ($type == null) {
+                $type = new PropertyType();
             }
             $complexSector = $property->getComplexSector();
             if ($complexSector == null) {
@@ -415,8 +416,85 @@ class RestController extends FOSRestController
 
             $data = array(
                 'code' => $property->getCode(), 'name' => $property->getName(),
-                'address' => $property->getAddress(), 'property_type_id' => $propertyType->getId(),
+                'address' => $property->getAddress(), 'property_type_id' => $type->getId(),
                 'sector_id' => $complexSector->getId(), 'teamCorrelative' => $property->getTeamCorrelative());
+
+            return new JsonResponse(array('message' => "", 'data' => $data));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @Rest\Get("/propertyDetail/{code}", name="property_detail")
+     *
+     * @SWG\Parameter( name="code", in="path", type="string", description="The code of the property." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the information of a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *              @SWG\Property( property="id", type="integer", description="ID", example="1" ),
+     *              @SWG\Property( property="code", type="string", description="Code", example="101" ),
+     *              @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
+     *              @SWG\Property( property="address", type="string", description="Address", example="1 Avenue des Champs-Elysees" ),
+     *              @SWG\Property( property="type_id", type="integer", description="Property Type ID", example="1" ),
+     *              @SWG\Property( property="is_owner", type="boolean", description="If it is owner", example="true" ),
+     *              @SWG\Property( property="photos", type="array",
+     *                  @SWG\Items(
+     *                      @SWG\Property( property="url", type="string", description="URL of property photo", example="/photo.jpg" ),
+     *                  )
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Property")
+     */
+
+    public function getPropertyDetailAction($code)
+    {
+        try {
+            $this->initialise();
+
+            /** @var Property $property */
+            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code);
+            $property = $propertyResult[0];
+
+            $type = $property->getPropertyType();
+            if ($type == null) {
+                $type = new PropertyType();
+            }
+
+            $owner = $property->getOwner();
+            if ($owner == null) {
+                $owner = new User();
+            }
+
+            $data = array(
+                'id' => $property->getId(), // ToDo: Question -> Pregunta global, podemos quitar los prefijos repetitivos?
+                'code' => $property->getCode(), 'name' => $property->getName(),
+                'address' => $property->getAddress(), 'type_id' => $type->getId(),
+                'is_owner' => $owner->getId() == $this->getUser()->getId(),
+                'photos' => array(),
+            );
 
             return new JsonResponse(array('message' => "", 'data' => $data));
         } catch (Exception $ex) {
@@ -503,13 +581,13 @@ class RestController extends FOSRestController
 
             /** @var UserNotification $notification */
             foreach ($notifications as $notification) {
-                $notificationUser = $notification->getCreatedBy();
-                if ($notificationUser == null) {
-                    $notificationUser = new User();
+                $user = $notification->getCreatedBy();
+                if ($user == null) {
+                    $user = new User();
                 }
-                $notificationType = $notification->getNotificationType();
-                if ($notificationType == null) {
-                    $notificationType = new NotificationType();
+                $type = $notification->getNotificationType();
+                if ($type == null) {
+                    $type = new NotificationType();
                 }
                 $ticket = $notification->getTicket();
                 if ($ticket == null) {
@@ -518,15 +596,15 @@ class RestController extends FOSRestController
 
 
                 $data[] = array(
-                    'avatar_path' => $notificationUser->getAvatarPath(),
-                    'username' => $notificationUser->getUsername(),
-                    'role' => (($lang == 'en') ? $notificationUser->getRole()->getName() : $notificationUser->getRole()->getNameES()),
+                    'avatar_path' => $user->getAvatarPath(),
+                    'username' => $user->getUsername(),
+                    'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
                     'user_notification' => array(
                         'description' => $notification->getDescription(),
-                        'notification_type' => (($lang == 'en') ? $notificationType->getNameEN() : $notificationType->getNameES())),
+                        'notification_type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES())),
                     'replies_quantity' => (array_key_exists($ticket->getId(), $commentsReplies)) ? $commentsReplies[$ticket->getId()] : 0,
-                    'timestamp' => $notificationUser->format(\DateTime::RFC850),
-                    'notification_type' => (($lang == 'en') ? $notificationType->getNameEN() : $notificationType->getNameES()),
+                    'timestamp' => $user->format(\DateTime::RFC850),
+                    'notification_type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES()),
                     'notification_notice' => $notification->getNotice(),
                 );
             }
@@ -703,50 +781,50 @@ class RestController extends FOSRestController
 
             /** @var Ticket $ticket */
             foreach ($tickets as $ticket) {
-                $ticketType = $ticket->getTicketType();
-                if ($ticketType == null) {
-                    $ticketType = new TicketType();
+                $type = $ticket->getTicketType();
+                if ($type == null) {
+                    $type = new TicketType();
                 }
-                $ticketStatus = $ticket->getTicketStatus();
-                if ($ticketStatus == null) {
-                    $ticketStatus = new TicketStatus();
+                $status = $ticket->getTicketStatus();
+                if ($status == null) {
+                    $status = new TicketStatus();
                 }
-                $ticketUser = $ticket->getCreatedBy();
-                if ($ticketUser == null) {
-                    $ticketUser = new User();
+                $user = $ticket->getCreatedBy();
+                if ($user == null) {
+                    $user = new User();
                 }
 
-                $commonAreaReservation = $ticket->getCommonAreaReservation();
-                if ($commonAreaReservation == null) {
-                    $commonAreaReservation = new CommonAreaReservation();
+                $reservation = $ticket->getCommonAreaReservation();
+                if ($reservation == null) {
+                    $reservation = new CommonAreaReservation();
                 }
-                $commonAreaReservationStatus = $commonAreaReservation->getCommonAreaResevationStatus();
-                if ($commonAreaReservationStatus == null) {
-                    $commonAreaReservationStatus = new CommonAreaReservationStatus();
+                $reservationStatus = $reservation->getCommonAreaResevationStatus();
+                if ($reservationStatus == null) {
+                    $reservationStatus = new CommonAreaReservationStatus();
                 }
-                $commonArea = $commonAreaReservation->getCommonArea();
+                $commonArea = $reservation->getCommonArea();
                 if ($commonArea == null) {
                     $commonArea = new CommonArea();
                 }
 
                 $data[] = array(
                     'ticket_id' => $ticket->getId(),
-                    'ticket_type_id' => $ticketType->getId(),
-                    'ticket_type_name' => $ticketType->getName(),
-                    'status' => (($lang == 'en') ? $ticketStatus->getNameEN() : $ticketStatus->getNameES()),
+                    'ticket_type_id' => $type->getId(),
+                    'ticket_type_name' => $type->getName(),
+                    'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
                     'ticket_title' => $ticket->getTitle(),
                     'ticket_description' => $ticket->getDescription(),
                     'ticket_is_public' => $ticket->getIsPublic(),
-                    'username' => $ticketUser->getUsername(),
-                    'role' => (($lang == 'en') ? $ticketUser->getRole()->getName() : $ticketUser->getRole()->getNameES()),
+                    'username' => $user->getUsername(),
+                    'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
                     'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
                     'common_area' => array(
                         "id" => $commonArea->getId(),
                         "name" => $commonArea->getName(),
-                        "status" => (($lang == 'en') ? $commonAreaReservationStatus->getNameEN() : $commonAreaReservationStatus->getNameES()),
-                        "reservation_from" => $commonAreaReservation->getReservationDateFrom()->format(\DateTime::RFC850),
-                        "reservation_to" => $commonAreaReservation->getReservationDateTo()->format(\DateTime::RFC850),
+                        "status" => (($lang == 'en') ? $reservationStatus->getNameEN() : $reservationStatus->getNameES()),
+                        "reservation_from" => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
+                        "reservation_to" => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
                     ),
                     'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
                 );
@@ -844,13 +922,9 @@ class RestController extends FOSRestController
             // Fetching the ticket comments
             $comments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiSingleTicketComments($ticket_id);
 
-//            $ticketType = $ticket->getTicketType();
-//            if ($ticketType == null) {
-//                $ticketType = new TicketType();
-//            }
-            $ticketStatus = $ticket->getTicketStatus();
-            if ($ticketStatus == null) {
-                $ticketStatus = new TicketStatus();
+            $status = $ticket->getTicketStatus();
+            if ($status == null) {
+                $status = new TicketStatus();
             }
             $ticketUser = $ticket->getCreatedBy();
             if ($ticketUser == null) {
@@ -860,7 +934,7 @@ class RestController extends FOSRestController
             $data = array(
                 'ticket_title' => $ticket->getTitle(),
                 'username' => $ticketUser->getUsername(),
-                'status' => (($lang == 'en') ? $ticketStatus->getNameEN() : $ticketStatus->getNameES()),
+                'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
                 'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
                 'followers_quantity' => (array_key_exists($ticket->getId(), $followersCount)) ? $followersCount[$ticket->getId()] : 0,
                 'comments_quantity' => (array_key_exists($ticket->getId(), $commentsCount)) ? $commentsCount[$ticket->getId()] : 0,
@@ -883,23 +957,23 @@ class RestController extends FOSRestController
                 $data['comments'][] = array(
                     'username' => $commentUser->getUsername(),
                     'timestamp' => $comment->getCreatedAt()->format(\DateTime::RFC850),
-                    'like' => $likeUser->getUsername(), // ToDo: Question -> Solo un usuario le puede dar like o varios?
+                    'like' => $likeUser->getUsername(),
                     'comment' => $comment->getCommentDescription(),
-                    'icon_url' => "", // ToDo: Question -> De donde sale este campo? Y porque tienen q estar cargados en la app (asi dice el doc)?
+                    'icon_url' => "",
                 );
             }
 
 
             if ($ticket->getCommonAreaReservation() != null) {
-                $commonAreaReservation = $ticket->getCommonAreaReservation();
-                if ($commonAreaReservation == null) {
-                    $commonAreaReservation = new CommonAreaReservation();
+                $reservation = $ticket->getCommonAreaReservation();
+                if ($reservation == null) {
+                    $reservation = new CommonAreaReservation();
                 }
-                $commonAreaReservationStatus = $commonAreaReservation->getCommonAreaResevationStatus();
-                if ($commonAreaReservationStatus == null) {
-                    $commonAreaReservationStatus = new CommonAreaReservationStatus();
+                $reservationStatus = $reservation->getCommonAreaResevationStatus();
+                if ($reservationStatus == null) {
+                    $reservationStatus = new CommonAreaReservationStatus();
                 }
-                $commonArea = $commonAreaReservation->getCommonArea();
+                $commonArea = $reservation->getCommonArea();
                 if ($commonArea == null) {
                     $commonArea = new CommonArea();
                 }
@@ -907,9 +981,9 @@ class RestController extends FOSRestController
                 $data['common_area'] = array(
                     "id" => $commonArea->getId(),
                     "name" => $commonArea->getName(),
-                    "status" => (($lang == 'en') ? $commonAreaReservationStatus->getNameEN() : $commonAreaReservationStatus->getNameES()),
-                    "reservation_from" => $commonAreaReservation->getReservationDateFrom()->format(\DateTime::RFC850),
-                    "reservation_to" => $commonAreaReservation->getReservationDateTo()->format(\DateTime::RFC850),
+                    "status" => (($lang == 'en') ? $reservationStatus->getNameEN() : $reservationStatus->getNameES()),
+                    "reservation_from" => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
+                    "reservation_to" => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
                 );
             }
 
@@ -1079,9 +1153,9 @@ class RestController extends FOSRestController
                 $data['questions'][] = array(
                     'poll_question' => $question->getQuestion(),
                     'poll_file_photo' => $question->getPollFilePhoto(),
-                    'question' => $question->getQuestion(), // ToDo: Question -> Cual es la diferencia entre question y poll_question?
+                    'question' => $question->getQuestion(),
                     'question_type' => $question->getPollQuestionType()->getName(),
-                    'poll_question_options' => $options, // ToDo: Question -> Esto seria un array tambien?
+                    'poll_question_options' => $options,
                 );
             }
 
@@ -1174,7 +1248,7 @@ class RestController extends FOSRestController
                 $commonAreaPhotos = array();
                 /** @var CommonAreaPhoto $photo */
                 foreach ($photos[$commonArea->getId()] as $photo) {
-                    $commonAreaPhotos[] = array( 'url' => $photo->getPhotoPath() ); // ToDo: Question -> Esta propiedad es int.
+                    $commonAreaPhotos[] = array( 'url' => $photo->getPhotoPath() );
                 }
 
                 $commonAreaType = $commonArea->getCommonAreaType();
@@ -1183,7 +1257,7 @@ class RestController extends FOSRestController
                 }
 
                 $data[] = array(
-                    'id' => $commonArea->getId(), // ToDo: Question -> No esta en el spec.
+                    'id' => $commonArea->getId(),
                     'name' => $commonArea->getName(),
                     'description' => $commonArea->getDescription(),
                     'common_area_type' => $commonAreaType->getName(),
