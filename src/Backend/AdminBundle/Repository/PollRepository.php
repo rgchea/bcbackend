@@ -10,4 +10,34 @@ namespace Backend\AdminBundle\Repository;
  */
 class PollRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiPolls($pageId = 1, $limit = 10)
+    {
+        $qb = $this->queryBuilderForApiPolls();
+
+        $qb->setFirstResult($pageId * $limit)// Offset
+            ->setMaxResults($limit)// Limit
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiPolls()
+    {
+        $qb = $this->queryBuilderForApiPolls();
+        $qb->select('count(a.id)');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function queryBuilderForApiPolls()
+    {
+        $today = new \DateTime();
+
+        return $this->createQueryBuilder('a')
+            ->select('a')
+            ->where('a.enabled = 1')
+            ->andWhere('a.activeFrom <= :today')
+            ->andWhere('a.activeTo >= :today')
+            ->setParameter('today', $today);
+    }
 }

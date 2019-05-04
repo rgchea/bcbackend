@@ -2,13 +2,8 @@
 
 namespace Backend\AdminBundle\Entity;
 
-use JMS\Serializer\Annotation as Serializer;
-use Swagger\Annotations as SWG;
-
 /**
- * Country
- * @SWG\Definition(title="Country")
- * @Serializer\ExclusionPolicy("all")
+ * GeoCountry
  */
 class GeoCountry
 {
@@ -19,25 +14,13 @@ class GeoCountry
 
     /**
      * @var string
-     * @SWG\Property(description="Name", example="Guatemala")
-     * @Serializer\Expose
-     *
      */
     private $name = '';
 
     /**
      * @var string|null
-     * @SWG\Property(description="Area code", example="502")
-     * @Serializer\Expose
      */
     private $code;
-
-    /**
-     * @var string
-     * @SWG\Property(description="Language", example="es")
-     * @Serializer\Expose
-     */
-    private $locale = 'en';
 
     /**
      * @var \DateTime
@@ -271,6 +254,10 @@ class GeoCountry
     {
         return $this->updatedBy;
     }
+    /**
+     * @var string
+     */
+    private $locale = 'en';
 
 
     /**

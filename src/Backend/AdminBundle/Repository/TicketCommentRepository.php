@@ -10,4 +10,38 @@ namespace Backend\AdminBundle\Repository;
  */
 class TicketCommentRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiCountPerTickets( $ids )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('t.id as id, count(a.id) as count')
+            ->innerJoin('a.ticket', 't')
+            ->where('a.enabled = 1')
+            ->andWhere('t.enabled = 1')
+            ->groupBy('t.id');
+
+        if ( count( $ids ) > 0 ) {
+            $qb->andWhere($qb->expr()->in('t.id', $ids));
+        }
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getApiSingleTicketComments ($ticketId) {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, t, u, l')
+            ->innerJoin('a.ticket', 't')
+            ->leftJoin('a.createdBy', 'u')
+            ->leftJoin('a.likedBy', 'l')
+            ->where('a.enabled = 1')
+            ->andWhere('t.enabled = 1')
+            ->andWhere('t.id = :ticket_id')
+            ->setParameter('ticket_id', $ticketId)
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

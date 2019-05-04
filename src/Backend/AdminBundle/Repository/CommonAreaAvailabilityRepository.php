@@ -12,6 +12,7 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
+
     public function  clearSchedule($commonAreaID){
 
         $sql = "	DELETE
@@ -24,7 +25,8 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    public function getSchedule($commonAreaID){
+    public function getSchedule($commonAreaID)
+    {
 
         $sql = "	SELECT  *
 					FROM 	common_area_availability
@@ -38,37 +40,37 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 
         $execute = $stmt->fetchAll();
 
-        if(empty($execute)){
+        if (empty($execute)) {
             return "";
         }
-            /*
-         $('#schedule3').jqs('import', [
-              {
-                day: 1,
-                periods: [
-                  ['8:00', '10:00'] // Compact
-                ]
-              }, {
-                day: 2,
-                periods: [
-                  ['20:00', '00:00'],
-                  ['20:00', '22:00'] // Invalid period, not displayed
-                ]
-              }, {
-                day: 4,
-                periods: [
-                  { // Full
-                    start: '10:00',
-                    end: '12:00',
-                    title: 'A black period',
-                    backgroundColor: '#000',
-                    borderColor: '#000',
-                    textColor: '#fff'
-                  }
-                ]
+        /*
+     $('#schedule3').jqs('import', [
+          {
+            day: 1,
+            periods: [
+              ['8:00', '10:00'] // Compact
+            ]
+          }, {
+            day: 2,
+            periods: [
+              ['20:00', '00:00'],
+              ['20:00', '22:00'] // Invalid period, not displayed
+            ]
+          }, {
+            day: 4,
+            periods: [
+              { // Full
+                start: '10:00',
+                end: '12:00',
+                title: 'A black period',
+                backgroundColor: '#000',
+                borderColor: '#000',
+                textColor: '#fff'
               }
-            ]);
-            */
+            ]
+          }
+        ]);
+        */
 
 
         //$('#schedule').jqs('import', [{ day: 0, periods: [['06:00','07:00']]},{ day: 1, periods: [['06:00','07:00']]},{ day: 2, periods: [['06:00','07:00']]},{ day: 3, periods: [['06:00','07:00']]},{ day: 4, periods: [['06:00','07:00']]},{ day: 5, periods: [['06:00','07:00']]},{ day: 6, periods: [['06:00','07:00']]}]);
@@ -81,31 +83,44 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 
             $day = $row["weekday_single"];
 
-            if(!isset($arrDays[$day])){
+            if (!isset($arrDays[$day])) {
 
 
-                if($day > 0)
-                {
+                if ($day > 0) {
 
                     $days .= "]},";
                 }
 
                 $arrDays[$day] = $day;
-                $days .= "{ day: ".$day.",";
+                $days .= "{ day: " . $day . ",";
                 $days .= " periods: [";
             }
 
-            $days .= "['".$row["hour_from"]."','".$row["hour_to"]."'],";
+            $days .= "['" . $row["hour_from"] . "','" . $row["hour_to"] . "'],";
 
         }
 
-        $days = "[".$days."]}]";
+        $days = "[" . $days . "]}]";
 
         //print $days;die;
 
         return $days;
-
-
-
     }
+
+
+
+    private function getApiCommonAreaAvailability($commonAreaId)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a, c')
+            ->innerJoin('a.commonArea', 'c')
+            ->where('a.enabled = 1')
+            ->andWhere('c.enabled = 1')
+            ->andWhere('c.id = :common_area_id')
+            ->setParameter('common_area_id', $commonAreaId)
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

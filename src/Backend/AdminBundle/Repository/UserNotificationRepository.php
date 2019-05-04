@@ -10,4 +10,39 @@ namespace Backend\AdminBundle\Repository;
  */
 class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiInbox($user, $pageId = 1, $limit = 10)
+    {
+        $qb = $this->queryBuilderForApiInbox($user);
+
+        $qb->select('a, u, t, nt')
+            ->setFirstResult($pageId * $limit)// Offset
+            ->setMaxResults($limit)// Limit
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiInbox($user)
+    {
+        $qb = $this->queryBuilderForApiInbox($user);
+
+        $qb->select('count(a.id)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function queryBuilderForApiInbox($user)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a')
+            ->innerJoin('a.createdBy', 'u')
+            ->leftJoin('u.role', 'ur')
+            ->leftJoin('a.notificationType', 'nt')
+            ->leftJoin('a.ticket', 't')
+            ->where('a.enabled = 1')
+            ->andWhere('a.createdBy = :user')
+            ->setParameter('user', $user);
+    }
+
 }

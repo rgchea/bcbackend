@@ -11,7 +11,27 @@ namespace Backend\AdminBundle\Repository;
 class PropertyRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiProperty($code) {
+    public function getApiCommonAreas($propertyId)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, cs, c, o')
+            ->innerJoin('a.complexSector', 's')
+            ->innerJoin('s.complex', 'c')
+            ->leftJoin('a.owner', 'o')
+            ->where('a.enabled = 1')
+            ->andWhere('cs.enabled = 1')
+            ->andWhere('c.enabled = 1')
+            ->andWhere('o.enabled = 1')
+            ->andWhere('a.id = :property_id')
+            ->setParameter('property_id', $propertyId)
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getApiProperty($code)
+    {
         $qb = $this->createQueryBuilder('a');
 
         $qb->select('a, s.id, p.id')
@@ -19,12 +39,19 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('a.propertyType', 'p')
             ->where('a.enabled = 1 AND a.code = :code')
             ->setParameter('code', $code)
-            ->orderBy('a.createdAt', 'ASC')
-        ;
+            ->orderBy('a.createdAt', 'ASC');
 
         return $qb->getQuery()->getSingleResult();
     }
 
+    public function countApiProperties()
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->where('a.enabled = 1');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 
 
     //getRequiredDTData($start, $length, $orders, $search, $columns, $filters);
