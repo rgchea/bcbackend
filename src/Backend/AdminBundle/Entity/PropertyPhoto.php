@@ -3,9 +3,9 @@
 namespace Backend\AdminBundle\Entity;
 
 /**
- * GeoCountry
+ * PropertyPhoto
  */
-class GeoCountry
+class PropertyPhoto
 {
     /**
      * @var int
@@ -15,32 +15,27 @@ class GeoCountry
     /**
      * @var string
      */
-    private $name = '';
+    private $photoPath = '';
 
     /**
-     * @var string|null
+     * @var \DateTime|null
      */
-    private $code;
+    private $createdAt;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
-    private $createdAt = '0000-00-00 00:00:00';
-
-    /**
-     * @var \DateTime
-     */
-    private $updatedAt = '0000-00-00 00:00:00';
+    private $updatedAt;
 
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
-     * @var string|null
+     * @var \Backend\AdminBundle\Entity\Property
      */
-    private $timezone;
+    private $property;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -64,61 +59,37 @@ class GeoCountry
     }
 
     /**
-     * Set name.
+     * Set photoPath.
      *
-     * @param string $name
+     * @param string $photoPath
      *
-     * @return GeoCountry
+     * @return PropertyPhoto
      */
-    public function setName($name)
+    public function setPhotoPath($photoPath)
     {
-        $this->name = $name;
+        $this->photoPath = $photoPath;
 
         return $this;
     }
 
     /**
-     * Get name.
+     * Get photoPath.
      *
      * @return string
      */
-    public function getName()
+    public function getPhotoPath()
     {
-        return $this->name;
-    }
-
-    /**
-     * Set code.
-     *
-     * @param string|null $code
-     *
-     * @return GeoCountry
-     */
-    public function setCode($code = null)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get code.
-     *
-     * @return string|null
-     */
-    public function getCode()
-    {
-        return $this->code;
+        return $this->photoPath;
     }
 
     /**
      * Set createdAt.
      *
-     * @param \DateTime $createdAt
+     * @param \DateTime|null $createdAt
      *
-     * @return GeoCountry
+     * @return PropertyPhoto
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt = null)
     {
         $this->createdAt = $createdAt;
 
@@ -128,7 +99,7 @@ class GeoCountry
     /**
      * Get createdAt.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getCreatedAt()
     {
@@ -138,11 +109,11 @@ class GeoCountry
     /**
      * Set updatedAt.
      *
-     * @param \DateTime $updatedAt
+     * @param \DateTime|null $updatedAt
      *
-     * @return GeoCountry
+     * @return PropertyPhoto
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updatedAt = null)
     {
         $this->updatedAt = $updatedAt;
 
@@ -152,7 +123,7 @@ class GeoCountry
     /**
      * Get updatedAt.
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getUpdatedAt()
     {
@@ -164,7 +135,7 @@ class GeoCountry
      *
      * @param bool $enabled
      *
-     * @return GeoCountry
+     * @return PropertyPhoto
      */
     public function setEnabled($enabled)
     {
@@ -184,27 +155,27 @@ class GeoCountry
     }
 
     /**
-     * Set timezone.
+     * Set property.
      *
-     * @param string|null $timezone
+     * @param \Backend\AdminBundle\Entity\Property|null $property
      *
-     * @return GeoCountry
+     * @return PropertyPhoto
      */
-    public function setTimezone($timezone = null)
+    public function setProperty(\Backend\AdminBundle\Entity\Property $property = null)
     {
-        $this->timezone = $timezone;
+        $this->property = $property;
 
         return $this;
     }
 
     /**
-     * Get timezone.
+     * Get property.
      *
-     * @return string|null
+     * @return \Backend\AdminBundle\Entity\Property|null
      */
-    public function getTimezone()
+    public function getProperty()
     {
-        return $this->timezone;
+        return $this->property;
     }
 
     /**
@@ -212,7 +183,7 @@ class GeoCountry
      *
      * @param \Backend\AdminBundle\Entity\User|null $createdBy
      *
-     * @return GeoCountry
+     * @return PropertyPhoto
      */
     public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
     {
@@ -236,7 +207,7 @@ class GeoCountry
      *
      * @param \Backend\AdminBundle\Entity\User|null $updatedBy
      *
-     * @return GeoCountry
+     * @return PropertyPhoto
      */
     public function setUpdatedBy(\Backend\AdminBundle\Entity\User $updatedBy = null)
     {
@@ -253,68 +224,5 @@ class GeoCountry
     public function getUpdatedBy()
     {
         return $this->updatedBy;
-    }
-    /**
-     * @var string
-     */
-    private $locale = 'en';
-
-
-    /**
-     * Set locale.
-     *
-     * @param string $locale
-     *
-     * @return GeoCountry
-     */
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-
-        return $this;
-    }
-
-    /**
-     * Get locale.
-     *
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->locale;
-    }
-
-    public function __toString(){
-
-        return $this->getName();
-    }
-    /**
-     * @var string
-     */
-    private $shortName = '';
-
-
-    /**
-     * Set shortName.
-     *
-     * @param string $shortName
-     *
-     * @return GeoCountry
-     */
-    public function setShortName($shortName)
-    {
-        $this->shortName = $shortName;
-
-        return $this;
-    }
-
-    /**
-     * Get shortName.
-     *
-     * @return string
-     */
-    public function getShortName()
-    {
-        return $this->shortName;
     }
 }
