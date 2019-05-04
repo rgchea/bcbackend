@@ -10,11 +10,7 @@
 					{{ 'resetting.check_email'|trans({'%email%': email}) }}
 				</p>
 
-				<div style="padding: 10px">
-					<a class="btn btn-ps" onclick='document.location.href = "{{ path('fos_user_security_login')}}" '>{{ 'label_ok'|trans}}</a>
-				</div>
-
-
+				<button type="button" onclick='document.location.href = "{{ path('fos_user_security_login')}}" ' class="btn btn-primary">{{ 'label_ok'|trans}}</button>
 
 			</div>
 		</div>

@@ -27,9 +27,9 @@ class CommonAreaType extends AbstractType
             ->add('termCondition',  TextareaType::class, array('label'=>"label_term_condition", 'required'=>true ))
             ->add('price',  null, array('label'=>"label_price", 'required'=>true))
             ->add('reservationHourPeriod', null, array('label'=>"label_reservation_hour_period", 'required'=>true))    
-            ->add('requiredPayment', null, array('label'=>"label_required_payment", 'required'=>true))    
-            ->add('hasEquipment', null, array('label'=>"label_has_equipment", 'required'=>true))        
-            ->add('equipmentDescription',  TextareaType::class, array('label'=>"label_equipment_description", 'required'=>true ))
+            ->add('requiredPayment', null, array('label'=>"label_required_payment", 'required'=>false))
+            ->add('hasEquipment', null, array('label'=>"label_has_equipment", 'required'=>false))
+            ->add('equipmentDescription',  TextareaType::class, array('label'=>"label_equipment_description", 'required'=>false ))
              ;    
             //->add('propertyType',  null, array('label'=>"label_type", 'required'=>true))
             

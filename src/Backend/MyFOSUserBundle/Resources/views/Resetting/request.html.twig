@@ -8,49 +8,27 @@
 
 {% endblock %}
 
-{% trans_default_domain 'FOSUserBundle' %}
+		<div class="panel">
 
-
-	<div class="login-wrap">    
-	    <div class="panel bg-gray no-padding">        
-	        <div class="panel-body">
+			<div class="panel-body">
 				<form action="{{ path('my_fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
-				    <header>
-				        <b>{{ 'label_login_restore_pass'|trans }}</b>
-				    </header>
-				    <fieldset>
-					
-				    
-					    <div style="padding: 10px">
-					    	{#
-					    		
-					        {% if invalid_username is defined %}
-					            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
-					        {% endif %}
-					    		
-					    	<label for="username">{{ 'resetting.request.username'|trans }}</label>
-					    	#}
-					    	
-					        <label for="username">{{ 'label_login_user'|trans }}:</label><br>
-					        <input type="text" id="username" name="username" required="required" />
-					    </div>
-				    
-				    	
-				    </fieldset>
-					<br />
-				    <footer>
-				    	<div style="padding: 10px">
-				    		<input type="submit" class="btn btn-ps" value="{{ 'label_send'|trans }}" />
-				    	</div>
-				        
-				
-				
-				    </footer>
-					
-				    	
-				</form>	        	
+					<div class="form-group">
+						<input class="form-control" id="username" name="username" required="required" placeholder="{{ 'label_email'|trans }}">
+					</div>
+					<button type="submit" class="btn btn-primary">{{ 'label_send'|trans }}</button>
+					<br/>
+					<br/>
+
+					<div class="form-group text-center">
+						{{ 'label_login_dont_have_pass'|trans }}&nbsp;&nbsp;<a href="{{ path('backend_admin_register_new') }}">{{ 'label_register'|trans }}</a>
+					</div>
+
+				</form>
 	        </div>
 	    </div>
-	</div>	    
+
+
+
+
 
 {% endblock fos_user_content %}

@@ -167,11 +167,13 @@ class PropertyController extends Controller
 
                     case 'actions':
                         {
+
+
                             $urlEdit = $this->generateUrl('backend_admin_property_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><div class='btn btn-sm btn-primary'><span class='fa fa-search'></span></div></a>";
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_property_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn btn-danger btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i></a>";
+                            $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $edit.$delete;
                             break;
@@ -408,7 +410,8 @@ class PropertyController extends Controller
             'action' => $this->generateUrl('backend_admin_property_create'),
             'method' => 'POST',
             'role' => $this->role,
-            'userID' => $this->userLogged->getId(),
+            //'userID' => $this->userLogged->getId(),
+            'userID' => $entity->getCreatedBy()->getId(),
             'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
 
         ));
@@ -448,7 +451,8 @@ class PropertyController extends Controller
         $form = $this->createForm(PropertyType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_property_update', array('id' => $entity->getId())),
             'role' => $this->role,
-            'userID' => $this->userLogged->getId(),
+            //'userID' => $this->userLogged->getId(),
+            'userID' => $entity->getCreatedBy()->getId(),
             'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
         ));
 

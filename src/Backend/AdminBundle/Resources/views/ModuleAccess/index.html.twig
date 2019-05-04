@@ -116,7 +116,16 @@
 												{% set checked = true %}									
 							                {% endif %}
 										{% endfor %}
-										<td><input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} /> </td>				                								
+
+
+										<td>
+											<div class="checkbox">
+												<label>
+													<input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} />
+												</label>
+											</div>
+
+										</td>
 					                {% endfor %}					    			
 					    		</tr>
 					    		
@@ -135,9 +144,13 @@
                                             {% if access.role.id == role.id and access.module.id == module.moduleID %}
                                                 {% set checked = true %}									
                                             {% endif %}
-                                        {% endfor %}                                        
-                                        <td>
-                                            <input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %}/>
+                                        {% endfor %}
+										<td>
+											<div class="checkbox">
+												<label>
+                                            		<input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %}/>
+												</label>
+											</div>
                                         </td>
 														                								
 					                {% endfor %}
@@ -157,7 +170,13 @@
 														{% set checked = true %}									
 									                {% endif %}
 												{% endfor %}
-												<td><input name="{{role.id}}_{{submenu.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} /> </td>				                								
+												<td>
+													<div class="checkbox">
+														<label>
+															<input name="{{role.id}}_{{submenu.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} />
+														</label>
+													</div>
+												</td>
 							                {% endfor %}												
 										</tr>												
 									{% endif %}				                								

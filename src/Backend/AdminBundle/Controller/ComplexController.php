@@ -159,10 +159,10 @@ class ComplexController extends Controller
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_complex_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><div class='btn btn-sm btn-primary'><span class='fa fa-search'></span></div></a>";
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_complex_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn btn-danger btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i></a>";
+                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $edit.$delete;
                             break;
@@ -474,20 +474,24 @@ class ComplexController extends Controller
                     $newProperty = new Property();
                     $newProperty->setPropertyType($propertyType);
                     $newProperty->setComplexSector($newSector);
+                    //$newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
                     $newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
                     $myNumber = sprintf("%02d", $j);
                     $newProperty->setName($propertyTypeName." ".$i.$myNumber);
                     $newProperty->setIsAvailable(1);
                     $this->get("services")->blameOnMe($newProperty, "create");
                     $this->em->persist($newProperty);
+                    $this->em->flush();
+
+                    $code = sprintf('%06d',$newProperty->getId());
+                    $newProperty->setCode($code);
+                    $this->em->persist($newProperty);
 
                 }
 
 
             }
-
-
-
+            
             //$this->em->persist($entity);
             $this->em->flush();
 

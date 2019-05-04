@@ -10,4 +10,102 @@ namespace Backend\AdminBundle\Repository;
  */
 class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+    public function  clearSchedule($commonAreaID){
+
+        $sql = "	DELETE
+					FROM 	common_area_availability;
+                    WHERE 	common_area_id = {$commonAreaID}";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+    }
+
+
+    public function getSchedule($commonAreaID){
+
+        $sql = "	SELECT  *
+					FROM 	common_area_availability
+                    WHERE 	common_area_id = {$commonAreaID}
+                    ORDER BY weekday_single, id";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        //print $sql;die;
+
+        $execute = $stmt->fetchAll();
+
+        if(empty($execute)){
+            return "";
+        }
+            /*
+         $('#schedule3').jqs('import', [
+              {
+                day: 1,
+                periods: [
+                  ['8:00', '10:00'] // Compact
+                ]
+              }, {
+                day: 2,
+                periods: [
+                  ['20:00', '00:00'],
+                  ['20:00', '22:00'] // Invalid period, not displayed
+                ]
+              }, {
+                day: 4,
+                periods: [
+                  { // Full
+                    start: '10:00',
+                    end: '12:00',
+                    title: 'A black period',
+                    backgroundColor: '#000',
+                    borderColor: '#000',
+                    textColor: '#fff'
+                  }
+                ]
+              }
+            ]);
+            */
+
+
+        //$('#schedule').jqs('import', [{ day: 0, periods: [['06:00','07:00']]},{ day: 1, periods: [['06:00','07:00']]},{ day: 2, periods: [['06:00','07:00']]},{ day: 3, periods: [['06:00','07:00']]},{ day: 4, periods: [['06:00','07:00']]},{ day: 5, periods: [['06:00','07:00']]},{ day: 6, periods: [['06:00','07:00']]}]);
+
+        $days = "";
+
+
+        $arrDays = array();
+        foreach ($execute as $row) {
+
+            $day = $row["weekday_single"];
+
+            if(!isset($arrDays[$day])){
+
+
+                if($day > 0)
+                {
+
+                    $days .= "]},";
+                }
+
+                $arrDays[$day] = $day;
+                $days .= "{ day: ".$day.",";
+                $days .= " periods: [";
+            }
+
+            $days .= "['".$row["hour_from"]."','".$row["hour_to"]."'],";
+
+        }
+
+        $days = "[".$days."]}]";
+
+        //print $days;die;
+
+        return $days;
+
+
+
+    }
 }

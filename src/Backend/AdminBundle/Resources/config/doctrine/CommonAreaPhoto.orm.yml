@@ -23,10 +23,12 @@ Backend\AdminBundle\Entity\CommonAreaPhoto:
                 strategy: IDENTITY
     fields:
         photoPath:
-            type: integer
-            nullable: true
+            type: string
+            nullable: false
+            length: 128
             options:
-                unsigned: false
+                fixed: false
+                default: ''
             column: photo_path
         createdAt:
             type: datetime

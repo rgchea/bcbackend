@@ -1,7 +1,0 @@
-parameters:
-#    Wbc_auth.example.class: Wbc\AuthBundle\Example
-
-services:
-#    Wbc_auth.example:
-#        class: %Wbc_auth.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,81 @@
+Backend\AdminBundle\Entity\PropertyPhoto:
+    type: entity
+    table: property_photo
+    repositoryClass: Backend\AdminBundle\Repository\PropertyPhotoRepository
+    indexes:
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
+        property_id:
+            columns:
+                - property_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        photoPath:
+            type: string
+            nullable: false
+            length: 128
+            options:
+                fixed: false
+                default: ''
+            column: photo_path
+        createdAt:
+            type: datetime
+            nullable: true
+            options:
+                default: null
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            options:
+                default: null
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+    manyToOne:
+        property:
+            targetEntity: Property
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

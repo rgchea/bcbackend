@@ -10,6 +10,9 @@ label_assign: Assigned
 label_actions: Actions
 label_back: Back
 label_are_you_sure: 'Are you sure?'
+label_no_more_files: 'Cannot upload more files'
+label_max_files: '5 files max'
+label_photo: 'Photos'
 label_send: Send
 label_flash_save_success_msg: 'Changes were saved'
 label_flash_success: Success
@@ -31,16 +34,27 @@ label_description: Description
 label_descripcion: 'Description ES'
 label_last_name: 'Last name'
 label_enabled: Enabled
+label_step: Step
 label_type: Type
 label_login_forgot_password: 'Forgot Password'
 label_login_keep_active: 'Keep me active'
 label_login_login: Login
 label_login_restore_pass: 'Restore password'
+label_login_dont_have_pass: 'Don''t have an account?'
+label_login_have_account: 'I have an account'
+label_register_create_account: 'Create account'
+label_register_create_company: 'CREATE YOUR COMPANY'
+label_register_create_company_2: 'CREATE THIS COMPANY'
+label_register_create_complex: 'CREATE A COMPLEX'
+label_register_create_complex_2: 'CREATE THIS COMPLEX'
+label_register_generate: 'WE WILL GENERATE'
+label_register_generate_for_you: 'PROPERTIES FOR YOU'
+label_register_generate_msg: 'You Will be able to create more properties and edit the ones you created here.'
 label_register: Register
 label_register_complete: Welcome
 label_register_invite_msg: 'Invited you to join the best platform to manage building business <a href="www.bettercondos.tech">www.bettercondos.tech</a>'
-label_register_complete_msg: 'Now you are part of the best platform to manage building business <a href="www.bettercondos.tech">www.bettercondos.tech</a>'
-label_register_bc_info: 'You can access to you billing portal through <a href="www.bettercondos.info/?ng=client/login/">www.bettercondos.info</a>'
+label_register_complete_msg: 'Now you are part of the best platform to manage building business www.bettercondos.tech/admin'
+label_register_bc_info: 'You can access to you billing portal through www.bettercondos.info'
 label_register_contact: 'info@bettercondos.com / +180 000 0000'
 label_accept_terms: 'I Accept the terms & conditions'
 label_phone: Phone
@@ -64,11 +78,12 @@ label_birthdate: Birthdate
 label_login_user: Username
 label_login_password: Password
 label_login_password_retype: 'Retype Password'
-label_set_password: Keep Blank to do not change Password
+label_set_password: 'Keep Blank to do not change Password'
 label_es: ES
 label_en: EN
 label_other: Other
 label_complex: Complex
+label_complex_assigned: Assigned complex
 label_business: Business
 label_business_check_email: 'Email already has been associated with other account'
 label_business_check_phone: 'Phone already has been associated with other account'
@@ -115,8 +130,9 @@ label_flexible_hours: 'Flexible Hours'
 label_flexitour: Flexitour
 label_regulation: Regulation
 label_common_area: 'Common Area'
+label_common_area_schedule: 'Schedule'
 label_price: Price
-label_reservation_hour_period: 'Reservation Hour Period'
+label_reservation_hour_period: 'Reservation Hour Period (every 1hr, every 2hrs, every 3hrs...)'
 label_required_payment: 'Required Payment'
 label_has_equipment: 'Has Equipment'
 label_equipment_description: 'Equipment Description'

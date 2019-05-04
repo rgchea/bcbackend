@@ -11,6 +11,8 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 
 use Backend\AdminBundle\Entity\CommonArea;
+use Backend\AdminBundle\Entity\CommonAreaAvailability;
+use Backend\AdminBundle\Entity\CommonAreaPhoto;
 use Backend\AdminBundle\Form\CommonAreaType;
 
 /**
@@ -126,67 +128,19 @@ class CommonAreaController extends Controller
                             $responseTemp = $entity->getName();
                             break;
                         }
-                    case 'description':
-                        {
-                            $responseTemp = $entity->getDescription();
-                            break;
-                        }
                     case 'complex':
                         {
-                            $responseTemp = $entity->getComplexSector()->getComplex()->getName();
-                            break;
-                        }
-
-                    case 'commonAreaType':
-                        {
-                            $responseTemp = $entity->getCommonAreaType()->getName();
-                            break;
-                        }
-                    case 'regulation':
-                        {
-                            $responseTemp = $entity->getRegulation();
-                            break;
-                        }
-                        
-                    case 'termCondition':
-                        {
-                            $responseTemp = $entity->getTermCondition();
-                            break;
-                        }
-                    case 'price':
-                        {
-                            $responseTemp = $entity->getPrice();
-                            break;
-                        }
-                    case 'reservationHourPeriod':
-                        {
-                            $responseTemp = $entity->getReservationHourPeriod();
-                            break;
-                        }
-                    case 'requiredPayment':
-                        {
-                            $responseTemp = $entity->getRequiredPayment();
-                            break;
-                        }
-                    case 'hasEquipment':
-                        {
-                            $responseTemp = $entity->getHasEquipment();
-                            break;
-                        }
-                        
-                    case 'equipmentDescription':
-                        {
-                            $responseTemp = $entity->getEquipmentDescription();
+                            $responseTemp = $entity->getComplex()->getName();
                             break;
                         }
 
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_common_area_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><div class='btn btn-sm btn-primary'><span class='fa fa-search'></span></div></a>";
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_common_area_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn btn-danger btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i></a>";
+                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $edit.$delete;
                             break;
@@ -265,9 +219,9 @@ class CommonAreaController extends Controller
     public function editAction(Request $request, $id)
     {
         $this->get("services")->setVars('commonArea');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:CommonArea')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:CommonArea')->find($id);
 
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);
@@ -275,18 +229,22 @@ class CommonAreaController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->em = $this->getDoctrine()->getManager();
+            $this->em->persist($entity);
+            $this->em->flush();
 
             return $this->redirectToRoute('backend_admin_common_area_edit', array('id' => $id));
         }
+
+        $availability = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getSchedule($entity->getId());
+
 
         return $this->render('BackendAdminBundle:CommonArea:edit.html.twig', array(
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'edit' => 1
+            'edit' => $id,
+            'availability' => $availability
         ));
     }
 
@@ -347,9 +305,6 @@ class CommonAreaController extends Controller
     public function createAction(Request $request)
     {
 
-        //print "<pre>";
-        //var_dump($_REQUEST);DIE;
-
         $this->get("services")->setVars('commonArea');
         $this->initialise();
 
@@ -363,37 +318,48 @@ class CommonAreaController extends Controller
 
         if ($form->isValid()) {
 
-            //$businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
-            $sectorID = $_REQUEST["commonArea"]["complex"];
-            $objComplexSector = $this->em->getRepository('BackendAdminBundle:Complex')->find($sectorID);
-            $business = $objComplexSector->getComplex()->getBusiness();
-            $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["common_area"]["complex"]));
 
-            $myCommonAreaType = intval($_REQUEST["commonArea"]["commonAreaType"]);
-            $commonAreaType = $this->em->getRepository('BackendAdminBundle:CommonAreaType')->find($myCommonAreaType);
-
-            if($myCommonAreaType == 0){ //OTHER
-                $commonAreaTypeName = trim($_REQUEST["extra"]["commonAreaTypeName"]);
-            }
-            else{
-                $commonAreaTypeName = $businessLocale == "en" ? $commonAreaType->getNameEN() : $commonAreaType->getNameES();
-            }
-
-            //BLAME ME
             $this->get("services")->blameOnMe($entity, "create");
-            $entity->setCode("0000");
-            $this->em->persist($entity);
-            $this->em->flush();
 
-            $entity->setCode($business->getId().$objComplexSector->getComplex()->getId().$sectorID.$entity->getId());
-            $entity->setIsAvailable(1);
 
             $this->em->persist($entity);
             $this->em->flush();
+
+
+            /*SET THE WEEK SCHEDULE*/
+            $mySchedule = json_decode($_REQUEST["my_schedule"], true);
+
+            foreach ($mySchedule as $key => $weekDay){
+
+                $day =  intval($weekDay["day"]);
+                $arrPeriods = $weekDay["periods"];
+
+                foreach ($arrPeriods as $pk => $period){
+                    $start = $period["start"];
+                    $end = $period["end"];
+
+                    $newAvailability = new CommonAreaAvailability();
+                    $newAvailability->setCommonArea($entity);
+                    $newAvailability->setWeekdaySingle($day);
+                    $newAvailability->setHourFrom($start);
+                    $newAvailability->setHourTo($end);
+
+                    $this->get("services")->blameOnMe($newAvailability, "create");
+
+                    $this->em->persist($newAvailability);
+                    $this->em->flush();
+
+                }
+
+            }
+
+
 
 
             $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_common_area_index'));
+            //return $this->redirect($this->generateUrl('backend_admin_common_area_index'));
+            return $this->redirectToRoute('backend_admin_common_area_edit', array('id' => $entity->getId()));
 
         }
         /*
@@ -479,10 +445,16 @@ class CommonAreaController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $this->get("services")->setVars('commonArea');
-        $em = $this->getDoctrine()->getManager();
+        /*
+        print "<pre>";
+        var_dump(json_decode($_REQUEST["my_schedule"], true));
+        die;
+        */
 
-        $entity = $em->getRepository('BackendAdminBundle:CommonArea')->find($id);
+        $this->get("services")->setVars('commonArea');
+        $this->initialise();
+
+        $entity = $this->em->getRepository('BackendAdminBundle:CommonArea')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find CommonArea entity.');
@@ -493,10 +465,51 @@ class CommonAreaController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $myRequest = $request->request->get('commonArea');
 
-            $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["common_area"]["complex"]));
+
+            $this->get("services")->blameOnMe($entity, "create");
+            $this->em->flush();
+
+
+            /*SET THE WEEK SCHEDULE*/
+
+            /*ERASE LAST SCHEDULE*/
+            ///
+            $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->clearSchedule($entity->getId());
+
+            $mySchedule = json_decode($_REQUEST["my_schedule"], true);
+
+            foreach ($mySchedule as $key => $weekDay){
+
+                $day =  intval($weekDay["day"]);
+                $arrPeriods = $weekDay["periods"];
+
+                foreach ($arrPeriods as $pk => $period){
+                    $start = $period["start"];
+                    $end = $period["end"];
+
+                    $newAvailability = new CommonAreaAvailability();
+                    $newAvailability->setCommonArea($entity);
+                    $newAvailability->setWeekdaySingle($day);
+                    $newAvailability->setHourFrom($start);
+                    $newAvailability->setHourTo($end);
+
+                    $this->get("services")->blameOnMe($newAvailability, "create");
+                    $this->get("services")->blameOnMe($newAvailability, "update");
+
+                    $this->em->persist($newAvailability);
+                    $this->em->flush();
+
+                }
+
+
+
+
+            }
+
+
+
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_common_area_index', array('id' => $id)));
@@ -512,6 +525,113 @@ class CommonAreaController extends Controller
             //'countries' => $countries
         ));
     }
+
+
+    public function imageSendAction(Request $request){
+
+        $this->get("services")->setVars('commonArea');
+        $this->initialise();
+
+
+        //AVATAR UPLOAD
+        /*
+        if($myFile != NULL){
+
+            $file = $entity->getAvatarPath();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('avatars_directory'), $fileName);
+            $entity->setAvatarPath($entity->getAvatarUploadDir().$fileName);
+
+        }
+        */
+
+
+        $commonAreaID = intval($_REQUEST["common_area"]);
+        $objCommonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->find($commonAreaID);
+
+        $document = new CommonAreaPhoto();
+        $media = $request->files->get('file');
+
+        $fileName = md5(uniqid()).'.'.$media->guessExtension();
+
+        $document->setFile($media);
+        $document->setPhotoPath($fileName);
+        //$document->setName($media->getClientOriginalName());
+        $document->setCommonArea($objCommonArea);
+        $document->upload($fileName);
+
+        $this->get("services")->blameOnMe($document, "create");
+        $this->get("services")->blameOnMe($document, "update");
+
+        $this->em->persist($document);
+        $this->em->flush();
+
+        //infos sur le document envoyé
+        //var_dump($request->files->get('file'));die;
+        return new JsonResponse(array('success' => $document->getId()));
+
+    }
+
+
+
+    public function imageGetAction(Request $request){
+
+
+
+        $this->get("services")->setVars('commonArea');
+        $this->initialise();
+
+
+
+        $commonAreaID = intval($_REQUEST["common_area"]);
+        $images = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->findByCommonArea($commonAreaID);
+
+        $result  = array();
+        $storeFolder = __DIR__.'/../../../../web/uploads/images/common_area/';
+
+        $files = scandir($storeFolder);                 //1
+
+        //var_dump($files);die;
+
+        if ( false!==$files ) {
+            foreach ( $images as $file ) {
+
+                $obj['id'] = $file->getId();
+                $obj['name'] = $file->getPhotoPath();
+                $obj['size'] = 0;
+                $result[] = $obj;
+            }
+        }
+
+        header('Content-type: text/json');              //3
+        header('Content-type: application/json');
+        echo json_encode($result);die;
+
+    }
+
+
+
+
+    public function imageRemoveAction(Request $request){
+
+
+        $this->get("services")->setVars('commonArea');
+        $this->initialise();
+
+
+        $img = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->find(intval($_REQUEST["id"]));
+        $imgName =  $img->getPhotoPath();
+        $this->em->remove($img);
+        $this->em->flush();
+
+        $storeFolder = __DIR__.'/../../../../web/uploads/images/common_area/';
+
+        unlink($storeFolder.$imgName);
+
+        return new JsonResponse(array('success' => true));
+
+    }
+
 
 
 }

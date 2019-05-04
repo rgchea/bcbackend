@@ -16,49 +16,47 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% endblock %}
-    {% block stylesheets %}
+		{% block stylesheets %}
 
-		<!--FONT AWESOME REFERENCE -->
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-      
-	      <link rel="shortcut icon" href="{{ asset('bundles/pizotearkadmin/img/favicon/favicon.ico') }}" type="image/x-icon">
-	      <link rel="icon" href="{{ asset('bundles/pizotearkadmin/img/favicon/favicon.ico') }}" type="image/x-icon">
-	      
-		    
-	    <!-- CSS -->
-	    <!--web--><link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css" />
-	    <link href="{{ asset('bundles/pizotearkadmin/css/bootstrap.min.css')  }}" rel="stylesheet" />
-	    <link href="{{ asset('bundles/pizotearkadmin/css/datepicker.css')  }}" rel="stylesheet" type="text/css" />
-	    <link href="{{ asset('bundles/pizotearkadmin/css/uniform.default.min.css')  }}" rel="stylesheet" type="text/css" />
+			<!-- CSS -->
+			<!--web--><link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/bootstrap.css')  }}" rel="stylesheet" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/datepicker.css')  }}" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/uniform.default.min.css')  }}" rel="stylesheet" type="text/css" />
 
-	    
-	    
-	    <link href="{{ asset('bundles/pizotearkadmin/css/font-awesome.css')  }}" rel="stylesheet" type="text/css"  />
-	    <link href="{{ asset('bundles/pizotearkadmin/css/select2.css')  }}" rel="stylesheet" type="text/css" />
-	    {#<link href="{{ asset('bundles/pizotearkadmin/css/select2-bootstrap.css')  }}" rel="stylesheet" type="text/css" />#}
-	    
-	    
-	    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-	    {#<link href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css" rel="stylesheet" type="text/css" />#}
 
-	    <!--web<link href="http://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />-->
-	    <link href="{{ asset('bundles/pizotearkadmin/css/ark.css')  }}" rel="stylesheet" type="text/css" />
-		<link href="{{ asset('bundles/pizotearkadmin/css/flags.css')  }}" rel="stylesheet" type="text/css" />
-	
-	    <!-- Remove this line on production
-	    <link href="scripts/css/examples.css" rel="stylesheet" type="text/css" />
-		-->
-		
-	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	    <!--[if lt IE 9]>
-	        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-	    <![endif]-->      
-      
-    {% endblock %}        
+			<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css" />
+			{#<link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap/dist/css/bootstrap.css') }}">#}
+			<link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/bootstrap.css') }}">
+			<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-jasny/dist/extend/css/jasny-bootstrap.min.css') }}" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" media="screen" >
+			<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
 
-	{% block javascripts %}
+			<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/select2/select2.css') }}" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/select2/select2-bootstrap.css') }}" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/jquery.uniform/themes/default/css/uniform.default.min.css') }}" rel="stylesheet" type="text/css" />
+			<link href="http://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/ark.css') }}" rel="stylesheet" type="text/css" media="screen" >
+
+
+			<link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+			<link href="{{ asset('bundles/pizotearkadmin/css/flags.css')  }}" rel="stylesheet" type="text/css" />
+
+			<!-- Remove this line on production
+            <link href="scripts/css/examples.css" rel="stylesheet" type="text/css" />
+            -->
+
+			<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+			<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+			<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+			<![endif]-->
+
+		{% endblock %}
+
+		{% block javascripts %}
         <!-- JS -->
         
            
@@ -138,24 +136,32 @@
 			#}
             <!-- END: Demo Bar -->
 		    {{ include('BackendAdminBundle:Partials:headerPlain.html.twig') }}
-			{#{{ include('BackendAdminBundle:Partials:aside.html.twig') }}#}
+
 
 
             <!-- BODY -->
             <div class="body">
 
+				{#{{ include('BackendAdminBundle:Partials:aside.html.twig') }}#}
+
                 <section class="content">
-                    
+					{#
 					<ol class="breadcrumb">
 			            {% block breadcrumb %}
 			            	<li class="active"><a href="{{ path('backend_admin_homepage') }}">{{ 'label_menu.home' | trans }}</a></li>
-			            {% endblock %}						
-					    
+			            {% endblock %}
+
 					</ol>
 
-					
+					#}
+
+
 					<!-- CONTENT -->
-					<div class="main-content">
+					<div class="main-content no-bordertop">
+
+
+						<div class="container">
+
 						{% block body %}
 						
 				              {% for flashMessage in app.session.flashbag.get('warning') %}
@@ -198,7 +204,7 @@
 				                </div>
 				              {% endfor %}						
 						{% endblock %}
-					
+						</div>
 					    
 					</div>
 					<!-- END: CONTENT -->

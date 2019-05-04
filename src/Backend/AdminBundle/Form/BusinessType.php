@@ -17,7 +17,7 @@ class BusinessType extends AbstractType
     {
         $builder
             ->add('name',  null, array('label'=>"label_name", 'required'=>true))
-            ->add('geoState',  null, array('label'=>"label_name", 'required'=>true))
+            ->add('geoState',  null, array('label'=>"label_state", 'required'=>true))
             ->add('billingGeoState',  null, array('label'=>"label_state", 'required'=>true))
             ->add('taxName',  null, array('label'=>"label_tax_name", 'required'=>true))
             ->add('taxIdentifier',  null, array('label'=>"label_tax_id", 'required'=>true))

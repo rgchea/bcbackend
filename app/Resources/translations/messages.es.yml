@@ -10,6 +10,9 @@ label_assign: Asignado
 label_actions: Acciones
 label_back: Regresar
 label_are_you_sure: 'Está seguro?'
+label_no_more_files: 'No es posible subir más archivos'
+label_max_files: '5 archivos máximo'
+label_photo: 'Fotos'
 label_send: Enviar
 label_flash_save_success_msg: 'Cambios guardados'
 label_flash_success: Listo
@@ -31,17 +34,28 @@ label_description: Descripción
 label_descripcion: 'Descripción ES'
 label_last_name: Apellido
 label_enabled: Habilitado
+label_step: Paso
 label_type: Tipo
 label_login_forgot_password: 'Olvidé mi contraseña'
-label_set_password: Dejar en blanco para no cambiar la contraseña
+label_set_password: 'Dejar en blanco para no cambiar la contraseña'
 label_login_keep_active: 'Mantenerme activo'
 label_login_login: Ingresar
 label_login_restore_pass: 'Restaurar contraseña'
+label_login_dont_have_pass: '¿No tienes una cuenta?'
+label_login_have_account: 'Ya tengo una cuenta'
+label_register_create_company: 'CREA TU EMPRESA'
+label_register_create_company_2: 'CREAR ESTA EMPRESA'
+label_register_create_complex: 'CREA UN COMPLEJO'
+label_register_create_complex_2: 'CREAR ESTE COMPLEJO'
+label_register_generate_msg: 'Luego podrás crear nuevas propiedades y editar las que has creado aquí.'
+label_register_generate: GENERAREMOS
+label_register_generate_for_you: 'PROPIEDADES PARA TI'
+label_register_create_account: 'Crear cuenta'
 label_register: Registrarse
 label_register_complete: Bienvenido
 label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos estrucutrales <a href="www.bettercondos.tech">www.bettercondos.tech</a>'
-label_register_complete_msg: 'Ahora eres parte de la mejor plataforma para gestionar complejos estructurales <a href="www.bettercondos.tech">www.bettercondos.tech</a>'
-label_register_bc_info: 'Puedes accesar a tu portal de cobros por medio de <a href="www.bettercondos.info/?ng=client/login/">www.bettercondos.info</a>'
+label_register_complete_msg: 'Ahora eres parte de la mejor plataforma para gestionar complejos estructurales www.bettercondos.tech/admin'
+label_register_bc_info: 'Puedes accesar a tu portal de cobros por medio de www.bettercondos.info'
 label_register_contact: 'info@bettercondos.com / +502 41568954'
 label_accept_terms: 'Acepto los términos y condicions'
 label_phone: Teléfono
@@ -66,6 +80,7 @@ label_es: ES
 label_en: EN
 label_other: Otro
 label_complex: Complejo
+label_complex_assigned: Complejos asignados
 label_business: Empresa
 label_business_check_email: 'El correo ingresado ya tiene una cuenta asociada anteriormente'
 label_business_check_phone: 'El teléfono ingresado ya tiene una cuenta asociada anteriormente'
@@ -113,10 +128,11 @@ label_shift_date: 'Fecha de Turno'
 label_overtime: 'Hora Extra'
 label_flexible_hours: 'Horas Flexibles'
 label_flexitour: Flexitour
-label_common_area: 'Area Comun'
+label_common_area: 'Area Común'
+label_common_area_schedule: 'Horarios'
 label_regulation: Regulacion
 label_price: Precio
-label_reservation_hour_period: 'Periodo de Reservacion por Hora'
+label_reservation_hour_period: 'Periodo de Reservacion por Hora (cada 1hr cada 2hrs, cada 3hrs...)'
 label_required_payment: 'Pago Requerido'
 label_has_equipment: 'Tiene equipo'
 label_equipment_description: 'Descripcion de Equipo'

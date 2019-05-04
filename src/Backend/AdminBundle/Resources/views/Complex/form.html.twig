@@ -1,231 +1,212 @@
 <link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
 <script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
 
-<style>
-	.input-group {
-		z-index: 0;
-	}
-</style>
-
-<div class="row">
-	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
-
-		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
-
-			<header role="heading">
-				<h2>{{ 'label_form'|trans }}</h2>
-
-			</header>
-
-			<!-- widget div-->
-			<div role="content">
-
-				<!-- widget edit box -->
-				<div class="jarviswidget-editbox">
-					<!-- This area used as dropdown edit box -->
-
-				</div>
-				<!-- end widget edit box -->
-
-				<!-- widget content -->
-				<div class="widget-body">
-
-					{#<form id="backend_adminbundle_complex" action="{{path('backend_admin_complex_create')}}" method="POST" name="backend_adminbundle_complex">#}
-					{{ form_start(form) }}
-					{{ form_errors(form) }}
-
-					<fieldset>
-
-
-						<div class="form-group col-md-4">
-							{{ form_label(form.name) }}
-							{{ form_errors(form.name) }}
-							{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-
-						<div class="form-group col-md-4">
-							{{ form_label(form.complexType) }}
-							{{ form_errors(form.complexType) }}
-							{{ form_widget(form.complexType, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-
-
-						<div class="clearfix"></div>
-
-						<div class="col-md-4"  >
-							<label for="name">{{ 'label_country'|trans }}</label>
-							<div id="" class="flagstrap" data-input-name="complex_country" data-selected-country="US"></div>
-
-						</div>
-
-						<div class="form-group col-md-4">
-							{{ form_label(form.geoState) }}
-							{{ form_errors(form.geoState) }}
-
-							<div id="divGeoState">
-								{{ form_widget(form.geoState, { 'attr': {'class' : 'form-control' } }) }}
-							</div>
-						</div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.zipCode) }}
-							{{ form_errors(form.zipCode) }}
-							{{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-
-						<div class="clearfix"></div>
-						<div class="form-group col-md-8">
-							{{ form_label(form.address) }}
-							{{ form_errors(form.address) }}
-							{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-
-						<div class="clearfix"></div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.phoneNumber) }}
-							{{ form_errors(form.phoneNumber) }}
-							{{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.email) }}
-							{{ form_errors(form.email) }}
-							{{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-						<div class="clearfix"></div>
-						<h2>{{ 'label_complex_structure'|trans }}</h2>
-						<div class="clearfix"></div>
-
-
-						<div>
-							<div class="col-md-4">
-								<label for="name">{{ 'complex.section.name'|trans }}</label>
-							</div>
-							<div class="col-md-2">
-								<select id="complexSectorType" name="extra[sectorType]" class="form-control">
-									{% for sectorType in complexSectorTypes %}
-										<option value="{{ sectorType.id }}">{{ sectorType }}</option>
-									{% endfor %}
-								</select>
-							</div>
-							<div class="col-md-2">
-								<input type="text" class="form-control" id="inputSectionName" name="extra[sectorTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}" >
-							</div>
-
-							<div class="col-md-4">
-								<label for="name">GENERATE</label>
-							</div>
-
-							<div class="clearfix"></div>
-
-							<div class="col-md-4">
-								<label for="name">{{ 'complex.section.how_many'|trans }}</label>
-							</div>
-							<div class="col-md-2">
-
-								{{ form_errors(form.sectionsQuantity) }}
-								{{ form_widget(form.sectionsQuantity, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
-							<div class="col-md-2">
-
-							</div>
-
-							<div class="clearfix"></div>
-
-							<div class="col-md-4">
-								<label for="name">{{ 'complex.properties.name'|trans }}</label>
-							</div>
-							<div class="col-md-2">
-								<select id="propertyType" name="extra[propertyType]" class="form-control">
-									{% for propertyType in propertyTypes %}
-										<option value="{{ propertyType.id }}">{{ propertyType }}</option>
-									{% endfor %}
-								</select>
-							</div>
-							<div class="col-md-2">
-								<input type="text" class="form-control" id="inputPropertyType" name="extra[propertyTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}">
-							</div>
-
-							<div class="clearfix"></div>
-
-							{#
-							<div class="col-md-4">
-								<label for="name">{{ 'complex.properties.identify'|trans }}</label>
-							</div>
-
-								<div class="col-md-2">
-									{{ form_errors(form.propertyIdentifiers) }}
-									{{ form_widget(form.propertyIdentifiers, { 'attr': {'class' : 'form-control' } }
-									) }}
-
-								</div>
-
-
-							<div class="col-md-2">
-								<input type="text" class="form-control" id="inputPropertyIdentifier" name="extra[propertyIdentifier]" style="display: none" placeholder="#">
-							</div>
-							#}
-
-
-							<div class="clearfix"></div>
-
-							<div class="col-md-4">
-								<label for="name">{{ 'complex.properties.per_section'|trans }}</label>
-							</div>
-							<div class="col-md-2">
-								{#propertiesPerSection#}
-								{{ form_errors(form.propertiesPerSection) }}
-								{{ form_widget(form.propertiesPerSection, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
-							<div class="col-md-2">
-
-							</div>
-
-
-
-						</div>
-
-
-
-						<div class="clearfix"></div>
-
-
-						<div class="hide">
-							{{ form_rest(form) }}
-						</div>
-
-					</fieldset>
-
-					<div class="form-actions">
-						<a href="{{ path('backend_admin_complex_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
-
-						<button class="btn btn-primary">
-							<i class="fa fa-save"></i>
-							{{ 'label_save'|trans  }}
-						</button>
+<div class="header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<h3 class="header-title">{{ 'label_register_create_complex'|trans }}</h3>
+			</div>
+			<div class="col-md-2 text-right">
+				<h3 class="header-title-step">{{ 'label_step'|trans }} 1/2</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<blockquote>
+					<div class="col-md-11">
+						<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate quam ut risus ullamcorper convallis. Morbi pellentesque congue elit malesuada pharetra. Suspendisse iaculis interdum elit, et porta ex tempus eget. Ut nec diam dictum, cursus metus euismod, aliquet ante. Quisque a lacus dapibus, semper ante ac, mollis nibh. Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
 					</div>
+					<div class="col-md-1 text-right">
+						<i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+					</div>
+				</blockquote>
+			</div>
+		</div>
 
-					<!--</form>-->
-					{{ form_end(form) }}
+	</div>
 
-				</div>
-				<!-- end widget content -->
+</div>
+
+<div class="form-inputs-g">
+	{{ form_start(form) }}
+	{{ form_errors(form) }}
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group ">
+				{{ form_label(form.name) }}
+				{{ form_errors(form.name) }}
+				{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+				) }}
+			</div>
+		</div>
+
+		<div class="form-group col-md-4">
+			{{ form_label(form.complexType) }}
+			{{ form_errors(form.complexType) }}
+			{{ form_widget(form.complexType, { 'attr': {'class' : 'form-control classic' } }
+			) }}
+		</div>
+
+
+	</div>
+
+	<div class="row">
+
+		<div class="col-md-2">
+			<div class="form-group">
+
+
+				<label for="name">{{ 'label_country'|trans }}</label>
+				<div id="" class="flagstrap" data-input-name="complex_country" data-selected-country="US"></div>
 
 			</div>
-			<!-- end widget div -->
+		</div>
+		<div class="col-md-2">
+			<div class="form-group ">
+
+				{{ form_label(form.geoState) }}
+				{{ form_errors(form.geoState) }}
+
+				<div id="divGeoState">
+					{{ form_widget(form.geoState, { 'attr': {'class' : 'form-control' } }) }}
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-md-4">
+			{{ form_label(form.zipCode) }}
+			{{ form_errors(form.zipCode) }}
+			{{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
+			) }}
+		</div>
+
+
+		<div class="form-group col-md-4">
+			{{ form_label(form.address) }}
+			{{ form_errors(form.address) }}
+			{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+			) }}
+		</div>
+	</div>
+	<div class="row">
+
+		<div class="form-group col-md-4">
+			{{ form_label(form.phoneNumber) }}
+			{{ form_errors(form.phoneNumber) }}
+			{{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
+			) }}
+		</div>
+		<div class="form-group col-md-4">
+			{{ form_label(form.email) }}
+			{{ form_errors(form.email) }}
+			{{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
+			) }}
+		</div>
+
+	</div>
+	<div class="clearfix"></div>
+
+
+
+	<div class="col-md-8">
+		<h2 class="header-title-step">{{ 'label_complex_structure'|trans }}</h2>
+
+		<div class="row color1">
+			<div class="col-md-4">
+				<label for="name">{{ 'complex.section.name'|trans }}</label>
+			</div>
+			<div class="col-md-4">
+				<select id="complexSectorType" name="extra[sectorType]" class="form-control classic">
+					{% for sectorType in complexSectorTypes %}
+						<option value="{{ sectorType.id }}">{{ sectorType }}</option>
+					{% endfor %}
+				</select>
+
+			</div>
+			<div class="col-md-4">
+				<input type="text" class="form-control" id="inputSectionName" name="extra[sectorTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}" >
+			</div>
+		</div>
+
+		<div class="row color2">
+			<div class="col-md-4">
+				<label for="name">{{ 'complex.section.how_many'|trans }}</label>
+			</div>
+			<div class="col-md-4">
+				{{ form_errors(form.sectionsQuantity) }}
+				{{ form_widget(form.sectionsQuantity, { 'attr': {'class' : 'form-control' } }
+				) }}
+
+			</div>
 
 		</div>
 
-		<div class="clearfix"></div>
+		<div class="row color1">
+			<div class="col-md-4">
+				<label for="name">{{ 'complex.properties.name'|trans }}</label>
+			</div>
+			<div class="col-md-4">
+				<select id="propertyType" name="extra[propertyType]" class="form-control classic">
+					{% for propertyType in propertyTypes %}
+						<option value="{{ propertyType.id }}">{{ propertyType }}</option>
+					{% endfor %}
+				</select>
 
-	</article>
+			</div>
+			<div class="col-md-4">
+				<input type="text" class="form-control" id="inputPropertyType" name="extra[propertyTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}">
+			</div>
+		</div>
+
+		<div class="row color2">
+			<div class="col-md-4">
+				<label for="name">{{ 'complex.properties.per_section'|trans }}</label>
+			</div>
+			<div class="col-md-4">
+
+				{#propertiesPerSection#}
+				{{ form_errors(form.propertiesPerSection) }}
+				{{ form_widget(form.propertiesPerSection, { 'attr': {'class' : 'form-control' } }
+				) }}
+			</div>
+		</div>
+		<div class="hide">
+			{{ form_rest(form) }}
+		</div>
+
+	</div>
+
+	<div class="col-md-4">
+
+		<div class="properties">
+			<div class="col-md-5">
+				<i style="color:#fff; font-size:120px" class="fa fa-home"></i>
+			</div>
+			<div class="col-md-7">
+				<p>{{ 'label_register_generate'|trans }}
+					<br/>
+					<span class="propertie-number" id="generate_number">0</span>
+					<br/>
+					{{ 'label_register_generate_for_you'|trans }}
+				</p>
+
+			</div>
+		</div>
+
+		<div class="create-complex">
+			<p>{{ 'label_register_generate_msg'|trans }}</p>
+			<br/>
+			<button type="submit" class="btn btn-primary">{{ 'label_register_create_complex_2'|trans }}</button>
+		</div>
+
+	</div>
+	<!--</form>-->
+	{{ form_end(form) }}
 </div>
+
+
 
 <script type="text/javascript" language="Javascript">
 
@@ -233,6 +214,15 @@
 
 
 		//alert($("#complexSectorType").val());
+
+		//propertiesPerSection
+		$("[name='complex']").validate({
+			success: function (error) {
+				$("#pizote_spinner").show();
+				return true;
+			},
+
+		});
 
 
 		$("#complexSectorType").change(function(){
@@ -303,13 +293,9 @@
 		});
 
 
-		$("[name='complex']").validate({
-			success: function(error){
+		$("#complex_sectionsQuantity").rules("add", {required:true, digits: true,  max: 200});
+		$("#complex_propertiesPerSection").rules("add", {required:true, digits: true, max: 99});
 
-				return true;
-			},
-
-		});
 		$("#complex_zipCode").rules("add", {required:true, minlength: 5, digits:true});
 		$("#complex_phoneNumber").rules("add", {required:true, minlength: 8, digits:true});
 		$("#complex_email").rules("add", {required:true, email:true});
@@ -329,6 +315,14 @@
 		});
 
 
+		$("#complex_sectionsQuantity").change(function(){
+			generateNumber();
+
+		})
+		$("#complex_propertiesPerSection").change(function(){
+			generateNumber();
+		})
+
 
 		$('[name="complex_country"]').change(function(){
 			changeState(0);
@@ -340,26 +334,15 @@
 
 
 
+
+
 	});
 
 
-	function changeState(billing){
+	function changeState(billing) {
 
 		myCountry = $('[name="complex_country"]').val();
 
-		$("[name='complex']").validate();
-		//propertiesPerSection
-		$("[name='complex']").validate({
-			success: function(error){
-				$("#pizote_spinner").show();
-				return true;
-			},
-
-		});
-
-
-		$("#complex_sectionsQuantity").rules("add", {required:true, digits: true, max: 200});
-		$("#complex_propertiesPerSection").rules("add", {required:true, digits: true, max: 99});
 
 		$.ajax({
 			type:"POST",
@@ -376,6 +359,18 @@
 		});
 
 	}
+
+
+	function generateNumber(){
+		propertyQty = parseInt($("#complex_propertiesPerSection").val());
+		sectionQty = parseInt($("#complex_sectionsQuantity").val());
+		if(propertyQty > 0 && sectionQty > 0){
+			total = parseInt(propertyQty*sectionQty) ;
+			$("#generate_number").html(total);
+		}
+
+	}
+
 
 
 

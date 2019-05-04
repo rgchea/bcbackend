@@ -136,10 +136,10 @@ class UserController extends Controller
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_user_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><div class='btn btn-sm btn-primary'><span class='fa fa-search'></span></div></a>";
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_user_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn btn-danger btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i></a>";
+                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $edit.$delete;
                             break;
@@ -228,25 +228,30 @@ class UserController extends Controller
             return $this->redirectToRoute('backend_admin_user_edit', array('id' => $id));
         }
 
-
-        $businessID = $entity->getBusiness()->getId();
-
-        $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
-        $assignedComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($entity->getId());
-        //var_dump($assignedComplex);die;
-
         $arrComplexReturn = array();
-        foreach ($arrComplex as $complex ){
+        $userRole = $entity->getRole()->getName();
+        if($userRole != "SUPER ADMIN" || $userRole != "ADMIN"){
+            $businessID = $entity->getBusiness()->getId();
 
-            $complexID = $complex->getId();
-            $arrComplexReturn[$complexID] = array();
-            $arrComplexReturn[$complexID]["id"] = $complexID;
-            $arrComplexReturn[$complexID]["name"] = $complex->getName();
-            $arrComplexReturn[$complexID]["assigned"] = 0;
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
+            $assignedComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($entity->getId());
+            //var_dump($assignedComplex);die;
 
 
-            if(array_search($complex->getId(), $assignedComplex)){
-                $arrComplexReturn[$complexID]["assigned"] = 1;
+            foreach ($arrComplex as $complex ){
+
+                $complexID = $complex->getId();
+                $arrComplexReturn[$complexID] = array();
+                $arrComplexReturn[$complexID]["id"] = $complexID;
+                $arrComplexReturn[$complexID]["name"] = $complex->getName();
+                $arrComplexReturn[$complexID]["assigned"] = 0;
+
+
+                if(array_search($complex->getId(), $assignedComplex)){
+                    $arrComplexReturn[$complexID]["assigned"] = 1;
+                }
+
+
             }
 
 
@@ -503,12 +508,17 @@ class UserController extends Controller
     {
         $this->get("services")->setVars('user');
         $this->initialise();
+
+
+        $business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
+
         $form = $this->createForm(UserType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_user_create'),
             'method' => 'POST',
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
-            'business' => $this->userLogged->getBusiness()->getId(),
+            //'business' => $this->userLogged->getBusiness()->getId(),
+            'business' => $business
         ));
 
 
@@ -530,11 +540,13 @@ class UserController extends Controller
         $this->get("services")->setVars('user');
         $this->initialise();
 
+        $business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
         $form = $this->createForm(UserType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_user_update', array('id' => $entity->getId())),
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
-            'business' => $this->userLogged->getBusiness()->getId(),
+            //'business' => $this->userLogged->getBusiness()->getId(),
+            'business' => $business
         ));
 
 

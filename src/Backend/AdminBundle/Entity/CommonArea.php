@@ -45,12 +45,12 @@ class CommonArea
     /**
      * @var bool
      */
-    private $requiredPayment = '1';
+    private $requiredPayment = false;
 
     /**
      * @var bool
      */
-    private $hasEquipment = '1';
+    private $hasEquipment = false;
 
     /**
      * @var string|null
@@ -70,7 +70,7 @@ class CommonArea
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\Complex

@@ -30,7 +30,7 @@
 				<!-- widget content -->
 				<div class="widget-body">
 
-					{#<form id="backend_adminbundle_complex" action="{{path('backend_admin_property_create')}}" method="POST" name="backend_adminbundle_complex">#}
+					<div class="form-inputs-g">
 					{{ form_start(form) }}
 					{{ form_errors(form) }}
 
@@ -53,7 +53,7 @@
 						<div class="form-group col-md-4">
 							{{ form_label(form.complexSector) }}
 							{{ form_errors(form.complexSector) }}
-							{{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control' } }
+							{{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control classic' } }
 							) }}
 						</div>
 
@@ -61,7 +61,7 @@
 						<div class="form-group col-md-4">
 							{{ form_label(form.propertyType) }}
 							{{ form_errors(form.propertyType) }}
-							{{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control' } }
+							{{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control classic' } }
 							) }}
 						</div>
 						<div class="col-md-2">
@@ -89,7 +89,6 @@
 					</fieldset>
 
 					<div class="form-actions">
-						<a href="{{ path('backend_admin_property_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
 
 						<button class="btn btn-primary">
 							<i class="fa fa-save"></i>
@@ -99,7 +98,7 @@
 
 					<!--</form>-->
 					{{ form_end(form) }}
-
+					</div>
 				</div>
 				<!-- end widget content -->
 

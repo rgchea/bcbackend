@@ -1,10 +1,16 @@
-<link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
-<script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
+<script src="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.css') }}">
+
+<script src="{{ asset('bundles/pizotearkadmin/js/dws_jquery_schedule/dist/jquery.schedule.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dws_jquery_schedule/dist/jquery.schedule.min.css') }}">
 
 <style>
 	.input-group {
 		z-index: 0;
 	}
+
+
+
 </style>
 
 <div class="row">
@@ -29,7 +35,7 @@
 
 				<!-- widget content -->
 				<div class="widget-body">
-
+					<div class="form-inputs-g">
 					{#<form id="backend_adminbundle_complex" action="{{path('backend_admin_common_area_create')}}" method="POST" name="backend_adminbundle_complex">#}
 					{{ form_start(form) }}
 					{{ form_errors(form) }}
@@ -43,17 +49,18 @@
 							{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
+
 						<div class="form-group col-md-4">
-							{{ form_label(form.description) }}
-							{{ form_errors(form.description) }}
-							{{ form_widget(form.description, { 'attr': {'class' : 'form-control' } }
+							{{ form_label(form.complex) }}
+							{{ form_errors(form.complex) }}
+							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
 							) }}
 						</div>
 						<div class="clearfix"></div>
 						<div class="form-group col-md-4">
-							{{ form_label(form.complex) }}
-							{{ form_errors(form.complex) }}
-							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control' } }
+							{{ form_label(form.description) }}
+							{{ form_errors(form.description) }}
+							{{ form_widget(form.description, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
 
@@ -66,7 +73,7 @@
 						</div>
 
 						#}
-
+						<div class="clearfix"></div>
                                                 
 						<div class="form-group col-md-4">
 							{{ form_label(form.regulation) }}
@@ -81,46 +88,61 @@
 							) }}
 						</div>
 						<div class="clearfix"></div>
+
 						<div class="form-group col-md-4">
+
+							<div class="checkbox">
+								<label>
+									{{ form_label(form.requiredPayment) }}
+									{{ form_errors(form.requiredPayment) }}
+									{{ form_widget(form.requiredPayment, { 'attr': {'class' : 'checkbox' } }
+									) }}
+
+								</label>
+
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group col-md-4" id="div_common_area_price" style="display: none;">
 							{{ form_label(form.price) }}
 							{{ form_errors(form.price) }}
 							{{ form_widget(form.price, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
 
+						<div class="clearfix"></div>
+						<div class="form-group col-md-4" >
+							<div class="checkbox">
+								<label>
+								{{ form_label(form.hasEquipment) }}
+								{{ form_errors(form.hasEquipment) }}
+								{{ form_widget(form.hasEquipment, { 'attr': {'class' : 'form-control' } }
+								) }}
+								</label>
+							</div>
 
+						</div>
+						<div class="clearfix"></div>
+						<div class="form-group col-md-4" id="div_equipment" style="display: none;">
+							{{ form_label(form.equipmentDescription) }}
+							{{ form_errors(form.equipmentDescription) }}
+							{{ form_widget(form.equipmentDescription, { 'attr': {'class' : 'form-control' } }
+							) }}
+						</div>
+						<div class="clearfix"></div>
 						<div class="form-group col-md-4">
 							{{ form_label(form.reservationHourPeriod) }}
 							{{ form_errors(form.reservationHourPeriod) }}
 							{{ form_widget(form.reservationHourPeriod, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
-                                                <div class="form-group col-md-4">
-							{{ form_label(form.requiredPayment) }}
-							{{ form_errors(form.requiredPayment) }}
-							{{ form_widget(form.requiredPayment, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.hasEquipment) }}
-							{{ form_errors(form.hasEquipment) }}
-							{{ form_widget(form.hasEquipment, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-						<div class="clearfix"></div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.equipmentDescription) }}
-							{{ form_errors(form.equipmentDescription) }}
-							{{ form_widget(form.equipmentDescription, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
+
 						{#<div class="col-md-2">
 							<label>&nbsp;</label>
 							<input type="text" class="form-control" id="inputCommonAreaType" name="extra[propertyTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}">
 						</div>#}
-                                                <div class="clearfix"></div>
-
 						<div class="clearfix"></div>
+
 
 
 						<div class="hide">
@@ -129,8 +151,32 @@
 
 					</fieldset>
 
+					<div class="clearfix"></div>
+
+					<h2 class="">{{ 'label_common_area_schedule'|trans }}</h2>
+					<div class="clearfix"></div>
+					<br/>
+					<div class="row">
+						<div class="col">
+							<div id="schedule" class="jqs-demo mb-3"></div>
+							<input type="hidden" id="my_schedule" name="my_schedule">
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+					<br/>
+
+						{% if edit is defined %}
+							<h3>{{ 'label_photo'|trans }} </h3>
+							<h2>{{ 'label_max_files'|trans }} </h2>
+							<div class="dropzone my-dropzone" id="form_snippet_image" action="{{path('common_area_ajax_snippet_image_send')}}">
+							</div>
+							<br/>
+						{% endif %}
+
+
 					<div class="form-actions">
-						<a href="{{ path('backend_admin_common_area_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
+						{#<a href="{{ path('backend_admin_common_area_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>#}
 
 						<button class="btn btn-primary">
 							<i class="fa fa-save"></i>
@@ -142,9 +188,13 @@
 					{{ form_end(form) }}
 
 				</div>
-				<!-- end widget content -->
 
-			</div>
+
+
+
+				<!-- end widget content -->
+				</div>
+		</div>
 			<!-- end widget div -->
 
 		</div>
@@ -159,58 +209,34 @@
 	$( document ).ready(function() {
 
 
-		//alert($("#complexSectorType").val());
-
-
-		{#$("#complexSectorType").change(function(){
-			myValue =$("#complexSectorType option:selected").attr('value');
-
-			if(myValue == 0){
-				$("#inputSectionName").show();
-				$("#inputSectionName").rules("add", {required:true});
-
-			}
-			else{
-				$("#inputSectionName").hide();
-				$("#inputSectionName-error").hide();
-				$("#inputSectionName").rules("add", {required:false});
-			}
-
-
+		$("#common_area_requiredPayment").change(function(){
+			priceDisplayToggle(this.checked);
 		});
 
+		priceDisplayToggle($("#common_area_requiredPayment").is(":checked"));
 
-
-		//propertyType
-		$("#common_area_propertyType").change(function(){
-			myValue =$("#common_area_propertyType option:selected").attr('value');
-
-			if(myValue == 0){
-				$("#inputCommonAreaType").show();
-				$("#inputCommonAreaType").rules("add", {required:true});
-			}
-			else{
-				$("#inputCommonAreaType").hide();
-				$("#inputCommonAreaType-error").hide();
-				$("#inputCommonAreaType").rules("add", {required:false});
-			}
-
-		});#}
-
-
-
-
-
-		$("[name='common_area']").validate({
-
+		$("#common_area_hasEquipment").change(function(){
+			equipmentDisplayToggle(this.checked);
 		});
+
+		equipmentDisplayToggle($("#common_area_hasEquipment").is(":checked"));
+
+
+		//validate
+		$("[name='common_area']").validate();
+		$("#common_area_reservationHourPeriod").rules("add", {required:true, digits:true, min: 1});
+
+
 		//$("#common_area_zipCode").rules("add", {required:true, minlength: 4, digits:true});
 
 
 		$('[name="common_area"]').on("submit", function(){
 			//Code: Action (like ajax...)
 			if($("[name='common_area']").valid()){
-				$('#pizote_spinner').show();
+
+				$("#my_schedule").val($('#schedule').jqs("export"));
+
+				//$('#pizote_spinner').show();
 				return true;
 
 			}
@@ -221,12 +247,207 @@
 		});
 
 
+		$('#schedule').jqs({
 
+			periodColors: [
+				['rgba(0, 0, 0, 0.5)', '#000', '#fff'],
+				['rgba(200, 0, 0, 0.5)', '#f00', '#000'],
+				['rgba(0, 200, 0, 0.5)', '#0f0', '#000'],
+				['rgba(0, 0, 200, 0.5)', '#00f', '#000']
+			],
+
+
+			periodDuration: 60,
+			periodOptions: false,
+			periodTitle: '',
+			//periodBackgroundColor: 'rgba(168, 205, 255, 0.6)',
+			periodBorderColor: '#000',
+			periodTextColor: '#fff',
+			periodRemoveButton: 'Remove please !',
+			periodTitlePlaceholder: 'A custom title',
+
+			/*DAYS*/
+
+			daysList: [
+				'Monday',
+				'Tuesday',
+				'Wednesday',
+				'Thursday',
+				'Friday',
+				'Saturday',
+				'Sunday'
+			],
+			/*FUNCTIONS*/
+			onInit: function () {},
+			onAddPeriod: function (period, jqs) {
+				//console.log(period);
+				//console.log(jqs);
+
+			},
+			onRemovePeriod: function () {},
+			onDuplicatePeriod: function () {},
+			onClickPeriod: function () {}
+
+		});
+
+		{% if edit is defined %}
+
+		{% set myPath =  url('backend_admin_homepage')~"uploads/images/common_area/" %}
+		{% set myPath = myPath|replace({'app_dev.php': ''}) %}
+		{% set myPath = myPath|replace({'/en/': ''}) %}
+		{% set myPath = myPath|replace({'/es/': ''}) %}
+
+			$('#schedule').jqs('import', {{ availability|raw }});
+
+
+			////DROPZONE
+			var countFiles = 0;
+			var _actionToDropZone = $("#form_snippet_image").attr('action');
+			Dropzone.autoDiscover = false;
+			//$(".dz-hidden-input").prop("disabled",false);
+
+			var myDropzone = new Dropzone("#form_snippet_image", {
+				url: _actionToDropZone,
+				params: {
+					common_area: {{ entity.id }}
+				},
+				maxFilesize: 1, // MB
+				maxFiles: 5,
+				addRemoveLinks: true,
+				createImageThumbnails: true,
+				acceptedFiles: ".png,.jpg,.jpeg",
+				thumbnailWidth: 250,
+				thumbnailHeight: 250,
+				autoProcessQueue: true,
+				parallelUploads: 1,
+				uploadMultiple: false,
+				success: function(file, response){
+					//console.log(response.success);
+					file.id = response.success;
+
+				},
+				error: function(file, response){
+					//console.log(response.success);
+					file.id = response.success;
+					if(countFiles > 5){
+						myDropzone.disable();
+					}
+
+
+				},
+
+				init: function() {
+					thisDropzone = this;
+
+					$.get("{{path('common_area_ajax_snippet_image_get')}}",{common_area: '{{ entity.id }}' }, function(data) {
+
+
+						$.each(data, function(key,value){
+
+							//var mockFile = { name: value.name, size: value.size };
+							var mockFile = { name: value.name, size: "", id: value.id };
+
+							thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+							thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '{{ myPath }}'+value.name);
+
+							//console.log('{{ myPath }}'+value.name);
+							thisDropzone.emit("complete", mockFile);
+							countFiles++;
+							if(countFiles >= 5){
+								myDropzone.disable();
+							}
+
+						});
+
+						//$(".dz-hidden-input").prop("disabled",true);
+
+
+					});
+
+					this.on("maxfilesexceeded", function(file){
+						alert("{{ 'label_no_more_files'|trans }}");
+						this.removeFile(file);
+						countFiles--;
+						//myDropzone.disable();
+					});
+
+					this.on('removedfile', function (file) {
+
+						//console.log(file);
+
+						$.ajax({
+							type: 'POST',
+							url: "{{path('common_area_ajax_snippet_image_remove')}}",
+							//data: {id: file.name, _token: $('#csrf-token').val()},
+							data: {id: file.id, name: file.name},
+							dataType: 'html',
+							success: function (data) {
+								var rep = JSON.parse(data);
+								countFiles--;
+								if(countFiles < 5){
+									myDropzone.enable();
+								}
+
+							}
+						})
+
+
+					});
+
+					this.on("addedfile", function(file) {
+						countFiles++;
+						if(countFiles > 5){
+							this.removeFile(file);
+							countFiles--;
+							myDropzone.disable();
+						}
+					});
+
+
+				}
+
+			});
+
+
+			/*
+			myDropzone.on("addedfile", function(file) {
+				alert('nouveau fichier reçu');
+			});
+			*/
+
+
+
+
+
+		{% endif %}
 
 
 
 	});
 
+	function priceDisplayToggle(isChecked){
+
+
+		if(isChecked){
+			$("#div_common_area_price").show();
+		}
+		else{
+			$("#div_common_area_price").hide();
+		}
+
+	}
+
+	function equipmentDisplayToggle(isChecked){
+
+
+		if(isChecked){
+			$("#div_equipment").show();
+		}
+		else{
+			$("#div_equipment").hide();
+		}
+
+	}
 
 
 

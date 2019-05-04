@@ -147,10 +147,10 @@ class CommonAreaTypeController extends Controller
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_common_area_type_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><div class='btn btn-sm btn-primary'><span class='fa fa-search'></span></div></a>";
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_common_area_type_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn btn-danger btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i></a>";
+                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $edit.$delete;
                             break;

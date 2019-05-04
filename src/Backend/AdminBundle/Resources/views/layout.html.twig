@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
 
-    
         <title>
 	      {% set _block_title = block('title') %}
 	      {% if _block_title is not empty %}
@@ -18,31 +17,29 @@
     {% endblock %}
     {% block stylesheets %}
 
-		<!--FONT AWESOME REFERENCE -->
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-      
-	      <link rel="shortcut icon" href="{{ asset('bundles/pizotearkadmin/img/favicon/favicon.ico') }}" type="image/x-icon">
-	      <link rel="icon" href="{{ asset('bundles/pizotearkadmin/img/favicon/favicon.ico') }}" type="image/x-icon">
-	      
-		    
 	    <!-- CSS -->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 	    <!--web--><link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css" />
-	    <link href="{{ asset('bundles/pizotearkadmin/css/bootstrap.min.css')  }}" rel="stylesheet" />
+	    <link href="{{ asset('bundles/pizotearkadmin/css/bootstrap.css')  }}" rel="stylesheet" />
 	    <link href="{{ asset('bundles/pizotearkadmin/css/datepicker.css')  }}" rel="stylesheet" type="text/css" />
 	    <link href="{{ asset('bundles/pizotearkadmin/css/uniform.default.min.css')  }}" rel="stylesheet" type="text/css" />
 
-	    
-	    
-	    <link href="{{ asset('bundles/pizotearkadmin/css/font-awesome.css')  }}" rel="stylesheet" type="text/css"  />
-	    <link href="{{ asset('bundles/pizotearkadmin/css/select2.css')  }}" rel="stylesheet" type="text/css" />
-	    {#<link href="{{ asset('bundles/pizotearkadmin/css/select2-bootstrap.css')  }}" rel="stylesheet" type="text/css" />#}
-	    
-	    
-	    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-	    {#<link href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css" rel="stylesheet" type="text/css" />#}
 
-	    <!--web<link href="http://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />-->
-	    <link href="{{ asset('bundles/pizotearkadmin/css/ark.css')  }}" rel="stylesheet" type="text/css" />
+
+		{#<link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap/dist/css/bootstrap.css') }}">#}
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/bootstrap.css') }}">
+		<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-jasny/dist/extend/css/jasny-bootstrap.min.css') }}" />
+		<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" media="screen" >
+		<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+		<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/select2/select2.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/select2/select2-bootstrap.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/jquery.uniform/themes/default/css/uniform.default.min.css') }}" rel="stylesheet" type="text/css" />
+
+		<link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('bundles/pizotearkadmin/css/ark.css') }}" rel="stylesheet" type="text/css" media="screen" >
 		<link href="{{ asset('bundles/pizotearkadmin/css/flags.css')  }}" rel="stylesheet" type="text/css" />
 	
 	    <!-- Remove this line on production
@@ -118,10 +115,10 @@
       
 
     </head>
-    
-    <body class="cover">
 
-        <div class="wrapper">
+	<body class="cover">
+
+		<div class="wrapper">
             <!-- Demo Bar -->
 			{#
 				<div id="layout_options">
@@ -140,11 +137,11 @@
 			#}
             <!-- END: Demo Bar -->
 		    {{ include('BackendAdminBundle:Partials:header.html.twig') }}
-		    {{ include('BackendAdminBundle:Partials:aside.html.twig') }}
-
 
             <!-- BODY -->
             <div class="body">
+
+				{{ include('BackendAdminBundle:Partials:aside.html.twig') }}
 
                 <section class="content">
                     
@@ -157,51 +154,53 @@
 
 					
 					<!-- CONTENT -->
-					<div class="main-content">
-						{% block body %}
-						
-				              {% for flashMessage in app.session.flashbag.get('warning') %}
-				                <div class="alert alert-warning fade in">
-				                  <button class="close" data-dismiss="alert">
-				                    ×
-				                  </button>
-				                  <i class="fa-fw fa fa-warning"></i>
-				                  <strong>{{ 'label_flash_warning'|trans }}</strong> {{ flashMessage|raw }}
-				                </div>
-				              {% endfor %}
-				
-				              {% for flashMessage in app.session.flashbag.get('success') %}
-				                <div class="alert alert-success fade in">
-				                  <button class="close" data-dismiss="alert">
-				                    ×
-				                  </button>
-				                  <i class="fa-fw fa fa-check"></i>
-				                  <strong>{{ 'label_flash_success'|trans }}</strong> {{ flashMessage|raw }}
-				                </div>
-				              {% endfor %}
-				
-				              {% for flashMessage in app.session.flashbag.get('info') %}
-				                <div class="alert alert-info fade in">
-				                  <button class="close" data-dismiss="alert">
-				                    ×
-				                  </button>
-				                  <i class="fa-fw fa fa-info"></i>
-				                  <strong>{{ 'label_flash_info'|trans }}</strong> {{ flashMessage |raw }}
-				                </div>
-				              {% endfor %}
-				
-				              {% for flashMessage in app.session.flashbag.get('danger') %}
-				                <div class="alert alert-danger fade in">
-				                  <button class="close" data-dismiss="alert">
-				                    ×
-				                  </button>
-				                  <i class="fa-fw fa fa-times"></i>
-				                  <strong>{{ 'label_flash_danger'|trans }}</strong> {{ flashMessage|raw }}
-				                </div>
-				              {% endfor %}						
-						{% endblock %}
+					<div class="main-content no-bordertop">
+
+						<div class="container">
+							{% block body %}
+
+								  {% for flashMessage in app.session.flashbag.get('warning') %}
+									<div class="alert alert-warning fade in">
+									  <button class="close" data-dismiss="alert">
+										×
+									  </button>
+									  <i class="fa-fw fa fa-warning"></i>
+									  <strong>{{ 'label_flash_warning'|trans }}</strong> {{ flashMessage|raw }}
+									</div>
+								  {% endfor %}
+
+								  {% for flashMessage in app.session.flashbag.get('success') %}
+									<div class="alert alert-success fade in">
+									  <button class="close" data-dismiss="alert">
+										×
+									  </button>
+									  <i class="fa-fw fa fa-check"></i>
+									  <strong>{{ 'label_flash_success'|trans }}</strong> {{ flashMessage|raw }}
+									</div>
+								  {% endfor %}
+
+								  {% for flashMessage in app.session.flashbag.get('info') %}
+									<div class="alert alert-info fade in">
+									  <button class="close" data-dismiss="alert">
+										×
+									  </button>
+									  <i class="fa-fw fa fa-info"></i>
+									  <strong>{{ 'label_flash_info'|trans }}</strong> {{ flashMessage |raw }}
+									</div>
+								  {% endfor %}
+
+								  {% for flashMessage in app.session.flashbag.get('danger') %}
+									<div class="alert alert-danger fade in">
+									  <button class="close" data-dismiss="alert">
+										×
+									  </button>
+									  <i class="fa-fw fa fa-times"></i>
+									  <strong>{{ 'label_flash_danger'|trans }}</strong> {{ flashMessage|raw }}
+									</div>
+								  {% endfor %}
+							{% endblock %}
 					
-					    
+						</div>
 					</div>
 					<!-- END: CONTENT -->
                 </section>

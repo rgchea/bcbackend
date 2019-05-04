@@ -26,7 +26,7 @@
 				<!-- widget content -->
 				<div class="widget-body">
 
-					{#<form id="backend_adminbundle_complex_sector" action="{{path('backend_admin_complex_sector_create')}}" method="POST" name="backend_adminbundle_complex_sector">#}
+					<div class="form-inputs-g">
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
 
@@ -48,7 +48,7 @@
 						<div class="form-group col-md-6">
 							{{ form_label(form.complex) }}
 							{{ form_errors(form.complex) }}
-							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control' } }
+							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
 							) }}
 						</div>
 
@@ -57,7 +57,7 @@
 							<div class="form-group col-md-6">
 								{{ form_label(form.complexSectorType) }}
 								{{ form_errors(form.complexSectorType) }}
-								{{ form_widget(form.complexSectorType, { 'attr': {'class' : 'form-control' } }
+								{{ form_widget(form.complexSectorType, { 'attr': {'class' : 'form-control classic' } }
 								) }}
 							</div>
 							{#
@@ -86,7 +86,7 @@
 										<label for="name">{{ 'complex.properties.name'|trans }}</label>
 									</div>
 									<div class="col-md-2">
-										<select id="propertyType" name="extra[propertyType]" class="form-control">
+										<select id="propertyType" name="extra[propertyType]" class="form-control classic">
 											{% for propertyType in propertyTypes %}
 												<option value="{{ propertyType.id }}">{{ propertyType }}</option>
 											{% endfor %}
@@ -129,7 +129,6 @@
 						</fieldset>
 
 						<div class="form-actions">
-							<a href="{{ path('backend_admin_complex_sector_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
 
 							<button type="submit" class="btn btn-primary">
 								<i class="fa fa-save"></i>
@@ -139,7 +138,7 @@
 
 					<!--</form>-->
 					{{ form_end(form) }}					
-
+					</div>
 				</div>
 				<!-- end widget content -->
 

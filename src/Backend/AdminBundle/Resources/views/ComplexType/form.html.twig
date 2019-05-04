@@ -27,7 +27,7 @@
 				<!-- widget content -->
 				<div class="widget-body">
 
-					{#<form id="backend_adminbundle_complex_type" action="{{path('backend_admin_complex_type_create')}}" method="POST" name="backend_adminbundle_complex_type">#}
+					<div class="form-inputs-g">
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
 
@@ -70,7 +70,7 @@
 						</fieldset>
 
 						<div class="form-actions">
-							<a href="{{ path('backend_admin_complex_type_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
+
 
 							<button class="btn btn-primary">
 								<i class="fa fa-save"></i>
@@ -79,7 +79,8 @@
 						</div>
 
 					<!--</form>-->
-					{{ form_end(form) }}					
+					{{ form_end(form) }}
+					</div>
 
 				</div>
 				<!-- end widget content -->

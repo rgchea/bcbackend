@@ -26,7 +26,7 @@
 				<!-- widget content -->
 				<div class="widget-body">
 
-					{#<form id="backend_adminbundle_geo_state" action="{{path('backend_admin_geo_state_create')}}" method="POST" name="backend_adminbundle_geo_state">#}
+					<div class="form-inputs-g">
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
 
@@ -41,7 +41,7 @@
                         <div class="form-group col-md-6">
                                 {{ form_label(form.timezoneOffset) }}
                                 {{ form_errors(form.timezoneOffset) }}
-                                {{ form_widget(form.timezoneOffset, { 'attr': {'class' : 'form-control' } }
+                                {{ form_widget(form.timezoneOffset, { 'attr': {'class' : 'form-control classic' } }
                                 ) }}
                         </div>
                         <div class="clearfix"></div>
@@ -54,7 +54,7 @@
                         <div class="form-group col-md-6">
                                 {{ form_label(form.geoCountry) }}
                                 {{ form_errors(form.geoCountry) }}
-                                {{ form_widget(form.geoCountry, { 'attr': {'class' : 'form-control' } }
+                                {{ form_widget(form.geoCountry, { 'attr': {'class' : 'form-control classic' } }
                                 ) }}
                         </div>
 							<div class="hide">
@@ -64,7 +64,6 @@
 						</fieldset>
 
                     <div class="form-actions">
-                            <a href="{{ path('backend_admin_geo_state_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
 
                             <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save"></i>
@@ -73,7 +72,8 @@
                     </div>
 
 					<!--</form>-->
-					{{ form_end(form) }}					
+					{{ form_end(form) }}
+					</div>
 
 				</div>
 				<!-- end widget content -->

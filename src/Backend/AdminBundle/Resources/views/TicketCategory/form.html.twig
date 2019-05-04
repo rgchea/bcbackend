@@ -43,7 +43,7 @@
 				<!-- widget content -->
 				<div class="widget-body">
 
-					{#<form id="backend_adminbundle_ticket_category" action="{{path('backend_admin_ticket_category_create')}}" method="POST" name="backend_adminbundle_ticket_category">#}
+					<div class="form-inputs-g">
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
 
@@ -79,7 +79,7 @@
 						<div class="form-group col-md-6">
 							{{ form_label(form.complex) }}
 							{{ form_errors(form.complex) }}
-							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control' } }
+							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
 							) }}
 						</div>
 							<div class="hide">
@@ -89,7 +89,6 @@
 						</fieldset>
 
 						<div class="form-actions">
-							<a href="{{ path('backend_admin_ticket_category_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
 
 							<button type="submit" class="btn btn-primary">
 								<i class="fa fa-save"></i>
@@ -98,7 +97,8 @@
 						</div>
 
 					<!--</form>-->
-					{{ form_end(form) }}					
+					{{ form_end(form) }}
+					</div>
 
 				</div>
 				<!-- end widget content -->

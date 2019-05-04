@@ -28,14 +28,10 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
 
         // Create inner joins
 
-        //sector
-        $query->join('e.commonAreaType', 's');
-        $countQuery->join('e.commonAreaType', 's');
-
 
         //complex
-        $query->join('s.complex', 'c');
-        $countQuery->join('s.complex', 'c');
+        $query->join('e.complex', 'c');
+        $countQuery->join('e.complex', 'c');
 
         if($filterComplex != null){
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
@@ -62,17 +58,6 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
                     case 'name':
                         {
                             $searchQuery = 'e.name LIKE \'%' . $searchItem . '%\'';
-                            break;
-                        }
-                        
-                    case 'requiredPayment':
-                        {
-                            $searchQuery = 'e.requiredPayment LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
-                    case 'hasEquipment':
-                        {
-                            $searchQuery = 'e.hasEquipment LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
 
@@ -123,16 +108,6 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
                     case 'name':
                         {
                             $orderColumn = 'e.name';
-                            break;
-                        }
-                    case 'requiredPayment':
-                        {
-                            $orderColumn = 'e.requiredPayment';
-                            break;
-                        }
-                    case 'hasEquipment':
-                        {
-                            $orderColumn = 'e.hasEquipment';
                             break;
                         }
 

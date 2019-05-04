@@ -1,3 +1,0 @@
-Pizote_auth_forgot_password:
-    pattern:  /forgot-password
-    defaults: { _controller: PizoteAuthBundle:Default:password }

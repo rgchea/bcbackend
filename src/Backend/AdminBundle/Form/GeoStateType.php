@@ -31,7 +31,7 @@ class GeoStateType extends AbstractType
                     'GMT+8:45' => "GMT+8:45", 'GMT+9:00' => "GMT+9:00", 'GMT+9:30' => "GMT+9:30", 'GMT+10:00' => "GMT+10:00",
                     'GMT+10:30' => "GMT+10:30", 'GMT+11:00' => "GMT+11:00", 'GMT+11:30' => "GMT+11:30", 'GMT+12:00' => "GMT+12:00",
                     'GMT+12:45' => "GMT+12:45", 'GMT+13:00' => "GMT+13:00", 'GMT+14:00' => "GMT+14:00"
-                ], 'label'=>"label_type", 'required'=>true ])
+                ], 'label'=>"label_timezone", 'required'=>true ])
             ->add('zipCode',  null, array('label'=>"label_zip_code", 'required'=>true))
             ->add('geoCountry',  null, array('label'=>"label_country", 'required'=>false));
            

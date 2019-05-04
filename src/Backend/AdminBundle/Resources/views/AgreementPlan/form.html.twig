@@ -26,6 +26,7 @@
 
 				<!-- widget content -->
 				<div class="widget-body">
+					<div class="form-inputs-g">
 
 					{#<form id="backend_adminbundle_agreement_plan" action="{{path('backend_admin_agreement_plan_create')}}" method="POST" name="backend_adminbundle_agreement_plan">#}
                     {{ form_start(form) }}
@@ -61,7 +62,6 @@
 						</fieldset>
 
 						<div class="form-actions">
-							<a href="{{ path('backend_admin_agreement_plan_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
 
 							<button class="btn btn-primary">
 								<i class="fa fa-save"></i>
@@ -71,7 +71,7 @@
 
 					<!--</form>-->
 					{{ form_end(form) }}					
-
+					</div>
 				</div>
 				<!-- end widget content -->
 
@@ -90,7 +90,12 @@
 	$( document ).ready(function() {
 
 
-        $('[name="agreement_plan"]').validate();
+        $('[name="agreement_plan"]').validate({
+			success: function (error) {
+				$("#pizote_spinner").show();
+				return true;
+			},
+		});
 
 
 		$("#agreement_plan_fee").rules("add", {required:true, digits:true, min: 1});

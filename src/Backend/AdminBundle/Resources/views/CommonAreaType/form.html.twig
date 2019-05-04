@@ -25,7 +25,7 @@
 
 				<!-- widget content -->
 				<div class="widget-body">
-
+					<div class="form-inputs-g">
 					{#<form id="backend_adminbundle_common_area_type" action="{{path('backend_admin_common_area_type_create')}}" method="POST" name="backend_adminbundle_common_area_type">#}
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
@@ -58,7 +58,6 @@
 						</fieldset>
 
                     <div class="form-actions">
-                            <a href="{{ path('backend_admin_common_area_type_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
 
                             <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save"></i>
@@ -68,7 +67,7 @@
 
 					<!--</form>-->
 					{{ form_end(form) }}					
-
+					</div>
 				</div>
 				<!-- end widget content -->
 

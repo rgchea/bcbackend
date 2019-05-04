@@ -26,7 +26,7 @@
 				<!-- widget content -->
 				<div class="widget-body">
 
-					
+					<div class="form-inputs-g">
                     {{ form_start(form) }}
                     	
 
@@ -60,7 +60,7 @@
 								<div class="form-group col-md-6">
 									{{ form_label(form.password) }}
 									{{ form_errors(form.password) }}
-									{{ form_widget(form.password, { 'attr': {'class' : 'form-control' } }
+									{{ form_widget(form.password, { 'attr': {'class' : 'form-control classic' } }
 									) }}
 									<label>{{ 'label_set_password'|trans }}</label>
 								</div>
@@ -187,18 +187,11 @@
 
 						</fieldset>
 
-						<div class="form-actions">
-							<a href="{{ path('backend_admin_user_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
-
-							<button class="btn btn-primary">
-								<i class="fa fa-save"></i>
-								{{ 'label_save'|trans  }}
-							</button>
-						</div>
 						<div class="clearfix"></div>
 						<br/>
 						<div class="clearfix"></div>
-						<table id="complexTable" class="table table-striped table-bordered table-hover" style="width: 60%">
+						<h2 class="header-title-step">{{ 'label_complex_assigned'|trans }}</h2>
+						<table id="complexTable" class="table table-striped  table-hover" style="width: 60%">
 							<thead>
 							<tr>
 								{# sorting of properties based on query components #}
@@ -216,17 +209,27 @@
 									<td>{{ complex.name }}</td>
 									{% if edit is defined %}
 										<td>
-											{% if complex.assigned == 1%}
-												<input type="checkbox" checked name="complex[{{ complex.id }}]">
-											{% else %}
-												<input type="checkbox" name="complex[{{ complex.id }}]">
-											{% endif %}
+											<div class="checkbox">
+												<label>
+
+													{% if complex.assigned == 1%}
+														<input type="checkbox" checked name="complex[{{ complex.id }}]">
+													{% else %}
+														<input type="checkbox" name="complex[{{ complex.id }}]">
+													{% endif %}
+												</label>
+											</div>
 
 										</td>
 
 									{% else %}
 										<td>
-											<input type="checkbox" name="complex[{{ complex.id }}]">
+											<div class="checkbox">
+												<label>
+
+													<input type="checkbox" name="complex[{{ complex.id }}]">
+												</label>
+											</div>
 										</td>
 
 										{#<td><a href="#" onclick="assignComplex({{ complex.id }})"> <i class="fas fa-times"></i></a></td>#}
@@ -241,11 +244,20 @@
 
 						</table>
 					<!--</form>-->
+						<div class="clearfix"></div>
+						<br/>
+						<div class="form-actions">
+
+
+							<button class="btn btn-primary">
+								<i class="fa fa-save"></i>
+								{{ 'label_save'|trans  }}
+							</button>
+						</div>
+
+
 					{{ form_end(form) }}
-
-
-
-
+					</div>
 
 				</div>
 				<!-- end widget content -->

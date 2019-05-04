@@ -70,14 +70,14 @@ Backend\AdminBundle\Entity\CommonArea:
             nullable: false
             options:
                 comment: 'si requiere pago para su reserva o no'
-                default: '1'
+                default: false
             column: required_payment
         hasEquipment:
             type: boolean
             nullable: false
             options:
                 comment: 'si se da equipada o no'
-                default: '1'
+                default: false
             column: has_equipment
         equipmentDescription:
             type: text
@@ -102,7 +102,7 @@ Backend\AdminBundle\Entity\CommonArea:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         complex:
             targetEntity: Complex

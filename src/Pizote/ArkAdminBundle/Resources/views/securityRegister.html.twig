@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+
+        <title>
+        {% set _block_title = block('title') %}
+        {% if _block_title is not empty %}
+          {% block title %}{% endblock %} |
+        {% endif %}
+        Backend
+
+        </title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <!-- CSS -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" type="text/css" />
+        {#<link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap/dist/css/bootstrap.css') }}">#}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('bundles/pizotearkadmin/css/bootstrap.css') }}">
+        <link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-jasny/dist/extend/css/jasny-bootstrap.min.css') }}" />
+        <link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" media="screen" >
+        <link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
+        <link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/select2/select2.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/select2/select2-bootstrap.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/pizotearkadmin/css/better_condos/scripts/vendor/jquery.uniform/themes/default/css/uniform.default.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/pizotearkadmin/css/ark.css') }}" rel="stylesheet" type="text/css" media="screen" >
+
+
+        <!-- Basic Styles -->
+
+
+        <!--================================================== -->
+
+        <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
+        <script src="{{ asset('bundles/pizotearkadmin/js/pace/pace.min.js') }}"></script>
+
+        <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+        <!--<script src="{{ asset('bundles/pizotearkadmin/js/jquery.min.js') }}"></script>-->
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="{{ asset('bundles/pizotearkadmin/js/jquery-ui.min.js') }}"></script>
+
+        <!-- BOOTSTRAP JS -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/bootstrap.min.js') }}"></script>
+
+        <!-- CUSTOM NOTIFICATION -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/notification/SmartNotification.min.js') }}"></script>
+
+        <!-- JQUERY VALIDATE -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/jquery-validate/jquery.validate.min.js') }}"></script>
+        {%  if app.request.getLocale() == "es" %}
+            <script src="{{ asset('bundles/pizotearkadmin/js/jquery-validate/messages_es.js') }}"></script>
+        {% else  %}
+            <script src="{{ asset('bundles/pizotearkadmin/js/jquery-validate/messages_en.js') }}"></script>
+        {% endif %}
+
+        <!-- browser msie issue fix -->
+        <script src="{{ asset('bundles/pizotearkadmin/js/msie-fix/jquery.mb.browser.min.js') }}"></script>
+
+        <!-- MAIN APP JS FILE -->
+
+
+
+    </head>
+    <body class="cover register">
+
+        <div id="main" role="main">
+
+            {% for flashMessage in app.session.flashbag.get('warning') %}
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Warning</strong> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-check"></i>
+                    <strong>Success</strong> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('info') %}
+                <div class="alert alert-info fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-info"></i>
+                    <strong>Info!</strong> {{ flashMessage |raw }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('danger') %}
+                <div class="alert alert-danger fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-times"></i>
+                    <strong>Info!</strong> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+
+            <div class="login-wrap-register">
+                <span class="brand">
+                    <img src="{{ asset('bundles/pizotearkadmin/css/better_condos/img/logo/logo-register.png') }}">
+                </span>
+
+
+                {% block fos_user_content %}
+
+                {% endblock %}
+            </div>
+
+
+
+        </div>
+
+    </body>
+</html>

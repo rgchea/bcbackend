@@ -31,3 +31,16 @@ backend_admin_common_area_delete:
     path:     /{id}/delete
     defaults: { _controller: "BackendAdminBundle:CommonArea:delete" }
     #methods:  DELETE
+
+common_area_ajax_snippet_image_send:
+    path:     /imagesend
+    defaults: { _controller: "BackendAdminBundle:CommonArea:imageSend" }
+
+
+common_area_ajax_snippet_image_get:
+    path:     /imageget
+    defaults: { _controller: "BackendAdminBundle:CommonArea:imageGet" }
+
+common_area_ajax_snippet_image_remove:
+    path:     /imageremove
+    defaults: { _controller: "BackendAdminBundle:CommonArea:imageRemove" }
