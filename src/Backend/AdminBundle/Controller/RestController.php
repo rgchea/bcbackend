@@ -290,7 +290,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="code", type="string", description="Code", example="101" ),
      *                  @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
      *                  @SWG\Property( property="address", type="string", description="Address", example="1 Avenue des Champs-Elysees" ),
-     *                  @SWG\Property( property="property_type_id", type="integer", description="Property Type ID", example="1" ),
+     *                  @SWG\Property( property="type_id", type="integer", description="Property Type ID", example="1" ),
      *                  @SWG\Property( property="complex_id", type="integer", description="Sector ID", example="1" ),
      *                  @SWG\Property( property="player_id", type="integer", description="Team player ID", example="1" ),
      *              )
@@ -343,7 +343,7 @@ class RestController extends FOSRestController
                 $data[] = array(
                     'id' => $property->getId(),
                     'code' => $property->getCode(), 'name' => $property->getName(),
-                    'address' => $property->getAddress(), 'property_type_id' => $type->getId(),
+                    'address' => $property->getAddress(), 'type_id' => $type->getId(),
                     'sector_id' => $complexSector->getId(), 'player_id' => $property->getTeamCorrelative());
             }
 
@@ -377,7 +377,7 @@ class RestController extends FOSRestController
      *              @SWG\Property( property="code", type="string", description="Code", example="101" ),
      *              @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
      *              @SWG\Property( property="address", type="string", description="Address", example="1 Avenue des Champs-Elysees" ),
-     *              @SWG\Property( property="property_type_id", type="integer", description="Property Type ID", example="1" ),
+     *              @SWG\Property( property="type_id", type="integer", description="Property Type ID", example="1" ),
      *              @SWG\Property( property="complex_id", type="integer", description="Sector ID", example="1" ),
      *              @SWG\Property( property="player_id", type="integer", description="Team player ID", example="1" ),
      *          ),
@@ -416,7 +416,7 @@ class RestController extends FOSRestController
 
             $data = array(
                 'code' => $property->getCode(), 'name' => $property->getName(),
-                'address' => $property->getAddress(), 'property_type_id' => $type->getId(),
+                'address' => $property->getAddress(), 'type_id' => $type->getId(),
                 'sector_id' => $complexSector->getId(), 'teamCorrelative' => $property->getTeamCorrelative());
 
             return new JsonResponse(array('message' => "", 'data' => $data));
@@ -489,7 +489,7 @@ class RestController extends FOSRestController
             }
 
             $data = array(
-                'id' => $property->getId(), // ToDo: Question -> Pregunta global, podemos quitar los prefijos repetitivos?
+                'id' => $property->getId(),
                 'code' => $property->getCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $type->getId(),
                 'is_owner' => $owner->getId() == $this->getUser()->getId(),
@@ -525,12 +525,12 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="role", type="string", description="Role of the User", example="Role" ),
      *                  @SWG\Property( property="user_notification", type="object",
      *                      @SWG\Property( property="description", type="string", description="Description", example="Notification Description" ),
-     *                      @SWG\Property( property="notification_type", type="string", description="Type of Notification", example="accept_invitation" ),
+     *                      @SWG\Property( property="type", type="string", description="Type of Notification", example="accept_invitation" ),
      *                  ),
      *                  @SWG\Property( property="replies_quantity", type="integer", description="Quantity of replies for the associated ticket", example="10" ),
      *                  @SWG\Property( property="timestamp", type="string", description="Timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
-     *                  @SWG\Property( property="notification_type", type="string", description="Name of the type of notification", example="Type1" ),
-     *                  @SWG\Property( property="notification_notice", type="string", description="Notification notice", example="Notice" ),
+     *                  @SWG\Property( property="type", type="string", description="Name of the type of notification", example="Type1" ),
+     *                  @SWG\Property( property="notice", type="string", description="Notification notice", example="Notice" ),
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
@@ -601,11 +601,11 @@ class RestController extends FOSRestController
                     'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
                     'user_notification' => array(
                         'description' => $notification->getDescription(),
-                        'notification_type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES())),
+                        'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES())),
                     'replies_quantity' => (array_key_exists($ticket->getId(), $commentsReplies)) ? $commentsReplies[$ticket->getId()] : 0,
                     'timestamp' => $user->format(\DateTime::RFC850),
-                    'notification_type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES()),
-                    'notification_notice' => $notification->getNotice(),
+                    'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES()),
+                    'notice' => $notification->getNotice(),
                 );
             }
 
@@ -713,13 +713,13 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
-     *                  @SWG\Property( property="ticket_id", type="string", description="Ticket ID", example="1" ),
-     *                  @SWG\Property( property="ticket_type_id", type="string", description="Ticket type ID", example="1" ),
-     *                  @SWG\Property( property="ticket_type_name", type="string", description="Ticket type name", example="TicketTypeName" ),
+     *                  @SWG\Property( property="id", type="string", description="Ticket ID", example="1" ),
+     *                  @SWG\Property( property="type_id", type="string", description="Ticket type ID", example="1" ),
+     *                  @SWG\Property( property="type_name", type="string", description="Ticket type name", example="TicketTypeName" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
-     *                  @SWG\Property( property="ticket_title", type="string", description="Ticket title", example="TicketTile" ),
-     *                  @SWG\Property( property="ticket_description", type="string", description="Ticket description", example="Lorem ipsum." ),
-     *                  @SWG\Property( property="ticket_is_public", type="boolean", description="Is ticket public?", example="true" ),
+     *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
+     *                  @SWG\Property( property="description", type="string", description="Ticket description", example="Lorem ipsum." ),
+     *                  @SWG\Property( property="is_public", type="boolean", description="Is ticket public?", example="true" ),
      *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
      *                  @SWG\Property( property="role", type="string", description="Ticket's creator role", example="Admin" ),
      *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
@@ -808,13 +808,13 @@ class RestController extends FOSRestController
                 }
 
                 $data[] = array(
-                    'ticket_id' => $ticket->getId(),
-                    'ticket_type_id' => $type->getId(),
-                    'ticket_type_name' => $type->getName(),
+                    'id' => $ticket->getId(),
+                    'type_id' => $type->getId(),
+                    'type_name' => $type->getName(),
                     'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
-                    'ticket_title' => $ticket->getTitle(),
-                    'ticket_description' => $ticket->getDescription(),
-                    'ticket_is_public' => $ticket->getIsPublic(),
+                    'title' => $ticket->getTitle(),
+                    'description' => $ticket->getDescription(),
+                    'is_public' => $ticket->getIsPublic(),
                     'username' => $user->getUsername(),
                     'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
                     'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
@@ -856,13 +856,13 @@ class RestController extends FOSRestController
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="object",
-     *                  @SWG\Property( property="ticket_title", type="string", description="Ticket title", example="TicketTile" ),
+     *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
      *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
      *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
      *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
-     *                  @SWG\Property( property="ticket_description", type="string", description="Ticket description", example="Lorem ipsum." ),
+     *                  @SWG\Property( property="description", type="string", description="Ticket description", example="Lorem ipsum." ),
      *                  @SWG\Property( property="comments", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="username", type="string", description="Comments's creator username", example="2" ),
@@ -932,13 +932,13 @@ class RestController extends FOSRestController
             }
 
             $data = array(
-                'ticket_title' => $ticket->getTitle(),
+                'title' => $ticket->getTitle(),
                 'username' => $ticketUser->getUsername(),
                 'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
                 'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
                 'followers_quantity' => (array_key_exists($ticket->getId(), $followersCount)) ? $followersCount[$ticket->getId()] : 0,
                 'comments_quantity' => (array_key_exists($ticket->getId(), $commentsCount)) ? $commentsCount[$ticket->getId()] : 0,
-                'ticket_description' => $ticket->getDescription(),
+                'description' => $ticket->getDescription(),
             );
 
 
@@ -1085,11 +1085,10 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="name", type="string", description="Name of the poll", example="Poll" ),
      *                  @SWG\Property( property="questions", type="array",
      *                      @SWG\Items(
-     *                          @SWG\Property( property="poll_question", type="string", description="Poll question", example="Question" ),
-     *                          @SWG\Property( property="poll_file_photo", type="string", description="Poll file photo", example="/photo.jpg" ),
      *                          @SWG\Property( property="question", type="string", description="Poll question", example="Question" ),
-     *                          @SWG\Property( property="question_type", type="string", description="Poll question type", example="Type" ),
-     *                          @SWG\Property( property="poll_question_options", type="array",
+     *                          @SWG\Property( property="file_photo", type="string", description="Poll file photo", example="/photo.jpg" ),
+     *                          @SWG\Property( property="type", type="string", description="Poll question type", example="Type" ),
+     *                          @SWG\Property( property="options", type="array",
      *                              @SWG\Items(
      *                              @SWG\Property( property="option", type="string", description="Question's option", example="Option" ),
      *                              )
@@ -1151,11 +1150,10 @@ class RestController extends FOSRestController
                 }
 
                 $data['questions'][] = array(
-                    'poll_question' => $question->getQuestion(),
-                    'poll_file_photo' => $question->getPollFilePhoto(),
                     'question' => $question->getQuestion(),
-                    'question_type' => $question->getPollQuestionType()->getName(),
-                    'poll_question_options' => $options,
+                    'file_photo' => $question->getPollFilePhoto(),
+                    'type' => $question->getPollQuestionType()->getName(),
+                    'options' => $options,
                 );
             }
 
@@ -1189,8 +1187,8 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="id", type="integer", description="Common area ID", example="1" ),
      *                  @SWG\Property( property="name", type="string", description="Name of the common area", example="Common area" ),
      *                  @SWG\Property( property="description", type="string", description="Description of the common area", example="Description" ),
-     *                  @SWG\Property( property="common_area_type", type="string", description="Type of the common area", example="Description" ),
-     *                  @SWG\Property( property="common_area_photos", type="array",
+     *                  @SWG\Property( property="type", type="string", description="Type of the common area", example="Description" ),
+     *                  @SWG\Property( property="photos", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="url", type="string", description="URL of common area photo", example="/photo.jpg" ),
      *                      )
@@ -1260,8 +1258,8 @@ class RestController extends FOSRestController
                     'id' => $commonArea->getId(),
                     'name' => $commonArea->getName(),
                     'description' => $commonArea->getDescription(),
-                    'common_area_type' => $commonAreaType->getName(),
-                    'common_area_photos' => $commonAreaPhotos,
+                    'type' => $commonAreaType->getName(),
+                    'photos' => $commonAreaPhotos,
                 );
             }
 
@@ -1294,9 +1292,9 @@ class RestController extends FOSRestController
      *              property="data", type="object",
      *                  @SWG\Property( property="reservation", type="array",
      *                      @SWG\Items(
-     *                          @SWG\Property( property="common_area_resevation_status", type="string", description="Reservation status for the common area", example="status" ),
-     *                          @SWG\Property( property="reservation_date_from", type="string", description="Reservation date from UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
-     *                          @SWG\Property( property="reservation_date_to", type="string", description="Reservation date to UTC formatted with RFC850", example="Monday, 16-Aug-05 15:52:01 UTC" ),
+     *                          @SWG\Property( property="status", type="string", description="Reservation status for the common area", example="status" ),
+     *                          @SWG\Property( property="date_from", type="string", description="Reservation date from UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                          @SWG\Property( property="date_to", type="string", description="Reservation date to UTC formatted with RFC850", example="Monday, 16-Aug-05 15:52:01 UTC" ),
      *                      )
      *                  ),
      *                  @SWG\Property( property="common_area_availability", type="array",
@@ -1305,7 +1303,7 @@ class RestController extends FOSRestController
      *                          @SWG\Property( property="week_day_range_finish", type="integer", description="The day of the week that the range ends", example="5" ),
      *                          @SWG\Property( property="week_day", type="integer", description="The day of the week", example="2" ),
      *                          @SWG\Property( property="hour_from", type="integer", description="From hour", example="10" ),
-     *                          @SWG\Property( property="hour_from", type="integer", description="To hour", example="15" ),
+     *                          @SWG\Property( property="hour_to", type="integer", description="To hour", example="15" ),
      *                      )
      *                  ),
      *          ),
@@ -1341,9 +1339,9 @@ class RestController extends FOSRestController
                 }
 
                 $data['reservations'][] = array(
-                    'common_area_resevation_status' => ($lang == 'en') ? $status->getNameEN() : $status->getNameES(),
-                    'reservation_date_from' => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
-                    'reservation_date_to' => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
+                    'status' => ($lang == 'en') ? $status->getNameEN() : $status->getNameES(),
+                    'date_from' => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
+                    'date_to' => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
                 );
             }
 
