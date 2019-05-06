@@ -570,6 +570,8 @@ class UserController extends Controller
         }
 
         $entity = $this->em->getRepository('BackendAdminBundle:User')->find($id);
+        $previous_password = $entity->getPassword();
+
 
 
         $myPath = $entity->getAvatarPath();
@@ -621,14 +623,12 @@ class UserController extends Controller
             }
 
             //
-            if(!empty($plainPassword)){
+            if($plainPassword != ""){
                 $entity->setPlainPassword($plainPassword);
 
             }else{
-                /*
+
                 $entity->setPassword($previous_password);
-                print "entra2";die;
-                */
             }
 
 

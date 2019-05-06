@@ -19,6 +19,10 @@ Backend\AdminBundle\Entity\User:
         supervisor_id:
             columns:
                 - supervisor_id
+        geo_country_id:
+            columns:
+                - geo_country_id
+
 
     id:
         id:
@@ -36,6 +40,13 @@ Backend\AdminBundle\Entity\User:
             length: 32
             options:
                 fixed: false
+        mobilePhone:
+            type: string
+            nullable: true
+            length: 16
+            options:
+                fixed: false
+            column: mobile_phone
         birthdate:
             type: date
             nullable: true
@@ -140,5 +151,17 @@ Backend\AdminBundle\Entity\User:
                 supervisor_id:
                     referencedColumnName: id
             orphanRemoval: false
+
+        geoCountry:
+            targetEntity: GeoCountry
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                geo_country_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
 
     lifecycleCallbacks: {  }

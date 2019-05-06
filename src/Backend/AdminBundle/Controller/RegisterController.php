@@ -87,9 +87,10 @@ class RegisterController extends Controller
 
         //var_dump($this->get('mailer'));die;
 
-
-        //print "<pre>";
-        //var_dump($_REQUEST);DIE;
+        /*
+        print "<pre>";
+        var_dump($_REQUEST);DIE;
+        */
 
         $this->initialise();
 
@@ -114,6 +115,11 @@ class RegisterController extends Controller
 
             $entity->setUsername($myRequest["username"]);
             $entity->setEnabled(1);
+
+            $entity->setMobilePhone(trim($myRequest["phone"]));
+            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findByShortName(trim($myRequest["country"]));
+            $objCountry = $objCountry[0];
+            $entity->setGeoCountry($objCountry);
 
             $objRole = $this->em->getRepository('BackendAdminBundle:Role')->findByName("ADMIN");
             $objRole = $objRole[0];
