@@ -284,4 +284,9 @@ class PollQuestion
         return $this->pollQuestionType;
     }
 
+
+    public function __toString(){
+        return $this->getQuestion();
+    }
+
 }

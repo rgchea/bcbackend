@@ -1,0 +1,34 @@
+backend_admin_poll_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:Poll:index
+
+poll_list_datatables:
+    path: /poll/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Poll:listDatatables
+
+backend_admin_poll_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:Poll:new" }
+    #methods:  [GET, POST]
+
+backend_admin_poll_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:Poll:edit" }
+
+backend_admin_poll_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:Poll:create" }
+    methods:  POST
+
+backend_admin_poll_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:Poll:update" }
+    methods:  POST
+
+backend_admin_poll_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:Poll:delete" }
+
+    #methods:  DELETE

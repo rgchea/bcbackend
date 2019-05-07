@@ -57,6 +57,12 @@ Backend\AdminBundle\Entity\Property:
             length: 32
             options:
                 fixed: false
+        sms_code:
+            type: string
+            nullable: true
+            length: 6
+            options:
+                fixed: false
         qrCodePath:
             type: string
             nullable: true

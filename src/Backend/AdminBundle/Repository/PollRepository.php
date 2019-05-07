@@ -36,8 +36,129 @@ class PollRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('a')
             ->select('a')
             ->where('a.enabled = 1')
-            ->andWhere('a.activeFrom <= :today')
-            ->andWhere('a.activeTo >= :today')
-            ->setParameter('today', $today);
+            //->andWhere('a.activeFrom <= :today')
+            //->andWhere('a.activeTo >= :today')
+            //->setParameter('today', $today)
+        ;
     }
+
+    public function getRequiredDTData($start, $length, $orders, $search, $columns)
+    {
+        //print "entra";die;
+        // Create Main Query
+        $query = $this->createQueryBuilder('e');
+
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('e');
+        $countQuery->select('COUNT(e)');
+
+        //ENABLED
+        //$query->andWhere("e.enabled = 1");
+        //$countQuery->andWhere("e.enabled = 1");
+
+        // Fields Search
+        foreach ($columns as $key => $column)
+        {
+            if ($column['search']['value'] != '')
+            {
+                // $searchItem is what we are looking for
+                $searchItem = $column['search']['value'];
+                $searchQuery = null;
+
+                switch($column['name'])
+                {
+                    case 'id':
+                        {
+                            $searchQuery = 'e.id ='. $searchItem;
+                            break;
+                        }
+                    case 'name':
+                        {
+                            $searchQuery = 'e.name LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+                    case 'enabled':
+                        {
+
+                            if($searchItem == "Yes" || $searchItem == "Si"){
+                                $searchQuery = 'e.enabled = 1';
+                            }
+
+                            if($searchItem == "No"){
+                                $searchQuery = 'e.enabled = 0';
+                            }
+
+                            break;
+                        }
+
+
+                }
+
+
+                if ($searchQuery !== null)
+                {
+                    $query->andWhere($searchQuery);
+                    $countQuery->andWhere($searchQuery);
+                }
+            }
+        }
+
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+
+        // Order
+        // Orders
+        foreach ($orders as $key => $order)
+        {
+            // Orders does not contain the name of the column, but its number,
+            // so add the name so we can handle it just like the $columns array
+            $orders[$key]['name'] = $columns[$order['column']]['name'];
+        }
+
+        foreach ($orders as $key => $order)
+        {
+
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+
+                switch($order['name'])
+                {
+                    case 'id':
+                        {
+                            $orderColumn = 'e.id';
+                            break;
+                        }
+                    case 'name':
+                        {
+                            $orderColumn = 'e.name';
+                            break;
+                        }
+
+                    case 'enabled':
+                        {
+                            $orderColumn = 'e.enabled';
+                            break;
+                        }
+
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+
+
+        $results = $query->getQuery()->getResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+
+        return array(
+            "results" 		=> $results,
+            "countResult"	=> $countResult
+        );
+    }
+
 }

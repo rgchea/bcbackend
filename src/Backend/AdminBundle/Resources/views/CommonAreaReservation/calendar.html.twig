@@ -1,0 +1,117 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_common_area_reservation_calendar') }}">{{ 'label_calendar'|trans }}</a> </li>
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/core/main.css') }}" rel='stylesheet' />
+    <link href="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/daygrid/main.css') }}" rel='stylesheet' />
+    <link href="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/timegrid/main.css') }}" rel='stylesheet' />
+    <link href="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/list/main.css') }}" rel='stylesheet' />
+
+    <script src="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/core/main.js') }}"></script>
+    <script src="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/interaction/main.js') }}"></script>
+    <script src="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/daygrid/main.js') }}" ></script>
+    <script src="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/timegrid/main.js') }}" ></script>
+    <script src="{{ asset('bundles/pizotearkadmin/js/fullcalendar-4.1.0/packages/list/main.js') }}" ></script>
+
+
+
+    <style>
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+
+        </div>
+    </div>
+
+    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+        <header>
+            <h2> {{ 'label_common_area_reservation'|trans }}</h2>
+        </header>
+
+        <!-- widget div-->
+        <div>
+
+            <!-- widget edit box -->
+            <div class="jarviswidget-editbox">
+                <!-- This area used as dropdown edit box -->
+
+            </div>
+
+            <!-- end widget edit box -->
+
+            <!-- widget content -->
+            <div class="widget-body no-padding">
+
+                <div id='calendar'></div>
+            </div>
+            <!-- end widget content -->
+
+
+
+        </div>
+        <!-- end widget div -->
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+                header: {
+                    left: 'prevYear,prev,next,nextYear today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                },
+
+                defaultDate: '{{ now }}',
+                navLinks: true, // can click day/week names to navigate views
+                businessHours: true, // display business hours
+                editable: false,
+                eventLimit: true, // allow "more" link when too many events
+                events: [{{ schedule|raw }}
+                ]
+            });
+
+            calendar.render();
+        });
+
+    </script>
+
+
+{% endblock %}
+
+
+{% block extrascripts %}
+
+
+
+{% endblock %}

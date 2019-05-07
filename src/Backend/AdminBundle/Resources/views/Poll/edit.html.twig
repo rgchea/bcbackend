@@ -1,0 +1,19 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+{{ parent() }}
+    <li> <a href="{{ path('backend_admin_poll_index') }}">{{ 'label_menu.poll'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_poll_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    {{ include('BackendAdminBundle:Poll:form.html.twig') }}
+{% endblock %}
+
+{% block extrascripts %}
+    
+    
+
+{% endblock %}
