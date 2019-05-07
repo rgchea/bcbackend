@@ -16,6 +16,7 @@ use Backend\AdminBundle\Entity\PollQuestion;
 use Backend\AdminBundle\Entity\PollQuestionOption;
 use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\PropertyType;
+use Backend\AdminBundle\Entity\TenantContract;
 use Backend\AdminBundle\Entity\TermCondition;
 use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
@@ -260,15 +261,28 @@ class RestController extends FOSRestController
             $user = new User();
 
             $user->setName($name);
-//            $user->setMobilePhone($mobilePhone);
-//            $user->setCountryCode($countryCode);
+            $user->setMobilePhone($mobilePhone);
+            $user->setGeoCountry($country);
             $user->setUsername($email);
             $user->setEmail($email);
             $user->setPlainPassword($password);
             $user->setPassword($encoder->encodePassword($user, $password));
 
+            $this->get("services")->blameOnMe($user, "create");
+            $this->get("services")->blameOnMe($user, "update");
+
             $this->em->persist($user);
             $this->em->flush();
+
+//            //Admin
+//            $bodyHtml = $this->translator->trans('label_register_complete_msg') . "<br/>";
+//            $bodyHtml .= "<b>Email:</b>" . $user->getEmail() . "<br/><br/>";
+//
+//            //contact
+//            $bodyHtml .= $this->translator->trans('label_register_contact');
+//
+//            $to = $user->getEmail();
+//            $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_register_complete'), $to, $bodyHtml);
 
             return new JsonResponse(array(
                 'message' => "" . $user->getId(),
@@ -352,7 +366,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Creates a successfull user account.",
+     *     description="Creates an association between a Property and a User via the property code. Applicable to welcomePrivateKey, welcomeQR and welcomeInvite.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -369,7 +383,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="User")
      */
 
-    public function postWelcomePrivateKeyAction(Request $request, UserPasswordEncoderInterface $encoder)
+    public function postWelcomePrivateKeyAction(Request $request)
     {
         try {
             $this->initialise();
@@ -381,10 +395,20 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid property code.");
             }
 
-            // ToDo: Still pending which field to update.
-//            $property->setOwner($user);
-//            $this->em->persist($property);
-//            $this->em->flush();
+            $tenantRaw = $this->em->getRepository('BackendAdminBundle:TenantContract')->getApiWelcomePrivateKey($property);
+            /** @var TenantContract $tenant */
+            $tenant = $tenantRaw[0];
+
+            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(4);
+
+            $tenant->setUser($this->getUser());
+            $tenant->setRole($role);
+            $tenant->setIsOwner(true);
+
+            $this->get("services")->blameOnMe($tenant, "update");
+
+            $this->em->persist($tenant);
+            $this->em->flush();
 
             return new JsonResponse(array(
                 'message' => "" . $user->getId(),
