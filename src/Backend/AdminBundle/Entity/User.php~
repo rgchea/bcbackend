@@ -683,4 +683,65 @@ class User extends BaseUser
     {
         return $this->supervisor;
     }
+    /**
+     * @var string
+     */
+    private $mobilePhone;
+
+
+
+
+    /**
+     * Set mobilePhone.
+     *
+     * @param string $mobilePhone
+     *
+     * @return User
+     */
+    public function setMobilePhone($mobilePhone)
+    {
+        $this->mobilePhone = $mobilePhone;
+
+        return $this;
+    }
+
+    /**
+     * Get mobilePhone.
+     *
+     * @return string
+     */
+    public function getMobilePhone()
+    {
+        return $this->mobilePhone;
+    }
+
+    /**
+     * @var \Backend\AdminBundle\Entity\GeoCountry
+     */
+    private $geoCountry;
+
+
+    /**
+     * Set geoCountry.
+     *
+     * @param \Backend\AdminBundle\Entity\GeoCountry|null $geoCountry
+     *
+     * @return User
+     */
+    public function setGeoCountry(\Backend\AdminBundle\Entity\GeoCountry $geoCountry = null)
+    {
+        $this->geoCountry = $geoCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get geoCountry.
+     *
+     * @return \Backend\AdminBundle\Entity\GeoCountry|null
+     */
+    public function getGeoCountry()
+    {
+        return $this->geoCountry;
+    }
 }
