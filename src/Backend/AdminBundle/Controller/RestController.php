@@ -126,7 +126,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/forgotPassword", name="forgot_password")
      *
-     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user." )
+     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
@@ -190,11 +190,11 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/register", name="register")
      *
-     * @SWG\Parameter( name="name", in="body", type="string", description="The name of the user." )
-     * @SWG\Parameter( name="mobile_phone", in="body", type="string", description="The mobile phone of the user." )
-     * @SWG\Parameter( name="country_code", in="body", type="string", description="The country code of the user." )
-     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user." )
-     * @SWG\Parameter( name="password", in="body", type="string", description="The password of the user." )
+     * @SWG\Parameter( name="name", in="body", type="string", description="The name of the user.", schema={} )
+     * @SWG\Parameter( name="mobile_phone", in="body", type="string", description="The mobile phone of the user.", schema={} )
+     * @SWG\Parameter( name="country_code", in="body", type="string", description="The country code of the user.", schema={} )
+     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
+     * @SWG\Parameter( name="password", in="body", type="string", description="The password of the user.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
@@ -357,7 +357,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/welcomePrivateKey", name="welcome_private_key")
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
@@ -654,7 +654,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/sendSMS", name="send_sms")
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
@@ -694,22 +694,7 @@ class RestController extends FOSRestController
 
             // ToDo: Still pending info.
 
-            // Your Account SID and Auth Token from twilio.com/console
-//            $account_sid = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-//            $auth_token = $_ENV["TWILIO_ACCOUNT_SID"];
-
-            // A Twilio number you own with SMS capabilities
-//            $twilio_number = $user->getMobilePhone();
-
-//            $client = new Client($account_sid, $auth_token);
-//            $client->messages->create(
-//            // Where to send a text message (your cell phone?)
-//                '+15558675310',
-//                array(
-//                    'from' => $twilio_number,
-//                    'body' => 'I sent this message in under 10 minutes!'
-//                )
-//            );
+            $msg = $this->get('services')->serviceSendSMS("hello there monkey", "+50241550669");
 
             return new JsonResponse(array(
                 'message' => "" . $user->getId(),
@@ -1216,7 +1201,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/ticket", name="create_ticket")
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
@@ -1239,28 +1224,28 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Tag(name="User")
+     * @SWG\Tag(name="Ticket")
      */
 
-    public function postWelcomePrivateKeyAction(Request $request, UserPasswordEncoderInterface $encoder)
+    public function postTicketAction(Request $request)
     {
         try {
             $this->initialise();
-            $propertyCode = strtolower(trim($request->get('property_code')));
-            $user = $this->getUser();
+            $title = strtolower(trim($request->get('title')));
+            $description = strtolower(trim($request->get('description')));
+            $photos = strtolower(trim($request->get('photos'))); // ToDo: This is gonna be cardiacation cause dunoo
+            $solution = strtolower(trim($request->get('solution')));
+            $isPublic = strtolower(trim($request->get('is_public')));
 
-            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
-            if ($property == null) {
-                throw new \Exception("Invalid property code.");
-            }
+//            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
+//            if ($property == null) {
+//                throw new \Exception("Invalid property code.");
+//            }
 
-            // ToDo: Still pending which field to update.
-//            $property->setOwner($user);
-//            $this->em->persist($property);
-//            $this->em->flush();
+            // ToDo: to be finished.
 
             return new JsonResponse(array(
-                'message' => "" . $user->getId(),
+                'message' => "",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
