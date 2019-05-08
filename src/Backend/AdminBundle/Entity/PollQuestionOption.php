@@ -255,4 +255,9 @@ class PollQuestionOption
         return $this->updatedBy;
     }
 
+    public function __toString(){
+        return $this->getQuestionOption();
+    }
+
+
 }

@@ -10,4 +10,44 @@ namespace Backend\AdminBundle\Repository;
  */
 class ComplexPollRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+    //cleanUserComplex
+    public function cleanComplexPoll($pollID){
+
+        $sql = "	DELETE
+					FROM 	complex_poll
+                    WHERE 	poll_id = '{$pollID}'";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        //return $stmt->fetchAll();
+
+    }
+
+
+
+    public function getComplexPoll($pollID)
+    {
+
+        $sql = "	SELECT  c.id, c.name
+					FROM    complex_poll cp
+					    INNER JOIN complex c ON(c.id = cp.complex_id)
+					WHERE   cp.poll_id = {$pollID}
+					ORDER BY c.name";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+        $arrReturn = array();
+        foreach ($execute as $row) {
+            $arrReturn[$row["name"]] = $row["id"];
+        }
+
+        return $arrReturn;
+
+    }
+
 }

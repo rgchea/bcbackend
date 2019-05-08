@@ -1748,7 +1748,9 @@ body.fixed_header.fixed_menu .wrapper {
  */
 .content {
   background-color: #FFF;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  /*ACA EL OVERFLOW PIZOTE*/
+  overflow: auto;
   zoom: 1;
   margin-left: 0;
 }

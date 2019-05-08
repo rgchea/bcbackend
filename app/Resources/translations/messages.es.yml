@@ -8,7 +8,12 @@ label_save: Guardar
 label_form: Formulario
 label_assign: Asignado
 label_actions: Acciones
+label_status: Estado
 label_back: Regresar
+label_dates: Fechas
+label_calendar: Calendario
+label_yes: Si
+label_no: No
 label_are_you_sure: 'Está seguro?'
 label_no_more_files: 'No es posible subir más archivos'
 label_max_files: '5 archivos máximo'
@@ -98,6 +103,7 @@ label_geo_country: Pais
 label_geo_state: Ciudad
 label_complex_faq: 'Complejo FAQ'
 label_property_transaction_type: 'Tipos de transaccion de propiedad'
+label_common_area_reservation: Reservaciones de area común
 label_common_area_reservation_status: 'Estado de Reservacion de Area Comun'
 label_ticket_status: 'Estado de Ticket'
 label_shift: Turno
@@ -163,11 +169,13 @@ label_menu:
     complex_faq: 'Complejos FAQ'
     property_transaction_type: 'Tipos de Transacciones de Propiedad'
     agreement_plan: 'Plan de Acuerdo'
-    common_area_reservation_status: 'Estados de Reservacion de Area Comun'
+    common_area_reservation_status: 'Estados de Reservacion de Area Común'
     ticket_status: 'Estados de Ticket'
     shift: Turno
     complex_sector: Secciones
-    common_area: 'Area Comun'
+    common_area: 'Area Común'
+    common_area_reservation: Reservaciones Area Común
+    poll: Encuestas
 resetting:
     title: 'Reiniciar Contraseña'
     message: 'Al presionar el siguiente link se direccionará a la página para ingresar su nueva contraseña'
@@ -179,3 +187,6 @@ complex:
         name: '¿Cómo nombras tus propiedades?'
         identify: '¿Cómo identificas tus propiedades/unidades?'
         per_section: '¿Cuántas propiedades tienes por sección?'
+label_poll_extra_points: Puntos a ganar
+label_poll_active: Activa
+label_poll: Encuesta

@@ -42,10 +42,6 @@ class CommonAreaReservation
      */
     private $commonArea;
 
-    /**
-     * @var \Backend\AdminBundle\Entity\CommonAreaReservationStatus
-     */
-    private $commonAreaResevationStatus;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -217,29 +213,6 @@ class CommonAreaReservation
         return $this->commonArea;
     }
 
-    /**
-     * Set commonAreaResevationStatus.
-     *
-     * @param \Backend\AdminBundle\Entity\CommonAreaReservationStatus|null $commonAreaResevationStatus
-     *
-     * @return CommonAreaReservation
-     */
-    public function setCommonAreaResevationStatus(\Backend\AdminBundle\Entity\CommonAreaReservationStatus $commonAreaResevationStatus = null)
-    {
-        $this->commonAreaResevationStatus = $commonAreaResevationStatus;
-
-        return $this;
-    }
-
-    /**
-     * Get commonAreaResevationStatus.
-     *
-     * @return \Backend\AdminBundle\Entity\CommonAreaReservationStatus|null
-     */
-    public function getCommonAreaResevationStatus()
-    {
-        return $this->commonAreaResevationStatus;
-    }
 
     /**
      * Set reservedBy.
@@ -369,5 +342,34 @@ class CommonAreaReservation
     public function getReservationDateTo()
     {
         return $this->reservationDateTo;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\CommonAreaReservationStatus
+     */
+    private $commonAreaReservationStatus;
+
+
+    /**
+     * Set commonAreaReservationStatus.
+     *
+     * @param \Backend\AdminBundle\Entity\CommonAreaReservationStatus|null $commonAreaReservationStatus
+     *
+     * @return CommonAreaReservation
+     */
+    public function setCommonAreaReservationStatus(\Backend\AdminBundle\Entity\CommonAreaReservationStatus $commonAreaReservationStatus = null)
+    {
+        $this->commonAreaReservationStatus = $commonAreaReservationStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get commonAreaReservationStatus.
+     *
+     * @return \Backend\AdminBundle\Entity\CommonAreaReservationStatus|null
+     */
+    public function getCommonAreaReservationStatus()
+    {
+        return $this->commonAreaReservationStatus;
     }
 }

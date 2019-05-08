@@ -1,0 +1,25 @@
+backend_admin_common_area_reservation_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:CommonAreaReservation:index
+
+common_area_reservation_list_datatables:
+    path: /commonAreaReservation/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:CommonAreaReservation:listDatatables
+
+backend_admin_common_area_reservation_approve:
+    path: /{id}/commonAreaReservationApprove
+    defaults:
+        _controller: BackendAdminBundle:CommonAreaReservation:approve
+
+
+backend_admin_common_area_reservation_deny:
+    path: /{id}/commonAreaReservationDeny
+    defaults:
+        _controller: BackendAdminBundle:CommonAreaReservation:deny
+
+backend_admin_common_area_reservation_calendar:
+    path: /commonAreaReservationCalendar
+    defaults:
+        _controller: BackendAdminBundle:CommonAreaReservation:calendar

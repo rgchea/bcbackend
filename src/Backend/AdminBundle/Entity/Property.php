@@ -463,4 +463,33 @@ class Property
     }
 
 
+    /**
+     * @var string|null
+     */
+    private $sms_code;
+
+
+    /**
+     * Set smsCode.
+     *
+     * @param string|null $smsCode
+     *
+     * @return Property
+     */
+    public function setSmsCode($smsCode = null)
+    {
+        $this->sms_code = $smsCode;
+
+        return $this;
+    }
+
+    /**
+     * Get smsCode.
+     *
+     * @return string|null
+     */
+    public function getSmsCode()
+    {
+        return $this->sms_code;
+    }
 }

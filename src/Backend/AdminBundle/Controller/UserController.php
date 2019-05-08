@@ -509,16 +509,15 @@ class UserController extends Controller
         $this->get("services")->setVars('user');
         $this->initialise();
 
-
-        $business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
+        //$business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
 
         $form = $this->createForm(UserType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_user_create'),
             'method' => 'POST',
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
-            //'business' => $this->userLogged->getBusiness()->getId(),
-            'business' => $business
+            'business' => $this->userLogged->getBusiness()->getId()
+            //'business' => $business
         ));
 
 
@@ -540,13 +539,14 @@ class UserController extends Controller
         $this->get("services")->setVars('user');
         $this->initialise();
 
-        $business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
+        //$business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
+
         $form = $this->createForm(UserType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_user_update', array('id' => $entity->getId())),
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
             //'business' => $this->userLogged->getBusiness()->getId(),
-            'business' => $business
+            'business' => $entity->getBusiness()->getId()
         ));
 
 

@@ -10,6 +10,7 @@ namespace Backend\AdminBundle\Repository;
  */
 class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 {
+
     private function getApiCommonAreaAvailability($commonAreaId)
     {
         $qb = $this->createQueryBuilder('a')
@@ -24,5 +25,298 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('a.createdAt', 'ASC');
 
         return $qb->getQuery()->getResult();
+    }
+
+
+
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $dateConditions, $businessLocale)
+    {
+
+        // Create Main Query
+        $query = $this->createQueryBuilder('e');
+
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('e');
+        $countQuery->select('COUNT(e)');
+
+        //ENABLED
+        $query->andWhere("e.enabled = 1");
+        $countQuery->andWhere("e.enabled = 1");
+
+
+        // Create inner joins
+
+        //common area
+        $query->join('e.commonArea', 'ca');
+        $countQuery->join('e.commonArea', 'ca');
+
+        //reserved by
+        $query->join('e.reservedBy', 'u');
+        $countQuery->join('e.reservedBy', 'u');
+
+
+        //reservation status
+        $query->join('e.commonAreaReservationStatus', 's');
+        $countQuery->join('e.commonAreaReservationStatus', 's');
+
+
+        //complex
+        $query->join('ca.complex', 'c');
+        $countQuery->join('ca.complex', 'c');
+
+        if($filterComplex != null){
+            $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
+            $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
+        }
+
+
+        // Other conditions than the ones sent by the Ajax call ?
+        if ($dateConditions === null)
+        {
+            // No
+            // However, add a "always true" condition to keep an uniform treatment in all cases
+            $query->andWhere("1=1");
+            $countQuery->andWhere("1=1");
+        }
+        else
+        {
+
+            // Add date condition
+            $query->where('e.reservationDateFrom >= :startDate AND e.reservationDateTo <= :endDate')
+                ->setParameter('startDate', date("Y-m-d H:i:s", strtotime($dateConditions["start"])) )
+                ->setParameter('endDate', date('Y-m-d H:i:s', strtotime($dateConditions["end"] . ' +1 day')));
+            //$countQuery->where($otherConditions);
+            $countQuery->where('e.reservationDateFrom >= :startDate AND e.reservationDateTo <= :endDate')
+                ->setParameter('startDate', date("Y-m-d H:i:s", strtotime($dateConditions["start"])) )
+                ->setParameter('endDate', date('Y-m-d H:i:s', strtotime($dateConditions["end"] . ' +1 day')));
+
+
+        }
+
+        //var_dump(date('Y-m-d H:i:s', strtotime($dateConditions["end"] . ' +1 day')));die;
+
+        // Fields Search
+        foreach ($columns as $key => $column)
+        {
+            if ($column['search']['value'] != '')
+            {
+                // $searchItem is what we are looking for
+                $searchItem = $column['search']['value'];
+                $searchQuery = null;
+
+                switch($column['name'])
+                {
+                    case 'id':
+                        {
+                            $searchQuery = 'e.id ='. $searchItem;
+                            break;
+                        }
+                    case 'user':
+                        {
+                            $searchQuery = 'u.name LIKE \'%' . $searchItem . '%\'';
+                            break;
+                        }
+
+                    case 'complex':
+                        {
+                            $searchQuery = 'c.name LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+                    case 'commonArea':
+                        {
+                            $searchQuery = 'ca.name LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+                    case 'status':
+                        {
+                            if($businessLocale == "es"){
+                                $searchQuery = 's.nameES LIKE \'%'.$searchItem.'%\'';
+                            }
+                            else{
+                                $searchQuery = 's.nameEN LIKE \'%'.$searchItem.'%\'';
+                            }
+                            break;
+                        }
+                    /*
+                    case 'dateFrom':
+                        {
+                            $searchQuery = "e.reservationDateFrom = '".$searchItem."'";
+                            break;
+                        }
+                    */
+
+
+                }
+
+
+                if ($searchQuery !== null)
+                {
+                    $query->andWhere($searchQuery);
+                    $countQuery->andWhere($searchQuery);
+                }
+            }
+        }
+
+
+
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        //$query->orderBy('e.reservationDateFrom', 'desc');
+
+
+        // Order
+        // Orders
+        foreach ($orders as $key => $order)
+        {
+            // Orders does not contain the name of the column, but its number,
+            // so add the name so we can handle it just like the $columns array
+            $orders[$key]['name'] = $columns[$order['column']]['name'];
+        }
+
+        foreach ($orders as $key => $order)
+        {
+
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+
+                switch($order['name'])
+                {
+                    case 'id':
+                        {
+                            $orderColumn = 'e.id';
+                            break;
+                        }
+                    case 'user':
+                        {
+                            $orderColumn = 'u.name';
+                            break;
+                        }
+
+                    case 'commonArea':
+                        {
+                            $orderColumn = 'ca.name';
+                            break;
+                        }
+
+
+                    case 'complex':
+                        {
+                            $orderColumn = 'c.name';
+                            break;
+                        }
+
+                    case 'status':
+                        {
+                            if($businessLocale == "es"){
+                                $orderColumn = 's.nameES';
+                            }
+                            else{
+                                $orderColumn = 's.nameEN';
+                            }
+                            break;
+
+                        }
+
+                    case 'dateFrom':
+                        {
+                            $orderColumn = 'e.reservationDateFrom';
+                            break;
+                        }
+
+                    case 'dateTo':
+                        {
+                            $orderColumn = 'e.reservationDateTo';
+                            break;
+                        }
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+
+
+        /*
+        $sql=$query->getQuery()->getSQL();
+        print $sql;die;
+        */
+
+        $results = $query->getQuery()->getResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+
+        return array(
+            "results" 		=> $results,
+            "countResult"	=> $countResult
+        );
+    }
+
+
+    public function getSchedule($filters){
+
+
+        $strFilter = "";
+        if($filters != null){
+
+            $inComplex = "";
+            foreach ($filters as $k => $v){
+                $inComplex .= $inComplex == "" ? $k : ",".$k;
+            }
+
+
+            $strFilter = " AND c.id IN($inComplex)";
+        }
+
+        $sql = "	SELECT  r.id, 
+	                        DATE_FORMAT(r.reservation_date_from, '%Y-%m-%dT%H:%i:%s') reservation_date_from , DATE_FORMAT(r.reservation_date_to, '%Y-%m-%dT%H:%i:%s') reservation_date_to,
+	                        u.name username, 
+	                        ca.name common_area, c.name complex
+					FROM 	common_area_reservation r
+					    INNER JOIN common_area ca ON (r.common_area_id = ca.id)
+					    INNER JOIN complex c ON (ca.complex_id = c.id)
+					    INNER JOIN user u ON (u.id = r.reserved_by)
+                    WHERE 	common_area_reservation_status_id = 2 /*APPROVED*/
+                    {$strFilter}
+                    ORDER BY r.id";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        //print $sql;die;
+
+        $execute = $stmt->fetchAll();
+
+        if (empty($execute)) {
+            return "";
+        }
+
+        /*
+        {
+            title: 'Meeting',
+                        start: '2019-04-12T10:30:00',
+                        end: '2019-04-12T12:30:00'
+        },
+        */
+
+
+        $strReturn = "";
+
+
+        foreach ($execute as $row) {
+            $strTemp = "{ title: '".$row["complex"]."/ ".$row["common_area"]."/ ".$row["username"]."',";
+            $strTemp .= "start: '".$row["reservation_date_from"]."',";
+            $strTemp .= "end: '".$row["reservation_date_to"]."'},";
+
+
+            $strReturn .= $strTemp;
+        }
+
+
+        return $strReturn;
+
+
     }
 }

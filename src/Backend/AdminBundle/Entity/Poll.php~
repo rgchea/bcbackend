@@ -50,7 +50,7 @@ class Poll
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -311,6 +311,10 @@ class Poll
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+
+    public function __toString(){
+        return $this->getName();
     }
 
 }

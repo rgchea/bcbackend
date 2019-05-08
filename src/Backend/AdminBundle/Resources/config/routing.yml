@@ -110,3 +110,11 @@ backend_admin_property:
 backend_admin_common_area:
     resource: "@BackendAdminBundle/Resources/config/routing/commonArea.yml"
     prefix:   /commonArea
+
+backend_admin_common_area_reservation:
+    resource: "@BackendAdminBundle/Resources/config/routing/commonAreaReservation.yml"
+    prefix:   /commonAreaReservation
+
+poll:
+    resource: "@BackendAdminBundle/Resources/config/routing/poll.yml"
+    prefix:   /poll

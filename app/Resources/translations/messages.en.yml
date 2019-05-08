@@ -8,8 +8,13 @@ label_save: Save
 label_form: Form
 label_assign: Assigned
 label_actions: Actions
+label_status: Status
 label_back: Back
+label_dates: Dates
+label_calendar: Calendar
 label_are_you_sure: 'Are you sure?'
+label_yes: Yes
+label_no: No
 label_no_more_files: 'Cannot upload more files'
 label_max_files: '5 files max'
 label_photo: 'Photos'
@@ -101,6 +106,7 @@ label_property: Property
 label_common_area_type: 'Common Area Type'
 label_complex_faq: 'Complex FAQ'
 label_property_transaction_type: 'Property Transaction Type'
+label_common_area_reservation: Common area reservations
 label_common_area_reservation_status: 'Common Area Reservation Status'
 label_ticket_status: 'Ticket Status'
 label_shift: Shift
@@ -168,6 +174,8 @@ label_menu:
     shift: Shift
     complex_sector: Sections
     common_area: 'Common Area'
+    common_area_reservation: Common Area Reservation
+    poll: Polls
 resetting:
     title: 'Reset Password'
     message: 'Clicking on the next link you will be redirected to a page in order to restore your password'
@@ -179,3 +187,6 @@ complex:
         name: 'How do you name your properties?'
         identify: 'How do you identify your properties/units?'
         per_section: 'How many properties do you have per section?'
+label_poll_extra_points: Points to earn
+label_poll_active: Active
+label_poll: Poll
