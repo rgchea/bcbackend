@@ -12,6 +12,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 
 use Backend\AdminBundle\Entity\Poll;
+use Backend\AdminBundle\Entity\ComplexPoll;
 use Backend\AdminBundle\Form\PollType;
 
 /**
@@ -25,15 +26,22 @@ class PollController extends Controller
     protected $translator;
     protected $repository;
     private  $renderer;
+    private $userLogged;
+    private $role;
+    private $session;
+
 
 
     // Set up all necessary variable
     protected function initialise()
     {
+        $this->session = new Session();
         $this->em = $this->getDoctrine()->getManager();
         $this->repository = $this->em->getRepository('BackendAdminBundle:Poll');
         $this->translator = $this->get('translator');
         $this->renderer = $this->get('templating');
+        $this->userLogged = $this->session->get('userLogged');
+        $this->role = $this->session->get('userLogged')->getRole()->getName();
 
 
     }
@@ -41,10 +49,10 @@ class PollController extends Controller
 
     public function indexAction(Request $request)
     {
-
+        $this->get("services")->setVars('poll');
         $this->initialise();
         //var_dump($this->translator->trans('label_welcome'));
-        $this->get("services")->setVars('poll');
+
 
         //print $this->translator->getLocale();die;
 
@@ -58,8 +66,6 @@ class PollController extends Controller
     {
 
         $this->get("services")->setVars('poll');
-
-        // Set up required variables
         $this->initialise();
 
 
@@ -163,14 +169,19 @@ class PollController extends Controller
     public function newAction(Request $request)
     {
         $this->get("services")->setVars('poll');
+        $this->initialise();
 
         $entity = new Poll();
         $form   = $this->createCreateForm($entity);
+
+        $businessID = $this->userLogged->getBusiness()->getId();
+        $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
 
 
         return $this->render('BackendAdminBundle:Poll:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
+            'arrComplex' => $arrComplex
 
         ));
     }
@@ -198,9 +209,10 @@ class PollController extends Controller
     public function editAction(Request $request, $id)
     {
         $this->get("services")->setVars('poll');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Poll')->find($id);
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Poll')->find($id);
 
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);
@@ -208,17 +220,48 @@ class PollController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+
+            $this->em->persist($entity);
+            $this->em->flush();
 
             return $this->redirectToRoute('backend_admin_poll_edit', array('id' => $id));
         }
+
+
+        $arrComplexReturn = array();
+        $userRole = $this->role;
+
+        //if($userRole != "ADMIN"){//$userRole != "SUPER ADMIN" ||
+            $businessID = $entity->getCreatedBy()->getBusiness()->getId();
+
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
+            $assignedComplex = $this->em->getRepository('BackendAdminBundle:ComplexPoll')->getComplexPoll($entity->getId());
+            //var_dump($assignedComplex);die;
+
+
+            foreach ($arrComplex as $complex ){
+
+
+                $complexID = $complex->getId();
+                $arrComplexReturn[$complexID] = array();
+                $arrComplexReturn[$complexID]["id"] = $complexID;
+                $arrComplexReturn[$complexID]["name"] = $complex->getName();
+                $arrComplexReturn[$complexID]["assigned"] = 0;
+
+
+                if(array_search($complex->getId(), $assignedComplex)){
+                    $arrComplexReturn[$complexID]["assigned"] = 1;
+                }
+            }
+
+        //}
 
         return $this->render('BackendAdminBundle:Poll:edit.html.twig', array(
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'arrComplex' => $arrComplexReturn,
+            'edit' => true
         ));
     }
 
@@ -281,6 +324,7 @@ class PollController extends Controller
         //print "<pre>";
         //var_dump($_REQUEST);DIE;
         $this->get("services")->setVars('poll');
+        $this->initialise();
 
 
         $entity = new Poll();
@@ -300,6 +344,23 @@ class PollController extends Controller
 
             $em->persist($entity);
             $em->flush();
+
+            //COMPLEX ASSIGNMENT
+            if(isset($_REQUEST["complex"])){
+
+                foreach ($_REQUEST["complex"] as $key => $cValue){
+
+                    $complexPoll = new ComplexPoll();
+                    $complexPoll->setPoll($entity);
+                    $objComplex = $this->em->getRepository('BackendAdminBundle:Complex')->find($key);
+                    $complexPoll->setComplex($objComplex);
+
+                    $this->get("services")->blameOnMe($complexPoll, "create");
+                    $this->em->persist($complexPoll);
+
+                }
+            }
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -327,6 +388,10 @@ class PollController extends Controller
      */
     private function createCreateForm($entity)
     {
+        $this->get("services")->setVars('poll');
+        $this->initialise();
+
+
         //$this->setVars();
         $form = $this->createForm(PollType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_poll_create'),
@@ -349,6 +414,9 @@ class PollController extends Controller
      */
     private function createEditForm($entity)
     {
+        $this->get("services")->setVars('poll');
+        $this->initialise();
+
         //$this->setVars();
         $form = $this->createForm(PollType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_poll_update', array('id' => $entity->getId())),
@@ -368,9 +436,9 @@ class PollController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('poll');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Poll')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:Poll')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Poll entity.');
@@ -384,7 +452,28 @@ class PollController extends Controller
             $myRequest = $request->request->get('poll');
 
             $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $this->em->flush();
+
+            //COMPLEX ASSIGNMENT
+            if(isset($_REQUEST["complex"])){
+
+                $this->em->getRepository('BackendAdminBundle:ComplexPoll')->cleanComplexPoll($entity->getId());
+
+                foreach ($_REQUEST["complex"] as $key => $cValue){
+
+                    $complexPoll = new ComplexPoll();
+                    $complexPoll->setPoll($entity);
+                    $objComplex = $this->em->getRepository('BackendAdminBundle:Complex')->find($key);
+                    $complexPoll->setComplex($objComplex);
+
+                    $this->get("services")->blameOnMe($complexPoll, "create");
+                    $this->em->persist($complexPoll);
+
+                }
+                $this->em->flush();
+            }
+
+
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_poll_index', array('id' => $id)));
