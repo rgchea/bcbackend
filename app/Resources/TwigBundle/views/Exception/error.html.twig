@@ -1,9 +1,35 @@
 {% extends 'base.html.twig' %}
 {#{% extends 'BackendAdminBundle::layout.html.twig' %}#}
-{% block body %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
     <h1>ERROR, {{ 'error.contact_admin'|trans }}</h1>
 
     <p>
-       <a href="{{ path('backend_admin_homepage') }}">&nbsp;{{ 'label_home'|trans }}</a>
+        <a href="{{ path('backend_admin_homepage') }}">&nbsp;{{ 'label_home'|trans }}</a>
     </p>
+
+
 {% endblock %}
+
+
+{% block extrascripts %}
+
+
+{% endblock %}
+
