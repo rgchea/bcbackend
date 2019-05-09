@@ -202,7 +202,7 @@
 
 		{% if edit is defined %}
 
-		{% set myPath =  url('backend_admin_homepage')~"uploads/images/property/" %}
+		{% set myPath =  url('backend_admin_homepage')~"/uploads/images/property/" %}
 		{% set myPath = myPath|replace({'app_dev.php': ''}) %}
 		{% set myPath = myPath|replace({'/en/': ''}) %}
 		{% set myPath = myPath|replace({'/es/': ''}) %}
