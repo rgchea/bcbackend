@@ -66,12 +66,24 @@ class RegisterController extends Controller
 
         $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
 
-	
+        $myLocale = $this->translator->getLocale();
+
+        $objTerm = $this->em->getRepository('BackendAdminBundle:TermCondition')->find(1);
+        if($objTerm){
+            $termCondition = $objTerm;
+        }
+        else{
+            $termCondition = "";
+        }
+
+
+
         return $this->render('BackendAdminBundle:Register:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
             'new' => 1,
-            'countries' => $countries
+            'countries' => $countries,
+            'termCondition' => $termCondition
 
         ));
     }

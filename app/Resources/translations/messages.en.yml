@@ -138,6 +138,7 @@ label_regulation: Regulation
 label_common_area: 'Common Area'
 label_common_area_schedule: 'Schedule'
 label_price: Price
+label_maintenance: Maintenance
 label_reservation_hour_period: 'Reservation Hour Period (every 1hr, every 2hrs, every 3hrs...)'
 label_required_payment: 'Required Payment'
 label_has_equipment: 'Has Equipment'
@@ -176,6 +177,7 @@ label_menu:
     common_area: 'Common Area'
     common_area_reservation: Common Area Reservation
     poll: Polls
+    property_contract: Contracts
 resetting:
     title: 'Reset Password'
     message: 'Clicking on the next link you will be redirected to a page in order to restore your password'
@@ -190,3 +192,12 @@ complex:
 label_poll_extra_points: Points to earn
 label_poll_active: Active
 label_poll: Poll
+label_property_amenity_included: Amenities included
+label_total_visible_amount: Visible amounts $
+lbael_property: Property
+label_active: Active
+label_property_contract: Property contract
+label_select: Select
+label_select_property: Select a property
+label_start: Start
+label_end: Finish

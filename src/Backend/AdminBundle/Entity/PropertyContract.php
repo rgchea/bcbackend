@@ -20,17 +20,17 @@ class PropertyContract
     /**
      * @var \DateTime
      */
-    private $startDate = '0000-00-00 00:00:00';
+    private $startDate;
 
     /**
      * @var \DateTime
      */
-    private $endDate = '0000-00-00 00:00:00';
+    private $endDate;
 
     /**
      * @var bool
      */
-    private $isActive = '1';
+    private $isActive = true;
 
     /**
      * @var int|null
@@ -55,7 +55,7 @@ class PropertyContract
     /**
      * @var bool
      */
-    private $totalVisibleAmount = '1';
+    private $totalVisibleAmount = true;
 
     /**
      * @var \DateTime
@@ -70,7 +70,7 @@ class PropertyContract
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\Property
@@ -456,5 +456,35 @@ class PropertyContract
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+   
+    /**
+     * @var \Backend\AdminBundle\Entity\PropertyTransactionType
+     */
+    private $propertyTransactionType;
+
+
+    /**
+     * Set propertyTransactionType.
+     *
+     * @param \Backend\AdminBundle\Entity\PropertyTransactionType|null $propertyTransactionType
+     *
+     * @return PropertyContract
+     */
+    public function setPropertyTransactionType(\Backend\AdminBundle\Entity\PropertyTransactionType $propertyTransactionType = null)
+    {
+        $this->propertyTransactionType = $propertyTransactionType;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyTransactionType.
+     *
+     * @return \Backend\AdminBundle\Entity\PropertyTransactionType|null
+     */
+    public function getPropertyTransactionType()
+    {
+        return $this->propertyTransactionType;
     }
 }

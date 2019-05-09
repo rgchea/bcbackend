@@ -31,3 +31,22 @@ backend_admin_property_delete:
     path:     /{id}/delete
     defaults: { _controller: "BackendAdminBundle:Property:delete" }
     #methods:  DELETE
+
+backend_admin_property_info:
+    path:     /propertyInfo
+    defaults: { _controller: "BackendAdminBundle:Property:info" }
+    
+property_ajax_snippet_image_send:
+    path:     /imagesend
+    defaults: { _controller: "BackendAdminBundle:Property:imageSend" }
+
+
+property_ajax_snippet_image_get:
+    path:     /imageget
+    defaults: { _controller: "BackendAdminBundle:Property:imageGet" }
+
+property_ajax_snippet_image_remove:
+    path:     /imageremove
+    defaults: { _controller: "BackendAdminBundle:Property:imageRemove" }
+    
+

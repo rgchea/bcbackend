@@ -118,3 +118,7 @@ backend_admin_common_area_reservation:
 poll:
     resource: "@BackendAdminBundle/Resources/config/routing/poll.yml"
     prefix:   /poll
+
+propertyContract:
+    resource: "@BackendAdminBundle/Resources/config/routing/propertyContract.yml"
+    prefix:   /propertyContract

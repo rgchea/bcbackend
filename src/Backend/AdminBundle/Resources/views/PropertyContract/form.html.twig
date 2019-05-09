@@ -1,0 +1,393 @@
+<style>
+    .input-group {
+        z-index: 0;
+    }
+
+	.foo {
+		float: left;
+		width: 20px;
+		height: 20px;
+		margin: 5px;
+		border: 1px solid rgba(0, 0, 0, .2);
+	}
+
+	.blue {
+		background: #000000;
+	}
+</style>
+
+{#https://rachel-carvalho.github.io/simple-color-picker/#}
+<link href="{{ asset('bundles/pizotearkadmin/js/simple-color-picker-master/jquery.simple-color-picker.css')  }}" rel="stylesheet" type="text/css" media="screen" />
+<script src="{{ asset('bundles/pizotearkadmin/js/simple-color-picker-master/jquery.simple-color-picker.js')  }}"></script>
+
+
+<div class="row">
+	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+			<header role="heading">
+				<h2>{{ 'label_form'|trans }}</h2>
+			</header>
+
+			<!-- widget div-->
+			<div role="content">
+
+				<!-- widget edit box -->
+				<div class="jarviswidget-editbox">
+					<!-- This area used as dropdown edit box -->
+
+				</div>
+				<!-- end widget edit box -->
+
+				<!-- widget content -->
+				<div class="widget-body">
+
+					<div class="form-inputs-g">
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+						<fieldset>
+						<br/>
+
+						<div class="form-group col-md-6">
+
+							<button class="btn btn-primary" type="button" data-toggle="modal" id="orange-button" data-target="#orange-modal" data-color="orange">{{ 'label_select'|trans }} {{ 'label_property'|trans }}</button>
+							<br/>
+
+							{% if edit is defined %}
+								<label id="labelMyProperty">{{ entity.property.name }} / {{ entity.property.code }}</label>
+
+								<input id="myProperty" value="{{ entity.property.id }}" type="hidden" name="property_contract[property]"  />
+							{% else %}
+								<label id="labelMyProperty">&nbsp;</label>
+
+								<input id="myProperty" value="0" type="hidden" name="property_contract[property]" />
+							{% endif %}
+
+
+							<div id="modal-backdrop" class="modal-backdrop-transparent modal-transition"></div>
+							<!-- Modal -->
+							<div class="modal fade" id="orange-modal" tabindex="-1" role="dialog" aria-labelledby="orange-modal-label" data-color="orange">
+								<div class="modal-dialog" role="document" style="width: 60%">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+											<h4 class="modal-title" id="orange-modal-title">{{ 'label_property'|trans }}</h4>
+										</div>
+										<div class="modal-body">
+
+											<table id="dt_table" class="table table-striped table-hover">
+												<tfoot class="dt_tfoot">
+												<tr>
+													<th>ID</th>
+													<th>{{ 'label_complex'|trans }}</th>
+													<th>{{ 'label_complex_sector'|trans }}</th>
+													<th>{{ 'label_name'|trans }}</th>
+													<th>{{ 'label_code'|trans }}</th>
+													<th>{{ 'label_owner'|trans }}</th>
+													<th>{{ 'label_tenant'|trans }}</th>
+
+													<th>&nbsp;</th>
+
+												</tr>
+												</tfoot>
+												<thead>
+												<tr>
+													{# sorting of properties based on query components #}
+													<th>ID</th>
+													<th>{{ 'label_complex'|trans }}</th>
+													<th>{{ 'label_complex_sector'|trans }}</th>
+													<th>{{ 'label_name'|trans }}</th>
+													<th>{{ 'label_code'|trans }}</th>
+													<th>{{ 'label_owner'|trans }}</th>
+													<th>{{ 'label_tenant'|trans }}</th>
+
+													<th>{{ 'label_actions'|trans }}</th>
+												</tr>
+
+												</thead>
+												<tbody></tbody>
+
+											</table>
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="clearfix"></div>
+						<div class="form-group col-md-6">
+							{{ form_label(form.propertyTransactionType) }}
+							{{ form_errors(form.propertyTransactionType) }}
+							{{ form_widget(form.propertyTransactionType, { 'attr': {'class' : 'form-control classic' } }
+							) }}
+						</div>
+						<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.rentalPrice) }}&nbsp;$
+								{{ form_errors(form.rentalPrice) }}
+								{{ form_widget(form.rentalPrice, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.maintenancePrice) }}<label>&nbsp;{{ 'label_price'|trans }}&nbsp;$</label>
+								{{ form_errors(form.maintenancePrice) }}
+								{{ form_widget(form.maintenancePrice, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.amenityIncluded) }}
+								{{ form_errors(form.amenityIncluded) }}
+								{{ form_widget(form.amenityIncluded, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.duePaymentDay) }}
+								{{ form_errors(form.duePaymentDay) }}
+								{{ form_widget(form.duePaymentDay, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								<div class="checkbox">
+									<label>
+
+									{{ form_label(form.totalVisibleAmount) }}
+									{{ form_errors(form.totalVisibleAmount) }}
+									{{ form_widget(form.totalVisibleAmount, { 'attr': {'class' : 'form-control' } }
+									) }}
+									</label>
+								</div>
+							</div>
+
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								<div class="checkbox">
+									<label>
+
+									{{ form_label(form.isActive) }}
+									{{ form_errors(form.isActive) }}
+									{{ form_widget(form.isActive, { 'attr': {'class' : 'form-control' } }
+									) }}
+									</label>
+								</div>
+							</div>
+
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								<label for="start_date">{{ 'label_start'|trans }}</label>
+
+								{% if edit is defined %}
+									<input id="startDate" name="property_contract[startDate]" type="date" class="form-control" value="{{entity.startDate|date('Y-m-d')}}"/>
+								{% else %}
+									<input id="startDate" name="property_contract[startDate]" type="date" class="form-control"/>
+								{% endif %}
+							</div>
+							<div class="form-group col-md-6">
+								<label for="end_date">{{ 'label_end'|trans }}</label>
+								{% if edit is defined %}
+									<input id="endDate" name="property_contract[endDate]" type="date" class="form-control" value="{{entity.endDate|date('Y-m-d')}}"/>
+
+								{% else %}
+									<input id="endDate" name="property_contract[endDate]" type="date" class="form-control"/>
+								{% endif %}
+
+
+
+							</div>
+
+
+
+							<div class="hide">
+                            {{ form_rest(form) }}
+                        </div>
+
+						</fieldset>
+
+						<div class="form-actions">
+
+							<button type="submit" class="btn btn-primary">
+								<i class="fa fa-save"></i>
+								{{ 'label_save'|trans  }}
+							</button>
+						</div>
+
+					<!--</form>-->
+					{{ form_end(form) }}
+					</div>
+
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget div -->
+
+		</div>
+
+		<div class="clearfix"></div>
+
+	</article>
+</div>
+
+<script type="text/javascript" language="Javascript">
+
+	$( document ).ready(function() {
+
+
+		//FETCH PROPERTIES DATA
+		// Add a text input to each footer cell
+		var pos = 1;
+		$('#dt_table tfoot th').each( function () {
+			var title = $(this).text();
+			if(pos != 8){//columna Actions
+				$(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
+			}
+
+			pos ++;
+		});
+
+
+		fetchData();
+
+		// Apply the search
+		pos = 1;
+		table.columns().every( function () {
+			var that = this;
+
+			$("#input"+pos).on( 'keyup change', function () {
+				if ( that.search() !== this.value )
+				{
+					that.search( this.value ).draw();
+				}
+			});
+			pos++;
+		});
+
+
+
+		$('[name="property_contract"]').validate();
+
+		$("#property_contract_rentalPrice").rules("add", {required:true, min: 1, digits: true});
+		$("#property_contract_maintenancePrice").rules("add", {required:true, min: 1, digits: true});
+		$("#property_contract_duePaymentDay").rules("add", {required:true, min: 1, max:30, digits: true});
+		$("#startDate").rules("add", {required:true});
+		$("#endDate").rules("add", {required:true});
+
+
+		$('[name="property_contract"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='property_contract']").valid()){
+
+				if($("#myProperty").val() == 0){
+					alert('{{ 'label_select_property'|trans }}');
+					return false;
+				}
+
+				$('#pizote_spinner').show();
+				return true;
+
+			}
+			else{
+
+				return false;
+			}
+
+		});
+
+
+	});
+
+
+	var table;
+	{% set myLocale = app.request.getLocale() %};
+
+	function fetchData(){
+
+		table  = $('#dt_table').DataTable({
+			"columnDefs": [
+
+				// These are the column name variables that will be sent to the server
+				{ "name": "id",   "targets": 0 },
+				{ "name": "complex",   "targets": 1 },
+				{ "name": "sector",   "targets": 2 },
+				{ "name": "name",   "targets": 3 },
+				{ "name": "code",   "targets": 4 },
+				{ "name": "owner",   "targets": 5 },
+				{ "name": "tenant",   "targets": 6 },
+				{ "name": "actions",  "targets": 7 },
+
+			],
+			// Server-side parameters
+			"processing": true,
+			"serverSide": true,
+			// Ajax call
+			"ajax": {
+				"url": "{{ path('contract_property_list_datatables') }}",
+				"type": "POST",
+				//dataType: "html"
+				//"datatype": JSON.stringify
+			},
+			// Classic DataTables parameters
+			"paging" : true,
+			"info" : true,
+			"searching": true,
+			"pageLength": 10,
+			"order": [[1, 'asc']],
+			{% if myLocale == 'es' %}
+			"language": {
+				"url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+			}
+			{% endif %}
+
+
+
+		});
+
+	}
+
+
+	function selectProperty(id){
+
+		//ajax
+		//
+		$.ajax({
+			type:"POST",
+			dataType:"json",
+			url:"{{ path('backend_admin_property_info') }}",
+			data: { 'id': id },
+			success:function(data){
+				console.log(data);
+				$("#labelMyProperty").html(data.name+ " / " + data.code);
+				$("#myProperty").val(id);
+				$(".btn-close").click();
+
+			}
+		});
+
+
+	}
+
+
+
+</script>
+
+
+<script id="rendered-js">
+	$('[id$="-button"]').on("click", function (e) {
+		var color = $(this).attr('data-color');
+		var colorBackdrop = 'modal-backdrop-' + color;
+		// alert(color);
+		$('#modal-backdrop').addClass(colorBackdrop);
+	});
+	$('.btn-close, .modal').on("click", function (e) {
+		var color = $('.in').attr('data-color');
+		var activeBackdrop = 'modal-backdrop-' + color;
+		$('#modal-backdrop').removeClass(activeBackdrop);
+	});
+</script>
