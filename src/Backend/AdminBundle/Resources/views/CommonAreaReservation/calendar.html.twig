@@ -2,7 +2,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li> <a href="{{ path('backend_admin_common_area_reservation_calendar') }}">{{ 'label_calendar'|trans }}</a> </li>
+    <li> <a href="{{ path('backend_admin_common_area_reservation_calendar') }}">{{ 'label_common_area_reservation'|trans }} {{ 'label_calendar'|trans }}</a> </li>
 {% endblock %}
 
 {% block title %}

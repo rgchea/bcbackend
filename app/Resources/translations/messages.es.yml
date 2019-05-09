@@ -201,3 +201,8 @@ label_select: Selecccionar
 label_select_property: Selecciona una propiedad
 label_start: Inicia
 label_end: Finaliza
+label_home: Inicio
+error:
+    page_not_found: página no encontrada
+    access_denied:  Acceso denegado
+    contact_admin: contacta al administrador del sitio

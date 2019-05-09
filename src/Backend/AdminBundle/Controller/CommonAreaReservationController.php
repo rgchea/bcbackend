@@ -173,13 +173,21 @@ class CommonAreaReservationController extends Controller
                     case 'actions':
                         {
 
-                            $urlEdit = $this->generateUrl('backend_admin_common_area_reservation_approve', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i style='font-size: 20px' class='fas fa-thumbs-up'></i><span class='item-label'></span></a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                            if($entity->getCommonAreaReservationStatus()->getId() == 1){
+                                $urlEdit = $this->generateUrl('backend_admin_common_area_reservation_approve', array('id' => $entity->getId()));
+                                $edit = "<a href='".$urlEdit."'><i style='font-size: 20px' class='fas fa-thumbs-up'></i><span class='item-label'></span></a>&nbsp;&nbsp;&nbsp;&nbsp;";
 
-                            $urlDelete = $this->generateUrl('backend_admin_common_area_reservation_deny', array('id' => $entity->getId()));
-                            $delete = "<a href='".$urlDelete."'><i style='font-size: 20px' class='fas fa-thumbs-down'></i><span class='item-label'></span></a>";
+                                $urlDelete = $this->generateUrl('backend_admin_common_area_reservation_deny', array('id' => $entity->getId()));
+                                $delete = "<a href='".$urlDelete."'><i style='font-size: 20px' class='fas fa-thumbs-down'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $edit.$delete;
+                                $responseTemp = $edit.$delete;
+
+
+                            }
+                            else{
+                                $responseTemp = "";
+                            }
+
                             break;
                         }
 
@@ -227,10 +235,16 @@ class CommonAreaReservationController extends Controller
             throw $this->createNotFoundException('Unable to find CommonArea entity.');
         }
 
-        $entity->setCommonAreaReservationStatus($this->em->getRepository('BackendAdminBundle:CommonAreaReservationStatus')->find(2));
+        $start = $entity->getReservationDateFrom()->format('Y-m-d H:i:s');
+        $end = $entity->getReservationDateTo()->format('Y-m-d H:i:s');
 
+        $validateSchedule = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->validateSchedule($start, $end, $entity->getCommonArea()->getId(), $id);
+
+        /*
+        $entity->setCommonAreaReservationStatus($this->em->getRepository('BackendAdminBundle:CommonAreaReservationStatus')->find(2));
         $this->get("services")->blameOnMe($entity, "update");
         $this->em->flush();
+        */
 
         $this->get('services')->flashSuccess($request);
         return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index'));

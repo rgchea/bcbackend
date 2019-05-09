@@ -1,0 +1,16 @@
+{# app/Resources/TwigBundle/views/Exception/error403.html.twig #}
+{#
+	{% extends 'base.html.twig' %}
+		
+#} 
+{# ESTE ARCHIVO ES EL CUSTOM PARA EL ERRROR 403 #}
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>ERROR, {{ 'error.access_denied'|trans }}</h1>
+
+    <p>
+    	<a href="{{ path('backend_admin_homepage') }}">&nbsp;{{ 'label_home'|trans }}</a>
+
+    </p>
+{% endblock %}
