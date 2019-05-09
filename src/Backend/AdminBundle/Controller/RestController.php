@@ -16,6 +16,7 @@ use Backend\AdminBundle\Entity\PollQuestion;
 use Backend\AdminBundle\Entity\PollQuestionOption;
 use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\PropertyType;
+use Backend\AdminBundle\Entity\TenantContract;
 use Backend\AdminBundle\Entity\TermCondition;
 use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
@@ -41,7 +42,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Class RestController
  *
- * @Route("/api")
+ * @Route("/api/v1")
  *
  */
 class RestController extends FOSRestController
@@ -56,93 +57,6 @@ class RestController extends FOSRestController
         $this->em = $this->getDoctrine()->getManager();
         $this->translator = $this->get('translator');
         $this->serializer = $this->get('jms_serializer');
-    }
-
-
-    /**
-     * @Rest\Post("/register")
-     *
-     * @SWG\Response(
-     *     response=201,
-     *     description="User was successfully registered"
-     * )
-     *
-     * @SWG\Response(
-     *     response=500,
-     *     description="User was not successfully registered"
-     * )
-     *
-     * @SWG\Parameter(
-     *     name="_name",
-     *     in="body",
-     *     type="string",
-     *     description="The username",
-     *     schema={}
-     * )
-     *
-     * @SWG\Parameter(
-     *     name="_email",
-     *     in="body",
-     *     type="string",
-     *     description="The username",
-     *     schema={}
-     * )
-     *
-     * @SWG\Parameter(
-     *     name="_username",
-     *     in="body",
-     *     type="string",
-     *     description="The username",
-     *     schema={}
-     * )
-     *
-     * @SWG\Parameter(
-     *     name="_password",
-     *     in="query",
-     *     type="string",
-     *     description="The password"
-     * )
-     *
-     * @SWG\Tag(name="User")
-     */
-    public function postRegisterAction(Request $request, UserPasswordEncoderInterface $encoder)
-    {
-        $serializer = $this->get('jms_serializer');
-        $em = $this->getDoctrine()->getManager();
-
-        $user = [];
-        $message = "";
-
-        try {
-            $code = 200;
-            $error = false;
-
-
-            $email = $request->request->get('_email');
-            $password = $request->request->get('_password');
-
-            $user = new User();
-
-            $user->setEmail($email);
-            $user->setPlainPassword($password);
-            $user->setPassword($encoder->encodePassword($user, $password));
-
-            $em->persist($user);
-            $em->flush();
-
-        } catch (Exception $ex) {
-            $code = 500;
-            $error = true;
-            $message = "An error has occurred trying to register the user - Error: {$ex->getMessage()}";
-        }
-
-        $response = [
-            'code' => $code,
-            'error' => $error,
-            'data' => $code == 200 ? $user : $message,
-        ];
-
-        return new Response($serializer->serialize($response, "json"));
     }
 
 
@@ -210,6 +124,176 @@ class RestController extends FOSRestController
 
 
     /**
+     * @Rest\Post("/forgotPassword", name="forgot_password")
+     *
+     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Sends an email to the corresponding user to recover his/her account.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=401, description="Invalid email.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Invalid email." )
+     *     )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function postForgotPasswordAction(Request $request)
+    {
+        try {
+            $this->initialise();
+            $email = strtolower(trim($request->get('email')));
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return new JsonResponse(array('message' => 'Invalid email format.'), JsonResponse::HTTP_UNAUTHORIZED);
+            }
+
+            $user = $this->em->getRepository('BackendAdminBundle:User')->findOneBy(array('enabled' => true, 'email' => $email));
+
+            if ($user == null) {
+                return new JsonResponse(array('message' => 'Invalid email.'), JsonResponse::HTTP_UNAUTHORIZED);
+            }
+
+            // ToDo: Pending information about sending the email.
+
+            return new JsonResponse(array(
+                'message' => "" . $user->getId(),
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @Rest\Post("/register", name="register")
+     *
+     * @SWG\Parameter( name="name", in="body", type="string", description="The name of the user.", schema={} )
+     * @SWG\Parameter( name="mobile_phone", in="body", type="string", description="The mobile phone of the user.", schema={} )
+     * @SWG\Parameter( name="country_code", in="body", type="string", description="The country code of the user.", schema={} )
+     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
+     * @SWG\Parameter( name="password", in="body", type="string", description="The password of the user.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a successfull user account.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=409, description="User already exists conflict.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="User already exist." )
+     *     )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function postRegisterAction(Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        try {
+            $this->initialise();
+            $name = strtolower(trim($request->get('name')));
+            $mobilePhone = strtolower(trim($request->get('mobile_phone')));
+            $countryCode = strtolower(trim($request->get('country_code')));
+            $email = strtolower(trim($request->get('email')));
+            $password = strtolower(trim($request->get('password')));
+
+            // Some Validation
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new \Exception("Invalid email format.");
+            }
+
+            if (!preg_match('/^\+?[0-9]+$/', $mobilePhone)) {
+                throw new \Exception("Invalid phone format.");
+            }
+
+            $country = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneBy(array('enabled' => true, 'code' => $countryCode));
+            if ($country == null) {
+                throw new \Exception("Invalid country code.");
+            }
+
+            // User existance
+            $user = $this->em->getRepository('BackendAdminBundle:User')->findOneBy(array('enabled' => true, 'email' => $email));
+            if ($user != null) {
+                return new JsonResponse(array('message' => 'User already exists.'), JsonResponse::HTTP_CONFLICT);
+            }
+
+            $user = new User();
+
+            $user->setName($name);
+            $user->setMobilePhone($mobilePhone);
+            $user->setGeoCountry($country);
+            $user->setUsername($email);
+            $user->setEmail($email);
+            $user->setPlainPassword($password);
+            $user->setPassword($encoder->encodePassword($user, $password));
+
+            $this->get("services")->blameOnMe($user, "create");
+            $this->get("services")->blameOnMe($user, "update");
+
+            $this->em->persist($user);
+            $this->em->flush();
+
+//            //Admin
+//            $bodyHtml = $this->translator->trans('label_register_complete_msg') . "<br/>";
+//            $bodyHtml .= "<b>Email:</b>" . $user->getEmail() . "<br/><br/>";
+//
+//            //contact
+//            $bodyHtml .= $this->translator->trans('label_register_contact');
+//
+//            $to = $user->getEmail();
+//            $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_register_complete'), $to, $bodyHtml);
+
+            return new JsonResponse(array(
+                'message' => "" . $user->getId(),
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
      * @Rest\Get("/countries", name="countries")
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
@@ -263,6 +347,71 @@ class RestController extends FOSRestController
             return new JsonResponse(array(
                 'message' => "",
                 'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @Rest\Post("/welcomePrivateKey", name="welcome_private_key")
+     *
+     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates an association between a Property and a User via the property code. Applicable to welcomePrivateKey, welcomeQR and welcomeInvite.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function postWelcomePrivateKeyAction(Request $request)
+    {
+        try {
+            $this->initialise();
+            $propertyCode = strtolower(trim($request->get('property_code')));
+            $user = $this->getUser();
+
+            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
+            if ($property == null) {
+                throw new \Exception("Invalid property code.");
+            }
+
+            $tenantRaw = $this->em->getRepository('BackendAdminBundle:TenantContract')->getApiWelcomePrivateKey($property);
+            /** @var TenantContract $tenant */
+            $tenant = $tenantRaw[0];
+
+            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(4);
+
+            $tenant->setUser($this->getUser());
+            $tenant->setRole($role);
+            $tenant->setIsOwner(true);
+
+            $this->get("services")->blameOnMe($tenant, "update");
+
+            $this->em->persist($tenant);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "" . $user->getId(),
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -497,6 +646,59 @@ class RestController extends FOSRestController
             );
 
             return new JsonResponse(array('message' => "", 'data' => $data));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Post("/sendSMS", name="send_sms")
+     *
+     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Sends successfully a sms to the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function postSendSmsAction(Request $request)
+    {
+        try {
+            $this->initialise();
+            $propertyCode = strtolower(trim($request->get('property_code')));
+            $user = $this->getUser();
+
+            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
+            if ($property == null) {
+                throw new \Exception("Invalid property code.");
+            }
+
+            // ToDo: Still pending info.
+
+            $msg = $this->get('services')->serviceSendSMS("hello there monkey", "+50241550669");
+
+            return new JsonResponse(array(
+                'message' => "" . $user->getId(),
+            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -997,6 +1199,60 @@ class RestController extends FOSRestController
     }
 
     /**
+     * @Rest\Post("/ticket", name="create_ticket")
+     *
+     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a successfull user account.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+
+    public function postTicketAction(Request $request)
+    {
+        try {
+            $this->initialise();
+            $title = strtolower(trim($request->get('title')));
+            $description = strtolower(trim($request->get('description')));
+            $photos = strtolower(trim($request->get('photos'))); // ToDo: This is gonna be cardiacation cause dunoo
+            $solution = strtolower(trim($request->get('solution')));
+            $isPublic = strtolower(trim($request->get('is_public')));
+
+//            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
+//            if ($property == null) {
+//                throw new \Exception("Invalid property code.");
+//            }
+
+            // ToDo: to be finished.
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * @Rest\Get("/polls/{page_id}", name="polls")
      *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
@@ -1145,8 +1401,8 @@ class RestController extends FOSRestController
             foreach ($questions as $question) {
 
                 $options = array();
-                foreach( $answers[$question->getId()] as $answer ) {
-                    $options[] = array( 'option' => $answer->getQuestionOption() );
+                foreach ($answers[$question->getId()] as $answer) {
+                    $options[] = array('option' => $answer->getQuestionOption());
                 }
 
                 $data['questions'][] = array(
@@ -1246,7 +1502,7 @@ class RestController extends FOSRestController
                 $commonAreaPhotos = array();
                 /** @var CommonAreaPhoto $photo */
                 foreach ($photos[$commonArea->getId()] as $photo) {
-                    $commonAreaPhotos[] = array( 'url' => $photo->getPhotoPath() );
+                    $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
                 }
 
                 $commonAreaType = $commonArea->getCommonAreaType();
@@ -1326,7 +1582,7 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
             $lang = strtolower(trim($request->get('language')));
-            $data = array( 'reservations' => array(), 'availabilities' => array() );
+            $data = array('reservations' => array(), 'availabilities' => array());
 
             $availabilities = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getApiCommonAreaAvailability($common_area_id);
             $reservations = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getApiCommonAreaAvailability($common_area_id);
@@ -1435,21 +1691,18 @@ class RestController extends FOSRestController
     }
 
 
-
-
-
-
     private function calculatePagesMetadata($page, $total)
     {
         return array(
             'my_page' => $page,
             'prev_page' => ($page <= 1) ? 1 : $page - 1,
             'next_page' => ($page >= $total) ? $total : $page + 1,
-            'last_page' => round($total / 10, 0, PHP_ROUND_HALF_UP) // ToDo
+            'last_page' => ceil($total / 10)
         );
     }
 
-    private function getArrayOfIds($items) {
+    private function getArrayOfIds($items)
+    {
         $ids = array();
 
         foreach ($items as $item) {
