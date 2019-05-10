@@ -190,3 +190,10 @@ complex:
 label_poll_extra_points: Puntos a ganar
 label_poll_active: Activa
 label_poll: Encuesta
+mail:
+    forgot_password_subject: 'Olvidaste tu contraseña'
+    forgot_password_body: 'Puedes ingresar al sistema usando este password temporal %password%. Te recomendamos cambiarlo por una contraseña segura en la seccion de perfil.'
+    register_subject: 'Bienvenido a Better Condos'
+    label_user: 'Usuario: '
+    label_password: 'Contraseña: '
+    register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'

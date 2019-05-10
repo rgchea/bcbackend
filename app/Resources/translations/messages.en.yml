@@ -190,3 +190,10 @@ complex:
 label_poll_extra_points: Points to earn
 label_poll_active: Active
 label_poll: Poll
+mail:
+    forgot_password_subject: 'Forgot password'
+    forgot_password_body: 'You can login using this temporal password %password%. Then if you want you can change the password on your profile section.'
+    register_subject: 'Welcome to Better Condos'
+    label_user: 'User: '
+    label_password: 'Password: '
+    register_body: 'Now you are part of Better Condos. Start adding properties and enjoy the experience.'
