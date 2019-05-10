@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+
+
+{% block body -%}
+    <h1>ERROR, {{ 'error.access_denied'|trans }}</h1>
+
+    <p>
+        <a href="{{ path('backend_admin_homepage') }}">&nbsp;{{ 'label_home'|trans }}</a>
+
+    </p>
+
+{% endblock %}
+
+
+{% block extrascripts %}
+
+
+{% endblock %}
+

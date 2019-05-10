@@ -11,6 +11,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 
 use Backend\AdminBundle\Entity\Property;
+use Backend\AdminBundle\Entity\PropertyPhoto;
 use Backend\AdminBundle\Form\PropertyType;
 
 /**
@@ -212,7 +213,6 @@ class PropertyController extends Controller
      */
     public function newAction(Request $request)
     {
-
 
         $this->get("services")->setVars('property');
         $this->initialise();
@@ -500,6 +500,128 @@ class PropertyController extends Controller
             'delete_form' => $deleteForm->createView(),
             //'countries' => $countries
         ));
+    }
+
+
+    public function infoAction(Request $request){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $propertyID  = $_REQUEST["id"];
+        $entity = $this->repository->findOneById($propertyID);
+
+        $arrReturn = array();
+        $arrReturn["sms_code"] = $entity->getSmsCode();
+        $arrReturn["property_type_id"] = $entity->getPropertyType()->getName();
+        $arrReturn["complex_sector_id"] = $entity->getComplexSector()->getName();
+        $arrReturn["team_correlative"] = $entity->getTeamCorrelative();
+        $arrReturn["name"] = $entity->getName();
+        $arrReturn["address"] = $entity->getAddress();
+        $arrReturn["code"] = $entity->getCode();
+        $arrReturn["is_available"] = $entity->getIsAvailable();
+
+
+        //return new JsonResponse($arrReturn);
+        $returnResponse = new JsonResponse();
+        $returnResponse->setJson(json_encode($arrReturn));
+
+        return $returnResponse;
+
+
+    }
+
+
+
+
+    public function imageSendAction(Request $request){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+
+        $entityID = intval($_REQUEST["property"]);
+        $obj = $this->em->getRepository('BackendAdminBundle:Property')->find($entityID);
+
+        $document = new PropertyPhoto();
+        $media = $request->files->get('file');
+
+        $fileName = md5(uniqid()).'.'.$media->guessExtension();
+
+        $document->setFile($media);
+        $document->setPhotoPath($fileName);
+        //$document->setName($media->getClientOriginalName());
+        $document->setProperty($obj);
+        $document->upload($fileName);
+
+        $this->get("services")->blameOnMe($document, "create");
+        $this->get("services")->blameOnMe($document, "update");
+
+        $this->em->persist($document);
+        $this->em->flush();
+
+        //infos sur le document envoyé
+        //var_dump($request->files->get('file'));die;
+        return new JsonResponse(array('success' => $document->getId()));
+
+    }
+
+
+
+    public function imageGetAction(Request $request){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+
+
+        $entityID = intval($_REQUEST["property"]);
+        $images = $this->em->getRepository('BackendAdminBundle:PropertyPhoto')->findByProperty($entityID);
+
+        $result  = array();
+        $storeFolder = __DIR__.'/../../../../web/uploads/images/property/';
+
+        $files = scandir($storeFolder);                 //1
+
+        //var_dump($files);die;
+
+        if ( false!==$files ) {
+            foreach ( $images as $file ) {
+
+                $obj['id'] = $file->getId();
+                $obj['name'] = $file->getPhotoPath();
+                $obj['size'] = 0;
+                $result[] = $obj;
+            }
+        }
+
+        header('Content-type: text/json');              //3
+        header('Content-type: application/json');
+        echo json_encode($result);die;
+
+    }
+
+
+
+
+    public function imageRemoveAction(Request $request){
+
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+
+        $img = $this->em->getRepository('BackendAdminBundle:PropertyPhoto')->find(intval($_REQUEST["id"]));
+        $imgName =  $img->getPhotoPath();
+        $this->em->remove($img);
+        $this->em->flush();
+
+        $storeFolder = __DIR__.'/../../../../web/uploads/images/property/';
+
+        unlink($storeFolder.$imgName);
+
+        return new JsonResponse(array('success' => true));
+
     }
 
 

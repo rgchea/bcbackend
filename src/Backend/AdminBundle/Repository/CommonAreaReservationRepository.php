@@ -39,6 +39,8 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         $countQuery = $this->createQueryBuilder('e');
         $countQuery->select('COUNT(e)');
 
+
+
         //ENABLED
         $query->andWhere("e.enabled = 1");
         $countQuery->andWhere("e.enabled = 1");
@@ -73,10 +75,29 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         // Other conditions than the ones sent by the Ajax call ?
         if ($dateConditions === null)
         {
+
+
             // No
             // However, add a "always true" condition to keep an uniform treatment in all cases
-            $query->andWhere("1=1");
-            $countQuery->andWhere("1=1");
+            //$query->andWhere("1=1");
+            //$countQuery->andWhere("1=1");
+
+            /*
+             * SELECT 	*
+                FROM 	common_area_reservation
+                WHERE 	DATE(created_at) >= DATE(NOW() - INTERVAL 1 MONTH)
+                OR 		common_area_reservation_status_id = 1;
+             */
+
+            //FILTER
+            $now = gmdate("Y-m-d");
+            $defaultDate = gmdate('Y-m-d H:i:s', strtotime($now . ' -31 day'));
+            //var_dump($defaultDate);die;
+            $query->andWhere("e.createdAt >= :date")
+                    ->setParameter(':date', $defaultDate);
+            $countQuery->andWhere("e.createdAt >= :date")
+                ->setParameter(':date', $defaultDate);
+
         }
         else
         {
@@ -319,4 +340,45 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 
 
     }
+
+
+    public function validateSchedule($start, $end, $commonAreaID, $reservationID){
+
+
+        $sql = "	SELECT 	id, reservation_date_from, reservation_date_to
+                    FROM 	common_area_reservation
+                    WHERE	common_area_id = {$commonAreaID}
+                    AND		(reservation_date_from < '{$end}'
+                    AND 	reservation_date_to > '{$start}')";
+                    //AND     common_area_reservation_status_id = 1
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        //print $sql;die;
+
+        $execute = $stmt->fetchAll();
+
+        foreach ($execute as $row) {
+
+            if($row["id"] == $reservationID){
+                //APPROVED
+                $sqlUpdate = "  UPDATE  common_area_reservation
+                                SET     common_area_reservation_status_id = 2
+                                WHERE   id = ".$row["id"];
+            }
+            else{
+                //DENIED
+                $sqlUpdate = "  UPDATE  common_area_reservation
+                                SET     common_area_reservation_status_id = 3
+                                WHERE   id = ".$row["id"];
+            }
+
+            $stmtUpdate = $this->getEntityManager()->getConnection()->prepare($sqlUpdate);
+            $stmtUpdate->execute();
+
+        }
+
+    }
+
 }

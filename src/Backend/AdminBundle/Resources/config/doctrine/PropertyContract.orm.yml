@@ -12,6 +12,9 @@ Backend\AdminBundle\Entity\PropertyContract:
         updated_by:
             columns:
                 - updated_by
+        property_transaction_type_id:
+            columns:
+                - property_transaction_type_id
     id:
         id:
             type: integer
@@ -79,7 +82,7 @@ Backend\AdminBundle\Entity\PropertyContract:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
             column: total_visible_amount
         createdAt:
             type: datetime
@@ -109,6 +112,18 @@ Backend\AdminBundle\Entity\PropertyContract:
                 property_id:
                     referencedColumnName: id
             orphanRemoval: false
+
+        propertyTransactionType:
+            targetEntity: PropertyTransactionType
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_transaction_type_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
         createdBy:
             targetEntity: User
             cascade: {  }

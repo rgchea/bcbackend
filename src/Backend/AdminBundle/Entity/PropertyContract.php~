@@ -457,4 +457,34 @@ class PropertyContract
     {
         return $this->updatedBy;
     }
+   
+    /**
+     * @var \Backend\AdminBundle\Entity\PropertyTransactionType
+     */
+    private $propertyTransactionType;
+
+
+    /**
+     * Set propertyTransactionType.
+     *
+     * @param \Backend\AdminBundle\Entity\PropertyTransactionType|null $propertyTransactionType
+     *
+     * @return PropertyContract
+     */
+    public function setPropertyTransactionType(\Backend\AdminBundle\Entity\PropertyTransactionType $propertyTransactionType = null)
+    {
+        $this->propertyTransactionType = $propertyTransactionType;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyTransactionType.
+     *
+     * @return \Backend\AdminBundle\Entity\PropertyTransactionType|null
+     */
+    public function getPropertyTransactionType()
+    {
+        return $this->propertyTransactionType;
+    }
 }
