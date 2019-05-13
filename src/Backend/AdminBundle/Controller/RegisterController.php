@@ -138,9 +138,11 @@ class RegisterController extends Controller
             $role = $objRole->getName();
             $entity->setRole($objRole);
 
+            /*
             $newDate = $this->get('services')->dateUSAToMysql($myRequest["birthdate"]);
             $birthdate = new \DateTime($newDate);
             $entity->setBirthdate($birthdate);
+            */
 
             //link to the business
 

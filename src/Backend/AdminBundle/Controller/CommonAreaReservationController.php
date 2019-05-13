@@ -315,6 +315,81 @@ class CommonAreaReservationController extends Controller
     }
 
 
+    public function notificationAction(Request $request){
+
+        $this->get("services")->setVars('dashboard');
+        $this->initialise();
+
+        if($this->role == "SUPER ADMIN"){
+
+            return new JsonResponse(array("result" => 0));
+        }
+        ///FILTER BY ROLE
+        $complexFilters = null;
+        if($this->role != "SUPER ADMIN"){
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $complexFilters[$v] = $v;//the complex id
+            }
+        }
+
+
+
+        $notifications = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getNotification($this->userLogged->getId(), $complexFilters);
+        $arrReturn = array();
+        if(!empty($notifications)){
+            foreach ($notifications as $key => $notification) {
+
+                //var_dump($key);die;
+                $arrReturn[$key] = $notification;
+            }
+        }
+
+        return new JsonResponse(array("result" => $arrReturn));
+
+    }
+
+
+
+    public function notificationReadAction(Request $request){
+
+        $this->get("services")->setVars('dashboard');
+        $this->initialise();
+
+        //var_dump($_REQUEST);DIE;
+        $notificationID = intval($_REQUEST["notificationID"]);
+
+        $objNotification = $this->em->getRepository('BackendAdminBundle:UserNotification')->find($notificationID);
+        $objNotification->setIsRead(1);
+
+        $this->em->persist($objNotification);
+        $this->em->flush();
+
+        return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index'));
+
+    }
+
+
+    public function notificationMarkAllReadAction(Request $request){
+
+        $this->get("services")->setVars('dashboard');
+        $this->initialise();
+
+        ///FILTER BY ROLE
+        $complexFilters = null;
+        if($this->role != "SUPER ADMIN"){
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $complexFilters[$v] = $v;//the complex id
+            }
+        }
+
+
+        $notifications = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->markAllNotificationRead($this->userLogged->getId(), $complexFilters);
+
+        return $this->redirect($this->generateUrl('backend_admin_homepage'));
+
+    }
 
 
 }

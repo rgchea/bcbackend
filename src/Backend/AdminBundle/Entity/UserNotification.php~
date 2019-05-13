@@ -12,10 +12,6 @@ class UserNotification
      */
     private $id;
 
-    /**
-     * @var bool
-     */
-    private $read = '0';
 
     /**
      * @var string
@@ -58,29 +54,6 @@ class UserNotification
         return $this->id;
     }
 
-    /**
-     * Set read.
-     *
-     * @param bool $read
-     *
-     * @return UserNotification
-     */
-    public function setRead($read)
-    {
-        $this->read = $read;
-
-        return $this;
-    }
-
-    /**
-     * Get read.
-     *
-     * @return bool
-     */
-    public function getRead()
-    {
-        return $this->read;
-    }
 
     /**
      * Set description.

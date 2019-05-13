@@ -202,6 +202,7 @@ label_select_property: Select a property
 label_start: Start
 label_end: Finish
 label_home: Home
+label_mark_all_read: Mark all as read
 error:
     page_not_found: page not found
     access_denied:  Access Denied
