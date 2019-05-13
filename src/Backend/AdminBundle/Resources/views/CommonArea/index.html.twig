@@ -136,7 +136,7 @@
             var pos = 1;
             $('#dt_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos != 6){//columna Actions
+                if(pos != 4){//columna Actions
                     $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
                 }
 
@@ -159,6 +159,9 @@
                 });
                 pos++;
             });
+
+            //valores pre definidos para una busqueda
+            //$("#input2").val("gym").change();
 
 
         });

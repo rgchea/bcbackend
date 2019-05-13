@@ -1,3 +1,25 @@
+{#
+{{ notifications_assets() }}
+<script>
+    /**
+     * After calling notifications_assets() "pusher" is now available
+     * and you can use it this way
+     */
+
+        // select the channel you want to listen to
+    var channel = pusher.subscribe("notifications");// notifications channel
+    channel.bind("my-event", function(data) {
+        console.log('from notifications channel', data);
+    });
+
+    var channel = pusher.subscribe("messages");// messages channel
+    channel.bind("my-event", function(data) {
+        console.log('from messages channel', data);
+        alert("nueva notificacion");
+    });
+</script>
+
+#}
 <li class="dropdown notification">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <span class="label label-danger arrowed arrow-left-in pull-right">0</span>

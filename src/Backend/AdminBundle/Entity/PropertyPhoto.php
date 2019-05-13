@@ -337,6 +337,3 @@ class PropertyPhoto
 
 
 }
-
-
-

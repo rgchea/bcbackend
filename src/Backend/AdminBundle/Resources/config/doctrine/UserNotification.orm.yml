@@ -102,4 +102,15 @@ Backend\AdminBundle\Entity\UserNotification:
                 ticket_id:
                     referencedColumnName: id
             orphanRemoval: false
+        commonAreaReservation:
+            targetEntity: CommonAreaReservation
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_reservation_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
     lifecycleCallbacks: {  }

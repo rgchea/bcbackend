@@ -198,3 +198,14 @@ nelmio_cors:
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
             max_age: 3600
             hosts: ['^api\.']
+
+
+#notifications:
+#    app_id:     780232
+#    app_key:    d1cbbf9a5800bd8ec6fe
+#    app_secret: 656088be909f90068075
+#    cluster:    us2
+    # Optional
+    # Default false: work without ssl encryption
+    # Set it to true to work with ssl encryption
+#    encrypted:  false

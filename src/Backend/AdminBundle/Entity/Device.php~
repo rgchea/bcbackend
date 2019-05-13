@@ -341,4 +341,6 @@ class Device
     {
         return $this->user;
     }
+
+
 }

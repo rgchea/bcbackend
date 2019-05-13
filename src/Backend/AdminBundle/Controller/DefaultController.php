@@ -22,7 +22,19 @@ class DefaultController extends Controller
         $this->get("services")->setVars('dashboard');
         
 		$userRole = $session->get('user_role');
-		$userLogged = $session->get('user_logged');    	
+		$userLogged = $session->get('user_logged');
+
+		/*
+        $data = array(
+            'my-message' => "rxie notification22",
+        );
+        $pusher = $this->get('mrad.pusher.notificaitons');
+        $channel = 'messages';
+        $pusher->trigger($data, $channel);
+
+        // or you can keep the channel pram empty and will be broadcasted on "notifications" channel by default
+        $pusher->trigger($data);
+		*/
 		
 
 		$em = $this->getDoctrine()->getManager();

@@ -341,4 +341,33 @@ class UserNotification
     {
         return $this->notice;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\CommonAreaReservation
+     */
+    private $commonAreaReservation;
+
+
+    /**
+     * Set commonAreaReservation.
+     *
+     * @param \Backend\AdminBundle\Entity\CommonAreaReservation|null $commonAreaReservation
+     *
+     * @return UserNotification
+     */
+    public function setCommonAreaReservation(\Backend\AdminBundle\Entity\CommonAreaReservation $commonAreaReservation = null)
+    {
+        $this->commonAreaReservation = $commonAreaReservation;
+
+        return $this;
+    }
+
+    /**
+     * Get commonAreaReservation.
+     *
+     * @return \Backend\AdminBundle\Entity\CommonAreaReservation|null
+     */
+    public function getCommonAreaReservation()
+    {
+        return $this->commonAreaReservation;
+    }
 }

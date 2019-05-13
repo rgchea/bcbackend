@@ -226,6 +226,99 @@
 
 <script type="text/javascript" language="Javascript">
 
+
+	function changeState(billing){
+
+
+		if(billing){//==1 if it is a billing call
+			myCountry = $('[name="business_billing_country"]').val();
+			{% if edit is defined %}
+			myState = {{ entity.billingGeoState.id }};
+			{% endif %}
+
+		}
+		else{
+			myCountry = $('[name="business_country"]').val();
+			{% if edit is defined %}
+			myState = {{ entity.geoState.id }};
+			{% endif %}
+		}
+
+
+		$.ajax({
+			type:"POST",
+			dataType:"html",
+			async:false,
+			url:"{{ path('backend_admin_business_update_state') }}",
+			//data:"countryShort="+myCountry,
+			{% if edit is defined %}
+			data: {countryShort: myCountry, billing: billing, selectedState: myState},
+			{% else %}
+			data: {countryShort: myCountry, billing: billing},
+			{% endif %}
+			success:function(data){
+				if(billing){
+					$("#divBillingGeoState").html(data);
+				}
+				else{
+					$("#divGeoState").html(data);
+				}
+
+			}
+		});
+
+	}
+
+
+	function checkEmail(){
+
+		$.ajax({
+			type:"POST",
+			dataType:"json",
+			url:"{{ path('backend_admin_business_check_email') }}",
+			data:"email="+$( "#business_email" ).val(),
+			success:function(data){
+				//console.log(data);
+				if(data.result == 0){
+					$("#checkEmailAlert").show();
+					$( "#business_email" ).val("");
+					$( "#business_email" ).focus();
+				}
+
+				if(data.result == 1){
+					$("#checkEmailAlert").hide();
+				}
+			}
+		});
+
+	}
+
+	function checkPhone(){
+
+		$.ajax({
+			type:"POST",
+			dataType:"json",
+			url:"{{ path('backend_admin_business_check_phone') }}",
+			data:"phone="+$( "#business_phoneNumber" ).val(),
+			success:function(data){
+				//console.log(data);
+				if(data.result == 0){
+					$("#checkPhoneAlert").show();
+					$( "#business_phoneNumber" ).val("");
+					$( "#business_phoneNumber" ).focus();
+				}
+
+				if(data.result == 1){
+					$("#checkPhoneAlert").hide();
+				}
+			}
+		});
+
+
+	}
+
+
+
 	$( document ).ready(function() {
 
 
@@ -247,7 +340,6 @@
 
 		$("[name='business']").validate({
 			success: function(error){
-				$("#pizote_spinner").show();
 				return true;
 			},
 
@@ -266,18 +358,75 @@
 			//Code: Action (like ajax...)
 			if($("[name='business']").valid()){
 
+				$('#pizote_spinner').show();
+				myReturn = false;
+
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"{{ path('backend_admin_business_check_email') }}",
+					data:"email="+$( "#business_email" ).val(),
+					async:false,
+					success:function(data){
+						//console.log(data);
+						if(data.result == 0){
+							$("#checkEmailAlert").show();
+							$( "#business_email" ).val("");
+							$( "#business_email" ).focus();
+							$('#pizote_spinner').hide();
+							return false;
+						}
+
+						if(data.result == 1){
+							$("#checkEmailAlert").hide();
+							myReturn = true;
+						}
+					}
+				});
+				/*
 				checkEmail = checkEmail();
 				if(checkEmail.result == 0){
 					return false;
 				}
 
+				 */
+
+
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"{{ path('backend_admin_business_check_phone') }}",
+					data:"phone="+$( "#business_phoneNumber" ).val(),
+					async:false,
+					success:function(data){
+						//console.log(data);
+						if(data.result == 0){
+							$("#checkPhoneAlert").show();
+							$( "#business_phoneNumber" ).val("");
+							$( "#business_phoneNumber" ).focus();
+							$('#pizote_spinner').hide();
+							return false;
+						}
+
+						if(data.result == 1){
+							$("#checkPhoneAlert").hide();
+							myReturn = true;
+						}
+					}
+				});
+
+				/*
 				checkPhone = checkPhone();
 				if(checkPhone.result == 0){
 					return false;
 				}
+				*/
 
-				$('#pizote_spinner').show();
-				return true;
+				$('#pizote_spinner').hide();
+				return myReturn;
+
+				//$('#pizote_spinner').show();
+				//return true;
 
 			}
 			else{
@@ -369,96 +518,6 @@
 
 	});
 
-
-	function changeState(billing){
-
-
-		if(billing){//==1 if it is a billing call
-			myCountry = $('[name="business_billing_country"]').val();
-			{% if edit is defined %}
-				myState = {{ entity.billingGeoState.id }};
-			{% endif %}
-
-		}
-		else{
-			myCountry = $('[name="business_country"]').val();
-			{% if edit is defined %}
-				myState = {{ entity.geoState.id }};
-			{% endif %}
-		}
-
-
-		$.ajax({
-			type:"POST",
-			dataType:"html",
-			async:false,
-			url:"{{ path('backend_admin_business_update_state') }}",
-			//data:"countryShort="+myCountry,
-			{% if edit is defined %}
-				data: {countryShort: myCountry, billing: billing, selectedState: myState},
-			{% else %}
-				data: {countryShort: myCountry, billing: billing},
-			{% endif %}
-			success:function(data){
-				if(billing){
-					$("#divBillingGeoState").html(data);
-				}
-				else{
-					$("#divGeoState").html(data);
-				}
-
-			}
-		});
-
-	}
-
-
-	function checkEmail(){
-
-		$.ajax({
-			type:"POST",
-			dataType:"json",
-			url:"{{ path('backend_admin_business_check_email') }}",
-			data:"email="+$( "#business_email" ).val(),
-			success:function(data){
-				//console.log(data);
-				if(data.result == 0){
-					$("#checkEmailAlert").show();
-					$( "#business_email" ).val("");
-					$( "#business_email" ).focus();
-				}
-
-				if(data.result == 1){
-					$("#checkEmailAlert").hide();
-				}
-			}
-		});
-
-	}
-
-	function checkPhone(){
-
-		$.ajax({
-			type:"POST",
-			dataType:"json",
-			url:"{{ path('backend_admin_business_check_phone') }}",
-			data:"phone="+$( "#business_phoneNumber" ).val(),
-			success:function(data){
-				//console.log(data);
-				if(data.result == 0){
-					$("#checkPhoneAlert").show();
-					$( "#business_phoneNumber" ).val("");
-					$( "#business_phoneNumber" ).focus();
-				}
-
-				if(data.result == 1){
-					$("#checkPhoneAlert").hide();
-				}
-			}
-		});
-
-
-	}
 
 
 

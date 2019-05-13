@@ -25,10 +25,10 @@ Backend\AdminBundle\Entity\Device:
             generator:
                 strategy: IDENTITY
     fields:
-        uuid:
+        phoneId:
             type: string
             nullable: false
-            length: 64
+            length: 128
             options:
                 fixed: false
                 default: ''

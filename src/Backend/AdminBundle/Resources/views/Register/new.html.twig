@@ -153,6 +153,20 @@
             $("#fos_user_registration_form_phone").rules("add", {minlength: 8, digits:true});
 
 
+            $('[name="registerForm"]').on("submit", function(){
+                //Code: Action (like ajax...)
+                if($("[name='registerForm']").valid()){
+                    $('#pizote_spinner').show();
+                    return true;
+
+                }
+                else{
+                    return false;
+                }
+
+            });
+
+
             {#
                 $(".classPicker").datepicker({
                        changeMonth: true,

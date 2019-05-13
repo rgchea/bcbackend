@@ -210,6 +210,40 @@
 
 <script type="text/javascript" language="Javascript">
 
+
+	function changeState(billing) {
+
+		myCountry = $('[name="complex_country"]').val();
+
+
+		$.ajax({
+			type:"POST",
+			dataType:"html",
+			async:false,
+			url:"{{ path('backend_admin_business_update_state') }}",
+			//data:"countryShort="+myCountry,
+			data: {countryShort: myCountry, billing: billing},
+			success:function(data){
+
+				$("#divGeoState").html(data);
+
+			}
+		});
+
+	}
+
+
+	function generateNumber(){
+		propertyQty = parseInt($("#complex_propertiesPerSection").val());
+		sectionQty = parseInt($("#complex_sectionsQuantity").val());
+		if(propertyQty > 0 && sectionQty > 0){
+			total = parseInt(propertyQty*sectionQty) ;
+			$("#generate_number").html(total);
+		}
+
+	}
+
+
 	$( document ).ready(function() {
 
 
@@ -218,7 +252,6 @@
 		//propertiesPerSection
 		$("[name='complex']").validate({
 			success: function (error) {
-				$("#pizote_spinner").show();
 				return true;
 			},
 
@@ -338,38 +371,6 @@
 
 	});
 
-
-	function changeState(billing) {
-
-		myCountry = $('[name="complex_country"]').val();
-
-
-		$.ajax({
-			type:"POST",
-			dataType:"html",
-			async:false,
-			url:"{{ path('backend_admin_business_update_state') }}",
-			//data:"countryShort="+myCountry,
-			data: {countryShort: myCountry, billing: billing},
-			success:function(data){
-
-				$("#divGeoState").html(data);
-
-			}
-		});
-
-	}
-
-
-	function generateNumber(){
-		propertyQty = parseInt($("#complex_propertiesPerSection").val());
-		sectionQty = parseInt($("#complex_sectionsQuantity").val());
-		if(propertyQty > 0 && sectionQty > 0){
-			total = parseInt(propertyQty*sectionQty) ;
-			$("#generate_number").html(total);
-		}
-
-	}
 
 
 
