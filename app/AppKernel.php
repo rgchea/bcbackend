@@ -30,7 +30,7 @@ class AppKernel extends Kernel
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Vresh\TwilioBundle\VreshTwilioBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            new SBC\NotificationsBundle\NotificationsBundle(),
+            //new SBC\NotificationsBundle\NotificationsBundle(),
 
 
 
