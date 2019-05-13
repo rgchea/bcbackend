@@ -206,3 +206,10 @@ error:
     page_not_found: página no encontrada
     access_denied:  Acceso denegado
     contact_admin: contacta al administrador del sitio
+mail:
+    forgot_password_subject: 'Olvidaste tu contraseña'
+    forgot_password_body: 'Puedes ingresar al sistema usando este password temporal %password%. Te recomendamos cambiarlo por una contraseña segura en la seccion de perfil.'
+    register_subject: 'Bienvenido a Better Condos'
+    label_user: 'Usuario: '
+    label_password: 'Contraseña: '
+    register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'

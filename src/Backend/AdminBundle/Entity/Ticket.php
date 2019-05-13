@@ -28,16 +28,6 @@ class Ticket
     private $isPublic = '1';
 
     /**
-     * @var int|null
-     */
-    private $userRating;
-
-    /**
-     * @var int|null
-     */
-    private $tenantRating;
-
-    /**
      * @var \DateTime
      */
     private $createdAt = '0000-00-00 00:00:00';
@@ -193,54 +183,6 @@ class Ticket
     public function getIsPublic()
     {
         return $this->isPublic;
-    }
-
-    /**
-     * Set userRating.
-     *
-     * @param int|null $userRating
-     *
-     * @return Ticket
-     */
-    public function setUserRating($userRating = null)
-    {
-        $this->userRating = $userRating;
-
-        return $this;
-    }
-
-    /**
-     * Get userRating.
-     *
-     * @return int|null
-     */
-    public function getUserRating()
-    {
-        return $this->userRating;
-    }
-
-    /**
-     * Set tenantRating.
-     *
-     * @param int|null $tenantRating
-     *
-     * @return Ticket
-     */
-    public function setTenantRating($tenantRating = null)
-    {
-        $this->tenantRating = $tenantRating;
-
-        return $this;
-    }
-
-    /**
-     * Get tenantRating.
-     *
-     * @return int|null
-     */
-    public function getTenantRating()
-    {
-        return $this->tenantRating;
     }
 
     /**
