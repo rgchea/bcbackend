@@ -25,6 +25,8 @@ use Backend\AdminBundle\Entity\TicketStatus;
 use Backend\AdminBundle\Entity\TicketType;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
+use Backend\AdminBundle\Entity\Device;
+
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Swagger\Annotations as SWG;
@@ -78,6 +80,97 @@ class RestController extends FOSRestController
         ));
 
     }
+
+
+    /*DEVICE FUNCTIONS*/
+
+    /**
+     * @Rest\Post("/app/deviceSetToken", name="device_set_token")
+     *
+     * @SWG\Parameter( name="token", in="body", type="string", description="the token to be saved", schema={} )
+     * @SWG\Parameter( name="phone_id", in="body", type="string", description="apple uses UDID, Android uses UUID", schema={} )
+     * @SWG\Parameter( name="platform", in="body", type="string", description="Specifies the platform iOS or Android", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="CREATE OR UPDATE a device with token on the server.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="App")
+     */
+
+    public function postDeviceSetTokenAction(Request $request)
+    {
+        try {
+            $this->initialise();
+            $token = trim($request->get('token'));
+            $phoneID = trim($request->get('phone_id'));
+            $platform = trim($request->get('platform'));
+
+            /*
+            $this->get("services")->blameOnMe($tenant, "update");
+
+            $this->em->persist($tenant);
+            $this->em->flush();
+            */
+
+            $device = $this->em->getRepository('BackendAdminBundle:Device')->findOneByPhoneId($phoneID);
+            $gtmNow = gmdate("Y-m-d H:i:s");
+
+            if($device){
+                ///IS AN UPDATE
+
+                $device->setTokenPush($token);
+                $device->setTokenUpdatedAt(new \DateTime($gtmNow));
+                $device->setUpdatedAt(new \DateTime($gtmNow));
+
+
+            }
+            else{
+                ///CREATE
+                $device = new Device();
+
+                $device->setPhoneId($phoneID);
+                $device->setCreatedAt(new \DateTime($gtmNow));
+                $device->setUpdatedAt(new \DateTime($gtmNow));
+                $device->setEnabled(1);
+                $device->setTokenPush($token);
+                $device->setTokenUpdatedAt(new \DateTime($gtmNow));
+                $device->setPlatform($platform);
+
+                $this->get("services")->blameOnMe($device, "create");
+                $this->get("services")->blameOnMe($device, "update");
+
+
+            }
+
+            $this->em->persist($device);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "".$device->getId(),
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
     /**

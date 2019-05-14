@@ -341,4 +341,35 @@ class Device
     {
         return $this->user;
     }
+
+
+    /**
+     * @var string
+     */
+    private $phoneId = '';
+
+
+    /**
+     * Set phoneId.
+     *
+     * @param string $phoneId
+     *
+     * @return Device
+     */
+    public function setPhoneId($phoneId)
+    {
+        $this->phoneId = $phoneId;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneId.
+     *
+     * @return string
+     */
+    public function getPhoneId()
+    {
+        return $this->phoneId;
+    }
 }

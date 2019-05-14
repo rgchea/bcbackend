@@ -12,10 +12,6 @@ class UserNotification
      */
     private $id;
 
-    /**
-     * @var bool
-     */
-    private $read = '0';
 
     /**
      * @var string
@@ -58,29 +54,6 @@ class UserNotification
         return $this->id;
     }
 
-    /**
-     * Set read.
-     *
-     * @param bool $read
-     *
-     * @return UserNotification
-     */
-    public function setRead($read)
-    {
-        $this->read = $read;
-
-        return $this;
-    }
-
-    /**
-     * Get read.
-     *
-     * @return bool
-     */
-    public function getRead()
-    {
-        return $this->read;
-    }
 
     /**
      * Set description.
@@ -340,5 +313,63 @@ class UserNotification
     public function getNotice()
     {
         return $this->notice;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\CommonAreaReservation
+     */
+    private $commonAreaReservation;
+
+
+    /**
+     * Set commonAreaReservation.
+     *
+     * @param \Backend\AdminBundle\Entity\CommonAreaReservation|null $commonAreaReservation
+     *
+     * @return UserNotification
+     */
+    public function setCommonAreaReservation(\Backend\AdminBundle\Entity\CommonAreaReservation $commonAreaReservation = null)
+    {
+        $this->commonAreaReservation = $commonAreaReservation;
+
+        return $this;
+    }
+
+    /**
+     * Get commonAreaReservation.
+     *
+     * @return \Backend\AdminBundle\Entity\CommonAreaReservation|null
+     */
+    public function getCommonAreaReservation()
+    {
+        return $this->commonAreaReservation;
+    }
+    /**
+     * @var bool
+     */
+    private $isRead = false;
+
+
+    /**
+     * Set isRead.
+     *
+     * @param bool $isRead
+     *
+     * @return UserNotification
+     */
+    public function setIsRead($isRead)
+    {
+        $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    /**
+     * Get isRead.
+     *
+     * @return bool
+     */
+    public function getIsRead()
+    {
+        return $this->isRead;
     }
 }

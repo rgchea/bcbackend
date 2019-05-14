@@ -3499,3 +3499,15 @@ i {
   max-width:100%;
   height:auto;
 }
+
+/*extras*/
+.headerLogo{
+  width: 180px !important;
+  top:-10px !important;
+
+}
+
+.headerLogoSecurity{
+  width: 360px !important;
+
+}

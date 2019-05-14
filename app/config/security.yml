@@ -83,3 +83,4 @@ security:
         #- { path: ^/, role: ROLE_USER  }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/v1, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/app, roles: IS_AUTHENTICATED_ANONYMOUSLY }

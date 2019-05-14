@@ -202,6 +202,7 @@ label_select_property: Selecciona una propiedad
 label_start: Inicia
 label_end: Finaliza
 label_home: Inicio
+label_mark_all_read: Marcar todo como leído
 error:
     page_not_found: página no encontrada
     access_denied:  Acceso denegado
@@ -213,3 +214,4 @@ mail:
     label_user: 'Usuario: '
     label_password: 'Contraseña: '
     register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'
+

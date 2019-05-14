@@ -25,11 +25,11 @@ Backend\AdminBundle\Entity\UserNotification:
             generator:
                 strategy: IDENTITY
     fields:
-        read:
+        isRead:
             type: boolean
             nullable: false
             options:
-                default: '0'
+                default: false
         description:
             type: text
             nullable: false
@@ -102,4 +102,15 @@ Backend\AdminBundle\Entity\UserNotification:
                 ticket_id:
                     referencedColumnName: id
             orphanRemoval: false
+        commonAreaReservation:
+            targetEntity: CommonAreaReservation
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_reservation_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
     lifecycleCallbacks: {  }

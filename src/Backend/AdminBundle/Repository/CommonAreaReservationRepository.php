@@ -381,4 +381,129 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+
+    public function getNotification($userID, $complexFilters){
+
+        $arrReturn = array();
+        $strFilter = "";
+        $in = "";
+        if(!empty($complexFilters)){
+            foreach ($complexFilters as $key => $value) {
+                $in .= $in == "" ? $value : ",".$value;
+            }
+
+        }
+        $strFilter = " AND ca.complex_id IN({$in}) ";
+
+
+        $sql = "	SELECT 	n.id, n.created_at, n.description, n.notification_type_id, 
+	                        car.id reservation_id
+                    FROM 	user_notification n
+                        INNER JOIN common_area_reservation car ON (n.common_area_reservation_id = car.id)
+                        INNER JOIN common_area ca ON (car.common_area_id = ca.id)
+                    
+                    WHERE n.notification_type_id = 1
+                    AND n.is_read = 0
+                    $strFilter
+                    ORDER BY n.id";
+
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        foreach ($execute as $row) {
+            $arrReturn[$row["id"]] = array();
+            $arrReturn[$row["id"]]["description"] = $row["description"];
+            $arrReturn[$row["id"]]["created_at"] = $row["created_at"];
+            $arrReturn[$row["id"]]["reservation_id"] = $row["reservation_id"];
+            $arrReturn[$row["id"]]["type"] = $row["notification_type_id"];
+        }
+
+        return $arrReturn;
+
+    }
+
+    //markAllNotificationRead
+
+    public function markAllNotificationRead($userID, $complexFilters){
+
+        $arrReturn = array();
+        $strFilter = "";
+        $in = "";
+        if(!empty($complexFilters)){
+            foreach ($complexFilters as $key => $value) {
+                $in .= $in == "" ? $value : ",".$value;
+            }
+
+        }
+        $strFilter = " AND ca.complex_id IN({$in}) ";
+
+        //COMMON AREA RESERVATION
+        $sql = "	SELECT 	n.id
+                    FROM 	user_notification n
+                        INNER JOIN common_area_reservation car ON (n.common_area_reservation_id = car.id)
+                        INNER JOIN common_area ca ON (car.common_area_id = ca.id)
+                    WHERE n.notification_type_id = 1
+                    AND n.is_read = 0
+                    $strFilter
+                    ORDER BY n.id";
+
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        foreach ($execute as $row) {
+
+            $tempID = intval($row["id"]);
+            $sqlUpdate = "  UPDATE    user_notification
+                            SET  is_read = 1
+                            WHERE id = {$tempID}";
+
+            $stmt = $this->getEntityManager()->getConnection()->prepare($sqlUpdate);
+            $stmt->execute();
+
+        }
+
+
+        /////TICKET NOTIFICATIONS
+        ///
+        $strFilter = " AND t.complex_id IN({$in}) ";
+        $sql = "	SELECT 	t.id 
+                    FROM 	user_notification n
+                        INNER JOIN ticket t ON (n.ticket_id = t.id)
+                    WHERE n.notification_type_id = 1
+                    AND n.is_read = 0
+                    $strFilter
+                    ORDER BY n.id";
+
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        foreach ($execute as $row) {
+
+            $tempID = intval($row["id"]);
+            $sqlUpdate = "  UPDATE    user_notification
+                            SET  is_read = 1
+                            WHERE id = {$tempID}";
+
+            $stmt = $this->getEntityManager()->getConnection()->prepare($sqlUpdate);
+            $stmt->execute();
+
+        }
+
+
+        return true;
+
+    }
+
 }
