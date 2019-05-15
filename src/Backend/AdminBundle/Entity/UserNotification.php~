@@ -343,4 +343,33 @@ class UserNotification
     {
         return $this->commonAreaReservation;
     }
+    /**
+     * @var bool
+     */
+    private $isRead = false;
+
+
+    /**
+     * Set isRead.
+     *
+     * @param bool $isRead
+     *
+     * @return UserNotification
+     */
+    public function setIsRead($isRead)
+    {
+        $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    /**
+     * Get isRead.
+     *
+     * @return bool
+     */
+    public function getIsRead()
+    {
+        return $this->isRead;
+    }
 }

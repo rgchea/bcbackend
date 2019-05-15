@@ -12,30 +12,26 @@ class TenantContract
      */
     private $id;
 
-    /**
-     * @var int
-     */
-    private $rating = '1';
 
     /**
      * @var \DateTime
      */
-    private $createdAt = '0000-00-00 00:00:00';
+    private $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt = '0000-00-00 00:00:00';
+    private $updatedAt;
 
     /**
      * @var bool
      */
-    private $isOwner = '1';
+    private $isOwner = 1;
 
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = 1;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -71,30 +67,6 @@ class TenantContract
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set rating.
-     *
-     * @param int $rating
-     *
-     * @return TenantContract
-     */
-    public function setRating($rating)
-    {
-        $this->rating = $rating;
-
-        return $this;
-    }
-
-    /**
-     * Get rating.
-     *
-     * @return int
-     */
-    public function getRating()
-    {
-        return $this->rating;
     }
 
     /**
@@ -311,5 +283,63 @@ class TenantContract
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+    /**
+     * @var bool
+     */
+    private $invitationAccepted = false;
+
+    /**
+     * @var bool
+     */
+    private $invitationEmail = false;
+
+
+    /**
+     * Set invitationAccepted.
+     *
+     * @param bool $invitationAccepted
+     *
+     * @return TenantContract
+     */
+    public function setInvitationAccepted($invitationAccepted)
+    {
+        $this->invitationAccepted = $invitationAccepted;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationAccepted.
+     *
+     * @return bool
+     */
+    public function getInvitationAccepted()
+    {
+        return $this->invitationAccepted;
+    }
+
+    /**
+     * Set invitationEmail.
+     *
+     * @param bool $invitationEmail
+     *
+     * @return TenantContract
+     */
+    public function setInvitationEmail($invitationEmail)
+    {
+        $this->invitationEmail = $invitationEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationEmail.
+     *
+     * @return bool
+     */
+    public function getInvitationEmail()
+    {
+        return $this->invitationEmail;
     }
 }

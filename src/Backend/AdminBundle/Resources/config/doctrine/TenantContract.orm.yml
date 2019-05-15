@@ -28,12 +28,6 @@ Backend\AdminBundle\Entity\TenantContract:
             generator:
                 strategy: IDENTITY
     fields:
-        rating:
-            type: integer
-            nullable: false
-            options:
-                unsigned: false
-                default: '1'
         createdAt:
             type: datetime
             nullable: false
@@ -56,7 +50,19 @@ Backend\AdminBundle\Entity\TenantContract:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
+        invitationAccepted:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+        invitationEmail:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+
+
     manyToOne:
         user:
             targetEntity: User
