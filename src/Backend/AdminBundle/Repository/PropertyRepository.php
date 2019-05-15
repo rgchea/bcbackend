@@ -30,25 +30,32 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getApiProperty($code)
+    public function getApiProperty($code, $user)
     {
         $qb = $this->createQueryBuilder('a');
 
         $qb->select('a, s.id, p.id')
             ->leftJoin('a.complexSector', 's')
             ->leftJoin('a.propertyType', 'p')
-            ->where('a.enabled = 1 AND a.code = :code')
+            ->where('a.enabled = 1')
+            ->andWhere('s.enabled = 1')
+            ->andWhere('p.enabled = 1')
+            ->andWhere('a.code = :code')
+            ->andWhere('a.owner = :user')
             ->setParameter('code', $code)
+            ->setParameter('user', $user)
             ->orderBy('a.createdAt', 'ASC');
 
         return $qb->getQuery()->getSingleResult();
     }
 
-    public function countApiProperties()
+    public function countApiProperties($user)
     {
         $qb = $this->createQueryBuilder('a')
             ->select('count(a.id)')
-            ->where('a.enabled = 1');
+            ->where('a.enabled = 1')
+            ->andWhere('a.owner = :user')
+            ->setParameter('user', $user);
 
         return $qb->getQuery()->getSingleScalarResult();
     }
@@ -81,7 +88,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $query->join('s.complex', 'c');
         $countQuery->join('s.complex', 'c');
 
-        if($filterComplex != null){
+        if ($filterComplex != null) {
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
             $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
         }
@@ -95,52 +102,48 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $countQuery->leftJoin('e.mainTenant', 't');
 
 
-
         // Fields Search
-        foreach ($columns as $key => $column)
-        {
-            if ($column['search']['value'] != '')
-            {
+        foreach ($columns as $key => $column) {
+            if ($column['search']['value'] != '') {
                 // $searchItem is what we are looking for
                 $searchItem = $column['search']['value'];
                 $searchQuery = null;
 
-                switch($column['name'])
-                {
+                switch ($column['name']) {
                     case 'id':
                         {
-                            $searchQuery = 'e.id ='. $searchItem;
+                            $searchQuery = 'e.id =' . $searchItem;
                             break;
                         }
                     case 'name':
                         {
-                            $searchQuery = 'e.name LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'e.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
                     case 'code':
                         {
-                            $searchQuery = 'e.code LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'e.code LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
 
                     case 'complex':
                         {
-                            $searchQuery = 'c.name LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'c.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
                     case 'sector':
                         {
-                            $searchQuery = 's.name LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 's.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
                     case 'owner':
                         {
-                            $searchQuery = 'o.name LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'o.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
                     case 'tenant':
                         {
-                            $searchQuery = 't.name LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 't.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
 
@@ -148,8 +151,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                 }
 
 
-                if ($searchQuery !== null)
-                {
+                if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
                     $countQuery->andWhere($searchQuery);
                 }
@@ -161,23 +163,19 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
         // Order
         // Orders
-        foreach ($orders as $key => $order)
-        {
+        foreach ($orders as $key => $order) {
             // Orders does not contain the name of the column, but its number,
             // so add the name so we can handle it just like the $columns array
             $orders[$key]['name'] = $columns[$order['column']]['name'];
         }
 
-        foreach ($orders as $key => $order)
-        {
+        foreach ($orders as $key => $order) {
 
             // $order['name'] is the name of the order column as sent by the JS
-            if ($order['name'] != '')
-            {
+            if ($order['name'] != '') {
                 $orderColumn = null;
 
-                switch($order['name'])
-                {
+                switch ($order['name']) {
                     case 'id':
                         {
                             $orderColumn = 'e.id';
@@ -211,8 +209,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
                 }
 
-                if ($orderColumn !== null)
-                {
+                if ($orderColumn !== null) {
                     $query->orderBy($orderColumn, $order['dir']);
                 }
             }
@@ -223,8 +220,8 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
 
         return array(
-            "results" 		=> $results,
-            "countResult"	=> $countResult
+            "results" => $results,
+            "countResult" => $countResult
         );
     }
 }

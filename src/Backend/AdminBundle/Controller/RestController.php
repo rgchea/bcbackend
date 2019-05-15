@@ -36,6 +36,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Translation\Translator;
 
 
 //entities
@@ -50,6 +51,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RestController extends FOSRestController
 {
     protected $em;
+    /** @var Translator $translator */
     protected $translator;
     protected $serializer;
 
@@ -68,9 +70,14 @@ class RestController extends FOSRestController
     public function getV1Action()
     {
         $this->initialise();
-        $response = array("result" => $this->getUser()->getUsername());
 
-        return new Response($this->serializer->serialize($response, "json"));
+        $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => 1));
+
+        return new JsonResponse(array(
+            'message' => "",
+            'user' => $this->getUser()->getUsername(),
+            'property' => $property->getId()
+        ));
 
     }
 
@@ -253,11 +260,12 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="User")
      */
 
-    public function postForgotPasswordAction(Request $request)
+    public function postForgotPasswordAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         try {
             $this->initialise();
             $email = strtolower(trim($request->get('email')));
+            $lang = strtolower(trim($request->get('language')));
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 return new JsonResponse(array('message' => 'Invalid email format.'), JsonResponse::HTTP_UNAUTHORIZED);
@@ -269,7 +277,23 @@ class RestController extends FOSRestController
                 return new JsonResponse(array('message' => 'Invalid email.'), JsonResponse::HTTP_UNAUTHORIZED);
             }
 
-            // ToDo: Pending information about sending the email.
+            $pass = $this->random_str(32);
+
+            $this->translator->setLocale($lang);
+            $subject = $this->translator->trans('mail.forgot_password_subject');
+            $bodyHtml = $this->translator->trans(
+                'mail.forgot_password_body',
+                ['%password%' => $pass]
+            );
+
+            $user->setPlainPassword($pass);
+            $user->setPassword($encoder->encodePassword($user, $pass));
+            $this->get("services")->blameOnMe($user, "update");
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
+            $this->sendEmail($message);
 
             return new JsonResponse(array(
                 'message' => "" . $user->getId(),
@@ -325,11 +349,13 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
-            $name = strtolower(trim($request->get('name')));
-            $mobilePhone = strtolower(trim($request->get('mobile_phone')));
-            $countryCode = strtolower(trim($request->get('country_code')));
+            $name = trim($request->get('name'));
+            $mobilePhone = trim($request->get('mobile_phone'));
+            $countryCode = trim($request->get('country_code'));
             $email = strtolower(trim($request->get('email')));
-            $password = strtolower(trim($request->get('password')));
+            $password = $request->get('password');
+
+            $lang = strtolower(trim($request->get('language')));
 
             // Some Validation
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -367,15 +393,14 @@ class RestController extends FOSRestController
             $this->em->persist($user);
             $this->em->flush();
 
-//            //Admin
-//            $bodyHtml = $this->translator->trans('label_register_complete_msg') . "<br/>";
-//            $bodyHtml .= "<b>Email:</b>" . $user->getEmail() . "<br/><br/>";
-//
-//            //contact
-//            $bodyHtml .= $this->translator->trans('label_register_contact');
-//
-//            $to = $user->getEmail();
-//            $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_register_complete'), $to, $bodyHtml);
+            $this->translator->setLocale($lang);
+            $subject = $this->translator->trans('mail.register_subject');
+            $bodyHtml = "<b>".$this->translator->trans('mail.label_user')."</b> ".$user->getUsername()."<br/>";
+            $bodyHtml .= "<b>".$this->translator->trans('mail.label_password')."</b> ".$password."<br/><br/>";
+            $bodyHtml .= $this->translator->trans('mail.register_body');
+
+            $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
+            $this->sendEmail($message);
 
             return new JsonResponse(array(
                 'message' => "" . $user->getId(),
@@ -483,6 +508,7 @@ class RestController extends FOSRestController
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
+            /** @var Property $property */
             $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
             if ($property == null) {
                 throw new \Exception("Invalid property code.");
@@ -498,9 +524,13 @@ class RestController extends FOSRestController
             $tenant->setRole($role);
             $tenant->setIsOwner(true);
 
+            $property->setOwner($this->getUser());
+
+            $this->get("services")->blameOnMe($property, "update");
             $this->get("services")->blameOnMe($tenant, "update");
 
             $this->em->persist($tenant);
+            $this->em->persist($property);
             $this->em->flush();
 
             return new JsonResponse(array(
@@ -566,10 +596,10 @@ class RestController extends FOSRestController
             $data = array();
 
             $properties = $this->em->getRepository('BackendAdminBundle:Property')->findBy(
-                array('enabled' => true),
+                array('enabled' => true, 'owner' => $this->getUser()),
                 array('code' => 'ASC')
             );
-            $total = $this->em->getRepository('BackendAdminBundle:Property')->countApiProperties();
+            $total = $this->em->getRepository('BackendAdminBundle:Property')->countApiProperties($this->getUser());
 
             /** @var Property $property */
             foreach ($properties as $property) {
@@ -644,7 +674,7 @@ class RestController extends FOSRestController
             $this->initialise();
 
             /** @var Property $property */
-            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code);
+            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code, $this->getUser());
             $property = $propertyResult[0];
 
             $type = $property->getPropertyType();
@@ -717,7 +747,7 @@ class RestController extends FOSRestController
             $this->initialise();
 
             /** @var Property $property */
-            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code);
+            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code, $this->getUser());
             $property = $propertyResult[0];
 
             $type = $property->getPropertyType();
@@ -1294,7 +1324,14 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/ticket", name="create_ticket")
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     * @SWG\Parameter( name="title", in="body", type="string", description="The title of the ticket.", schema={} )
+     * @SWG\Parameter( name="description", in="body", type="string", description="The description of the ticket.", schema={} )
+     * @SWG\Parameter( name="photos", in="body", type="array", description="The photos of the ticket.", schema={} )
+     * @SWG\Parameter( name="solution", in="body", type="boolean", description="Is the ticket a solution.", schema={} )
+     * @SWG\Parameter( name="is_public", in="body", type="boolean", description="Is the ticket public or private.", schema={} )
+     * @SWG\Parameter( name="category_id", in="body", type="integer", description="The category ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="sector_id", in="body", type="integer", description="The complex sector ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="property_id", in="body", type="integer", description="The property ID of the ticket.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
@@ -1324,18 +1361,47 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
-            $title = strtolower(trim($request->get('title')));
-            $description = strtolower(trim($request->get('description')));
-            $photos = strtolower(trim($request->get('photos'))); // ToDo: This is gonna be cardiacation cause dunoo
-            $solution = strtolower(trim($request->get('solution')));
-            $isPublic = strtolower(trim($request->get('is_public')));
+            $title = $request->get('title');
+            $description = $request->get('description');
+            $photos = $request->get('photos'); // ToDo: This is gonna be cardiacation cause dunoo
+            $solution = $request->get('solution');
+            $isPublic = $request->get('is_public');
+            $categoryId = $request->get('category_id');
+            $complexSectorId = $request->get('sector_id');
+            $propertyId = $request->get('property_id');
+            $commonAreaReservationId = $request->get('common_area_reservation_id');
+            $tenantContractId = $request->get('tenant_contract_id');
 
-//            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
-//            if ($property == null) {
-//                throw new \Exception("Invalid property code.");
-//            }
+            // Required parameter
+            $category = $this->em->getRepository('BackendAdminBundle:TicketCategory')->findOneBy(array('enabled' => true, 'id' => $categoryId));
+            if ($category == null) {
+                throw new \Exception("Invalid category ID.");
+            }
+
+            // Required parameter
+            $complexSector = $this->em->getRepository('BackendAdminBundle:ComplexSector')->findOneBy(array('enabled' => true, 'id' => $complexSectorId));
+            if ($complexSector == null) {
+                throw new \Exception("Invalid complex sector ID.");
+            }
+
+            // Required parameter
+            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => $propertyId));
+            if ($property == null) {
+                throw new \Exception("Invalid property ID.");
+            }
+
+            // Optional parameter
+            $commonAreaReservation = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->findOneBy(array('enabled' => true, 'id' => $commonAreaReservationId));
+
+            // Required parameter
+            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array('enabled' => true, 'id' => $tenantContractId));
+            if ($tenantContract == null) {
+                throw new \Exception("Invalid tenant contract ID.");
+            }
 
             // ToDo: to be finished.
+
+            // ToDo: adds an entity to TicketStatusLog, the same for closeTicket.
 
             return new JsonResponse(array(
                 'message' => "",
@@ -1803,6 +1869,16 @@ class RestController extends FOSRestController
         }
 
         return array_unique($ids);
+    }
+
+    private function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    {
+        $pieces = [];
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < $length; ++$i) {
+            $pieces []= $keyspace[random_int(0, $max)];
+        }
+        return implode('', $pieces);
     }
 
 }
