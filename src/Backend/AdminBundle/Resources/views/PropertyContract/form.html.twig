@@ -344,8 +344,13 @@
 			{% if myLocale == 'es' %}
 			"language": {
 				"url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
-			}
+				}
+			{% else %}
+			"language": {
+				"infoFiltered": ""
+				}
 			{% endif %}
+
 
 
 

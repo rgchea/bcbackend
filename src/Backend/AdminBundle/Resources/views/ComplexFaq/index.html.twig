@@ -125,9 +125,13 @@
                 "pageLength": 10,
                 "order": [[1, 'asc']],
                 {% if myLocale == 'es' %}
-                    "language": {
-                        "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
-                    }
+                "language": {
+                    "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+                }
+                {% else %}
+                "language": {
+                    "infoFiltered": ""
+                }
                 {% endif %}
 
 
