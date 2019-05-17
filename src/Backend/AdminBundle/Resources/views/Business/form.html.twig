@@ -1,6 +1,7 @@
 <link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
 <script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
 
+
 <div class="header">
 	<div class="container">
 		<div class="row">
@@ -48,13 +49,19 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group ">
-				{{ form_label(form.name) }}
+				<b>{{ 'label_business'|trans }}</b> {{ form_label(form.name) }}
 				{{ form_errors(form.name) }}
 				{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
 				) }}
 			</div>
 		</div>
-		<div class="form-group col-md-4">
+		<div class="form-group col-md-2">
+			<div class="form-group ">
+				<label for="name">{{ 'label_country'|trans }}</label>
+				<div id="" class="flagstrap" data-input-name="phone_code" data-selected-country="US"></div>
+			</div>
+		</div>
+		<div class="form-group col-md-2">
 			<div class="form-group ">
 				{{ form_label(form.phoneNumber) }}
 				{{ form_errors(form.phoneNumber) }}
@@ -76,6 +83,14 @@
 
 	</div>
 	<div class="row">
+		<div class="form-group col-md-4">
+			<div class="form-group ">
+				{{ form_label(form.address) }}
+				{{ form_errors(form.address) }}
+				{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+				) }}
+			</div>
+		</div>
 
 		<div class="col-md-2">
 			<div class="form-group">
@@ -104,14 +119,7 @@
 			{{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
 			) }}
 		</div>
-		<div class="form-group col-md-4">
-			<div class="form-group ">
-				{{ form_label(form.address) }}
-				{{ form_errors(form.address) }}
-				{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
-				) }}
-			</div>
-		</div>
+
 
 
 	</div>
@@ -133,6 +141,15 @@
 
 	<div class="row">
 		<div id="billing_info">
+
+			<div class="form-group col-md-4">
+				<div class="form-group ">
+					{{ form_label(form.billingAddress) }}
+					{{ form_errors(form.billingAddress) }}
+					{{ form_widget(form.billingAddress, { 'attr': {'class' : 'form-control' } }
+					) }}
+				</div>
+			</div>
 			<div class="col-md-2">
 
 				<div class="form-group">
@@ -169,14 +186,7 @@
 				) }}
 				</div>
 			</div>
-			<div class="form-group col-md-4">
-				<div class="form-group ">
-				{{ form_label(form.billingAddress) }}
-				{{ form_errors(form.billingAddress) }}
-				{{ form_widget(form.billingAddress, { 'attr': {'class' : 'form-control' } }
-				) }}
-				</div>
-			</div>
+
 
 
 		</div>
@@ -187,13 +197,13 @@
 
 	<div class="row">
 
-		<div class="form-group col-md-4">
+		<div class="form-group col-md-6">
 			{{ form_label(form.taxName) }}
 			{{ form_errors(form.taxName) }}
 			{{ form_widget(form.taxName, { 'attr': {'class' : 'form-control' } }
 			) }}
 		</div>
-		<div class="form-group col-md-4">
+		<div class="form-group col-md-6">
 			{{ form_label(form.taxIdentifier) }}
 			{{ form_errors(form.taxIdentifier) }}
 			{{ form_widget(form.taxIdentifier, { 'attr': {'class' : 'form-control' } }
@@ -208,9 +218,19 @@
 
 	<div class="row">
 
-		<div class="form-group col-md-4">
-			<button type="submit" class="btn btn-primary">{{ 'label_register_create_company_2'|trans }}</button>
-		</div>
+		{% if edit is defined %}
+			<div class="form-actions">
+				<button class="btn btn-primary" type="submit">
+					<i class="fa fa-save"></i>
+					{{ 'label_save'|trans  }}
+				</button>
+			</div>
+		{% else %}
+			<div class="form-group col-md-4">
+				<button type="submit" class="btn btn-primary">{{ 'label_register_create_company_2'|trans }}</button>
+			</div>
+
+		{% endif %}
 	</div>
 
 	<!--</form>-->
@@ -226,6 +246,13 @@
 
 <script type="text/javascript" language="Javascript">
 
+
+
+	{% if edit is defined %}
+	var myEntity = '{{ edit }}';
+	{% else %}
+	var myEntity = 0;
+	{% endif %}
 
 	function changeState(billing){
 
@@ -276,7 +303,7 @@
 			type:"POST",
 			dataType:"json",
 			url:"{{ path('backend_admin_business_check_email') }}",
-			data:"email="+$( "#business_email" ).val(),
+			data: {email: $( "#business_email" ).val(), myEntity: myEntity},
 			success:function(data){
 				//console.log(data);
 				if(data.result == 0){
@@ -299,7 +326,8 @@
 			type:"POST",
 			dataType:"json",
 			url:"{{ path('backend_admin_business_check_phone') }}",
-			data:"phone="+$( "#business_phoneNumber" ).val(),
+			//data:"phone="+$( "#business_phoneNumber" ).val(),
+			data: {phone: $( "#business_phoneNumber" ).val(), myEntity: myEntity},
 			success:function(data){
 				//console.log(data);
 				if(data.result == 0){
@@ -320,7 +348,6 @@
 
 
 	$( document ).ready(function() {
-
 
 
 		$('.flagstrap').flagStrap({
@@ -345,10 +372,10 @@
 
 		});
 
-		$("#business_zipCode").rules("add", {required:true, minlength: 5, digits:true});
-		$("#business_billingZipCode").rules("add", {required:true, minlength: 4, digits:true});
+		$("#business_zipCode").rules("add", {required:true, digits:true, minlength: 5});
+		$("#business_billingZipCode").rules("add", {required:true, digits:true, minlength: 4});
 
-		$("#business_phoneNumber").rules("add", {required:true, minlength: 8, digits:true});
+		$("#business_phoneNumber").rules("add", {required:true, digits:true, minlength: 8});
 		$("#business_email").rules("add", {required:true, email:true});
 
 		//$("#business_taxIdentifier").
@@ -359,13 +386,14 @@
 			if($("[name='business']").valid()){
 
 				$('#pizote_spinner').show();
-				myReturn = false;
+				myReturnEmail = false;
+				myReturnPhone = false;
 
 				$.ajax({
 					type:"POST",
 					dataType:"json",
 					url:"{{ path('backend_admin_business_check_email') }}",
-					data:"email="+$( "#business_email" ).val(),
+					data: {email: $( "#business_email" ).val(), myEntity: myEntity},
 					async:false,
 					success:function(data){
 						//console.log(data);
@@ -374,12 +402,12 @@
 							$( "#business_email" ).val("");
 							$( "#business_email" ).focus();
 							$('#pizote_spinner').hide();
-							return false;
+							myReturnEmail = false;
 						}
 
 						if(data.result == 1){
 							$("#checkEmailAlert").hide();
-							myReturn = true;
+							myReturnEmail = true;
 						}
 					}
 				});
@@ -391,12 +419,12 @@
 
 				 */
 
-
 				$.ajax({
 					type:"POST",
 					dataType:"json",
 					url:"{{ path('backend_admin_business_check_phone') }}",
-					data:"phone="+$( "#business_phoneNumber" ).val(),
+					//data:"phone="+$( "#business_phoneNumber" ).val(),
+					data: {phone: $( "#business_phoneNumber" ).val(), myEntity: myEntity},
 					async:false,
 					success:function(data){
 						//console.log(data);
@@ -405,12 +433,12 @@
 							$( "#business_phoneNumber" ).val("");
 							$( "#business_phoneNumber" ).focus();
 							$('#pizote_spinner').hide();
-							return false;
+							myReturnPhone = false;
 						}
 
 						if(data.result == 1){
 							$("#checkPhoneAlert").hide();
-							myReturn = true;
+							myReturnPhone = true;
 						}
 					}
 				});
@@ -422,8 +450,14 @@
 				}
 				*/
 
-				$('#pizote_spinner').hide();
-				return myReturn;
+				//$('#pizote_spinner').hide();
+				if(myReturnEmail && myReturnPhone){
+					return true;
+				}
+				else{
+					return false;
+				}
+
 
 				//$('#pizote_spinner').show();
 				//return true;

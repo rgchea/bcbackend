@@ -242,7 +242,7 @@ class BusinessController extends Controller
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'countries' => $countries,
-            'edit' => 1
+            'edit' => $entity->getId()
         ));
     }
 
@@ -328,6 +328,11 @@ class BusinessController extends Controller
          * */
 
         if ($form->isValid()) {
+
+
+            ///code + phone
+            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+            $entity->setPhoneCountry($objCountry);
 
 
             $this->get("services")->blameOnMe($entity, "create");
@@ -488,6 +493,11 @@ class BusinessController extends Controller
         if ($editForm->isValid()) {
             $myRequest = $request->request->get('business');
 
+            ///code + phone
+            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+            $entity->setPhoneCountry($objCountry);
+
+
             $this->get("services")->blameOnMe($entity);
             $this->em->flush();
 
@@ -563,15 +573,37 @@ class BusinessController extends Controller
         $this->initialise();
 
         $email = trim($_REQUEST["email"]);
+        $myEntity  = intval($_REQUEST["myEntity"]);
 
-        $check = $this->em->getRepository('BackendAdminBundle:Business')->findByEmail($email);
+        $check = $this->em->getRepository('BackendAdminBundle:Business')->findOneByEmail($email);
 
         $arrReturn = array();
-        if($check){
-            $arrReturn["result"] = 0;
+        if($myEntity == 0){
+            if($check){
+                $arrReturn["result"] = 0;
+            }
+            else{
+                $arrReturn["result"] = 1;
+            }
+
         }
-        else{
-            $arrReturn["result"] = 1;
+        else{//EDIT
+            $businessID = intval($check->getId());
+
+            if($check){
+
+                if($businessID == $myEntity){
+                    $arrReturn["result"] = 1;
+                }
+                else{
+                    $arrReturn["result"] = 0;
+                }
+
+            }
+            else{
+                $arrReturn["result"] = 1;
+            }
+
         }
 
         return new JsonResponse($arrReturn) ;
@@ -585,16 +617,40 @@ class BusinessController extends Controller
         $this->initialise();
 
         $phone = trim($_REQUEST["phone"]);
+        $myEntity  = intval($_REQUEST["myEntity"]);
 
-        $check = $this->em->getRepository('BackendAdminBundle:Business')->findByPhoneNumber($phone);
+        $check = $this->em->getRepository('BackendAdminBundle:Business')->findOneByPhoneNumber($phone);
+
 
         $arrReturn = array();
-        if($check){
-            $arrReturn["result"] = 0;
+        if($myEntity == 0){
+            if($check){
+                $arrReturn["result"] = 0;
+            }
+            else{
+                $arrReturn["result"] = 1;
+            }
+
         }
-        else{
-            $arrReturn["result"] = 1;
+        else{//EDIT
+            $businessID = intval($check->getId());
+
+            if($check){
+
+                if($businessID == $myEntity){
+                    $arrReturn["result"] = 1;
+                }
+                else{
+                    $arrReturn["result"] = 0;
+                }
+
+            }
+            else{
+                $arrReturn["result"] = 1;
+            }
+
         }
+
 
         return new JsonResponse($arrReturn) ;
 

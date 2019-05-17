@@ -9,6 +9,10 @@ Backend\AdminBundle\Entity\Property:
         property_type_id:
             columns:
                 - property_type_id
+        complex_id:
+            columns:
+                - complex_id
+
         complex_sector_id:
             columns:
                 - complex_sector_id
@@ -94,6 +98,17 @@ Backend\AdminBundle\Entity\Property:
             options:
                 default: '1'
     manyToOne:
+        complex:
+            targetEntity: Complex
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
         complexSector:
             targetEntity: ComplexSector
             cascade: {  }

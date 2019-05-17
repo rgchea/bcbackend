@@ -138,6 +138,8 @@
 
 		{% if edit is defined %}
 			$('#myColor').css("background-color", $("#myColorPicker").val());
+			$("#ticket_category_complex").val({{ entity.complex.id }});
+
 		{% endif %}
 
 

@@ -51,25 +51,28 @@ class PropertyType extends AbstractType
             )) ;
 
 
-        $arrComplex = $repository->getComplexByUser($options["userID"]);
-        $filters = array();
-        foreach ($arrComplex as $k =>$v) {
-            $filters[$v] = $v;//the complex id
-        }
+            $array = $repository->getComplexByUser($options["userID"]);
+            $builder->add('complex', ChoiceType::class, array('choices' => $array, 'label'=>"label_complex", 'required' => true, 'mapped' => false));
 
-        //var_dump($filters);die;
-
-        $builder->add('complexSector', null, array('label'=>"label_complex_sector", 'required' => true,
-            'class' => 'Backend\AdminBundle\Entity\ComplexSector',
-            'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($filters){
-                return $er->createQueryBuilder('s')
-                    ->join("s.complex", 'c')
-                    ->where('s.enabled = 1')
-                    ->andWhere("c.id IN (:arrComplex)")->setParameter('arrComplex', $filters)
-                    ->orderBy("s.id", "DESC")
-                    ;
+            $arrComplex = $repository->getComplexByUser($options["userID"]);
+            $filters = array();
+            foreach ($arrComplex as $k =>$v) {
+                $filters[$v] = $v;//the complex id
             }
-        )) ;
+
+            //var_dump($filters);die;
+
+            $builder->add('complexSector', null, array('label'=>"label_complex_sector", 'required' => true,
+                'class' => 'Backend\AdminBundle\Entity\ComplexSector',
+                'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($filters){
+                    return $er->createQueryBuilder('s')
+                        ->join("s.complex", 'c')
+                        ->where('s.enabled = 1')
+                        ->andWhere("c.id IN (:arrComplex)")->setParameter('arrComplex', $filters)
+                        ->orderBy("s.id", "DESC")
+                        ;
+                }
+            )) ;
 
 
 

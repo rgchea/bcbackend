@@ -410,6 +410,10 @@ class ComplexController extends Controller
             $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
 
 
+            ///code + phone
+            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+            $entity->setPhoneCountry($objCountry);
+
 
 
             //CREATE SECTORS and PROPERTIES
@@ -473,8 +477,10 @@ class ComplexController extends Controller
 
                     $newProperty = new Property();
                     $newProperty->setPropertyType($propertyType);
+                    $newProperty->setComplex($entity);
                     $newProperty->setComplexSector($newSector);
-                    //$newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
+
+                    //set temp code / then update
                     $newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
                     $myNumber = sprintf("%02d", $j);
                     $newProperty->setName($propertyTypeName." ".$i.$myNumber);
@@ -488,8 +494,6 @@ class ComplexController extends Controller
                     $this->em->persist($newProperty);
 
                 }
-
-
             }
             
             //$this->em->persist($entity);
@@ -577,6 +581,11 @@ class ComplexController extends Controller
 
         if ($editForm->isValid()) {
             $myRequest = $request->request->get('complex');
+
+            ///code + phone
+            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+            $entity->setPhoneCountry($objCountry);
+
 
             $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
             $entity->setGeoState($geoState);

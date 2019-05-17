@@ -251,6 +251,7 @@ class ComplexSectorController extends Controller
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'edit' => $entity->getId()
         ));
     }
 

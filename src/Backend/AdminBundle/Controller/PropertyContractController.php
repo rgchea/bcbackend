@@ -520,7 +520,8 @@ class PropertyContractController extends Controller
         if ($form->isValid()) {
             $myRequest = $_REQUEST["property_contract"];
 
-            $entity->setProperty($this->em->getRepository('BackendAdminBundle:Property')->find(intval($myRequest["property"])));
+            $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find(intval($myRequest["property"]));
+            $entity->setProperty($objProperty);
             $entity->setStartDate(new \DateTime($myRequest["startDate"]));
             $entity->setEndDate(new \DateTime($myRequest["endDate"]));
 
@@ -528,6 +529,10 @@ class PropertyContractController extends Controller
             $this->get("services")->blameOnMe($entity, "create");
 
             $this->em->persist($entity);
+            $this->em->flush();
+
+            $objProperty->setIsAvailable(0);
+            $this->em->persist($objProperty);
             $this->em->flush();
 
 

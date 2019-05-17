@@ -72,14 +72,14 @@
                         <input  type="password" id="register_password_retype" name="register[password_retype]" class="form-control" placeholder="{{ 'label_login_password_retype'|trans }}">
                     </div>
 
+                    <div class="clearfix"></div>
 
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="register[conditions]" id="checkTerms" />&nbsp;<a data-toggle="modal" id="orange-button" data-target="#orange-modal" data-color="orange" href="#">{{ 'label_accept_terms'|trans }}</a>
-                            </label>
-                        </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="register[conditions]" id="checkTerms" />&nbsp;<a data-toggle="modal" id="orange-button" data-target="#orange-modal" data-color="orange" href="#">{{ 'label_accept_terms'|trans }}</a>
+                        </label>
                     </div>
+
 
                     <div id="modal-backdrop" class="modal-backdrop-transparent modal-transition"></div>
                     <!-- Modal -->
@@ -151,7 +151,7 @@
 
 
             //$("#fos_user_registration_form_birthdate").rules("add", {required:true});
-            $("#fos_user_registration_form_phone").rules("add", {minlength: 8, digits:true});
+            $("#fos_user_registration_form_phone").rules("add", {required:true, digits:true, minlength: 8});
 
 
             $('[name="registerForm"]').on("submit", function(){

@@ -32,26 +32,28 @@
 
 						<fieldset>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-8">
                             {{ form_label(form.question) }}
                             {{ form_errors(form.question) }}
                             {{ form_widget(form.question, { 'attr': {'class' : 'form-control' } }
                             ) }}
                         </div>
-							<div class="form-group col-md-6">
+							<div class="clearfix"></div>
+							<div class="form-group col-md-8">
 								{{ form_label(form.answer) }}
 								{{ form_errors(form.answer) }}
 								{{ form_widget(form.answer, { 'attr': {'class' : 'form-control' } }
 								) }}
 							</div>
-                        <div class="form-group col-md-6">
+							<div class="clearfix"></div>
+                        <div class="form-group col-md-8">
                             {{ form_label(form.orderList) }}
                             {{ form_errors(form.orderList) }}
                             {{ form_widget(form.orderList, { 'attr': {'class' : 'form-control' } }
                             ) }}
                          </div>
 						<div class="clearfix"></div>
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-8">
 							{{ form_label(form.complex) }}
 							{{ form_errors(form.complex) }}
 							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
@@ -93,7 +95,7 @@
 
 	$( document ).ready(function() {
                 
-                $('[name="complex_faq"]').validate();
+		$('[name="complex_faq"]').validate();
                 
 		$('[name="complex_faq"]').on("submit", function(){
 			//Code: Action (like ajax...)
@@ -108,6 +110,10 @@
 			}
 
 		});
+
+		{% if edit is defined %}
+			$("#complex_faq_complex").val({{ entity.complex.id }});
+		{% endif %}
 
 	});
 

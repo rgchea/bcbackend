@@ -1,10 +1,6 @@
 <script src="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.css') }}">
 
-
-<link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
-<script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
-
 <style>
 	.input-group {
 		z-index: 0;
@@ -55,14 +51,22 @@
 						</div>
 						<div class="clearfix"></div>
 						<div class="form-group col-md-4">
+							{{ form_label(form.complex) }}
+							{{ form_errors(form.complex) }}
+							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
+							) }}
+						</div>
+
+						<div class="form-group col-md-4" id="div_property_complexSector">
+
 							{{ form_label(form.complexSector) }}
 							{{ form_errors(form.complexSector) }}
 							{{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control classic' } }
 							) }}
 						</div>
 
-
-						<div class="form-group col-md-4">
+						<div class="clearfix"></div>
+						<div class="form-group col-md-8">
 							{{ form_label(form.propertyType) }}
 							{{ form_errors(form.propertyType) }}
 							{{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control classic' } }
@@ -74,7 +78,7 @@
 						</div>
 						<div class="clearfix"></div>
 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-8">
 							{{ form_label(form.address) }}
 							{{ form_errors(form.address) }}
 							{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
@@ -202,138 +206,165 @@
 
 		{% if edit is defined %}
 
-		{% set myPath =  url('backend_admin_homepage')~"/uploads/images/property/" %}
-		{% set myPath = myPath|replace({'app_dev.php': ''}) %}
-		{% set myPath = myPath|replace({'/en/': ''}) %}
-		{% set myPath = myPath|replace({'/es/': ''}) %}
+			{% set myPath =  url('backend_admin_homepage')~"/uploads/images/property/" %}
+			{% set myPath = myPath|replace({'app_dev.php': ''}) %}
+			{% set myPath = myPath|replace({'/en/': ''}) %}
+			{% set myPath = myPath|replace({'/es/': ''}) %}
 
 
-		////DROPZONE
-		var countFiles = 0;
-		var _actionToDropZone = $("#form_snippet_image").attr('action');
-		Dropzone.autoDiscover = false;
-		//$(".dz-hidden-input").prop("disabled",false);
+			////DROPZONE
+			var countFiles = 0;
+			var _actionToDropZone = $("#form_snippet_image").attr('action');
+			Dropzone.autoDiscover = false;
+			//$(".dz-hidden-input").prop("disabled",false);
 
-		var myDropzone = new Dropzone("#form_snippet_image", {
-			url: _actionToDropZone,
-			params: {
-				property: {{ entity.id }}
-			},
-			maxFilesize: 1, // MB
-			maxFiles: 5,
-			addRemoveLinks: true,
-			createImageThumbnails: true,
-			acceptedFiles: ".png,.jpg,.jpeg",
-			thumbnailWidth: 250,
-			thumbnailHeight: 250,
-			autoProcessQueue: true,
-			parallelUploads: 1,
-			uploadMultiple: false,
-			success: function(file, response){
-				//console.log(response.success);
-				file.id = response.success;
+			var myDropzone = new Dropzone("#form_snippet_image", {
+				url: _actionToDropZone,
+				params: {
+					property: {{ entity.id }}
+				},
+				maxFilesize: 1, // MB
+				maxFiles: 5,
+				addRemoveLinks: true,
+				createImageThumbnails: true,
+				acceptedFiles: ".png,.jpg,.jpeg",
+				thumbnailWidth: 250,
+				thumbnailHeight: 250,
+				autoProcessQueue: true,
+				parallelUploads: 1,
+				uploadMultiple: false,
+				success: function(file, response){
+					//console.log(response.success);
+					file.id = response.success;
 
-			},
-			error: function(file, response){
-				//console.log(response.success);
-				file.id = response.success;
-				if(countFiles > 5){
-					myDropzone.disable();
-				}
-
-
-			},
-
-			init: function() {
-				thisDropzone = this;
-
-				$.get("{{path('property_ajax_snippet_image_get')}}",{property: '{{ entity.id }}' }, function(data) {
+				},
+				error: function(file, response){
+					//console.log(response.success);
+					file.id = response.success;
+					if(countFiles > 5){
+						myDropzone.disable();
+					}
 
 
-					$.each(data, function(key,value){
+				},
 
-						//var mockFile = { name: value.name, size: value.size };
-						var mockFile = { name: value.name, size: "", id: value.id };
+				init: function() {
+					thisDropzone = this;
 
-						thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-						thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '{{ myPath }}'+value.name);
+					$.get("{{path('property_ajax_snippet_image_get')}}",{property: '{{ entity.id }}' }, function(data) {
 
-						//console.log('{{ myPath }}'+value.name);
-						thisDropzone.emit("complete", mockFile);
-						countFiles++;
-						if(countFiles >= 5){
-							myDropzone.disable();
-						}
+
+						$.each(data, function(key,value){
+
+							//var mockFile = { name: value.name, size: value.size };
+							var mockFile = { name: value.name, size: "", id: value.id };
+
+							thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+							thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '{{ myPath }}'+value.name);
+
+							//console.log('{{ myPath }}'+value.name);
+							thisDropzone.emit("complete", mockFile);
+							countFiles++;
+							if(countFiles >= 5){
+								myDropzone.disable();
+							}
+
+						});
+
+						//$(".dz-hidden-input").prop("disabled",true);
+
 
 					});
 
-					//$(".dz-hidden-input").prop("disabled",true);
-
-
-				});
-
-				this.on("maxfilesexceeded", function(file){
-					alert("{{ 'label_no_more_files'|trans }}");
-					this.removeFile(file);
-					countFiles--;
-					//myDropzone.disable();
-				});
-
-				this.on('removedfile', function (file) {
-
-					//console.log(file);
-
-					$.ajax({
-						type: 'POST',
-						url: "{{path('property_ajax_snippet_image_remove')}}",
-						//data: {id: file.name, _token: $('#csrf-token').val()},
-						data: {id: file.id, name: file.name},
-						dataType: 'html',
-						success: function (data) {
-							var rep = JSON.parse(data);
-							countFiles--;
-							if(countFiles < 5){
-								myDropzone.enable();
-							}
-
-						}
-					})
-
-
-				});
-
-				this.on("addedfile", function(file) {
-					countFiles++;
-					if(countFiles > 5){
+					this.on("maxfilesexceeded", function(file){
+						alert("{{ 'label_no_more_files'|trans }}");
 						this.removeFile(file);
 						countFiles--;
-						myDropzone.disable();
-					}
-				});
+						//myDropzone.disable();
+					});
+
+					this.on('removedfile', function (file) {
+
+						//console.log(file);
+
+						$.ajax({
+							type: 'POST',
+							url: "{{path('property_ajax_snippet_image_remove')}}",
+							//data: {id: file.name, _token: $('#csrf-token').val()},
+							data: {id: file.id, name: file.name},
+							dataType: 'html',
+							success: function (data) {
+								var rep = JSON.parse(data);
+								countFiles--;
+								if(countFiles < 5){
+									myDropzone.enable();
+								}
+
+							}
+						})
 
 
-			}
+					});
 
-		});
+					this.on("addedfile", function(file) {
+						countFiles++;
+						if(countFiles > 5){
+							this.removeFile(file);
+							countFiles--;
+							myDropzone.disable();
+						}
+					});
 
 
-		/*
-        myDropzone.on("addedfile", function(file) {
-            alert('nouveau fichier reçu');
-        });
-        */
+				}
+
+			});
 
 
+			/*
+			myDropzone.on("addedfile", function(file) {
+				alert('nouveau fichier reçu');
+			});
+			*/
 
+
+			$("#property_complex").val({{ entity.complex.id }});
 
 
 		{% endif %}
 
+		changeSection();
 
-
+		$("#property_complex").change(function(){
+			changeSection();
+		});
 
 
 	});
+
+	function changeSection(){
+
+		myComplex = $("#property_complex").val();
+
+		{% if edit is defined %}
+			selectedSection = '{{ entity.complexSector.id }}';
+		{% else %}
+			selectedSection = 0;
+		{% endif %}
+
+		$.ajax({
+			type:"POST",
+			dataType:"html",
+			async:false,
+			url:"{{ path('backend_admin_property_change_section') }}",
+			//data:"countryShort="+myCountry,
+			data: {complexID: myComplex, selectedSection: selectedSection},
+			success:function(data){
+				$("#property_complexSector").html(data);
+			}
+		});
+
+	}
 
 
 

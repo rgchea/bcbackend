@@ -50,3 +50,7 @@ property_ajax_snippet_image_remove:
     defaults: { _controller: "BackendAdminBundle:Property:imageRemove" }
     
 
+backend_admin_property_change_section:
+    path:     /changeSection
+    defaults: { _controller: "BackendAdminBundle:Property:changeSection" }
+    #methods:  POST

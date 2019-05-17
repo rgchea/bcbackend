@@ -3511,3 +3511,9 @@ i {
   width: 360px !important;
 
 }
+
+/*FIX FLAGSTRAP*/
+.flagstrap > button{
+  width: 95% !important;
+  margin-top: 2px !important;
+}

@@ -80,6 +80,9 @@ class PropertyController extends Controller
             $orders = $request->request->get('order');
             $columns = $request->request->get('columns');
 
+            $complexID = $request->request->has("complexID") ? $request->request->get('complexID') : 0;
+
+
         }
         else // If the request is not a POST one, die hard
             die;
@@ -88,10 +91,18 @@ class PropertyController extends Controller
         ///FILTER BY ROLE
         $filters = null;
         if($this->role != "SUPER ADMIN"){
-            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-            foreach ($arrComplex as $k =>$v) {
-                $filters[$v] = $v;//the complex id
+
+            if($complexID != 0){
+                $filters[$complexID] = $complexID;
             }
+            else{
+                $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+                foreach ($arrComplex as $k =>$v) {
+                    $filters[$v] = $v;//the complex id
+                }
+
+            }
+
         }
 
         // Process Parameters
@@ -273,7 +284,7 @@ class PropertyController extends Controller
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'edit' => 1
+            'edit' => $entity->getId()
         ));
     }
 
@@ -350,6 +361,8 @@ class PropertyController extends Controller
 
         if ($form->isValid()) {
 
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["property"]["complex"]));
+
             //$businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
             $sectorID = $_REQUEST["property"]["complexSector"];
             $objComplexSector = $this->em->getRepository('BackendAdminBundle:ComplexSector')->find($sectorID);
@@ -410,8 +423,8 @@ class PropertyController extends Controller
             'action' => $this->generateUrl('backend_admin_property_create'),
             'method' => 'POST',
             'role' => $this->role,
-            //'userID' => $this->userLogged->getId(),
-            'userID' => $entity->getCreatedBy()->getId(),
+            'userID' => $this->userLogged->getId(),
+            //'userID' => $entity->getCreatedBy()->getId(),
             'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
 
         ));
@@ -484,8 +497,28 @@ class PropertyController extends Controller
         if ($editForm->isValid()) {
             $myRequest = $request->request->get('property');
 
-            $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["property"]["complex"]));
+
+            //$businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
+            $sectorID = $_REQUEST["property"]["complexSector"];
+            $objComplexSector = $this->em->getRepository('BackendAdminBundle:ComplexSector')->find($sectorID);
+            $business = $objComplexSector->getComplex()->getBusiness();
+            $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
+
+            $myPropertyType = intval($_REQUEST["property"]["propertyType"]);
+            $propertyType = $this->em->getRepository('BackendAdminBundle:PropertyType')->find($myPropertyType);
+
+            if($myPropertyType == 0){ //OTHER
+                $propertyTypeName = trim($_REQUEST["extra"]["propertyTypeName"]);
+            }
+            else{
+                $propertyTypeName = $businessLocale == "en" ? $propertyType->getNameEN() : $propertyType->getNameES();
+            }
+
+            //BLAME ME
+            $this->get("services")->blameOnMe($entity, "create");
+            $this->em->persist($entity);
+            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_property_index', array('id' => $id)));
@@ -621,6 +654,38 @@ class PropertyController extends Controller
         unlink($storeFolder.$imgName);
 
         return new JsonResponse(array('success' => true));
+
+    }
+
+    public function changeSectionAction(Request $request){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $complex = intval($_REQUEST["complexID"]);
+
+        //countryShort
+        $sections = $this->em->getRepository('BackendAdminBundle:ComplexSector')->findByComplex($complex);
+        $strReturn = "";
+
+        foreach ($sections as $s){
+
+            $selected = "";
+
+            if($s->getId() == intval($_REQUEST["selectedSection"])){
+                $selected = ' selected="selected" ';
+            }
+
+
+            //var_dump($s);die
+            $strReturn .= '<option '.$selected.'value="'.$s->getId().'">'.$s->getName().'</option>';
+        }
+
+
+        //return $strReturn;
+
+        print $strReturn;
+        die;
 
     }
 

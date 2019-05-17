@@ -57,7 +57,7 @@
 							) }}
 						</div>
 						<div class="clearfix"></div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-8">
 							{{ form_label(form.description) }}
 							{{ form_errors(form.description) }}
 							{{ form_widget(form.description, { 'attr': {'class' : 'form-control' } }
@@ -75,13 +75,14 @@
 						#}
 						<div class="clearfix"></div>
                                                 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-8">
 							{{ form_label(form.regulation) }}
 							{{ form_errors(form.regulation) }}
 							{{ form_widget(form.regulation, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
-						<div class="form-group col-md-4">
+						<div class="clearfix"></div>
+						<div class="form-group col-md-8">
 							{{ form_label(form.termCondition) }}
 							{{ form_errors(form.termCondition) }}
 							{{ form_widget(form.termCondition, { 'attr': {'class' : 'form-control' } }
@@ -292,10 +293,10 @@
 
 		{% if edit is defined %}
 
-		{% set myPath =  url('backend_admin_homepage')~"/uploads/images/common_area/" %}
-		{% set myPath = myPath|replace({'app_dev.php': ''}) %}
-		{% set myPath = myPath|replace({'/en/': ''}) %}
-		{% set myPath = myPath|replace({'/es/': ''}) %}
+			{% set myPath =  url('backend_admin_homepage')~"/uploads/images/common_area/" %}
+			{% set myPath = myPath|replace({'app_dev.php': ''}) %}
+			{% set myPath = myPath|replace({'/en/': ''}) %}
+			{% set myPath = myPath|replace({'/es/': ''}) %}
 
 			$('#schedule').jqs('import', {{ availability|raw }});
 
@@ -415,9 +416,7 @@
 			});
 			*/
 
-
-
-
+			$("#common_area_complex").val({{ entity.complex.id }});
 
 		{% endif %}
 

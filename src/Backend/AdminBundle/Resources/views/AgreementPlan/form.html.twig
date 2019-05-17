@@ -35,7 +35,7 @@
 						<fieldset>
 
                          <div class="form-group col-md-6">
-                            {{ form_label(form.fee) }}
+                            {{ form_label(form.fee) }} $
                             {{ form_errors(form.fee) }}
                             {{ form_widget(form.fee, { 'attr': {'class' : 'form-control' } }
                             ) }}
@@ -92,17 +92,16 @@
 
         $('[name="agreement_plan"]').validate({
 			success: function (error) {
-				$("#pizote_spinner").show();
 				return true;
 			},
 		});
 
 
-		$("#agreement_plan_fee").rules("add", {required:true, digits:true, min: 1});
+		$("#agreement_plan_fee").rules("add", {required:true, number:true, min: 1});
 		$("#agreement_plan_propertyLimitFrom").rules("add", {required:true, digits:true});
 		$("#agreement_plan_propertyLimitTo").rules("add", {required:true, digits:true});
 
-		/*
+
 		$('[name="agreement_plan"]').on("submit", function(){
 			//Code: Action (like ajax...)
 			if($("[name='agreement_plan']").valid()){
@@ -111,12 +110,13 @@
 
 			}
 			else{
+				$('#pizote_spinner').hide();
 				return false;
 			}
 
 		});
 
-		 */
+
 
 	});
 

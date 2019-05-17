@@ -37,14 +37,14 @@
                     <fieldset>
 
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             {{ form_label(form.name) }}
                             {{ form_errors(form.name) }}
                             {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
                             ) }}
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             {{ form_label(form.complexType) }}
                             {{ form_errors(form.complexType) }}
                             {{ form_widget(form.complexType, { 'attr': {'class' : 'form-control classic' } }
@@ -53,15 +53,21 @@
 
 
                         <div class="clearfix"></div>
+                        <div class="form-group col-md-4">
+                            {{ form_label(form.address) }}
+                            {{ form_errors(form.address) }}
+                            {{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
 
-                        <div class="col-md-4"  >
+                        <div class="col-md-2"  >
                             <label for="name">{{ 'label_country'|trans }}</label>
 
                             <div id="" class="flagstrap" data-input-name="complex_country" data-selected-country="{{ entity.geoState.geoCountry.shortName }}"></div>
 
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             {{ form_label(form.geoState) }}
                             {{ form_errors(form.geoState) }}
                             <div id="divGeoState">
@@ -76,21 +82,22 @@
                         </div>
 
                         <div class="clearfix"></div>
-                        <div class="form-group col-md-8">
-                            {{ form_label(form.address) }}
-                            {{ form_errors(form.address) }}
-                            {{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
-                            ) }}
-                        </div>
 
                         <div class="clearfix"></div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
+                            <div class="form-group ">
+                                <label for="name">{{ 'label_country'|trans }}</label>
+                                <div id="" class="flagstrap" data-input-name="phone_code" data-selected-country="{{ entity.phoneCountry.shortName }}"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
                             {{ form_label(form.phoneNumber) }}
                             {{ form_errors(form.phoneNumber) }}
                             {{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
                             ) }}
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             {{ form_label(form.email) }}
                             {{ form_errors(form.email) }}
                             {{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
@@ -107,8 +114,7 @@
                     </fieldset>
 
                     <div class="form-actions">
-                        <a href="{{ path('backend_admin_complex_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>
-
+                        {#<a href="{{ path('backend_admin_complex_index') }}" class="btn btn-default"> {{ 'label_cancel'|trans  }} </a>#}
                         <button class="btn btn-primary">
                             <i class="fa fa-save"></i>
                             {{ 'label_save'|trans  }}
@@ -117,6 +123,44 @@
 
                     <!--</form>-->
                     {{ form_end(form) }}
+
+                    <div class="clearfix"></div>
+                    <br/>
+                    <h2>{{ 'label_menu.property'|trans }}</h2>
+
+                    <table id="dt_table" class="table table-striped table-hover">
+                        <tfoot class="dt_tfoot">
+                        <tr>
+                            <th>ID</th>
+                            <th>{{ 'label_complex'|trans }}</th>
+                            <th>{{ 'label_complex_sector'|trans }}</th>
+                            <th>{{ 'label_name'|trans }}</th>
+                            <th>{{ 'label_code'|trans }}</th>
+                            <th>{{ 'label_owner'|trans }}</th>
+                            <th>{{ 'label_tenant'|trans }}</th>
+
+                            <th>&nbsp;</th>
+
+                        </tr>
+                        </tfoot>
+                        <thead>
+                        <tr>
+                            {# sorting of properties based on query components #}
+                            <th>ID</th>
+                            <th>{{ 'label_complex'|trans }}</th>
+                            <th>{{ 'label_complex_sector'|trans }}</th>
+                            <th>{{ 'label_name'|trans }}</th>
+                            <th>{{ 'label_code'|trans }}</th>
+                            <th>{{ 'label_owner'|trans }}</th>
+                            <th>{{ 'label_tenant'|trans }}</th>
+
+                            <th>{{ 'label_actions'|trans }}</th>
+                        </tr>
+
+                        </thead>
+                        <tbody></tbody>
+
+                    </table>
 
                 </div>
                 <!-- end widget content -->
@@ -133,7 +177,91 @@
 
 <script type="text/javascript" language="Javascript">
 
+
+    var table;
+    {% set myLocale = app.request.getLocale() %};
+
+    //GET COMPLEX PROPERTIES
+    function fetchData(){
+
+        table  = $('#dt_table').DataTable({
+            "columnDefs": [
+
+                // These are the column name variables that will be sent to the server
+                { "name": "id",   "targets": 0 },
+                { "name": "complex",   "targets": 1 },
+                { "name": "sector",   "targets": 2 },
+                { "name": "name",   "targets": 3 },
+                { "name": "code",   "targets": 4 },
+                { "name": "owner",   "targets": 5 },
+                { "name": "tenant",   "targets": 6 },
+                { "name": "actions",  "targets": 7 },
+
+            ],
+            // Server-side parameters
+            "processing": true,
+            "serverSide": true,
+            // Ajax call
+            "ajax": {
+                "url": "{{ path('property_list_datatables') }}",
+                "type": "POST",
+                //dataType: "html"
+                "data": {complexID: '{{ entity.id }}'}
+            },
+            // Classic DataTables parameters
+            "paging" : true,
+            "info" : true,
+            "searching": true,
+            "pageLength": 10,
+            "order": [[1, 'asc']],
+            {% if myLocale == 'es' %}
+                "language": {
+                    "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+                }
+            {% else %}
+                "language": {
+                    "infoFiltered": ""
+                }
+            {% endif %}
+
+
+
+        });
+
+    }
+
     $( document ).ready(function() {
+
+        // Add a text input to each footer cell
+        var pos = 1;
+        $('#dt_table tfoot th').each( function () {
+            var title = $(this).text();
+            if(pos != 8){//columna Actions
+                $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
+            }
+
+            pos ++;
+        });
+
+
+        fetchData();
+
+        // Apply the search
+        pos = 1;
+        table.columns().every( function () {
+            var that = this;
+
+            $("#input"+pos).on( 'keyup change', function () {
+                if ( that.search() !== this.value )
+                {
+                    that.search( this.value ).draw();
+                }
+            });
+            pos++;
+        });
+
+
+        ///////////////////////////////////////
 
 
         //alert($("#complexSectorType").val());

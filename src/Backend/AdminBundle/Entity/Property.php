@@ -492,4 +492,33 @@ class Property
     {
         return $this->sms_code;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\Complex
+     */
+    private $complex;
+
+
+    /**
+     * Set complex.
+     *
+     * @param \Backend\AdminBundle\Entity\Complex|null $complex
+     *
+     * @return Property
+     */
+    public function setComplex(\Backend\AdminBundle\Entity\Complex $complex = null)
+    {
+        $this->complex = $complex;
+
+        return $this;
+    }
+
+    /**
+     * Get complex.
+     *
+     * @return \Backend\AdminBundle\Entity\Complex|null
+     */
+    public function getComplex()
+    {
+        return $this->complex;
+    }
 }

@@ -556,4 +556,33 @@ class Business
     {
         return $this->customerId;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\GeoCountry
+     */
+    private $phoneCountry;
+
+
+    /**
+     * Set phoneCountry.
+     *
+     * @param \Backend\AdminBundle\Entity\GeoCountry|null $phoneCountry
+     *
+     * @return Business
+     */
+    public function setPhoneCountry(\Backend\AdminBundle\Entity\GeoCountry $phoneCountry = null)
+    {
+        $this->phoneCountry = $phoneCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get phoneCountry.
+     *
+     * @return \Backend\AdminBundle\Entity\GeoCountry|null
+     */
+    public function getPhoneCountry()
+    {
+        return $this->phoneCountry;
+    }
 }

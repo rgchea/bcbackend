@@ -284,4 +284,62 @@ class TenantContract
     {
         return $this->updatedBy;
     }
+    /**
+     * @var bool
+     */
+    private $invitationAccepted = false;
+
+    /**
+     * @var bool
+     */
+    private $invitationEmail = false;
+
+
+    /**
+     * Set invitationAccepted.
+     *
+     * @param bool $invitationAccepted
+     *
+     * @return TenantContract
+     */
+    public function setInvitationAccepted($invitationAccepted)
+    {
+        $this->invitationAccepted = $invitationAccepted;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationAccepted.
+     *
+     * @return bool
+     */
+    public function getInvitationAccepted()
+    {
+        return $this->invitationAccepted;
+    }
+
+    /**
+     * Set invitationEmail.
+     *
+     * @param bool $invitationEmail
+     *
+     * @return TenantContract
+     */
+    public function setInvitationEmail($invitationEmail)
+    {
+        $this->invitationEmail = $invitationEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get invitationEmail.
+     *
+     * @return bool
+     */
+    public function getInvitationEmail()
+    {
+        return $this->invitationEmail;
+    }
 }

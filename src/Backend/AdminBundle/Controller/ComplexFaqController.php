@@ -254,6 +254,7 @@ class ComplexFaqController extends Controller
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'edit' => $entity->getId()
         ));
     }
 
@@ -453,7 +454,7 @@ class ComplexFaqController extends Controller
         $this->get("services")->setVars('complexFaq');
         $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ComplexFaq entity.');

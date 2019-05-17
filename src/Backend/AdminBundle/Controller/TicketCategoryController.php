@@ -241,7 +241,7 @@ class TicketCategoryController extends Controller
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'edit' => 1
+            'edit' => $entity->getId()
         ));
     }
 
