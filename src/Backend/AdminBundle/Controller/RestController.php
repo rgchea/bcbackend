@@ -340,7 +340,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
+     * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the user.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -425,11 +425,11 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="name", in="body", type="string", description="The name of the user.", schema={} )
-     * @SWG\Parameter( name="mobile_phone", in="body", type="string", description="The mobile phone of the user.", schema={} )
-     * @SWG\Parameter( name="country_code", in="body", type="string", description="The country code of the user.", schema={} )
-     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
-     * @SWG\Parameter( name="password", in="body", type="string", description="The password of the user.", schema={} )
+     * @SWG\Parameter( name="name", in="body", required=true, type="string", description="The name of the user.", schema={} )
+     * @SWG\Parameter( name="mobile_phone", in="body", required=true, type="string", description="The mobile phone of the user.", schema={} )
+     * @SWG\Parameter( name="country_code", in="body", required=true, type="string", description="The country code of the user.", schema={} )
+     * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the user.", schema={} )
+     * @SWG\Parameter( name="password", in="body", required=true, type="string", description="The password of the user.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -598,7 +598,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -718,7 +718,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Property")
      */
 
-    public function getPropertiesAction($page_id)
+    public function getPropertiesAction($page_id = 1)
     {
         try {
             $this->initialise();
@@ -764,7 +764,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="code", in="path", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="code", in="path", required=true, type="string", description="The code of the property." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -834,7 +834,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="code", in="path", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="code", in="path", required=true, type="string", description="The code of the property." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -913,7 +913,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -1088,8 +1088,8 @@ class RestController extends FOSRestController
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
-     * @SWG\Parameter( name="complex_id", in="path", type="string", description="The ID of the Complex." )
+     * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="complex_id", in="path", required=true, type="string", description="The ID of the Complex." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
@@ -1164,8 +1164,8 @@ class RestController extends FOSRestController
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
-     * @SWG\Parameter( name="filter_category_id", in="path", type="string", description="The ID of the Filter Category." )
+     * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="filter_category_id", in="path", required=true, type="string", description="The ID of the Filter Category." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
@@ -1312,7 +1312,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="ticket_id", in="path", type="string", description="The ID of the ticket." )
+     * @SWG\Parameter( name="ticket_id", in="path", required=true, type="string", description="The ID of the ticket." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
