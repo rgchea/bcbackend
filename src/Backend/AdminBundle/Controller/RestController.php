@@ -22,7 +22,9 @@ use Backend\AdminBundle\Entity\TermCondition;
 use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
 use Backend\AdminBundle\Entity\TicketComment;
+use Backend\AdminBundle\Entity\TicketFilePhoto;
 use Backend\AdminBundle\Entity\TicketStatus;
+use Backend\AdminBundle\Entity\TicketStatusLog;
 use Backend\AdminBundle\Entity\TicketType;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
@@ -36,6 +38,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\File\File as FileObject;
 
 use Nelmio\ApiDocBundle\Annotation\Security;
 
@@ -379,6 +385,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $email = strtolower(trim($request->get('email')));
             $lang = strtolower(trim($request->get('language')));
 
@@ -467,6 +478,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $name = trim($request->get('name'));
             $mobilePhone = trim($request->get('mobile_phone'));
             $countryCode = trim($request->get('country_code'));
@@ -631,7 +647,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
-            var_dump($request->get('property_code'));die;
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
@@ -943,6 +963,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
@@ -1471,14 +1496,16 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="title", in="body", type="string", description="The title of the ticket.", schema={} )
-     * @SWG\Parameter( name="description", in="body", type="string", description="The description of the ticket.", schema={} )
-     * @SWG\Parameter( name="photos", in="body", type="array", description="The photos of the ticket.", schema={} )
-     * @SWG\Parameter( name="solution", in="body", type="boolean", description="Is the ticket a solution.", schema={} )
-     * @SWG\Parameter( name="is_public", in="body", type="boolean", description="Is the ticket public or private.", schema={} )
-     * @SWG\Parameter( name="category_id", in="body", type="integer", description="The category ID of the ticket.", schema={} )
-     * @SWG\Parameter( name="sector_id", in="body", type="integer", description="The complex sector ID of the ticket.", schema={} )
-     * @SWG\Parameter( name="property_id", in="body", type="integer", description="The property ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="title", in="body", required=true, type="string", description="The title of the ticket.", schema={} )
+     * @SWG\Parameter( name="description", in="body", required=true, type="string", description="The description of the ticket.", schema={} )
+     * @SWG\Parameter( name="photos", in="body", type="array", description="The photos of the ticket. It must be base64 encoded.", schema={} )
+     * @SWG\Parameter( name="solution", in="body", required=true, type="boolean", description="Is the ticket a solution.", schema={} )
+     * @SWG\Parameter( name="is_public", in="body", required=true, type="boolean", description="Is the ticket public or private.", schema={} )
+     * @SWG\Parameter( name="category_id", in="body", required=true, type="integer", description="The category ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="sector_id", in="body", required=true, type="integer", description="The complex sector ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="property_id", in="body", required=true, type="integer", description="The property ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="common_area_reservation_id", in="body", type="integer", description="The common area reservation ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="tenant_contract_id", in="body", type="integer", description="The tenant contract ID.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -1504,20 +1531,25 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Ticket")
      */
 
-    public function postTicketAction(Request $request)
+    public function postTicketAction(Request $request, ValidatorInterface $validator)
     {
         try {
             $this->initialise();
-            $title = $request->get('title');
-            $description = $request->get('description');
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $title = trim($request->get('title'));
+            $description = trim($request->get('description'));
             $photos = $request->get('photos'); // ToDo: This is gonna be cardiacation cause dunoo
-            $solution = $request->get('solution');
-            $isPublic = $request->get('is_public');
-            $categoryId = $request->get('category_id');
-            $complexSectorId = $request->get('sector_id');
-            $propertyId = $request->get('property_id');
-            $commonAreaReservationId = $request->get('common_area_reservation_id');
-            $tenantContractId = $request->get('tenant_contract_id');
+            $solution = trim($request->get('solution'));
+            $isPublic = boolval($request->get('is_public'));
+            $categoryId = intval($request->get('category_id'));
+            $complexSectorId = intval($request->get('sector_id'));
+            $propertyId = intval($request->get('property_id'));
+            $commonAreaReservationId = intval($request->get('common_area_reservation_id'));
+            $tenantContractId = intval($request->get('tenant_contract_id'));
 
             // Required parameter
             $category = $this->em->getRepository('BackendAdminBundle:TicketCategory')->findOneBy(array('enabled' => true, 'id' => $categoryId));
@@ -1546,9 +1578,232 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid tenant contract ID.");
             }
 
-            // ToDo: to be finished.
+            // Ticket Status ID = 1, OPEN
+            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);
+            if ($status == null) {
+                throw new \Exception("Invalid ticket status.");
+            }
 
-            // ToDo: adds an entity to TicketStatusLog, the same for closeTicket.
+            $ticket = new Ticket();
+            $ticket->setTitle($title);
+            $ticket->setDescription($description);
+            $ticket->setPossibleSolution($solution);
+            $ticket->setIsPublic($isPublic);
+            $ticket->setTicketCategory($category);
+            $ticket->setComplexSector($complexSector);
+            $ticket->setProperty($property);
+            $ticket->setCommonAreaReservation($commonAreaReservation);
+            $ticket->setTenantContract($tenantContract);
+            $ticket->setTicketStatus($status);
+            // ToDo: setAssignedTo
+//            $ticket->setAssignedTo();
+            $this->get("services")->blameOnMe($ticket, "create");
+            $this->get("services")->blameOnMe($ticket, "update");
+
+            $statusLog = new TicketStatusLog();
+            $statusLog->setTicketStatus($status);
+            $statusLog->setTicket($ticket);
+            $this->get("services")->blameOnMe($statusLog, "create");
+            $this->get("services")->blameOnMe($statusLog, "update");
+
+            foreach($photos as $photo) {
+                $decodedPhoto = base64_decode($photo);
+
+                $tmpPath = sys_get_temp_dir().'/sf_upload'.uniqid();
+                file_put_contents($tmpPath, $decodedPhoto);
+                $uploadedFile = new FileObject($tmpPath);
+                $originalFilename = $uploadedFile->getFilename();
+
+                $violations = $validator->validate(
+                    $uploadedFile,
+                    array(
+                        new File(array(
+                            'maxSize' => '5M',
+                            'mimeTypes' => array( 'image/*' )
+                        ))
+                    )
+                );
+
+                if ($violations->count() > 0) {
+                    throw new \Exception("Invalid image.");
+                }
+
+                $fileName = md5(uniqid()).'.'.$uploadedFile->guessExtension();
+
+                $masterFilePath = "/var/www/uploads"; // ToDo: Change to proper path
+
+                try {
+                    $uploadedFile->move($masterFilePath, $fileName);
+                } catch (FileException $e) {
+                    throw new \Exception("Could not upload photo.");
+                }
+
+                $ticketPhoto = new TicketFilePhoto();
+//                $ticketPhoto->setPath($masterFilePath . '/' . $fileName);
+//                $ticketPhoto->setFilename($fileName);
+//                $ticketPhoto->setOriginalFilename(($originalFilename!=null)?$originalFilename:$fileName);
+//                $ticketPhoto->setMimeType($uploadedFile->getMimeType());
+
+//                $this->em->persist($ticketPhoto);
+            }
+
+            $this->em->persist($ticket);
+            $this->em->persist($statusLog);
+
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Put("/ticket", name="close_ticket")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
+     * @SWG\Parameter( name="rating", in="body", type="integer", description="Rating.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+
+    public function putTicketAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $ticketId = trim($request->get('ticket_id'));
+            $rating = trim($request->get('rating'));
+
+            // Required parameter
+            /** @var Ticket $ticket */
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array('enabled' => true, 'id' => $ticketId));
+            if ($ticket == null) {
+                throw new \Exception("Invalid ticket ID.");
+            }
+
+            // ToDo: Fix the ID for the Ticket Status CLOSE
+            // Ticket Status ID = 1, OPEN
+            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);
+            if ($status == null) {
+                throw new \Exception("Invalid ticket status.");
+            }
+
+            $ticket->setRatingToTenant($rating);
+            $ticket->setTicketStatus($status);
+
+            $this->get("services")->blameOnMe($ticket, "update");
+
+            $statusLog = new TicketStatusLog();
+            $statusLog->setTicketStatus($status);
+            $statusLog->setTicket($ticket);
+            $this->get("services")->blameOnMe($statusLog, "create");
+            $this->get("services")->blameOnMe($statusLog, "update");
+
+            $this->em->persist($ticket);
+            $this->em->persist($statusLog);
+
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Post("/comment", name="comment_ticket")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
+     * @SWG\Parameter( name="comment", in="body", required=true, type="string", description="Comment.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+
+    public function postCommentAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $ticketId = trim($request->get('ticket_id'));
+            $comment = trim($request->get('comment'));
+
+            // Required parameter
+            /** @var Ticket $ticket */
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array('enabled' => true, 'id' => $ticketId));
+            if ($ticket == null) {
+                throw new \Exception("Invalid ticket ID.");
+            }
+
+            $ticketComment = new TicketComment();
+            $ticketComment->setTicket($ticket);
+            $ticketComment->setCommentDescription($comment);
+            $this->get("services")->blameOnMe($ticketComment, "create");
+            $this->get("services")->blameOnMe($ticketComment, "update");
+
+            $this->em->persist($ticketComment);
+
+            $this->em->flush();
 
             return new JsonResponse(array(
                 'message' => "",
