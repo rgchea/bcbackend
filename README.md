@@ -63,8 +63,8 @@ docker-compose up -d # for detached mode (no logs or for prod)
 docker-compose exec php bin/console doctrine:schema:update --dump-sql --force
 docker-compose exec -T php bin/console cache:clear
 # DB Backup
-docker-compose exec db sh -c 'mysqldump --force --opt --user=$MYSQL_USER --password=$MYSQL_PASSWORD --databases $MYSQL_DATABASE' > ./restore/quick/db_backup.sql
+docker-compose exec db sh -c 'mysqldump --force --opt --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --databases ${MYSQL_DATABASE}' > ./restore/quick/db_backup.sql
 # DB Restore
-docker-compose exec db sh -c 'mysql --force --user=$MYSQL_USER --password=$MYSQL_PASSWORD < /restore/db_backup.sql'
+docker-compose exec db sh -c 'mysql --force --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} < /restore/db_backup.sql'
 docker-compose down
 ```

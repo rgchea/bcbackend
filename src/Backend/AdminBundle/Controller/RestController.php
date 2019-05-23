@@ -9,6 +9,7 @@ use Backend\AdminBundle\Entity\CommonAreaReservation;
 use Backend\AdminBundle\Entity\CommonAreaReservationStatus;
 use Backend\AdminBundle\Entity\CommonAreaType;
 use Backend\AdminBundle\Entity\ComplexSector;
+use Backend\AdminBundle\Entity\Device;
 use Backend\AdminBundle\Entity\GeoCountry;
 use Backend\AdminBundle\Entity\NotificationType;
 use Backend\AdminBundle\Entity\Poll;
@@ -21,12 +22,12 @@ use Backend\AdminBundle\Entity\TermCondition;
 use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
 use Backend\AdminBundle\Entity\TicketComment;
+use Backend\AdminBundle\Entity\TicketFilePhoto;
 use Backend\AdminBundle\Entity\TicketStatus;
+use Backend\AdminBundle\Entity\TicketStatusLog;
 use Backend\AdminBundle\Entity\TicketType;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
-use Backend\AdminBundle\Entity\Device;
-
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Swagger\Annotations as SWG;
@@ -37,6 +38,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\File\File as FileObject;
+
+use Nelmio\ApiDocBundle\Annotation\Security;
 
 
 //entities
@@ -45,7 +52,7 @@ use Symfony\Component\Translation\Translator;
 /**
  * Class RestController
  *
- * @Route("/api/v1")
+ * @Route("/api")
  *
  */
 class RestController extends FOSRestController
@@ -67,11 +74,17 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/v1", name="")
      */
-    public function getV1Action()
+    public function getV1Action(Request $request)
     {
         $this->initialise();
 
-        $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => 1));
+        $pid = trim($request->get('pid'));
+
+        $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => $pid));
+
+        if ($property == null) {
+            return new JsonResponse(array());
+        }
 
         return new JsonResponse(array(
             'message' => "",
@@ -92,8 +105,8 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="platform", in="body", type="string", description="Specifies the platform iOS or Android", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -133,7 +146,7 @@ class RestController extends FOSRestController
             $device = $this->em->getRepository('BackendAdminBundle:Device')->findOneByPhoneId($phoneID);
             $gtmNow = gmdate("Y-m-d H:i:s");
 
-            if($device){
+            if ($device) {
                 ///IS AN UPDATE
 
                 $device->setTokenPush($token);
@@ -141,8 +154,7 @@ class RestController extends FOSRestController
                 $device->setUpdatedAt(new \DateTime($gtmNow));
 
 
-            }
-            else{
+            } else {
                 ///CREATE
                 $device = new Device();
 
@@ -164,21 +176,126 @@ class RestController extends FOSRestController
             $this->em->flush();
 
             return new JsonResponse(array(
-                'message' => "".$device->getId(),
+                'message' => "" . $device->getId(),
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * @Rest\Post("/login_check", name="login_check")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="User was logged in successfully. The HTTP Header for any POST request must be application/x-www-form-urlencoded."
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Invalid user and password"
+     * )*
+     *
+     * @SWG\Response(
+     *     response=500,
+     *     description="User was not logged in successfully"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="username",
+     *     in="body",
+     *     type="string",
+     *     description="The username",
+     *     schema={}
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="body",
+     *     type="string",
+     *     description="The password",
+     *     schema={}
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+    public function getLoginCheckAction(Request $request)
+    {
+
+        $this->initialise();
+
+        $username = $request->get('username');
+        $password = $request->get('password');// hash('sha512', $data);
+
+        try {
+
+            $user = $this->em->getRepository('BackendAdminBundle:User')->findOneBy(array("username" => $username, "enabled" => 1));
+
+            if (!$user) {
+
+                $code = 401;
+                $error = true;
+                $message = "No user found- Error";
+
+                $response = [
+                    'code' => $code,
+                    'error' => $error,
+                    'data' => $message,
+                ];
+
+                return new Response($this->serializer->serialize($response, "json"));
+
+            } else {
+
+                $factory = $this->get('security.encoder_factory');
+                $salt = $user->getSalt();
+                $encoder = $factory->getEncoder($user);
+
+
+                if (!$encoder->isPasswordValid($user->getPassword(), $password, $salt)) {
+                    $code = 401;
+                    $error = true;
+                    $message = "Invalid user and password- Error";
+
+                    $response = [
+                        'code' => $code,
+                        'error' => $error,
+                        'data' => $message,
+                    ];
+
+                    return new Response($this->serializer->serialize($response, "json"));
+                    //$response = array("response" => false, "result" => "Password inválido");
+                    //return new JsonResponse($response);
+                } else {
+                    //VALID USER AND PASSWORD GENERATE TOKEN
+                    $jwtManager = $this->container->get('lexik_jwt_authentication.jwt_manager');
+                    return new JsonResponse(['token' => $jwtManager->create($user)]);
+                }
+            }
+        } catch (Exception $ex) {
+            $code = 500;
+            $error = true;
+            $message = "An error has occurred trying to retrieve the user - Error: {$ex->getMessage()}";
+            $response = [
+                'code' => $code,
+                'error' => $error,
+                'data' => $message,
+            ];
+
+            return new Response($this->serializer->serialize($response, "json"));
+        }
+
+
+    }
 
 
     /**
      * @Rest\Get("/termsConditions", name="terms_and_conditions")
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -224,13 +341,16 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Post("/forgotPassword", name="forgot_password")
+     * @Rest\Post("/forgotPassword", name="forgot_password", options={})
      *
-     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the user.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -257,6 +377,7 @@ class RestController extends FOSRestController
      *     )
      * )
      *
+     * @Security(name="Bearer")
      * @SWG\Tag(name="User")
      */
 
@@ -264,6 +385,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $email = strtolower(trim($request->get('email')));
             $lang = strtolower(trim($request->get('language')));
 
@@ -307,15 +433,18 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/register", name="register")
      *
-     * @SWG\Parameter( name="name", in="body", type="string", description="The name of the user.", schema={} )
-     * @SWG\Parameter( name="mobile_phone", in="body", type="string", description="The mobile phone of the user.", schema={} )
-     * @SWG\Parameter( name="country_code", in="body", type="string", description="The country code of the user.", schema={} )
-     * @SWG\Parameter( name="email", in="body", type="string", description="The email of the user.", schema={} )
-     * @SWG\Parameter( name="password", in="body", type="string", description="The password of the user.", schema={} )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="name", in="body", required=true, type="string", description="The name of the user.", schema={} )
+     * @SWG\Parameter( name="mobile_phone", in="body", required=true, type="string", description="The mobile phone of the user.", schema={} )
+     * @SWG\Parameter( name="country_code", in="body", required=true, type="string", description="The country code of the user.", schema={} )
+     * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the user.", schema={} )
+     * @SWG\Parameter( name="password", in="body", required=true, type="string", description="The password of the user.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -349,6 +478,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $name = trim($request->get('name'));
             $mobilePhone = trim($request->get('mobile_phone'));
             $countryCode = trim($request->get('country_code'));
@@ -395,8 +529,8 @@ class RestController extends FOSRestController
 
             $this->translator->setLocale($lang);
             $subject = $this->translator->trans('mail.register_subject');
-            $bodyHtml = "<b>".$this->translator->trans('mail.label_user')."</b> ".$user->getUsername()."<br/>";
-            $bodyHtml .= "<b>".$this->translator->trans('mail.label_password')."</b> ".$password."<br/><br/>";
+            $bodyHtml = "<b>" . $this->translator->trans('mail.label_user') . "</b> " . $user->getUsername() . "<br/>";
+            $bodyHtml .= "<b>" . $this->translator->trans('mail.label_password') . "</b> " . $password . "<br/><br/>";
             $bodyHtml .= $this->translator->trans('mail.register_body');
 
             $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
@@ -414,9 +548,11 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/countries", name="countries")
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -475,16 +611,19 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/welcomePrivateKey", name="welcome_private_key")
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Creates an association between a Property and a User via the property code. Applicable to welcomePrivateKey, welcomeQR and welcomeInvite.",
+     *     description="Creates an association between a Property and a User via the property code. Applicable to welcomePrivateKey, welcomeQR and welcomeInvite. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -499,12 +638,20 @@ class RestController extends FOSRestController
      * )
      *
      * @SWG\Tag(name="User")
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
      */
 
     public function postWelcomePrivateKeyAction(Request $request)
     {
         try {
             $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
@@ -545,11 +692,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/properties/{page_id}", name="properties")
      *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -589,7 +738,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Property")
      */
 
-    public function getPropertiesAction($page_id)
+    public function getPropertiesAction($page_id = 1)
     {
         try {
             $this->initialise();
@@ -633,11 +782,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/property/{code}", name="property")
      *
-     * @SWG\Parameter( name="code", in="path", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="code", in="path", required=true, type="string", description="The code of the property." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -701,11 +852,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/propertyDetail/{code}", name="property_detail")
      *
-     * @SWG\Parameter( name="code", in="path", type="string", description="The code of the property." )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="code", in="path", required=true, type="string", description="The code of the property." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -777,16 +930,19 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/sendSMS", name="send_sms")
      *
-     * @SWG\Parameter( name="property_code", in="body", type="string", description="The code of the property.", schema={} )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Sends successfully a sms to the user.",
+     *     description="Sends successfully a sms to the user. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -807,6 +963,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
@@ -831,11 +992,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/inbox/{page_id}", name="inbox")
      *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -948,13 +1111,15 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/ticketCategory/{property_id}/{complex_id}/{page_id}", name="ticket_categories")
      *
-     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
-     * @SWG\Parameter( name="complex_id", in="path", type="string", description="The ID of the Complex." )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="complex_id", in="path", required=true, type="string", description="The ID of the Complex." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1022,13 +1187,15 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/feed/{property_id}/{filter_category_id}/{page_id}", name="feed")
      *
-     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
-     * @SWG\Parameter( name="filter_category_id", in="path", type="string", description="The ID of the Filter Category." )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="filter_category_id", in="path", required=true, type="string", description="The ID of the Filter Category." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1168,11 +1335,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/ticket/{ticket_id}", name="ticket")
      *
-     * @SWG\Parameter( name="ticket_id", in="path", type="string", description="The ID of the ticket." )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="ticket_id", in="path", required=true, type="string", description="The ID of the ticket." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1324,23 +1493,28 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/ticket", name="create_ticket")
      *
-     * @SWG\Parameter( name="title", in="body", type="string", description="The title of the ticket.", schema={} )
-     * @SWG\Parameter( name="description", in="body", type="string", description="The description of the ticket.", schema={} )
-     * @SWG\Parameter( name="photos", in="body", type="array", description="The photos of the ticket.", schema={} )
-     * @SWG\Parameter( name="solution", in="body", type="boolean", description="Is the ticket a solution.", schema={} )
-     * @SWG\Parameter( name="is_public", in="body", type="boolean", description="Is the ticket public or private.", schema={} )
-     * @SWG\Parameter( name="category_id", in="body", type="integer", description="The category ID of the ticket.", schema={} )
-     * @SWG\Parameter( name="sector_id", in="body", type="integer", description="The complex sector ID of the ticket.", schema={} )
-     * @SWG\Parameter( name="property_id", in="body", type="integer", description="The property ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="title", in="body", required=true, type="string", description="The title of the ticket.", schema={} )
+     * @SWG\Parameter( name="description", in="body", required=true, type="string", description="The description of the ticket.", schema={} )
+     * @SWG\Parameter( name="photos", in="body", type="array", description="The photos of the ticket. It must be base64 encoded.", schema={} )
+     * @SWG\Parameter( name="solution", in="body", required=true, type="boolean", description="Is the ticket a solution.", schema={} )
+     * @SWG\Parameter( name="is_public", in="body", required=true, type="boolean", description="Is the ticket public or private.", schema={} )
+     * @SWG\Parameter( name="category_id", in="body", required=true, type="integer", description="The category ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="sector_id", in="body", required=true, type="integer", description="The complex sector ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="property_id", in="body", required=true, type="integer", description="The property ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="common_area_reservation_id", in="body", type="integer", description="The common area reservation ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="tenant_contract_id", in="body", type="integer", description="The tenant contract ID.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Creates a successfull user account.",
+     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -1357,20 +1531,25 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Ticket")
      */
 
-    public function postTicketAction(Request $request)
+    public function postTicketAction(Request $request, ValidatorInterface $validator)
     {
         try {
             $this->initialise();
-            $title = $request->get('title');
-            $description = $request->get('description');
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $title = trim($request->get('title'));
+            $description = trim($request->get('description'));
             $photos = $request->get('photos'); // ToDo: This is gonna be cardiacation cause dunoo
-            $solution = $request->get('solution');
-            $isPublic = $request->get('is_public');
-            $categoryId = $request->get('category_id');
-            $complexSectorId = $request->get('sector_id');
-            $propertyId = $request->get('property_id');
-            $commonAreaReservationId = $request->get('common_area_reservation_id');
-            $tenantContractId = $request->get('tenant_contract_id');
+            $solution = trim($request->get('solution'));
+            $isPublic = boolval($request->get('is_public'));
+            $categoryId = intval($request->get('category_id'));
+            $complexSectorId = intval($request->get('sector_id'));
+            $propertyId = intval($request->get('property_id'));
+            $commonAreaReservationId = intval($request->get('common_area_reservation_id'));
+            $tenantContractId = intval($request->get('tenant_contract_id'));
 
             // Required parameter
             $category = $this->em->getRepository('BackendAdminBundle:TicketCategory')->findOneBy(array('enabled' => true, 'id' => $categoryId));
@@ -1399,9 +1578,232 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid tenant contract ID.");
             }
 
-            // ToDo: to be finished.
+            // Ticket Status ID = 1, OPEN
+            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);
+            if ($status == null) {
+                throw new \Exception("Invalid ticket status.");
+            }
 
-            // ToDo: adds an entity to TicketStatusLog, the same for closeTicket.
+            $ticket = new Ticket();
+            $ticket->setTitle($title);
+            $ticket->setDescription($description);
+            $ticket->setPossibleSolution($solution);
+            $ticket->setIsPublic($isPublic);
+            $ticket->setTicketCategory($category);
+            $ticket->setComplexSector($complexSector);
+            $ticket->setProperty($property);
+            $ticket->setCommonAreaReservation($commonAreaReservation);
+            $ticket->setTenantContract($tenantContract);
+            $ticket->setTicketStatus($status);
+            // ToDo: setAssignedTo
+//            $ticket->setAssignedTo();
+            $this->get("services")->blameOnMe($ticket, "create");
+            $this->get("services")->blameOnMe($ticket, "update");
+
+            $statusLog = new TicketStatusLog();
+            $statusLog->setTicketStatus($status);
+            $statusLog->setTicket($ticket);
+            $this->get("services")->blameOnMe($statusLog, "create");
+            $this->get("services")->blameOnMe($statusLog, "update");
+
+            foreach($photos as $photo) {
+                $decodedPhoto = base64_decode($photo);
+
+                $tmpPath = sys_get_temp_dir().'/sf_upload'.uniqid();
+                file_put_contents($tmpPath, $decodedPhoto);
+                $uploadedFile = new FileObject($tmpPath);
+                $originalFilename = $uploadedFile->getFilename();
+
+                $violations = $validator->validate(
+                    $uploadedFile,
+                    array(
+                        new File(array(
+                            'maxSize' => '5M',
+                            'mimeTypes' => array( 'image/*' )
+                        ))
+                    )
+                );
+
+                if ($violations->count() > 0) {
+                    throw new \Exception("Invalid image.");
+                }
+
+                $fileName = md5(uniqid()).'.'.$uploadedFile->guessExtension();
+
+                $masterFilePath = "/var/www/uploads"; // ToDo: Change to proper path
+
+                try {
+                    $uploadedFile->move($masterFilePath, $fileName);
+                } catch (FileException $e) {
+                    throw new \Exception("Could not upload photo.");
+                }
+
+                $ticketPhoto = new TicketFilePhoto();
+//                $ticketPhoto->setPath($masterFilePath . '/' . $fileName);
+//                $ticketPhoto->setFilename($fileName);
+//                $ticketPhoto->setOriginalFilename(($originalFilename!=null)?$originalFilename:$fileName);
+//                $ticketPhoto->setMimeType($uploadedFile->getMimeType());
+
+//                $this->em->persist($ticketPhoto);
+            }
+
+            $this->em->persist($ticket);
+            $this->em->persist($statusLog);
+
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Put("/ticket", name="close_ticket")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
+     * @SWG\Parameter( name="rating", in="body", type="integer", description="Rating.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+
+    public function putTicketAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $ticketId = trim($request->get('ticket_id'));
+            $rating = trim($request->get('rating'));
+
+            // Required parameter
+            /** @var Ticket $ticket */
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array('enabled' => true, 'id' => $ticketId));
+            if ($ticket == null) {
+                throw new \Exception("Invalid ticket ID.");
+            }
+
+            // ToDo: Fix the ID for the Ticket Status CLOSE
+            // Ticket Status ID = 1, OPEN
+            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);
+            if ($status == null) {
+                throw new \Exception("Invalid ticket status.");
+            }
+
+            $ticket->setRatingToTenant($rating);
+            $ticket->setTicketStatus($status);
+
+            $this->get("services")->blameOnMe($ticket, "update");
+
+            $statusLog = new TicketStatusLog();
+            $statusLog->setTicketStatus($status);
+            $statusLog->setTicket($ticket);
+            $this->get("services")->blameOnMe($statusLog, "create");
+            $this->get("services")->blameOnMe($statusLog, "update");
+
+            $this->em->persist($ticket);
+            $this->em->persist($statusLog);
+
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Post("/comment", name="comment_ticket")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
+     * @SWG\Parameter( name="comment", in="body", required=true, type="string", description="Comment.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+
+    public function postCommentAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $ticketId = trim($request->get('ticket_id'));
+            $comment = trim($request->get('comment'));
+
+            // Required parameter
+            /** @var Ticket $ticket */
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array('enabled' => true, 'id' => $ticketId));
+            if ($ticket == null) {
+                throw new \Exception("Invalid ticket ID.");
+            }
+
+            $ticketComment = new TicketComment();
+            $ticketComment->setTicket($ticket);
+            $ticketComment->setCommentDescription($comment);
+            $this->get("services")->blameOnMe($ticketComment, "create");
+            $this->get("services")->blameOnMe($ticketComment, "update");
+
+            $this->em->persist($ticketComment);
+
+            $this->em->flush();
 
             return new JsonResponse(array(
                 'message' => "",
@@ -1414,11 +1816,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/polls/{page_id}", name="polls")
      *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1483,11 +1887,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/poll/{poll_id}", name="poll")
      *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      * @SWG\Parameter( name="poll_id", in="path", type="string", description="The ID of the poll." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1585,12 +1991,14 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/commonAreas/{property_id}/{page_id}", name="common_areas")
      *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1692,11 +2100,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/commonAreaAvailability/{common_area_id}", name="common_area_availability")
      *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      * @SWG\Parameter( name="common_area_id", in="path", type="string", description="The ID of the common area." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1783,11 +2193,13 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/commonArea/{common_area_id}", name="common_area")
      *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      * @SWG\Parameter( name="common_area_id", in="path", type="string", description="The ID of the common area." )
      *
-     * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
      *
      * @SWG\Response(
@@ -1876,7 +2288,7 @@ class RestController extends FOSRestController
         $pieces = [];
         $max = mb_strlen($keyspace, '8bit') - 1;
         for ($i = 0; $i < $length; ++$i) {
-            $pieces []= $keyspace[random_int(0, $max)];
+            $pieces [] = $keyspace[random_int(0, $max)];
         }
         return implode('', $pieces);
     }
