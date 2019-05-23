@@ -13,11 +13,12 @@ label_back: Regresar
 label_dates: Fechas
 label_calendar: Calendario
 label_yes: Si
-label_no: No
+label_no: 'No'
+label_ok: Ok
 label_are_you_sure: 'Está seguro?'
 label_no_more_files: 'No es posible subir más archivos'
 label_max_files: '5 archivos máximo'
-label_photo: 'Fotos'
+label_photo: Fotos
 label_send: Enviar
 label_flash_save_success_msg: 'Cambios guardados'
 label_flash_success: Listo
@@ -60,7 +61,7 @@ label_register: Registrarse
 label_register_complete: Bienvenido
 label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos estrucutrales <a href="www.bettercondos.tech">www.bettercondos.tech</a>'
 label_register_complete_msg: 'Ahora eres parte de la mejor plataforma para gestionar complejos estructurales www.bettercondos.tech/admin'
-label_register_bc_info: 'Puedes accesar a tu portal de cobros por medio de www.bettercondos.info'
+label_register_bc_info: 'Puedes accesar a tu portal de cobros por medio de'
 label_register_contact: 'info@bettercondos.com / +502 41568954'
 label_accept_terms: 'Acepto los términos y condicions'
 label_phone: Teléfono
@@ -85,7 +86,7 @@ label_es: ES
 label_en: EN
 label_other: Otro
 label_complex: Complejo
-label_complex_assigned: Complejos asignados
+label_complex_assigned: 'Complejos asignados'
 label_business: Empresa
 label_business_check_email: 'El correo ingresado ya tiene una cuenta asociada anteriormente'
 label_business_check_phone: 'El teléfono ingresado ya tiene una cuenta asociada anteriormente'
@@ -98,13 +99,13 @@ label_notification_type: 'Tipo de Notificacion'
 label_poll_question_type: 'Tipo de Pregunta de Encuesta'
 label_property_type: 'Tipo de propiedad'
 label_property: Propiedad
-label_common_area_type: 'Tipo de Area Comun'
+label_common_area_type: 'Tipo de Area Común'
 label_geo_country: Pais
 label_geo_state: Ciudad
 label_complex_faq: 'Complejo FAQ'
 label_property_transaction_type: 'Tipos de transaccion de propiedad'
-label_common_area_reservation: Reservaciones de area común
-label_common_area_reservation_status: 'Estado de Reservacion de Area Comun'
+label_common_area_reservation: 'Reservaciones de area común'
+label_common_area_reservation_status: 'Estado de Reservacion de Area Común'
 label_ticket_status: 'Estado de Ticket'
 label_shift: Turno
 label_roles: Roles
@@ -135,7 +136,7 @@ label_overtime: 'Hora Extra'
 label_flexible_hours: 'Horas Flexibles'
 label_flexitour: Flexitour
 label_common_area: 'Area Común'
-label_common_area_schedule: 'Horarios'
+label_common_area_schedule: Horarios
 label_regulation: Regulacion
 label_price: Precio
 label_maintenance: Mantenimiento
@@ -143,6 +144,20 @@ label_reservation_hour_period: 'Periodo de Reservacion por Hora (cada 1hr cada 2
 label_required_payment: 'Pago Requerido'
 label_has_equipment: 'Tiene equipo'
 label_equipment_description: 'Descripcion de Equipo'
+label_poll_extra_points: 'Puntos a ganar'
+label_poll_active: Activa
+label_poll: Encuesta
+label_property_amenity_included: 'Amenidades included'
+label_total_visible_amount: 'Montos visibles $'
+lbael_property: Property
+label_active: Activo
+label_property_contract: 'Contrato de propiedad'
+label_select: Selecccionar
+label_select_property: 'Selecciona una propiedad'
+label_start: Inicia
+label_end: Finaliza
+label_home: Inicio
+label_mark_all_read: 'Marcar todo como leído'
 label_menu:
     home: Inicio
     config: Configuración
@@ -164,7 +179,7 @@ label_menu:
     poll_question_type: 'Tipos de Pregunta de Encuesta'
     property_type: 'Tipos de Propiedad'
     property: Propiedades
-    common_area_type: 'Tipos de Area Comun'
+    common_area_type: 'Tipos de Area Común'
     geo_country: Paises
     geo_state: Ciudades
     complex_faq: 'Complejos FAQ'
@@ -175,7 +190,7 @@ label_menu:
     shift: Turno
     complex_sector: Secciones
     common_area: 'Area Común'
-    common_area_reservation: Reservaciones Area Común
+    common_area_reservation: 'Reservaciones Area Común'
     poll: Encuestas
     property_contract: Contratos
 resetting:
@@ -189,29 +204,18 @@ complex:
         name: '¿Cómo nombras tus propiedades?'
         identify: '¿Cómo identificas tus propiedades/unidades?'
         per_section: '¿Cuántas propiedades tienes por sección?'
-label_poll_extra_points: Puntos a ganar
-label_poll_active: Activa
-label_poll: Encuesta
-label_property_amenity_included: Amenidades included
-label_total_visible_amount: Montos visibles $
-lbael_property: Property
-label_active: Activo
-label_property_contract: Contrato de propiedad
-label_select: Selecccionar
-label_select_property: Selecciona una propiedad
-label_start: Inicia
-label_end: Finaliza
-label_home: Inicio
-label_mark_all_read: Marcar todo como leído
 error:
-    page_not_found: página no encontrada
-    access_denied:  Acceso denegado
-    contact_admin: contacta al administrador del sitio
+    page_not_found: 'página no encontrada'
+    access_denied: 'Acceso denegado'
+    contact_admin: 'contacta al administrador del sitio'
 mail:
     forgot_password_subject: 'Olvidaste tu contraseña'
     forgot_password_body: 'Puedes ingresar al sistema usando este password temporal %password%. Te recomendamos cambiarlo por una contraseña segura en la seccion de perfil.'
     register_subject: 'Bienvenido a Better Condos'
+    register_confirm_subject: 'Better Condos confirmar registro'
+    register_confirm_body: 'Al hacer click en el siguiente vinculo confirmarás tu cuenta. Luego podrás crear propiedades y disfrutar de la experiencia.'
+    register_confirm_click: 'Haz click aquí'
+    register_confirm_msg: 'Un correo se ha enviado, por favor revisa tu bandeja de entrada para confirmar tu cuenta.'
     label_user: 'Usuario: '
     label_password: 'Contraseña: '
     register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'
-

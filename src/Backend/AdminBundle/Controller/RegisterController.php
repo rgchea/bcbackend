@@ -50,7 +50,6 @@ class RegisterController extends Controller
 
 
 
-
     /**
      * Creates a new User entity.
      *
@@ -59,7 +58,6 @@ class RegisterController extends Controller
     {
 
     	$this->initialise();
-
 
         $entity = new User();
         $form   = $this->createCreateForm($entity);
@@ -126,7 +124,10 @@ class RegisterController extends Controller
             //var_dump($entity);die;
 
             $entity->setUsername($myRequest["username"]);
-            $entity->setEnabled(1);
+            $entity->setEnabled(0);
+
+            $regToken = sha1(uniqid());
+            $entity->setRegisterToken($regToken);
 
             $entity->setMobilePhone(trim($myRequest["phone"]));
             $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findByShortName(trim($myRequest["country"]));
@@ -159,7 +160,7 @@ class RegisterController extends Controller
             //return $this->redirect($this->generateUrl(''));
 
 
-            /////SEND REGISTRATION SUCCESS MAIL
+            /////SEND REGISTRATION MAIL
             /// Usuario de acceso a Bettercondos.space
             //Usuario de acceso a bettercondos.info
             //Links
@@ -170,42 +171,25 @@ class RegisterController extends Controller
             //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
 
             //Admin
-            $bodyHtml = $this->translator->trans('label_register_complete_msg')."<br/>";
-            $bodyHtml .= "<b>Email:</b>".$entity->getEmail()."<br/><br/>";
+            $bodyHtml = "<b>Email: </b>".$entity->getEmail()."<br/>";
+            $bodyHtml .= $this->translator->trans('mail.register_confirm_body')."&nbsp;";
+
+            $myLocale = $this->translator->getLocale();
+            $baseURL = str_replace($request->getPathInfo(), "", $request->getUri())."/".$myLocale ;
+            $href = $baseURL."/business/new/?regtoken=".$regToken;
+            $bodyHtml .= "<a href='".$href."'>".$this->translator->trans('mail.register_confirm_click')."</a>";
 
             //contact
-            $bodyHtml .= $this->translator->trans('label_register_contact');
+            $bodyHtml .= "<br/><br/>".$this->translator->trans('label_register_contact');
 
             $to = $entity->getEmail();
-            $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_register_complete'), $to, $bodyHtml);
+            $message = $this->get('services')->generalTemplateMail($this->translator->trans('mail.register_confirm_subject'), $to, $bodyHtml);
 
             //var_dump($message);die;
 
+            //return $this->redirectToRoute('backend_admin_business_new', array('userID' => $entity->getId()));
 
-            //AUTO LOGIN
-            $user = $entity;
-            //Handle getting or creating the user entity likely with a posted form
-            // The third parameter "main" can change according to the name of your firewall in security.yml
-            $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
-            $this->get('security.token_storage')->setToken($token);
-
-            // If the firewall name is not main, then the set value would be instead:
-            // $this->get('session')->set('_security_XXXFIREWALLNAMEXXX', serialize($token));
-            $this->get('session')->set('_security_main', serialize($token));
-
-            // Fire the login event manually
-            $event = new InteractiveLoginEvent($request, $token);
-            $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
-
-
-            return $this->redirectToRoute('backend_admin_business_new', array('userID' => $entity->getId()));
-            /*
-            return $this->render('BackendAdminBundle:Register:createBusiness.html.twig', array(
-                'user' => $entity,
-
-            ));
-            */
-
+            return $this->redirectToRoute('backend_admin_register_confirm', array('email' => $entity->getEmail(),));
 
 
         }
@@ -217,24 +201,29 @@ class RegisterController extends Controller
         }
 
 
-        /*
-        return $this->render('BackendAdminBundle:Register:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
 
-        ));
-        */
 
         $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
+        $myLocale = $this->translator->getLocale();
+
+        $objTerm = $this->em->getRepository('BackendAdminBundle:TermCondition')->find(1);
+        if($objTerm){
+            $termCondition = $objTerm;
+        }
+        else{
+            $termCondition = "";
+        }
 
 
         return $this->render('BackendAdminBundle:Register:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
             'new' => 1,
-            'countries' => $countries
+            'countries' => $countries,
+            'termCondition' => $termCondition
 
         ));
+
 
     }
 
@@ -260,7 +249,14 @@ class RegisterController extends Controller
 
 
 
+    public function confirmAction(Request $request)
+    {
 
+        $this->initialise();
+        $email = trim($_REQUEST["email"]);
+
+        return $this->render('BackendAdminBundle:Register:confirm.html.twig', array('email' => $email));
+    }
 
 
 }

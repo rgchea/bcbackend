@@ -744,4 +744,33 @@ class User extends BaseUser
     {
         return $this->geoCountry;
     }
+    /**
+     * @var string|null
+     */
+    private $registerToken;
+
+
+    /**
+     * Set registerToken.
+     *
+     * @param string|null $registerToken
+     *
+     * @return User
+     */
+    public function setRegisterToken($registerToken = null)
+    {
+        $this->registerToken = $registerToken;
+
+        return $this;
+    }
+
+    /**
+     * Get registerToken.
+     *
+     * @return string|null
+     */
+    public function getRegisterToken()
+    {
+        return $this->registerToken;
+    }
 }

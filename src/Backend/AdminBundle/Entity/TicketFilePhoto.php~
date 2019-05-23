@@ -13,24 +13,39 @@ class TicketFilePhoto
     private $id;
 
     /**
+     * @var string
+     */
+    private $photoPath = '';
+
+    /**
      * @var \DateTime
      */
     private $createdAt = '0000-00-00 00:00:00';
 
     /**
-     * @var bool
+     * @var \DateTime
      */
-    private $enabled = '1';
+    private $updatedAt = '0000-00-00 00:00:00';
 
     /**
-     * @var \Backend\AdminBundle\Entity\TicketComment
+     * @var bool
      */
-    private $ticketComment;
+    private $enabled = true;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Ticket
+     */
+    private $ticket;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
      */
     private $createdBy;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $updatedBy;
 
 
     /**
@@ -41,6 +56,30 @@ class TicketFilePhoto
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set photoPath.
+     *
+     * @param string $photoPath
+     *
+     * @return TicketFilePhoto
+     */
+    public function setPhotoPath($photoPath)
+    {
+        $this->photoPath = $photoPath;
+
+        return $this;
+    }
+
+    /**
+     * Get photoPath.
+     *
+     * @return string
+     */
+    public function getPhotoPath()
+    {
+        return $this->photoPath;
     }
 
     /**
@@ -68,6 +107,30 @@ class TicketFilePhoto
     }
 
     /**
+     * Set updatedAt.
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return TicketFilePhoto
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
      * Set enabled.
      *
      * @param bool $enabled
@@ -92,27 +155,27 @@ class TicketFilePhoto
     }
 
     /**
-     * Set ticketComment.
+     * Set ticket.
      *
-     * @param \Backend\AdminBundle\Entity\TicketComment|null $ticketComment
+     * @param \Backend\AdminBundle\Entity\Ticket|null $ticket
      *
      * @return TicketFilePhoto
      */
-    public function setTicketComment(\Backend\AdminBundle\Entity\TicketComment $ticketComment = null)
+    public function setTicket(\Backend\AdminBundle\Entity\Ticket $ticket = null)
     {
-        $this->ticketComment = $ticketComment;
+        $this->ticket = $ticket;
 
         return $this;
     }
 
     /**
-     * Get ticketComment.
+     * Get ticket.
      *
-     * @return \Backend\AdminBundle\Entity\TicketComment|null
+     * @return \Backend\AdminBundle\Entity\Ticket|null
      */
-    public function getTicketComment()
+    public function getTicket()
     {
-        return $this->ticketComment;
+        return $this->ticket;
     }
 
     /**
@@ -137,40 +200,6 @@ class TicketFilePhoto
     public function getCreatedBy()
     {
         return $this->createdBy;
-    }
-    /**
-     * @var \DateTime
-     */
-    private $updatedAt = '0000-00-00 00:00:00';
-
-    /**
-     * @var \Backend\AdminBundle\Entity\User
-     */
-    private $updatedBy;
-
-
-    /**
-     * Set updatedAt.
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return TicketFilePhoto
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt.
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
     }
 
     /**

@@ -24,7 +24,7 @@ class CommonAreaType extends AbstractType
             ->add('name',  null, array('label'=>"label_name", 'required'=>true))
             ->add('description',  null, array('label'=>"label_description", 'required'=>true))    
             ->add('regulation',  TextareaType::class, array('label'=>"label_regulation", 'required'=>true ))
-            ->add('termCondition',  TextareaType::class, array('label'=>"label_term_condition", 'required'=>true ))
+            ->add('termCondition',  TextareaType::class, array('label'=>"label_term_condition", 'required'=>true, 'attr' => array('class' => 'ckeditor') ))
             ->add('price',  null, array('label'=>"label_price", 'required'=>true))
             ->add('reservationHourPeriod', null, array('label'=>"label_reservation_hour_period", 'required'=>true))    
             ->add('requiredPayment', null, array('label'=>"label_required_payment", 'required'=>false))

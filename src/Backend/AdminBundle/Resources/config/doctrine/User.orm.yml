@@ -98,6 +98,13 @@ Backend\AdminBundle\Entity\User:
             options:
                 default: '0000-00-00 00:00:00'
             column: updated_at
+        registerToken:
+            type: string
+            nullable: true
+            length: 128
+            options:
+                fixed: false
+            column: register_token
 
     manyToOne:
         business:

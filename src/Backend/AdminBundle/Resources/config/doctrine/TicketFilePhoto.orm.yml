@@ -9,9 +9,9 @@ Backend\AdminBundle\Entity\TicketFilePhoto:
         created_by:
             columns:
                 - created_by
-        ticket_comment_id:
+        ticket_id:
             columns:
-                - ticket_comment_id
+                - ticket_id
     id:
         id:
             type: integer
@@ -22,6 +22,14 @@ Backend\AdminBundle\Entity\TicketFilePhoto:
             generator:
                 strategy: IDENTITY
     fields:
+        photoPath:
+            type: string
+            nullable: false
+            length: 128
+            options:
+                fixed: false
+                default: ''
+            column: photo_path
         createdAt:
             type: datetime
             nullable: false
@@ -38,16 +46,16 @@ Backend\AdminBundle\Entity\TicketFilePhoto:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
-        ticketComment:
-            targetEntity: TicketComment
+        ticket:
+            targetEntity: Ticket
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                ticket_comment_id:
+                ticket_id:
                     referencedColumnName: id
             orphanRemoval: false
         createdBy:

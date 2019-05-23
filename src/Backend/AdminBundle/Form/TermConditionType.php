@@ -17,8 +17,8 @@ class TermConditionType extends AbstractType
     {
         $builder
             //->add('descriptionES',  TextareaType::class, array('label'=>"Español", 'required'=>true))
-            ->add('descriptionES', TextareaType::class, array('label'=> 'Español', 'attr' => array('class' => 'ckeditor')))
-            ->add('descriptionEN', TextareaType::class, array('label'=> 'English', 'attr' => array('class' => 'ckeditor')))
+            ->add('descriptionES', TextareaType::class, array('label'=> 'Español', 'attr' => array('class' => 'ckeditor') ))
+            ->add('descriptionEN', TextareaType::class, array('label'=> 'English', 'attr' => array('class' => 'ckeditor') ))
 
         ;
     }

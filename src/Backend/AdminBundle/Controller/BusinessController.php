@@ -11,6 +11,11 @@ use Symfony\Component\Translation\TranslatorInterface;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
+//auto login
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+
+
 use Backend\AdminBundle\Entity\Business;
 use Backend\AdminBundle\Form\BusinessType;
 
@@ -193,22 +198,78 @@ class BusinessController extends Controller
      */
     public function newAction(Request $request)
     {
-        $this->get("services")->setVars('business');
-        $this->initialise();
 
-        $entity = new Business();
-        $form   = $this->createCreateForm($entity);
-        $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
+        /*print "<pre>";
+        var_dump($_REQUEST);DIE;*/
+        $session = new Session();
+        $em = $this->getDoctrine()->getManager();
+
+        if(isset($_REQUEST["regtoken"])){
+
+            $regToken = $_REQUEST["regtoken"];
+
+            $objUser = $em->getRepository('BackendAdminBundle:User')->findOneByRegisterToken($regToken);
+
+            if($objUser){
 
 
-        return $this->render('BackendAdminBundle:Business:new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-            'userID' => $this->userLogged->getID(),
-            'countries' => $countries,
-            'new' => 1
+                //if user is already registered and created a business then redirect to home
+                if($objUser->getBusiness() != null){
+                    return $this->redirectToRoute('backend_admin_business_edit', array('id' => $objUser->getBusiness()->getId()));
+                }
 
-        ));
+
+                $objUser->setEnabled(1);
+                $em->persist($objUser);
+                $em->flush();
+
+                //AUTO LOGIN BEGINS
+                //Handle getting or creating the user entity likely with a posted form
+                // The third parameter "main" can change according to the name of your firewall in security.yml
+                $token = new UsernamePasswordToken($objUser, null, 'main', $objUser->getRoles());
+                $this->get('security.token_storage')->setToken($token);
+
+                // If the firewall name is not main, then the set value would be instead:
+                // $this->get('session')->set('_security_XXXFIREWALLNAMEXXX', serialize($token));
+                $this->get('session')->set('_security_main', serialize($token));
+
+                // Fire the login event manually
+                $event = new InteractiveLoginEvent($request, $token);
+                $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
+                //AUTO LOGIN ENDS
+
+
+                $entity = new Business();
+                $form   = $this->createCreateForm($entity);
+                $countries = $em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
+
+                $this->get("services")->setVars('business');
+                $this->initialise();
+
+
+                return $this->render('BackendAdminBundle:Business:new.html.twig', array(
+                    'entity' => $entity,
+                    'form' => $form->createView(),
+                    'userID' => $objUser->getId(),
+                    'countries' => $countries,
+                    'new' => 1
+
+                ));
+
+
+            }
+            else{
+                throw new AccessDeniedException();
+            }
+
+        }
+        else{
+            throw new AccessDeniedException();
+        }
+
+
+
+
     }
 
 
@@ -302,11 +363,10 @@ class BusinessController extends Controller
      */
     public function createAction(Request $request)
     {
-        /*
-        print "<pre>";
-        var_dump($_REQUEST);DIE;
-        $this->get("services")->setVars('business');
-        */
+
+        /*print "<pre>";
+        var_dump($_REQUEST);DIE;*/
+
         $this->get("services")->setVars('business');
         $this->initialise();
 
@@ -393,7 +453,7 @@ class BusinessController extends Controller
 
 
             //iBilling
-            $bodyHtml = $this->translator->trans('label_register_bc_info')."<br/>";
+            $bodyHtml = $this->translator->trans('label_register_bc_info')."&nbsp;<a href='www.bettercondos.space/?ng=client'>Better Condos iBilling</a>" ."<br/>";
             $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
             $bodyHtml .= "<b>Password:&nbsp;</b>".$billingPassword."<br/><br/>";
 

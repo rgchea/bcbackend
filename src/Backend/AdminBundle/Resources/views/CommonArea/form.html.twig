@@ -1,8 +1,15 @@
+{# DROPZONE FILE UPLOADER#}
 <script src="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.css') }}">
 
+{# SCHEDULE #}
 <script src="{{ asset('bundles/pizotearkadmin/js/dws_jquery_schedule/dist/jquery.schedule.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dws_jquery_schedule/dist/jquery.schedule.min.css') }}">
+
+{# WYSIWYG #}
+<script src="{{ asset('bundles/pizotearkadmin/js/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/pizotearkadmin/js/ckeditor/adapters/jquery.js')  }}"></script>
+
 
 <style>
 	.input-group {
@@ -85,8 +92,7 @@
 						<div class="form-group col-md-8">
 							{{ form_label(form.termCondition) }}
 							{{ form_errors(form.termCondition) }}
-							{{ form_widget(form.termCondition, { 'attr': {'class' : 'form-control' } }
-							) }}
+							{{ form_widget(form.termCondition) }}
 						</div>
 						<div class="clearfix"></div>
 

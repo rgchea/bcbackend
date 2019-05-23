@@ -1,0 +1,18 @@
+{% extends "PizoteArkAdminBundle::security.html.twig" %}
+
+{% block fos_user_content %}
+	<div class="login-wrap">    
+	    <div class="panel bg-gray no-padding">        
+	        <div class="panel-body">
+				<p>
+					{{ 'mail.register_confirm_msg'|trans }}&nbsp;{{ email }}
+				</p>
+
+				<button type="button" onclick='document.location.href = "{{ path('fos_user_security_login')}}" ' class="btn btn-primary">{{ 'label_ok'|trans}}</button>
+
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
