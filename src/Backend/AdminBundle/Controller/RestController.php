@@ -1201,7 +1201,7 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Tag(name="User")
+     * @SWG\Tag(name="Ticket")
      */
     public function getTicketCategoriesAction($property_id, $complex_id, $page_id = 1)
     {
