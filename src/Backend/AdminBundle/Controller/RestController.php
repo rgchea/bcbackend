@@ -15,6 +15,7 @@ use Backend\AdminBundle\Entity\NotificationType;
 use Backend\AdminBundle\Entity\Poll;
 use Backend\AdminBundle\Entity\PollQuestion;
 use Backend\AdminBundle\Entity\PollQuestionOption;
+use Backend\AdminBundle\Entity\PollTenantAnswer;
 use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\PropertyType;
 use Backend\AdminBundle\Entity\TenantContract;
@@ -57,6 +58,8 @@ use Nelmio\ApiDocBundle\Annotation\Security;
  */
 class RestController extends FOSRestController
 {
+    const UPLOADS_FOLDER = '/var/www/uploads'; // ToDo: Change to proper path
+
     protected $em;
     /** @var Translator $translator */
     protected $translator;
@@ -184,6 +187,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Logins the user to the app.
+     *
+     * This call takes the username and password, validates them, and if they are correctly, it will return a token to be used in all subsecuent requests.
+     *
      * @Rest\Post("/login_check", name="login_check")
      *
      * @SWG\Response(
@@ -289,6 +296,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Gets the terms and conditions.
+     *
+     * Returns an HTML with the terms and conditions inside the data property.
+     *
      * @Rest\Get("/termsConditions", name="terms_and_conditions")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -341,6 +352,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Forgot Password mechanism for users.
+     *
+     * Takes the username (email) and resets the password with a 32 chars lenght random password, which is sent by email to the user.
+     *
      * @Rest\Post("/forgotPassword", name="forgot_password", options={})
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
@@ -380,7 +395,6 @@ class RestController extends FOSRestController
      * @Security(name="Bearer")
      * @SWG\Tag(name="User")
      */
-
     public function postForgotPasswordAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         try {
@@ -431,6 +445,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * User register.
+     *
+     * Takes the body and creates a user with this. It sents a welcome email to the new user.
+     *
      * @Rest\Post("/register", name="register")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
@@ -546,6 +564,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Get a list of available countries.
+     *
+     * Returns a list of countries available in the system.
+     *
      * @Rest\Get("/countries", name="countries")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -609,6 +631,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Adds a new property to a user by using the property code.
+     *
+     * This creates a relationship between the user and a property through the property code. This is applicable for welcomePrivateKey, welcomeQR and welcomeInvite, since all the endpoints do the same with the same parameters.
+     *
      * @Rest\Post("/welcomePrivateKey", name="welcome_private_key")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
@@ -623,7 +649,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Creates an association between a Property and a User via the property code. Applicable to welcomePrivateKey, welcomeQR and welcomeInvite. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     description="Creates an association between a Property and a User via the property code. Applicable to welcomePrivateKey, welcomeQR and welcomeInvite.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -690,7 +716,11 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/properties/{page_id}", name="properties")
+     * Gets the properties of the user.
+     *
+     * Returns a list of properties owned or associated by the user.
+     *
+     * @Rest\Get("/properties/{page_id}", name="listProperties")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -780,7 +810,11 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/property/{code}", name="property")
+     * Gets information about a property with the code.
+     *
+     * Returns information about a property by using the property code.
+     *
+     * @Rest\Get("/property/{code}", name="propertyInfo")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -850,6 +884,8 @@ class RestController extends FOSRestController
 
 
     /**
+     *
+     *
      * @Rest\Get("/propertyDetail/{code}", name="property_detail")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -928,6 +964,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Sends SMS to validate.
+     *
+     * This relies on Twilio to send an SMS to the user with a code.
+     *
      * @Rest\Post("/sendSMS", name="send_sms")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
@@ -942,7 +982,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Sends successfully a sms to the user. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     description="Sends successfully a sms to the user.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -990,6 +1030,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Gets the user inbox.
+     *
+     * Returns a list of notifications from the user.
+     *
      * @Rest\Get("/inbox/{page_id}", name="inbox")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1109,6 +1153,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Gets the ticket categories for a property and complex.
+     *
+     * Return the ticket categories available for a property and complex.
+     *
      * @Rest\Get("/ticketCategory/{property_id}/{complex_id}/{page_id}", name="ticket_categories")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1153,7 +1201,7 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Tag(name="User")
+     * @SWG\Tag(name="Ticket")
      */
     public function getTicketCategoriesAction($property_id, $complex_id, $page_id = 1)
     {
@@ -1185,6 +1233,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Gets a feed of tickets of the user.
+     *
+     * Returns a feed of tickets that belong to the user.
+     *
      * @Rest\Get("/feed/{property_id}/{filter_category_id}/{page_id}", name="feed")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1333,6 +1385,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Gets a ticket and all its information.
+     *
+     * Returns the ticket information including comments, followers and reservations if there are some.
+     *
      * @Rest\Get("/ticket/{ticket_id}", name="ticket")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1491,6 +1547,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Creates a ticket.
+     *
+     * It receives all the necessary information to create a ticket.
+     *
      * @Rest\Post("/ticket", name="create_ticket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
@@ -1514,7 +1574,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     description="Creates a successfull Ticket.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -1542,7 +1602,7 @@ class RestController extends FOSRestController
 
             $title = trim($request->get('title'));
             $description = trim($request->get('description'));
-            $photos = $request->get('photos'); // ToDo: This is gonna be cardiacation cause dunoo
+            $photos = $request->get('photos');
             $solution = trim($request->get('solution'));
             $isPublic = boolval($request->get('is_public'));
             $categoryId = intval($request->get('category_id'));
@@ -1630,15 +1690,13 @@ class RestController extends FOSRestController
 
                 $fileName = md5(uniqid()).'.'.$uploadedFile->guessExtension();
 
-                $masterFilePath = "/var/www/uploads"; // ToDo: Change to proper path
-
                 try {
-                    $uploadedFile->move($masterFilePath, $fileName);
+                    $uploadedFile->move(self::UPLOADS_FOLDER, $fileName);
                 } catch (FileException $e) {
                     throw new \Exception("Could not upload photo.");
                 }
 
-                $ticketPhoto = new TicketFilePhoto();
+                $ticketPhoto = new TicketFilePhoto(); // ToDo: Update properties
 //                $ticketPhoto->setPath($masterFilePath . '/' . $fileName);
 //                $ticketPhoto->setFilename($fileName);
 //                $ticketPhoto->setOriginalFilename(($originalFilename!=null)?$originalFilename:$fileName);
@@ -1661,6 +1719,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Closes a ticket.
+     *
+     * Closes a ticket and adds a rating to it.
+     *
      * @Rest\Put("/ticket", name="close_ticket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
@@ -1676,7 +1738,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     description="Closes an existing ticket.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -1744,6 +1806,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Creates a comment.
+     *
+     * Creates a comment for a ticket.
+     *
      * @Rest\Post("/comment", name="comment_ticket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
@@ -1759,7 +1825,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Creates a successfull user account. The HTTP Header for any POST request must be application/x-www-form-urlencoded.",
+     *     description="Posts a comment into an existin ticket.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -1814,6 +1880,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Get active polls.
+     *
+     * Returns a list of active polls.
+     *
      * @Rest\Get("/polls/{page_id}", name="polls")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1986,6 +2056,320 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * @Rest\Post("/answer", name="tenant_answer")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="poll_question_id", in="body", required=true, type="integer", description="The Poll Question ID.", schema={} )
+     * @SWG\Parameter( name="answer_text", in="body", required=true, type="string", description="The answer text. It is required although it could be empty.", schema={} )
+     * @SWG\Parameter( name="answer_rating", in="body", required=true, type="integer", description="The answer rating.", schema={} )
+     * @SWG\Parameter( name="poll_question_option_ids", in="body", required=true, type="array", description="Array of integers of poll question option ids. Must have at least 1 element.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Post an answer to a poll.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Poll")
+     */
+
+    public function postAnswerAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $pollQuestionId = $request->get('poll_question_id');
+            $answerText = trim($request->get('answer_text'));
+            $answerRating = $request->get('answer_rating');
+            $pollQuestionOptionIds = $request->get('poll_question_option_ids');
+
+            if (count($pollQuestionOptionIds) == 0) {
+                throw new \Exception("poll_question_option_ids is empty.");
+            }
+
+            // Required parameter
+            $pollQuestion = $this->em->getRepository('BackendAdminBundle:PollQuestion')->findOneBy(array('enabled' => true, 'id' => $pollQuestionId));
+            if ($pollQuestion == null) {
+                throw new \Exception("Invalid Poll Question ID.");
+            }
+
+            // Required parameter
+            $pollQuestionOptions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionOptionIds);
+            if ($pollQuestionOptions == null) {
+                throw new \Exception("Invalid Poll Question ID.");
+            }
+
+            if ( count($pollQuestionOptionIds) != count($pollQuestionOptions) ) {
+                throw new \Exception("Invalid Poll Question Option ID.");
+            }
+
+            foreach ($pollQuestionOptions as $option) {
+                $answer = new PollTenantAnswer();
+                $answer->setAnswerText( $answerText );
+                $answer->setAnswerRating( $answerRating );
+                $answer->setPollQuestion( $pollQuestion );
+                $answer->setPollQuestionOption( $option );
+                $this->get("services")->blameOnMe($answer, "create");
+                $this->get("services")->blameOnMe($answer, "update");
+
+                $this->em->persist($answer);
+            }
+
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @Rest\Put("/avatar", name="set_avatar")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="photo", in="body", type="array", description="The new photo of the avatar. It must be base64 encoded.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Closes an existing ticket.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function putAvatarAction(Request $request, ValidatorInterface $validator)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $photo = $request->get('photo');
+
+            $decodedPhoto = base64_decode($photo);
+
+            $tmpPath = sys_get_temp_dir().'/sf_upload'.uniqid();
+            file_put_contents($tmpPath, $decodedPhoto);
+            $uploadedFile = new FileObject($tmpPath);
+            $originalFilename = $uploadedFile->getFilename();
+
+            $violations = $validator->validate(
+                $uploadedFile,
+                array(
+                    new File(array(
+                        'maxSize' => '5M',
+                        'mimeTypes' => array( 'image/*' )
+                    ))
+                )
+            );
+
+            if ($violations->count() > 0) {
+                throw new \Exception("Invalid image.");
+            }
+
+            $fileName = md5(uniqid()).'.'.$uploadedFile->guessExtension();
+
+            try {
+                $uploadedFile->move(self::UPLOADS_FOLDER, $fileName);
+            } catch (FileException $e) {
+                throw new \Exception("Could not upload photo.");
+            }
+
+
+            /** @var User $user */
+            $user = $this->getUser();
+
+            $user->setAvatarPath( $uploadedFile->getPath() );
+            $this->get("services")->blameOnMe($user, "update");
+            $this->em->persist($user);
+
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @Rest\Get("/faq/{page_id}", name="faq")
+     *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of common areas of a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="FAQ ID", example="1" ),
+     *                  @SWG\Property( property="business_name", type="string", description="Name of the business", example="Business" ),
+     *                  @SWG\Property( property="business_address", type="string", description="Address of the business", example="4400 Rickenbacker Causeway, Miami, FL, 33149, EE. UU." ),
+     *                  @SWG\Property( property="business_phone", type="string", description="Phone of the business", example="+306 5558 8999" ),
+     *                  @SWG\Property( property="faqs", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="question", type="string", description="Frequently asked question", example="Pregunta 1" ),
+     *                          @SWG\Property( property="answer", type="string", description="Answer to the frequently asked question", example="Answer 1" ),
+     *                      )
+     *                  ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="FAQ")
+     */
+    public function getFaqAction($page_id = 1)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+//            $commonAreas = $this->em->getRepository('BackendAdminBundle:CommonArea')->getApiCommonAreas($complexIds, $page_id);
+//            $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complexIds);
+
+            // ToDo: to finish.
+
+            return new JsonResponse(array(
+                'message' => "",
+//                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Rest\Post("/faq", name="send_message_faq")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="message", in="body", required=true, type="string", description="Message.", schema={} )
+     * @SWG\Parameter( name="property_id", in="body", required=true, type="integer", description="The property ID of the message.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Sends an email to the corresponding admin and post the message.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="FAQ")
+     */
+
+    public function postFaqAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+//            $message = strtolower(trim($request->get('message')));
+//            $propertyId = strtolower(trim($request->get('property_id')));
+
+            // ToDo: to finish.
+
+//            $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
+//            $this->sendEmail($message);
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
     /**
@@ -2260,6 +2644,167 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * @Rest\Post("/commonAreaReservation", name="common_area_reservation")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="common_area_id", in="body", required=true, type="integer", description="The common area ID for the reservation.", schema={} )
+     * @SWG\Parameter( name="reservation_date_from", in="body", required=true, type="integer", description="The start date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
+     * @SWG\Parameter( name="reservation_date_to", in="body", required=true, type="integer", description="The end date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
+     * @SWG\Parameter( name="reservation_status", in="body", required=true, type="string", description="The status of the reservation.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a reservation for a common area.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Common Area")
+     */
+    public function postCommonAreaReservationAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
+                throw new \Exception("Invalid Content-Type header.");
+            }
+
+            $commonAreaId = $request->get('common_area_id');
+            $reservationDateFromSecs = trim($request->get('reservation_date_from'));
+            $reservationDateToSecs = trim($request->get('reservation_date_to'));
+            $reservationStatus = trim($request->get('reservation_status')); // ToDo: What?
+
+            $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findOneBy(array('enabled' => true, 'id' => $commonAreaId));
+            if ($commonArea == null) {
+                throw new \Exception("Invalid common area ID.");
+            }
+
+            $startDate = new \DateTime("@$reservationDateFromSecs");
+            $endDate = new \DateTime("@$reservationDateToSecs");
+
+            $reservation = new CommonAreaReservation();
+            $reservation->setCommonArea($commonArea);
+            $reservation->setReservationDateFrom( $startDate );
+            $reservation->setReservationDateTo( $endDate );
+            $reservation->setReservedBy( $this->getUser() );
+//            $reservation->setCommonAreaReservationStatus( $reservationStatus );
+
+            $this->get("services")->blameOnMe($reservation, "create");
+            $this->get("services")->blameOnMe($reservation, "update");
+
+            $this->em->persist($reservation);
+
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+    /**
+     * List the rewards of the specified user.
+     *
+     * This call takes into account all confirmed awards, but not pending or refused awards.
+     *
+     * @Rest\Get("/payments/{month}/{year}/{page_id}", name="list_payments", )
+     *
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="month", in="path", required=true, type="string", description="The month of the requested payments." )
+     * @SWG\Parameter( name="year", in="path", required=true, type="string", description="The year of the requested payments." )
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of common areas of a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="FAQ ID", example="1" ),
+     *                  @SWG\Property( property="business_name", type="string", description="Name of the business", example="Business" ),
+     *                  @SWG\Property( property="business_address", type="string", description="Address of the business", example="4400 Rickenbacker Causeway, Miami, FL, 33149, EE. UU." ),
+     *                  @SWG\Property( property="business_phone", type="string", description="Phone of the business", example="+306 5558 8999" ),
+     *                  @SWG\Property( property="faqs", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="question", type="string", description="Frequently asked question", example="Pregunta 1" ),
+     *                          @SWG\Property( property="answer", type="string", description="Answer to the frequently asked question", example="Answer 1" ),
+     *                      )
+     *                  ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Finances")
+     */
+    public function getPaymentsAction($page_id = 1)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+//            $commonAreas = $this->em->getRepository('BackendAdminBundle:CommonArea')->getApiCommonAreas($complexIds, $page_id);
+//            $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complexIds);
+
+            // ToDo: to finish.
+
+            return new JsonResponse(array(
+                'message' => "",
+//                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
 
     private function calculatePagesMetadata($page, $total)
