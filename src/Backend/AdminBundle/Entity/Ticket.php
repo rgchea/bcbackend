@@ -30,17 +30,17 @@ class Ticket
     /**
      * @var \DateTime
      */
-    private $createdAt = '0000-00-00 00:00:00';
+    private $createdAt;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt = '0000-00-00 00:00:00';
+    private $updatedAt;
 
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = 1;
 
     /**
      * @var \Backend\AdminBundle\Entity\TenantContract

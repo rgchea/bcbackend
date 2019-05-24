@@ -67,6 +67,13 @@ Backend\AdminBundle\Entity\Property:
             length: 6
             options:
                 fixed: false
+        propertyNumber:
+            type: string
+            nullable: false
+            length: 8
+            options:
+                fixed: false
+            column: property_number
         qrCodePath:
             type: string
             nullable: true

@@ -318,6 +318,7 @@
 		 $('[name="user"]').on("submit", function(){
 		   //Code: Action (like ajax...)
 		   if($("[name='user']").valid()){
+			   $('#user_role').prop('disabled', false);
 			   $('#pizote_spinner').show();
 			   return true;
 					   	

@@ -15,6 +15,10 @@ Backend\AdminBundle\Entity\UserNotification:
         ticket_id:
             columns:
                 - ticket_id
+        tenant_contract_id:
+            columns:
+                - tenant_contract_id
+
     id:
         id:
             type: integer
@@ -112,5 +116,16 @@ Backend\AdminBundle\Entity\UserNotification:
                 common_area_reservation_id:
                     referencedColumnName: id
             orphanRemoval: false
+        tenantContract:
+            targetEntity: TenantContract
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                tenant_contract_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
 
     lifecycleCallbacks: {  }

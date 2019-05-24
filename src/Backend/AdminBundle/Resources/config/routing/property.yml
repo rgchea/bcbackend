@@ -54,3 +54,11 @@ backend_admin_property_change_section:
     path:     /changeSection
     defaults: { _controller: "BackendAdminBundle:Property:changeSection" }
     #methods:  POST
+
+backend_admin_property_share_ad:
+    path:     /shareAd
+    defaults: { _controller: "BackendAdminBundle:Property:shareAd" }
+
+backend_admin_property_delete_ad:
+    path:     /deleteAd
+    defaults: { _controller: "BackendAdminBundle:Property:deleteAd" }

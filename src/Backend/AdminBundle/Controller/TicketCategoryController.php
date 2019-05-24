@@ -357,13 +357,40 @@ class TicketCategoryController extends Controller
 
         if ($form->isValid()) {
 
-            $entity->setColor(trim($_REQUEST["ticket_category"]["color"]));
-            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_category"]["complex"]));
+            $complex = intval($_REQUEST["ticket_category"]["complex"]);
+            if($this->role == "SUPER ADMIN" && ($complex == 0)){
 
-            $this->get("services")->blameOnMe($entity, "create");
+                //create this category for all complex
+                $allComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findAll();
 
-            $this->em->persist($entity);
-            $this->em->flush();
+                foreach ($allComplex as $myComplex){
+
+                    $tempTicketCategory = new TicketCategory();
+                    $tempTicketCategory->setColor(trim($_REQUEST["ticket_category"]["color"]));
+                    $tempTicketCategory->setComplex($myComplex);
+                    $tempTicketCategory->setDescription($_REQUEST["ticket_category"]["description"]);
+                    $tempTicketCategory->setName($_REQUEST["ticket_category"]["name"]);
+                    $tempTicketCategory->setEnabled(1);
+
+                    $this->get("services")->blameOnMe($tempTicketCategory, "create");
+
+                    $this->em->persist($tempTicketCategory);
+                    $this->em->flush();
+
+                }
+            }
+            else{
+
+                $entity->setColor(trim($_REQUEST["ticket_category"]["color"]));
+                $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_category"]["complex"]));
+
+                $this->get("services")->blameOnMe($entity, "create");
+
+                $this->em->persist($entity);
+                $this->em->flush();
+
+            }
+
 
 
             $this->get('services')->flashSuccess($request);

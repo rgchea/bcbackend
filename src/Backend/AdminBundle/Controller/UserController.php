@@ -279,6 +279,7 @@ class UserController extends Controller
     {
     	
 		$this->get("services")->setVars('user');
+		$this->initialise();
 
 
         $entity = $this->repository->find($id);
@@ -560,6 +561,11 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+
+        /*
+        print "<pre>";
+        var_dump($_REQUEST);die;
+        */
 
 
     	$this->get("services")->setVars('user');

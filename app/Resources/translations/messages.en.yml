@@ -139,6 +139,7 @@ label_regulation: Regulation
 label_common_area: 'Common Area'
 label_common_area_schedule: Schedule
 label_price: Price
+label_days: days
 label_maintenance: Maintenance
 label_reservation_hour_period: 'Reservation Hour Period (every 1hr, every 2hrs, every 3hrs...)'
 label_required_payment: 'Required Payment'
@@ -149,9 +150,12 @@ label_poll_active: Active
 label_poll: Poll
 label_property_amenity_included: 'Amenities included'
 label_total_visible_amount: 'Visible amounts $'
-lbael_property: Property
+
 label_active: Active
 label_property_contract: 'Property contract'
+label_property_share_ad: 'Create property rental ad'
+label_property_delete_ad: 'Remove property rental ad'
+label_property_share_ad_msg: 'A rental ad is published. It will expire in '
 label_select: Select
 label_select_property: 'Select a property'
 label_start: Start

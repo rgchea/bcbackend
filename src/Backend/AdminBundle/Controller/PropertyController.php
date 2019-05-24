@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Translation\TranslatorInterface;
 
 
+use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\PropertyPhoto;
 use Backend\AdminBundle\Form\PropertyType;
@@ -280,11 +281,36 @@ class PropertyController extends Controller
             return $this->redirectToRoute('backend_admin_property_edit', array('id' => $id));
         }
 
+
+        //get shared ad ticket
+        $isAdShared = $em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array("ticketType" => 2, "property" => $id));
+        if($isAdShared){
+
+            $createdAt = $isAdShared->getCreatedAt()->format('Y-m-d');
+
+            $now = time(); // or your date as well
+            $your_date = strtotime($createdAt);
+            $datediff = $now - $your_date;
+            $days =  round($datediff / (60 * 60 * 24));
+            $isAdSharedDays = 30-$days;
+
+            $isAdShared = $isAdShared->getId();
+        }
+        else{
+            $isAdShared = 0;
+            $isAdSharedDays = 0;
+        }
+
+
+
+
         return $this->render('BackendAdminBundle:Property:edit.html.twig', array(
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'edit' => $entity->getId()
+            'edit' => $entity->getId(),
+            'isAdShared' => $isAdShared,
+            'isAdSharedDays' => $isAdSharedDays
         ));
     }
 
@@ -687,6 +713,60 @@ class PropertyController extends Controller
         print $strReturn;
         die;
 
+    }
+
+
+    public function shareAdAction(Request $request)
+    {
+
+        //print "<pre>";
+        //var_dump($_REQUEST);DIE;
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $propertyID = $_REQUEST["propertyID"];
+        $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+
+        $objTicketType = $this->em->getRepository('BackendAdminBundle:TicketType')->find(2);
+
+        $entity = new Ticket();
+        $entity->setProperty($objProperty);
+        $entity->setComplex($objProperty->getComplex());
+        $entity->setTicketType($objTicketType);
+        $entity->setEnabled(1);
+        $entity->setTitle("Share property ".$propertyID);
+        $entity->setDescription("Share property ".$propertyID);
+        $entity->setIsPublic(1);
+
+
+        $this->get("services")->blameOnMe($entity, "create");
+        $this->get("services")->blameOnMe($entity, "update");
+        $this->em->persist($entity);
+        $this->em->flush();
+
+        return $this->redirectToRoute('backend_admin_property_edit', array('id' => $propertyID));
+    }
+
+
+    public function deleteAdAction(Request $request)
+    {
+
+        //print "<pre>";
+        //var_dump($_REQUEST);DIE;
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $propertyID = $_REQUEST["propertyID"];
+        $ticketID = $_REQUEST["ticketID"];
+        $objTicket = $this->em->getRepository('BackendAdminBundle:Ticket')->find($ticketID);
+
+        $this->em->remove($objTicket);
+        $this->em->flush();
+
+
+        return $this->redirectToRoute('backend_admin_property_edit', array('id' => $propertyID));
     }
 
 

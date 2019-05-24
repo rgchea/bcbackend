@@ -372,4 +372,33 @@ class UserNotification
     {
         return $this->isRead;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\TenantContract
+     */
+    private $tenantContract;
+
+
+    /**
+     * Set tenantContract.
+     *
+     * @param \Backend\AdminBundle\Entity\TenantContract|null $tenantContract
+     *
+     * @return UserNotification
+     */
+    public function setTenantContract(\Backend\AdminBundle\Entity\TenantContract $tenantContract = null)
+    {
+        $this->tenantContract = $tenantContract;
+
+        return $this;
+    }
+
+    /**
+     * Get tenantContract.
+     *
+     * @return \Backend\AdminBundle\Entity\TenantContract|null
+     */
+    public function getTenantContract()
+    {
+        return $this->tenantContract;
+    }
 }

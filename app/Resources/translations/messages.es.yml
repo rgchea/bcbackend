@@ -139,6 +139,7 @@ label_common_area: 'Area Común'
 label_common_area_schedule: Horarios
 label_regulation: Regulacion
 label_price: Precio
+label_days: días
 label_maintenance: Mantenimiento
 label_reservation_hour_period: 'Periodo de Reservacion por Hora (cada 1hr cada 2hrs, cada 3hrs...)'
 label_required_payment: 'Pago Requerido'
@@ -149,9 +150,11 @@ label_poll_active: Activa
 label_poll: Encuesta
 label_property_amenity_included: 'Amenidades included'
 label_total_visible_amount: 'Montos visibles $'
-lbael_property: Property
 label_active: Activo
 label_property_contract: 'Contrato de propiedad'
+label_property_share_ad: 'Crear anuncio de renta sobre propiedad'
+label_property_delete_ad: 'Remover anuncio de renta sobre propiedad'
+label_property_share_ad_msg: 'Un anuncio de renta ha sido publicado. Este expirará en  '
 label_select: Selecccionar
 label_select_property: 'Selecciona una propiedad'
 label_start: Inicia

@@ -64,7 +64,7 @@ Backend\AdminBundle\Entity\Ticket:
                 fixed: false
         possibleSolution:
             type: text
-            nullable: false
+            nullable: true
             length: 65535
             options:
                 fixed: false

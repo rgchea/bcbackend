@@ -521,4 +521,33 @@ class Property
     {
         return $this->complex;
     }
+    /**
+     * @var string
+     */
+    private $propertyNumber;
+
+
+    /**
+     * Set propertyNumber.
+     *
+     * @param string $propertyNumber
+     *
+     * @return Property
+     */
+    public function setPropertyNumber($propertyNumber)
+    {
+        $this->propertyNumber = $propertyNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyNumber.
+     *
+     * @return string
+     */
+    public function getPropertyNumber()
+    {
+        return $this->propertyNumber;
+    }
 }

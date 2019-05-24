@@ -117,4 +117,25 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()->getSingleResult();
     }
 
+
+
+    public function getOldSharedProperties(){
+
+        $sql = "	SELECT 	id
+                    FROM 	ticket
+                    WHERE   DATEDIFF(CURDATE(),STR_TO_DATE(created_at, '%Y-%m-%d')) > 30";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+        $arrReturn = array();
+        foreach ($execute as $row) {
+            $arrReturn[$row["id"]] = $row["id"];
+        }
+
+        return $arrReturn;
+
+    }
+
 }
