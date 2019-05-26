@@ -177,6 +177,40 @@ response=$(curl -s -XPOST "${API_URL}/v1/sendSMS?${DEFAULT_QUERY}" \
 
 echo "${response}"
 echo "${response}" | jq -r '.message'
+
+echo " ---------------------------------------- "
+
+smscodeinput=$(echo "${response}" | jq -r '.debug')
+#read -p "Enter code:" smscodeinput
+
+echo " ---------------------------------------- validateSMS"
+
+payload=$(printf '{"property_code": "%s", "sms_code": "%s"}' "${PROPERTY_CODE}" "${smscodeinput}")
+
+response=$(curl -s -XPOST "${API_URL}/v1/validateSMS?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" \
+    -d "${payload}")
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.data'
+
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- listProperties"
+
+response=$(curl -s -XGET "${API_URL}/v1/properties/1?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" )
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.metadata'
 echo "${response}" | jq -r '.data'
 
 echo " ---------------------------------------- "

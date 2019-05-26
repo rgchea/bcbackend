@@ -11,20 +11,4 @@ namespace Backend\AdminBundle\Repository;
 class TenantContractRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiWelcomePrivateKey($property)
-    {
-        $qb = $this->createQueryBuilder('a');
-
-        $qb->select('a, pc, p')
-            ->innerJoin('a.propertyContract', 'pc')
-            ->innerJoin('pc.property', 'p')
-            ->where('a.enabled = 1')
-            ->andWhere('pc.enabled = 1')
-            ->andWhere('p.enabled = 1')
-            ->andWhere('p.id = :property_id')
-            ->setParameter('property_id', $property->getId());
-
-        return $qb->getQuery()->getSingleResult();
-    }
-
 }
