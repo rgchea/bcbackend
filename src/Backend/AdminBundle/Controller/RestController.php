@@ -17,6 +17,7 @@ use Backend\AdminBundle\Entity\PollQuestion;
 use Backend\AdminBundle\Entity\PollQuestionOption;
 use Backend\AdminBundle\Entity\PollTenantAnswer;
 use Backend\AdminBundle\Entity\Property;
+use Backend\AdminBundle\Entity\PropertyPhoto;
 use Backend\AdminBundle\Entity\PropertyType;
 use Backend\AdminBundle\Entity\TenantContract;
 use Backend\AdminBundle\Entity\TermCondition;
@@ -31,15 +32,12 @@ use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
-use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\File as FileObject;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -853,7 +851,7 @@ class RestController extends FOSRestController
             $this->initialise();
 
             $logger = $this->get('logger');
-            $logger->info("CODE = ". $code);
+            $logger->info("CODE = " . $code);
 
             /** @var Property $property */
             $property = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code);
@@ -939,12 +937,21 @@ class RestController extends FOSRestController
             $this->initialise();
 
             /** @var Property $property */
-            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiPropertyDetail($id, $this->getUser());
-            $property = $propertyResult[0];
-
+            $property = $this->em->getRepository('BackendAdminBundle:Property')->getApiPropertyDetail($id, $this->getUser());
             if ($property == null) {
                 throw new \Exception("Invalid property code.");
             }
+
+            $contracts = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findBy(
+                array('enabled' => true, 'property' => $property, 'isActive' => true),
+                array('createdAt', 'DESC')
+            );
+
+            if (count($contracts) < 1) {
+                throw new \Exception("No available contracts for this property.");
+            }
+
+            $contract = $contracts[0];
 
             $type = $property->getPropertyType();
             if ($type == null) {
@@ -956,12 +963,23 @@ class RestController extends FOSRestController
                 $owner = new User();
             }
 
+            $photosFull = $this->em->getRepository('BackendAdminBundle:PropertyPhoto')->findBy(
+                array('enabled' => true, 'property' => $property)
+            );
+
+            $photos = array();
+            /** @var PropertyPhoto $photo */
+            foreach( $photosFull as $photo ) {
+                $photos[] = $photo->getPhotoPath();
+            }
+
             $data = array(
                 'id' => $property->getId(),
                 'code' => $property->getCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $type->getId(),
                 'is_owner' => $owner->getId() == $this->getUser()->getId(),
-                'photos' => array(),
+                'contract_id' => $contract->getId(),
+                'photos' => $photos,
             );
 
             return new JsonResponse(array('message' => "", 'data' => $data));
@@ -1025,22 +1043,23 @@ class RestController extends FOSRestController
             $smsCode = $pass = $this->random_str(6, '0123456789');
 
             $logger = $this->get('logger');
-            $logger->debug("SMS_CODE = ". $smsCode);
+            $logger->debug("SMS_CODE = " . $smsCode);
 
-            $property->setSmsCode( $smsCode );
+            $property->setSmsCode($smsCode);
             $this->get("services")->blameOnMe($property, "update");
 
             $this->em->persist($property);
             $this->em->flush();
 
-            $smsMessage = $this->translator->trans('sms.code',  ['%code%' => $smsCode] );
+            $smsMessage = $this->translator->trans('sms.code', ['%code%' => $smsCode]);
 
 //            $msg = $this->get('services')->serviceSendSMS($smsMessage, $user->getMobilePhone() );
 
-            return new JsonResponse(array(
-                'message' => "sendSMS",
-                'debug' => $smsCode, // ToDo: To remove for prod.
-            ));
+            $response = array( 'message' => "");
+            if( $this->container->getParameter('kernel.environment') == 'dev' ) {// ToDo: To check for prod.
+                $response['debug'] = $smsCode;
+            }
+            return new JsonResponse($response);
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -1320,6 +1339,8 @@ class RestController extends FOSRestController
      */
     public function getTicketCategoriesAction($property_id, $complex_id, $page_id = 1)
     {
+
+        // ToDo: No hay necesidad de usar un property ID para obtener los TicketCategories creo.
         try {
             $this->initialise();
             $data = array();
@@ -1352,7 +1373,7 @@ class RestController extends FOSRestController
      *
      * Returns a feed of tickets that belong to the user.
      *
-     * @Rest\Get("/v1/feed/{property_id}/{filter_category_id}/{page_id}", name="feed")
+     * @Rest\Get("/v1/feed/{property_id}/{filter_category_id}/{page_id}", name="listFeed")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1414,15 +1435,15 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Ticket")
      */
-    public function getFeedAction(Request $request, $property_id, $complex_id, $page_id = 1)
+    public function getFeedAction(Request $request, $property_id, $filter_category_id, $page_id = 1)
     {
         try {
             $this->initialise();
             $data = array();
             $lang = strtolower(trim($request->get('language')));
 
-            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $complex_id, $page_id);
-            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($property_id, $complex_id);
+            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $filter_category_id, $this->getUser(), $page_id);
+            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($property_id, $filter_category_id, $this->getUser());
 
             $ticketIds = $this->getArrayOfIds($tickets);
 
@@ -1453,17 +1474,37 @@ class RestController extends FOSRestController
                     $user = new User();
                 }
 
+                /** @var CommonAreaReservation $reservation */
                 $reservation = $ticket->getCommonAreaReservation();
                 if ($reservation == null) {
                     $reservation = new CommonAreaReservation();
+                    $invalidDate = new \DateTime("@0");
+                    $reservation->setReservationDateFrom($invalidDate);
+                    $reservation->setReservationDateTo($invalidDate);
                 }
-                $reservationStatus = $reservation->getCommonAreaResevationStatus();
+                $reservationStatus = $reservation->getCommonAreaReservationStatus();
                 if ($reservationStatus == null) {
                     $reservationStatus = new CommonAreaReservationStatus();
+                    $reservationStatus->setNameEN('');
+                    $reservationStatus->setNameES('');
                 }
                 $commonArea = $reservation->getCommonArea();
                 if ($commonArea == null) {
-                    $commonArea = new CommonArea();
+                    $commonAreaData = array();
+                } else {
+                    $commonAreaData = array(
+                        "id" => $commonArea->getId(),
+                        "name" => $commonArea->getName(),
+                        "status" => (($lang == 'en') ? $reservationStatus->getNameEN() : $reservationStatus->getNameES()),
+                        "reservation_from" => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
+                        "reservation_to" => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
+                    );
+                }
+
+                if ( $user->getRole() != null ) {
+                    $role = (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES());
+                } else {
+                    $role = "";
                 }
 
                 $data[] = array(
@@ -1475,21 +1516,16 @@ class RestController extends FOSRestController
                     'description' => $ticket->getDescription(),
                     'is_public' => $ticket->getIsPublic(),
                     'username' => $user->getUsername(),
-                    'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
+                    'role' => $role,
                     'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
-                    'common_area' => array(
-                        "id" => $commonArea->getId(),
-                        "name" => $commonArea->getName(),
-                        "status" => (($lang == 'en') ? $reservationStatus->getNameEN() : $reservationStatus->getNameES()),
-                        "reservation_from" => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
-                        "reservation_to" => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
-                    ),
+                    'common_area' => $commonAreaData,
                     'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
                 );
             }
 
             return new JsonResponse(array(
+                'message' => "",
                 'message' => "",
                 'metadata' => $this->calculatePagesMetadata($page_id, $total),
                 'data' => $data
@@ -1504,7 +1540,7 @@ class RestController extends FOSRestController
      *
      * Returns the ticket information including comments, followers and reservations if there are some.
      *
-     * @Rest\Get("/v1/ticket/{ticket_id}", name="ticket")
+     * @Rest\Get("/v1/ticket/{ticket_id}", name="singleTicket")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1565,8 +1601,10 @@ class RestController extends FOSRestController
             $this->initialise();
             $lang = strtolower(trim($request->get('language')));
 
-            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiSingleTicket($ticket_id);
-            $ticket = $tickets[0];
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiSingleTicket($ticket_id);
+            if ($ticket == null) {
+                throw new \Exception("Invalid ticket ID.");
+            }
 
             $ticketIds = array($ticket->getId());
 
@@ -1666,7 +1704,7 @@ class RestController extends FOSRestController
      *
      * It receives all the necessary information to create a ticket.
      *
-     * @Rest\Post("/v1/ticket", name="create_ticket")
+     * @Rest\Post("/v1/ticket", name="createTicket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1706,7 +1744,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Ticket")
      */
 
-    public function postTicketAction(Request $request, ValidatorInterface $validator)
+    public function postTicketAction(Request $request)
     {
         try {
             $this->initialise();
@@ -1749,9 +1787,9 @@ class RestController extends FOSRestController
 
             // Required parameter
             $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array('enabled' => true, 'id' => $tenantContractId));
-            if ($tenantContract == null) {
-                throw new \Exception("Invalid tenant contract ID.");
-            }
+//            if ($tenantContract == null) {
+//                throw new \Exception("Invalid tenant contract ID.");
+//            }
 
             $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(self::TICKET_STATUS_OPEN_ID);
             if ($status == null) {
@@ -1765,6 +1803,7 @@ class RestController extends FOSRestController
             $ticket->setIsPublic($isPublic);
             $ticket->setTicketCategory($category);
             $ticket->setComplexSector($complexSector);
+            $ticket->setComplex($complexSector->getComplex()); // ToDo: Optimization to make only 1 query instead of 2. (not that big improvement)
             $ticket->setProperty($property);
             $ticket->setCommonAreaReservation($commonAreaReservation);
             $ticket->setTenantContract($tenantContract);
@@ -1780,6 +1819,9 @@ class RestController extends FOSRestController
             $statusLog->setTicket($ticket);
             $this->get("services")->blameOnMe($statusLog, "create");
             $this->get("services")->blameOnMe($statusLog, "update");
+
+            /** @var ValidatorInterface $validator */
+            $validator = $this->get('validator');
 
             foreach ($photos as $photo) {
                 $decodedPhoto = base64_decode($photo);
@@ -1825,9 +1867,12 @@ class RestController extends FOSRestController
 
             $this->em->flush();
 
-            return new JsonResponse(array(
-                'message' => "",
-            ));
+            $response = array( 'message' => "");
+            if( $this->container->getParameter('kernel.environment') == 'dev' ) {
+                $response['debug'] = $ticket->getId();
+            }
+            return new JsonResponse($response);
+
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -1838,7 +1883,7 @@ class RestController extends FOSRestController
      *
      * Closes a ticket and adds a rating to it.
      *
-     * @Rest\Put("/v1/ticket", name="close_ticket")
+     * @Rest\Put("/v1/ticket", name="closeTicket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )

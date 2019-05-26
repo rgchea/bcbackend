@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * TicketRepository
  *
@@ -16,7 +18,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->queryBuilderForApiTicketCategories($categoryId, $complexId);
 
         $qb->select('a, tc, c')
-            ->setFirstResult($pageId * $limit)// Offset
+            ->setFirstResult(($pageId - 1) * $limit)// Offset
             ->setMaxResults($limit)// Limit
             ->orderBy('a.createdAt', 'ASC');
 
@@ -45,30 +47,30 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('com_id', $complexId);
     }
 
-    public function getApiFeed($propertyId, $categoryId, $pageId = 1, $limit = 10)
+    public function getApiFeed($propertyId, $categoryId, $user, $pageId = 1, $limit = 10)
     {
-        $qb = $this->queryBuilderForApiFeed($propertyId, $categoryId);
+        $qb = $this->queryBuilderForApiFeed($propertyId, $categoryId, $user);
 
         $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
-            ->setFirstResult($pageId * $limit)// Offset
+            ->setFirstResult(($pageId - 1) * $limit)// Offset
             ->setMaxResults($limit)// Limit
             ->orderBy('a.createdAt', 'ASC');
 
         return $qb->getQuery()->getResult();
     }
 
-    public function countApiFeed($propertyId, $categoryId)
+    public function countApiFeed($propertyId, $categoryId, $user)
     {
-        $qb = $this->queryBuilderForApiFeed($propertyId, $categoryId);
+        $qb = $this->queryBuilderForApiFeed($propertyId, $categoryId, $user);
         $qb->select('count(a.id)');
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    private function queryBuilderForApiFeed($propertyId, $categoryId)
+    private function queryBuilderForApiFeed($propertyId, $categoryId, $user)
     {
         return $this->createQueryBuilder('a')
             ->select('a')
-            ->innerJoin('a.ticketCategory', 'tc')
+            ->leftJoin('a.ticketCategory', 'tc')
             ->leftJoin('a.ticketType', 'tt')
             ->leftJoin('a.ticketStatus', 'ts')
             ->leftJoin('a.createdBy', 'u')
@@ -77,25 +79,27 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('car.commonAreaReservationStatus', 'cars')
             ->leftJoin('a.property', 'p')
             ->where('a.enabled = 1')
-            ->andWhere('tc.enabled = 1')
-            ->andWhere('tt.enabled = 1')
+//            ->andWhere('tc.enabled = 1')
+//            ->andWhere('tt.enabled = 1')
             ->andWhere('ts.enabled = 1')
             ->andWhere('u.enabled = 1')
-            ->andWhere('car.enabled = 1')
-            ->andWhere('cars.enabled = 1')
-            ->andWhere('ca.enabled = 1')
+//            ->andWhere('car.enabled = 1')
+//            ->andWhere('cars.enabled = 1')
+//            ->andWhere('ca.enabled = 1')
             ->andWhere('p.enabled = 1')
             ->andWhere('p.id = :prop_id')
-            ->andWhere('tc.id = :cot_id')
+            ->andWhere('tc.id = :cat_id')
+            ->andWhere('a.createdBy = :user')
+            ->setParameter('user', $user)
             ->setParameter('prop_id', $propertyId)
             ->setParameter('cat_id', $categoryId);
     }
 
     public function getApiSingleTicket($ticketId)
     {
-        return $this->createQueryBuilder('a')
+        $qb = $this->createQueryBuilder('a')
             ->select('a')
-            ->innerJoin('a.ticketCategory', 'tc')
+            ->leftJoin('a.ticketCategory', 'tc')
             ->leftJoin('a.ticketType', 'tt')
             ->leftJoin('a.ticketStatus', 'ts')
             ->leftJoin('a.createdBy', 'u')
@@ -105,16 +109,22 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('a.property', 'p')
             ->where('a.enabled = 1')
             ->andWhere('tc.enabled = 1')
-            ->andWhere('tt.enabled = 1')
+//            ->andWhere('tt.enabled = 1')
             ->andWhere('ts.enabled = 1')
             ->andWhere('u.enabled = 1')
-            ->andWhere('car.enabled = 1')
-            ->andWhere('cars.enabled = 1')
-            ->andWhere('ca.enabled = 1')
+//            ->andWhere('car.enabled = 1')
+//            ->andWhere('cars.enabled = 1')
+//            ->andWhere('ca.enabled = 1')
             ->andWhere('p.enabled = 1')
             ->andWhere('a.id = :ticket_id')
-            ->setParameter('ticket_id', $ticketId)
-            ->getQuery()->getSingleResult();
+            ->setParameter('ticket_id', $ticketId);
+
+        try {
+            return $qb->getQuery()->getSingleResult();
+        }
+        catch(\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
     }
 
 

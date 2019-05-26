@@ -216,9 +216,9 @@ echo "${response}" | jq -r '.data'
 echo " ---------------------------------------- "
 
 
-echo " ---------------------------------------- propertyInfo"
+echo " ---------------------------------------- propertyDetail"
 
-response=$(curl -s -XGET "${API_URL}/v1/property/000001?${DEFAULT_QUERY}" \
+response=$(curl -s -XGET "${API_URL}/v1/propertyDetail/1?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" )
@@ -233,6 +233,165 @@ echo " ---------------------------------------- "
 echo " ---------------------------------------- listInbox"
 
 response=$(curl -s -XGET "${API_URL}/v1/inbox/1?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" )
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.metadata'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- ticketCategory"
+
+response=$(curl -s -XGET "${API_URL}/v1/ticketCategory/1/1/1?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" )
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.metadata'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- listFeed"
+
+response=$(curl -s -XGET "${API_URL}/v1/feed/1/1/1?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" )
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.metadata'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- createTicket"
+
+payload=$(printf '{"title": "%s", "description": "%s", "photos": [], "solution": "Solution", "is_public": false, "category_id": 1, "sector_id": 1, "property_id": 1, "tenant_contract_id": 1}' "Test Ticket!" "Lorem ipsum lorem ipsum lorem ipsum")
+
+response=$(curl -s -XPOST "${API_URL}/v1/ticket?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" \
+    -d "${payload}")
+
+echo "${response}"
+
+ticketId=$(echo "${response}" | jq -r '.debug')
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- singleTicket"
+
+response=$(curl -s -XGET "${API_URL}/v1/ticket/${ticketId}?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" )
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.metadata'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- commentTicket"
+
+payload=$(printf '{"ticket_id": "%s", "comment": "%s"}' "${ticketId}" "This is a comment!")
+
+response=$(curl -s -XPOST "${API_URL}/v1/comment?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" \
+    -d "${payload}")
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- commentTicket 2"
+
+payload=$(printf '{"ticket_id": "%s", "comment": "%s"}' "${ticketId}" "This is a second comment!")
+
+response=$(curl -s -XPOST "${API_URL}/v1/comment?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" \
+    -d "${payload}")
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+
+
+echo " ---------------------------------------- singleTicket"
+
+response=$(curl -s -XGET "${API_URL}/v1/ticket/${ticketId}?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" )
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.metadata'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+
+
+echo " ---------------------------------------- listFeed"
+
+response=$(curl -s -XGET "${API_URL}/v1/feed/1/1/1?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" )
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.metadata'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- closeTicket"
+
+payload=$(printf '{"ticket_id": "%s", "rating": 5}' "${ticketId}")
+
+response=$(curl -s -XPUT "${API_URL}/v1/ticket?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" \
+    -d "${payload}")
+
+echo "${response}"
+
+echo " ---------------------------------------- "
+
+echo " ---------------------------------------- listFeed"
+
+response=$(curl -s -XGET "${API_URL}/v1/feed/1/1/1?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" )

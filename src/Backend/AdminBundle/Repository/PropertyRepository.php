@@ -52,7 +52,12 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $qb->andWhere('a.code = :code')
             ->setParameter('code', $code);
 
-        return $qb->getQuery()->getSingleResult();
+        try {
+            return $qb->getQuery()->getSingleResult();
+        }
+        catch(\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
     }
 
     public function getApiPropertyDetail($id, $user)
@@ -64,7 +69,12 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('user', $user)
             ->setParameter('pid', $id);
 
-        return $qb->getQuery()->getSingleResult();
+        try {
+            return $qb->getQuery()->getSingleResult();
+        }
+        catch(\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
     }
 
     public function getApiProperties($user)
