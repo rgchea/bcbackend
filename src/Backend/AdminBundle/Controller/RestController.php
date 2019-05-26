@@ -73,7 +73,7 @@ class RestController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/v1", name="")
+     * @Rest\Get("/v1/test", name="")
      */
     public function getV1Action(Request $request)
     {
@@ -613,7 +613,7 @@ class RestController extends FOSRestController
      *
      * This creates a relationship between the user and a property through the property code. This is applicable for welcomePrivateKey, welcomeQR and welcomeInvite, since all the endpoints do the same with the same parameters.
      *
-     * @Rest\Post("/welcomePrivateKey", name="welcomePrivateKey")
+     * @Rest\Post("/v1/welcomePrivateKey", name="welcomePrivateKey")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -712,7 +712,7 @@ class RestController extends FOSRestController
      *
      * Returns a paginated list of properties owned or associated by the user.
      *
-     * @Rest\Get("/properties/{page_id}", name="listProperties")
+     * @Rest\Get("/v1/properties/{page_id}", name="listProperties")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -803,7 +803,7 @@ class RestController extends FOSRestController
      *
      * Returns information about a property by using the property code.
      *
-     * @Rest\Get("/property/{code}", name="propertyInfo")
+     * @Rest\Get("/v1/property/{code}", name="propertyInfo")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -886,7 +886,7 @@ class RestController extends FOSRestController
      *
      * Returns information about a property by using the property id.
      *
-     * @Rest\Get("/propertyDetail/{id}", name="propertyDetail")
+     * @Rest\Get("/v1/propertyDetail/{id}", name="propertyDetail")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -972,7 +972,7 @@ class RestController extends FOSRestController
      *
      * This relies on Twilio to send an SMS to the user with a code.
      *
-     * @Rest\Post("/sendSMS", name="sendSMS")
+     * @Rest\Post("/v1/sendSMS", name="sendSMS")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1002,7 +1002,6 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="User")
      */
-
     public function postSendSmsAction(Request $request)
     {
         try {
@@ -1015,17 +1014,26 @@ class RestController extends FOSRestController
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
+            /** @var Property $property */
             $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
             if ($property == null) {
                 throw new \Exception("Invalid property code.");
             }
 
-            // ToDo: Still pending info.
+            $smsCode = $pass = $this->random_str(6, '0123456789');
 
-            $msg = $this->get('services')->serviceSendSMS("hello there monkey", "+50241550669");
+            $property->setSmsCode( $smsCode );
+            $this->get("services")->blameOnMe($property, "update");
+
+            $this->em->persist($property);
+            $this->em->flush();
+
+            $smsMessage = $this->translator->trans('sms.code',  ['%code%' => $smsCode] );
+
+            $msg = $this->get('services')->serviceSendSMS($smsMessage, $user->getMobilePhone() );
 
             return new JsonResponse(array(
-                'message' => "" . $user->getId(),
+                'message' => "sendSMS",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -1038,7 +1046,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of notifications from the user.
      *
-     * @Rest\Get("/inbox/{page_id}", name="listInbox")
+     * @Rest\Get("/v1/inbox/{page_id}", name="listInbox")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1161,7 +1169,7 @@ class RestController extends FOSRestController
      *
      * Return the ticket categories available for a property and complex.
      *
-     * @Rest\Get("/ticketCategory/{property_id}/{complex_id}/{page_id}", name="ticket_categories")
+     * @Rest\Get("/v1/ticketCategory/{property_id}/{complex_id}/{page_id}", name="ticket_categories")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1241,7 +1249,7 @@ class RestController extends FOSRestController
      *
      * Returns a feed of tickets that belong to the user.
      *
-     * @Rest\Get("/feed/{property_id}/{filter_category_id}/{page_id}", name="feed")
+     * @Rest\Get("/v1/feed/{property_id}/{filter_category_id}/{page_id}", name="feed")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1393,7 +1401,7 @@ class RestController extends FOSRestController
      *
      * Returns the ticket information including comments, followers and reservations if there are some.
      *
-     * @Rest\Get("/ticket/{ticket_id}", name="ticket")
+     * @Rest\Get("/v1/ticket/{ticket_id}", name="ticket")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1555,7 +1563,7 @@ class RestController extends FOSRestController
      *
      * It receives all the necessary information to create a ticket.
      *
-     * @Rest\Post("/ticket", name="create_ticket")
+     * @Rest\Post("/v1/ticket", name="create_ticket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1728,7 +1736,7 @@ class RestController extends FOSRestController
      *
      * Closes a ticket and adds a rating to it.
      *
-     * @Rest\Put("/ticket", name="close_ticket")
+     * @Rest\Put("/v1/ticket", name="close_ticket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1815,7 +1823,7 @@ class RestController extends FOSRestController
      *
      * Creates a comment for a ticket.
      *
-     * @Rest\Post("/comment", name="comment_ticket")
+     * @Rest\Post("/v1/comment", name="comment_ticket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1890,7 +1898,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of active polls.
      *
-     * @Rest\Get("/polls/{page_id}", name="polls")
+     * @Rest\Get("/v1/polls/{page_id}", name="polls")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1965,7 +1973,7 @@ class RestController extends FOSRestController
      *
      * Returns the information about a poll, including questions and answers for each.
      *
-     * @Rest\Get("/poll/{poll_id}", name="poll")
+     * @Rest\Get("/v1/poll/{poll_id}", name="poll")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2072,7 +2080,7 @@ class RestController extends FOSRestController
      *
      * Creates the answer of a tenant to a poll.
      *
-     * @Rest\Post("/answer", name="tenant_answer")
+     * @Rest\Post("/v1/answer", name="tenant_answer")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2169,7 +2177,7 @@ class RestController extends FOSRestController
      *
      * Sets the user avatar with a new image, which is received in base64 encoding.
      *
-     * @Rest\Put("/avatar", name="set_avatar")
+     * @Rest\Put("/v1/avatar", name="set_avatar")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2264,7 +2272,7 @@ class RestController extends FOSRestController
      *
      * Returns a list with the frequently asked questions of a business.
      *
-     * @Rest\Get("/faq/{page_id}", name="faq")
+     * @Rest\Get("/v1/faq/{page_id}", name="faq")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2341,7 +2349,7 @@ class RestController extends FOSRestController
      *
      * Creates a new frequently asked question.
      *
-     * @Rest\Post("/faq", name="send_message_faq")
+     * @Rest\Post("/v1/faq", name="send_message_faq")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2403,7 +2411,7 @@ class RestController extends FOSRestController
      *
      * Returns a list
      *
-     * @Rest\Get("/commonAreas/{property_id}/{page_id}", name="common_areas")
+     * @Rest\Get("/v1/commonAreas/{property_id}/{page_id}", name="common_areas")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2516,7 +2524,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of reservations and availability for a given common area.
      *
-     * @Rest\Get("/commonAreaAvailability/{common_area_id}", name="common_area_availability")
+     * @Rest\Get("/v1/commonAreaAvailability/{common_area_id}", name="common_area_availability")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2609,7 +2617,7 @@ class RestController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/commonArea/{common_area_id}", name="common_area")
+     * @Rest\Get("/v1/commonArea/{common_area_id}", name="common_area")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2680,7 +2688,7 @@ class RestController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/commonAreaReservation", name="common_area_reservation")
+     * @Rest\Post("/v1/commonAreaReservation", name="common_area_reservation")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2763,7 +2771,7 @@ class RestController extends FOSRestController
      *
      * This call takes into account all confirmed awards, but not pending or refused awards.
      *
-     * @Rest\Get("/payments/{month}/{year}/{page_id}", name="list_payments", )
+     * @Rest\Get("/v1/payments/{month}/{year}/{page_id}", name="list_payments", )
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *

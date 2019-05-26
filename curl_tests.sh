@@ -117,9 +117,23 @@ echo "${response}" | jq -r '.data'
 
 echo " ---------------------------------------- "
 
+
+echo " ---------------------------------------- v1"
+
+response=$(curl -s -XGET "${API_URL}/v1/test?${DEFAULT_QUERY}&pid=1" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}")
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
 echo " ---------------------------------------- listProperties"
 
-response=$(curl -s -XGET "${API_URL}/properties/1?${DEFAULT_QUERY}" \
+response=$(curl -s -XGET "${API_URL}/v1/properties/1?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" )
@@ -134,9 +148,28 @@ echo " ---------------------------------------- "
 
 echo " ---------------------------------------- welcomePrivateKey"
 
-payload=$(printf '{"property_code": "%s"}' "000001")
+PROPERTY_CODE="000001"
 
-response=$(curl -s -XPOST "${API_URL}/welcomePrivateKey?${DEFAULT_QUERY}" \
+payload=$(printf '{"property_code": "%s"}' "${PROPERTY_CODE}")
+
+response=$(curl -s -XPOST "${API_URL}/v1/welcomePrivateKey?${DEFAULT_QUERY}" \
+    -H  "accept: application/json" \
+    -H  "Content-Type: application/json" \
+    -H  "Authorization: BEARER ${token}" \
+    -d "${payload}")
+
+echo "${response}"
+echo "${response}" | jq -r '.message'
+echo "${response}" | jq -r '.data'
+
+echo " ---------------------------------------- "
+
+
+echo " ---------------------------------------- sendSMS"
+
+payload=$(printf '{"property_code": "%s"}' "${PROPERTY_CODE}")
+
+response=$(curl -s -XPOST "${API_URL}/v1/sendSMS?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" \
@@ -151,7 +184,7 @@ echo " ---------------------------------------- "
 
 echo " ---------------------------------------- propertyInfo"
 
-response=$(curl -s -XGET "${API_URL}/property/000001?${DEFAULT_QUERY}" \
+response=$(curl -s -XGET "${API_URL}/v1/property/000001?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" )
@@ -165,22 +198,7 @@ echo " ---------------------------------------- "
 
 echo " ---------------------------------------- listInbox"
 
-response=$(curl -s -XGET "${API_URL}/inbox/1?${DEFAULT_QUERY}" \
-    -H  "accept: application/json" \
-    -H  "Content-Type: application/json" \
-    -H  "Authorization: BEARER ${token}" )
-
-echo "${response}"
-echo "${response}" | jq -r '.message'
-echo "${response}" | jq -r '.metadata'
-echo "${response}" | jq -r '.data'
-
-echo " ---------------------------------------- "
-
-
-echo " ---------------------------------------- listInbox"
-
-response=$(curl -s -XGET "${API_URL}/inbox/1?${DEFAULT_QUERY}" \
+response=$(curl -s -XGET "${API_URL}/v1/inbox/1?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" )
