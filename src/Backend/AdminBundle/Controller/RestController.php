@@ -31,8 +31,10 @@ use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\File\File as FileObject;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,11 +42,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpFoundation\File\File as FileObject;
-
-use Nelmio\ApiDocBundle\Annotation\Security;
 
 
 //entities
@@ -193,6 +191,11 @@ class RestController extends FOSRestController
      *
      * @Rest\Post("/login_check", name="login_check")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     *
+     * @SWG\Parameter( name="_username", in="body", type="string", description="The username", schema={} )
+     * @SWG\Parameter( name="_password", in="body", type="string", description="The password", schema={} )
+     *
      * @SWG\Response(
      *     response=200,
      *     description="User was logged in successfully. The HTTP Header for any POST request must be application/x-www-form-urlencoded."
@@ -207,77 +210,51 @@ class RestController extends FOSRestController
      *     description="User was not logged in successfully"
      * )
      *
-     * @SWG\Parameter(
-     *     name="username",
-     *     in="body",
-     *     type="string",
-     *     description="The username",
-     *     schema={}
-     * )
-     *
-     * @SWG\Parameter(
-     *     name="password",
-     *     in="body",
-     *     type="string",
-     *     description="The password",
-     *     schema={}
-     * )
      *
      * @SWG\Tag(name="User")
      */
     public function getLoginCheckAction(Request $request)
     {
-
-        $this->initialise();
-
-        $username = $request->get('username');
-        $password = $request->get('password');// hash('sha512', $data);
-
         try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $username = $request->get('username');
+            $password = $request->get('password');// hash('sha512', $data);
 
             $user = $this->em->getRepository('BackendAdminBundle:User')->findOneBy(array("username" => $username, "enabled" => 1));
 
             if (!$user) {
-
                 $code = 401;
                 $error = true;
                 $message = "No user found- Error";
-
-                $response = [
-                    'code' => $code,
-                    'error' => $error,
-                    'data' => $message,
-                ];
-
-                return new Response($this->serializer->serialize($response, "json"));
-
             } else {
-
                 $factory = $this->get('security.encoder_factory');
                 $salt = $user->getSalt();
                 $encoder = $factory->getEncoder($user);
-
 
                 if (!$encoder->isPasswordValid($user->getPassword(), $password, $salt)) {
                     $code = 401;
                     $error = true;
                     $message = "Invalid user and password- Error";
-
-                    $response = [
-                        'code' => $code,
-                        'error' => $error,
-                        'data' => $message,
-                    ];
-
-                    return new Response($this->serializer->serialize($response, "json"));
-                    //$response = array("response" => false, "result" => "Password inválido");
-                    //return new JsonResponse($response);
                 } else {
                     //VALID USER AND PASSWORD GENERATE TOKEN
                     $jwtManager = $this->container->get('lexik_jwt_authentication.jwt_manager');
                     return new JsonResponse(['token' => $jwtManager->create($user)]);
                 }
             }
+
+            $response = [
+                'code' => $code,
+                'error' => $error,
+                'data' => $message,
+            ];
+
+            return new JsonResponse($response);
+
         } catch (Exception $ex) {
             $code = 500;
             $error = true;
@@ -288,7 +265,7 @@ class RestController extends FOSRestController
                 'data' => $message,
             ];
 
-            return new Response($this->serializer->serialize($response, "json"));
+            return new JsonResponse($response);
         }
 
 
@@ -298,11 +275,9 @@ class RestController extends FOSRestController
     /**
      * Gets the terms and conditions.
      *
-     * Returns an HTML with the terms and conditions inside the data property.
+     * Returns an HTML with the terms and conditions inside the data property based on the language.
      *
-     * @Rest\Get("/termsConditions", name="terms_and_conditions")
-     *
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     * @Rest\Get("/termsConditions", name="termsConditions")
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -342,7 +317,7 @@ class RestController extends FOSRestController
             $terms = $this->em->getRepository('BackendAdminBundle:TermCondition')->findOneBy(array('enabled' => true), array('updatedAt' => 'DESC'));
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "termsConditions",
                 'data' => ($lang == 'en') ? htmlspecialchars_decode($terms->getDescriptionEN()) : htmlspecialchars_decode($terms->getDescriptionES())
             ));
         } catch (Exception $ex) {
@@ -356,10 +331,9 @@ class RestController extends FOSRestController
      *
      * Takes the username (email) and resets the password with a 32 chars lenght random password, which is sent by email to the user.
      *
-     * @Rest\Post("/forgotPassword", name="forgot_password", options={})
+     * @Rest\Post("/forgotPassword", name="forgotPassword", options={})
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      *
      * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the user.", schema={} )
      *
@@ -392,16 +366,15 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @Security(name="Bearer")
      * @SWG\Tag(name="User")
      */
-    public function postForgotPasswordAction(Request $request, UserPasswordEncoderInterface $encoder)
+    public function postForgotPasswordAction(Request $request)
     {
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $email = strtolower(trim($request->get('email')));
@@ -426,6 +399,8 @@ class RestController extends FOSRestController
                 ['%password%' => $pass]
             );
 
+            $encoder = $this->get('security.password_encoder');
+
             $user->setPlainPassword($pass);
             $user->setPassword($encoder->encodePassword($user, $pass));
             $this->get("services")->blameOnMe($user, "update");
@@ -433,10 +408,9 @@ class RestController extends FOSRestController
             $this->em->flush();
 
             $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
-            $this->sendEmail($message);
 
             return new JsonResponse(array(
-                'message' => "" . $user->getId(),
+                'message' => "forgotPassword",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -451,8 +425,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Post("/register", name="register")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      *
      * @SWG\Parameter( name="name", in="body", required=true, type="string", description="The name of the user.", schema={} )
      * @SWG\Parameter( name="mobile_phone", in="body", required=true, type="string", description="The mobile phone of the user.", schema={} )
@@ -492,13 +465,13 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="User")
      */
 
-    public function postRegisterAction(Request $request, UserPasswordEncoderInterface $encoder)
+    public function postRegisterAction(Request $request)
     {
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $name = trim($request->get('name'));
@@ -531,13 +504,17 @@ class RestController extends FOSRestController
 
             $user = new User();
 
+            $encoder = $this->get('security.password_encoder');
+
             $user->setName($name);
             $user->setMobilePhone($mobilePhone);
             $user->setGeoCountry($country);
             $user->setUsername($email);
             $user->setEmail($email);
+            $user->setSalt(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $user->setPlainPassword($password);
             $user->setPassword($encoder->encodePassword($user, $password));
+            $user->setEnabled(true);
 
             $this->get("services")->blameOnMe($user, "create");
             $this->get("services")->blameOnMe($user, "update");
@@ -552,10 +529,11 @@ class RestController extends FOSRestController
             $bodyHtml .= $this->translator->trans('mail.register_body');
 
             $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
-            $this->sendEmail($message);
+//            $mailer = $this->get('mailer');
+//            $mailer->send($message);
 
             return new JsonResponse(array(
-                'message' => "" . $user->getId(),
+                'message' => "register",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -621,7 +599,7 @@ class RestController extends FOSRestController
             }
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "countries",
                 'data' => $data
             ));
         } catch (Exception $ex) {
@@ -635,9 +613,9 @@ class RestController extends FOSRestController
      *
      * This creates a relationship between the user and a property through the property code. This is applicable for welcomePrivateKey, welcomeQR and welcomeInvite, since all the endpoints do the same with the same parameters.
      *
-     * @Rest\Post("/welcomePrivateKey", name="welcome_private_key")
+     * @Rest\Post("/welcomePrivateKey", name="welcomePrivateKey")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
@@ -674,41 +652,55 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
             /** @var Property $property */
-            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
+            $property = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($propertyCode);
             if ($property == null) {
                 throw new \Exception("Invalid property code.");
             }
 
-            $tenantRaw = $this->em->getRepository('BackendAdminBundle:TenantContract')->getApiWelcomePrivateKey($property);
-            /** @var TenantContract $tenant */
-            $tenant = $tenantRaw[0];
+            // First it needs to validate via SMS, before doing this relationship.
+//            $tenantRaw = $this->em->getRepository('BackendAdminBundle:TenantContract')->getApiWelcomePrivateKey($property);
+//            /** @var TenantContract $tenant */
+//            $tenant = $tenantRaw[0];
+//
+//            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(4);
+//
+//            $tenant->setUser($this->getUser());
+//            $tenant->setRole($role);
+//            $tenant->setIsOwner(true);
+//
+//            $property->setOwner($this->getUser());
+//
+//            $this->get("services")->blameOnMe($property, "update");
+//            $this->get("services")->blameOnMe($tenant, "update");
+//
+//            $this->em->persist($tenant);
+//            $this->em->persist($property);
+//            $this->em->flush();
 
-            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(4);
+            $type = $property->getPropertyType();
+            if ($type == null) {
+                $type = new PropertyType();
+            }
+            $complexSector = $property->getComplexSector();
+            if ($complexSector == null) {
+                $complexSector = new ComplexSector();
+            }
 
-            $tenant->setUser($this->getUser());
-            $tenant->setRole($role);
-            $tenant->setIsOwner(true);
+            $data = array(
+                'id' => $property->getId(),
+                'code' => $property->getCode(), 'name' => $property->getName(),
+                'address' => $property->getAddress(), 'type_id' => $type->getId(),
+                'sector_id' => $complexSector->getId(), 'teamCorrelative' => $property->getTeamCorrelative());
 
-            $property->setOwner($this->getUser());
-
-            $this->get("services")->blameOnMe($property, "update");
-            $this->get("services")->blameOnMe($tenant, "update");
-
-            $this->em->persist($tenant);
-            $this->em->persist($property);
-            $this->em->flush();
-
-            return new JsonResponse(array(
-                'message' => "" . $user->getId(),
-            ));
+            return new JsonResponse(array('message' => "welcomePrivateKey", 'data' => $data,));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -718,7 +710,7 @@ class RestController extends FOSRestController
     /**
      * Gets the properties of the user.
      *
-     * Returns a list of properties owned or associated by the user.
+     * Returns a paginated list of properties owned or associated by the user.
      *
      * @Rest\Get("/properties/{page_id}", name="listProperties")
      *
@@ -774,10 +766,7 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
-            $properties = $this->em->getRepository('BackendAdminBundle:Property')->findBy(
-                array('enabled' => true, 'owner' => $this->getUser()),
-                array('code' => 'ASC')
-            );
+            $properties = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperties($this->getUser());
             $total = $this->em->getRepository('BackendAdminBundle:Property')->countApiProperties($this->getUser());
 
             /** @var Property $property */
@@ -799,7 +788,7 @@ class RestController extends FOSRestController
             }
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "listProperties",
                 'metadata' => $this->calculatePagesMetadata($page_id, $total),
                 'data' => $data
             ));
@@ -851,16 +840,24 @@ class RestController extends FOSRestController
      * )
      *
      * @SWG\Tag(name="Property")
+     * @param $code
+     * @return JsonResponse
+     * @throws \Exception
      */
-
     public function getPropertyAction($code)
     {
         try {
             $this->initialise();
 
+            $logger = $this->get('logger');
+            $logger->info("CODE = ". $code);
+
             /** @var Property $property */
-            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code, $this->getUser());
-            $property = $propertyResult[0];
+            $property = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code);
+
+            if ($property == null) {
+                throw new \Exception("Invalid property code.");
+            }
 
             $type = $property->getPropertyType();
             if ($type == null) {
@@ -872,11 +869,12 @@ class RestController extends FOSRestController
             }
 
             $data = array(
+                'id' => $property->getId(),
                 'code' => $property->getCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $type->getId(),
                 'sector_id' => $complexSector->getId(), 'teamCorrelative' => $property->getTeamCorrelative());
 
-            return new JsonResponse(array('message' => "", 'data' => $data));
+            return new JsonResponse(array('message' => "propertyInfo", 'data' => $data));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -884,13 +882,15 @@ class RestController extends FOSRestController
 
 
     /**
+     * Gets information about a property with the id.
      *
+     * Returns information about a property by using the property id.
      *
-     * @Rest\Get("/propertyDetail/{code}", name="property_detail")
+     * @Rest\Get("/propertyDetail/{id}", name="propertyDetail")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="code", in="path", required=true, type="string", description="The code of the property." )
+     * @SWG\Parameter( name="id", in="path", required=true, type="string", description="The id of the property." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -930,14 +930,18 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Property")
      */
 
-    public function getPropertyDetailAction($code)
+    public function getPropertyDetailAction($id)
     {
         try {
             $this->initialise();
 
             /** @var Property $property */
-            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($code, $this->getUser());
+            $propertyResult = $this->em->getRepository('BackendAdminBundle:Property')->getApiPropertyDetail($id, $this->getUser());
             $property = $propertyResult[0];
+
+            if ($property == null) {
+                throw new \Exception("Invalid property code.");
+            }
 
             $type = $property->getPropertyType();
             if ($type == null) {
@@ -968,9 +972,9 @@ class RestController extends FOSRestController
      *
      * This relies on Twilio to send an SMS to the user with a code.
      *
-     * @Rest\Post("/sendSMS", name="send_sms")
+     * @Rest\Post("/sendSMS", name="sendSMS")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
@@ -1004,8 +1008,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $propertyCode = strtolower(trim($request->get('property_code')));
@@ -1034,7 +1038,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of notifications from the user.
      *
-     * @Rest\Get("/inbox/{page_id}", name="inbox")
+     * @Rest\Get("/inbox/{page_id}", name="listInbox")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -1553,7 +1557,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Post("/ticket", name="create_ticket")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="title", in="body", required=true, type="string", description="The title of the ticket.", schema={} )
@@ -1596,8 +1600,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $title = trim($request->get('title'));
@@ -1655,6 +1659,7 @@ class RestController extends FOSRestController
             $ticket->setCommonAreaReservation($commonAreaReservation);
             $ticket->setTenantContract($tenantContract);
             $ticket->setTicketStatus($status);
+            $ticket->setEnabled(true);
             // ToDo: setAssignedTo
 //            $ticket->setAssignedTo();
             $this->get("services")->blameOnMe($ticket, "create");
@@ -1666,10 +1671,10 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($statusLog, "create");
             $this->get("services")->blameOnMe($statusLog, "update");
 
-            foreach($photos as $photo) {
+            foreach ($photos as $photo) {
                 $decodedPhoto = base64_decode($photo);
 
-                $tmpPath = sys_get_temp_dir().'/sf_upload'.uniqid();
+                $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
                 file_put_contents($tmpPath, $decodedPhoto);
                 $uploadedFile = new FileObject($tmpPath);
                 $originalFilename = $uploadedFile->getFilename();
@@ -1679,7 +1684,7 @@ class RestController extends FOSRestController
                     array(
                         new File(array(
                             'maxSize' => '5M',
-                            'mimeTypes' => array( 'image/*' )
+                            'mimeTypes' => array('image/*')
                         ))
                     )
                 );
@@ -1688,7 +1693,7 @@ class RestController extends FOSRestController
                     throw new \Exception("Invalid image.");
                 }
 
-                $fileName = md5(uniqid()).'.'.$uploadedFile->guessExtension();
+                $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
                 try {
                     $uploadedFile->move(self::UPLOADS_FOLDER, $fileName);
@@ -1725,7 +1730,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Put("/ticket", name="close_ticket")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
@@ -1760,8 +1765,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $ticketId = trim($request->get('ticket_id'));
@@ -1812,7 +1817,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Post("/comment", name="comment_ticket")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
@@ -1847,8 +1852,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $ticketId = trim($request->get('ticket_id'));
@@ -1864,6 +1869,7 @@ class RestController extends FOSRestController
             $ticketComment = new TicketComment();
             $ticketComment->setTicket($ticket);
             $ticketComment->setCommentDescription($comment);
+            $ticketComment->setEnabled(true);
             $this->get("services")->blameOnMe($ticketComment, "create");
             $this->get("services")->blameOnMe($ticketComment, "update");
 
@@ -1955,6 +1961,10 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Gets information about a poll.
+     *
+     * Returns the information about a poll, including questions and answers for each.
+     *
      * @Rest\Get("/poll/{poll_id}", name="poll")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2058,9 +2068,13 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Post an answer to a poll.
+     *
+     * Creates the answer of a tenant to a poll.
+     *
      * @Rest\Post("/answer", name="tenant_answer")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="poll_question_id", in="body", required=true, type="integer", description="The Poll Question ID.", schema={} )
@@ -2097,8 +2111,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $pollQuestionId = $request->get('poll_question_id');
@@ -2122,16 +2136,17 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid Poll Question ID.");
             }
 
-            if ( count($pollQuestionOptionIds) != count($pollQuestionOptions) ) {
+            if (count($pollQuestionOptionIds) != count($pollQuestionOptions)) {
                 throw new \Exception("Invalid Poll Question Option ID.");
             }
 
             foreach ($pollQuestionOptions as $option) {
                 $answer = new PollTenantAnswer();
-                $answer->setAnswerText( $answerText );
-                $answer->setAnswerRating( $answerRating );
-                $answer->setPollQuestion( $pollQuestion );
-                $answer->setPollQuestionOption( $option );
+                $answer->setAnswerText($answerText);
+                $answer->setAnswerRating($answerRating);
+                $answer->setPollQuestion($pollQuestion);
+                $answer->setPollQuestionOption($option);
+                $answer->setEnabled(true);
                 $this->get("services")->blameOnMe($answer, "create");
                 $this->get("services")->blameOnMe($answer, "update");
 
@@ -2150,9 +2165,13 @@ class RestController extends FOSRestController
 
 
     /**
+     * Updates the avatar.
+     *
+     * Sets the user avatar with a new image, which is received in base64 encoding.
+     *
      * @Rest\Put("/avatar", name="set_avatar")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="photo", in="body", type="array", description="The new photo of the avatar. It must be base64 encoded.", schema={} )
@@ -2186,15 +2205,15 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $photo = $request->get('photo');
 
             $decodedPhoto = base64_decode($photo);
 
-            $tmpPath = sys_get_temp_dir().'/sf_upload'.uniqid();
+            $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
             file_put_contents($tmpPath, $decodedPhoto);
             $uploadedFile = new FileObject($tmpPath);
             $originalFilename = $uploadedFile->getFilename();
@@ -2204,7 +2223,7 @@ class RestController extends FOSRestController
                 array(
                     new File(array(
                         'maxSize' => '5M',
-                        'mimeTypes' => array( 'image/*' )
+                        'mimeTypes' => array('image/*')
                     ))
                 )
             );
@@ -2213,7 +2232,7 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid image.");
             }
 
-            $fileName = md5(uniqid()).'.'.$uploadedFile->guessExtension();
+            $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
             try {
                 $uploadedFile->move(self::UPLOADS_FOLDER, $fileName);
@@ -2225,7 +2244,7 @@ class RestController extends FOSRestController
             /** @var User $user */
             $user = $this->getUser();
 
-            $user->setAvatarPath( $uploadedFile->getPath() );
+            $user->setAvatarPath($uploadedFile->getPath());
             $this->get("services")->blameOnMe($user, "update");
             $this->em->persist($user);
 
@@ -2241,6 +2260,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Gets the FAQs.
+     *
+     * Returns a list with the frequently asked questions of a business.
+     *
      * @Rest\Get("/faq/{page_id}", name="faq")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2314,9 +2337,13 @@ class RestController extends FOSRestController
     }
 
     /**
+     * Posts a new FAQ.
+     *
+     * Creates a new frequently asked question.
+     *
      * @Rest\Post("/faq", name="send_message_faq")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="message", in="body", required=true, type="string", description="Message.", schema={} )
@@ -2350,8 +2377,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
 //            $message = strtolower(trim($request->get('message')));
@@ -2371,8 +2398,11 @@ class RestController extends FOSRestController
     }
 
 
-
     /**
+     * Gets the common areas of a property.
+     *
+     * Returns a list
+     *
      * @Rest\Get("/commonAreas/{property_id}/{page_id}", name="common_areas")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2482,6 +2512,10 @@ class RestController extends FOSRestController
 
 
     /**
+     * Gets a common area availability
+     *
+     * Returns a list of reservations and availability for a given common area.
+     *
      * @Rest\Get("/commonAreaAvailability/{common_area_id}", name="common_area_availability")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2648,7 +2682,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Post("/commonAreaReservation", name="common_area_reservation")
      *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/x-www-form-urlencoded" )
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="common_area_id", in="body", required=true, type="integer", description="The common area ID for the reservation.", schema={} )
@@ -2683,8 +2717,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            if ($request->headers->get('Content-Type') === 'application/x-www-form-urlencoded') {
-                throw new \Exception("Invalid Content-Type header.");
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
             }
 
             $commonAreaId = $request->get('common_area_id');
@@ -2702,9 +2736,10 @@ class RestController extends FOSRestController
 
             $reservation = new CommonAreaReservation();
             $reservation->setCommonArea($commonArea);
-            $reservation->setReservationDateFrom( $startDate );
-            $reservation->setReservationDateTo( $endDate );
-            $reservation->setReservedBy( $this->getUser() );
+            $reservation->setReservationDateFrom($startDate);
+            $reservation->setReservationDateTo($endDate);
+            $reservation->setReservedBy($this->getUser());
+            $reservation->setEnabled(true);
 //            $reservation->setCommonAreaReservationStatus( $reservationStatus );
 
             $this->get("services")->blameOnMe($reservation, "create");
@@ -2721,8 +2756,6 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-
 
 
     /**
@@ -2805,15 +2838,17 @@ class RestController extends FOSRestController
     }
 
 
-
-
     private function calculatePagesMetadata($page, $total)
     {
+        $pageFix = ($total == 0) ? 0 : $page;
+        $totalInt = intval($total);
+
         return array(
-            'my_page' => $page,
-            'prev_page' => ($page <= 1) ? 1 : $page - 1,
-            'next_page' => ($page >= $total) ? $total : $page + 1,
-            'last_page' => ceil($total / 10)
+            'total' => $totalInt,
+            'my_page' => $pageFix,
+            'prev_page' => ($page <= 1) ? $pageFix : $page - 1,
+            'next_page' => ($page >= $totalInt) ? $totalInt : $page + 1,
+            'last_page' => ceil($totalInt / 10),
         );
     }
 
