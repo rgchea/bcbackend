@@ -30,23 +30,61 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getApiProperty($code, $user)
+    public function getGenericApiProperty()
     {
         $qb = $this->createQueryBuilder('a');
 
-        $qb->select('a, s.id, p.id')
+        $qb->select('a, s, p')
             ->leftJoin('a.complexSector', 's')
             ->leftJoin('a.propertyType', 'p')
             ->where('a.enabled = 1')
             ->andWhere('s.enabled = 1')
             ->andWhere('p.enabled = 1')
-            ->andWhere('a.code = :code')
-            ->andWhere('a.owner = :user')
-            ->setParameter('code', $code)
-            ->setParameter('user', $user)
             ->orderBy('a.createdAt', 'ASC');
 
-        return $qb->getQuery()->getSingleResult();
+        return $qb;
+    }
+
+    public function getApiProperty($code)
+    {
+        $qb = $this->getGenericApiProperty();
+
+        $qb->andWhere('a.code = :code')
+            ->setParameter('code', $code);
+
+        try {
+            return $qb->getQuery()->getSingleResult();
+        }
+        catch(\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function getApiPropertyDetail($id, $user)
+    {
+        $qb = $this->getGenericApiProperty();
+
+        $qb->andWhere('a.owner = :user')
+            ->andWhere('a.id = :pid')
+            ->setParameter('user', $user)
+            ->setParameter('pid', $id);
+
+        try {
+            return $qb->getQuery()->getSingleResult();
+        }
+        catch(\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function getApiProperties($user)
+    {
+        $qb = $this->getGenericApiProperty();
+
+        $qb->andWhere('a.owner = :user')
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getResult();
     }
 
     public function countApiProperties($user)

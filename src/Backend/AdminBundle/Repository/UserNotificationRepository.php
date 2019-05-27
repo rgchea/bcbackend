@@ -16,7 +16,7 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->queryBuilderForApiInbox($user);
 
         $qb->select('a, u, t, nt')
-            ->setFirstResult($pageId * $limit)// Offset
+            ->setFirstResult(($pageId - 1) * $limit)// Offset
             ->setMaxResults($limit)// Limit
             ->orderBy('a.createdAt', 'ASC');
 

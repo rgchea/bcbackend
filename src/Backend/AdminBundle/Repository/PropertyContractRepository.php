@@ -11,6 +11,22 @@ namespace Backend\AdminBundle\Repository;
 class PropertyContractRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getApiWelcomePrivateKey($property)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, p')
+            ->innerJoin('a.property', 'p')
+            ->where('a.enabled = 1')
+            ->andWhere('p.enabled = 1')
+            ->andWhere('p.id = :property_id')
+            ->andWhere('a.isActive = 1')
+            ->setParameter('property_id', $property->getId())
+            ->orderBy('a.createdAt', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 
     //getRequiredDTData($start, $length, $orders, $search, $columns, $filters);
     public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex)

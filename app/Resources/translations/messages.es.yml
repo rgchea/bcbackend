@@ -223,3 +223,5 @@ mail:
     label_user: 'Usuario: '
     label_password: 'Contraseña: '
     register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'
+sms:
+    code: 'Better Condos, el código para validar tu propiedad es: %code%.'

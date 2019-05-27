@@ -14,7 +14,7 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->queryBuilderForApiCommonAreas($complexIds);
 
-        $qb->setFirstResult($pageId * $limit)// Offset
+        $qb->setFirstResult(($pageId - 1) * $limit)// Offset
         ->setMaxResults($limit)// Limit
         ->orderBy('a.createdAt', 'ASC');
 

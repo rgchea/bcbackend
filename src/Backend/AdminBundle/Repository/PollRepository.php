@@ -15,7 +15,7 @@ class PollRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->queryBuilderForApiPolls();
 
-        $qb->setFirstResult($pageId * $limit)// Offset
+        $qb->setFirstResult(($pageId - 1) * $limit)// Offset
             ->setMaxResults($limit)// Limit
             ->orderBy('a.createdAt', 'ASC');
 
