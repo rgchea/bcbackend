@@ -29,7 +29,7 @@ class TicketCategoryType extends AbstractType
 
             //IF ROLE IS SUPER ADMIN VIEW ALL
             if($role == "SUPER ADMIN"){
-                $builder->add('complex', null, array('label'=>"label_complex", 'required' => false,
+                $builder->add('complex', null, array('label'=>"label_complex", 'required' => true,
                     'class' => 'Backend\AdminBundle\Entity\Complex',
                     'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
                         return $er->createQueryBuilder('c')

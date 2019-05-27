@@ -40,9 +40,12 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 
         $execute = $stmt->fetchAll();
 
+
         if (empty($execute)) {
             return "";
         }
+
+        //$('#schedule').jqs('import', []},{ day: 6, periods: [['09:00','14:00'],]}]);
         /*
      $('#schedule3').jqs('import', [
           {
@@ -85,9 +88,7 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 
             if (!isset($arrDays[$day])) {
 
-
-                if ($day > 0) {
-
+                if ($day > 0 && ($days != "") ) {
                     $days .= "]},";
                 }
 

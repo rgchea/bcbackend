@@ -264,10 +264,6 @@ class TicketCategory
      */
     private $color = '';
 
-    /**
-     * @var string
-     */
-    private $iconUrl = '';
 
 
     /**
@@ -294,27 +290,63 @@ class TicketCategory
         return $this->color;
     }
 
+    private $isGeneral = true;
+
+
     /**
-     * Set iconUrl.
+     * Set isGeneral.
      *
-     * @param string $iconUrl
+     * @param bool $isGeneral
      *
      * @return TicketCategory
      */
-    public function setIconUrl($iconUrl)
+    public function setIsGeneral($isGeneral)
     {
-        $this->iconUrl = $iconUrl;
+        $this->isGeneral = $isGeneral;
 
         return $this;
     }
 
     /**
-     * Get iconUrl.
+     * Get isGeneral.
      *
-     * @return string
+     * @return bool
      */
-    public function getIconUrl()
+    public function getIsGeneral()
     {
-        return $this->iconUrl;
+        return $this->isGeneral;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\Icon
+     */
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Icon
+     */
+    private $icon;
+
+
+    /**
+     * Set icon.
+     *
+     * @param \Backend\AdminBundle\Entity\Icon|null $icon
+     *
+     * @return TicketCategory
+     */
+    public function setIcon(\Backend\AdminBundle\Entity\Icon $icon = null)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get icon.
+     *
+     * @return \Backend\AdminBundle\Entity\Icon|null
+     */
+    public function getIcon()
+    {
+        return $this->icon;
     }
 }

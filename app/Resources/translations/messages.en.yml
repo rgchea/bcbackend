@@ -12,6 +12,7 @@ label_status: Status
 label_back: Back
 label_dates: Dates
 label_calendar: Calendar
+label_icon: Icon
 label_are_you_sure: 'Are you sure?'
 label_yes: 'Yes'
 label_no: 'No'

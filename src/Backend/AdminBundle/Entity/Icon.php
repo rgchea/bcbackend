@@ -3,9 +3,9 @@
 namespace Backend\AdminBundle\Entity;
 
 /**
- * TicketCategory
+ * Icon
  */
-class TicketCategory
+class Icon
 {
     /**
      * @var int
@@ -17,10 +17,8 @@ class TicketCategory
      */
     private $name = '';
 
-    /**
-     * @var string
-     */
-    private $description;
+
+
 
     /**
      * @var \DateTime
@@ -35,7 +33,7 @@ class TicketCategory
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -46,11 +44,6 @@ class TicketCategory
      * @var \Backend\AdminBundle\Entity\User
      */
     private $updatedBy;
-
-    /**
-     * @var \Backend\AdminBundle\Entity\Complex
-     */
-    private $complex;
 
 
     /**
@@ -68,7 +61,7 @@ class TicketCategory
      *
      * @param string $name
      *
-     * @return TicketCategory
+     * @return Icon
      */
     public function setName($name)
     {
@@ -87,36 +80,13 @@ class TicketCategory
         return $this->name;
     }
 
-    /**
-     * Set description.
-     *
-     * @param string $description
-     *
-     * @return TicketCategory
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
+    
     /**
      * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
-     * @return TicketCategory
+     * @return Icon
      */
     public function setCreatedAt($createdAt)
     {
@@ -140,7 +110,7 @@ class TicketCategory
      *
      * @param \DateTime $updatedAt
      *
-     * @return TicketCategory
+     * @return Icon
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -164,7 +134,7 @@ class TicketCategory
      *
      * @param bool $enabled
      *
-     * @return TicketCategory
+     * @return Icon
      */
     public function setEnabled($enabled)
     {
@@ -188,7 +158,7 @@ class TicketCategory
      *
      * @param \Backend\AdminBundle\Entity\User|null $createdBy
      *
-     * @return TicketCategory
+     * @return Icon
      */
     public function setCreatedBy(\Backend\AdminBundle\Entity\User $createdBy = null)
     {
@@ -212,7 +182,7 @@ class TicketCategory
      *
      * @param \Backend\AdminBundle\Entity\User|null $updatedBy
      *
-     * @return TicketCategory
+     * @return Icon
      */
     public function setUpdatedBy(\Backend\AdminBundle\Entity\User $updatedBy = null)
     {
@@ -230,67 +200,10 @@ class TicketCategory
     {
         return $this->updatedBy;
     }
-
     /**
-     * Set complex.
-     *
-     * @param \Backend\AdminBundle\Entity\Complex|null $complex
-     *
-     * @return TicketCategory
+     * @var bool
      */
-    public function setComplex(\Backend\AdminBundle\Entity\Complex $complex = null)
-    {
-        $this->complex = $complex;
-
-        return $this;
-    }
-
-    /**
-     * Get complex.
-     *
-     * @return \Backend\AdminBundle\Entity\Complex|null
-     */
-    public function getComplex()
-    {
-        return $this->complex;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-    /**
-     * @var string
-     */
-    private $color = '';
-
-
-
-    /**
-     * Set color.
-     *
-     * @param string $color
-     *
-     * @return TicketCategory
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-
-        return $this;
-    }
-
-    /**
-     * Get color.
-     *
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    private $isGeneral = true;
+    private $isGeneral = false;
 
 
     /**
@@ -298,7 +211,7 @@ class TicketCategory
      *
      * @param bool $isGeneral
      *
-     * @return TicketCategory
+     * @return Icon
      */
     public function setIsGeneral($isGeneral)
     {
@@ -317,36 +230,64 @@ class TicketCategory
         return $this->isGeneral;
     }
     /**
-     * @var \Backend\AdminBundle\Entity\Icon
+     * @var string
      */
+    /**
+     * @var string
+     */
+    private $iconClass = '';
 
     /**
-     * @var \Backend\AdminBundle\Entity\Icon
+     * @var string
      */
-    private $icon;
+    private $iconUnicode = '';
 
 
     /**
-     * Set icon.
+     * Set iconClass.
      *
-     * @param \Backend\AdminBundle\Entity\Icon|null $icon
+     * @param string $iconClass
      *
-     * @return TicketCategory
+     * @return Icon
      */
-    public function setIcon(\Backend\AdminBundle\Entity\Icon $icon = null)
+    public function setIconClass($iconClass)
     {
-        $this->icon = $icon;
+        $this->iconClass = $iconClass;
 
         return $this;
     }
 
     /**
-     * Get icon.
+     * Get iconClass.
      *
-     * @return \Backend\AdminBundle\Entity\Icon|null
+     * @return string
      */
-    public function getIcon()
+    public function getIconClass()
     {
-        return $this->icon;
+        return $this->iconClass;
+    }
+
+    /**
+     * Set iconUnicode.
+     *
+     * @param string $iconUnicode
+     *
+     * @return Icon
+     */
+    public function setIconUnicode($iconUnicode)
+    {
+        $this->iconUnicode = $iconUnicode;
+
+        return $this;
+    }
+
+    /**
+     * Get iconUnicode.
+     *
+     * @return string
+     */
+    public function getIconUnicode()
+    {
+        return $this->iconUnicode;
     }
 }

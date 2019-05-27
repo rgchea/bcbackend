@@ -207,8 +207,6 @@ class UserController extends Controller
     public function editAction(Request $request, $id)
     {
 
-
-
     	$this->get("services")->setVars('user');
     	$this->initialise();
 

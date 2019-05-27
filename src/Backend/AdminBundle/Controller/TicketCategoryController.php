@@ -93,11 +93,11 @@ class TicketCategoryController extends Controller
             foreach ($arrComplex as $k =>$v) {
                 $filters[$v] = $v;//the complex id
             }
+            //add the GENERAL CATEGORIES BY adding the 0 complex
+            $filters[0] = 0;
+
 
         }
-
-
-
 
         // Process Parameters
 
@@ -140,14 +140,31 @@ class TicketCategoryController extends Controller
                         }
                     case 'actions':
                         {
+
                             $urlEdit = $this->generateUrl('backend_admin_ticket_category_edit', array('id' => $entity->getId()));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_ticket_category_delete', array('id' => $entity->getId()));
                             $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $edit.$delete;
-                            break;
+
+                            if($entity->getComplex()->getId() == 0){
+
+                                if($this->role == "SUPER ADMIN"){
+                                    $responseTemp = $edit.$delete;
+                                }
+                                else{
+                                    $responseTemp = "&nbsp;";
+                                }
+
+                                break;
+                            }
+                            else{
+                                $responseTemp = $edit.$delete;
+                                break;
+                            }
+
+
                         }
 
                 }
@@ -189,9 +206,23 @@ class TicketCategoryController extends Controller
         $entity = new TicketCategory();
         $form   = $this->createCreateForm($entity);
 
+        if($this->role == "SUPER ADMIN"){
+            $icons = $this->em->getRepository('BackendAdminBundle:Icon')->findBy(array("enabled" => 1));
+        }
+        else{
+            $icons = $this->em->getRepository('BackendAdminBundle:Icon')->findBy(array("enabled" => 1, "isGeneral" => 0));
+        }
+
+        $strIcons = "";
+        foreach ($icons as $i){
+            $strIcons .= '{title: "'.$i->getIconClass().'", searchTerms: ["'.$i->getName().'"]},';
+        }
+
+
         return $this->render('BackendAdminBundle:TicketCategory:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
+            'strIcons' => $strIcons
 
 
         ));
@@ -237,11 +268,26 @@ class TicketCategoryController extends Controller
             return $this->redirectToRoute('backend_admin_ticket_category_edit', array('id' => $id));
         }
 
+
+        if($this->role == "SUPER ADMIN"){
+            $icons = $this->em->getRepository('BackendAdminBundle:Icon')->findBy(array("enabled" => 1));
+        }
+        else{
+            $icons = $this->em->getRepository('BackendAdminBundle:Icon')->findBy(array("enabled" => 1, "isGeneral" => 0));
+        }
+
+        $strIcons = "";
+        foreach ($icons as $i){
+            $strIcons .= '{title: "'.$i->getIconClass().'", searchTerms: ["'.$i->getName().'"]},';
+        }
+
+
         return $this->render('BackendAdminBundle:TicketCategory:edit.html.twig', array(
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'edit' => $entity->getId()
+            'edit' => $entity->getId(),
+            'strIcons' => $strIcons,
         ));
     }
 
@@ -359,38 +405,27 @@ class TicketCategoryController extends Controller
 
             $complex = intval($_REQUEST["ticket_category"]["complex"]);
             if($this->role == "SUPER ADMIN" && ($complex == 0)){
+                $entity->setIsGeneral(1);
 
-                //create this category for all complex
-                $allComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findAll();
-
-                foreach ($allComplex as $myComplex){
-
-                    $tempTicketCategory = new TicketCategory();
-                    $tempTicketCategory->setColor(trim($_REQUEST["ticket_category"]["color"]));
-                    $tempTicketCategory->setComplex($myComplex);
-                    $tempTicketCategory->setDescription($_REQUEST["ticket_category"]["description"]);
-                    $tempTicketCategory->setName($_REQUEST["ticket_category"]["name"]);
-                    $tempTicketCategory->setEnabled(1);
-
-                    $this->get("services")->blameOnMe($tempTicketCategory, "create");
-
-                    $this->em->persist($tempTicketCategory);
-                    $this->em->flush();
-
-                }
             }
             else{
-
-                $entity->setColor(trim($_REQUEST["ticket_category"]["color"]));
-                $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_category"]["complex"]));
-
-                $this->get("services")->blameOnMe($entity, "create");
-
-                $this->em->persist($entity);
-                $this->em->flush();
-
+                $entity->setIsGeneral(0);
             }
 
+            $iconClass = trim($_REQUEST["ticket_category"]["iconClass"]);
+            $objIcon = $this->em->getRepository('BackendAdminBundle:Icon')->findOneByIconClass($iconClass);
+            if($objIcon){
+                $entity->setIcon($objIcon);
+            }
+
+
+            $entity->setColor(trim($_REQUEST["ticket_category"]["color"]));
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($complex));
+
+            $this->get("services")->blameOnMe($entity, "create");
+
+            $this->em->persist($entity);
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -481,8 +516,13 @@ class TicketCategoryController extends Controller
         if ($editForm->isValid()) {
 
             $entity->setColor(trim($_REQUEST["ticket_category"]["color"]));
-
             $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["ticket_category"]["complex"]));
+
+            $iconClass = trim($_REQUEST["ticket_category"]["iconClass"]);
+            $objIcon = $this->em->getRepository('BackendAdminBundle:Icon')->findOneByIconClass($iconClass);
+            if($objIcon){
+                $entity->setIcon($objIcon);
+            }
 
             $this->get("services")->blameOnMe($entity);
             $this->em->flush();

@@ -1,7 +1,7 @@
-Backend\AdminBundle\Entity\TicketCategory:
+Backend\AdminBundle\Entity\Icon:
     type: entity
-    table: ticket_category
-    repositoryClass: Backend\AdminBundle\Repository\TicketCategoryRepository
+    table: icon
+    repositoryClass: Backend\AdminBundle\Repository\IconRepository
     indexes:
         updated_by:
             columns:
@@ -9,14 +9,6 @@ Backend\AdminBundle\Entity\TicketCategory:
         created_by:
             columns:
                 - created_by
-        complex_id:
-            columns:
-                - complex_id
-
-        icon_id:
-            columns:
-                - icon_id
-
     id:
         id:
             type: integer
@@ -35,21 +27,20 @@ Backend\AdminBundle\Entity\TicketCategory:
                 fixed: false
                 default: ''
             column: name
-        color:
+        iconClass:
             type: string
             nullable: false
-            length: 7
+            length: 32
             options:
                 fixed: false
                 default: ''
-            column: color
-        description:
-            type: text
+        iconUnicode:
+            type: string
             nullable: false
-            length: 65535
+            length: 4
             options:
                 fixed: false
-            column: description
+                default: ''
         createdAt:
             type: datetime
             nullable: false
@@ -72,6 +63,7 @@ Backend\AdminBundle\Entity\TicketCategory:
             nullable: false
             options:
                 default: true
+
     manyToOne:
         createdBy:
             targetEntity: User
@@ -93,26 +85,4 @@ Backend\AdminBundle\Entity\TicketCategory:
                 updated_by:
                     referencedColumnName: id
             orphanRemoval: false
-        complex:
-            targetEntity: Complex
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                complex_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-        icon:
-            targetEntity: Icon
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                icon_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-
-
     lifecycleCallbacks: {  }

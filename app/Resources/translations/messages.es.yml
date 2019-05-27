@@ -12,6 +12,7 @@ label_status: Estado
 label_back: Regresar
 label_dates: Fechas
 label_calendar: Calendario
+label_icon: Icono
 label_yes: Si
 label_no: 'No'
 label_ok: Ok
