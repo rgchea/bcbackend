@@ -273,15 +273,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TicketCategory.orm.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1295">
-              <caret line="108" column="23" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketCategoryController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="589">
@@ -334,8 +325,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/email.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="192" column="150" lean-forward="true" selection-start-line="192" selection-start-column="150" selection-end-line="192" selection-end-column="150" />
+            <state relative-caret-position="195">
+              <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+              <folding>
+                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -353,8 +352,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ParamFetcher</find>
-      <find>drop</find>
       <find>dropdown</find>
       <find>icp-dd</find>
       <find>Role</find>
@@ -375,7 +372,6 @@
       <find>selected</find>
       <find>icp</find>
       <find>geticlas</find>
-      <find>color</find>
       <find>updateaction</find>
       <find>schedule</find>
       <find>editaction</find>
@@ -383,9 +379,11 @@
       <find>www.</find>
       <find>http</find>
       <find>headerLogo</find>
+      <find>100%</find>
+      <find>color</find>
+      <find>#03304A</find>
     </findStrings>
     <replaceStrings>
-      <replace>propertiesPerSection</replace>
       <replace>repeat</replace>
       <replace>_property</replace>
       <replace>business</replace>
@@ -415,6 +413,7 @@
       <replace>pizotearkadmin</replace>
       <replace>Icon</replace>
       <replace>getIconClass(</replace>
+      <replace>#03304A</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -603,7 +602,7 @@
       <path value="$PROJECT_DIR$/vendor/paragonie/sodium_compat" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-1920" />
     <option name="y" value="62" />
     <option name="width" value="1920" />
@@ -629,6 +628,12 @@
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
               <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
@@ -781,15 +786,15 @@
       <workItem from="1558651571518" duration="8239000" />
       <workItem from="1558709090182" duration="13206000" />
       <workItem from="1558911176237" duration="197000" />
-      <workItem from="1558911417702" duration="5065000" />
+      <workItem from="1558911417702" duration="6700000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="641053000" />
+    <option name="totallyTimeSpent" value="642688000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1920" y="62" width="1920" height="1013" extended-state="0" />
+    <frame x="-1920" y="62" width="1920" height="1013" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4933185" visible="true" weight="0.18370607" />
@@ -818,13 +823,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/notificationType.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Partials/notification.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -1168,10 +1166,25 @@
     <entry file="file://$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/img/logo/better-condos-company-white.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/email.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="192" column="150" lean-forward="true" selection-start-line="192" selection-start-column="150" selection-end-line="192" selection-end-column="150" />
+        <state relative-caret-position="195">
+          <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+          <folding>
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#td#0;n#tr#2;n#table#0;n#td#0;n#tr#0;n#table#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
