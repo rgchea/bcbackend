@@ -26,7 +26,7 @@ class PropertyContractType extends AbstractType
             ->add('propertyTransactionType',  null, array('label'=>"label_property_transaction_type", 'required'=>true))
             ->add('rentalPrice',  null, array('label'=>"label_price", 'required'=>true))
             ->add('maintenancePrice',  null, array('label'=>"label_maintenance", 'required'=>true))
-            ->add('amenityIncluded',  null, array('label'=>"label_property_amenity_included", 'required'=>true))
+            ->add('amenityIncluded',  null, array('label'=>"label_property_amenity_included", 'required'=>false))
             ->add('duePaymentDay',  null, array('label'=>"label_last_payment_day", 'required'=>true))
             //checkbox
             ->add('totalVisibleAmount',  null, array('label'=>"label_total_visible_amount", 'required'=>true))

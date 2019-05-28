@@ -401,4 +401,33 @@ class UserNotification
     {
         return $this->tenantContract;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $sentTo;
+
+
+    /**
+     * Set sentTo.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $sentTo
+     *
+     * @return UserNotification
+     */
+    public function setSentTo(\Backend\AdminBundle\Entity\User $sentTo = null)
+    {
+        $this->sentTo = $sentTo;
+
+        return $this;
+    }
+
+    /**
+     * Get sentTo.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getSentTo()
+    {
+        return $this->sentTo;
+    }
 }

@@ -289,11 +289,6 @@ class TenantContract
      */
     private $invitationAccepted = false;
 
-    /**
-     * @var bool
-     */
-    private $invitationEmail = false;
-
 
     /**
      * Set invitationAccepted.
@@ -320,26 +315,32 @@ class TenantContract
     }
 
     /**
-     * Set invitationEmail.
+     * @var string|null
+     */
+    private $invitationUserEmail;
+
+
+    /**
+     * Set invitationUserEmail.
      *
-     * @param bool $invitationEmail
+     * @param string|null $invitationUserEmail
      *
      * @return TenantContract
      */
-    public function setInvitationEmail($invitationEmail)
+    public function setInvitationUserEmail($invitationUserEmail = null)
     {
-        $this->invitationEmail = $invitationEmail;
+        $this->invitationUserEmail = $invitationUserEmail;
 
         return $this;
     }
 
     /**
-     * Get invitationEmail.
+     * Get invitationUserEmail.
      *
-     * @return bool
+     * @return string|null
      */
-    public function getInvitationEmail()
+    public function getInvitationUserEmail()
     {
-        return $this->invitationEmail;
+        return $this->invitationUserEmail;
     }
 }

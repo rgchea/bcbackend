@@ -56,11 +56,12 @@ Backend\AdminBundle\Entity\TenantContract:
             nullable: false
             options:
                 default: false
-        invitationEmail:
-            type: boolean
-            nullable: false
+        invitationUserEmail:
+            type: string
+            nullable: true
+            length: 32
             options:
-                default: false
+                fixed: false
 
 
     manyToOne:
