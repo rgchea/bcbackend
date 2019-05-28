@@ -405,17 +405,17 @@ class PropertyController extends Controller
                 $propertyTypeName = $businessLocale == "en" ? $propertyType->getNameEN() : $propertyType->getNameES();
             }
 
-            //BLAME ME
-            $this->get("services")->blameOnMe($entity, "create");
-            $entity->setCode("0000");
-            $this->em->persist($entity);
-            $this->em->flush();
-
-            $entity->setCode($business->getId().$objComplexSector->getComplex()->getId().$sectorID.$entity->getId());
+            $code = $this->get("services")->getToken(6);
+            $entity->setCode($code);
             $entity->setIsAvailable(1);
 
+
+            //BLAME ME
+            $this->get("services")->blameOnMe($entity, "create");
+
             $this->em->persist($entity);
             $this->em->flush();
+
 
 
             $this->get('services')->flashSuccess($request);

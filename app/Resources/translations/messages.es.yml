@@ -94,12 +94,14 @@ label_business_check_phone: 'El teléfono ingresado ya tiene una cuenta asociada
 label_user_taken: 'El usuario sugerido ya existe'
 label_complex_sector_type: 'Tipo de Sector'
 label_complex_sector: Sección
+label_complex_sector_prefix: Prefijo para nombrar propiedades ej. prefijo "A", propiedades serán A01, A02, A03...
 label_complex_type: 'Tipo de Complejo'
 label_complex_structure: 'Estructura de Complejo'
 label_notification_type: 'Tipo de Notificacion'
 label_poll_question_type: 'Tipo de Pregunta de Encuesta'
 label_property_type: 'Tipo de propiedad'
 label_property: Propiedad
+label_property_number: Número de propiedad
 label_common_area_type: 'Tipo de Area Común'
 label_geo_country: Pais
 label_geo_state: Ciudad

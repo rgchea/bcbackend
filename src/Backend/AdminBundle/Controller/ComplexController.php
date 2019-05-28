@@ -481,17 +481,19 @@ class ComplexController extends Controller
                     $newProperty->setComplexSector($newSector);
 
                     //set temp code / then update
-                    $newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
+                    //$newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
+                    $code = $this->get("services")->getToken(6);
+                    $newProperty->setCode($code);
+
                     $myNumber = sprintf("%02d", $j);
-                    $newProperty->setName($propertyTypeName." ".$i.$myNumber);
+                    $propertyNumber = $i.$myNumber;
+                    $newProperty->setPropertyNumber($propertyNumber);
+                    $newProperty->setName($propertyTypeName." ".$propertyNumber);
                     $newProperty->setIsAvailable(1);
                     $this->get("services")->blameOnMe($newProperty, "create");
                     $this->em->persist($newProperty);
                     $this->em->flush();
 
-                    $code = sprintf('%06d',$newProperty->getId());
-                    $newProperty->setCode($code);
-                    $this->em->persist($newProperty);
 
                 }
             }

@@ -394,20 +394,27 @@ class ComplexSectorController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
+            $prefix = trim($_REQUEST["extra"]["prefix"]);
             //CREATE PROPERTIES
             for ($j=1; $j<=$propertiesPerSection; $j++){
 
                 $newProperty = new Property();
                 $newProperty->setPropertyType($propertyType);
                 $newProperty->setComplexSector($entity);
+                $newProperty->setComplex($entity->getComplex());
                 //business, complex, sector, index
-                $newProperty->setCode($this->userLogged->getBusiness()->getId().$_REQUEST["complex_sector"]["complex"].$entity->getId().$j);
-                $myNumber = sprintf("%02d", $j);
+                //$newProperty->setCode($this->userLogged->getBusiness()->getId().$_REQUEST["complex_sector"]["complex"].$entity->getId().$j);
+                $code = $this->get("services")->getToken(6);
+                $newProperty->setCode($code);
 
-                $newProperty->setName($propertyTypeName." ".$entity->getId().$myNumber);
+                $myNumber = sprintf("%02d", $j);
+                $propertyNumber = $prefix.$myNumber;
+                $newProperty->setPropertyNumber($propertyNumber);
+                $newProperty->setName($propertyTypeName." ".$propertyNumber);
                 $newProperty->setIsAvailable(1);
                 $this->get("services")->blameOnMe($newProperty, "create");
                 $this->em->persist($newProperty);
+                $this->em->flush();
 
             }
 

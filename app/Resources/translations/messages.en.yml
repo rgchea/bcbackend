@@ -97,6 +97,7 @@ label_business_check_phone: 'Phone already has been associated with other accoun
 label_user_taken: 'User already taken'
 label_complex_sector_type: 'Sector Type'
 label_complex_sector: Sections
+label_complex_sector_prefix: Prefix to name your properties e.g. prefix "A", properties will be A01, A02, A03...
 label_complex_type: 'Complex Type'
 label_complex_structure: 'Complex Structure'
 label_notification_type: 'Notification Types'
@@ -105,6 +106,7 @@ label_geo_state: City
 label_poll_question_type: 'Poll Question Type'
 label_property_type: 'Property Type'
 label_property: Property
+label_property_number: Property number
 label_common_area_type: 'Common Area Type'
 label_complex_faq: 'Complex FAQ'
 label_property_transaction_type: 'Property Transaction Type'

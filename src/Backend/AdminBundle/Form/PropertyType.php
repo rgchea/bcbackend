@@ -31,13 +31,16 @@ class PropertyType extends AbstractType
                         */
                     )
                 )
+            ->add('propertyNumber',  null, array('label'=>"label_property_number", 'required'=>true))
+
             ->add('address',  TextareaType::class, array('label'=>"label_address", 'required'=>true, ))
-            ->add('code',  null, array('label'=>"label_code", 'required'=>true,
+            /*->add('code',  null, array('label'=>"label_code", 'required'=>true,
                     'attr' => array(
                         'readonly' => true)
 
                     )
                 )
+            */
         ;
             //->add('propertyType',  null, array('label'=>"label_type", 'required'=>true))
             $builder->add('propertyType', null, array('label'=>"label_property_type", 'required' => true,

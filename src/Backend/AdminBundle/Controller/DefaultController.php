@@ -20,7 +20,7 @@ class DefaultController extends Controller
 
 		$session = new Session();
         $this->get("services")->setVars('dashboard');
-        
+
 		$userRole = $session->get('user_role');
 		$userLogged = $session->get('user_logged');
 
@@ -59,6 +59,9 @@ class DefaultController extends Controller
 							);
 		
     }
+
+
+
 	
 		
 }
