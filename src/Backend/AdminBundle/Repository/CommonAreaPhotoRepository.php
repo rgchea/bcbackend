@@ -11,7 +11,7 @@ namespace Backend\AdminBundle\Repository;
 class CommonAreaPhotoRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    private function getApiCommonAreas($commonAreaIds)
+    public function getApiCommonAreas($commonAreaIds)
     {
         $qb = $this->createQueryBuilder('a')
             ->select('a, c')

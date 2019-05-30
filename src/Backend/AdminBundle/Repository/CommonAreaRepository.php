@@ -36,7 +36,8 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('a.commonAreaType', 'cat')
             ->where('a.enabled = 1')
             ->andWhere('c.enabled = 1')
-            ->andWhere('cat.enabled = 1');
+//            ->andWhere('cat.enabled = 1')
+        ;
 
         if ( count( $complexIds ) > 0 ) {
             $qb->andWhere($qb->expr()->in('c.id', $complexIds));

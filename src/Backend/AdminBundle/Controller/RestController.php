@@ -30,6 +30,9 @@ use Backend\AdminBundle\Entity\TicketStatusLog;
 use Backend\AdminBundle\Entity\TicketType;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
+use Backend\AdminBundle\Repository\CommonAreaPhotoRepository;
+use Backend\AdminBundle\Repository\CommonAreaRepository;
+use Backend\AdminBundle\Repository\PropertyRepository;
 use Backend\AdminBundle\Repository\TicketCategoryRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -970,7 +973,7 @@ class RestController extends FOSRestController
 
             $photos = array();
             /** @var PropertyPhoto $photo */
-            foreach( $photosFull as $photo ) {
+            foreach ($photosFull as $photo) {
                 $photos[] = $photo->getPhotoPath();
             }
 
@@ -1056,8 +1059,8 @@ class RestController extends FOSRestController
 
 //            $msg = $this->get('services')->serviceSendSMS($smsMessage, $user->getMobilePhone() );
 
-            $response = array( 'message' => "");
-            if( $this->container->getParameter('kernel.environment') == 'dev' ) {// ToDo: To check for prod.
+            $response = array('message' => "");
+            if ($this->container->getParameter('kernel.environment') == 'dev') {// ToDo: To check for prod.
                 $response['debug'] = $smsCode;
             }
             return new JsonResponse($response);
@@ -1351,7 +1354,7 @@ class RestController extends FOSRestController
             /** @var TicketCategory $category */
             foreach ($categories as $category) {
 
-                $iconUrl = ($category->getIcon() != null )? $category->getIcon()->getIconClass() : "";
+                $iconUrl = ($category->getIcon() != null) ? $category->getIcon()->getIconClass() : "";
 
                 $data[] = array(
                     'category_id' => $category->getId(),
@@ -1505,7 +1508,7 @@ class RestController extends FOSRestController
                     );
                 }
 
-                if ( $user->getRole() != null ) {
+                if ($user->getRole() != null) {
                     $role = (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES());
                 } else {
                     $role = "";
@@ -1871,8 +1874,8 @@ class RestController extends FOSRestController
 
             $this->em->flush();
 
-            $response = array( 'message' => "");
-            if( $this->container->getParameter('kernel.environment') == 'dev' ) {
+            $response = array('message' => "");
+            if ($this->container->getParameter('kernel.environment') == 'dev') {
                 $response['debug'] = $ticket->getId();
             }
             return new JsonResponse($response);
@@ -2558,9 +2561,9 @@ class RestController extends FOSRestController
     /**
      * Gets the common areas of a property.
      *
-     * Returns a list
+     * Returns a list of the common areas in the complex of the property.
      *
-     * @Rest\Get("/v1/commonAreas/{property_id}/{page_id}", name="common_areas")
+     * @Rest\Get("/v1/commonAreas/{property_id}/{page_id}", name="listCommonAreas")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2615,7 +2618,14 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
-            $properties = $this->em->getRepository('BackendAdminBundle:Property')->getApiCommonAreas($property_id);
+            /** @var PropertyRepository $propertyRepo */
+            $propertyRepo = $this->em->getRepository('BackendAdminBundle:Property');
+            /** @var CommonAreaRepository $commonAreaRepo */
+            $commonAreaRepo = $this->em->getRepository('BackendAdminBundle:CommonArea');
+            /** @var CommonAreaPhotoRepository $commonAreaPhotosRepo */
+            $commonAreaPhotoRepo = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto');
+
+            $properties = $propertyRepo->getApiCommonAreas($property_id);
 
             $complexIds = array();
             /** @var Property $property */
@@ -2623,12 +2633,12 @@ class RestController extends FOSRestController
                 $complexIds[] = $property->getComplexSector()->getComplex()->getId();
             }
 
-            $commonAreas = $this->em->getRepository('BackendAdminBundle:CommonArea')->getApiCommonAreas($complexIds, $page_id);
+            $commonAreas = $commonAreaRepo->getApiCommonAreas($complexIds, $page_id);
             $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complexIds);
 
             $cids = $this->getArrayOfIds($commonAreas);
 
-            $rawPhotos = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->getApiCommonAreas($cids);
+            $rawPhotos = $commonAreaPhotoRepo->getApiCommonAreas($cids);
             $photos = array();
             /** @var CommonAreaPhoto $photo */
             foreach ($rawPhotos as $photo) {
@@ -2638,9 +2648,11 @@ class RestController extends FOSRestController
             /** @var CommonArea $commonArea */
             foreach ($commonAreas as $commonArea) {
                 $commonAreaPhotos = array();
-                /** @var CommonAreaPhoto $photo */
-                foreach ($photos[$commonArea->getId()] as $photo) {
-                    $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
+                if (array_key_exists($commonArea->getId(), $photos)) {
+                    /** @var CommonAreaPhoto $photo */
+                    foreach ($photos[$commonArea->getId()] as $photo) {
+                        $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
+                    }
                 }
 
                 $commonAreaType = $commonArea->getCommonAreaType();
@@ -2673,7 +2685,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of reservations and availability for a given common area.
      *
-     * @Rest\Get("/v1/commonAreaAvailability/{common_area_id}", name="common_area_availability")
+     * @Rest\Get("/v1/commonAreaAvailability/{common_area_id}", name="commonAreaAvailability")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2766,7 +2778,7 @@ class RestController extends FOSRestController
     }
 
     /**
-     * @Rest\Get("/v1/commonArea/{common_area_id}", name="common_area")
+     * @Rest\Get("/v1/commonArea/{common_area_id}", name="commonAreaDetail")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
@@ -2813,7 +2825,10 @@ class RestController extends FOSRestController
             $this->initialise();
 
             /** @var CommonArea $commonArea */
-            $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findById($common_area_id);
+            $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findOneById($common_area_id);
+            if ($commonArea == null) {
+                throw new \Exception("Invalid common area ID.");
+            }
 
             $data = array(
                 'name' => $commonArea->getName(),

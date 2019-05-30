@@ -15,14 +15,10 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('a');
 
-        $qb->select('a, cs, c, o')
-            ->innerJoin('a.complexSector', 's')
-            ->innerJoin('s.complex', 'c')
-            ->leftJoin('a.owner', 'o')
+        $qb->select('a, c')
+            ->innerJoin('a.complex', 'c')
             ->where('a.enabled = 1')
-            ->andWhere('cs.enabled = 1')
             ->andWhere('c.enabled = 1')
-            ->andWhere('o.enabled = 1')
             ->andWhere('a.id = :property_id')
             ->setParameter('property_id', $propertyId)
             ->orderBy('a.createdAt', 'ASC');

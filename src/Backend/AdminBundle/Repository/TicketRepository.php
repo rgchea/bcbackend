@@ -45,13 +45,13 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('car.commonAreaReservationStatus', 'cars')
             ->leftJoin('a.property', 'p')
             ->where('a.enabled = 1')
-//            ->andWhere('tc.enabled = 1')
-//            ->andWhere('tt.enabled = 1')
+//            ->andWhere('tc.enabled = 1') // ToDo: enhance
+//            ->andWhere('tt.enabled = 1') // ToDo: enhance
             ->andWhere('ts.enabled = 1')
             ->andWhere('u.enabled = 1')
-//            ->andWhere('car.enabled = 1')
-//            ->andWhere('cars.enabled = 1')
-//            ->andWhere('ca.enabled = 1')
+//            ->andWhere('car.enabled = 1') // ToDo: enhance
+//            ->andWhere('cars.enabled = 1') // ToDo: enhance
+//            ->andWhere('ca.enabled = 1') // ToDo: enhance
             ->andWhere('p.enabled = 1')
             ->andWhere('p.id = :prop_id')
             ->andWhere('tc.id = :cat_id')
@@ -75,12 +75,12 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('a.property', 'p')
             ->where('a.enabled = 1')
             ->andWhere('tc.enabled = 1')
-//            ->andWhere('tt.enabled = 1')
+//            ->andWhere('tt.enabled = 1') // ToDo: enhance
             ->andWhere('ts.enabled = 1')
             ->andWhere('u.enabled = 1')
-//            ->andWhere('car.enabled = 1')
-//            ->andWhere('cars.enabled = 1')
-//            ->andWhere('ca.enabled = 1')
+//            ->andWhere('car.enabled = 1') // ToDo: enhance
+//            ->andWhere('cars.enabled = 1') // ToDo: enhance
+//            ->andWhere('ca.enabled = 1') // ToDo: enhance
             ->andWhere('p.enabled = 1')
             ->andWhere('a.id = :ticket_id')
             ->setParameter('ticket_id', $ticketId);

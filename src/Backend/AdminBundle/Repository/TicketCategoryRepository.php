@@ -39,7 +39,7 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('a.icon', 'i')
             ->where('a.enabled = 1')
             ->andWhere('c.enabled = 1')
-//            ->andWhere('i.enabled = 1')
+//            ->andWhere('i.enabled = 1') // ToDo: enhance
             ->andWhere('c.id = :com_id')
             ->setParameter('com_id', $complexId);
     }
