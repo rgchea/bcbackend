@@ -13,40 +13,6 @@ use Doctrine\ORM\Query\Expr\Join;
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiTicketCategories($categoryId, $complexId, $pageId = 1, $limit = 10)
-    {
-        $qb = $this->queryBuilderForApiTicketCategories($categoryId, $complexId);
-
-        $qb->select('a, tc, c')
-            ->setFirstResult(($pageId - 1) * $limit)// Offset
-            ->setMaxResults($limit)// Limit
-            ->orderBy('a.createdAt', 'ASC');
-
-        return $qb->getQuery()->getResult();
-    }
-
-    public function countApiTicketCategories($categoryId, $complexId)
-    {
-        $qb = $this->queryBuilderForApiTicketCategories($categoryId, $complexId);
-        $qb->select('count(a.id)');
-        return $qb->getQuery()->getSingleScalarResult();
-    }
-
-    private function queryBuilderForApiTicketCategories($categoryId, $complexId)
-    {
-        return $this->createQueryBuilder('a')
-            ->select('a')
-            ->innerJoin('a.ticketCategory', 'tc')
-            ->leftJoin('tc.complex', 'c')
-            ->where('a.enabled = 1')
-            ->andWhere('tc.enabled = 1')
-            ->andWhere('c.enabled = 1')
-            ->andWhere('tc.id = :cat_id')
-            ->andWhere('c.id = :com_id')
-            ->setParameter('cat_id', $categoryId)
-            ->setParameter('com_id', $complexId);
-    }
-
     public function getApiFeed($propertyId, $categoryId, $user, $pageId = 1, $limit = 10)
     {
         $qb = $this->queryBuilderForApiFeed($propertyId, $categoryId, $user);

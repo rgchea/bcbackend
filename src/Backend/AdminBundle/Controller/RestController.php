@@ -30,6 +30,7 @@ use Backend\AdminBundle\Entity\TicketStatusLog;
 use Backend\AdminBundle\Entity\TicketType;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
+use Backend\AdminBundle\Repository\TicketCategoryRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Swagger\Annotations as SWG;
@@ -1291,11 +1292,10 @@ class RestController extends FOSRestController
      *
      * Return the ticket categories available for a property and complex.
      *
-     * @Rest\Get("/v1/ticketCategory/{property_id}/{complex_id}/{page_id}", name="ticket_categories")
+     * @Rest\Get("/v1/ticketCategory/{complex_id}/{page_id}", name="ticket_categories")
      *
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The ID of the property." )
      * @SWG\Parameter( name="complex_id", in="path", required=true, type="string", description="The ID of the Complex." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
@@ -1337,23 +1337,27 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Ticket")
      */
-    public function getTicketCategoriesAction($property_id, $complex_id, $page_id = 1)
+    public function getTicketCategoriesAction($complex_id, $page_id = 1)
     {
-
-        // ToDo: No hay necesidad de usar un property ID para obtener los TicketCategories creo.
         try {
             $this->initialise();
             $data = array();
 
-            $categories = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiTicketCategories($property_id, $complex_id);
-            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiTicketCategories($property_id, $complex_id);
+            /** @var TicketCategoryRepository $ticketCategoryRepo */
+            $ticketCategoryRepo = $this->em->getRepository('BackendAdminBundle:TicketCategory');
+            $categories = $ticketCategoryRepo->getApiTicketCategories($complex_id);
+            $total = $ticketCategoryRepo->countApiTicketCategories($complex_id);
 
             /** @var TicketCategory $category */
             foreach ($categories as $category) {
+
+                $iconUrl = ($category->getIcon() != null )? $category->getIcon()->getIconClass() : "";
+
                 $data[] = array(
                     'category_id' => $category->getId(),
                     'category_name' => $category->getName(),
-                    'icon_url' => $category->getIconUrl(),
+                    'icon_url' => $iconUrl,
+                    'color' => $category->getColor(),
                 );
             }
 
@@ -2993,15 +2997,16 @@ class RestController extends FOSRestController
 
     private function calculatePagesMetadata($page, $total)
     {
-        $pageFix = ($total == 0) ? 0 : $page;
+        $pageFix = ($total == 0) ? 0 : intval($page);
         $totalInt = intval($total);
+        $last = ceil($totalInt / 10);
 
         return array(
             'total' => $totalInt,
             'my_page' => $pageFix,
             'prev_page' => ($page <= 1) ? $pageFix : $page - 1,
-            'next_page' => ($page >= $totalInt) ? $totalInt : $page + 1,
-            'last_page' => ceil($totalInt / 10),
+            'next_page' => ($page >= $last) ? $last : $page + 1,
+            'last_page' => $last,
         );
     }
 

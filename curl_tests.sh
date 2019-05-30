@@ -247,7 +247,7 @@ echo " ---------------------------------------- "
 
 echo " ---------------------------------------- ticketCategory"
 
-response=$(curl -s -XGET "${API_URL}/v1/ticketCategory/1/1/1?${DEFAULT_QUERY}" \
+response=$(curl -s -XGET "${API_URL}/v1/ticketCategory/1/1?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" )

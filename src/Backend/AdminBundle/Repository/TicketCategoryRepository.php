@@ -12,6 +12,38 @@ use Backend\AdminBundle\Entity\TicketCategory;
 class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getApiTicketCategories($complexId, $pageId = 1, $limit = 10)
+    {
+        $qb = $this->queryBuilderForApiTicketCategories($complexId);
+
+        $qb->select('a, c, i')
+            ->setFirstResult(($pageId - 1) * $limit)// Offset
+            ->setMaxResults($limit)// Limit
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiTicketCategories($complexId)
+    {
+        $qb = $this->queryBuilderForApiTicketCategories($complexId);
+        $qb->select('count(a.id)');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function queryBuilderForApiTicketCategories($complexId)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a')
+            ->leftJoin('a.complex', 'c')
+            ->leftJoin('a.icon', 'i')
+            ->where('a.enabled = 1')
+            ->andWhere('c.enabled = 1')
+//            ->andWhere('i.enabled = 1')
+            ->andWhere('c.id = :com_id')
+            ->setParameter('com_id', $complexId);
+    }
+
 
 
     public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions, $filterComplex)
