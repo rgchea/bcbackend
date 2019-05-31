@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * TicketCommentRepository
  *
@@ -33,8 +35,14 @@ class TicketCommentRepository extends \Doctrine\ORM\EntityRepository
 
         $qb->select('a, t, u, l')
             ->innerJoin('a.ticket', 't')
-            ->leftJoin('a.createdBy', 'u')
-            ->leftJoin('a.likedBy', 'l')
+            ->leftJoin('a.createdBy', 'u', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('u', 'a.createdBy'),
+                $qb->expr()->eq('u.enabled', '1')
+            ))
+            ->leftJoin('a.likedBy', 'l', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('l', 'a.likedBy'),
+                $qb->expr()->eq('l.enabled', '1')
+            ))
             ->where('a.enabled = 1')
             ->andWhere('t.enabled = 1')
             ->andWhere('t.id = :ticket_id')

@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * PropertyRepository
  *
@@ -15,14 +17,10 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('a');
 
-        $qb->select('a, cs, c, o')
-            ->innerJoin('a.complexSector', 's')
-            ->innerJoin('s.complex', 'c')
-            ->leftJoin('a.owner', 'o')
+        $qb->select('a, c')
+            ->innerJoin('a.complex', 'c')
             ->where('a.enabled = 1')
-            ->andWhere('cs.enabled = 1')
             ->andWhere('c.enabled = 1')
-            ->andWhere('o.enabled = 1')
             ->andWhere('a.id = :property_id')
             ->setParameter('property_id', $propertyId)
             ->orderBy('a.createdAt', 'ASC');
@@ -35,11 +33,15 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('a');
 
         $qb->select('a, s, p')
-            ->leftJoin('a.complexSector', 's')
-            ->leftJoin('a.propertyType', 'p')
+            ->leftJoin('a.complexSector', 's', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('s', 'a.complexSector'),
+                $qb->expr()->eq('s.enabled', '1')
+            ))
+            ->leftJoin('a.propertyType', 'p', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('p', 'a.propertyType'),
+                $qb->expr()->eq('p.enabled', '1')
+            ))
             ->where('a.enabled = 1')
-            ->andWhere('s.enabled = 1')
-            ->andWhere('p.enabled = 1')
             ->orderBy('a.createdAt', 'ASC');
 
         return $qb;

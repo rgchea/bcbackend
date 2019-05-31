@@ -3,6 +3,8 @@
 namespace Backend\AdminBundle\Repository;
 
 use Backend\AdminBundle\Entity\TicketCategory;
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * TicketCategoryRepository
  *
@@ -11,6 +13,43 @@ use Backend\AdminBundle\Entity\TicketCategory;
  */
 class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiTicketCategories($complexId, $pageId = 1, $limit = 10)
+    {
+        $qb = $this->queryBuilderForApiTicketCategories($complexId);
+
+        $qb->select('a, c, i')
+            ->setFirstResult(($pageId - 1) * $limit)// Offset
+            ->setMaxResults($limit)// Limit
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiTicketCategories($complexId)
+    {
+        $qb = $this->queryBuilderForApiTicketCategories($complexId);
+        $qb->select('count(a.id)');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function queryBuilderForApiTicketCategories($complexId)
+    {
+        $qb = $this->createQueryBuilder('a');
+        return $qb->select('a')
+            ->leftJoin('a.complex', 'c', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('c', 'a.complex'),
+                $qb->expr()->eq('c.enabled', '1')
+            ))
+            ->leftJoin('a.icon', 'i', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('i', 'a.icon'),
+                $qb->expr()->eq('i.enabled', '1')
+            ))
+            ->where('a.enabled = 1')
+            ->andWhere('a.isGeneral = 1')
+            ->andWhere('c.id = :com_id')
+            ->setParameter('com_id', $complexId);
+    }
 
 
 

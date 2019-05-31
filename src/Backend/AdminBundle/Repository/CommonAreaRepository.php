@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * CommonAreaRepository
  *
@@ -30,13 +32,19 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
 
     private function queryBuilderForApiCommonAreas($complexIds)
     {
-        $qb = $this->createQueryBuilder('a')
-            ->select('a, c, cat')
-            ->innerJoin('a.complex', 'c')
-            ->leftJoin('a.commonAreaType', 'cat')
-            ->where('a.enabled = 1')
-            ->andWhere('c.enabled = 1')
-            ->andWhere('cat.enabled = 1');
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, c, cat')
+            ->innerJoin('a.complex', 'c', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('c', 'a.complex'),
+                $qb->expr()->eq('c.enabled', '1')
+            ))
+            ->leftJoin('a.commonAreaType', 'cat', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('cat', 'a.commonAreaType'),
+                $qb->expr()->eq('cat.enabled', '1')
+            ))
+            ->andWhere('a.enabled = 1')
+        ;
 
         if ( count( $complexIds ) > 0 ) {
             $qb->andWhere($qb->expr()->in('c.id', $complexIds));

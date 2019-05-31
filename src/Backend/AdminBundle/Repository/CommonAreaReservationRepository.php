@@ -11,12 +11,12 @@ namespace Backend\AdminBundle\Repository;
 class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    private function getApiCommonAreaAvailability($commonAreaId)
+    public function getApiCommonAreaAvailability($commonAreaId)
     {
         $qb = $this->createQueryBuilder('a')
             ->select('a, c, cars')
             ->innerJoin('a.commonArea', 'c')
-            ->innerJoin('a.commonAreaResevationStatus', 'cars')
+            ->innerJoin('a.commonAreaReservationStatus', 'cars')
             ->where('a.enabled = 1')
             ->andWhere('c.enabled = 1')
             ->andWhere('cars.enabled = 1')

@@ -110,12 +110,12 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 
 
 
-    private function getApiCommonAreaAvailability($commonAreaId)
+    public function getApiCommonAreaAvailability($commonAreaId)
     {
         $qb = $this->createQueryBuilder('a')
             ->select('a, c')
             ->innerJoin('a.commonArea', 'c')
-            ->where('a.enabled = 1')
+//            ->where('a.enabled = 1') // ToDo: no field enabled in entity
             ->andWhere('c.enabled = 1')
             ->andWhere('c.id = :common_area_id')
             ->setParameter('common_area_id', $commonAreaId)
