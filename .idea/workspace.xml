@@ -61,16 +61,9 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
@@ -272,71 +265,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="542">
-              <caret line="408" selection-start-line="408" selection-end-line="408" />
-              <folding>
-                <element signature="e#50#95#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/editForm.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="179" lean-forward="true" selection-start-line="179" selection-end-line="179" />
-              <folding>
-                <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyType.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="33" column="80" selection-start-line="33" selection-start-column="80" selection-end-line="33" selection-end-column="80" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/form.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="84" column="116" selection-start-line="84" selection-start-column="116" selection-end-line="84" selection-end-column="116" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="728">
-              <caret line="411" column="65" selection-start-line="411" selection-start-column="16" selection-end-line="411" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/form.html.twig">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="149" column="44" selection-start-line="149" selection-start-column="44" selection-end-line="149" selection-end-column="44" />
+            <state relative-caret-position="209">
+              <caret line="44" column="31" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Form/ComplexSectorType.php">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-109">
-              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+            <state relative-caret-position="176">
+              <caret line="58" column="51" lean-forward="true" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -344,8 +286,30 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="108" column="21" selection-start-line="108" selection-end-line="108" selection-end-column="21" />
+            <state relative-caret-position="153">
+              <caret line="61" column="25" selection-start-line="61" selection-end-line="61" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="235">
+              <caret line="436" column="105" lean-forward="true" selection-start-line="436" selection-start-column="12" selection-end-line="436" selection-end-column="105" />
+              <folding>
+                <element signature="e#9#15#0" expanded="true" />
+                <element signature="e#12#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -359,26 +323,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="490" column="79" selection-start-line="490" selection-start-column="64" selection-end-line="490" selection-end-column="79" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>super admin</find>
-      <find>strIcons</find>
-      <find>selected</find>
-      <find>icp</find>
-      <find>geticlas</find>
-      <find>updateaction</find>
-      <find>schedule</find>
       <find>editaction</find>
       <find>getSchedule</find>
       <find>www.</find>
@@ -402,6 +350,13 @@
       <find>property</find>
       <find>.code</find>
       <find>createaction</find>
+      <find>UTC</find>
+      <find>GMT</find>
+      <find>billing</find>
+      <find>label_register_bc_info</find>
+      <find>www.bettercondos.tech</find>
+      <find>locale</find>
+      <find>baseur</find>
     </findStrings>
     <replaceStrings>
       <replace>repeat</replace>
@@ -442,7 +397,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Device.orm.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Device.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/public/js/NovComent.js" />
@@ -475,7 +429,6 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Icon.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/TicketCategory/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketCategoryController.php" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaAvailabilityRepository.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/email.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TenantContract.php" />
@@ -483,7 +436,6 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/UserNotification.orm.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyContractType.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php" />
@@ -493,6 +445,9 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" />
       </list>
     </option>
   </component>
@@ -623,10 +578,9 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1920" />
-    <option name="y" value="62" />
-    <option name="width" value="1920" />
-    <option name="height" value="1013" />
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="733" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -693,7 +647,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
@@ -702,17 +656,6 @@
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="ComplexSector" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
@@ -822,18 +765,19 @@
       <workItem from="1558651571518" duration="8239000" />
       <workItem from="1558709090182" duration="13206000" />
       <workItem from="1558911176237" duration="197000" />
-      <workItem from="1558911417702" duration="12554000" />
+      <workItem from="1558911417702" duration="15247000" />
+      <workItem from="1559341030760" duration="1906000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="648542000" />
+    <option name="totallyTimeSpent" value="653141000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1920" y="62" width="1920" height="1013" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="733" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4933185" visible="true" weight="0.18370607" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4933185" visible="true" weight="0.28271407" />
       <window_info id="Structure" order="1" sideWeight="0.5066815" side_tool="true" weight="0.21033014" />
       <window_info id="Favorites" order="2" sideWeight="0.5022272" side_tool="true" weight="0.22364217" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -859,16 +803,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Resources/translations/security.en.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ShiftController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="154" column="84" selection-start-line="154" selection-start-column="69" selection-end-line="154" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -973,13 +907,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="229" selection-start-line="229" selection-end-line="229" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketCategory.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="703">
@@ -1026,17 +953,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="589">
           <caret line="521" column="61" selection-start-line="521" selection-start-column="61" selection-end-line="521" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="211" selection-start-line="211" selection-end-line="211" />
-          <folding>
-            <element signature="e#9#15#0" expanded="true" />
-            <element signature="e#12#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1134,24 +1050,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
           <caret line="711" column="28" selection-start-line="711" selection-start-column="20" selection-end-line="711" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="490" column="79" selection-start-line="490" selection-start-column="64" selection-end-line="490" selection-end-column="79" />
         </state>
       </provider>
     </entry>
@@ -1162,24 +1064,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="408" selection-start-line="408" selection-end-line="408" />
+          <folding>
+            <element signature="e#50#95#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="130" selection-start-line="130" selection-end-line="130" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="728">
           <caret line="411" column="65" selection-start-line="411" selection-start-column="16" selection-end-line="411" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="108" column="21" selection-start-line="108" selection-end-line="108" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="103" column="21" selection-start-line="103" selection-end-line="103" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1197,30 +1102,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="408" selection-start-line="408" selection-end-line="408" />
-          <folding>
-            <element signature="e#50#95#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/editForm.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="65">
-          <caret line="179" lean-forward="true" selection-start-line="179" selection-end-line="179" />
+          <caret line="179" selection-start-line="179" selection-end-line="179" />
           <folding>
             <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/form.html.twig">
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="149" column="44" selection-start-line="149" selection-start-column="44" selection-end-line="149" selection-end-column="44" />
+        <state relative-caret-position="269">
+          <caret line="626" column="118" selection-start-line="626" selection-start-column="115" selection-end-line="626" selection-end-column="118" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="103" column="21" selection-start-line="103" selection-end-line="103" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="61" column="25" selection-start-line="61" selection-end-line="61" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="99" column="102" selection-start-line="99" selection-start-column="96" selection-end-line="99" selection-end-column="102" />
+          <folding>
+            <element signature="e#5#11#0" expanded="true" />
+            <element signature="e#9#15#0" expanded="true" />
+            <element signature="e#12#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="58" column="51" lean-forward="true" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="436" column="105" lean-forward="true" selection-start-line="436" selection-start-column="12" selection-end-line="436" selection-end-column="105" />
+          <folding>
+            <element signature="e#9#15#0" expanded="true" />
+            <element signature="e#12#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="44" column="31" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="31" />
         </state>
       </provider>
     </entry>

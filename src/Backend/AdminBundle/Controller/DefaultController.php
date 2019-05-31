@@ -11,11 +11,9 @@ use Symfony\Component\Translation\Translator;
 
 class DefaultController extends Controller
 {
-	
 
-	
 		
-    public function indexAction()
+    public function indexAction(Request $request)
     {
 
 		$session = new Session();
@@ -23,6 +21,9 @@ class DefaultController extends Controller
 
 		$userRole = $session->get('user_role');
 		$userLogged = $session->get('user_logged');
+
+
+
 
 		/*
         $data = array(

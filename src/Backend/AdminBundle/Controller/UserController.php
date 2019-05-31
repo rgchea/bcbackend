@@ -434,6 +434,8 @@ class UserController extends Controller
             //IMPORTANT link user to the business
             $entity->setBusiness($this->userLogged->getBusiness());
 
+            $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
+            //$this->translator->getLocale();die;
 
             $bodyHtml =  $this->userLogged->getEmail()."&nbsp;".$this->translator->trans('label_register_invite_msg')."<br/>";
             $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";

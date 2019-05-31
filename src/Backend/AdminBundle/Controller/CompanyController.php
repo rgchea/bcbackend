@@ -34,25 +34,28 @@ class CompanyController extends Controller
 
 
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
 
         $session = new Session();
         //$this->get("services")->setVars('company');
         $this->initialise();
 
+        $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
+        var_dump($baseurl);die;
+
         ///////TWILIO TESTING
         //$msg = $this->get('services')->serviceSendSMS("hello there monkey", "+50241550669");
         //var_dump($msg);die;
 
         //SPACE TOKEN
-        //$token = $this->get('services')->getBCToken();
+        $token = $this->get('services')->getBCToken();
         //var_dump($token);die;
 
         //////GAMEBOARD.SPACE TESTING
         ///
 
-        $getRewards = $this->get('services')->callBCSpace("GET", "rewards");
+        $getRewards = $this->get('services')->callBCSpace("POST", "users");
         print "<pre>";
         var_dump($getRewards);die;
 
