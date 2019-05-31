@@ -23,7 +23,7 @@ fi
 
 echo " ---------------------------------------- "
 
-response=$(curl -s -XGET "${API_URL}/v1/commonAreaAvailability/$1?${DEFAULT_QUERY}" \
+response=$(curl -s -XGET "${API_URL}/v1/commonAreas/$1/1?${DEFAULT_QUERY}" \
     -H  "accept: application/json" \
     -H  "Content-Type: application/json" \
     -H  "Authorization: BEARER ${token}" )

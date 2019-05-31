@@ -3,6 +3,8 @@
 namespace Backend\AdminBundle\Repository;
 
 use Backend\AdminBundle\Entity\TicketCategory;
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * TicketCategoryRepository
  *
@@ -33,13 +35,17 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
 
     private function queryBuilderForApiTicketCategories($complexId)
     {
-        return $this->createQueryBuilder('a')
-            ->select('a')
-            ->leftJoin('a.complex', 'c')
-            ->leftJoin('a.icon', 'i')
+        $qb = $this->createQueryBuilder('a');
+        return $qb->select('a')
+            ->leftJoin('a.complex', 'c', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('c', 'a.complex'),
+                $qb->expr()->eq('c.enabled', '1')
+            ))
+            ->leftJoin('a.icon', 'i', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('i', 'a.icon'),
+                $qb->expr()->eq('i.enabled', '1')
+            ))
             ->where('a.enabled = 1')
-            ->andWhere('c.enabled = 1')
-//            ->andWhere('i.enabled = 1') // ToDo: enhance
             ->andWhere('c.id = :com_id')
             ->setParameter('com_id', $complexId);
     }

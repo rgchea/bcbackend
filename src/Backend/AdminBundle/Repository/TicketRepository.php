@@ -34,25 +34,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
     private function queryBuilderForApiFeed($propertyId, $categoryId, $user)
     {
-        return $this->createQueryBuilder('a')
-            ->select('a')
-            ->leftJoin('a.ticketCategory', 'tc')
-            ->leftJoin('a.ticketType', 'tt')
-            ->leftJoin('a.ticketStatus', 'ts')
-            ->leftJoin('a.createdBy', 'u')
-            ->leftJoin('a.commonAreaReservation', 'car')
-            ->leftJoin('car.commonArea', 'ca')
-            ->leftJoin('car.commonAreaReservationStatus', 'cars')
-            ->leftJoin('a.property', 'p')
-            ->where('a.enabled = 1')
-//            ->andWhere('tc.enabled = 1') // ToDo: enhance
-//            ->andWhere('tt.enabled = 1') // ToDo: enhance
-            ->andWhere('ts.enabled = 1')
-            ->andWhere('u.enabled = 1')
-//            ->andWhere('car.enabled = 1') // ToDo: enhance
-//            ->andWhere('cars.enabled = 1') // ToDo: enhance
-//            ->andWhere('ca.enabled = 1') // ToDo: enhance
-            ->andWhere('p.enabled = 1')
+        return $qb = $this->genericTicketQueryBuilder()
             ->andWhere('p.id = :prop_id')
             ->andWhere('tc.id = :cat_id')
             ->andWhere('a.createdBy = :user')
@@ -63,25 +45,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
     public function getApiSingleTicket($ticketId)
     {
-        $qb = $this->createQueryBuilder('a')
-            ->select('a')
-            ->leftJoin('a.ticketCategory', 'tc')
-            ->leftJoin('a.ticketType', 'tt')
-            ->leftJoin('a.ticketStatus', 'ts')
-            ->leftJoin('a.createdBy', 'u')
-            ->leftJoin('a.commonAreaReservation', 'car')
-            ->leftJoin('car.commonArea', 'ca')
-            ->leftJoin('car.commonAreaReservationStatus', 'cars')
-            ->leftJoin('a.property', 'p')
-            ->where('a.enabled = 1')
-            ->andWhere('tc.enabled = 1')
-//            ->andWhere('tt.enabled = 1') // ToDo: enhance
-            ->andWhere('ts.enabled = 1')
-            ->andWhere('u.enabled = 1')
-//            ->andWhere('car.enabled = 1') // ToDo: enhance
-//            ->andWhere('cars.enabled = 1') // ToDo: enhance
-//            ->andWhere('ca.enabled = 1') // ToDo: enhance
-            ->andWhere('p.enabled = 1')
+        $qb = $this->genericTicketQueryBuilder()
             ->andWhere('a.id = :ticket_id')
             ->setParameter('ticket_id', $ticketId);
 
@@ -91,6 +55,45 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         catch(\Doctrine\ORM\NoResultException $e) {
             return null;
         }
+    }
+
+    private function genericTicketQueryBuilder() {
+        $qb = $this->createQueryBuilder('a');
+
+        return $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
+            ->leftJoin('a.ticketCategory', 'tc', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('tc', 'a.ticketCategory'),
+                $qb->expr()->eq('tc.enabled', '1')
+            ))
+            ->leftJoin('a.ticketType', 'tt', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('tt', 'a.ticketType'),
+                $qb->expr()->eq('tt.enabled', '1')
+            ))
+            ->leftJoin('a.ticketStatus', 'ts', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('ts', 'a.ticketStatus'),
+                $qb->expr()->eq('ts.enabled', '1')
+            ))
+            ->leftJoin('a.createdBy', 'u', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('u', 'a.createdBy'),
+                $qb->expr()->eq('u.enabled', '1')
+            ))
+            ->leftJoin('a.commonAreaReservation', 'car', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('car', 'a.commonAreaReservation'),
+                $qb->expr()->eq('car.enabled', '1')
+            ))
+            ->leftJoin('car.commonArea', 'ca', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('ca', 'car.commonArea'),
+                $qb->expr()->eq('ca.enabled', '1')
+            ))
+            ->leftJoin('car.commonAreaReservationStatus', 'cars', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('cars', 'car.commonAreaReservationStatus'),
+                $qb->expr()->eq('cars.enabled', '1')
+            ))
+            ->leftJoin('a.property', 'p', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('p', 'a.property'),
+                $qb->expr()->eq('p.enabled', '1')
+            ))
+            ->where('a.enabled = 1');
     }
 
 

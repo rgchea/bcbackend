@@ -65,6 +65,6 @@ docker-compose exec -T php bin/console cache:clear
 # DB Backup
 docker-compose exec db sh -c 'mysqldump --force --opt --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --databases ${MYSQL_DATABASE}' > ./restore/quick/db_backup.sql
 # DB Restore
-docker-compose exec db sh -c 'mysql --force --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} < /restore/db_backup.sql'
+docker-compose exec db sh -c 'mysql --force --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --database=${MYSQL_DATABASE} < /restore/db_backup.sql'
 docker-compose down
 ```
