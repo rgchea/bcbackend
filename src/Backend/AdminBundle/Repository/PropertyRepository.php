@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * PropertyRepository
  *
@@ -31,11 +33,15 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('a');
 
         $qb->select('a, s, p')
-            ->leftJoin('a.complexSector', 's')
-            ->leftJoin('a.propertyType', 'p')
+            ->leftJoin('a.complexSector', 's', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('s', 'a.complexSector'),
+                $qb->expr()->eq('s.enabled', '1')
+            ))
+            ->leftJoin('a.propertyType', 'p', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('p', 'a.propertyType'),
+                $qb->expr()->eq('p.enabled', '1')
+            ))
             ->where('a.enabled = 1')
-            ->andWhere('s.enabled = 1')
-            ->andWhere('p.enabled = 1')
             ->orderBy('a.createdAt', 'ASC');
 
         return $qb;

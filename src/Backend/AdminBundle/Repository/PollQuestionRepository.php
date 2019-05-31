@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * PollQuestionRepository
  *
@@ -15,12 +17,15 @@ class PollQuestionRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('a');
 
         $qb->select('a, p, pqt')
-            ->innerJoin('a.poll', 'p')
-            ->leftJoin('a.pollQuestionType', 'pqt')
-
+            ->leftJoin('a.poll', 'p', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('p', 'a.poll'),
+                $qb->expr()->eq('p.enabled', '1')
+            ))
+            ->leftJoin('a.pollQuestionType', 'pqt', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('pqt', 'a.pollQuestionType'),
+                $qb->expr()->eq('pqt.enabled', '1')
+            ))
             ->where('a.enabled = 1')
-            ->andWhere('p.enabled = 1')
-            ->andWhere('pqt.enabled = 1')
             ->andWhere('p.id = :poll_id')
             ->setParameter('poll_id', $pollId)
         ;

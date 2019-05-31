@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * UserNotificationRepository
  *
@@ -34,12 +36,24 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
 
     private function queryBuilderForApiInbox($user)
     {
-        return $this->createQueryBuilder('a')
-            ->select('a')
-            ->innerJoin('a.createdBy', 'u')
-            ->leftJoin('u.role', 'ur')
-            ->leftJoin('a.notificationType', 'nt')
-            ->leftJoin('a.ticket', 't')
+        $qb = $this->createQueryBuilder('a');
+        return $qb->select('a')
+            ->leftJoin('a.createdBy', 'u', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('u', 'a.createdBy'),
+                $qb->expr()->eq('u.enabled', '1')
+            ))
+            ->leftJoin('u.role', 'ur', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('ur', 'u.role'),
+                $qb->expr()->eq('ur.enabled', '1')
+            ))
+            ->leftJoin('a.notificationType', 'nt', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('nt', 'a.notificationType'),
+                $qb->expr()->eq('nt.enabled', '1')
+            ))
+            ->leftJoin('a.ticket', 't', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('t', 'a.ticket'),
+                $qb->expr()->eq('t.enabled', '1')
+            ))
             ->where('a.enabled = 1')
             ->andWhere('a.createdBy = :user')
             ->setParameter('user', $user);
