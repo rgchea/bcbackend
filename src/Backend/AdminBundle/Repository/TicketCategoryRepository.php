@@ -46,6 +46,7 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('i.enabled', '1')
             ))
             ->where('a.enabled = 1')
+            ->andWhere('a.isGeneral = 1')
             ->andWhere('c.id = :com_id')
             ->setParameter('com_id', $complexId);
     }

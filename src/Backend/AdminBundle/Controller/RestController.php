@@ -284,6 +284,8 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/termsConditions", name="termsConditions")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
      * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
@@ -507,6 +509,8 @@ class RestController extends FOSRestController
                 return new JsonResponse(array('message' => 'User already exists.'), JsonResponse::HTTP_CONFLICT);
             }
 
+            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(self::TENANT_ROLE_ID);
+
             $user = new User();
 
             $encoder = $this->get('security.password_encoder');
@@ -516,6 +520,7 @@ class RestController extends FOSRestController
             $user->setGeoCountry($country);
             $user->setUsername($email);
             $user->setEmail($email);
+            $user->setRole($role);
             $user->setSalt(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $user->setPlainPassword($password);
             $user->setPassword($encoder->encodePassword($user, $password));
@@ -553,6 +558,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/countries", name="countries")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
@@ -719,6 +725,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/properties/{page_id}", name="listProperties")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
@@ -810,6 +817,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/property/{code}", name="propertyInfo")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="code", in="path", required=true, type="string", description="The code of the property." )
@@ -893,6 +901,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/propertyDetail/{id}", name="propertyDetail")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="id", in="path", required=true, type="string", description="The id of the property." )
@@ -1174,6 +1183,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/inbox/{page_id}", name="listInbox")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
@@ -1297,6 +1307,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/ticketCategory/{complex_id}/{page_id}", name="ticket_categories")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="complex_id", in="path", required=true, type="string", description="The ID of the Complex." )
@@ -1354,7 +1365,7 @@ class RestController extends FOSRestController
             /** @var TicketCategory $category */
             foreach ($categories as $category) {
 
-                $iconUrl = ($category->getIcon() != null) ? $category->getIcon()->getIconClass() : "";
+                $iconUrl = ($category->getIcon() != null) ? $category->getIcon()->getIconUnicode() : "";
 
                 $data[] = array(
                     'category_id' => $category->getId(),
@@ -1382,6 +1393,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/feed/{property_id}/{filter_category_id}/{page_id}", name="listFeed")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The ID of the property." )
@@ -1549,6 +1561,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/ticket/{ticket_id}", name="singleTicket")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="ticket_id", in="path", required=true, type="string", description="The ID of the ticket." )
@@ -1719,7 +1732,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="title", in="body", required=true, type="string", description="The title of the ticket.", schema={} )
      * @SWG\Parameter( name="description", in="body", required=true, type="string", description="The description of the ticket.", schema={} )
      * @SWG\Parameter( name="photos", in="body", type="array", description="The photos of the ticket. It must be base64 encoded.", schema={} )
-     * @SWG\Parameter( name="solution", in="body", required=true, type="boolean", description="Is the ticket a solution.", schema={} )
+     * @SWG\Parameter( name="solution", in="body", required=true, type="string", description="Rhe ticket's solution.", schema={} )
      * @SWG\Parameter( name="is_public", in="body", required=true, type="boolean", description="Is the ticket public or private.", schema={} )
      * @SWG\Parameter( name="category_id", in="body", required=true, type="integer", description="The category ID of the ticket.", schema={} )
      * @SWG\Parameter( name="sector_id", in="body", required=true, type="integer", description="The complex sector ID of the ticket.", schema={} )
@@ -2052,6 +2065,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/polls/{page_id}", name="polls")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
@@ -2127,6 +2141,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/poll/{poll_id}", name="poll")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="poll_id", in="path", type="string", description="The ID of the poll." )
@@ -2226,6 +2241,12 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+// ToDo: from email
+// # /api/v1/answer
+// Actualmente todos los campos de respuestas para los distintos tipos son requeridos.
+// Los campos deberían de ser opcionales y en el backend se debería de validar si el tipo de respuesta es correcto para el tipo de pregunta
 
     /**
      * Post an answer to a poll.
@@ -2343,7 +2364,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Closes an existing ticket.",
+     *     description="Updates the user avatar.",
      *     @SWG\Schema (
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -2426,6 +2447,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/faq/{page_id}", name="faq")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
@@ -2437,7 +2459,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of common areas of a property.",
+     *     description="Returns a list with the frequently asked questions of a business.",
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="array",
@@ -2565,6 +2587,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/commonAreas/{property_id}/{page_id}", name="listCommonAreas")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
@@ -2687,6 +2710,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/commonAreaAvailability/{common_area_id}", name="commonAreaAvailability")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="common_area_id", in="path", type="string", description="The ID of the common area." )
@@ -2780,6 +2804,7 @@ class RestController extends FOSRestController
     /**
      * @Rest\Get("/v1/commonArea/{common_area_id}", name="commonAreaDetail")
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="common_area_id", in="path", type="string", description="The ID of the common area." )
@@ -2937,6 +2962,7 @@ class RestController extends FOSRestController
      *
      * @Rest\Get("/v1/payments/{month}/{year}/{page_id}", name="list_payments", )
      *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="month", in="path", required=true, type="string", description="The month of the requested payments." )
@@ -2950,7 +2976,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of common areas of a property.",
+     *     description="Returns the list of payments of the month and year.",
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="array",
@@ -2994,14 +3020,10 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
-//            $commonAreas = $this->em->getRepository('BackendAdminBundle:CommonArea')->getApiCommonAreas($complexIds, $page_id);
-//            $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complexIds);
-
-            // ToDo: to finish.
+            // ToDo: pending definition.
 
             return new JsonResponse(array(
                 'message' => "",
-//                'metadata' => $this->calculatePagesMetadata($page_id, $total),
                 'data' => $data
             ));
         } catch (Exception $ex) {
@@ -3047,3 +3069,12 @@ class RestController extends FOSRestController
     }
 
 }
+
+
+// ToDo: DB Changelog:
+//Entity TenantContract -> invitationEmail changed to invitationUserEmail
+//Entity UserNotification -> added SentTo
+
+// ToDo: # GMT y UTC, veo que en algunas partes se utilizó UTC, hasta donde sé esto es diferente a GMT, debemos de estandarizar todo a GMT
+
+// ToDO: # Seguridad: en el frontend /api/doc, hay que agregar una autenticación básica solo para que no sea de acceso libre, un usuario y clave, estas pueden ser quemadas en código.
