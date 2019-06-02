@@ -10,7 +10,43 @@ namespace Backend\AdminBundle\Repository;
  */
 class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
 {
-    
+
+    public function getApiFaqs( $complexId, $pageId = 1, $limit = 10 )
+    {
+        $qb = $this->getGenericApiFaqs($complexId);
+
+        $qb->setFirstResult(($pageId - 1) * $limit)// Offset
+            ->setMaxResults($limit); // Limit
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiFaqs( $complexId )
+    {
+        $qb = $this->getGenericApiFaqs($complexId);
+
+        $qb->select('count(a.id)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getGenericApiFaqs( $complexId )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a')
+            ->innerJoin('a.complex', 'c')
+            ->where('a.enabled = 1')
+            ->andWhere('c.enabled = 1')
+            ->andWhere('c.id = :complexId')
+            ->setParameter('complexId', $complexId)
+            ->orderBy('a.orderList', 'ASC')
+        ;
+
+        return $qb;
+    }
+
+
      public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions, $filterComplex)
     {
         //print "entra";die;
@@ -38,8 +74,8 @@ class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
             $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
         }
-        
-        
+
+
         // Fields Search
         foreach ($columns as $key => $column)
         {
@@ -61,13 +97,13 @@ class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.question LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
-                        
+
                     case 'answer':
                         {
                             $searchQuery = 'e.answer LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
-                        
+
                     case 'orderList':
                         {
                             $searchQuery = 'e.orderList LIKE \'%'.$searchItem.'%\'';
@@ -123,13 +159,13 @@ class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.question';
                             break;
                         }
-                        
+
                     case 'answer':
                         {
                             $orderColumn = 'e.answer';
                             break;
                         }
-                        
+
                     case 'orderList':
                         {
                             $orderColumn = 'e.orderList';
@@ -161,5 +197,5 @@ class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
         );
     }
 
-    
+
 }

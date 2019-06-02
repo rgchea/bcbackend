@@ -224,6 +224,9 @@ mail:
     register_confirm_click: 'Click here'
     register_confirm_msg: 'An email has been sent, please check your inbox to confirm your account.'
     label_user: 'User: '
+    label_time: 'System time: '
+    label_property_id: 'Property ID: '
+    label_message: 'Message: '
     label_password: 'Password: '
     register_body: 'Now you are part of Better Condos. Start adding properties and enjoy the experience.'
 sms:

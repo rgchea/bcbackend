@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * CommonAreaAvailabilityRepository
  *
@@ -112,11 +114,14 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 
     public function getApiCommonAreaAvailability($commonAreaId)
     {
-        $qb = $this->createQueryBuilder('a')
-            ->select('a, c')
-            ->innerJoin('a.commonArea', 'c')
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, c')
+            ->leftJoin('a.commonArea', 'c', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('c', 'a.commonArea'),
+                $qb->expr()->eq('c.enabled', '1')
+            ))
 //            ->where('a.enabled = 1') // ToDo: no field enabled in entity
-            ->andWhere('c.enabled = 1')
             ->andWhere('c.id = :common_area_id')
             ->setParameter('common_area_id', $commonAreaId)
             ->orderBy('a.createdAt', 'ASC');

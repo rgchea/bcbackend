@@ -2,7 +2,9 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Backend\AdminBundle\Controller\RestController;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * UserRepository
@@ -12,6 +14,28 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiPostFaq($businessId) {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a')
+            ->leftJoin('a.business', 'b', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('b', 'a.business'),
+                $qb->expr()->eq('b.enabled', '1')
+            ))
+            ->leftJoin('a.role', 'r', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('r', 'a.role'),
+                $qb->expr()->eq('r.enabled', '1')
+            ))
+            ->where('a.enabled = 1')
+            ->andWhere('b.id = :businessId')
+            ->andWhere('r.id = :roleId')
+            ->setParameter(':businessId', $businessId)
+            ->setParameter(':roleId', RestController::USER_ADMIN_ROLE_ID)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 
 
 
