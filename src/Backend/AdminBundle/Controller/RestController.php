@@ -1186,6 +1186,7 @@ class RestController extends FOSRestController
 
 
     // ToDo: update with new fields.
+
     /**
      * Gets the user inbox.
      *
@@ -2523,9 +2524,9 @@ class RestController extends FOSRestController
             foreach ($contracts as $contract) {
                 $data[] = array(
                     'tenant_contract_id' => $contract->getId(),
-                    'invited' => ($contract->getUser() != null)?$contract->getUser()->getName():"",
-                    'phone' => ($contract->getUser() != null)?$contract->getUser()->getMobilePhone():"",
-                    'email' => ($contract->getUser() != null)?$contract->getUser()->getEmail():$contract->getInvitationUserEmail(),
+                    'invited' => ($contract->getUser() != null) ? $contract->getUser()->getName() : "",
+                    'phone' => ($contract->getUser() != null) ? $contract->getUser()->getMobilePhone() : "",
+                    'email' => ($contract->getUser() != null) ? $contract->getUser()->getEmail() : $contract->getInvitationUserEmail(),
                     'invitationAccepted' => $contract->getInvitationAccepted(),
                 );
             }
@@ -2540,7 +2541,87 @@ class RestController extends FOSRestController
         }
     }
 
-    
+    /**
+     * Posts an invitation.
+     *
+     * Creates a tenant contract and a notification for a given user.
+     *
+     * @Rest\Post("/v1/invitation", name="sendInvitation")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="message", in="body", required=true, type="string", description="Message.", schema={} )
+     * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the invited user.", schema={} )
+     * @SWG\Parameter( name="property_contract_id", in="body", required=true, type="integer", description="The id of the property contract.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates an invitation for a user to a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="FAQ")
+     */
+
+    public function postInvitationAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $message = trim($request->get('message'));
+            $email = trim($request->get('email'));
+            $propertyContractId = trim($request->get('property_contract_id'));
+
+            /** @var PropertyContractRepository $propertyContractRepo */
+            $propertyContractRepo = $this->em->getRepository('BackendAdminBundle:PropertyContract');
+            $propertyContract = $propertyContractRepo->findOneById($propertyContractId);
+            if ($propertyContract == null) {
+                throw new \Exception("Invalid property contract.");
+            }
+
+            $tenantContract = new TenantContract();
+            $tenantContract->setPropertyContract($propertyContract);
+            $tenantContract->setIsOwner(false);
+            $tenantContract->setEnabled(true);
+            $tenantContract->setInvitationUserEmail($email);
+
+            // ToDo: so what about the user notification?
+            // If the user dont exist, then I could create "a shadow user" to assign it,
+            // but then in the register I should transfer it from shadow to active when it gets actually created.
+            // Not sure if this will work. But otherwise I have nothing to do with the "message" parameter.
+
+            $this->get("services")->blameOnMe($tenantContract, "create");
+            $this->get("services")->blameOnMe($tenantContract, "update");
+
+            $this->em->persist($tenantContract);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "sendInvitation",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
      * Gets the FAQs.
@@ -2695,9 +2776,9 @@ class RestController extends FOSRestController
             /** @var UserRepository $userRepo */
             $userRepo = $this->em->getRepository('BackendAdminBundle:User');
 
-            $businessArr = $propertyRepo->getApiPostFaq( $propertyId );
+            $businessArr = $propertyRepo->getApiPostFaq($propertyId);
             $businessId = 0;
-            if ( array_key_exists( 'id', $businessArr ) ) {
+            if (array_key_exists('id', $businessArr)) {
                 $businessId = $businessArr['id'];
             }
 
