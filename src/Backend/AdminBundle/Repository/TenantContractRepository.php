@@ -13,6 +13,20 @@ use Doctrine\ORM\Query\Expr\Join;
 class TenantContractRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getApiRegister( $email )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->where('a.enabled = 1')
+            ->andWhere('a.invitationUserEmail = :email')
+            ->andWhere('a.user IS NULL')
+            ->andWhere('a.isOwner = false')
+            ->setParameter('email', $email)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function getApiPropertyInvites( $propertyContractId, $propertyId, $pageId = 1, $limit = 10 )
     {
         $qb = $this->genericApiPropertyInvites($propertyContractId, $propertyId);

@@ -37,6 +37,7 @@ use Backend\AdminBundle\Repository\CommonAreaPhotoRepository;
 use Backend\AdminBundle\Repository\CommonAreaRepository;
 use Backend\AdminBundle\Repository\ComplexFaqRepository;
 use Backend\AdminBundle\Repository\ComplexRepository;
+use Backend\AdminBundle\Repository\NotificationTypeRepository;
 use Backend\AdminBundle\Repository\PropertyRepository;
 use Backend\AdminBundle\Repository\TenantContractRepository;
 use Backend\AdminBundle\Repository\TicketCategoryRepository;
@@ -71,6 +72,7 @@ class RestController extends FOSRestController
     const COMMON_AREA_RESERVATION_STATUS_ID = 1;
     const TICKET_STATUS_OPEN_ID = 1;
     const TICKET_STATUS_CLOSE_ID = 1; // ToDo: Change the proper ticketStatus CLOSE.
+    const INVITATION_NOTIFICATION_TYPE_ID = 3;
 
     const USER_ADMIN_ROLE_ID = 1;
 
@@ -541,6 +543,18 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($user, "update");
 
             $this->em->persist($user);
+
+            /** @var TenantContractRepository $tenantRepo */
+            $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
+            $tenantContracts = $tenantRepo->getApiRegister($email);
+
+            foreach ($tenantContracts as $tenantContract) {
+                $tenantContract->setUser($user);
+                $notification = $this->createInviteUserNotification($tenantContract, $user);
+                $this->em->persist($tenantContract);
+                $this->em->persist($notification);
+            }
+
             $this->em->flush();
 
             $this->translator->setLocale($lang);
@@ -1219,7 +1233,7 @@ class RestController extends FOSRestController
      *                      @SWG\Property( property="type", type="string", description="Type of Notification", example="accept_invitation" ),
      *                  ),
      *                  @SWG\Property( property="replies_quantity", type="integer", description="Quantity of replies for the associated ticket", example="10" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Timestamp UTC formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
      *                  @SWG\Property( property="type", type="string", description="Name of the type of notification", example="Type1" ),
      *                  @SWG\Property( property="notice", type="string", description="Notification notice", example="Notice" ),
      *              )
@@ -1435,7 +1449,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="is_public", type="boolean", description="Is ticket public?", example="true" ),
      *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
      *                  @SWG\Property( property="role", type="string", description="Ticket's creator role", example="Admin" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
      *                  @SWG\Property( property="common_area", type="object",
      *                      @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
@@ -1594,7 +1608,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
      *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
      *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *                  @SWG\Property( property="description", type="string", description="Ticket description", example="Lorem ipsum." ),
@@ -1837,7 +1851,7 @@ class RestController extends FOSRestController
             $ticket->setIsPublic($isPublic);
             $ticket->setTicketCategory($category);
             $ticket->setComplexSector($complexSector);
-            $ticket->setComplex($complexSector->getComplex()); // ToDo: Optimization to make only 1 query instead of 2. (not that big improvement)
+            $ticket->setComplex($complexSector->getComplex());
             $ticket->setProperty($property);
             $ticket->setCommonAreaReservation($commonAreaReservation);
             $ticket->setTenantContract($tenantContract);
@@ -2262,6 +2276,8 @@ class RestController extends FOSRestController
 // Actualmente todos los campos de respuestas para los distintos tipos son requeridos.
 // Los campos deberían de ser opcionales y en el backend se debería de validar si el tipo de respuesta es correcto para el tipo de pregunta
 
+// Hay q arreglar, q based en el question, primero hay q ver q tipo de question es y en base a eso se valida cual de los 3 campos es requerido.
+
     /**
      * Post an answer to a poll.
      *
@@ -2273,9 +2289,9 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="poll_question_id", in="body", required=true, type="integer", description="The Poll Question ID.", schema={} )
-     * @SWG\Parameter( name="answer_text", in="body", required=true, type="string", description="The answer text. It is required although it could be empty.", schema={} )
-     * @SWG\Parameter( name="answer_rating", in="body", required=true, type="integer", description="The answer rating.", schema={} )
-     * @SWG\Parameter( name="poll_question_option_ids", in="body", required=true, type="array", description="Array of integers of poll question option ids. Must have at least 1 element.", schema={} )
+     * @SWG\Parameter( name="answer_text", in="body", type="string", description="The answer text. It is required although it could be empty.", schema={} )
+     * @SWG\Parameter( name="answer_rating", in="body", type="integer", description="The answer rating.", schema={} )
+     * @SWG\Parameter( name="poll_question_option_ids", in="body", type="array", description="Array of integers of poll question option ids. Must have at least 1 element.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -2506,7 +2522,7 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Tag(name="Property")
+     * @SWG\Tag(name="Property Invites")
      */
     public function getPropertyInvitesAction($property_contract_id, $property_id, $page_id = 1)
     {
@@ -2575,7 +2591,7 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Tag(name="FAQ")
+     * @SWG\Tag(name="Property Invites")
      */
 
     public function postInvitationAction(Request $request)
@@ -2587,15 +2603,27 @@ class RestController extends FOSRestController
                 throw new \Exception("Missing Content-Type header.");
             }
 
+            $lang = strtolower(trim($request->get('language')));
+
             $message = trim($request->get('message'));
             $email = trim($request->get('email'));
             $propertyContractId = trim($request->get('property_contract_id'));
 
             /** @var PropertyContractRepository $propertyContractRepo */
             $propertyContractRepo = $this->em->getRepository('BackendAdminBundle:PropertyContract');
-            $propertyContract = $propertyContractRepo->findOneById($propertyContractId);
+            /** @var UserRepository $userRepo */
+            $userRepo = $this->em->getRepository('BackendAdminBundle:User');
+            /** @var TenantContractRepository $tenantRepo */
+            $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
+
+            $propertyContract = $propertyContractRepo->findOneBy(array('enabled' => true, 'id' => $propertyContractId));
             if ($propertyContract == null) {
                 throw new \Exception("Invalid property contract.");
+            }
+
+            $conflicTenantContracts = $tenantRepo->findBy(array('enabled' => true, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
+            if (count($conflicTenantContracts) > 0) {
+                throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
             }
 
             $tenantContract = new TenantContract();
@@ -2603,20 +2631,135 @@ class RestController extends FOSRestController
             $tenantContract->setIsOwner(false);
             $tenantContract->setEnabled(true);
             $tenantContract->setInvitationUserEmail($email);
-
-            // ToDo: so what about the user notification?
-            // If the user dont exist, then I could create "a shadow user" to assign it,
-            // but then in the register I should transfer it from shadow to active when it gets actually created.
-            // Not sure if this will work. But otherwise I have nothing to do with the "message" parameter.
-
+            $tenantContract->setInvitationAccepted(false);
             $this->get("services")->blameOnMe($tenantContract, "create");
+            $this->get("services")->blameOnMe($tenantContract, "update");
+
+            /** @var User $user */
+            $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
+            if ($propertyContract != null) {
+                $tenantContract->setUser($user);
+                $notification = $this->createInviteUserNotification($tenantContract, $user);
+                $this->em->persist($notification);
+            }
+
+            $this->em->persist($tenantContract);
+            $this->em->flush();
+
+            $this->translator->setLocale($lang);
+            $now = new \DateTime();
+            $subject = $this->translator->trans('mail.invite_subject');
+            $bodyHtml = sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_body'));
+            $bodyHtml .= sprintf("<p>%s</p><br/>", $message);
+            $bodyHtml .= sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_time'), $now->format('Y-m-d H:i'));
+            $bodyHtml .= "<br/>";
+
+            $messageEmail = $this->get('services')->generalTemplateMail($subject, $email, $bodyHtml);
+
+            return new JsonResponse(array(
+                'message' => "sendInvitation",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function createInviteUserNotification( $tenantContract, $user ) {
+        /** @var NotificationTypeRepository $notificationRepo */
+        $notificationRepo = $this->em->getRepository('BackendAdminBundle:NotificationType');
+        $notificationType = $notificationRepo->findOneById( self::INVITATION_NOTIFICATION_TYPE_ID );
+
+        $notification = new UserNotification();
+        $notification->setEnabled(true);
+        $notification->setTenantContract($tenantContract);
+        $notification->setNotificationType($notificationType);
+
+        $notification->setCreatedBy($user);
+        $notification->setUpdatedBy($user);
+
+        $now = new \DateTime();
+        $notification->setCreatedAt($now);
+        $notification->setUpdatedAt($now);
+
+        return $notification;
+    }
+
+
+    /**
+     * Accepts an invitation.
+     *
+     * Accepts an invitation by setting the proper values in the tenant contract and the notification.
+     *
+     * @Rest\Put("/v1/invitation", name="acceptInvitation")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="tenant_contract_id", in="body", required=true, type="integer", description="The id of the tenant contract.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Accepts an invitation for a user to a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Property Invites")
+     */
+
+    public function postAcceptInvitationAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $tenantContractId = trim($request->get('tenant_contract_id'));
+
+            /** @var TenantContractRepository $tenantRepo */
+            $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
+            /** @var UserNotificationRepository $notificationRepo */
+            $notificationRepo = $this->em->getRepository('BackendAdminBundle:UserNotification');
+
+            /** @var TenantContract $tenantContract */
+            $tenantContract = $tenantRepo->findOneBy(array('enabled' => true, 'user' => $this->getUser(), 'id' => $tenantContractId));
+            if ($tenantContract == null) {
+                throw new \Exception("Invalid tenant contract.");
+            }
+
+            $userNotifications = $notificationRepo->findBy(array('enabled' => true, 'user' => $this->getUser(), 'tenantContract' => $tenantContract));
+
+            /** @var UserNotification $userNotification */
+            foreach ($userNotifications as $userNotification) {
+                $userNotification->setIsRead(true);
+                $this->get("services")->blameOnMe($userNotification, "update");
+
+                $this->em->persist($userNotification);
+            }
+
+            $tenantContract->setInvitationAccepted(true);
             $this->get("services")->blameOnMe($tenantContract, "update");
 
             $this->em->persist($tenantContract);
             $this->em->flush();
 
             return new JsonResponse(array(
-                'message' => "sendInvitation",
+                'message' => "acceptInvitation",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -2958,8 +3101,8 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="reservation", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="status", type="string", description="Reservation status for the common area", example="status" ),
-     *                          @SWG\Property( property="date_from", type="string", description="Reservation date from UTC formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
-     *                          @SWG\Property( property="date_to", type="string", description="Reservation date to UTC formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272519157" ),
+     *                          @SWG\Property( property="date_from", type="string", description="Reservation date from GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                          @SWG\Property( property="date_to", type="string", description="Reservation date to GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272519157" ),
      *                      )
      *                  ),
      *                  @SWG\Property( property="common_area_availability", type="array",
@@ -3302,12 +3445,3 @@ class RestController extends FOSRestController
     }
 
 }
-
-
-// ToDo: DB Changelog:
-//Entity TenantContract -> invitationEmail changed to invitationUserEmail
-//Entity UserNotification -> added SentTo
-
-// ToDo: # GMT y UTC, veo que en algunas partes se utilizó UTC, hasta donde sé esto es diferente a GMT, debemos de estandarizar todo a GMT
-
-// ToDO: # Seguridad: en el frontend /api/doc, hay que agregar una autenticación básica solo para que no sea de acceso libre, un usuario y clave, estas pueden ser quemadas en código.
