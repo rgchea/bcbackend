@@ -3332,18 +3332,17 @@ class RestController extends FOSRestController
 
 
     /**
-     * List the rewards of the specified user.
+     * List the payments of the specified user by month and year.
      *
-     * This call takes into account all confirmed awards, but not pending or refused awards.
+     * This calls the Bettercondos.info API to get a list of payments for the specified month and year.
      *
-     * @Rest\Get("/v1/payments/{month}/{year}/{page_id}", name="list_payments", )
+     * @Rest\Get("/v1/payments/{month}/{year}", name="listPayments", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="month", in="path", required=true, type="string", description="The month of the requested payments." )
      * @SWG\Parameter( name="year", in="path", required=true, type="string", description="The year of the requested payments." )
-     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -3357,26 +3356,13 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
-     *                  @SWG\Property( property="id", type="integer", description="FAQ ID", example="1" ),
-     *                  @SWG\Property( property="business_name", type="string", description="Name of the business", example="Business" ),
-     *                  @SWG\Property( property="business_address", type="string", description="Address of the business", example="4400 Rickenbacker Causeway, Miami, FL, 33149, EE. UU." ),
-     *                  @SWG\Property( property="business_phone", type="string", description="Phone of the business", example="+306 5558 8999" ),
-     *                  @SWG\Property( property="faqs", type="array",
-     *                      @SWG\Items(
-     *                          @SWG\Property( property="question", type="string", description="Frequently asked question", example="Pregunta 1" ),
-     *                          @SWG\Property( property="answer", type="string", description="Answer to the frequently asked question", example="Answer 1" ),
-     *                      )
-     *                  ),
+     *                  @SWG\Property( property="description", type="string", description="Description of the payment", example="Description" ),
+     *                  @SWG\Property( property="date", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="status", type="string", description="Status of the payment", example="Paid" ),
+     *                  @SWG\Property( property="amount", type="string", description="Amount of the payment", example="4500" ),
      *              ),
      *          ),
-     *          @SWG\Property( property="message", type="string", example="" ),
-     *          @SWG\Property(
-     *              property="metadata", type="object",
-     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
-     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
-     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
-     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
-     *          )
+     *          @SWG\Property( property="message", type="string", example="" )
      *      )
      * )
      *
@@ -3390,7 +3376,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Finances")
      */
-    public function getPaymentsAction($page_id = 1)
+    public function getPaymentsAction()
     {
         try {
             $this->initialise();
@@ -3399,7 +3385,67 @@ class RestController extends FOSRestController
             // ToDo: pending definition.
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "listPayments",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * List the points of the specified user.
+     *
+     * This calls the Bettercondos.info API to get a list of points for the user.
+     *
+     * @Rest\Get("/v1/points", name="listPoints", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of points for the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="ticket_id", type="integer", description="Ticket ID", example="1" ),
+     *                  @SWG\Property( property="date", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="play_id", type="integer", description="Play ID", example="1" ),
+     *                  @SWG\Property( property="play_name", type="string", description="Name of the play", example="Play" ),
+     *                  @SWG\Property( property="points", type="integer", description="Points of the player", example="4500" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Finances")
+     */
+    public function getPointsAction()
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listPayments",
                 'data' => $data
             ));
         } catch (Exception $ex) {
