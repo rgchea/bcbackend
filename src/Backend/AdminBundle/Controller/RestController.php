@@ -76,6 +76,12 @@ class RestController extends FOSRestController
 
     const USER_ADMIN_ROLE_ID = 1;
 
+    const QUESTION_TYPE_OPEN_ID = 1;
+    const QUESTION_TYPE_MULTIPLE_ID = 2;
+    const QUESTION_TYPE_TRUEFALSE_ID = 3;
+    const QUESTION_TYPE_ONEOPTION_ID = 4;
+    const QUESTION_TYPE_RATING_ID = 5;
+
     protected $em;
     /** @var Translator $translator */
     protected $translator;
@@ -2270,14 +2276,6 @@ class RestController extends FOSRestController
         }
     }
 
-
-// ToDo: from email
-// # /api/v1/answer
-// Actualmente todos los campos de respuestas para los distintos tipos son requeridos.
-// Los campos deberían de ser opcionales y en el backend se debería de validar si el tipo de respuesta es correcto para el tipo de pregunta
-
-// Hay q arreglar, q based en el question, primero hay q ver q tipo de question es y en base a eso se valida cual de los 3 campos es requerido.
-
     /**
      * Post an answer to a poll.
      *
@@ -2331,43 +2329,85 @@ class RestController extends FOSRestController
             $answerRating = $request->get('answer_rating');
             $pollQuestionOptionIds = $request->get('poll_question_option_ids');
 
-            if (count($pollQuestionOptionIds) == 0) {
-                throw new \Exception("poll_question_option_ids is empty.");
-            }
-
             // Required parameter
-            $pollQuestion = $this->em->getRepository('BackendAdminBundle:PollQuestion')->findOneBy(array('enabled' => true, 'id' => $pollQuestionId));
+            /** @var PollQuestion $pollQuestion */
+            $pollQuestion = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionId);
             if ($pollQuestion == null) {
                 throw new \Exception("Invalid Poll Question ID.");
             }
 
-            // Required parameter
-            $pollQuestionOptions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionOptionIds);
-            if ($pollQuestionOptions == null) {
-                throw new \Exception("Invalid Poll Question ID.");
-            }
+            $questionTypeId = $pollQuestion->getPollQuestionType()->getId();
+            switch ($questionTypeId) {
+                case self::QUESTION_TYPE_OPEN_ID:
+                    if (empty($answerText)) {
+                        throw new \Exception("Invalid Answer Text.");
+                    }
 
-            if (count($pollQuestionOptionIds) != count($pollQuestionOptions)) {
-                throw new \Exception("Invalid Poll Question Option ID.");
-            }
+                    $answer = new PollTenantAnswer();
+                    $answer->setAnswerText($answerText);
+                    $answer->setEnabled(true);
+                    $answer->setPollQuestion($pollQuestion);
+                    $this->get("services")->blameOnMe($answer, "create");
+                    $this->get("services")->blameOnMe($answer, "update");
 
-            foreach ($pollQuestionOptions as $option) {
-                $answer = new PollTenantAnswer();
-                $answer->setAnswerText($answerText);
-                $answer->setAnswerRating($answerRating);
-                $answer->setPollQuestion($pollQuestion);
-                $answer->setPollQuestionOption($option);
-                $answer->setEnabled(true);
-                $this->get("services")->blameOnMe($answer, "create");
-                $this->get("services")->blameOnMe($answer, "update");
+                    $this->em->persist($answer);
+                    break;
 
-                $this->em->persist($answer);
+                case self::QUESTION_TYPE_RATING_ID:
+                    if (empty($answerRating)) {
+                        throw new \Exception("Invalid Answer Rating.");
+                    }
+
+                    $answer = new PollTenantAnswer();
+                    $answer->setAnswerRating($answerRating);
+                    $answer->setEnabled(true);
+                    $answer->setPollQuestion($pollQuestion);
+                    $this->get("services")->blameOnMe($answer, "create");
+                    $this->get("services")->blameOnMe($answer, "update");
+
+                    $this->em->persist($answer);
+                    break;
+
+                case self::QUESTION_TYPE_MULTIPLE_ID:
+                case self::QUESTION_TYPE_TRUEFALSE_ID:
+                case self::QUESTION_TYPE_ONEOPTION_ID:
+                    if (count($pollQuestionOptionIds) == 0) {
+                        throw new \Exception("poll_question_option_ids is empty.");
+                    }
+
+                    if ($questionTypeId == self::QUESTION_TYPE_TRUEFALSE_ID || $questionTypeId == self::QUESTION_TYPE_ONEOPTION_ID) {
+                        if (count($pollQuestionOptionIds) == 1) {
+                            throw new \Exception("poll_question_option_ids can only contain one element.");
+                        }
+                    }
+
+                    // Required parameter
+                    $pollQuestionOptions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionOptionIds);
+                    if ($pollQuestionOptions == null) {
+                        throw new \Exception("Invalid Poll Question ID.");
+                    }
+
+                    if (count($pollQuestionOptionIds) != count($pollQuestionOptions)) {
+                        throw new \Exception("Invalid Poll Question Option ID.");
+                    }
+
+                    foreach ($pollQuestionOptions as $option) {
+                        $answer = new PollTenantAnswer();
+                        $answer->setPollQuestionOption($option);
+                        $answer->setEnabled(true);
+                        $answer->setPollQuestion($pollQuestion);
+                        $this->get("services")->blameOnMe($answer, "create");
+                        $this->get("services")->blameOnMe($answer, "update");
+
+                        $this->em->persist($answer);
+                    }
+                    break;
             }
 
             $this->em->flush();
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "tenantAnswer",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -2664,10 +2704,11 @@ class RestController extends FOSRestController
         }
     }
 
-    private function createInviteUserNotification( $tenantContract, $user ) {
+    private function createInviteUserNotification($tenantContract, $user)
+    {
         /** @var NotificationTypeRepository $notificationRepo */
         $notificationRepo = $this->em->getRepository('BackendAdminBundle:NotificationType');
-        $notificationType = $notificationRepo->findOneById( self::INVITATION_NOTIFICATION_TYPE_ID );
+        $notificationType = $notificationRepo->findOneById(self::INVITATION_NOTIFICATION_TYPE_ID);
 
         $notification = new UserNotification();
         $notification->setEnabled(true);
@@ -3395,7 +3436,6 @@ class RestController extends FOSRestController
     }
 
 
-
     /**
      * Adds points to a user based on a play.
      *
@@ -3446,8 +3486,6 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-
 
 
     /**

@@ -12,7 +12,24 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class PollQuestionRepository extends \Doctrine\ORM\EntityRepository
 {
-    private function getApiPoll($pollId)
+
+    public function getApiAnswer($pollQuestionId) {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, pqt')
+            ->leftJoin('a.pollQuestionType', 'pqt', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('pqt', 'a.pollQuestionType'),
+                $qb->expr()->eq('pqt.enabled', '1')
+            ))
+            ->where('a.enabled = 1')
+            ->andWhere('a.id = :poll_question_id')
+            ->setParameter('poll_question_id', $pollQuestionId)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function getApiPoll($pollId)
     {
         $qb = $this->createQueryBuilder('a');
 
