@@ -3331,10 +3331,129 @@ class RestController extends FOSRestController
     }
 
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------------------- Gamification
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * List the available plays.
+     *
+     * This calls the Bettercondos.info API to get a list of available plays. [Right now it does nothing].
+     *
+     * @Rest\Get("/v1/plays", name="listPlays", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of plays.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="Play ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the play", example="Play" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getPlaysAction()
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listPayments",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+    /**
+     * Adds points to a user based on a play.
+     *
+     * This calls the Bettercondos.info API to add points to a user based on a play. [Right now it does nothing].
+     *
+     * @Rest\Post("/v1/points", name="addPoints", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="player_id", in="body", required=true, type="integer", description="The player ID.", schema={} )
+     * @SWG\Parameter( name="play_id", in="body", required=true, type="integer", description="The play ID.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of plays.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getAddPointsAction()
+    {
+        try {
+            $this->initialise();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listPayments"
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
     /**
      * List the payments of the specified user by month and year.
      *
-     * This calls the Bettercondos.info API to get a list of payments for the specified month and year.
+     * This calls the Bettercondos.info API to get a list of payments for the specified month and year. [Right now it does nothing].
      *
      * @Rest\Get("/v1/payments/{month}/{year}", name="listPayments", )
      *
@@ -3396,7 +3515,7 @@ class RestController extends FOSRestController
     /**
      * List the points of the specified user.
      *
-     * This calls the Bettercondos.info API to get a list of points for the user.
+     * This calls the Bettercondos.info API to get a list of points for the user. [Right now it does nothing].
      *
      * @Rest\Get("/v1/points", name="listPoints", )
      *
@@ -3434,7 +3553,7 @@ class RestController extends FOSRestController
      *     )
      * )
      *
-     * @SWG\Tag(name="Finances")
+     * @SWG\Tag(name="Gamification")
      */
     public function getPointsAction()
     {
@@ -3447,6 +3566,115 @@ class RestController extends FOSRestController
             return new JsonResponse(array(
                 'message' => "listPayments",
                 'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * List the rewards of the specified user.
+     *
+     * This calls the Bettercondos.info API to get a list of rewards for the user. [Right now it does nothing].
+     *
+     * @Rest\Get("/v1/rewards", name="listRewards", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of points for the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="Reward ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the reward", example="Reward" ),
+     *                  @SWG\Property( property="description", type="string", description="Description of the reward", example="Reward Description" ),
+     *                  @SWG\Property( property="points_to_exchange", type="integer", description="Points to exchange", example="4500" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getRewardsAction()
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listRewards",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Exchanges a rewards of the specified user.
+     *
+     * This calls the Bettercondos.info API to get a exchange a reward for the user. [Right now it does nothing].
+     *
+     * @Rest\Post("/v1/reward", name="exchangeReward", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="id", in="body", required=true, type="integer", description="The reward ID to exchange.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of points for the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getExchangeRewardAction()
+    {
+        try {
+            $this->initialise();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "exchangeReward"
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
