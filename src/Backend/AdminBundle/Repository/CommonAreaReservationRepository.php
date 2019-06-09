@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * CommonAreaReservationRepository
  *
@@ -13,13 +15,18 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 
     public function getApiCommonAreaAvailability($commonAreaId)
     {
-        $qb = $this->createQueryBuilder('a')
-            ->select('a, c, cars')
-            ->innerJoin('a.commonArea', 'c')
-            ->innerJoin('a.commonAreaReservationStatus', 'cars')
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, c, cars')
+            ->leftJoin('a.commonArea', 'c', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('c', 'a.commonArea'),
+                $qb->expr()->eq('c.enabled', '1')
+            ))
+            ->leftJoin('a.commonAreaReservationStatus', 'cars', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('cars', 'a.commonAreaReservationStatus'),
+                $qb->expr()->eq('cars.enabled', '1')
+            ))
             ->where('a.enabled = 1')
-            ->andWhere('c.enabled = 1')
-            ->andWhere('cars.enabled = 1')
             ->andWhere('c.id = :common_area_id')
             ->setParameter('common_area_id', $commonAreaId)
             ->orderBy('a.createdAt', 'ASC');

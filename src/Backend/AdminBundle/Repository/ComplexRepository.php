@@ -11,6 +11,21 @@ namespace Backend\AdminBundle\Repository;
 class ComplexRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getApiFaqs( $complexId )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a, b')
+            ->innerJoin('a.business', 'b')
+            ->where('a.enabled = 1')
+            ->andWhere('b.enabled = 1')
+            ->andWhere('a.id = :complexId')
+            ->setParameter('complexId', $complexId)
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 
     public function getComplexByUser($userID)
     {

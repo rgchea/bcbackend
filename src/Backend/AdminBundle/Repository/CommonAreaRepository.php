@@ -35,7 +35,7 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('a');
 
         $qb->select('a, c, cat')
-            ->innerJoin('a.complex', 'c', Join::WITH, $qb->expr()->andX(
+            ->leftJoin('a.complex', 'c', Join::WITH, $qb->expr()->andX(
                 $qb->expr()->eq('c', 'a.complex'),
                 $qb->expr()->eq('c.enabled', '1')
             ))

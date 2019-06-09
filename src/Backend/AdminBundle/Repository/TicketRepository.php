@@ -49,15 +49,11 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('a.id = :ticket_id')
             ->setParameter('ticket_id', $ticketId);
 
-        try {
-            return $qb->getQuery()->getSingleResult();
-        }
-        catch(\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
-    private function genericTicketQueryBuilder() {
+    private function genericTicketQueryBuilder()
+    {
         $qb = $this->createQueryBuilder('a');
 
         return $qb->select('a, tc, tt, ts, u, car, cars, ca, p')

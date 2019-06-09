@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * TenantContractRepository
  *
@@ -10,5 +12,58 @@ namespace Backend\AdminBundle\Repository;
  */
 class TenantContractRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApiRegister( $email )
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->where('a.enabled = 1')
+            ->andWhere('a.invitationUserEmail = :email')
+            ->andWhere('a.user IS NULL')
+            ->andWhere('a.isOwner = false')
+            ->setParameter('email', $email)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getApiPropertyInvites( $propertyContractId, $propertyId, $pageId = 1, $limit = 10 )
+    {
+        $qb = $this->genericApiPropertyInvites($propertyContractId, $propertyId);
+
+        $qb->setFirstResult(($pageId - 1) * $limit)// Offset
+            ->setMaxResults($limit)// Limit
+            ->orderBy('a.createdAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiPropertyInvites($propertyContractId, $propertyId)
+    {
+        $qb = $this->genericApiPropertyInvites($propertyContractId, $propertyId);
+        $qb->select('count(a.id)');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function genericApiPropertyInvites( $propertyContractId, $propertyId ){
+        $qb = $this->createQueryBuilder('a');
+
+        return $qb->select('a, c, p')
+            ->innerJoin('a.propertyContract', 'c')
+            ->innerJoin('c.property', 'p')
+            ->leftJoin('a.user', 'u', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('u', 'a.user'),
+                $qb->expr()->eq('u.enabled', '1')
+            ))
+            ->where('a.enabled = 1')
+            ->andWhere('c.enabled = 1')
+            ->andWhere('p.enabled = 1')
+            ->andWhere('c.id = :propertyContractId')
+            ->andWhere('p.id = :propertyId')
+            ->andWhere('a.isOwner = false')
+            ->setParameter('propertyContractId', $propertyContractId)
+            ->setParameter('propertyId', $propertyId)
+        ;
+    }
 
 }

@@ -8,6 +8,8 @@ use Backend\AdminBundle\Entity\CommonAreaPhoto;
 use Backend\AdminBundle\Entity\CommonAreaReservation;
 use Backend\AdminBundle\Entity\CommonAreaReservationStatus;
 use Backend\AdminBundle\Entity\CommonAreaType;
+use Backend\AdminBundle\Entity\Complex;
+use Backend\AdminBundle\Entity\ComplexFaq;
 use Backend\AdminBundle\Entity\ComplexSector;
 use Backend\AdminBundle\Entity\Device;
 use Backend\AdminBundle\Entity\GeoCountry;
@@ -17,6 +19,7 @@ use Backend\AdminBundle\Entity\PollQuestion;
 use Backend\AdminBundle\Entity\PollQuestionOption;
 use Backend\AdminBundle\Entity\PollTenantAnswer;
 use Backend\AdminBundle\Entity\Property;
+use Backend\AdminBundle\Entity\PropertyContract;
 use Backend\AdminBundle\Entity\PropertyPhoto;
 use Backend\AdminBundle\Entity\PropertyType;
 use Backend\AdminBundle\Entity\TenantContract;
@@ -32,8 +35,14 @@ use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
 use Backend\AdminBundle\Repository\CommonAreaPhotoRepository;
 use Backend\AdminBundle\Repository\CommonAreaRepository;
+use Backend\AdminBundle\Repository\ComplexFaqRepository;
+use Backend\AdminBundle\Repository\ComplexRepository;
+use Backend\AdminBundle\Repository\NotificationTypeRepository;
 use Backend\AdminBundle\Repository\PropertyRepository;
+use Backend\AdminBundle\Repository\TenantContractRepository;
 use Backend\AdminBundle\Repository\TicketCategoryRepository;
+use Backend\AdminBundle\Repository\UserNotificationRepository;
+use Backend\AdminBundle\Repository\UserRepository;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Swagger\Annotations as SWG;
@@ -60,8 +69,18 @@ class RestController extends FOSRestController
 {
     const UPLOADS_FOLDER = '/var/www/uploads'; // ToDo: Change to proper path
     const TENANT_ROLE_ID = 4;
+    const COMMON_AREA_RESERVATION_STATUS_ID = 1;
     const TICKET_STATUS_OPEN_ID = 1;
     const TICKET_STATUS_CLOSE_ID = 1; // ToDo: Change the proper ticketStatus CLOSE.
+    const INVITATION_NOTIFICATION_TYPE_ID = 3;
+
+    const USER_ADMIN_ROLE_ID = 1;
+
+    const QUESTION_TYPE_OPEN_ID = 1;
+    const QUESTION_TYPE_MULTIPLE_ID = 2;
+    const QUESTION_TYPE_TRUEFALSE_ID = 3;
+    const QUESTION_TYPE_ONEOPTION_ID = 4;
+    const QUESTION_TYPE_RATING_ID = 5;
 
     protected $em;
     /** @var Translator $translator */
@@ -530,6 +549,18 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($user, "update");
 
             $this->em->persist($user);
+
+            /** @var TenantContractRepository $tenantRepo */
+            $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
+            $tenantContracts = $tenantRepo->getApiRegister($email);
+
+            foreach ($tenantContracts as $tenantContract) {
+                $tenantContract->setUser($user);
+                $notification = $this->createInviteUserNotification($tenantContract, $user);
+                $this->em->persist($tenantContract);
+                $this->em->persist($notification);
+            }
+
             $this->em->flush();
 
             $this->translator->setLocale($lang);
@@ -539,8 +570,6 @@ class RestController extends FOSRestController
             $bodyHtml .= $this->translator->trans('mail.register_body');
 
             $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
-//            $mailer = $this->get('mailer');
-//            $mailer->send($message);
 
             return new JsonResponse(array(
                 'message' => "register",
@@ -963,7 +992,7 @@ class RestController extends FOSRestController
             if (count($contracts) < 1) {
                 throw new \Exception("No available contracts for this property.");
             }
-
+            /** @var PropertyContract $contract */
             $contract = $contracts[0];
 
             $type = $property->getPropertyType();
@@ -991,7 +1020,7 @@ class RestController extends FOSRestController
                 'code' => $property->getCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $type->getId(),
                 'is_owner' => $owner->getId() == $this->getUser()->getId(),
-                'contract_id' => $contract->getId(),
+                'property_contract_id' => $contract->getId(),
                 'photos' => $photos,
             );
 
@@ -1176,6 +1205,8 @@ class RestController extends FOSRestController
     }
 
 
+    // ToDo: update with new fields.
+
     /**
      * Gets the user inbox.
      *
@@ -1208,7 +1239,7 @@ class RestController extends FOSRestController
      *                      @SWG\Property( property="type", type="string", description="Type of Notification", example="accept_invitation" ),
      *                  ),
      *                  @SWG\Property( property="replies_quantity", type="integer", description="Quantity of replies for the associated ticket", example="10" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
      *                  @SWG\Property( property="type", type="string", description="Name of the type of notification", example="Type1" ),
      *                  @SWG\Property( property="notice", type="string", description="Notification notice", example="Notice" ),
      *              )
@@ -1242,8 +1273,11 @@ class RestController extends FOSRestController
             $data = array();
             $lang = strtolower(trim($request->get('language')));
 
-            $notifications = $this->em->getRepository('BackendAdminBundle:UserNotification')->getApiInbox($this->getUser(), $page_id);
-            $total = $this->em->getRepository('BackendAdminBundle:UserNotification')->countApiInbox($this->getUser());
+            /** @var UserNotificationRepository $userNotificationRepo */
+            $userNotificationRepo = $this->em->getRepository('BackendAdminBundle:UserNotification');
+
+            $notifications = $userNotificationRepo->getApiInbox($this->getUser(), $page_id);
+            $total = $userNotificationRepo->countApiInbox($this->getUser());
 
             $ticketIds = array();
             /** @var UserNotification $notification */
@@ -1283,7 +1317,7 @@ class RestController extends FOSRestController
                         'description' => $notification->getDescription(),
                         'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES())),
                     'replies_quantity' => (array_key_exists($ticket->getId(), $commentsReplies)) ? $commentsReplies[$ticket->getId()] : 0,
-                    'timestamp' => $user->format(\DateTime::RFC850),
+                    'timestamp' => $user->getTimestamp(),
                     'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES()),
                     'notice' => $notification->getNotice(),
                 );
@@ -1421,14 +1455,14 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="is_public", type="boolean", description="Is ticket public?", example="true" ),
      *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
      *                  @SWG\Property( property="role", type="string", description="Ticket's creator role", example="Admin" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
      *                  @SWG\Property( property="common_area", type="object",
      *                      @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
      *                      @SWG\Property( property="name", type="string", description="Common area name", example="Common area" ),
      *                      @SWG\Property( property="reservation_status", type="string", description="Common area reservation status", example="" ),
-     *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="Monday, 16-Aug-05 15:52:01 UTC" ),
-     *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="Monday, 17-Aug-05 15:52:01 UTC" ),
+     *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="1272509157" ),
+     *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="1272519157" ),
      *                  ),
      *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *              )
@@ -1515,8 +1549,8 @@ class RestController extends FOSRestController
                         "id" => $commonArea->getId(),
                         "name" => $commonArea->getName(),
                         "status" => (($lang == 'en') ? $reservationStatus->getNameEN() : $reservationStatus->getNameES()),
-                        "reservation_from" => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
-                        "reservation_to" => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
+                        "reservation_from" => $reservation->getReservationDateFrom()->getTimestamp(),
+                        "reservation_to" => $reservation->getReservationDateTo()->getTimestamp(),
                     );
                 }
 
@@ -1536,7 +1570,7 @@ class RestController extends FOSRestController
                     'is_public' => $ticket->getIsPublic(),
                     'username' => $user->getUsername(),
                     'role' => $role,
-                    'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
+                    'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
                     'common_area' => $commonAreaData,
                     'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
@@ -1580,14 +1614,14 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
      *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
      *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *                  @SWG\Property( property="description", type="string", description="Ticket description", example="Lorem ipsum." ),
      *                  @SWG\Property( property="comments", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="username", type="string", description="Comments's creator username", example="2" ),
-     *                          @SWG\Property( property="timestamp", type="string", description="Comment's creation time", example="Monday, 15-Aug-05 15:52:01 UTC" ),
+     *                          @SWG\Property( property="timestamp", type="string", description="Comment's creation time", example="1272509157" ),
      *                          @SWG\Property( property="like", type="string", description="User that liked the comment", example="user2" ),
      *                          @SWG\Property( property="comment", type="string", description="Comment content", example="Comment" ),
      *                          @SWG\Property( property="icon_url", type="string", description="URL for the icon", example="/icons/1.jpg" ),
@@ -1597,8 +1631,8 @@ class RestController extends FOSRestController
      *                      @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
      *                      @SWG\Property( property="name", type="string", description="Common area name", example="Common area" ),
      *                      @SWG\Property( property="reservation_status", type="string", description="Common area reservation status", example="" ),
-     *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="Monday, 16-Aug-05 15:52:01 UTC" ),
-     *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="Monday, 17-Aug-05 15:52:01 UTC" ),
+     *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="1272509157" ),
+     *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="1272519157" ),
      *                  ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" )
@@ -1658,7 +1692,7 @@ class RestController extends FOSRestController
                 'title' => $ticket->getTitle(),
                 'username' => $ticketUser->getUsername(),
                 'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
-                'timestamp' => $ticket->getCreatedAt()->format(\DateTime::RFC850),
+                'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
                 'followers_quantity' => (array_key_exists($ticket->getId(), $followersCount)) ? $followersCount[$ticket->getId()] : 0,
                 'comments_quantity' => (array_key_exists($ticket->getId(), $commentsCount)) ? $commentsCount[$ticket->getId()] : 0,
                 'description' => $ticket->getDescription(),
@@ -1679,7 +1713,7 @@ class RestController extends FOSRestController
 
                 $data['comments'][] = array(
                     'username' => $commentUser->getUsername(),
-                    'timestamp' => $comment->getCreatedAt()->format(\DateTime::RFC850),
+                    'timestamp' => $comment->getCreatedAt()->getTimestamp(),
                     'like' => $likeUser->getUsername(),
                     'comment' => $comment->getCommentDescription(),
                     'icon_url' => "",
@@ -1692,7 +1726,7 @@ class RestController extends FOSRestController
                 if ($reservation == null) {
                     $reservation = new CommonAreaReservation();
                 }
-                $reservationStatus = $reservation->getCommonAreaResevationStatus();
+                $reservationStatus = $reservation->getCommonAreaReservationStatus();
                 if ($reservationStatus == null) {
                     $reservationStatus = new CommonAreaReservationStatus();
                 }
@@ -1705,8 +1739,8 @@ class RestController extends FOSRestController
                     "id" => $commonArea->getId(),
                     "name" => $commonArea->getName(),
                     "status" => (($lang == 'en') ? $reservationStatus->getNameEN() : $reservationStatus->getNameES()),
-                    "reservation_from" => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
-                    "reservation_to" => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
+                    "reservation_from" => $reservation->getReservationDateFrom()->getTimestamp(),
+                    "reservation_to" => $reservation->getReservationDateTo()->getTimestamp(),
                 );
             }
 
@@ -1823,7 +1857,7 @@ class RestController extends FOSRestController
             $ticket->setIsPublic($isPublic);
             $ticket->setTicketCategory($category);
             $ticket->setComplexSector($complexSector);
-            $ticket->setComplex($complexSector->getComplex()); // ToDo: Optimization to make only 1 query instead of 2. (not that big improvement)
+            $ticket->setComplex($complexSector->getComplex());
             $ticket->setProperty($property);
             $ticket->setCommonAreaReservation($commonAreaReservation);
             $ticket->setTenantContract($tenantContract);
@@ -1988,7 +2022,7 @@ class RestController extends FOSRestController
      *
      * Creates a comment for a ticket.
      *
-     * @Rest\Post("/v1/comment", name="comment_ticket")
+     * @Rest\Post("/v1/comment", name="commentTicket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2063,7 +2097,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of active polls.
      *
-     * @Rest\Get("/v1/polls/{page_id}", name="polls")
+     * @Rest\Get("/v1/polls/{page_id}", name="listPolls")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2242,26 +2276,20 @@ class RestController extends FOSRestController
         }
     }
 
-
-// ToDo: from email
-// # /api/v1/answer
-// Actualmente todos los campos de respuestas para los distintos tipos son requeridos.
-// Los campos deberían de ser opcionales y en el backend se debería de validar si el tipo de respuesta es correcto para el tipo de pregunta
-
     /**
      * Post an answer to a poll.
      *
      * Creates the answer of a tenant to a poll.
      *
-     * @Rest\Post("/v1/answer", name="tenant_answer")
+     * @Rest\Post("/v1/answer", name="tenantAnswer")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="poll_question_id", in="body", required=true, type="integer", description="The Poll Question ID.", schema={} )
-     * @SWG\Parameter( name="answer_text", in="body", required=true, type="string", description="The answer text. It is required although it could be empty.", schema={} )
-     * @SWG\Parameter( name="answer_rating", in="body", required=true, type="integer", description="The answer rating.", schema={} )
-     * @SWG\Parameter( name="poll_question_option_ids", in="body", required=true, type="array", description="Array of integers of poll question option ids. Must have at least 1 element.", schema={} )
+     * @SWG\Parameter( name="answer_text", in="body", type="string", description="The answer text. It is required although it could be empty.", schema={} )
+     * @SWG\Parameter( name="answer_rating", in="body", type="integer", description="The answer rating.", schema={} )
+     * @SWG\Parameter( name="poll_question_option_ids", in="body", type="array", description="Array of integers of poll question option ids. Must have at least 1 element.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -2301,43 +2329,85 @@ class RestController extends FOSRestController
             $answerRating = $request->get('answer_rating');
             $pollQuestionOptionIds = $request->get('poll_question_option_ids');
 
-            if (count($pollQuestionOptionIds) == 0) {
-                throw new \Exception("poll_question_option_ids is empty.");
-            }
-
             // Required parameter
-            $pollQuestion = $this->em->getRepository('BackendAdminBundle:PollQuestion')->findOneBy(array('enabled' => true, 'id' => $pollQuestionId));
+            /** @var PollQuestion $pollQuestion */
+            $pollQuestion = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionId);
             if ($pollQuestion == null) {
                 throw new \Exception("Invalid Poll Question ID.");
             }
 
-            // Required parameter
-            $pollQuestionOptions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionOptionIds);
-            if ($pollQuestionOptions == null) {
-                throw new \Exception("Invalid Poll Question ID.");
-            }
+            $questionTypeId = $pollQuestion->getPollQuestionType()->getId();
+            switch ($questionTypeId) {
+                case self::QUESTION_TYPE_OPEN_ID:
+                    if (empty($answerText)) {
+                        throw new \Exception("Invalid Answer Text.");
+                    }
 
-            if (count($pollQuestionOptionIds) != count($pollQuestionOptions)) {
-                throw new \Exception("Invalid Poll Question Option ID.");
-            }
+                    $answer = new PollTenantAnswer();
+                    $answer->setAnswerText($answerText);
+                    $answer->setEnabled(true);
+                    $answer->setPollQuestion($pollQuestion);
+                    $this->get("services")->blameOnMe($answer, "create");
+                    $this->get("services")->blameOnMe($answer, "update");
 
-            foreach ($pollQuestionOptions as $option) {
-                $answer = new PollTenantAnswer();
-                $answer->setAnswerText($answerText);
-                $answer->setAnswerRating($answerRating);
-                $answer->setPollQuestion($pollQuestion);
-                $answer->setPollQuestionOption($option);
-                $answer->setEnabled(true);
-                $this->get("services")->blameOnMe($answer, "create");
-                $this->get("services")->blameOnMe($answer, "update");
+                    $this->em->persist($answer);
+                    break;
 
-                $this->em->persist($answer);
+                case self::QUESTION_TYPE_RATING_ID:
+                    if (empty($answerRating)) {
+                        throw new \Exception("Invalid Answer Rating.");
+                    }
+
+                    $answer = new PollTenantAnswer();
+                    $answer->setAnswerRating($answerRating);
+                    $answer->setEnabled(true);
+                    $answer->setPollQuestion($pollQuestion);
+                    $this->get("services")->blameOnMe($answer, "create");
+                    $this->get("services")->blameOnMe($answer, "update");
+
+                    $this->em->persist($answer);
+                    break;
+
+                case self::QUESTION_TYPE_MULTIPLE_ID:
+                case self::QUESTION_TYPE_TRUEFALSE_ID:
+                case self::QUESTION_TYPE_ONEOPTION_ID:
+                    if (count($pollQuestionOptionIds) == 0) {
+                        throw new \Exception("poll_question_option_ids is empty.");
+                    }
+
+                    if ($questionTypeId == self::QUESTION_TYPE_TRUEFALSE_ID || $questionTypeId == self::QUESTION_TYPE_ONEOPTION_ID) {
+                        if (count($pollQuestionOptionIds) == 1) {
+                            throw new \Exception("poll_question_option_ids can only contain one element.");
+                        }
+                    }
+
+                    // Required parameter
+                    $pollQuestionOptions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionOptionIds);
+                    if ($pollQuestionOptions == null) {
+                        throw new \Exception("Invalid Poll Question ID.");
+                    }
+
+                    if (count($pollQuestionOptionIds) != count($pollQuestionOptions)) {
+                        throw new \Exception("Invalid Poll Question Option ID.");
+                    }
+
+                    foreach ($pollQuestionOptions as $option) {
+                        $answer = new PollTenantAnswer();
+                        $answer->setPollQuestionOption($option);
+                        $answer->setEnabled(true);
+                        $answer->setPollQuestion($pollQuestion);
+                        $this->get("services")->blameOnMe($answer, "create");
+                        $this->get("services")->blameOnMe($answer, "update");
+
+                        $this->em->persist($answer);
+                    }
+                    break;
             }
 
             $this->em->flush();
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "tenantAnswer",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -2350,7 +2420,7 @@ class RestController extends FOSRestController
      *
      * Sets the user avatar with a new image, which is received in base64 encoding.
      *
-     * @Rest\Put("/v1/avatar", name="set_avatar")
+     * @Rest\Put("/v1/avatar", name="setAvatar")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2441,16 +2511,314 @@ class RestController extends FOSRestController
 
 
     /**
+     * Lists the invites from a property and a contract.
+     *
+     * Returns a list with the invites from a property and a contract.
+     *
+     * @Rest\Get("/v1/propertyInvites/{property_contract_id}/{property_id}/{page_id}", name="listPropertyInvites")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="page_id", in="path", type="integer", description="The requested pagination page." )
+     * @SWG\Parameter( name="property_contract_id", in="path", type="integer", description="The property contract id." )
+     * @SWG\Parameter( name="property_id", in="path", type="integer", description="The property id." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns a list with the property invites of a property and a contract.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="tenant_contract_id", type="integer", description="Tenant contract ID", example="1" ),
+     *                  @SWG\Property( property="intived", type="string", description="Name of the invited person", example="Jon Doe" ),
+     *                  @SWG\Property( property="email", type="string", description="Email of the invited person", example="invited@example.com" ),
+     *                  @SWG\Property( property="phone", type="string", description="Phone of the invited person", example="+306 5558 8999" ),
+     *                  @SWG\Property( property="invitationAccepted", type="boolean", description="If the invitation has been accepted or not", example="true" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Property Invites")
+     */
+    public function getPropertyInvitesAction($property_contract_id, $property_id, $page_id = 1)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            /** @var TenantContractRepository $tenantContractRepo */
+            $tenantContractRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
+
+            $contracts = $tenantContractRepo->getApiPropertyInvites($property_contract_id, $property_id, $page_id);
+            $total = $tenantContractRepo->countApiPropertyInvites($property_contract_id, $property_id);
+
+            /** @var TenantContract $contract */
+            foreach ($contracts as $contract) {
+                $data[] = array(
+                    'tenant_contract_id' => $contract->getId(),
+                    'invited' => ($contract->getUser() != null) ? $contract->getUser()->getName() : "",
+                    'phone' => ($contract->getUser() != null) ? $contract->getUser()->getMobilePhone() : "",
+                    'email' => ($contract->getUser() != null) ? $contract->getUser()->getEmail() : $contract->getInvitationUserEmail(),
+                    'invitationAccepted' => $contract->getInvitationAccepted(),
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "listPropertyInvites",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Posts an invitation.
+     *
+     * Creates a tenant contract and a notification for a given user.
+     *
+     * @Rest\Post("/v1/invitation", name="sendInvitation")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="message", in="body", required=true, type="string", description="Message.", schema={} )
+     * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the invited user.", schema={} )
+     * @SWG\Parameter( name="property_contract_id", in="body", required=true, type="integer", description="The id of the property contract.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates an invitation for a user to a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Property Invites")
+     */
+
+    public function postInvitationAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $lang = strtolower(trim($request->get('language')));
+
+            $message = trim($request->get('message'));
+            $email = trim($request->get('email'));
+            $propertyContractId = trim($request->get('property_contract_id'));
+
+            /** @var PropertyContractRepository $propertyContractRepo */
+            $propertyContractRepo = $this->em->getRepository('BackendAdminBundle:PropertyContract');
+            /** @var UserRepository $userRepo */
+            $userRepo = $this->em->getRepository('BackendAdminBundle:User');
+            /** @var TenantContractRepository $tenantRepo */
+            $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
+
+            $propertyContract = $propertyContractRepo->findOneBy(array('enabled' => true, 'id' => $propertyContractId));
+            if ($propertyContract == null) {
+                throw new \Exception("Invalid property contract.");
+            }
+
+            $conflicTenantContracts = $tenantRepo->findBy(array('enabled' => true, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
+            if (count($conflicTenantContracts) > 0) {
+                throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
+            }
+
+            $tenantContract = new TenantContract();
+            $tenantContract->setPropertyContract($propertyContract);
+            $tenantContract->setIsOwner(false);
+            $tenantContract->setEnabled(true);
+            $tenantContract->setInvitationUserEmail($email);
+            $tenantContract->setInvitationAccepted(false);
+            $this->get("services")->blameOnMe($tenantContract, "create");
+            $this->get("services")->blameOnMe($tenantContract, "update");
+
+            /** @var User $user */
+            $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
+            if ($propertyContract != null) {
+                $tenantContract->setUser($user);
+                $notification = $this->createInviteUserNotification($tenantContract, $user);
+                $this->em->persist($notification);
+            }
+
+            $this->em->persist($tenantContract);
+            $this->em->flush();
+
+            $this->translator->setLocale($lang);
+            $now = new \DateTime();
+            $subject = $this->translator->trans('mail.invite_subject');
+            $bodyHtml = sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_body'));
+            $bodyHtml .= sprintf("<p>%s</p><br/>", $message);
+            $bodyHtml .= sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_time'), $now->format('Y-m-d H:i'));
+            $bodyHtml .= "<br/>";
+
+            $messageEmail = $this->get('services')->generalTemplateMail($subject, $email, $bodyHtml);
+
+            return new JsonResponse(array(
+                'message' => "sendInvitation",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function createInviteUserNotification($tenantContract, $user)
+    {
+        /** @var NotificationTypeRepository $notificationRepo */
+        $notificationRepo = $this->em->getRepository('BackendAdminBundle:NotificationType');
+        $notificationType = $notificationRepo->findOneById(self::INVITATION_NOTIFICATION_TYPE_ID);
+
+        $notification = new UserNotification();
+        $notification->setEnabled(true);
+        $notification->setTenantContract($tenantContract);
+        $notification->setNotificationType($notificationType);
+
+        $notification->setCreatedBy($user);
+        $notification->setUpdatedBy($user);
+
+        $now = new \DateTime();
+        $notification->setCreatedAt($now);
+        $notification->setUpdatedAt($now);
+
+        return $notification;
+    }
+
+
+    /**
+     * Accepts an invitation.
+     *
+     * Accepts an invitation by setting the proper values in the tenant contract and the notification.
+     *
+     * @Rest\Put("/v1/invitation", name="acceptInvitation")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="tenant_contract_id", in="body", required=true, type="integer", description="The id of the tenant contract.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Accepts an invitation for a user to a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Property Invites")
+     */
+
+    public function postAcceptInvitationAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $tenantContractId = trim($request->get('tenant_contract_id'));
+
+            /** @var TenantContractRepository $tenantRepo */
+            $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
+            /** @var UserNotificationRepository $notificationRepo */
+            $notificationRepo = $this->em->getRepository('BackendAdminBundle:UserNotification');
+
+            /** @var TenantContract $tenantContract */
+            $tenantContract = $tenantRepo->findOneBy(array('enabled' => true, 'user' => $this->getUser(), 'id' => $tenantContractId));
+            if ($tenantContract == null) {
+                throw new \Exception("Invalid tenant contract.");
+            }
+
+            $userNotifications = $notificationRepo->findBy(array('enabled' => true, 'user' => $this->getUser(), 'tenantContract' => $tenantContract));
+
+            /** @var UserNotification $userNotification */
+            foreach ($userNotifications as $userNotification) {
+                $userNotification->setIsRead(true);
+                $this->get("services")->blameOnMe($userNotification, "update");
+
+                $this->em->persist($userNotification);
+            }
+
+            $tenantContract->setInvitationAccepted(true);
+            $this->get("services")->blameOnMe($tenantContract, "update");
+
+            $this->em->persist($tenantContract);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "acceptInvitation",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Gets the FAQs.
      *
      * Returns a list with the frequently asked questions of a business.
      *
-     * @Rest\Get("/v1/faq/{page_id}", name="faq")
+     * @Rest\Get("/v1/faq/{complex_id}/{page_id}", name="faq")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     * @SWG\Parameter( name="complex_id", in="path", type="string", description="The complex id." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -2497,20 +2865,39 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="FAQ")
      */
-    public function getFaqAction($page_id = 1)
+    public function getFaqAction($complex_id, $page_id = 1)
     {
         try {
             $this->initialise();
-            $data = array();
 
-//            $commonAreas = $this->em->getRepository('BackendAdminBundle:CommonArea')->getApiCommonAreas($complexIds, $page_id);
-//            $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complexIds);
+            /** @var ComplexFaqRepository $complexFaqRepo */
+            $complexFaqRepo = $this->em->getRepository('BackendAdminBundle:ComplexFaq');
+            /** @var ComplexRepository $complexRepo */
+            $complexRepo = $this->em->getRepository('BackendAdminBundle:Complex');
 
-            // ToDo: to finish.
+            $faqs = $complexFaqRepo->getApiFaqs($complex_id, $page_id);
+            $total = $complexFaqRepo->countApiFaqs($complex_id);
+            /** @var Complex $complex */
+            $complex = $complexRepo->getApiFaqs($complex_id);
+
+            $data = array(
+                'business_name' => $complex->getBusiness()->getName(),
+                'business_address' => $complex->getBusiness()->getAddress(),
+                'business_phone' => $complex->getBusiness()->getPhoneNumber(),
+            );
+
+            $data['faqs'] = array();
+            /** @var ComplexFaq $faq */
+            foreach ($faqs as $faq) {
+                $data['faqs'][] = array(
+                    'question' => $faq->getQuestion(),
+                    'answer' => $faq->getAnswer(),
+                );
+            }
 
             return new JsonResponse(array(
-                'message' => "",
-//                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'message' => "faq",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
                 'data' => $data
             ));
         } catch (Exception $ex) {
@@ -2523,7 +2910,7 @@ class RestController extends FOSRestController
      *
      * Creates a new frequently asked question.
      *
-     * @Rest\Post("/v1/faq", name="send_message_faq")
+     * @Rest\Post("/v1/faqMessage", name="sendMessageFAQ")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2563,16 +2950,42 @@ class RestController extends FOSRestController
                 throw new \Exception("Missing Content-Type header.");
             }
 
-//            $message = strtolower(trim($request->get('message')));
-//            $propertyId = strtolower(trim($request->get('property_id')));
+            $lang = strtolower(trim($request->get('language')));
 
-            // ToDo: to finish.
+            $message = trim($request->get('message'));
+            $propertyId = trim($request->get('property_id'));
 
-//            $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
-//            $this->sendEmail($message);
+            /** @var PropertyRepository $propertyRepo */
+            $propertyRepo = $this->em->getRepository('BackendAdminBundle:Property');
+            /** @var UserRepository $userRepo */
+            $userRepo = $this->em->getRepository('BackendAdminBundle:User');
+
+            $businessArr = $propertyRepo->getApiPostFaq($propertyId);
+            $businessId = 0;
+            if (array_key_exists('id', $businessArr)) {
+                $businessId = $businessArr['id'];
+            }
+
+            /** @var User $admin */
+            $admin = $userRepo->getApiPostFaq($businessId);
+            if ($admin == null) {
+                throw new \Exception("No admin user found for this property.");
+            }
+            $adminEmail = $admin->getEmail();
+            $now = new \DateTime();
+
+            $this->translator->setLocale($lang);
+            $subject = $this->translator->trans('mail.register_subject');
+            $bodyHtml = sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_user'), $this->getUser()->getUsername());
+            $bodyHtml .= sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_time'), $now->format('Y-m-d H:i'));
+            $bodyHtml .= sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_property_id'), $propertyId);
+            $bodyHtml .= "<br/><br/>";
+            $bodyHtml .= sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_message'), $message);
+
+            $messageEmail = $this->get('services')->generalTemplateMail($subject, $adminEmail, $bodyHtml);
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "sendMessageFAQ",
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -2729,8 +3142,8 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="reservation", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="status", type="string", description="Reservation status for the common area", example="status" ),
-     *                          @SWG\Property( property="date_from", type="string", description="Reservation date from UTC formatted with RFC850", example="Monday, 15-Aug-05 15:52:01 UTC" ),
-     *                          @SWG\Property( property="date_to", type="string", description="Reservation date to UTC formatted with RFC850", example="Monday, 16-Aug-05 15:52:01 UTC" ),
+     *                          @SWG\Property( property="date_from", type="string", description="Reservation date from GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                          @SWG\Property( property="date_to", type="string", description="Reservation date to GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272519157" ),
      *                      )
      *                  ),
      *                  @SWG\Property( property="common_area_availability", type="array",
@@ -2769,15 +3182,15 @@ class RestController extends FOSRestController
 
             /** @var CommonAreaReservation $reservation */
             foreach ($reservations as $reservation) {
-                $status = $reservation->getCommonAreaResevationStatus();
+                $status = $reservation->getCommonAreaReservationStatus();
                 if ($status == null) {
                     $status = new CommonAreaReservationStatus();
                 }
 
                 $data['reservations'][] = array(
                     'status' => ($lang == 'en') ? $status->getNameEN() : $status->getNameES(),
-                    'date_from' => $reservation->getReservationDateFrom()->format(\DateTime::RFC850),
-                    'date_to' => $reservation->getReservationDateTo()->format(\DateTime::RFC850),
+                    'date_from' => $reservation->getReservationDateFrom()->getTimestamp(),
+                    'date_to' => $reservation->getReservationDateTo()->getTimestamp(),
                 );
             }
 
@@ -2877,7 +3290,7 @@ class RestController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/v1/commonAreaReservation", name="common_area_reservation")
+     * @Rest\Post("/v1/commonAreaReservation", name="commonAreaReservation")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2885,7 +3298,6 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="common_area_id", in="body", required=true, type="integer", description="The common area ID for the reservation.", schema={} )
      * @SWG\Parameter( name="reservation_date_from", in="body", required=true, type="integer", description="The start date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
      * @SWG\Parameter( name="reservation_date_to", in="body", required=true, type="integer", description="The end date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
-     * @SWG\Parameter( name="reservation_status", in="body", required=true, type="string", description="The status of the reservation.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -2921,11 +3333,16 @@ class RestController extends FOSRestController
             $commonAreaId = $request->get('common_area_id');
             $reservationDateFromSecs = trim($request->get('reservation_date_from'));
             $reservationDateToSecs = trim($request->get('reservation_date_to'));
-            $reservationStatus = trim($request->get('reservation_status')); // ToDo: What?
+//            $reservationStatus = trim($request->get('reservation_status')); // ToDo: I removed it since it doesnt make sense
 
             $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findOneBy(array('enabled' => true, 'id' => $commonAreaId));
             if ($commonArea == null) {
                 throw new \Exception("Invalid common area ID.");
+            }
+
+            $status = $this->em->getRepository('BackendAdminBundle:CommonAreaReservationStatus')->findOneBy(array('enabled' => true, 'id' => $this::COMMON_AREA_RESERVATION_STATUS_ID));
+            if ($status == null) {
+                throw new \Exception("Invalid status ID.");
             }
 
             $startDate = new \DateTime("@$reservationDateFromSecs");
@@ -2937,7 +3354,7 @@ class RestController extends FOSRestController
             $reservation->setReservationDateTo($endDate);
             $reservation->setReservedBy($this->getUser());
             $reservation->setEnabled(true);
-//            $reservation->setCommonAreaReservationStatus( $reservationStatus );
+            $reservation->setCommonAreaReservationStatus($status);
 
             $this->get("services")->blameOnMe($reservation, "create");
             $this->get("services")->blameOnMe($reservation, "update");
@@ -2955,19 +3372,134 @@ class RestController extends FOSRestController
     }
 
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+    // ------------------------------- Gamification
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
-     * List the rewards of the specified user.
+     * List the available plays.
      *
-     * This call takes into account all confirmed awards, but not pending or refused awards.
+     * This calls the Bettercondos.info API to get a list of available plays. [Right now it does nothing].
      *
-     * @Rest\Get("/v1/payments/{month}/{year}/{page_id}", name="list_payments", )
+     * @Rest\Get("/v1/plays", name="listPlays", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of plays.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="Play ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the play", example="Play" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getPlaysAction()
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listPayments",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * Adds points to a user based on a play.
+     *
+     * This calls the Bettercondos.info API to add points to a user based on a play. [Right now it does nothing].
+     *
+     * @Rest\Post("/v1/points", name="addPoints", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="player_id", in="body", required=true, type="integer", description="The player ID.", schema={} )
+     * @SWG\Parameter( name="play_id", in="body", required=true, type="integer", description="The play ID.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of plays.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getAddPointsAction()
+    {
+        try {
+            $this->initialise();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listPayments"
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * List the payments of the specified user by month and year.
+     *
+     * This calls the Bettercondos.info API to get a list of payments for the specified month and year. [Right now it does nothing].
+     *
+     * @Rest\Get("/v1/payments/{month}/{year}", name="listPayments", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="month", in="path", required=true, type="string", description="The month of the requested payments." )
      * @SWG\Parameter( name="year", in="path", required=true, type="string", description="The year of the requested payments." )
-     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -2981,26 +3513,13 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
-     *                  @SWG\Property( property="id", type="integer", description="FAQ ID", example="1" ),
-     *                  @SWG\Property( property="business_name", type="string", description="Name of the business", example="Business" ),
-     *                  @SWG\Property( property="business_address", type="string", description="Address of the business", example="4400 Rickenbacker Causeway, Miami, FL, 33149, EE. UU." ),
-     *                  @SWG\Property( property="business_phone", type="string", description="Phone of the business", example="+306 5558 8999" ),
-     *                  @SWG\Property( property="faqs", type="array",
-     *                      @SWG\Items(
-     *                          @SWG\Property( property="question", type="string", description="Frequently asked question", example="Pregunta 1" ),
-     *                          @SWG\Property( property="answer", type="string", description="Answer to the frequently asked question", example="Answer 1" ),
-     *                      )
-     *                  ),
+     *                  @SWG\Property( property="description", type="string", description="Description of the payment", example="Description" ),
+     *                  @SWG\Property( property="date", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="status", type="string", description="Status of the payment", example="Paid" ),
+     *                  @SWG\Property( property="amount", type="string", description="Amount of the payment", example="4500" ),
      *              ),
      *          ),
-     *          @SWG\Property( property="message", type="string", example="" ),
-     *          @SWG\Property(
-     *              property="metadata", type="object",
-     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
-     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
-     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
-     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
-     *          )
+     *          @SWG\Property( property="message", type="string", example="" )
      *      )
      * )
      *
@@ -3014,7 +3533,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Finances")
      */
-    public function getPaymentsAction($page_id = 1)
+    public function getPaymentsAction()
     {
         try {
             $this->initialise();
@@ -3023,8 +3542,177 @@ class RestController extends FOSRestController
             // ToDo: pending definition.
 
             return new JsonResponse(array(
-                'message' => "",
+                'message' => "listPayments",
                 'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * List the points of the specified user.
+     *
+     * This calls the Bettercondos.info API to get a list of points for the user. [Right now it does nothing].
+     *
+     * @Rest\Get("/v1/points", name="listPoints", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of points for the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="ticket_id", type="integer", description="Ticket ID", example="1" ),
+     *                  @SWG\Property( property="date", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="play_id", type="integer", description="Play ID", example="1" ),
+     *                  @SWG\Property( property="play_name", type="string", description="Name of the play", example="Play" ),
+     *                  @SWG\Property( property="points", type="integer", description="Points of the player", example="4500" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getPointsAction()
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listPayments",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * List the rewards of the specified user.
+     *
+     * This calls the Bettercondos.info API to get a list of rewards for the user. [Right now it does nothing].
+     *
+     * @Rest\Get("/v1/rewards", name="listRewards", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of points for the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="Reward ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the reward", example="Reward" ),
+     *                  @SWG\Property( property="description", type="string", description="Description of the reward", example="Reward Description" ),
+     *                  @SWG\Property( property="points_to_exchange", type="integer", description="Points to exchange", example="4500" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getRewardsAction()
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "listRewards",
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Exchanges a rewards of the specified user.
+     *
+     * This calls the Bettercondos.info API to get a exchange a reward for the user. [Right now it does nothing].
+     *
+     * @Rest\Post("/v1/reward", name="exchangeReward", )
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="id", in="body", required=true, type="integer", description="The reward ID to exchange.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of points for the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getExchangeRewardAction()
+    {
+        try {
+            $this->initialise();
+
+            // ToDo: pending definition.
+
+            return new JsonResponse(array(
+                'message' => "exchangeReward"
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -3069,12 +3757,3 @@ class RestController extends FOSRestController
     }
 
 }
-
-
-// ToDo: DB Changelog:
-//Entity TenantContract -> invitationEmail changed to invitationUserEmail
-//Entity UserNotification -> added SentTo
-
-// ToDo: # GMT y UTC, veo que en algunas partes se utilizó UTC, hasta donde sé esto es diferente a GMT, debemos de estandarizar todo a GMT
-
-// ToDO: # Seguridad: en el frontend /api/doc, hay que agregar una autenticación básica solo para que no sea de acceso libre, un usuario y clave, estas pueden ser quemadas en código.

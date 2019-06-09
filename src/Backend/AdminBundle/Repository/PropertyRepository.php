@@ -13,6 +13,22 @@ use Doctrine\ORM\Query\Expr\Join;
 class PropertyRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getApiPostFaq($propertyId) {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('b.id as id')
+            ->innerJoin('a.complex', 'c')
+            ->innerJoin('c.business', 'b')
+            ->where('a.enabled = 1')
+            ->andWhere('b.enabled = 1')
+            ->andWhere('c.enabled = 1')
+            ->andWhere('a.id = :property_id')
+            ->setParameter('property_id', $propertyId)
+        ;
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
     public function getApiCommonAreas($propertyId)
     {
         $qb = $this->createQueryBuilder('a');
@@ -54,12 +70,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $qb->andWhere('a.code = :code')
             ->setParameter('code', $code);
 
-        try {
-            return $qb->getQuery()->getSingleResult();
-        }
-        catch(\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function getApiPropertyDetail($id, $user)
@@ -71,12 +82,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('user', $user)
             ->setParameter('pid', $id);
 
-        try {
-            return $qb->getQuery()->getSingleResult();
-        }
-        catch(\Doctrine\ORM\NoResultException $e) {
-            return null;
-        }
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function getApiProperties($user)
