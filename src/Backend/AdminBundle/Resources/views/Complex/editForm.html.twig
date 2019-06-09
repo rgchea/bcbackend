@@ -1,5 +1,14 @@
+<script type="text/javascript">
+    $("#pizote_spinner").show();
+</script>
+{# FLAGS #}
 <link href="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/css/flags.css')  }}" rel="stylesheet" />
 <script src="{{ asset('bundles/pizotearkadmin/js/flagstrap-master/dist/js/jquery.flagstrap.js') }}"></script>
+
+{# SCHEDULE #}
+<script src="{{ asset('bundles/pizotearkadmin/js/dws_jquery_schedule/dist/jquery.schedule.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dws_jquery_schedule/dist/jquery.schedule.min.css') }}">
+
 
 <style>
     .input-group {
@@ -121,6 +130,58 @@
                         </button>
                     </div>
 
+                    <div class="clearfix"></div>
+                    {# SHIFTS #}
+                    <h2 class="">{{ 'label_shift'|trans }}&nbsp;{{ 'label_common_area_schedule'|trans }}</h2>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="row">
+                        <div class="col">
+                            <div id="shift_schedule" class="jqs-demo mb-3"></div>
+                            <input type="hidden" id="my_schedule" name="my_schedule">
+                        </div>
+                    </div>
+
+                    {# SHIFT MODAL USER SELECT #}
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header" style="padding:35px 50px;">
+                                    {#<button type="button" id="modalClose" class="close" data-dismiss="modal">&times;</button>#}
+                                    <h4 id="labelShiftUser">Select User</h4>
+                                </div>
+                                <div class="modal-body" style="padding:40px 50px;">
+
+                                    <div class="form-group">
+                                        <label  for="shiftUser"><span class="glyphicon glyphicon-user"></span> User</label>
+                                        <select type="text" class="form-control classic" id="selectUser" >
+                                            {% for key, cadmin in complexAdmins %}
+                                                <option value="{{ key }}">{{ cadmin }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="button" onclick="setShiftUser();" class="btn btn-primary btn-block"><span class=""></span> {{ 'label_save'|trans  }}</button>
+
+                                </div>
+                                <div class="modal-footer">
+                                    {#
+                                    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+
+                                    <p>Not a member? <a href="#">Sign Up</a></p>
+                                    <p>Forgot <a href="#">Password?</a></p>
+
+                                    #}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
                     <!--</form>-->
                     {{ form_end(form) }}
 
@@ -181,6 +242,8 @@
     var table;
     {% set myLocale = app.request.getLocale() %};
 
+    var currentShiftID = "";
+
     //GET COMPLEX PROPERTIES
     function fetchData(){
 
@@ -231,6 +294,8 @@
     }
 
     $( document ).ready(function() {
+
+
 
         // Add a text input to each footer cell
         var pos = 1;
@@ -296,6 +361,8 @@
             //Code: Action (like ajax...)
             if($("[name='complex']").valid()){
                 $('#pizote_spinner').show();
+
+                $("#my_schedule").val($('#shift_schedule').jqs("export"));
                 return true;
 
             }
@@ -314,7 +381,68 @@
 
         changeState(0);
 
+        //$('#shift_schedule').jqs();
 
+
+        $('#shift_schedule').jqs({
+
+            periodColors: [
+                ['rgba(0, 0, 0, 0.5)', '#000', '#fff'],
+                ['rgba(200, 0, 0, 0.5)', '#f00', '#000'],
+                ['rgba(0, 200, 0, 0.5)', '#0f0', '#000'],
+                ['rgba(0, 0, 200, 0.5)', '#00f', '#000']
+            ],
+
+
+            periodDuration: 60,
+            periodOptions: false,
+            periodTitle: '',
+            //periodBackgroundColor: 'rgba(168, 205, 255, 0.6)',
+            periodBorderColor: '#000',
+            periodTextColor: '#fff',
+            periodRemoveButton: 'Remove please !',
+            periodTitlePlaceholder: 'A custom title',
+
+            /*DAYS*/
+
+            daysList: [
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+                'Sunday'
+            ],
+            /*FUNCTIONS*/
+            onInit: function () {},
+            onAddPeriod: function (period, jqs) {
+                console.log(period);
+                console.log(jqs);
+                $("#myModal").modal({backdrop: 'static', keyboard: false});
+
+                $("#labelShiftUser").html("{{ 'label_assign_shift'|trans }}&nbsp;" + period[0].innerText + "&nbsp;{{ 'label_shift_complex_admin'|trans }}");
+                currentShiftID = period[0].id;
+
+            },
+            onRemovePeriod: function () {},
+            onDuplicatePeriod: function () {},
+            onClickPeriod: function () {
+                console.log("click");
+            }
+
+        });
+
+
+        {% if edit is defined %}
+            {#SCHEDULE IMPORT #}
+            $('#shift_schedule').jqs('import', {{ shiftSchedule|raw }});
+            //$("#modalClose").click();
+            $("#myModal").modal("hide");
+        {% endif %}
+
+
+        $("#pizote_spinner").hide();
 
 
     });
@@ -347,6 +475,16 @@
 
             }
         });
+
+    }
+
+
+    function setShiftUser(){
+
+        myUser = $("#selectUser option:selected" ).text();
+        $("#"+currentShiftID+" .jqs-period-container").prepend('<div class="jqs-period-title" style="height: 12px;">'+myUser+'</div>');
+        //$("#modalClose").click();
+        $("#myModal").modal("hide");
 
     }
 

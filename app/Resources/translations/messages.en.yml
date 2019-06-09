@@ -5,8 +5,11 @@ label_edit: Edit
 label_list: List
 label_cancel: Cancel
 label_save: Save
+label_delete: Delete
 label_form: Form
 label_assign: Assigned
+label_assign_shift: Assign shift
+label_shift_complex_admin: to a complex admin
 label_actions: Actions
 label_status: Status
 label_back: Back
@@ -59,7 +62,7 @@ label_register_generate_for_you: 'PROPERTIES FOR YOU'
 label_register_generate_msg: 'You Will be able to create more properties and edit the ones you created here.'
 label_register: Register
 label_register_complete: Welcome
-label_register_invite_msg: 'Invited you to join the best platform to manage building business <a href="www.bettercondos.tech">www.bettercondos.tech</a>'
+label_register_invite_msg: 'Invited you to join the best platform to manage building business'
 label_register_complete_msg: 'Now you are part of the best platform to manage building business www.bettercondos.tech/admin'
 label_register_bc_info: 'You can access to you billing portal through'
 label_register_contact: 'info@bettercondos.com / +180 000 0000'
@@ -97,7 +100,7 @@ label_business_check_phone: 'Phone already has been associated with other accoun
 label_user_taken: 'User already taken'
 label_complex_sector_type: 'Sector Type'
 label_complex_sector: Sections
-label_complex_sector_prefix: Prefix to name your properties e.g. prefix "A", properties will be A01, A02, A03...
+label_complex_sector_prefix: 'Prefix to name your properties e.g. prefix "A", properties will be A01, A02, A03...'
 label_complex_type: 'Complex Type'
 label_complex_structure: 'Complex Structure'
 label_notification_type: 'Notification Types'
@@ -106,7 +109,7 @@ label_geo_state: City
 label_poll_question_type: 'Poll Question Type'
 label_property_type: 'Property Type'
 label_property: Property
-label_property_number: Property number
+label_property_number: 'Property number'
 label_common_area_type: 'Common Area Type'
 label_complex_faq: 'Complex FAQ'
 label_property_transaction_type: 'Property Transaction Type'
@@ -121,6 +124,9 @@ label_term_condition: 'Terms & Conditions'
 label_billing_information: 'Billing Information'
 label_billing_copy: 'Use the same address for billing'
 label_question: Question
+label_questions: Questions
+label_poll_add_question: Add question
+label_poll_view_questions: View questions
 label_order_list: 'Order List'
 label_answer: Answer
 label_last_payment_day: 'Last Payment Day'
@@ -153,7 +159,6 @@ label_poll_active: Active
 label_poll: Poll
 label_property_amenity_included: 'Amenities included'
 label_total_visible_amount: 'Visible amounts $'
-
 label_active: Active
 label_property_contract: 'Property contract'
 label_property_share_ad: 'Create property rental ad'
@@ -228,3 +233,10 @@ mail:
     register_body: 'Now you are part of Better Condos. Start adding properties and enjoy the experience.'
 sms:
     code: 'Better Condos, the code to validate your property is: %code%.'
+lbael_property: Property
+label_poll_question_open: Open answer text
+label_poll_question_add_option: Add option
+label_poll_question_option: Option
+label_poll_question_add_photo: Add photo
+label_poll_question_photo: Photo
+label_poll_question_photo_delete: Delete photo

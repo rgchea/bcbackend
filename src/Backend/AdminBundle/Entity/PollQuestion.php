@@ -2,6 +2,9 @@
 
 namespace Backend\AdminBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * PollQuestion
  */
@@ -18,7 +21,7 @@ class PollQuestion
     private $question;
 
     /**
-     * @var string|null
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
      */
     private $pollFilePhoto;
 
@@ -287,6 +290,17 @@ class PollQuestion
 
     public function __toString(){
         return $this->getQuestion();
+    }
+
+
+    /*
+     * UPLOAD PHOTO
+     */
+    public function getPhotoUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/images/poll_questions/';
     }
 
 }

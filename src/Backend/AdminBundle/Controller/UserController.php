@@ -91,9 +91,32 @@ class UserController extends Controller
 
         // Process Parameters
         $myArray = array();
-        if($this->role != "SUPER ADMIN"){
+
+
+        if($this->role == "ADMIN"){
             $myArray["business"] = $this->userLogged->getBusiness()->getId();
         }
+        elseif ($this->role == "COMPLEX SUPERVISOR"){
+            $arrTMP = $this->repository->getUserByBusinessComplex(0, $this->userLogged->getBusiness()->getId());
+            $strIN = "";
+            foreach ($arrTMP as $key => $value){
+                $strIN .= $strIN == "" ? $key : ",".$key;
+            }
+
+            $myArray = $strIN;
+
+        }
+        //COMPLEX ADMIN
+        elseif ($this->role == "COMPLEX ADMIN"){
+            $arrTMP = $this->repository->getUserByBusinessComplex($this->userLogged->getId(), $this->userLogged->getBusiness()->getId());
+            $strIN = "";
+            foreach ($arrTMP as $key => $value){
+                $strIN .= $strIN == "" ? $key : ",".$key;
+            }
+
+            $myArray = $strIN;
+        }
+
 
         $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $myArray);
         $objects = $results["results"];
@@ -418,8 +441,6 @@ class UserController extends Controller
 
 
 
-
-
             //AVATAR UPLOAD
             $myFile = $request->files->get("user")["avatarPath"];
             if($myFile != NULL){
@@ -435,9 +456,12 @@ class UserController extends Controller
             $entity->setBusiness($this->userLogged->getBusiness());
 
             $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-            //$this->translator->getLocale();die;
+            $myLang = $this->translator->getLocale();
+            $baseurl .= "/".$myLang;
 
-            $bodyHtml =  $this->userLogged->getEmail()."&nbsp;".$this->translator->trans('label_register_invite_msg')."<br/>";
+            $betterCondos = '<a href="'.$baseurl.'">BetterCondos</a>';
+
+            $bodyHtml =  $this->userLogged->getEmail()."&nbsp;".$this->translator->trans('label_register_invite_msg')."&nbsp;".$betterCondos."<br/>";
             $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
             $bodyHtml .= "<b>Password:&nbsp;</b>".$plainPassword."<br/><br/>";
 

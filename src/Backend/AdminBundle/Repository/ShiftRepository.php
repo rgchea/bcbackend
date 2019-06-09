@@ -194,5 +194,80 @@ class ShiftRepository extends \Doctrine\ORM\EntityRepository
             "countResult"	=> $countResult
         );
     }
-    
+
+
+
+
+    public function  clearShiftSchedule($commonAreaID){
+
+        $sql = "	DELETE
+					FROM 	shift;
+                    WHERE 	common_area_id = {$commonAreaID}";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+    }
+
+
+    public function getSchedule($commonAreaID)
+    {
+
+        $sql = "	SELECT  shift.*,
+	                        u.username
+					FROM 	shift
+					    INNER JOIN user u ON (shift.assigned_to = u.id)
+                    WHERE 	complex_id = {$commonAreaID}
+                    ORDER BY weekday_single, id";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        //print $sql;die;
+
+        $execute = $stmt->fetchAll();
+
+
+        if (empty($execute)) {
+            return "";
+        }
+
+
+
+        //$('#schedule').jqs('import', [{ day: 0, periods: [['06:00','07:00']]},{ day: 1, periods: [['06:00','07:00']]},{ day: 2, periods: [['06:00','07:00']]},{ day: 3, periods: [['06:00','07:00']]},{ day: 4, periods: [['06:00','07:00']]},{ day: 5, periods: [['06:00','07:00']]},{ day: 6, periods: [['06:00','07:00']]}]);
+
+
+        $days = "";
+
+
+        $arrDays = array();
+        foreach ($execute as $row) {
+
+            $day = $row["weekday_single"];
+
+            if (!isset($arrDays[$day])) {
+
+                if ($day > 0 && ($days != "") ) {
+                    //$days .= "},";
+                    $days .= "]},";
+                }
+
+                $arrDays[$day] = $day;
+                $days .= "{ day: " . $day . ",";
+                $days .= " periods: [";
+            }
+
+            //$days .= "['" . $row["hour_from"] . "','" . $row["hour_to"] . "'],";
+            $days .= "{start: '".$row["hour_from"]."', end: '".$row["hour_to"]."', title: '".$row["username"]."'},";
+
+        }
+
+        $days = "[" . $days . "]}]";
+
+        //print $days;die;
+
+        return $days;
+    }
+
+
 }

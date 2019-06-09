@@ -1,0 +1,134 @@
+
+<div class="clearfix"></div>
+<div class="myWidth" id="myQuestionDiv_{{ countQuestion }}">
+    <div class="myWidth">
+        <input type="hidden" name="question[{{ countQuestion }}]">
+        <div class="form-group col-md-10">
+            <label for="question" class="required" aria-required="true">{{ 'label_question'|trans }}</label>
+            <input maxlength="250" id="myQuestion_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][question]">
+
+        </div>
+        <div class="form-group col-md-2">
+            <label for="" >&nbsp;</label>
+            <a class="pull-right btn btn-primary btn-lg" onclick="deleteQuestion({{ countQuestion }});">
+                {{ 'label_delete'|trans  }}
+            </a>
+        </div>
+
+
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="myWidth">
+        <div class="form-group col-md-8">
+            <select name="question[{{ countQuestion }}][selectType]" onchange="changeAnswerType({{ countQuestion }}, this.value)" class="form-control classic">
+                {% for q in questionTypes %}
+                    {% set qType = myLocale == "es" ? q.nameES : q.nameEN %}
+                    <option value="{{ q.id }}">{{ qType }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <a class="pull-right btn btn-primary btn-lg" onclick="addPhoto({{ countQuestion }});">
+                {{ 'label_poll_question_add_photo'|trans  }}
+            </a>
+        </div>
+        <div class="form-group col-md-2">
+            <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
+                {{ 'label_poll_add_question'|trans  }}
+            </a>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="myWidth" id="questionPhotoDiv_{{ countQuestion }}" style="display: none">
+        <div class="form-group col-md-10">
+            <label for="photo">{{ 'label_poll_question_photo'|trans }}</label>
+            <input type="hidden" id="questionPhoto_{{ countQuestion }}" value="0" name="question[{{ countQuestion }}][addphoto]">
+            <input type="file" name="question[{{ countQuestion }}][photo]" accept="image/jpeg, image/png" class="form-control">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="">&nbsp;</label>
+            <a class="pull-right btn btn-primary btn-lg" onclick="removePhoto({{ countQuestion }});">
+                {{ 'label_poll_question_photo_delete'|trans  }}
+            </a>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    {# OPEN QUESTION #}
+    <div class="myWidth" id="myQuestionAnswerOpen_{{ countQuestion }}">
+        <input type="text" readonly class="form-control" placeholder="{{ 'label_poll_question_open'|trans }}"maxlength="200">
+    </div>
+
+    {# MULTIPLE OPTION QUESTION #}
+    <div style="display: none"  class="myWidth" id="myQuestionAnswerMultiple_{{ countQuestion }}">
+        <div class="form-group col-md-2">
+            {# ADD OPTION #}
+            <a class="pull-right btn btn-primary btn-lg" onclick="addMultipleOption({{ countQuestion }});">
+                {{ 'label_poll_question_add_option'|trans  }}
+            </a>
+        </div>
+        <div class="clearfix"></div>
+        <div id="question_{{ countQuestion }}_option_multiple_0">
+            <div class="form-group col-md-12">
+                <div class="form-group col-sm-1">
+                    <input  type="checkbox" class="largerCheckbox"/>
+                </div>
+                <div class="form-group col-md-11">
+                    <input placeholder="{{ 'label_poll_question_option'|trans }}" id="myQuestionAnswerMultiple_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][multiple][]">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    {# SELECT ONE QUESTION #}
+    <div style="display: none"  class="myWidth" id="myQuestionAnswerSelectOne_{{ countQuestion }}">
+        <div class="form-group col-md-2">
+            {# ADD OPTION #}
+            <a class="pull-right btn btn-primary btn-lg" onclick="addSelectOneOption({{ countQuestion }});">
+                {{ 'label_poll_question_add_option'|trans  }}
+            </a>
+        </div>
+        <div class="clearfix"></div>
+        <div id="question_{{ countQuestion }}_option_0">
+            <div class="form-group col-md-12">
+                <div class="form-group col-sm-1">
+                    <input  type="radio" class="largerCheckbox" name="selectone_{{ countQuestion }}"/>
+                </div>
+                <div class="form-group col-md-9">
+                    <input placeholder="{{ 'label_poll_question_option'|trans }}" id="myQuestionAnswerSelectOne_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][selectone][0]">
+                </div>
+                {#
+                <div class="form-group col-md-2">
+                    <a class="pull-right btn btn-primary btn-lg" onclick="removeOption({{ countQuestion }}, 1);">
+                        {{ 'label_delete'|trans  }}
+                    </a>
+                </div>
+
+                #}
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    {# RATING QUESTION #}
+    <div style="display: none"  class="myWidth" id="myQuestionAnswerRating_{{ countQuestion }}">
+        <div class="form-group col-md-12">
+            <span class="fa fa-star starChecked"></span>
+            <span class="fa fa-star starChecked"></span>
+            <span class="fa fa-star starChecked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+
+</div>
+<br/><br/>
+<script type="text/javascript">
+
+
+</script>

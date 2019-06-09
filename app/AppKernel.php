@@ -32,6 +32,9 @@ class AppKernel extends Kernel
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             //new SBC\NotificationsBundle\NotificationsBundle(),
 
+            //QR code
+            new Skies\QRcodeBundle\SkiesQRcodeBundle(),
+
 
 
         ];

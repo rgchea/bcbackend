@@ -9,6 +9,10 @@ Backend\AdminBundle\Entity\Shift:
         created_by:
             columns:
                 - created_by
+        assigned_to:
+            columns:
+                - assigned_to
+
         complex_id:
             columns:
                 - complex_id
@@ -22,49 +26,39 @@ Backend\AdminBundle\Entity\Shift:
             generator:
                 strategy: IDENTITY
     fields:
+        weekdaySingle:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                comment: '1 es lunes y 7 es domingo'
+            column: weekday_single
         hourFrom:
-            type: integer
-            nullable: false
-            options:
-                unsigned: false
-            column: hour_from
-        hourTo:
-            type: integer
-            nullable: false
-            options:
-                unsigned: false
-            column: hour_to
-        repeat:
             type: string
             nullable: false
-            length: 32
+            length: 8
             options:
                 fixed: false
                 default: ''
-
-        shiftDate:
-            type: datetime
+            column: hour_from
+        hourTo:
+            type: string
             nullable: false
+            length: 8
             options:
-                comment: 'día especifico para el turno'
-            column: shift_date
-
-        shiftDateTo:
-            type: datetime
-            nullable: false
-            options:
-                comment: 'día final especifico para el turno'
-            column: shift_date_to
+                fixed: false
+                default: ''
+            column: hour_to
 
         overtime:
             type: integer
-            nullable: false
+            nullable: true
             options:
                 unsigned: false
                 default: '0'
         flexibleHours:
             type: integer
-            nullable: false
+            nullable: true
             options:
                 unsigned: false
                 default: '0'
@@ -92,6 +86,16 @@ Backend\AdminBundle\Entity\Shift:
             options:
                 default: '1'
     manyToOne:
+        assignedTo:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                assigned_to:
+                    referencedColumnName: id
+            orphanRemoval: false
         createdBy:
             targetEntity: User
             cascade: {  }

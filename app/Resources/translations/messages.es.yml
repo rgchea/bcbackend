@@ -5,8 +5,11 @@ label_edit: Editar
 label_list: Listado
 label_cancel: Cancelar
 label_save: Guardar
+label_delete: Eliminar
 label_form: Formulario
 label_assign: Asignado
+label_assign_shift: Asignar turno
+label_shift_complex_admin: a administrador de complejo
 label_actions: Acciones
 label_status: Estado
 label_back: Regresar
@@ -60,7 +63,7 @@ label_register_generate_for_you: 'PROPIEDADES PARA TI'
 label_register_create_account: 'Crear cuenta'
 label_register: Registrarse
 label_register_complete: Bienvenido
-label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos estrucutrales <a href="www.bettercondos.tech">www.bettercondos.tech</a>'
+label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos estrucutrales'
 label_register_complete_msg: 'Ahora eres parte de la mejor plataforma para gestionar complejos estructurales www.bettercondos.tech/admin'
 label_register_bc_info: 'Puedes accesar a tu portal de cobros por medio de'
 label_register_contact: 'info@bettercondos.com / +502 41568954'
@@ -94,14 +97,14 @@ label_business_check_phone: 'El teléfono ingresado ya tiene una cuenta asociada
 label_user_taken: 'El usuario sugerido ya existe'
 label_complex_sector_type: 'Tipo de Sector'
 label_complex_sector: Sección
-label_complex_sector_prefix: Prefijo para nombrar propiedades ej. prefijo "A", propiedades serán A01, A02, A03...
+label_complex_sector_prefix: 'Prefijo para nombrar propiedades ej. prefijo "A", propiedades serán A01, A02, A03...'
 label_complex_type: 'Tipo de Complejo'
 label_complex_structure: 'Estructura de Complejo'
 label_notification_type: 'Tipo de Notificacion'
 label_poll_question_type: 'Tipo de Pregunta de Encuesta'
 label_property_type: 'Tipo de propiedad'
 label_property: Propiedad
-label_property_number: Número de propiedad
+label_property_number: 'Número de propiedad'
 label_common_area_type: 'Tipo de Area Común'
 label_geo_country: Pais
 label_geo_state: Ciudad
@@ -119,6 +122,9 @@ label_term_condition: 'Términos y Condiciones'
 label_billing_information: 'Información de Facturación'
 label_billing_copy: 'Utilizar la misma dirección para facturación'
 label_question: Pregunta
+label_questions: Preguntas
+label_poll_add_question: Agregar pregunta
+label_poll_view_questions: Ver preguntas
 label_answer: Respuesta
 label_order_list: 'Orden de lista'
 label_last_payment_day: 'Ultimo dia de pago'
@@ -227,3 +233,10 @@ mail:
     register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'
 sms:
     code: 'Better Condos, el código para validar tu propiedad es: %code%.'
+lbael_property: Property
+label_poll_question_open: Texto de respuesta abierta
+label_poll_question_add_option: Agregar opción
+label_poll_question_option: Opción
+label_poll_question_add_photo: Añadir foto
+label_poll_question_photo: Foto
+label_poll_question_photo_delete: Eliminar foto

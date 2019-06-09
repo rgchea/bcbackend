@@ -503,9 +503,6 @@ class CommonAreaController extends Controller
 
                 }
 
-
-
-
             }
 
 

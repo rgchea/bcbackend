@@ -72,7 +72,21 @@
 
 					<fieldset>
 
+						{% if edit is defined %}
+							<div class="form-group col-md-4">
+								<label for="qrcode" class="required" aria-required="true">QR</label>
+								<br/>
 
+
+								<a download="{{ entity.name }}.png" href="data:image/png;base64,{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}" >
+									<img id="property_qr" src="data:image/png;base64,
+									{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}
+									" />
+								</a>
+							</div>
+
+						{% endif %}
+						<div class="clearfix"></div>
 						<div class="form-group col-md-4">
 							{{ form_label(form.name) }}
 							{{ form_errors(form.name) }}

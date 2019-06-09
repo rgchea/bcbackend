@@ -29,8 +29,16 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         $countQuery->join('u.role', 'r');
 
         if(!empty($otherConditions)){
-            $query->andWhere("u.business = ".$otherConditions["business"]);
-            $countQuery->andWhere("u.business = ".$otherConditions["business"]);
+
+            if(isset($otherConditions["business"])){
+                $query->andWhere("u.business = ".$otherConditions["business"]);
+                $countQuery->andWhere("u.business = ".$otherConditions["business"]);
+
+            }
+            else{
+                $query->andWhere("u.id IN(".$otherConditions.") ");
+                $countQuery->andWhere("u.id IN(".$otherConditions.") ");
+            }
 
         }
 
@@ -140,5 +148,44 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             "countResult"	=> $countResult
         );
     }
+
+
+
+    public function getUserByBusinessComplex($userID, $businessID)
+    {
+
+        $strFilter = "";
+        if($userID != 0){
+            $strFilter = " AND uc.user_id = {$userID} ";
+        }
+
+
+        $sql = "	SELECT  DISTINCT(uc.user_id) id
+					FROM    business b    
+					    INNER JOIN complex c ON(c.business_id = b.id)
+					    INNER JOIN user_complex uc ON(uc.complex_id = c.id)
+					    INNER JOIN user u ON (uc.user_id = u.id)
+					WHERE   b.id = {$businessID}
+					AND     u.role_id != 1
+					{$strFilter}
+					ORDER BY c.name";
+        //AND     u.role_id != 1 // EXCLUDE ADMIN FOR THE SUPERVISORS
+
+        //print $sql;die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+        $arrReturn = array();
+
+        foreach ($execute as $row) {
+            $arrReturn[$row["id"]] = $row["id"];
+        }
+
+        return $arrReturn;
+
+    }
+
 		
 }

@@ -14,6 +14,8 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Backend\AdminBundle\Entity\Poll;
 use Backend\AdminBundle\Entity\ComplexPoll;
 use Backend\AdminBundle\Form\PollType;
+use Backend\AdminBundle\Entity\PollQuestion;
+use Backend\AdminBundle\Entity\PollQuestionOption;
 
 /**
  * Poll controller.
@@ -485,6 +487,138 @@ class PollController extends Controller
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    public function questionAction(Request $request, $id){
+
+        $this->get("services")->setVars('poll');
+        $this->initialise();
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Poll')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Poll entity.');
+        }
+
+
+        return $this->render('BackendAdminBundle:Poll:question.html.twig', array(
+            'entity'      => $entity,
+        ));
+
+    }
+
+
+    public function questionSaveAction(Request $request, $id){
+
+
+        //print "<pre>";
+        //var_dump($_REQUEST);die;
+        //var_dump($_FILES);die;
+
+        $this->get("services")->setVars('poll');
+        $this->initialise();
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Poll')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Poll entity.');
+        }
+
+        if(isset($_REQUEST["question"])){
+
+           $arrQuestions = $_REQUEST["question"];
+
+            foreach ($arrQuestions as $key => $question) {
+
+
+
+                $objQuestion = new PollQuestion();
+                $objQuestion->setPoll($entity);
+
+                $qType = intval($question["selectType"]);
+                $questionType = $this->em->getRepository('BackendAdminBundle:PollQuestionType')->find($qType);
+                $objQuestion->setPollQuestionType($questionType);
+                $objQuestion->setQuestion(trim($question["question"]));
+                $objQuestion->setEnabled(1);
+
+
+                //PHOTO UPLOAD
+                //print "<pre>";
+                //var_dump($myFile = $request->files->get("question"));die;
+                $myFile = $request->files->get("question")[$key]["photo"];
+                //var_dump($myFile);die;
+
+                if($myFile != NULL){
+
+                    if(intval($question["addphoto"]) == 1){
+                        $file = $objQuestion->getPollFilePhoto();
+                        $fileName = md5(uniqid()).'.'.$myFile->guessExtension();
+                        $myFile->move($this->getParameter('polls_directory'), $fileName);
+                        $objQuestion->setPollFilePhoto($objQuestion->getPhotoUploadDir().$fileName);
+                    }
+
+                }
+
+                $this->get("services")->blameOnMe($objQuestion, "create");
+                $this->get("services")->blameOnMe($objQuestion, "update");
+                $this->em->persist($objQuestion);
+
+                /*
+                1 open
+                2 multiple option
+                3 select one option
+                4 rating
+                 */
+                if($qType == 2 || $qType == 3){
+
+                    if($qType == 2){
+                        $arrTMP = $question["multiple"];
+                    }
+                    elseif($qType == 3){
+                        $arrTMP = $question["selectone"];
+                    }
+
+                    foreach ($arrTMP as $key => $value){
+
+                        $objOption = new PollQuestionOption();
+                        $objOption->setPollQuestion($objQuestion);
+                        $objOption->setQuestionOption(trim($value));
+                        $this->get("services")->blameOnMe($objOption, "create");
+                        $this->get("services")->blameOnMe($objOption, "update");
+                        $this->em->persist($objOption);
+                    }
+                }
+
+            }
+
+            $this->em->flush();
+
+        }
+
+
+        return $this->redirectToRoute('backend_admin_poll_edit', array('id' => $id));
+
+    }
+
+
+    public function addQuestionAction(Request $request){
+
+        $this->get("services")->setVars('poll');
+        $this->initialise();
+
+        $countQuestion = $_REQUEST["countQuestion"];
+
+        $questionTypes = $this->em->getRepository('BackendAdminBundle:PollQuestionType')->findAll();
+        $myLocale =  $this->translator->getLocale();
+
+
+        return $this->render('BackendAdminBundle:Poll:addQuestion.html.twig', array(
+            'countQuestion'      => $countQuestion,
+            'myLocale' => $myLocale,
+            'questionTypes' => $questionTypes
+
+        ));
+
     }
 
 

@@ -124,30 +124,6 @@ class User extends BaseUser
 
 
 
-    /**
-     * Set nit
-     *
-     * @param string $nit
-     *
-     * @return User
-     */
-    public function setNit($nit)
-    {
-        $this->nit = $nit;
-
-        return $this;
-    }
-
-    /**
-     * Get nit
-     *
-     * @return string
-     */
-    public function getNit()
-    {
-        return $this->nit;
-    }
-
 
     /**
      * @var string
@@ -178,124 +154,8 @@ class User extends BaseUser
     {
         return $this->gender;
     }
-	
-	
-    /**
-     * @var string
-     */
-    private $dpi = '';
-
-    /**
-     * @var integer
-     */
-    private $pin;
 
 
-    /**
-     * Set dpi
-     *
-     * @param string $dpi
-     *
-     * @return User
-     */
-    public function setDpi($dpi)
-    {
-        $this->dpi = $dpi;
-
-        return $this;
-    }
-
-    /**
-     * Get dpi
-     *
-     * @return string
-     */
-    public function getDpi()
-    {
-        return $this->dpi;
-    }
-
-    /**
-     * Set pin
-     *
-     * @param integer $pin
-     *
-     * @return User
-     */
-    public function setPin($pin)
-    {
-        $this->pin = $pin;
-
-        return $this;
-    }
-
-    /**
-     * Get pin
-     *
-     * @return integer
-     */
-    public function getPin()
-    {
-        return $this->pin;
-    }
-    /**
-     * @var \Backend\AdminBundle\Entity\User
-     */
-    private $allied;
-
-
-    /**
-     * Set allied
-     *
-     * @param \Backend\AdminBundle\Entity\User $allied
-     *
-     * @return User
-     */
-    public function setAllied(\Backend\AdminBundle\Entity\User $allied = null)
-    {
-        $this->allied = $allied;
-
-        return $this;
-    }
-
-    /**
-     * Get allied
-     *
-     * @return \Backend\AdminBundle\Entity\User
-     */
-    public function getAllied()
-    {
-        return $this->allied;
-    }
-    /**
-     * @var string
-     */
-    private $sapCode;
-
-
-    /**
-     * Set sapCode
-     *
-     * @param string $sapCode
-     *
-     * @return User
-     */
-    public function setSapCode($sapCode)
-    {
-        $this->sapCode = $sapCode;
-
-        return $this;
-    }
-
-    /**
-     * Get sapCode
-     *
-     * @return string
-     */
-    public function getSapCode()
-    {
-        return $this->sapCode;
-    }
     /**
      * @var string
      */

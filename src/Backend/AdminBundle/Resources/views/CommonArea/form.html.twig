@@ -242,8 +242,7 @@
 			if($("[name='common_area']").valid()){
 
 				$("#my_schedule").val($('#schedule').jqs("export"));
-
-				//$('#pizote_spinner').show();
+				$('#pizote_spinner').show();
 				return true;
 
 			}
@@ -304,6 +303,8 @@
 			{% set myPath = myPath|replace({'/en/': ''}) %}
 			{% set myPath = myPath|replace({'/es/': ''}) %}
 
+
+			{#SCHEDULE IMPORT #}
 			$('#schedule').jqs('import', {{ availability|raw }});
 
 

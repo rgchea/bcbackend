@@ -347,4 +347,33 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
+
+    public function getComplexAdmins($complexID)
+    {
+
+
+        $sql = "	SELECT  u.id, u.username, u.name
+                    FROM    user_complex uc
+                   	    INNER JOIN user u ON (uc.user_id = u.id)
+                    WHERE     uc.complex_id = {$complexID}
+                    AND     u.role_id = 2
+                    ";
+        //ROLE ID = 2 COMPLEX ADMINISTRATOR
+
+        //print $sql;die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        $arrReturn = array();
+        foreach($execute as $u){
+            $arrReturn[$u["id"]] = $u["username"];
+        }
+
+        return $arrReturn;
+
+    }
+
 }

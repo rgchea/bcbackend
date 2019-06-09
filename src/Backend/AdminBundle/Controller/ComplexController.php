@@ -15,6 +15,7 @@ use Backend\AdminBundle\Form\ComplexType;
 use Backend\AdminBundle\Entity\UserComplex;
 use Backend\AdminBundle\Entity\ComplexSector;
 use Backend\AdminBundle\Entity\Property;
+use Backend\AdminBundle\Entity\Shift;
 
 
 /**
@@ -257,6 +258,10 @@ class ComplexController extends Controller
 
         $entity = $em->getRepository('BackendAdminBundle:Complex')->find($id);
 
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);
 
@@ -275,12 +280,22 @@ class ComplexController extends Controller
             return $this->redirectToRoute('backend_admin_complex_edit', array('id' => $id));
         }
 
+        $shiftSchedule = $this->em->getRepository('BackendAdminBundle:Shift')->getSchedule($entity->getId());
+        //print "<pre>";
+        //var_dump($shiftSchedule);die;
+
+        $complexAdmins = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexAdmins($id);
+
+
         return $this->render('BackendAdminBundle:Complex:edit.html.twig', array(
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'countries' => $countries,
-            'register' => $register
+            'register' => $register,
+            'complexAdmins' => $complexAdmins,
+            'shiftSchedule' => $shiftSchedule,
+            'edit' => $id
         ));
     }
 
@@ -568,6 +583,14 @@ class ComplexController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+
+        /*
+        print "<pre>";
+        //var_dump($_REQUEST["my_schedule"]);die;
+        var_dump(json_decode($_REQUEST["my_schedule"], true));
+        die;
+        */
+
         $this->get("services")->setVars('complex');
         $this->initialise();
 
@@ -597,6 +620,47 @@ class ComplexController extends Controller
             $this->get("services")->blameOnMe($entity);
             $this->em->flush();
 
+
+            /*SET THE WEEK SCHEDULE*/
+
+            /*ERASE LAST SCHEDULE*/
+            ///
+            $this->em->getRepository('BackendAdminBundle:Shift')->clearShiftSchedule($id);
+
+            $mySchedule = json_decode($_REQUEST["my_schedule"], true);
+
+            foreach ($mySchedule as $key => $weekDay){
+
+                $day =  intval($weekDay["day"]);
+                $arrPeriods = $weekDay["periods"];
+
+                foreach ($arrPeriods as $pk => $period){
+                    $start = $period["start"];
+                    $end = $period["end"];
+
+                    $newShift = new Shift();
+                    $newShift->setComplex($entity);
+
+                    $tmpUser = $this->em->getRepository('BackendAdminBundle:user')->findOneByEmail($period["title"]);
+                    if(!$tmpUser){
+                        continue;
+                    }
+                    $newShift->setAssignedTo($tmpUser);
+
+                    $newShift->setWeekdaySingle($day);
+                    $newShift->setHourFrom($start);
+                    $newShift->setHourTo($end);
+
+                    $this->get("services")->blameOnMe($newShift, "create");
+                    $this->get("services")->blameOnMe($newShift, "update");
+
+                    $this->em->persist($newShift);
+                    $this->em->flush();
+
+                }
+
+            }
+
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_complex_index', array('id' => $id)));
 
@@ -604,13 +668,20 @@ class ComplexController extends Controller
 
         $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
 
+        return $this->redirect($this->generateUrl('backend_admin_complex_edit', array('id' => $id)));
+
+        /*
         return $this->render('BackendAdminBundle:Complex:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'countries' => $countries
         ));
+        */
     }
+
+
+
 
 
 }

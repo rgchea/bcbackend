@@ -45,10 +45,10 @@ Backend\AdminBundle\Entity\Poll:
             column: active_to
         extraPoints:
             type: integer
-            nullable: false
+            nullable: true
             options:
                 unsigned: false
-                default: '0'
+                default: 0
             column: extra_points
         createdAt:
             type: datetime

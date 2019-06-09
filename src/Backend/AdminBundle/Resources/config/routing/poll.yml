@@ -32,3 +32,16 @@ backend_admin_poll_delete:
     defaults: { _controller: "BackendAdminBundle:Poll:delete" }
 
     #methods:  DELETE
+
+backend_admin_poll_question:
+    path:     /{id}/question/
+    defaults: { _controller: "BackendAdminBundle:Poll:question" }
+
+backend_admin_poll_question_save:
+    path:     /{id}/questionsave/
+    defaults: { _controller: "BackendAdminBundle:Poll:questionSave" }
+
+
+backend_admin_poll_add_question:
+    path:     /addquestion/
+    defaults: { _controller: "BackendAdminBundle:Poll:addQuestion" }

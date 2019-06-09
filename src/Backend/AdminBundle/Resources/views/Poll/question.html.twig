@@ -1,0 +1,282 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_poll_index') }}">{{ 'label_menu.poll'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_poll_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }} {{ entity.name }}</a> </li>
+
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    <style>
+
+    .myWidth{
+     width: 100%;
+    }
+
+    input[type='checkbox'] {
+        float: left;
+        width: 20px;
+    }
+
+    input.largerCheckbox {
+        transform : scale(1.2);
+    }
+
+    .starChecked {
+        color: orange;
+    }
+
+    </style>
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+
+        </div>
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+
+            <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
+                {{ 'label_poll_add_question'|trans  }}
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+            <div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+                <header role="heading">
+                    <h2>{{ 'label_questions'|trans }}</h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div role="content">
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+                    <!-- end widget edit box -->
+
+                    <!-- widget content -->
+                    <div class="widget-body">
+
+                        <div class="form-inputs-g">
+
+                            <form method="POST" action="{{ path('backend_admin_poll_question_save', {id: entity.id}) }}" id="questionsForm" enctype="multipart/form-data">
+
+
+                                <fieldset>
+
+                                    <div class="clearfix"></div>
+
+                                    <div id="myQuestions" class="form-group col-md-10">
+
+                                        {#LOOP THE PREVIOUS QUESTIONS#}
+                                    </div>
+
+                                    <div class="form-actions">
+
+                                        <button class="btn btn-primary">
+                                            <i class="fa fa-save"></i>
+                                            {{ 'label_save'|trans  }}
+                                        </button>
+                                    </div>
+                                </fieldset>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+
+            <div class="clearfix"></div>
+
+        </article>
+    </div>
+
+    <script type="text/javascript">
+
+        //replace by count after looping the previous questions
+        var countQuestions = 1;
+        var countQuestionsSelectOneOptions = new Array();
+        countQuestionsSelectOneOptions[countQuestions] = new Array("0");
+
+        var countQuestionsMultipleOptions = new Array();
+        countQuestionsMultipleOptions[countQuestions] = new Array("0");
+
+
+        function addQuestion(){
+
+            $('#pizote_spinner').show();
+
+
+
+            $.ajax({
+                type:"POST",
+                dataType:"html",
+                async:false,
+                url:"{{ path('backend_admin_poll_add_question') }}",
+                //data:"countryShort="+myCountry,
+                data: {countQuestion: countQuestions},
+                success:function(data){
+
+                    $("#myQuestions").append(data);
+                    $("#myQuestion_"+countQuestions).focus();
+                    countQuestionsSelectOneOptions[countQuestions] = new Array("0");
+                    countQuestionsMultipleOptions[countQuestions] = new Array("0");
+                    countQuestions++;
+                    $('#pizote_spinner').hide();
+
+                }
+            });
+        }
+
+        function deleteQuestion(questionID){
+            $("#myQuestionDiv_"+questionID).remove();
+        }
+
+        function changeAnswerType(questionID, qType){
+            console.log(questionID);
+            /*
+            1 open
+            2 multiple option
+            3 select one option
+            4 rating
+             */
+
+            $("#myQuestionAnswerOpen_"+questionID).hide();
+            $("#myQuestionAnswerMultiple_"+questionID).hide();
+            $("#myQuestionAnswerSelectOne_"+questionID).hide();
+            $("#myQuestionAnswerRating_"+questionID).hide();
+
+            if(qType == 1){
+                $("#myQuestionAnswerOpen_"+questionID).show();
+            }
+            else if(qType == 2){
+                $("#myQuestionAnswerMultiple_"+questionID).show();
+            }
+            else if(qType == 3){
+                $("#myQuestionAnswerSelectOne_"+questionID).show();
+            }
+            else if(qType == 4){
+                $("#myQuestionAnswerRating_"+questionID).show();
+            }
+
+        }
+
+        var optionPlaceholder = "{{ 'label_poll_question_option'|trans }}";
+        var optionDelelete = "{{ 'label_delete'|trans  }}";
+
+        function addMultipleOption(questionID){
+
+            myArray = countQuestionsMultipleOptions[questionID];
+            myCountOption = myArray.length;
+            countQuestionsMultipleOptions[questionID][myCountOption] = myCountOption;
+
+
+            myHTML = '<div id="question_'+questionID+'_option_multiple_'+myCountOption+'">' +
+                        '<div class="form-group col-md-12">'+
+                            '<div class="form-group col-sm-1">'+
+                                '<input type="checkbox" id="" class="largerCheckbox" />'+
+                            '</div>'+
+                            '<div class="form-group col-md-9">'+
+                                '<input placeholder="'+optionPlaceholder+'"  id="myQuestionAnswerMultiple_'+questionID+'" class="form-control" type="text" name="question['+questionID+'][multiple]['+myCountOption+']">'+
+                            '</div>'+
+                            '<div class="form-group col-md-2">'+
+                                '<a class="pull-right btn btn-primary btn-lg" onclick="removeOptionMultiple('+questionID+', '+myCountOption+');">'+optionDelelete+'</a>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="clearfix"></div>'+
+                    '</div>';
+
+            $("#myQuestionAnswerMultiple_"+questionID).append(myHTML);
+        }
+
+        function addSelectOneOption(questionID){
+
+            myArray = countQuestionsSelectOneOptions[questionID];
+            myCountOption = myArray.length;
+            countQuestionsSelectOneOptions[questionID][myCountOption] = myCountOption;
+
+            myHTML = '<div id="question_'+questionID+'_option_'+myCountOption+'">' +
+                        '<div class="form-group col-md-12">'+
+                            '<div class="form-group col-sm-1">'+
+                                '<input type="radio" class="largerCheckbox" name="selectone_'+questionID+'"/>'+
+                            '</div>'+
+                            '<div class="form-group col-md-9">'+
+                                '<input placeholder="'+optionPlaceholder+'"  id="myQuestionAnswerSelectOne_'+questionID+'" class="form-control" type="text" name="question['+questionID+'][selectone]['+myCountOption+']">'+
+                            '</div>'+
+                            '<div class="form-group col-md-2">'+
+                                '<a class="pull-right btn btn-primary btn-lg" onclick="removeOption('+questionID+', '+myCountOption+');">'+optionDelelete+'</a>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="clearfix"></div>'+
+                    '</div>';
+
+            $("#myQuestionAnswerSelectOne_"+questionID).append(myHTML);
+        }
+
+        function removeOption(questionID, optionID){
+            console.log(questionID)
+            $("#question_"+questionID+"_option_"+optionID).remove();
+        }
+
+        function removeOptionMultiple(questionID, optionID){
+            console.log(questionID)
+            $("#question_"+questionID+"_option_multiple_"+optionID).remove();
+        }
+
+
+        function addPhoto(questionID){
+            $("#questionPhotoDiv_"+questionID).show();
+            $("#questionPhoto_"+questionID).val(1);
+        }
+
+        function removePhoto(questionID){
+            $("#questionPhotoDiv_"+questionID).hide();
+            $("#questionPhoto_"+questionID).val(0);
+        }
+
+        $( document ).ready(function() {
+
+
+            //$('#questionsForm').validate();
+
+            $('#questionsForm').on("submit", function(){
+                //Code: Action (like ajax...)
+                if($("[name='poll']").valid()){
+                    $('#pizote_spinner').show();
+                    return true;
+
+                }
+                else{
+                    return false;
+                }
+
+            });
+
+        });
+
+    </script>
+
+
+
+
+
+{% endblock %}
+
+{% block extrascripts %}
+
+
+
+{% endblock %}
