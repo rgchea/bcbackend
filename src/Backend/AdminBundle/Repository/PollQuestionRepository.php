@@ -31,6 +31,7 @@ class PollQuestionRepository extends \Doctrine\ORM\EntityRepository
 
     public function getApiPoll($pollId)
     {
+
         $qb = $this->createQueryBuilder('a');
 
         $qb->select('a, p, pqt')
@@ -48,5 +49,48 @@ class PollQuestionRepository extends \Doctrine\ORM\EntityRepository
         ;
 
         return $qb->getQuery()->getResult();
+
+
     }
+
+    public function clearQuestions($pollID){
+
+        $sql = "   SELECT  question.id questionID,  
+	                        qoption.id qoptionID
+					FROM    poll p    
+					    LEFT JOIN poll_question question ON(question.poll_id = p.id)
+					    LEFT JOIN poll_question_option qoption ON (question.id = qoption.poll_question_id)
+					WHERE   p.id = {$pollID}
+					AND     p.enabled = 1
+					ORDER BY question.id, qoption.id";
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+
+        //clear options
+        foreach ($execute as $q){
+            if($q["qoptionID"] != NULL){
+                $delete = "    DELETE FROM poll_question_option WHERE id = ".intval($q["qoptionID"]);
+                $stmt = $this->getEntityManager()->getConnection()->prepare($delete);
+                $stmt->execute();
+            }
+        }
+
+        //clear questions
+        foreach ($execute as $q){
+            $delete = "    DELETE FROM poll_question WHERE id = ".intval($q["questionID"]);
+            $stmt = $this->getEntityManager()->getConnection()->prepare($delete);
+            $stmt->execute();
+
+        }
+
+    }
+
+
+
+
 }

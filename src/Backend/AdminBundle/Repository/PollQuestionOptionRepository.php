@@ -2,6 +2,8 @@
 
 namespace Backend\AdminBundle\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 /**
  * PollQuestionOptionRepository
  *
@@ -37,6 +39,59 @@ class PollQuestionOptionRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function getPollQuestions($pollID)
+    {
+        $sql = "	SELECT  question.id questionID, question.question, question.poll_file_photo photo,  
+	                        qoption.question_option, qoption.id qoptionID,
+	                        qtype.name_es type_es, qtype.name_en type_en, qtype.id qtypeID,
+	                        qanswer.id qanswerID
+					FROM    poll p    
+					    LEFT JOIN poll_question question ON(question.poll_id = p.id)
+					    LEFT JOIN poll_question_type qtype ON(question.poll_question_type_id = qtype.id)
+					    LEFT JOIN poll_question_option qoption ON (question.id = qoption.poll_question_id)
+					    LEFT JOIN poll_tenant_answer qanswer ON (question.id = qanswer.poll_question_id)
+					WHERE   p.id = {$pollID}
+					AND     p.enabled = 1
+					ORDER BY question.id, qoption.id";
+        //AND     u.role_id != 1 // EXCLUDE ADMIN FOR THE SUPERVISORS
+
+        //print $sql;die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        $arrReturn = array();
+        foreach ($execute as $question){
+            if(!isset( $arrReturn[$question["questionID"]] )){
+                $arrReturn[$question["questionID"]] = array();
+                $arrReturn[$question["questionID"]]["question"] = $question["question"];
+                $arrReturn[$question["questionID"]]["photo"] = $question["photo"];
+                $arrReturn[$question["questionID"]]["type_en"] = $question["type_en"];
+                $arrReturn[$question["questionID"]]["type_id"] = $question["qtypeID"];
+                $arrReturn[$question["questionID"]]["multiple"] = array();
+                $arrReturn[$question["questionID"]]["selectone"] = array();
+                $arrReturn[$question["questionID"]]["hasanswer"] = $question["qanswerID"];
+            }
+
+            //1 OPEN
+            //2 MULTIPLE OPTION
+            //3 SELECT ONE
+            //4 RATING
+            if($question["qtypeID"] == 2){
+                $arrReturn[$question["questionID"]]["multiple"][$question["qoptionID"]] = $question["question_option"];
+            }
+
+            if($question["qtypeID"] == 3){
+                $arrReturn[$question["questionID"]]["selectone"][$question["qoptionID"]] = $question["question_option"];
+            }
+
+        }
+
+        return $arrReturn;
     }
 
 }

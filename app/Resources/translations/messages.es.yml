@@ -245,3 +245,4 @@ label_poll_question_option: Opción
 label_poll_question_add_photo: Añadir foto
 label_poll_question_photo: Foto
 label_poll_question_photo_delete: Eliminar foto
+label_poll_question_save_warning: No es posible editar las preguntas, la encuenta se encuentra en censo activo

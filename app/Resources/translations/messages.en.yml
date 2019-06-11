@@ -245,3 +245,4 @@ label_poll_question_option: Option
 label_poll_question_add_photo: Add photo
 label_poll_question_photo: Photo
 label_poll_question_photo_delete: Delete photo
+label_poll_question_save_warning: You cannot edit the questions, because the poll is already running

@@ -258,6 +258,7 @@ class PollController extends Controller
 
         //}
 
+
         return $this->render('BackendAdminBundle:Poll:edit.html.twig', array(
             'entity' => $entity,
             'form' => $editForm->createView(),
@@ -500,9 +501,33 @@ class PollController extends Controller
             throw $this->createNotFoundException('Unable to find Poll entity.');
         }
 
+        $pollQuestions = $this->em->getRepository('BackendAdminBundle:PollQuestionOption')->getPollQuestions($id);
+
+        $hasBeenAnswered = 0;
+        foreach ($pollQuestions as $q){
+            if($q["hasanswer"]){
+                $hasBeenAnswered = 1;
+            }
+        }
+        //print "<pre>";
+        //var_dump($pollQuestions);die;
+
+        $questionTypes = $this->em->getRepository('BackendAdminBundle:PollQuestionType')->findAll();
+        $myLocale =  $this->translator->getLocale();
+
+        if($hasBeenAnswered == 1){
+            $this->get('services')->flashCustom($request, $this->translator->trans('label_poll_question_save_warning'));
+        }
+
+        //
+
 
         return $this->render('BackendAdminBundle:Poll:question.html.twig', array(
             'entity'      => $entity,
+            'pollQuestions' => $pollQuestions,
+            'myLocale' => $myLocale,
+            'questionTypes' => $questionTypes,
+            'hasBeenAnswered' => $hasBeenAnswered
         ));
 
     }
@@ -510,10 +535,11 @@ class PollController extends Controller
 
     public function questionSaveAction(Request $request, $id){
 
-
-        //print "<pre>";
-        //var_dump($_REQUEST);die;
-        //var_dump($_FILES);die;
+        /*
+        print "<pre>";
+        var_dump($_REQUEST);die;
+        var_dump($_FILES);die;
+        */
 
         $this->get("services")->setVars('poll');
         $this->initialise();
@@ -526,11 +552,13 @@ class PollController extends Controller
 
         if(isset($_REQUEST["question"])){
 
-           $arrQuestions = $_REQUEST["question"];
+            $arrQuestions = $_REQUEST["question"];
+
+
+            ///CLEAR PREVIOUS QUESTIONS
+            $this->em->getRepository('BackendAdminBundle:PollQuestion')->clearQuestions($id);
 
             foreach ($arrQuestions as $key => $question) {
-
-
 
                 $objQuestion = new PollQuestion();
                 $objQuestion->setPoll($entity);
@@ -548,16 +576,21 @@ class PollController extends Controller
                 $myFile = $request->files->get("question")[$key]["photo"];
                 //var_dump($myFile);die;
 
-                if($myFile != NULL){
+                //if is edit and has previous file
+                if(isset($question["hasphoto"])){
+                    $objQuestion->setPollFilePhoto($question["hasphoto"]);
+                }
 
+                if($myFile != NULL){
                     if(intval($question["addphoto"]) == 1){
                         $file = $objQuestion->getPollFilePhoto();
                         $fileName = md5(uniqid()).'.'.$myFile->guessExtension();
                         $myFile->move($this->getParameter('polls_directory'), $fileName);
                         $objQuestion->setPollFilePhoto($objQuestion->getPhotoUploadDir().$fileName);
                     }
-
                 }
+
+
 
                 $this->get("services")->blameOnMe($objQuestion, "create");
                 $this->get("services")->blameOnMe($objQuestion, "update");

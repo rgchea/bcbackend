@@ -29,7 +29,20 @@
         color: orange;
     }
 
+    .myThumbnail{
+        width: 120px;
+    }
+
     </style>
+
+    <script type="text/javascript">
+
+        function addPhoto(questionID){
+            $("#questionPhotoDiv_"+questionID).show();
+            $("#questionPhoto_"+questionID).val(1);
+        }
+    </script>
+
     <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 
@@ -75,16 +88,231 @@
                                     <div class="clearfix"></div>
 
                                     <div id="myQuestions" class="form-group col-md-10">
-
+                                        {% set  countQuestion = 0 %}
                                         {#LOOP THE PREVIOUS QUESTIONS#}
+
+                                        <script type="text/javascript">
+                                            var countQuestionsSelectOneOptions = new Array();
+                                            var countQuestionsMultipleOptions = new Array();
+                                        </script>
+                                        {% if pollQuestions is iterable %}
+
+
+
+                                            {% for question in pollQuestions %}
+
+                                                <script type="text/javascript">
+                                                    countQuestionsSelectOneOptions[{{ countQuestion }}] = new Array("0");
+                                                    countQuestionsMultipleOptions[{{ countQuestion }}] = new Array("0");
+                                                </script>
+
+                                                <div class="clearfix"></div>
+                                                {#QUESTION#}
+                                                <div class="myWidth" id="myQuestionDiv_{{ countQuestion }}">
+                                                    <div class="myWidth">
+                                                        <input type="hidden" name="question[{{ countQuestion }}]">
+                                                        <div class="form-group col-md-10">
+                                                            <label for="question" class="required" aria-required="true">{{ 'label_question'|trans }}</label>
+                                                            <input maxlength="250" id="myQuestion_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][question]" value="{{ question.question }}">
+
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label for="" >&nbsp;</label>
+                                                            <a class="pull-right btn btn-primary btn-lg" onclick="deleteQuestion({{ countQuestion }});">
+                                                                {{ 'label_delete'|trans  }}
+                                                            </a>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+                                                    {#QUESTION TYPE SELECT#}
+                                                    <div class="myWidth">
+                                                        <div class="form-group col-md-8">
+                                                            <select name="question[{{ countQuestion }}][selectType]" onchange="changeAnswerType({{ countQuestion }}, this.value)" class="form-control classic">
+                                                                {% for q in questionTypes %}
+                                                                    {% set qType = myLocale == "es" ? q.nameES : q.nameEN %}
+                                                                    <option {{ question.type_en == qType  ? 'selected=selected' : '' }} value="{{ q.id }}">{{ qType }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        {#ADD PHOTO BUTTON#}
+                                                        <div class="form-group col-md-2">
+                                                            <a class="pull-right btn btn-primary btn-lg" onclick="addPhoto({{ countQuestion }});">
+                                                                {{ 'label_poll_question_add_photo'|trans  }}
+                                                            </a>
+                                                        </div>
+                                                        {#ADD QUESTION BUTTON#}
+                                                        <div class="form-group col-md-2">
+                                                            <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
+                                                                {{ 'label_poll_add_question'|trans  }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+
+                                                    {% set photoDisplay =  question.photo is empty  ? "style=display:none" : ''  %}
+                                                    <div class="myWidth" id="questionPhotoDiv_{{ countQuestion }}" {{ photoDisplay }}>
+                                                        <div class="form-group col-md-10">
+                                                            <label for="photo">{{ 'label_poll_question_photo'|trans }}</label>
+                                                            <input type="hidden" id="questionPhoto_{{ countQuestion }}" value="0" name="question[{{ countQuestion }}][addphoto]">
+                                                            <input type="file" name="question[{{ countQuestion }}][photo]" accept="image/jpeg, image/png" class="form-control">
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label for="">&nbsp;</label>
+                                                            <a class="pull-right btn btn-primary btn-lg" onclick="removePhoto({{ countQuestion }});">
+                                                                {{ 'label_poll_question_photo_delete'|trans  }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+
+                                                    {% if question.photo is not empty  %}
+
+                                                        <div class="dz-image" id="questionPhotoThumbnail_{{ countQuestion }}">
+                                                            <input type="hidden"  value="{{ question.photo }}" name="question[{{ countQuestion }}][hasphoto]">
+                                                            {% set myThumbnail =  url('backend_admin_homepage')~question.photo %}
+                                                            {% set myThumbnail = myThumbnail|replace({'app_dev.php/': ''}) %}
+                                                            {% set myThumbnail = myThumbnail|replace({'/en/': '/'}) %}
+                                                            {% set myThumbnail = myThumbnail|replace({'/es/': '/'}) %}
+
+                                                            <img data-dz-thumbnail="" class="myThumbnail"  src="{{ myThumbnail }}"/>
+                                                        </div>
+                                                        </br>
+                                                        <div class="clearfix"></div>
+
+                                                        <script type="text/javascript">
+                                                            addPhoto({{ countQuestion }});
+                                                        </script>
+
+                                                    {% endif %}
+                                                    <div class="clearfix"></div>
+
+
+                                                    {# OPEN QUESTION #}
+                                                    {%  set myDisplay = question.type_en != "Open" ? "style=display:none" : '' %}
+                                                    <div {{ myDisplay }} class="myWidth" id="myQuestionAnswerOpen_{{ countQuestion }}">
+                                                        <input type="text" readonly class="form-control" placeholder="{{ 'label_poll_question_open'|trans }}"maxlength="200">
+                                                    </div>
+
+                                                    {# MULTIPLE OPTION QUESTION #}
+                                                    {%  set myDisplay = question.type_en != "Multiple option" ? "style=display:none" : '' %}
+                                                    <div {{ myDisplay }}  class="myWidth" id="myQuestionAnswerMultiple_{{ countQuestion }}">
+                                                        <div class="form-group col-md-2">
+                                                            {# ADD OPTION #}
+                                                            <a class="pull-right btn btn-primary btn-lg" onclick="addMultipleOption({{ countQuestion }});">
+                                                                {{ 'label_poll_question_add_option'|trans  }}
+                                                            </a>
+                                                        </div>
+                                                        {#ITERATE THROUGH MULTIPLE OPTIONS#}
+                                                        {% set multipleOptionCount = 0 %}
+                                                        {% for option in question.multiple %}
+                                                            <div class="clearfix"></div>
+                                                            <div id="question_{{ countQuestion }}_option_multiple_{{ multipleOptionCount }}">
+                                                                <div class="form-group col-md-12">
+                                                                    <div class="form-group col-sm-1">
+                                                                        <input  type="checkbox" class="largerCheckbox" />
+                                                                    </div>
+                                                                    <div class="form-group col-md-9">
+                                                                        <input placeholder="{{ 'label_poll_question_option'|trans }}" id="myQuestionAnswerMultiple_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][multiple][]" value="{{ option }}">
+                                                                    </div>
+                                                                    <div class="form-group col-md-2">
+                                                                        <a class="pull-right btn btn-primary btn-lg" onclick="removeOptionMultiple({{ countQuestion }}, {{ multipleOptionCount }});">
+                                                                            {{ 'label_delete'|trans  }}
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+                                                            <script type="text/javascript">
+                                                                myArray = countQuestionsMultipleOptions[{{ countQuestion }}];
+                                                                myCountOption = myArray.length;
+                                                                countQuestionsMultipleOptions[{{ countQuestion }}][myCountOption] = myCountOption;
+                                                            </script>
+
+                                                            {% set multipleOptionCount = multipleOptionCount + 1 %}
+
+                                                        {% endfor %}
+
+                                                    </div>
+
+                                                    {# SELECT ONE QUESTION #}
+                                                    {%  set myDisplay = question.type_en != "Select one option" ? "style=display:none" : '' %}
+                                                    <div {{ myDisplay }}  class="myWidth" id="myQuestionAnswerSelectOne_{{ countQuestion }}">
+                                                        <div class="form-group col-md-2">
+                                                            {# ADD OPTION #}
+                                                            <a class="pull-right btn btn-primary btn-lg" onclick="addSelectOneOption({{ countQuestion }});">
+                                                                {{ 'label_poll_question_add_option'|trans  }}
+                                                            </a>
+                                                        </div>
+                                                        {% set selectOneOptionCount = 0 %}
+                                                        {% for option in question.selectone %}
+                                                            <div class="clearfix"></div>
+                                                            <div id="question_{{ countQuestion }}_option_{{ selectOneOptionCount }}">
+                                                                <div class="form-group col-md-12">
+                                                                    <div class="form-group col-sm-1">
+                                                                        <input  type="radio" class="largerCheckbox" name="selectone_{{ countQuestion }}"/>
+                                                                    </div>
+                                                                    <div class="form-group col-md-9">
+                                                                        <input placeholder="{{ 'label_poll_question_option'|trans }}" id="myQuestionAnswerSelectOne_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][selectone][]" value="{{ option }}">
+                                                                    </div>
+                                                                    <div class="form-group col-md-2">
+                                                                        <a class="pull-right btn btn-primary btn-lg" onclick="removeOption({{ countQuestion }}, {{ selectOneOptionCount }});">
+                                                                            {{ 'label_delete'|trans  }}
+                                                                        </a>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="clearfix"></div>
+
+
+                                                                {% set selectOneOptionCount = selectOneOptionCount + 1 %}
+
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+
+                                                    {# RATING QUESTION #}
+                                                    {%  set myDisplay = question.type_en != "Rating" ? "style=display:none" : '' %}
+                                                    <div {{ myDisplay }}  class="myWidth" id="myQuestionAnswerRating_{{ countQuestion }}">
+                                                        <div class="form-group col-md-12">
+                                                            <span class="fa fa-star starChecked"></span>
+                                                            <span class="fa fa-star starChecked"></span>
+                                                            <span class="fa fa-star starChecked"></span>
+                                                            <span class="fa fa-star"></span>
+                                                            <span class="fa fa-star"></span>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+                                                </div>
+                                                <br/><br/>
+
+                                                {% set countQuestion = countQuestion + 1 %}
+
+                                            {% endfor %}
+                                        {% endif %}
+
+
+                                        <script type="text/javascript">
+                                            //replace by count after looping the previous questions
+                                            var countQuestions = {{ countQuestion }};
+                                        </script>
+
                                     </div>
 
                                     <div class="form-actions">
 
-                                        <button class="btn btn-primary">
-                                            <i class="fa fa-save"></i>
-                                            {{ 'label_save'|trans  }}
-                                        </button>
+                                        {% if hasBeenAnswered == "0" %}
+                                            <button class="btn btn-primary">
+                                                <i class="fa fa-save"></i>
+                                                {{ 'label_save'|trans  }}
+                                            </button>
+                                         {% else %}
+
+                                        {% endif %}
                                     </div>
                                 </fieldset>
 
@@ -106,20 +334,10 @@
 
     <script type="text/javascript">
 
-        //replace by count after looping the previous questions
-        var countQuestions = 1;
-        var countQuestionsSelectOneOptions = new Array();
-        countQuestionsSelectOneOptions[countQuestions] = new Array("0");
-
-        var countQuestionsMultipleOptions = new Array();
-        countQuestionsMultipleOptions[countQuestions] = new Array("0");
-
 
         function addQuestion(){
 
             $('#pizote_spinner').show();
-
-
 
             $.ajax({
                 type:"POST",
@@ -175,7 +393,7 @@
         }
 
         var optionPlaceholder = "{{ 'label_poll_question_option'|trans }}";
-        var optionDelelete = "{{ 'label_delete'|trans  }}";
+        var optionDelete = "{{ 'label_delete'|trans  }}";
 
         function addMultipleOption(questionID){
 
@@ -193,7 +411,7 @@
                                 '<input placeholder="'+optionPlaceholder+'"  id="myQuestionAnswerMultiple_'+questionID+'" class="form-control" type="text" name="question['+questionID+'][multiple]['+myCountOption+']">'+
                             '</div>'+
                             '<div class="form-group col-md-2">'+
-                                '<a class="pull-right btn btn-primary btn-lg" onclick="removeOptionMultiple('+questionID+', '+myCountOption+');">'+optionDelelete+'</a>'+
+                                '<a class="pull-right btn btn-primary btn-lg" onclick="removeOptionMultiple('+questionID+', '+myCountOption+');">'+optionDelete+'</a>'+
                             '</div>'+
                         '</div>'+
                         '<div class="clearfix"></div>'+
@@ -217,7 +435,7 @@
                                 '<input placeholder="'+optionPlaceholder+'"  id="myQuestionAnswerSelectOne_'+questionID+'" class="form-control" type="text" name="question['+questionID+'][selectone]['+myCountOption+']">'+
                             '</div>'+
                             '<div class="form-group col-md-2">'+
-                                '<a class="pull-right btn btn-primary btn-lg" onclick="removeOption('+questionID+', '+myCountOption+');">'+optionDelelete+'</a>'+
+                                '<a class="pull-right btn btn-primary btn-lg" onclick="removeOption('+questionID+', '+myCountOption+');">'+optionDelete+'</a>'+
                             '</div>'+
                         '</div>'+
                         '<div class="clearfix"></div>'+
@@ -237,20 +455,13 @@
         }
 
 
-        function addPhoto(questionID){
-            $("#questionPhotoDiv_"+questionID).show();
-            $("#questionPhoto_"+questionID).val(1);
-        }
-
         function removePhoto(questionID){
             $("#questionPhotoDiv_"+questionID).hide();
+            $("#questionPhotoThumbnail_"+questionID).hide();
             $("#questionPhoto_"+questionID).val(0);
         }
 
         $( document ).ready(function() {
-
-
-            //$('#questionsForm').validate();
 
             $('#questionsForm').on("submit", function(){
                 //Code: Action (like ajax...)
@@ -265,12 +476,17 @@
 
             });
 
+            {% if hasBeenAnswered == "1" %}
+                $("#questionsForm input").prop("disabled", true);
+                $("#questionsForm select").prop("disabled", true);
+                $('.btn').attr("disabled","disabled");
+            
+            {% endif %}
+
+
         });
 
     </script>
-
-
-
 
 
 {% endblock %}
