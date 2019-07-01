@@ -13,32 +13,27 @@ class Shift
     private $id;
 
     /**
-     * @var int
+     * @var int|null
      */
-    private $hourFrom;
+    private $weekdaySingle;
 
     /**
-     * @var int
+     * @var string
      */
-    private $hourTo;
+    private $hourFrom = '';
 
     /**
-     * @var int
+     * @var string
      */
-    private $weekDay;
+    private $hourTo = '';
 
     /**
-     * @var \DateTime
-     */
-    private $shiftDate;
-
-    /**
-     * @var int
+     * @var int|null
      */
     private $overtime = '0';
 
     /**
-     * @var int
+     * @var int|null
      */
     private $flexibleHours = '0';
 
@@ -61,6 +56,11 @@ class Shift
      * @var bool
      */
     private $enabled = '1';
+
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $assignedTo;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -89,9 +89,33 @@ class Shift
     }
 
     /**
+     * Set weekdaySingle.
+     *
+     * @param int|null $weekdaySingle
+     *
+     * @return Shift
+     */
+    public function setWeekdaySingle($weekdaySingle = null)
+    {
+        $this->weekdaySingle = $weekdaySingle;
+
+        return $this;
+    }
+
+    /**
+     * Get weekdaySingle.
+     *
+     * @return int|null
+     */
+    public function getWeekdaySingle()
+    {
+        return $this->weekdaySingle;
+    }
+
+    /**
      * Set hourFrom.
      *
-     * @param int $hourFrom
+     * @param string $hourFrom
      *
      * @return Shift
      */
@@ -105,7 +129,7 @@ class Shift
     /**
      * Get hourFrom.
      *
-     * @return int
+     * @return string
      */
     public function getHourFrom()
     {
@@ -115,7 +139,7 @@ class Shift
     /**
      * Set hourTo.
      *
-     * @param int $hourTo
+     * @param string $hourTo
      *
      * @return Shift
      */
@@ -129,7 +153,7 @@ class Shift
     /**
      * Get hourTo.
      *
-     * @return int
+     * @return string
      */
     public function getHourTo()
     {
@@ -137,61 +161,13 @@ class Shift
     }
 
     /**
-     * Set weekDay.
-     *
-     * @param int $weekDay
-     *
-     * @return Shift
-     */
-    public function setWeekDay($weekDay)
-    {
-        $this->weekDay = $weekDay;
-
-        return $this;
-    }
-
-    /**
-     * Get weekDay.
-     *
-     * @return int
-     */
-    public function getWeekDay()
-    {
-        return $this->weekDay;
-    }
-
-    /**
-     * Set shiftDate.
-     *
-     * @param \DateTime $shiftDate
-     *
-     * @return Shift
-     */
-    public function setShiftDate($shiftDate)
-    {
-        $this->shiftDate = $shiftDate;
-
-        return $this;
-    }
-
-    /**
-     * Get shiftDate.
-     *
-     * @return \DateTime
-     */
-    public function getShiftDate()
-    {
-        return $this->shiftDate;
-    }
-
-    /**
      * Set overtime.
      *
-     * @param int $overtime
+     * @param int|null $overtime
      *
      * @return Shift
      */
-    public function setOvertime($overtime)
+    public function setOvertime($overtime = null)
     {
         $this->overtime = $overtime;
 
@@ -201,7 +177,7 @@ class Shift
     /**
      * Get overtime.
      *
-     * @return int
+     * @return int|null
      */
     public function getOvertime()
     {
@@ -211,11 +187,11 @@ class Shift
     /**
      * Set flexibleHours.
      *
-     * @param int $flexibleHours
+     * @param int|null $flexibleHours
      *
      * @return Shift
      */
-    public function setFlexibleHours($flexibleHours)
+    public function setFlexibleHours($flexibleHours = null)
     {
         $this->flexibleHours = $flexibleHours;
 
@@ -225,7 +201,7 @@ class Shift
     /**
      * Get flexibleHours.
      *
-     * @return int
+     * @return int|null
      */
     public function getFlexibleHours()
     {
@@ -329,6 +305,30 @@ class Shift
     }
 
     /**
+     * Set assignedTo.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $assignedTo
+     *
+     * @return Shift
+     */
+    public function setAssignedTo(\Backend\AdminBundle\Entity\User $assignedTo = null)
+    {
+        $this->assignedTo = $assignedTo;
+
+        return $this;
+    }
+
+    /**
+     * Get assignedTo.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getAssignedTo()
+    {
+        return $this->assignedTo;
+    }
+
+    /**
      * Set createdBy.
      *
      * @param \Backend\AdminBundle\Entity\User|null $createdBy
@@ -398,63 +398,5 @@ class Shift
     public function getComplex()
     {
         return $this->complex;
-    }
-    /**
-     * @var string
-     */
-    private $repeat = '';
-
-    /**
-     * @var \DateTime
-     */
-    private $shiftDateTo;
-
-
-    /**
-     * Set repeat.
-     *
-     * @param string $repeat
-     *
-     * @return Shift
-     */
-    public function setRepeat($repeat)
-    {
-        $this->repeat = $repeat;
-
-        return $this;
-    }
-
-    /**
-     * Get repeat.
-     *
-     * @return string
-     */
-    public function getRepeat()
-    {
-        return $this->repeat;
-    }
-
-    /**
-     * Set shiftDateTo.
-     *
-     * @param \DateTime $shiftDateTo
-     *
-     * @return Shift
-     */
-    public function setShiftDateTo($shiftDateTo)
-    {
-        $this->shiftDateTo = $shiftDateTo;
-
-        return $this;
-    }
-
-    /**
-     * Get shiftDateTo.
-     *
-     * @return \DateTime
-     */
-    public function getShiftDateTo()
-    {
-        return $this->shiftDateTo;
     }
 }

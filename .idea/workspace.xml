@@ -60,8 +60,62 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Poll/question.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Poll/question.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AdminSetting.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AdminSetting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AgreementPlan.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AgreementPlan.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AppText.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/AppText.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Business.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Business.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonArea.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonArea.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaAvailability.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaAvailability.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaPhoto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaPhoto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaReservation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaReservation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaReservationStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaReservationStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/CommonAreaType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Complex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Complex.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexFaq.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexFaq.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexPoll.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexPoll.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexSector.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexSector.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexSectorType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexSectorType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ComplexType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Device.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Device.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoCountry.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoCountry.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoState.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoState.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Icon.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Icon.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Module.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Module.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ModuleAccess.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/ModuleAccess.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/NotificationType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/NotificationType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Poll.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Poll.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestion.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestionOption.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestionOption.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestionType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollTenantAnswer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollTenantAnswer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Property.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Property.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyContract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyContract.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyContractTransaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyContractTransaction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyPhoto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyPhoto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyTransactionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyTransactionType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Shift.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Shift.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/SystemChangeLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/SystemChangeLog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TenantContract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TenantContract.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TermCondition.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TermCondition.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Ticket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketCategory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketChangeLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketChangeLog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketComment.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketComment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketFilePhoto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketFilePhoto.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketFollower.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketFollower.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketStatusLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketStatusLog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserAgreementPlan.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserAgreementPlan.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserComplex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserComplex.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserNotification.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
@@ -264,64 +318,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Poll/question.html.twig">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="436">
-              <caret line="492" lean-forward="true" selection-start-line="492" selection-end-line="492" />
-              <folding>
-                <element signature="e#8217#8223#1#HTML" expanded="true" />
-              </folding>
+            <state relative-caret-position="561">
+              <caret line="111" selection-start-line="111" selection-end-line="111" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PollQuestionOptionRepository.php">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="76" column="62" selection-start-line="76" selection-start-column="53" selection-end-line="76" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PollController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="521" column="10" selection-start-line="521" selection-start-column="10" selection-end-line="521" selection-end-column="10" />
-              <folding>
-                <element signature="e#50#95#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PollQuestionRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="86" column="29" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/UserRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="186" selection-start-line="186" selection-end-line="200" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Poll/addQuestion.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
-              <caret line="72" column="53" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
-              <folding>
-                <element signature="n#style#0;n#div#9;n#div#1;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="362">
+              <caret line="610" selection-start-line="610" selection-end-line="610" />
             </state>
           </provider>
         </entry>
@@ -330,27 +339,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>countQuestion</find>
-      <find>myQuestionAnswerSelectOne</find>
-      <find>myQuestionAnswerSelectOne_</find>
-      <find>myArray</find>
-      <find>countQuestionsMultipleOptions</find>
-      <find>removeOption</find>
-      <find>_option_</find>
-      <find>checkbox</find>
-      <find>checker</find>
-      <find>.png</find>
-      <find>myThumbnail</find>
-      <find>addPhoto(questionID)</find>
-      <find>addPhoto(</find>
-      <find>validate</find>
-      <find>haspho</find>
-      <find>thumbnail</find>
-      <find>hasphoto</find>
       <find>qtypeID</find>
       <find>addphoto</find>
       <find>questionPhotoDiv_</find>
-      <find>getPollQuestions</find>
       <find>questionaction</find>
       <find>warning</find>
       <find>success</find>
@@ -360,6 +351,24 @@
       <find>button</find>
       <find>btn</find>
       <find>unbin</find>
+      <find>getPollQuestions</find>
+      <find>checker</find>
+      <find>edit</find>
+      <find>getTotalManifiesto</find>
+      <find>$manTotal</find>
+      <find>updateaction</find>
+      <find>$total</find>
+      <find>$new_balance</find>
+      <find>total</find>
+      <find>$entity</find>
+      <find>validate</find>
+      <find>rules</find>
+      <find>show</find>
+      <find>submit</find>
+      <find>die</find>
+      <find>entity2</find>
+      <find>setbalanc</find>
+      <find>callBCSpace</find>
     </findStrings>
     <replaceStrings>
       <replace>property_</replace>
@@ -400,8 +409,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Command/DeleteSharePropertyCommand.php" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/User/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/AgreementPlan/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Form/TicketCategoryType.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TicketCategoryRepository.php" />
@@ -418,14 +425,11 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/UserNotification.orm.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyContractType.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyType.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexSector/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" />
-        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ManifiestoController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonArea/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CommonAreaController.php" />
@@ -451,6 +455,11 @@
         <option value="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PollController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Poll/question.html.twig" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Manifiesto/form.html.twig" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/config.yml" />
+        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ManifiestoController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" />
       </list>
     </option>
   </component>
@@ -582,9 +591,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1280" />
-    <option name="height" value="733" />
+    <option name="x" value="-1920" />
+    <option name="y" value="62" />
+    <option name="width" value="1920" />
+    <option name="height" value="1013" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -594,7 +604,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -605,24 +614,6 @@
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
               <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="translations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -637,14 +628,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
@@ -654,31 +637,11 @@
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Services" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -780,18 +743,19 @@
       <workItem from="1559598757719" duration="2480000" />
       <workItem from="1559607383434" duration="2682000" />
       <workItem from="1559667771875" duration="43008000" />
-      <workItem from="1560179240765" duration="21194000" />
+      <workItem from="1560179240765" duration="25938000" />
+      <workItem from="1561998248456" duration="5886000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="723058000" />
+    <option name="totallyTimeSpent" value="733688000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="733" extended-state="0" />
+    <frame x="-1920" y="62" width="1920" height="1013" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4933185" visible="true" weight="0.30129242" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4933185" visible="true" weight="0.20181043" />
       <window_info id="Structure" order="1" sideWeight="0.5066815" side_tool="true" weight="0.21033014" />
       <window_info id="Favorites" order="2" sideWeight="0.5022272" side_tool="true" weight="0.22364217" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -817,34 +781,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Controller/AlliedHouseController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="431" column="34" selection-start-line="431" selection-start-column="34" selection-end-line="431" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Controller/ProductController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="194" column="19" selection-start-line="194" selection-start-column="19" selection-end-line="194" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Controller/UserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="40" column="19" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Services/Log.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Services/Services.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -915,13 +851,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ManifiestoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="441" column="25" lean-forward="true" selection-start-line="441" selection-start-column="25" selection-end-line="441" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Poll.orm.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="166">
@@ -988,13 +917,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="402">
           <caret line="39" column="32" selection-start-line="39" selection-end-line="39" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="127" column="100" lean-forward="true" selection-start-line="127" selection-start-column="72" selection-end-line="127" selection-end-column="100" />
         </state>
       </provider>
     </entry>
@@ -1097,16 +1019,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Poll/addQuestion.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="72" column="53" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
-          <folding>
-            <element signature="n#style#0;n#div#9;n#div#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Partials/user.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1121,48 +1033,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/UserRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="186" selection-start-line="186" selection-end-line="200" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PollQuestionRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="86" column="29" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PollQuestionOptionRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="76" column="62" selection-start-line="76" selection-start-column="53" selection-end-line="76" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
           <caret line="247" column="32" selection-start-line="247" selection-end-line="247" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="224" column="31" selection-start-line="224" selection-start-column="20" selection-end-line="224" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PollController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="521" column="10" selection-start-line="521" selection-start-column="10" selection-end-line="521" selection-end-column="10" />
-          <folding>
-            <element signature="e#50#95#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1180,6 +1054,96 @@
           <folding>
             <element signature="e#8217#8223#1#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PollQuestionOptionRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="76" column="62" selection-start-line="76" selection-start-column="53" selection-end-line="76" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PollController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="521" column="10" selection-start-line="521" selection-start-column="10" selection-end-line="521" selection-end-column="10" />
+          <folding>
+            <element signature="e#50#95#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PollQuestionRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="86" column="29" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/UserRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="186" selection-start-line="186" selection-end-line="200" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Poll/addQuestion.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="72" column="53" selection-start-line="72" selection-start-column="53" selection-end-line="72" selection-end-column="53" />
+          <folding>
+            <element signature="n#style#0;n#div#9;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ManifiestoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="479" column="16" selection-start-line="479" selection-start-column="16" selection-end-line="479" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Repository/ManifiestoRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="13" column="38" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Manifiesto/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="187" column="102" selection-start-line="187" selection-start-column="102" selection-end-line="187" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="113" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="343" selection-start-line="343" selection-end-line="354" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="610" selection-start-line="610" selection-end-line="610" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="111" selection-start-line="111" selection-end-line="111" />
         </state>
       </provider>
     </entry>

@@ -600,14 +600,31 @@ class Services extends Controller
         $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
         $token = $repo->getSpaceApiToken();
 
-        $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json',]];
+
 
         $client = new \GuzzleHttp\Client();
-        $response = $client->request($method, 'https://gameboard.space/api/v1/'.$service, $params);
+        if($method == "GET"){
+            $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json']];
+            $response = $client->request($method, 'https://gameboard.space/api/v1/'.$service, $params);
+        }
+        else{
+            $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json'],
+                        'json' => $body];
+
+            //var_dump($params);die;
+
+            $response = $client->post('https://gameboard.space/api/v1/'.$service, $params);
+
+            //var_dump($response->getBody()->getContents());
+            //die;
+
+        }
+
 
         //print "<pre>";
         //var_dump($response->getStatusCode()); # 200
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
+        //die;
 
         $arrResponse = json_decode($response->getBody(), true);
         //$arrResponse =  $arrResponse["recordset"];

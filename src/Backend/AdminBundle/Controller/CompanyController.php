@@ -42,22 +42,66 @@ class CompanyController extends Controller
         $this->initialise();
 
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        var_dump($baseurl);die;
+        //var_dump($baseurl);die;
 
         ///////TWILIO TESTING
         //$msg = $this->get('services')->serviceSendSMS("hello there monkey", "+50241550669");
         //var_dump($msg);die;
 
-        //SPACE TOKEN
+        ## GET SPACE TOKEN
         $token = $this->get('services')->getBCToken();
         //var_dump($token);die;
 
         //////GAMEBOARD.SPACE TESTING
         ///
 
-        $getRewards = $this->get('services')->callBCSpace("POST", "users");
+        ## Get info for given username
         print "<pre>";
-        var_dump($getRewards);die;
+
+        //$getUserInfo = $this->get('services')->callBCSpace("GET", "me?_switch_user=pizote");
+        //var_dump($getUserInfo);die;
+
+        //complete INFO
+
+        //$getUserInfo = $this->get('services')->callBCSpace("GET", "me?_switch_user=pizote&complete=true");
+        //var_dump($getUserInfo);die;
+
+
+        ## Create a new user
+        $body = array();
+        $body['email'] = "pizotexx6@pizotesoft.com";
+        $body['username'] = "pizotexx6";
+        $body['firstName'] = "pizote xx 6";
+        $body['lastName'] = "soft";
+        $body['locale'] = "es";
+
+        //$createUser = $this->get('services')->callBCSpace("POST", "users", $body);
+        //var_dump($createUser);die;
+
+
+        ## Create a new Team
+        $body = array();
+        $body['name'] = "Pizote Team X1";
+        $body['description'] = "Pizote testing";
+        $body['teamType'] = 5;
+
+        //$createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
+        //var_dump($createTeam);die;
+
+
+        ## Add user to team
+        $body = array();
+        //$userTeam = $this->get('services')->callBCSpace("POST", "users/pizote/teams/29", $body);
+        //var_dump($userTeam);die;
+
+
+        ## Pwn a task
+        //Considerar que el player debe pertenecer al equipo y la tarea (play) también debe pertenecer al mismo equipo para poder ejecutarse la tarea.
+        $body = array();
+        $body['name'] = "Descripción de la jugada";
+
+        //$pwnandplay = $this->get('services')->callBCSpace("POST", "teams/27/players/42/pwn/25", $body);
+        //var_dump($pwnandplay);die;
 
 
         ////IBILLING TESTING
