@@ -60,6 +60,12 @@ Backend\AdminBundle\Entity\User:
             options:
                 unsigned: false
                 default: 1
+        playerId:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: player_id
         generalRating:
             type: integer
             nullable: false

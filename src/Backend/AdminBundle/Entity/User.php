@@ -633,4 +633,33 @@ class User extends BaseUser
     {
         return $this->registerToken;
     }
+    /**
+     * @var int|null
+     */
+    private $playerId;
+
+
+    /**
+     * Set playerId.
+     *
+     * @param int|null $playerId
+     *
+     * @return User
+     */
+    public function setPlayerId($playerId = null)
+    {
+        $this->playerId = $playerId;
+
+        return $this;
+    }
+
+    /**
+     * Get playerId.
+     *
+     * @return int|null
+     */
+    public function getPlayerId()
+    {
+        return $this->playerId;
+    }
 }

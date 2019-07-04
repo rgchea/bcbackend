@@ -12,6 +12,7 @@ parameters:
     app_locales: [es, en]
     avatars_directory: '%kernel.root_dir%/../web/uploads/images/avatars/'
     polls_directory: '%kernel.root_dir%/../web/uploads/images/poll_questions/'
+    uploads_directory: '%kernel.root_dir%/../web/uploads/images/'
     mailer_port: 587
 
 framework:
