@@ -8,8 +8,8 @@ label_save: Guardar
 label_delete: Eliminar
 label_form: Formulario
 label_assign: Asignado
-label_assign_shift: Asignar turno
-label_shift_complex_admin: a administrador de complejo
+label_assign_shift: 'Asignar turno'
+label_shift_complex_admin: 'a administrador de complejo'
 label_actions: Acciones
 label_status: Estado
 label_back: Regresar
@@ -23,7 +23,7 @@ label_are_you_sure: 'Está seguro?'
 label_no_more_files: 'No es posible subir más archivos'
 label_max_files: '5 archivos máximo'
 label_photo: Fotos
-label_send: Enviar
+label_send: RECUPERAR
 label_flash_save_success_msg: 'Cambios guardados'
 label_flash_success: Listo
 label_flash_warning: Advertencia
@@ -49,7 +49,7 @@ label_type: Tipo
 label_login_forgot_password: 'Olvidé mi contraseña'
 label_set_password: 'Dejar en blanco para no cambiar la contraseña'
 label_login_keep_active: 'Mantenerme activo'
-label_login_login: Ingresar
+label_login_login: INGRESAR
 label_login_restore_pass: 'Restaurar contraseña'
 label_login_dont_have_pass: '¿No tienes una cuenta?'
 label_login_have_account: 'Ya tengo una cuenta'
@@ -62,6 +62,7 @@ label_register_generate: GENERAREMOS
 label_register_generate_for_you: 'PROPIEDADES PARA TI'
 label_register_create_account: 'Crear cuenta'
 label_register: Registrarse
+label_register_start: EMPEZAR AHORA!
 label_register_complete: Bienvenido
 label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos estrucutrales'
 label_register_complete_msg: 'Ahora eres parte de la mejor plataforma para gestionar complejos estructurales www.bettercondos.tech/admin'
@@ -123,8 +124,8 @@ label_billing_information: 'Información de Facturación'
 label_billing_copy: 'Utilizar la misma dirección para facturación'
 label_question: Pregunta
 label_questions: Preguntas
-label_poll_add_question: Agregar pregunta
-label_poll_view_questions: Ver preguntas
+label_poll_add_question: 'Agregar pregunta'
+label_poll_view_questions: 'Ver preguntas'
 label_answer: Respuesta
 label_order_list: 'Orden de lista'
 label_last_payment_day: 'Ultimo dia de pago'
@@ -170,6 +171,14 @@ label_start: Inicia
 label_end: Finaliza
 label_home: Inicio
 label_mark_all_read: 'Marcar todo como leído'
+lbael_property: Property
+label_poll_question_open: 'Texto de respuesta abierta'
+label_poll_question_add_option: 'Agregar opción'
+label_poll_question_option: Opción
+label_poll_question_add_photo: 'Añadir foto'
+label_poll_question_photo: Foto
+label_poll_question_photo_delete: 'Eliminar foto'
+label_poll_question_save_warning: 'No es posible editar las preguntas, la encuenta se encuentra en censo activo'
 label_menu:
     home: Inicio
     config: Configuración
@@ -238,11 +247,3 @@ mail:
     invite_body: 'Estas siendo invitado a unirte a la propiedad de %user_email%. El siguiente mensaje ha sido adjunto:'
 sms:
     code: 'Better Condos, el código para validar tu propiedad es: %code%.'
-lbael_property: Property
-label_poll_question_open: Texto de respuesta abierta
-label_poll_question_add_option: Agregar opción
-label_poll_question_option: Opción
-label_poll_question_add_photo: Añadir foto
-label_poll_question_photo: Foto
-label_poll_question_photo_delete: Eliminar foto
-label_poll_question_save_warning: No es posible editar las preguntas, la encuenta se encuentra en censo activo

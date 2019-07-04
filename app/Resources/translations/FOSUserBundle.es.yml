@@ -1,7 +1,7 @@
 'Bad credentials.': 'Credenciales Inválidas'
 label_login_restore_pass: 'Restaurar contraseña'
 label_login_user: Usuario
-label_send: Enviar
+label_send: RECUPERAR
 label_ok: Aceptar
 label_check_email: 'Se ha enviado un correo para re establecer su contraseña.'
 resetting:

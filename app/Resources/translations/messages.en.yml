@@ -8,8 +8,8 @@ label_save: Save
 label_delete: Delete
 label_form: Form
 label_assign: Assigned
-label_assign_shift: Assign shift
-label_shift_complex_admin: to a complex admin
+label_assign_shift: 'Assign shift'
+label_shift_complex_admin: 'to a complex admin'
 label_actions: Actions
 label_status: Status
 label_back: Back
@@ -23,7 +23,7 @@ label_ok: Ok
 label_no_more_files: 'Cannot upload more files'
 label_max_files: '5 files max'
 label_photo: Photos
-label_send: Send
+label_send: RECOVER
 label_flash_save_success_msg: 'Changes were saved'
 label_flash_success: Success
 label_flash_warning: Warning
@@ -48,7 +48,7 @@ label_step: Step
 label_type: Type
 label_login_forgot_password: 'Forgot Password'
 label_login_keep_active: 'Keep me active'
-label_login_login: Login
+label_login_login: LOGIN
 label_login_restore_pass: 'Restore password'
 label_login_dont_have_pass: 'Don''t have an account?'
 label_login_have_account: 'I have an account'
@@ -60,7 +60,8 @@ label_register_create_complex_2: 'CREATE THIS COMPLEX'
 label_register_generate: 'WE WILL GENERATE'
 label_register_generate_for_you: 'PROPERTIES FOR YOU'
 label_register_generate_msg: 'You Will be able to create more properties and edit the ones you created here.'
-label_register: Register
+label_register: 'SIGN UP'
+label_register_start: GET STARTED!
 label_register_complete: Welcome
 label_register_invite_msg: 'Invited you to join the best platform to manage building business'
 label_register_complete_msg: 'Now you are part of the best platform to manage building business www.bettercondos.tech/admin'
@@ -125,8 +126,8 @@ label_billing_information: 'Billing Information'
 label_billing_copy: 'Use the same address for billing'
 label_question: Question
 label_questions: Questions
-label_poll_add_question: Add question
-label_poll_view_questions: View questions
+label_poll_add_question: 'Add question'
+label_poll_view_questions: 'View questions'
 label_order_list: 'Order List'
 label_answer: Answer
 label_last_payment_day: 'Last Payment Day'
@@ -170,6 +171,14 @@ label_start: Start
 label_end: Finish
 label_home: Home
 label_mark_all_read: 'Mark all as read'
+lbael_property: Property
+label_poll_question_open: 'Open answer text'
+label_poll_question_add_option: 'Add option'
+label_poll_question_option: Option
+label_poll_question_add_photo: 'Add photo'
+label_poll_question_photo: Photo
+label_poll_question_photo_delete: 'Delete photo'
+label_poll_question_save_warning: 'You cannot edit the questions, because the poll is already running'
 label_menu:
     home: Home
     config: Configuration
@@ -238,11 +247,3 @@ mail:
     invite_body: 'You are being invited by %user_email% to join his property. The following message has been added for you:'
 sms:
     code: 'Better Condos, the code to validate your property is: %code%.'
-lbael_property: Property
-label_poll_question_open: Open answer text
-label_poll_question_add_option: Add option
-label_poll_question_option: Option
-label_poll_question_add_photo: Add photo
-label_poll_question_photo: Photo
-label_poll_question_photo_delete: Delete photo
-label_poll_question_save_warning: You cannot edit the questions, because the poll is already running
