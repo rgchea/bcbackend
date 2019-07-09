@@ -121,7 +121,6 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('c', 'a.commonArea'),
                 $qb->expr()->eq('c.enabled', '1')
             ))
-//            ->where('a.enabled = 1') // ToDo: no field enabled in entity
             ->andWhere('c.id = :common_area_id')
             ->setParameter('common_area_id', $commonAreaId)
             ->orderBy('a.createdAt', 'ASC');

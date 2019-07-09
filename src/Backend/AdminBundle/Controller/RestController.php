@@ -67,11 +67,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class RestController extends FOSRestController
 {
-    const UPLOADS_FOLDER = '/var/www/uploads'; // ToDo: Change to proper path
+    const AVATAR_UPLOADS_FOLDER = 'avatars';
+    const TICKET_UPLOADS_FOLDER = 'tickets';
     const TENANT_ROLE_ID = 4;
     const COMMON_AREA_RESERVATION_STATUS_ID = 1;
     const TICKET_STATUS_OPEN_ID = 1;
-    const TICKET_STATUS_CLOSE_ID = 1; // ToDo: Change the proper ticketStatus CLOSE.
+    const TICKET_STATUS_CLOSE_ID = 2;
     const INVITATION_NOTIFICATION_TYPE_ID = 3;
 
     const USER_ADMIN_ROLE_ID = 1;
@@ -556,7 +557,8 @@ class RestController extends FOSRestController
 
             foreach ($tenantContracts as $tenantContract) {
                 $tenantContract->setUser($user);
-                $notification = $this->createInviteUserNotification($tenantContract, $user);
+                $this->get("services")->blameOnMe($tenantContract, "update");
+                $notification = $this->createInviteUserNotification($tenantContract, $tenantContract->getCreatedBy(), $user);
                 $this->em->persist($tenantContract);
                 $this->em->persist($notification);
             }
@@ -647,6 +649,7 @@ class RestController extends FOSRestController
         }
     }
 
+// ToDo: Ya no existe el SMS, entonces hay q hacer lo del SMS aca.
 
     /**
      * Adds a new property to a user by using the property code.
@@ -1098,7 +1101,7 @@ class RestController extends FOSRestController
 //            $msg = $this->get('services')->serviceSendSMS($smsMessage, $user->getMobilePhone() );
 
             $response = array('message' => "");
-            if ($this->container->getParameter('kernel.environment') == 'dev') {// ToDo: To check for prod.
+            if ($this->container->getParameter('kernel.environment') == 'dev') {
                 $response['debug'] = $smsCode;
             }
             return new JsonResponse($response);
@@ -1205,8 +1208,6 @@ class RestController extends FOSRestController
     }
 
 
-    // ToDo: update with new fields.
-
     /**
      * Gets the user inbox.
      *
@@ -1231,17 +1232,23 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
-     *                  @SWG\Property( property="avatar_path", type="string", description="Avatar Path", example="/avatars/1.jpg" ),
-     *                  @SWG\Property( property="username", type="string", description="Username", example="user1" ),
-     *                  @SWG\Property( property="role", type="string", description="Role of the User", example="Role" ),
-     *                  @SWG\Property( property="user_notification", type="object",
-     *                      @SWG\Property( property="description", type="string", description="Description", example="Notification Description" ),
-     *                      @SWG\Property( property="type", type="string", description="Type of Notification", example="accept_invitation" ),
+     *                  @SWG\Property( property="ticket_id", type="integer", description="Ticket ID if any", example="1" ),
+     *                  @SWG\Property( property="common_area_reservation_id", type="integer", description="Common Area Reservation ID if any", example="1" ),
+     *                  @SWG\Property( property="tenant_contract_id", type="integer", description="Tenant Contract ID if any", example="1" ),
+     *                  @SWG\Property( property="user", type="object",
+     *                      @SWG\Property( property="avatar_path", type="string", description="Avatar Path", example="/avatars/1.jpg" ),
+     *                      @SWG\Property( property="username", type="string", description="Username", example="user1" ),
+     *                      @SWG\Property( property="role", type="string", description="Role of the User", example="Role" ),
      *                  ),
-     *                  @SWG\Property( property="replies_quantity", type="integer", description="Quantity of replies for the associated ticket", example="10" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
-     *                  @SWG\Property( property="type", type="string", description="Name of the type of notification", example="Type1" ),
-     *                  @SWG\Property( property="notice", type="string", description="Notification notice", example="Notice" ),
+     *
+     *                  @SWG\Property( property="user_notification", type="object",
+     *                      @SWG\Property( property="type_id", type="integer", description="Type of Notification ID", example="1" ),
+     *                      @SWG\Property( property="type", type="string", description="Type of Notification", example="accept_invitation" ),
+     *                      @SWG\Property( property="description", type="string", description="Description", example="Notification Description" ),
+     *                      @SWG\Property( property="replies_quantity", type="integer", description="Quantity of replies for the associated ticket", example="10" ),
+     *                      @SWG\Property( property="timestamp", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                      @SWG\Property( property="notice", type="string", description="Notification notice", example="Notice" ),
+     *                  )
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
@@ -1295,6 +1302,7 @@ class RestController extends FOSRestController
 
             /** @var UserNotification $notification */
             foreach ($notifications as $notification) {
+                /** @var User $user */
                 $user = $notification->getCreatedBy();
                 if ($user == null) {
                     $user = new User();
@@ -1303,23 +1311,37 @@ class RestController extends FOSRestController
                 if ($type == null) {
                     $type = new NotificationType();
                 }
-                $ticket = $notification->getTicket();
-                if ($ticket == null) {
-                    $ticket = new Ticket();
+
+                $ticketId = 0;
+                if ($notification->getTicket() != null) {
+                    $ticketId = $notification->getTicket()->getId();
+                }
+                $commonAreaReservationId = 0;
+                if ($notification->getCommonAreaReservation() != null) {
+                    $commonAreaReservationId = $notification->getCommonAreaReservation()->getId();
+                }
+                $tenantContractId = 0;
+                if ($notification->getTenantContract() != null) {
+                    $tenantContractId = $notification->getTenantContract()->getId();
                 }
 
-
                 $data[] = array(
-                    'avatar_path' => $user->getAvatarPath(),
-                    'username' => $user->getUsername(),
-                    'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
-                    'user_notification' => array(
+                    'ticket_id' => $ticketId,
+                    'common_area_reservation_id' => $commonAreaReservationId,
+                    'tenant_contract_id' => $tenantContractId,
+                    'user' => array(
+                        'avatar_path' => $user->getAvatarPath(),
+                        'username' => $user->getUsername(),
+                        'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
+                    ),
+                    'notification' => array(
+                        'type_id' => $type->getId(),
+                        'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES()),
                         'description' => $notification->getDescription(),
-                        'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES())),
-                    'replies_quantity' => (array_key_exists($ticket->getId(), $commentsReplies)) ? $commentsReplies[$ticket->getId()] : 0,
-                    'timestamp' => $user->getTimestamp(),
-                    'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES()),
-                    'notice' => $notification->getNotice(),
+                        'replies_quantity' => (array_key_exists($ticketId, $commentsReplies)) ? $commentsReplies[$ticketId] : 0,
+                        'createdAt' => $user->getCreatedAt()->getTimestamp(),
+                        'notice' => $notification->getNotice(),
+                    ),
                 );
             }
 
@@ -1883,7 +1905,7 @@ class RestController extends FOSRestController
                 $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
                 file_put_contents($tmpPath, $decodedPhoto);
                 $uploadedFile = new FileObject($tmpPath);
-                $originalFilename = $uploadedFile->getFilename();
+//                $originalFilename = $uploadedFile->getFilename();
 
                 $violations = $validator->validate(
                     $uploadedFile,
@@ -1902,18 +1924,21 @@ class RestController extends FOSRestController
                 $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
                 try {
-                    $uploadedFile->move(self::UPLOADS_FOLDER, $fileName);
+                    $uploadPath = $this->getParameter('uploads_directory') . self::TICKET_UPLOADS_FOLDER;
+                    $uploadedFile->move($uploadPath, $fileName);
                 } catch (FileException $e) {
                     throw new \Exception("Could not upload photo.");
                 }
 
-                $ticketPhoto = new TicketFilePhoto(); // ToDo: Update properties
-//                $ticketPhoto->setPath($masterFilePath . '/' . $fileName);
+                $ticketPhoto = new TicketFilePhoto();
+                $ticketPhoto->setPhotoPath($uploadedFile->getPath());
 //                $ticketPhoto->setFilename($fileName);
 //                $ticketPhoto->setOriginalFilename(($originalFilename!=null)?$originalFilename:$fileName);
 //                $ticketPhoto->setMimeType($uploadedFile->getMimeType());
 
-//                $this->em->persist($ticketPhoto);
+                $this->get("services")->blameOnMe($ticketPhoto, "create");
+                $this->get("services")->blameOnMe($ticketPhoto, "update");
+                $this->em->persist($ticketPhoto);
             }
 
             $this->em->persist($ticket);
@@ -2486,7 +2511,8 @@ class RestController extends FOSRestController
             $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
             try {
-                $uploadedFile->move(self::UPLOADS_FOLDER, $fileName);
+                $uploadPath = $this->getParameter('uploads_directory') . self::AVATAR_UPLOADS_FOLDER;
+                $uploadedFile->move($uploadPath, $fileName);
             } catch (FileException $e) {
                 throw new \Exception("Could not upload photo.");
             }
@@ -2677,9 +2703,9 @@ class RestController extends FOSRestController
 
             /** @var User $user */
             $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
-            if ($propertyContract != null) {
+            if ($user != null) {
                 $tenantContract->setUser($user);
-                $notification = $this->createInviteUserNotification($tenantContract, $user);
+                $notification = $this->createInviteUserNotification($tenantContract, $this->getUser(), $user);
                 $this->em->persist($notification);
             }
 
@@ -2704,7 +2730,7 @@ class RestController extends FOSRestController
         }
     }
 
-    private function createInviteUserNotification($tenantContract, $user)
+    private function createInviteUserNotification($tenantContract, $from, $to)
     {
         /** @var NotificationTypeRepository $notificationRepo */
         $notificationRepo = $this->em->getRepository('BackendAdminBundle:NotificationType');
@@ -2715,8 +2741,9 @@ class RestController extends FOSRestController
         $notification->setTenantContract($tenantContract);
         $notification->setNotificationType($notificationType);
 
-        $notification->setCreatedBy($user);
-        $notification->setUpdatedBy($user);
+        $notification->setCreatedBy($from);
+        $notification->setUpdatedBy($from);
+        $notification->setSentTo($to);
 
         $now = new \DateTime();
         $notification->setCreatedAt($now);
@@ -3333,7 +3360,6 @@ class RestController extends FOSRestController
             $commonAreaId = $request->get('common_area_id');
             $reservationDateFromSecs = trim($request->get('reservation_date_from'));
             $reservationDateToSecs = trim($request->get('reservation_date_to'));
-//            $reservationStatus = trim($request->get('reservation_status')); // ToDo: I removed it since it doesnt make sense
 
             $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findOneBy(array('enabled' => true, 'id' => $commonAreaId));
             if ($commonArea == null) {

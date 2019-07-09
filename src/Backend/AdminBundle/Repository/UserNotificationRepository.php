@@ -55,7 +55,7 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('t.enabled', '1')
             ))
             ->where('a.enabled = 1')
-            ->andWhere('a.createdBy = :user')
+            ->andWhere('a.sentTo = :user')
             ->setParameter('user', $user);
     }
 
