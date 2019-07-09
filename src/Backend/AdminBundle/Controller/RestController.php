@@ -708,40 +708,62 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid property code.");
             }
 
-            // First it needs to validate via SMS, before doing this relationship.
-//            $tenantRaw = $this->em->getRepository('BackendAdminBundle:TenantContract')->getApiWelcomePrivateKey($property);
-//            /** @var TenantContract $tenant */
-//            $tenant = $tenantRaw[0];
-//
-//            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(4);
-//
-//            $tenant->setUser($this->getUser());
-//            $tenant->setRole($role);
-//            $tenant->setIsOwner(true);
-//
-//            $property->setOwner($this->getUser());
-//
-//            $this->get("services")->blameOnMe($property, "update");
-//            $this->get("services")->blameOnMe($tenant, "update");
-//
-//            $this->em->persist($tenant);
-//            $this->em->persist($property);
-//            $this->em->flush();
-
             $type = $property->getPropertyType();
-            if ($type == null) {
-                $type = new PropertyType();
+            $typeId = 0;
+            if ($type != null) {
+                $typeId = $type->getId();
             }
             $complexSector = $property->getComplexSector();
-            if ($complexSector == null) {
-                $complexSector = new ComplexSector();
+            $complexSectorId = 0;
+            if ($complexSector != null) {
+                $complexSectorId = $complexSector->getId();
             }
+
+
+            // From validate SMS ...
+
+            $contracts = $this->em->getRepository('BackendAdminBundle:PropertyContract')->getApiWelcomePrivateKey($property);
+
+            if (count($contracts) <= 0) {
+                throw new \Exception("No available contracts.");
+            } else if (count($contracts) > 1) {
+                throw new \Exception("One or more active contracts.");
+            }
+
+            $contract = $contracts[0];
+
+            $tenants = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array('enabled' => true, 'isOwner' => true, 'propertyContract' => $contract));
+
+            if (count($tenants) > 0) {
+                throw new \Exception("A tenant is already owner.");
+            }
+
+            $tenant = new TenantContract();
+
+            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(self::TENANT_ROLE_ID);
+
+            $tenant->setUser($this->getUser());
+            $tenant->setRole($role);
+            $tenant->setPropertyContract($contract);
+            $tenant->setIsOwner(true);
+            $tenant->setEnabled(true);
+
+            $property->setOwner($this->getUser());
+
+            $this->get("services")->blameOnMe($property, "update");
+            $this->get("services")->blameOnMe($tenant, "update");
+
+            $this->em->persist($tenant);
+            $this->em->persist($property);
+            $this->em->flush();
+
 
             $data = array(
                 'id' => $property->getId(),
+                'tenant_id' => $tenant->getId(), //  ToDo: Check if makes sense
                 'code' => $property->getCode(), 'name' => $property->getName(),
-                'address' => $property->getAddress(), 'type_id' => $type->getId(),
-                'sector_id' => $complexSector->getId(), 'teamCorrelative' => $property->getTeamCorrelative());
+                'address' => $property->getAddress(), 'type_id' => $typeId,
+                'sector_id' => $complexSectorId, 'teamCorrelative' => $property->getTeamCorrelative());
 
             return new JsonResponse(array('message' => "welcomePrivateKey", 'data' => $data,));
         } catch (Exception $ex) {
@@ -1028,180 +1050,6 @@ class RestController extends FOSRestController
             );
 
             return new JsonResponse(array('message' => "", 'data' => $data));
-        } catch (Exception $ex) {
-            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Sends SMS to validate.
-     *
-     * This relies on Twilio to send an SMS to the user with a code.
-     *
-     * @Rest\Post("/v1/sendSMS", name="sendSMS")
-     *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
-     *
-     * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
-     *
-     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
-     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Sends successfully a sms to the user.",
-     *     @SWG\Schema (
-     *          @SWG\Property( property="message", type="string", example="" )
-     *      )
-     * )
-     *
-     * @SWG\Response(
-     *     response=500, description="Internal error.",
-     *     @SWG\Schema (
-     *          @SWG\Property(property="data", type="string", example="" ),
-     *          @SWG\Property( property="message", type="string", example="Internal error." )
-     *     )
-     * )
-     *
-     * @SWG\Tag(name="User")
-     */
-    public function postSendSmsAction(Request $request)
-    {
-        try {
-            $this->initialise();
-
-            if (!$request->headers->has('Content-Type')) {
-                throw new \Exception("Missing Content-Type header.");
-            }
-
-            $propertyCode = strtolower(trim($request->get('property_code')));
-
-            /** @var Property $property */
-            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode));
-            if ($property == null) {
-                throw new \Exception("Invalid property code.");
-            }
-
-            $smsCode = $pass = $this->random_str(6, '0123456789');
-
-            $logger = $this->get('logger');
-            $logger->debug("SMS_CODE = " . $smsCode);
-
-            $property->setSmsCode($smsCode);
-            $this->get("services")->blameOnMe($property, "update");
-
-            $this->em->persist($property);
-            $this->em->flush();
-
-            $smsMessage = $this->translator->trans('sms.code', ['%code%' => $smsCode]);
-
-//            $msg = $this->get('services')->serviceSendSMS($smsMessage, $user->getMobilePhone() );
-
-            $response = array('message' => "");
-            if ($this->container->getParameter('kernel.environment') == 'dev') {
-                $response['debug'] = $smsCode;
-            }
-            return new JsonResponse($response);
-        } catch (Exception $ex) {
-            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Validates SMS.
-     *
-     * Validates the code sent via sendSMS endpoint..
-     *
-     * @Rest\Post("/v1/validateSMS", name="validateSMSCode")
-     *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
-     *
-     * @SWG\Parameter( name="property_code", in="body", required=true, type="string", description="The code of the property.", schema={} )
-     * @SWG\Parameter( name="sms_code", in="body", required=true, type="string", description="The code received by SMS.", schema={} )
-     *
-     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
-     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Validates a sms code for the property for the user.",
-     *     @SWG\Schema (
-     *          @SWG\Property( property="message", type="string", example="" )
-     *      )
-     * )
-     *
-     * @SWG\Response(
-     *     response=500, description="Internal error.",
-     *     @SWG\Schema (
-     *          @SWG\Property(property="data", type="string", example="" ),
-     *          @SWG\Property( property="message", type="string", example="Internal error." )
-     *     )
-     * )
-     *
-     * @SWG\Tag(name="User")
-     */
-    public function postValidateSmsAction(Request $request)
-    {
-        try {
-            $this->initialise();
-
-            if (!$request->headers->has('Content-Type')) {
-                throw new \Exception("Missing Content-Type header.");
-            }
-
-            $propertyCode = strtolower(trim($request->get('property_code')));
-            $smsCode = strtolower(trim($request->get('sms_code')));
-
-            /** @var Property $property */
-            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'code' => $propertyCode, 'sms_code' => $smsCode));
-            if ($property == null) {
-                throw new \Exception("Invalid property code.");
-            }
-
-            $contracts = $this->em->getRepository('BackendAdminBundle:PropertyContract')->getApiWelcomePrivateKey($property);
-
-            if (count($contracts) <= 0) {
-                throw new \Exception("No available contracts.");
-            } else if (count($contracts) > 1) {
-                throw new \Exception("One or more active contracts.");
-            }
-
-            $contract = $contracts[0];
-
-            $tenants = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array('enabled' => true, 'isOwner' => true, 'propertyContract' => $contract));
-
-            if (count($tenants) > 0) {
-                throw new \Exception("A tenant is already owner.");
-            }
-
-            $tenant = new TenantContract();
-
-            $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(self::TENANT_ROLE_ID);
-
-            $tenant->setUser($this->getUser());
-            $tenant->setRole($role);
-            $tenant->setPropertyContract($contract);
-            $tenant->setIsOwner(true);
-            $tenant->setEnabled(true);
-
-            $property->setOwner($this->getUser());
-
-            $this->get("services")->blameOnMe($property, "update");
-            $this->get("services")->blameOnMe($tenant, "update");
-
-            $this->em->persist($tenant);
-            $this->em->persist($property);
-            $this->em->flush();
-
-            return new JsonResponse(array(
-                'message' => "validateSMSCode",
-            ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
