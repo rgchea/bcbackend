@@ -48,9 +48,52 @@ class CompanyController extends Controller
         //$msg = $this->get('services')->serviceSendSMS("hello there monkey", "+50241550669");
         //var_dump($msg);die;
 
+
+        //###SENDGRID TRANSACTIONAL TEST BEGINS
+
+
+        $myJson = '{
+                       "from":{
+                          "email":"renato@pizotesoft.com"
+                       },
+                       "personalizations":[
+                          {
+                             "to":[
+                                        {
+                                           "email":"cheametal@gmail.com"
+                                        }
+                                     ],                              
+                             "dynamic_template_data":{
+                                "news":
+                                    [
+                                        {"article": "test", "text": "otro test"},
+                                        {"article": "test1", "text": "otro test1"}
+                                    ]
+                    
+                    
+                             }
+                          }
+                       ],
+                       "template_id":"d-38e4355a007149c983fbd19ee2f9856b"
+                    }';
+
+
+        $body = json_decode($myJson, true);
+        //print "<pre>";
+        //var_dump($body);die;
+        $templateID = "d-38e4355a007149c983fbd19ee2f9856b";
+
+        //$sendgridResponse = $this->get('services')->callSendgrid($body, $templateID);
+        //var_dump($sendgridResponse);die;
+
+        //###SENDGRID TRANSACTIONAL TEST ENDS
+
+
+
         ## GET SPACE TOKEN
-        $token = $this->get('services')->getBCToken();
+        //$token = $this->get('services')->getBCToken();
         //var_dump($token);die;
+
 
         //////GAMEBOARD.SPACE TESTING
         ///
@@ -81,12 +124,13 @@ class CompanyController extends Controller
 
         ## Create a new Team
         $body = array();
-        $body['name'] = "Pizote Team X1";
+        $body['name'] = "Pizote Team X1.1";
         $body['description'] = "Pizote testing";
         $body['teamType'] = 5;
+        $body['parent'] = 27;
 
-        //$createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
-        //var_dump($createTeam);die;
+        $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
+        var_dump($createTeam);die;
 
 
         ## Add user to team

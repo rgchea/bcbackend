@@ -196,4 +196,33 @@ class AdminSetting
     {
         return $this->updatedBy;
     }
+    /**
+     * @var string|null
+     */
+    private $sendgridApiKey = '';
+
+
+    /**
+     * Set sendgridApiKey.
+     *
+     * @param string|null $sendgridApiKey
+     *
+     * @return AdminSetting
+     */
+    public function setSendgridApiKey($sendgridApiKey = null)
+    {
+        $this->sendgridApiKey = $sendgridApiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get sendgridApiKey.
+     *
+     * @return string|null
+     */
+    public function getSendgridApiKey()
+    {
+        return $this->sendgridApiKey;
+    }
 }

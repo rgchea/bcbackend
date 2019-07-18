@@ -634,6 +634,41 @@ class Services extends Controller
 
     }
 
+
+    public function callSendgrid($body, $templateID){
+
+        //$token = "ZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQ";
+        $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
+        $apiKey = $repo->getSendgridApiKey();
+        //var_dump($apiKey);die;
+
+        $client = new \GuzzleHttp\Client();
+
+        $params = ['headers' => ['Authorization' => 'Bearer '.$apiKey, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json'],
+            'json' => $body];
+
+        //var_dump($params);die;
+
+        $response = $client->post('https://api.sendgrid.com/v3/mail/send', $params);
+
+        //var_dump($response->getBody()->getContents());
+        //die;
+
+
+        //print "<pre>";
+        //var_dump($response->getStatusCode()); # 200
+        //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
+        //die;
+
+        $arrResponse = json_decode($response->getBody(), true);
+        //$arrResponse =  $arrResponse["recordset"];
+        return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
+
+
+
+    }
+
+
     public function callBCInfo($method, $service, $body = null){
 
         //var_dump($body);die;

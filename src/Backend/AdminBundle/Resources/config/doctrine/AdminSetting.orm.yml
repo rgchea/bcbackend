@@ -27,6 +27,16 @@ Backend\AdminBundle\Entity\AdminSetting:
                 fixed: false
                 default: ''
             column: space_api_token
+        sendgridApiKey:
+            type: string
+            nullable: true
+            length: 512
+            options:
+                fixed: false
+                default: ''
+            column: sendgrid_api_key
+
+
         duePaymentDay:
             type: integer
             nullable: true

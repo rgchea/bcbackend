@@ -28,12 +28,20 @@ Backend\AdminBundle\Entity\Business:
             generator:
                 strategy: IDENTITY
     fields:
+        teamCorrelative:
+            type: integer
+            nullable: true
+            options:
+                unsigned: true
+                comment: 'correlativo gamification'
+            column: team_correlative
 
         customerId:
             type: integer
             nullable: true
             options:
                 unsigned: false
+                comment: 'correlativo iBilling'
             column: customer_id
         taxIdentifier:
             type: string

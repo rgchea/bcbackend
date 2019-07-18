@@ -28,6 +28,12 @@ Backend\AdminBundle\Entity\TenantContract:
             generator:
                 strategy: IDENTITY
     fields:
+        playerId:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: player_id
         createdAt:
             type: datetime
             nullable: false

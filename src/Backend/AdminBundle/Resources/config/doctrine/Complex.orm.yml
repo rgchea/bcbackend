@@ -32,6 +32,29 @@ Backend\AdminBundle\Entity\Complex:
             generator:
                 strategy: IDENTITY
     fields:
+        teamCorrelative:
+            type: integer
+            nullable: true
+            options:
+                unsigned: true
+                comment: 'correlativo gamification complex'
+            column: team_correlative
+
+        teamCorrelativeTenant:
+            type: integer
+            nullable: true
+            options:
+                unsigned: true
+                comment: 'correlativo gamification tenant'
+            column: team_correlative_tenant
+        teamCorrelativeAdmin:
+            type: integer
+            nullable: true
+            options:
+                unsigned: true
+                comment: 'correlativo gamification admin'
+            column: team_correlative_admin
+
         name:
             type: string
             nullable: true

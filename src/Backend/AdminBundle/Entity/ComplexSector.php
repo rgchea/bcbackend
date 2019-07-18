@@ -346,4 +346,33 @@ class ComplexSector
         return $this->getName();
     }
 
+    /**
+     * @var int|null
+     */
+    private $teamCorrelative;
+
+
+    /**
+     * Set teamCorrelative.
+     *
+     * @param int|null $teamCorrelative
+     *
+     * @return ComplexSector
+     */
+    public function setTeamCorrelative($teamCorrelative = null)
+    {
+        $this->teamCorrelative = $teamCorrelative;
+
+        return $this;
+    }
+
+    /**
+     * Get teamCorrelative.
+     *
+     * @return int|null
+     */
+    public function getTeamCorrelative()
+    {
+        return $this->teamCorrelative;
+    }
 }

@@ -400,6 +400,22 @@ class BusinessController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
+            //create team on gamification
+            $body = array();
+            $body['name'] = $entity->getName();
+            $body['description'] = $entity->getPhoneCountry()->getCode()." ".$entity->getPhoneNumber()." ".$entity->getAddress();
+            $body['teamType'] = 2;//business
+            $body["parent"] = 27;//General
+
+            $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
+            if($createTeam){
+                $teamID = $createTeam["id"];
+                $entity->setTeamCorrelative($teamID);
+                $this->em->persist($entity);
+                $this->em->flush();
+
+            }
+
 
             //SET BUSINESS TO THE USER
             $userID = intval($_REQUEST["userID"]);

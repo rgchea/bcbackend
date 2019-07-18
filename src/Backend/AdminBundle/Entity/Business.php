@@ -585,4 +585,33 @@ class Business
     {
         return $this->phoneCountry;
     }
+    /**
+     * @var int|null
+     */
+    private $teamCorrelative;
+
+
+    /**
+     * Set teamCorrelative.
+     *
+     * @param int|null $teamCorrelative
+     *
+     * @return Business
+     */
+    public function setTeamCorrelative($teamCorrelative = null)
+    {
+        $this->teamCorrelative = $teamCorrelative;
+
+        return $this;
+    }
+
+    /**
+     * Get teamCorrelative.
+     *
+     * @return int|null
+     */
+    public function getTeamCorrelative()
+    {
+        return $this->teamCorrelative;
+    }
 }

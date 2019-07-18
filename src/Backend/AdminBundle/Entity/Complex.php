@@ -726,4 +726,91 @@ class Complex
     {
         return $this->phoneCountry;
     }
+    /**
+     * @var int|null
+     */
+    private $teamCorrelativeTenant;
+
+    /**
+     * @var int|null
+     */
+    private $teamCorrelativeAdmin;
+
+
+    /**
+     * Set teamCorrelativeTenant.
+     *
+     * @param int|null $teamCorrelativeTenant
+     *
+     * @return Complex
+     */
+    public function setTeamCorrelativeTenant($teamCorrelativeTenant = null)
+    {
+        $this->teamCorrelativeTenant = $teamCorrelativeTenant;
+
+        return $this;
+    }
+
+    /**
+     * Get teamCorrelativeTenant.
+     *
+     * @return int|null
+     */
+    public function getTeamCorrelativeTenant()
+    {
+        return $this->teamCorrelativeTenant;
+    }
+
+    /**
+     * Set teamCorrelativeAdmin.
+     *
+     * @param int|null $teamCorrelativeAdmin
+     *
+     * @return Complex
+     */
+    public function setTeamCorrelativeAdmin($teamCorrelativeAdmin = null)
+    {
+        $this->teamCorrelativeAdmin = $teamCorrelativeAdmin;
+
+        return $this;
+    }
+
+    /**
+     * Get teamCorrelativeAdmin.
+     *
+     * @return int|null
+     */
+    public function getTeamCorrelativeAdmin()
+    {
+        return $this->teamCorrelativeAdmin;
+    }
+    /**
+     * @var int|null
+     */
+    private $teamCorrelative;
+
+
+    /**
+     * Set teamCorrelative.
+     *
+     * @param int|null $teamCorrelative
+     *
+     * @return Complex
+     */
+    public function setTeamCorrelative($teamCorrelative = null)
+    {
+        $this->teamCorrelative = $teamCorrelative;
+
+        return $this;
+    }
+
+    /**
+     * Get teamCorrelative.
+     *
+     * @return int|null
+     */
+    public function getTeamCorrelative()
+    {
+        return $this->teamCorrelative;
+    }
 }
