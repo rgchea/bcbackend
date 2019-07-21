@@ -112,14 +112,14 @@ class CompanyController extends Controller
 
         ## Create a new user
         $body = array();
-        $body['email'] = "pizotexx6@pizotesoft.com";
-        $body['username'] = "pizotexx6";
-        $body['firstName'] = "pizote xx 6";
+        $body['email'] = "pizotexx8@pizotesoft.com";
+        $body['username'] = "pizotexx8";
+        $body['firstName'] = "pizote xx 8";
         $body['lastName'] = "soft";
         $body['locale'] = "es";
 
-        //$createUser = $this->get('services')->callBCSpace("POST", "users", $body);
-        //var_dump($createUser);die;
+        $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
+        var_dump($createUser);die;
 
 
         ## Create a new Team
