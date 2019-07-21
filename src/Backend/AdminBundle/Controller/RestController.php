@@ -574,8 +574,6 @@ class RestController extends FOSRestController
 
             $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
-            echo $gamificationResponse;
-
             // Flushing to DB
             $this->em->flush();
 
