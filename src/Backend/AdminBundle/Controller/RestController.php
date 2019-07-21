@@ -551,6 +551,7 @@ class RestController extends FOSRestController
 
             $this->em->persist($user);
 
+            // Checking for Invite User Notifications for the registering email
             /** @var TenantContractRepository $tenantRepo */
             $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
             $tenantContracts = $tenantRepo->getApiRegister($email);
@@ -563,8 +564,22 @@ class RestController extends FOSRestController
                 $this->em->persist($notification);
             }
 
+            // Gamification
+            $body = array();
+            $body['email'] = $user->getEmail();
+            $body['username'] = $user->getUsername();
+            $body['firstName'] = $user->getName();
+            $body['lastName'] = $user->getLastName();
+            $body['locale'] = $lang;
+
+            $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
+
+            echo $gamificationResponse;
+
+            // Flushing to DB
             $this->em->flush();
 
+            // Sending Email
             $this->translator->setLocale($lang);
             $subject = $this->translator->trans('mail.register_subject');
             $bodyHtml = "<b>" . $this->translator->trans('mail.label_user') . "</b> " . $user->getUsername() . "<br/>";
@@ -648,8 +663,6 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-// ToDo: Ya no existe el SMS, entonces hay q hacer lo del SMS aca.
 
     /**
      * Adds a new property to a user by using the property code.
@@ -760,7 +773,7 @@ class RestController extends FOSRestController
 
             $data = array(
                 'id' => $property->getId(),
-                'tenant_id' => $tenant->getId(), //  ToDo: Check if makes sense
+                'tenant_id' => $tenant->getId(),
                 'code' => $property->getCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $typeId,
                 'sector_id' => $complexSectorId, 'teamCorrelative' => $property->getTeamCorrelative());
@@ -3353,6 +3366,10 @@ class RestController extends FOSRestController
 
             // ToDo: pending definition.
 
+            // Por cada movida q sea de agregar puntos, hay q hacerlo con el team_correlative en property_contract y tambien en complex
+            // porque ellos lo quieren asi, pero para canjear puntos solo se hace del team_correlative de property_contract.
+            // Para obtener el segundo property_contract hay q jalar de property -> complex.team_correlative.
+
             return new JsonResponse(array(
                 'message' => "listPayments"
             ));
@@ -3413,7 +3430,7 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
-            // ToDo: pending definition.
+            // ToDo: pending definition from other service which is not gamification.
 
             return new JsonResponse(array(
                 'message' => "listPayments",
@@ -3628,6 +3645,28 @@ class RestController extends FOSRestController
             $pieces [] = $keyspace[random_int(0, $max)];
         }
         return implode('', $pieces);
+    }
+
+    private function callGamificationService( $method, $service, $options = array()) {
+        $success = false;
+        $attemps = 0;
+
+        $response = false;
+
+        while ( !$success && $attemps < 2 ) {
+            $attemps++;
+            try {
+                $response = $this->get('services')->callBCSpace($method, $service, $options);
+                printf(" ------------------ This never happens ------------------ ");
+                $success = true;
+            } catch (\GuzzleHttp\Exception\ClientException $ex) {
+                printf(" ---= Error %s  =--- ", $ex->getMessage());
+                $token = $this->get('services')->getBCToken();
+                printf("Generating new token with response %s \n", ($token)?"true":"false");
+            }
+        }
+
+        return $response;
     }
 
 }

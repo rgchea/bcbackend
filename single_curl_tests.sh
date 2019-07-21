@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 API_URL="http://localhost:8580/api"
+#API_URL="http://bettercondos.pizotesoftdev.com/api"
 LANGUAGE="en"
 APP_VERSION="1.0.0"
 CODE_VERSION="1.0.0"
@@ -26,23 +27,39 @@ AUTH_FLAG="Authorization: BEARER ${token}"
 
 echo " ---------------------------------------- "
 
-#payload=$(printf '{"common_area_id": %d, "reservation_date_from": %d, "reservation_date_to": %d}' 1 1560160800 1560247200)
-#
-#response=$(curl -s -XPOST "${API_URL}/v1/commonAreaReservation?${DEFAULT_QUERY}" \
-#    -H  "accept: application/json" \
-#    -H  "Content-Type: application/json" \
-#    -H  "Authorization: BEARER ${token}" \
-#    -d "${payload}")
-#
-#echo "${response}"
+echo " ---------------------------------------- Create user "
 
-URL="${API_URL}/v1/polls/1?${DEFAULT_QUERY}"
-response=$(curl -s -XGET "${URL}" -H "${ACCEPTS_FLAG}" -H "${CONTENT_FLAG}" -H "${AUTH_FLAG}")
+user_timestamp=$(date -u +%s)
+password="chepe"
+payload=$(printf '{"name": "Chepe Alvarez", "mobile_phone": "+330695507415", "country_code": "1", "email": "%s", "password": "%s"}' "chepeftw${user_timestamp}@gmail.com" "${password}")
 
-#echo "${response}"
-echo "${response}" | jq -r '.message'
-echo "${response}" | jq -r '.metadata'
-echo "${response}" | jq -r '.data'
+echo ${payload}
+echo " ------ "
 
+response=$(curl -s -XPOST "${API_URL}/register?${DEFAULT_QUERY}" \
+    -H "${ACCEPTS_FLAG}" -H "${CONTENT_FLAG}" -H "${AUTH_FLAG}" \
+    -d "${payload}")
+
+echo ${response}
+
+echo " - "
+echo " - "
+
+echo " ---------------------------------------- test login "
+
+payload=$(printf '{"_username": "%s", "_password": "%s"}' "chepeftw${user_timestamp}@gmail.com" "${password}")
+response=$(curl -s -XPOST "${API_URL}/login_check?${DEFAULT_QUERY}" \
+    -H "${ACCEPTS_FLAG}" -H "${CONTENT_FLAG}" \
+    -d "${payload}")
+
+token=$(echo "${response}" | jq -r '.token')
+
+if [[ -n "${token}" ]]; then
+    echo "LOGIN OK!"
+else
+    echo "FAIL ..."
+fi
+
+echo ""
 
 echo " ---------------------------------------- "
