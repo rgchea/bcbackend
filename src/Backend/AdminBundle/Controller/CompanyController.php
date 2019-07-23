@@ -112,9 +112,9 @@ class CompanyController extends Controller
 
         ## Create a new user
         $body = array();
-        $body['email'] = "pizotexx8@pizotesoft.com";
-        $body['username'] = "pizotexx8";
-        $body['firstName'] = "pizote xx 8";
+        $body['email'] = "zorrillo1@pizotesoft.com";
+        $body['username'] = "zorrillo1";
+        $body['firstName'] = "zorrillo1";
         $body['lastName'] = "soft";
         $body['locale'] = "es";
 
