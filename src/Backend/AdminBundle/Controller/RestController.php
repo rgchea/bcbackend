@@ -567,11 +567,13 @@ class RestController extends FOSRestController
             // Gamification
             $body = [
                 'email' => $user->getEmail(),
-                'username' => $user->getUsername(),
+                'username' => $user->getEmail(),
                 'firstName' => $user->getName(),
-                'lastName' => $user->getLastName(),
+                'lastName' => $user->getName(),
                 'locale' => $lang,
             ];
+
+
 
 //            $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
 //            var_dump($createUser);die;
@@ -599,6 +601,8 @@ class RestController extends FOSRestController
 //            fclose($myfile);
 
             $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
+
+            //var_dump($gamificationResponse);die;
 
             // Flushing to DB
             $this->em->flush();
