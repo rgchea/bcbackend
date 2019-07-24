@@ -600,23 +600,47 @@ class Services extends Controller
         $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
         $token = $repo->getSpaceApiToken();
 
-
+        $gameboardURL = "https://gameboard.space/api/v1/%s";
+//        $gameboardURL = "https://gameboard.space/api/v1/%s.json";
 
         $client = new \GuzzleHttp\Client();
         if($method == "GET"){
             $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json']];
-            $response = $client->request($method, 'https://gameboard.space/api/v1/'.$service, $params);
+            $response = $client->request($method, sprintf($gameboardURL, $service), $params);
         }
         else{
-            $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json'],
-                        'json' => $body];
+            $myfile = fopen("webdictionary.txt", "w") or die("Unable to open file!");
+
+            $params = [
+                'headers' => ['Authorization' => 'Bearer ' . $token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache' ],
+                'json' => $body,
+                'debug' => $myfile,
+//                'config' => [
+//                    'curl' => [
+//                        'body_as_string' => true,
+//                    ],
+//                ]
+            ];
+
+//            var_dump($params);
+
+            $response = $client->request($method, sprintf($gameboardURL, $service), $params);
+
+            var_dump($response);
+
+            fclose($myfile);
+            //var_dump($response->getBody()->getContents());
+            //die;
+
+
+
+
+//            $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json'],
+//                        'json' => $body];
 
             //var_dump($params);die;
 
-            $response = $client->post('https://gameboard.space/api/v1/'.$service, $params);
-
-            //var_dump($response->getBody()->getContents());
-            //die;
+//            $response = $client->post('https://gameboard.space/api/v1/'.$service, $params);
 
         }
 

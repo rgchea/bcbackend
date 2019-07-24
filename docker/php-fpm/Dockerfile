@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:7.1-fpm-alpine
 
 # Type docker-php-ext-install to see available extensions
 RUN docker-php-ext-install pdo pdo_mysql
@@ -17,6 +17,7 @@ RUN apk upgrade --update && apk add --no-cache \
   g++ \
   make \
   tzdata \
+  curl \
 #&& docker-php-ext-configure mcrypt --with-mcrypt \
 #&& docker-php-ext-install  mcrypt \
 && docker-php-ext-configure gd --with-jpeg-dir=/usr/include --with-png-dir=/usr/include --with-webp-dir=/usr/include --with-freetype-dir=/usr/include \
