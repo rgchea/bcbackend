@@ -400,7 +400,7 @@ class BusinessController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
-            //create team on gamification
+            //CREATE BUSINESS TEAM ON GAMIFICATION
             $body = array();
             $body['name'] = $entity->getName();
             $body['description'] = $entity->getPhoneCountry()->getCode()." ".$entity->getPhoneNumber()." ".$entity->getAddress();

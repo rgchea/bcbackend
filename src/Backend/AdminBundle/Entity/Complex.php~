@@ -784,4 +784,33 @@ class Complex
     {
         return $this->teamCorrelativeAdmin;
     }
+    /**
+     * @var int|null
+     */
+    private $teamCorrelative;
+
+
+    /**
+     * Set teamCorrelative.
+     *
+     * @param int|null $teamCorrelative
+     *
+     * @return Complex
+     */
+    public function setTeamCorrelative($teamCorrelative = null)
+    {
+        $this->teamCorrelative = $teamCorrelative;
+
+        return $this;
+    }
+
+    /**
+     * Get teamCorrelative.
+     *
+     * @return int|null
+     */
+    public function getTeamCorrelative()
+    {
+        return $this->teamCorrelative;
+    }
 }

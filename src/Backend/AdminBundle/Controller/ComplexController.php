@@ -463,6 +463,66 @@ class ComplexController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
+            ///CREATE COMPLEX TEAM ON GAMIFICATION
+            ///
+            $body = array();
+            $body['name'] = $entity->getName();
+            $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName();
+            $body['teamType'] = 3;//complex
+            $body["parent"] = $entity->getBusiness()->getTeamCorrelative();//Business team correlative
+            //
+            $createTeamComplex = $this->get('services')->callBCSpace("POST", "teams", $body);
+            if($createTeamComplex){
+                $teamIDComplex = $createTeamComplex["id"];
+                $entity->setTeamCorrelative($teamIDComplex);
+                $this->em->persist($entity);
+
+                //CREATE TEAMS -> ADMINS / TENANT
+                //create admin user on gamification and enroll to team admins
+
+                //TENANTS
+                $body = array();
+                $body['name'] = $entity->getName() . "TENANTS";
+                $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName(). "TENANTS";
+                $body['teamType'] = 6;//tenants
+                $body["parent"] = $teamIDComplex;//Complex team correlative
+                //
+                $createTeamComplexTenant = $this->get('services')->callBCSpace("POST", "teams", $body);
+                if($createTeamComplexTenant){
+                    $teamIDComplexTenant = $createTeamComplexTenant["id"];
+                    $entity->setTeamCorrelativeTenant($teamIDComplexTenant);
+                    $this->em->persist($entity);
+
+
+                }
+
+                //ADMINS
+                $body = array();
+                $body['name'] = $entity->getName() . "ADMINS";
+                $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName(). "ADMINS";
+                $body['teamType'] = 7;//admins
+                $body["parent"] = $teamIDComplex;//Complex team correlative
+                //
+                $createTeamComplexAdmin = $this->get('services')->callBCSpace("POST", "teams", $body);
+                if($createTeamComplexAdmin){
+                    $teamIDComplexAdmin = $createTeamComplexAdmin["id"];
+                    $entity->setTeamCorrelativeAdmin($teamIDComplexAdmin);
+                    $this->em->persist($entity);
+
+
+                }
+
+
+
+                $this->em->flush();
+
+            }
+
+
+
+
+
+
             //USER COMPLEX
             $userComplex = new UserComplex();
             $userComplex->setComplex($entity);

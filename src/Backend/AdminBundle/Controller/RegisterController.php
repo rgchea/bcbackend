@@ -155,6 +155,20 @@ class RegisterController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
+            $myLocale = $this->translator->getLocale();
+
+            $body = array();
+            $body['email'] = $entity->getEmail();
+            $body['username'] = $entity->getEmail();
+            $body['firstName'] = $entity->getName();
+            $body['lastName'] = $entity->getName();
+            $body['locale'] = $myLocale;
+
+            $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
+            if($createUser){
+                //ok
+            }
+
 
 			$this->get('services')->flashSuccess($request);
             //return $this->redirect($this->generateUrl(''));
@@ -174,7 +188,7 @@ class RegisterController extends Controller
             $bodyHtml = "<b>Email: </b>".$entity->getEmail()."<br/>";
             $bodyHtml .= $this->translator->trans('mail.register_confirm_body')."&nbsp;";
 
-            $myLocale = $this->translator->getLocale();
+
             $baseURL = str_replace($request->getPathInfo(), "", $request->getUri())."/".$myLocale ;
             $href = $baseURL."/business/new/?regtoken=".$regToken;
             $bodyHtml .= "<a href='".$href."'>".$this->translator->trans('mail.register_confirm_click')."</a>";

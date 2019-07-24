@@ -34,6 +34,12 @@ Backend\AdminBundle\Entity\User:
             generator:
                 strategy: IDENTITY
     fields:
+        playerId:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+            column: player_id
         name:
             type: string
             nullable: false

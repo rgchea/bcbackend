@@ -343,4 +343,33 @@ class TenantContract
     {
         return $this->invitationUserEmail;
     }
+    /**
+     * @var int|null
+     */
+    private $playerId;
+
+
+    /**
+     * Set playerId.
+     *
+     * @param int|null $playerId
+     *
+     * @return TenantContract
+     */
+    public function setPlayerId($playerId = null)
+    {
+        $this->playerId = $playerId;
+
+        return $this;
+    }
+
+    /**
+     * Get playerId.
+     *
+     * @return int|null
+     */
+    public function getPlayerId()
+    {
+        return $this->playerId;
+    }
 }
