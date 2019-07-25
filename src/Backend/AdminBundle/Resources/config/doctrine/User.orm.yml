@@ -56,8 +56,6 @@ Backend\AdminBundle\Entity\User:
         birthdate:
             type: date
             nullable: true
-            options:
-                default: '0000-00-00'
             column: birthdate
 
         rating:
