@@ -626,9 +626,9 @@ class Services extends Controller
 
             $response = $client->request($method, sprintf($gameboardURL, $service), $params);
 
-            //var_dump($response);
+            var_dump($response);
 
-            //fclose($myfile);
+            fclose($myfile);
             //var_dump($response->getBody()->getContents());
             //die;
 
