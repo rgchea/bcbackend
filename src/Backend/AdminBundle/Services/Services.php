@@ -626,9 +626,9 @@ class Services extends Controller
 
             $response = $client->request($method, sprintf($gameboardURL, $service), $params);
 
-            var_dump($response);
+            //var_dump($response);
 
-            fclose($myfile);
+            //fclose($myfile);
             //var_dump($response->getBody()->getContents());
             //die;
 
@@ -653,7 +653,6 @@ class Services extends Controller
         $arrResponse = json_decode($response->getBody(), true);
         //$arrResponse =  $arrResponse["recordset"];
         return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
-
 
 
     }

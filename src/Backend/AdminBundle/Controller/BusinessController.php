@@ -400,6 +400,8 @@ class BusinessController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
+            $token = $this->get('services')->getBCToken();
+
             //CREATE BUSINESS TEAM ON GAMIFICATION
             $body = array();
             $body['name'] = $entity->getName();

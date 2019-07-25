@@ -415,7 +415,6 @@ class ComplexController extends Controller
             //var_dump($myRequest);die;
             //var_dump($request->get('complex');die;
 
-
             $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
             $entity->setGeoState($geoState);
 
@@ -463,6 +462,9 @@ class ComplexController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
+
+            $token = $this->get('services')->getBCToken();
+
             ///CREATE COMPLEX TEAM ON GAMIFICATION
             ///
             $body = array();
@@ -478,7 +480,7 @@ class ComplexController extends Controller
                 $this->em->persist($entity);
 
                 //CREATE TEAMS -> ADMINS / TENANT
-                //create admin user on gamification and enroll to team admins
+
 
                 //TENANTS
                 $body = array();
@@ -509,8 +511,23 @@ class ComplexController extends Controller
                     $entity->setTeamCorrelativeAdmin($teamIDComplexAdmin);
                     $this->em->persist($entity);
 
-
                 }
+
+
+
+                //create admin user on gamification and enroll to team admins
+                $body = array();
+                $body['email'] = $this->userLogged->getEmail();
+                $body['username'] = $this->userLogged->getEmail();
+                $body['firstName'] = $this->userLogged->getName();
+                $body['lastName'] = $this->userLogged->getName();
+                $body['locale'] = $businessLocale;
+
+                $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
+
+                //Enroll user to the team admins
+                $body = array();
+                $userTeam = $this->get('services')->callBCSpace("POST", "users/{$this->userLogged->getEmail()}/teams/{$teamIDComplexAdmin}", $body);
 
 
 
@@ -546,6 +563,24 @@ class ComplexController extends Controller
 
                 $this->em->persist($newSector);
                 $this->em->flush();
+
+                ///CREATE TEAM SECTOR
+                ///
+                //TENANTS
+                $body = array();
+                $body['name'] = $newSector->getName();
+                $body['description'] = $newSector->getName();
+                $body['teamType'] = 4;//sector
+                $body["parent"] = $teamIDComplexTenant;//Complex team correlative
+                //
+                $createTeamSector = $this->get('services')->callBCSpace("POST", "teams", $body);
+                if($createTeamSector){
+                    $teamIDSector = $createTeamSector["id"];
+                    $newSector->setTeamCorrelative($teamIDSector);
+                    $this->em->persist($newSector);
+                    $this->em->flush();
+
+                }
 
                 //CREATE PROPERTIES
                 for ($j=1; $j<=$propertiesPerSection; $j++){

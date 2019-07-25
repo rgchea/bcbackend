@@ -156,6 +156,7 @@ class RegisterController extends Controller
             $this->em->flush();
 
             $myLocale = $this->translator->getLocale();
+            $token = $this->get('services')->getBCToken();
 
             $body = array();
             $body['email'] = $entity->getEmail();
