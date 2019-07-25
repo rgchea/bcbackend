@@ -609,12 +609,12 @@ class Services extends Controller
             $response = $client->request($method, sprintf($gameboardURL, $service), $params);
         }
         else{
-            $myfile = fopen("webdictionary.txt", "w") or die("Unable to open file!");
+            //$myfile = fopen("webdictionary.txt", "w") or die("Unable to open file!");
 
             $params = [
                 'headers' => ['Authorization' => 'Bearer ' . $token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache' ],
                 'json' => $body,
-                'debug' => $myfile,
+                //'debug' => $myfile,
 //                'config' => [
 //                    'curl' => [
 //                        'body_as_string' => true,
@@ -626,9 +626,9 @@ class Services extends Controller
 
             $response = $client->request($method, sprintf($gameboardURL, $service), $params);
 
-            var_dump($response);
+            //var_dump($response);
 
-            fclose($myfile);
+            //fclose($myfile);
             //var_dump($response->getBody()->getContents());
             //die;
 
