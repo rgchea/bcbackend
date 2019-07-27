@@ -8,10 +8,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Translation\TranslatorInterface;
-//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-
-
 
 
 use Backend\AdminBundle\Entity\ComplexFaq;
@@ -58,6 +54,7 @@ class ComplexFaqController extends Controller
 
         //print $this->translator->getLocale();die;
 
+
         return $this->render('BackendAdminBundle:ComplexFaq:index.html.twig');
 
 
@@ -87,7 +84,7 @@ class ComplexFaqController extends Controller
         else // If the request is not a POST one, die hard
             die;
 
-        // Process Parameters
+
 
         ///FILTER BY ROLE
         $filters = null;
@@ -99,6 +96,11 @@ class ComplexFaqController extends Controller
             }
 
         }
+
+
+
+
+        // Process Parameters
 
         $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null, $filters);
         $objects = $results["results"];
@@ -126,10 +128,27 @@ class ComplexFaqController extends Controller
 
                             break;
                         }
+                    case 'question':
+                        {
+                            $responseTemp = $entity->getQuestion();
+                            break;
+                        }
+                        
+                    case 'answer':
+                        {
+                            $responseTemp = $entity->getAnswer();
+                            break;
+                        }
+                    
+                    case 'orderList':
+                        {
+                            $responseTemp = $entity->getOrderList();
+                            break;
+                        }
+                        
                     case 'complex':
                         {
                             $responseTemp = $entity->getComplex()->getName();
-
                             break;
                         }
                     case 'actions':
@@ -137,10 +156,10 @@ class ComplexFaqController extends Controller
                             $urlEdit = $this->generateUrl('backend_admin_complex_faq_edit', array('id' => $entity->getId()));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
-                            //$urlDelete = $this->generateUrl('backend_admin_complex_faq_delete', array('id' => $entity->getId()));
-                            //$delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
+                            $urlDelete = $this->generateUrl('backend_admin_complex_faq_delete', array('id' => $entity->getId()));
+                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $edit;
+                            $responseTemp = $edit.$delete;
                             break;
                         }
 
@@ -183,10 +202,11 @@ class ComplexFaqController extends Controller
         $entity = new ComplexFaq();
         $form   = $this->createCreateForm($entity);
 
-
         return $this->render('BackendAdminBundle:ComplexFaq:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
+
+
         ));
     }
 
@@ -213,8 +233,6 @@ class ComplexFaqController extends Controller
     public function editAction(Request $request, $id)
     {
         $this->get("services")->setVars('complexFaq');
-        $this->initialise();
-
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
@@ -236,6 +254,7 @@ class ComplexFaqController extends Controller
             'entity' => $entity,
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'edit' => $entity->getId()
         ));
     }
 
@@ -247,8 +266,6 @@ class ComplexFaqController extends Controller
     {
 
         $this->get("services")->setVars('complexFaq');
-        $this->initialise();
-
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
@@ -267,6 +284,46 @@ class ComplexFaqController extends Controller
         }
 
 
+        //DELETE FROM DATABASE
+        /*
+        $form = $this->createDeleteForm($entity);
+        $form->handleRequest($request);
+
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('BackendAdminBundle:ComplexFaq')->find($entity);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find ComplexFaq entity.');
+            }
+
+			try{
+				
+	            $em->remove($entity);
+	            $em->flush();        		
+			
+            } catch (\Doctrine\DBAL\DBALException $e) {
+            	//var_dump($e->getCode());die;
+                if ($e->getCode() == 0)
+                {
+                	//var_dump($e->getPrevious()->getCode());die;
+                    if (intval($e->getPrevious()->getCode()) == 23000)
+                    {
+                        $this->get('services')->flashWarningForeignKey($request);
+                        return $this->redirectToRoute('backend_admin_complex_faq_index');
+                    }
+                    else
+                    {
+                        throw $e;
+                    }
+                }
+                else
+                {
+                    throw $e;
+                }
+            }
+        */
+
+
         $this->get('services')->flashSuccess($request);
         return $this->redirectToRoute('backend_admin_complex_faq_index');
     }
@@ -274,7 +331,7 @@ class ComplexFaqController extends Controller
     /**
      * Creates a form to delete a ComplexFaq entity.
      *
-     * @param ComplexFaq $complexFaq The ComplexFaq entity
+     * @param ComplexFaq
      *
      * @return \Symfony\Component\Form\Form The form
      */
@@ -296,7 +353,8 @@ class ComplexFaqController extends Controller
      */
     public function createAction(Request $request)
     {
-
+        //print "<pre>";
+        //var_dump($_REQUEST);DIE;
         $this->get("services")->setVars('complexFaq');
         $this->initialise();
 
@@ -309,16 +367,16 @@ class ComplexFaqController extends Controller
          * */
 
         if ($form->isValid()) {
-            $myRequest = $request->request->get('complexFaq');
+            //$myRequest = $request->request->get('complexFaq');
             //var_dump($myRequest);die;
-            $em = $this->getDoctrine()->getManager();
-            //var_dump($request->get('complexFaq');die;
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["complex_faq"]["complex"]));
 
+            //var_dump($request->get('complexFaq');die;
 
             $this->get("services")->blameOnMe($entity, "create");
 
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
 
             $this->get('services')->flashSuccess($request);
@@ -348,14 +406,12 @@ class ComplexFaqController extends Controller
     {
         $this->get("services")->setVars('complexFaq');
         $this->initialise();
-
         $form = $this->createForm(ComplexFaqType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_complex_faq_create'),
             'method' => 'POST',
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
             'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
-
         ));
 
 
@@ -374,17 +430,14 @@ class ComplexFaqController extends Controller
      */
     private function createEditForm($entity)
     {
-
         $this->get("services")->setVars('complexFaq');
         $this->initialise();
-
 
         $form = $this->createForm(ComplexFaqType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_complex_faq_update', array('id' => $entity->getId())),
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
             'repository' => $this->em->getRepository('BackendAdminBundle:Complex'),
-
         ));
 
 
@@ -401,9 +454,7 @@ class ComplexFaqController extends Controller
         $this->get("services")->setVars('complexFaq');
         $this->initialise();
 
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find ComplexFaq entity.');
@@ -414,10 +465,11 @@ class ComplexFaqController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $myRequest = $request->request->get('complexFaq');
+            //$myRequest = $request->request->get('complexFaq');
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["complex_faq"]["complex"]));
 
             $this->get("services")->blameOnMe($entity);
-            $em->flush();
+            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_complex_faq_index', array('id' => $id)));
@@ -433,3 +485,4 @@ class ComplexFaqController extends Controller
 
 
 }
+

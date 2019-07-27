@@ -1,0 +1,38 @@
+* Hostname in DNS cache was stale, zapped
+*   Trying 104.236.66.154...
+* TCP_NODELAY set
+* Connected to gameboard.space (104.236.66.154) port 443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+*   CAfile: /Applications/MAMP/Library/OpenSSL/cert.pem
+  CApath: none
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=gameboard.space
+*  start date: Jul 11 04:19:50 2019 GMT
+*  expire date: Oct  9 04:19:50 2019 GMT
+*  subjectAltName: host "gameboard.space" matched cert's "gameboard.space"
+*  issuer: C=US; O=Let's Encrypt; CN=Let's Encrypt Authority X3
+*  SSL certificate verify ok.
+> POST /api/v1/users HTTP/1.1
+Host: gameboard.space
+User-Agent: GuzzleHttp/6.3.3 curl/7.52.1 PHP/7.1.12
+Content-Type: application/json
+Authorization: Bearer M2Y3NTJkMmRjYWFkNDFkNjBhNjJkYTM5NzYxYjQyYWFiM2I5MjRjNjU3NjdkMGYwNDBjNGYzYjI2MTk0MGE3Zg
+Accept: application/json
+Cache-Control: no-cache
+Content-Length: 127
+
+* upload completely sent off: 127 out of 127 bytes
+< HTTP/1.1 201 Created
+< Server: nginx/1.10.3 (Ubuntu)
+< Content-Type: application/json
+< Transfer-Encoding: chunked
+< Connection: keep-alive
+< Cache-Control: no-cache, private
+< Date: Thu, 25 Jul 2019 04:45:09 GMT
+< 
+* Curl_http_done: called premature == 0
+* Connection #0 to host gameboard.space left intact
