@@ -11,6 +11,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 
 use Backend\AdminBundle\Entity\Complex;
+use Backend\AdminBundle\Entity\ComplexFaq;
 use Backend\AdminBundle\Form\ComplexType;
 use Backend\AdminBundle\Entity\UserComplex;
 use Backend\AdminBundle\Entity\ComplexSector;
@@ -401,7 +402,6 @@ class ComplexController extends Controller
         $this->get("services")->setVars('complex');
         $this->initialise();
 
-
         $entity = new Complex();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -409,218 +409,319 @@ class ComplexController extends Controller
         var_dump($form->getErrorsAsString());die;
          * */
 
-        if ($form->isValid()) {
+        $token = $this->get('services')->getBCToken();
+        if($token){
 
-            $myRequest = $request->request->get('complex');
-            //var_dump($myRequest);die;
-            //var_dump($request->get('complex');die;
+            if ($form->isValid()) {
 
-            $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
-            $entity->setGeoState($geoState);
+                $myRequest = $request->request->get('complex');
+                //var_dump($myRequest);die;
+                //var_dump($request->get('complex');die;
 
-            //Business
-            $business = $this->em->getRepository('BackendAdminBundle:Business')->find($this->userLogged->getBusiness());
-            $entity->setBusiness($business);
-            $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
+                $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
+                $entity->setGeoState($geoState);
 
-
-            ///code + phone
-            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
-            $entity->setPhoneCountry($objCountry);
+                //Business
+                $business = $this->em->getRepository('BackendAdminBundle:Business')->find($this->userLogged->getBusiness());
+                $entity->setBusiness($business);
+                $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
 
 
-
-            //CREATE SECTORS and PROPERTIES
-            $sectorQuantity = $_REQUEST["complex"]["sectionsQuantity"];
-            $mySectorType = intval($_REQUEST["extra"]["sectorType"]);
-            $sectorType = $this->em->getRepository('BackendAdminBundle:ComplexSectorType')->find($mySectorType);
-            if($mySectorType == 0){ //OTHER
-                $sectorTypeName = trim($_REQUEST["extra"]["sectorTypeName"]);
-            }
-            else{
-                $sectorTypeName = $businessLocale == "en" ? $sectorType->getNameEN() : $sectorType->getNameES();
-            }
+                ///code + phone
+                $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+                $entity->setPhoneCountry($objCountry);
 
 
-            //properties per section
-            $propertiesPerSection = intval($_REQUEST["complex"]["propertiesPerSection"]);
-
-            //property Type
-            $myPropertyType = intval($_REQUEST["extra"]["propertyType"]);
-            $propertyType = $this->em->getRepository('BackendAdminBundle:PropertyType')->find($myPropertyType);
-
-            if($myPropertyType == 0){ //OTHER
-                $propertyTypeName = trim($_REQUEST["extra"]["propertyTypeName"]);
-            }
-            else{
-                $propertyTypeName = $businessLocale == "en" ? $propertyType->getNameEN() : $propertyType->getNameES();
-            }
-
-            //BLAME ME
-            $this->get("services")->blameOnMe($entity, "create");
-
-            $this->em->persist($entity);
-            $this->em->flush();
 
 
-            $token = $this->get('services')->getBCToken();
+                //CREATE SECTORS and PROPERTIES
+                $sectorQuantity = $_REQUEST["complex"]["sectionsQuantity"];
+                $mySectorType = intval($_REQUEST["extra"]["sectorType"]);
+                $sectorType = $this->em->getRepository('BackendAdminBundle:ComplexSectorType')->find($mySectorType);
+                if($mySectorType == 0){ //OTHER
+                    $sectorTypeName = trim($_REQUEST["extra"]["sectorTypeName"]);
+                }
+                else{
+                    $sectorTypeName = $businessLocale == "en" ? $sectorType->getNameEN() : $sectorType->getNameES();
+                }
 
-            ///CREATE COMPLEX TEAM ON GAMIFICATION
-            ///
-            $body = array();
-            $body['name'] = $entity->getName();
-            $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName();
-            $body['teamType'] = 3;//complex
-            $body["parent"] = $entity->getBusiness()->getTeamCorrelative();//Business team correlative
-            //
-            $createTeamComplex = $this->get('services')->callBCSpace("POST", "teams", $body);
-            if($createTeamComplex){
-                $teamIDComplex = $createTeamComplex["id"];
-                $entity->setTeamCorrelative($teamIDComplex);
+
+                //properties per section
+                $propertiesPerSection = intval($_REQUEST["complex"]["propertiesPerSection"]);
+
+                //property Type
+                $myPropertyType = intval($_REQUEST["extra"]["propertyType"]);
+                $propertyType = $this->em->getRepository('BackendAdminBundle:PropertyType')->find($myPropertyType);
+
+                if($myPropertyType == 0){ //OTHER
+                    $propertyTypeName = trim($_REQUEST["extra"]["propertyTypeName"]);
+                }
+                else{
+                    $propertyTypeName = $businessLocale == "en" ? $propertyType->getNameEN() : $propertyType->getNameES();
+                }
+
+                //BLAME ME
+                $this->get("services")->blameOnMe($entity, "create");
+
                 $this->em->persist($entity);
-
-                //CREATE TEAMS -> ADMINS / TENANT
-
-
-                //TENANTS
-                $body = array();
-                $body['name'] = $entity->getName() . "TENANTS";
-                $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName(). "TENANTS";
-                $body['teamType'] = 6;//tenants
-                $body["parent"] = $teamIDComplex;//Complex team correlative
-                //
-                $createTeamComplexTenant = $this->get('services')->callBCSpace("POST", "teams", $body);
-                if($createTeamComplexTenant){
-                    $teamIDComplexTenant = $createTeamComplexTenant["id"];
-                    $entity->setTeamCorrelativeTenant($teamIDComplexTenant);
-                    $this->em->persist($entity);
-
-
-                }
-
-                //ADMINS
-                $body = array();
-                $body['name'] = $entity->getName() . "ADMINS";
-                $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName(). "ADMINS";
-                $body['teamType'] = 7;//admins
-                $body["parent"] = $teamIDComplex;//Complex team correlative
-                //
-                $createTeamComplexAdmin = $this->get('services')->callBCSpace("POST", "teams", $body);
-                if($createTeamComplexAdmin){
-                    $teamIDComplexAdmin = $createTeamComplexAdmin["id"];
-                    $entity->setTeamCorrelativeAdmin($teamIDComplexAdmin);
-                    $this->em->persist($entity);
-
-                }
-
-
-
-                //create admin user on gamification and enroll to team admins
-                $body = array();
-                $body['email'] = $this->userLogged->getEmail();
-                $body['username'] = $this->userLogged->getEmail();
-                $body['firstName'] = $this->userLogged->getName();
-                $body['lastName'] = $this->userLogged->getName();
-                $body['locale'] = $businessLocale;
-
-                $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
-
-                //Enroll user to the team admins
-                $body = array();
-                $userTeam = $this->get('services')->callBCSpace("POST", "users/{$this->userLogged->getEmail()}/teams/{$teamIDComplexAdmin}", $body);
-
-
-
                 $this->em->flush();
 
-            }
+                //default FAQs for the complex
+                $newComplexFaq = new ComplexFaq();
+                $newComplexFaq->setEnabled(1);
+                $newComplexFaq->setComplex($entity);
+                $newComplexFaq->setDescriptionEN("<p>What is the APP for?</p>
 
+<p>The APP helps administrate commercial and living complexes, by facilitating the communication between residents, managers, and administrators. Tenants can create tickets, book common spaces. All communication is centralized in one official channel.</p>
 
+<p>&nbsp;</p>
 
+<p>Is my information public in the APP?</p>
 
+<p>No, your information is private. People can see what you share, for example tickets that you make public, your Avatar, your name.</p>
 
+<p>&nbsp;</p>
 
-            //USER COMPLEX
-            $userComplex = new UserComplex();
-            $userComplex->setComplex($entity);
-            $userComplex->setUser($this->userLogged);
-            $this->get("services")->blameOnMe($userComplex, "create");
-            $this->em->persist($userComplex);
+<p>What do you mean by rewards?</p>
 
+<p>We work with a gamified platform that allows the users to win points that later they can exchange for rewards. This way you motivate your users instead of punishing them by their actions.</p>
 
-            ///TICKET CATEGORIES FOR THE COMPLEX
-            //$this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories($entity);
+<p>&nbsp;</p>
 
+<p>How do users Exchange their rewards?</p>
 
-            //sectorType
-            for($i=1; $i <= $sectorQuantity; $i++){
+<p>The rewards available will be accessible from the app, on the rewards screen, where the users can see if the amount of points, they have is enough to exchange for the reward. If they have enough points, they can press redeem, and they will get a confirmation email, with the reward details.</p>
 
-                $newSector = new ComplexSector();
-                $newSector->setComplex($entity);
-                $newSector->setComplexSectorType($sectorType);
-                $newSector->setName($sectorTypeName. " ".$i);
-                $this->get("services")->blameOnMe($newSector, "create");
+<p>&nbsp;</p>
 
-                $this->em->persist($newSector);
-                $this->em->flush();
+<p>&nbsp;</p>
 
-                ///CREATE TEAM SECTOR
+<p>What do I do if I don&rsquo;t get a response?</p>
+
+<p>The response time may vary due to the shifts assigned to managers and supervisors. If you don&rsquo;t receive a response in over 24 hours, please contact the administration directly.</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>Is the APP a way to pay for maintenance?</p>
+
+<p>No, you can&rsquo;t pay inside the application, the balance tab only helps you keep track of the payments the administration has assigned to the tenant and mark them as paid.</p>");
+
+                $newComplexFaq->setDescriptionES("<p>&iquest;Para qu&eacute; es la aplicaci&oacute;n?</p>
+
+<p>La aplicaci&oacute;n ayuda a administrar complejos comerciales y residenciales, al facilitar la comunicaci&oacute;n entre residentes, gerentes y administradores. Los inquilinos pueden crear tickets, reservar espacios comunes. Toda la comunicaci&oacute;n est&aacute; centralizada en un canal oficial.</p>
+
+<p>&nbsp;</p>
+
+<p>&iquest;Es mi informaci&oacute;n p&uacute;blica dentro de la aplicaci&oacute;n?</p>
+
+<p>No, su informaci&oacute;n es privada. La gente puede ver lo que compartes, por ejemplo, los tickets que creas p&uacute;blicos, tu Avatar, tu nombre.</p>
+
+<p>&nbsp;</p>
+
+<p>&iquest;Qu&eacute; quieres decir con recompensas?</p>
+
+<p>Trabajamos con una plataforma gamificada que permite a los usuarios ganar puntos que luego pueden canjear por recompensas. De esta manera usted motiva a sus usuarios en lugar de castigarlos por sus acciones.</p>
+
+<p>&nbsp;</p>
+
+<p>&iquest;C&oacute;mo intercambian los usuarios sus puntos por recompensas?</p>
+
+<p>Las recompensas disponibles ser&aacute;n accesibles desde la aplicaci&oacute;n, en la pantalla de recompensas, donde los usuarios pueden ver si la cantidad de puntos que tienen es suficiente para canjear por la recompensa. Si tienen suficientes puntos, pueden presionar canjear y recibir&aacute;n un correo electr&oacute;nico de confirmaci&oacute;n con los detalles de la recompensa.</p>
+
+<p>&nbsp;</p>
+
+<p>&iquest;Qu&eacute; hago si no recibo respuesta?</p>
+
+<p>El tiempo de respuesta puede variar debido a los turnos asignados a los gerentes y supervisores. Si no recibe una respuesta en m&aacute;s de 24 horas, comun&iacute;quese directamente con la administraci&oacute;n.</p>
+
+<p>&nbsp;</p>
+
+<p>&iquest;Se puede pagar el mantenimiento dentro de la aplicaci&oacute;n?</p>
+
+<p>No, no puede pagar dentro de la aplicaci&oacute;n, la pesta&ntilde;a de saldo solo le ayuda a mantener un registro de los pagos que la administraci&oacute;n ha asignado al inquilino y marcarlos como pagados.</p>");
+
+                //BLAME ME
+                $this->get("services")->blameOnMe($newComplexFaq, "create");
+
+                $this->em->persist($newComplexFaq);
+                $this->em->flush();                
+
+                ///CREATE COMPLEX TEAM ON GAMIFICATION
                 ///
-                //TENANTS
                 $body = array();
-                $body['name'] = $newSector->getName();
-                $body['description'] = $newSector->getName();
-                $body['teamType'] = 4;//sector
-                $body["parent"] = $teamIDComplexTenant;//Complex team correlative
+                $body['name'] = $entity->getName();
+                $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName();
+                $body['teamType'] = 3;//complex
+                $body["parent"] = $entity->getBusiness()->getTeamCorrelative();//Business team correlative
                 //
-                $createTeamSector = $this->get('services')->callBCSpace("POST", "teams", $body);
-                if($createTeamSector){
-                    $teamIDSector = $createTeamSector["id"];
-                    $newSector->setTeamCorrelative($teamIDSector);
+                $createTeamComplex = $this->get('services')->callBCSpace("POST", "teams", $body);
+                if($createTeamComplex){
+                    $teamIDComplex = $createTeamComplex["id"];
+                    $entity->setTeamCorrelative($teamIDComplex);
+                    $this->em->persist($entity);
+
+                    //CREATE TEAMS -> ADMINS / TENANT
+
+
+                    //TENANTS
+                    $body = array();
+                    $body['name'] = $entity->getName() . "TENANTS";
+                    $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName(). "TENANTS";
+                    $body['teamType'] = 6;//tenants
+                    $body["parent"] = $teamIDComplex;//Complex team correlative
+                    //
+                    $createTeamComplexTenant = $this->get('services')->callBCSpace("POST", "teams", $body);
+                    if($createTeamComplexTenant){
+                        $teamIDComplexTenant = $createTeamComplexTenant["id"];
+                        $entity->setTeamCorrelativeTenant($teamIDComplexTenant);
+                        $this->em->persist($entity);
+
+                    }
+
+                    //ADMINS
+                    $body = array();
+                    $body['name'] = $entity->getName() . "ADMINS";
+                    $body['description'] = $entity->getName()." ".$entity->getBusiness()->getName(). "ADMINS";
+                    $body['teamType'] = 7;//admins
+                    $body["parent"] = $teamIDComplex;//Complex team correlative
+                    //
+                    $createTeamComplexAdmin = $this->get('services')->callBCSpace("POST", "teams", $body);
+                    if($createTeamComplexAdmin){
+                        $teamIDComplexAdmin = $createTeamComplexAdmin["id"];
+                        $entity->setTeamCorrelativeAdmin($teamIDComplexAdmin);
+                        $this->em->persist($entity);
+
+                    }
+
+                    //create admin user on gamification and enroll to team admins
+                    $body = array();
+                    $body['email'] = $this->userLogged->getEmail();
+                    $body['username'] = $this->userLogged->getEmail();
+                    $body['firstName'] = $this->userLogged->getName();
+                    $body['lastName'] = $this->userLogged->getName();
+                    $body['locale'] = $businessLocale;
+
+                    $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
+
+                    //Enroll user to the team admins
+                    $body = array();
+                    $userTeam = $this->get('services')->callBCSpace("POST", "users/{$this->userLogged->getEmail()}/teams/{$teamIDComplexAdmin}", $body);
+                    if($userTeam){
+                        $objUser = $this->em->getRepository('BackendAdminBundle:GeoCountry')->find($this->userLogged->getId());
+                        $this->userLogged->setPlayerId($objUser);
+                        $this->em->persist($objUser);
+                    }
+
+                    $this->em->flush();
+
+                }
+
+
+                //USER COMPLEX
+                $userComplex = new UserComplex();
+                $userComplex->setComplex($entity);
+                $userComplex->setUser($this->userLogged);
+                $this->get("services")->blameOnMe($userComplex, "create");
+                $this->em->persist($userComplex);
+
+
+                ///TICKET CATEGORIES FOR THE COMPLEX
+                //$this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories($entity);
+
+
+                //sectorType
+                for($i=1; $i <= $sectorQuantity; $i++){
+
+                    $newSector = new ComplexSector();
+                    $newSector->setComplex($entity);
+                    $newSector->setComplexSectorType($sectorType);
+                    $newSector->setName($sectorTypeName. " ".$i);
+                    $this->get("services")->blameOnMe($newSector, "create");
+
                     $this->em->persist($newSector);
                     $this->em->flush();
 
+                    ///CREATE TEAM SECTOR
+                    ///
+                    //TENANTS
+                    $body = array();
+                    $body['name'] = $newSector->getName();
+                    $body['description'] = $newSector->getName();
+                    $body['teamType'] = 4;//sector
+                    $body["parent"] = $teamIDComplexTenant;//Complex team correlative
+                    //
+                    $createTeamSector = $this->get('services')->callBCSpace("POST", "teams", $body);
+                    if($createTeamSector){
+                        $teamIDSector = $createTeamSector["id"];
+                        $newSector->setTeamCorrelative($teamIDSector);
+                        $this->em->persist($newSector);
+                        $this->em->flush();
+
+                    }
+
+                    //CREATE PROPERTIES
+                    for ($j=1; $j<=$propertiesPerSection; $j++){
+
+                        $newProperty = new Property();
+                        $newProperty->setPropertyType($propertyType);
+                        $newProperty->setComplex($entity);
+                        $newProperty->setComplexSector($newSector);
+
+                        //set temp code / then update
+                        //$newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
+                        $code = $this->get("services")->getToken(6);
+                        $newProperty->setCode($code);
+
+                        $myNumber = sprintf("%02d", $j);
+                        $propertyNumber = $i.$myNumber;
+                        $newProperty->setPropertyNumber($propertyNumber);
+                        $newProperty->setName($propertyTypeName." ".$propertyNumber);
+                        $newProperty->setIsAvailable(1);
+                        $this->get("services")->blameOnMe($newProperty, "create");
+                        $this->em->persist($newProperty);
+                        $this->em->flush();
+
+                        $body = array();
+                        $body['name'] = $newProperty->getName();
+                        $body['description'] = $newProperty->getName();
+                        $body['teamType'] = 5;//Property
+                        $body["parent"] = $teamIDSector;//Complex team correlative
+
+                        $createTeamProperty = $this->get('services')->callBCSpace("POST", "teams", $body);
+                        if($createTeamProperty){
+                            $teamIDProperty = $createTeamProperty["id"];
+                            $newProperty->setTeamCorrelative($teamIDProperty);
+                            $this->em->persist($newProperty);
+                            $this->em->flush();
+
+                        }
+                    }
                 }
 
-                //CREATE PROPERTIES
-                for ($j=1; $j<=$propertiesPerSection; $j++){
-
-                    $newProperty = new Property();
-                    $newProperty->setPropertyType($propertyType);
-                    $newProperty->setComplex($entity);
-                    $newProperty->setComplexSector($newSector);
-
-                    //set temp code / then update
-                    //$newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
-                    $code = $this->get("services")->getToken(6);
-                    $newProperty->setCode($code);
-
-                    $myNumber = sprintf("%02d", $j);
-                    $propertyNumber = $i.$myNumber;
-                    $newProperty->setPropertyNumber($propertyNumber);
-                    $newProperty->setName($propertyTypeName." ".$propertyNumber);
-                    $newProperty->setIsAvailable(1);
-                    $this->get("services")->blameOnMe($newProperty, "create");
-                    $this->em->persist($newProperty);
-                    $this->em->flush();
+                //$this->em->persist($entity);
+                $this->em->flush();
 
 
-                }
+                $this->get('services')->flashSuccess($request);
+                return $this->redirect($this->generateUrl('backend_admin_complex_index'));
+
             }
-            
-            //$this->em->persist($entity);
-            $this->em->flush();
 
+            else{
+                //print "FORMULARIO NO VALIDO";DIE;
+                //SYSTEM LOG ERROR ADMIN
+            }
 
-            $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_complex_index'));
 
         }
-        /*
         else{
-            print "FORMULARIO NO VALIDO";DIE;
+            ///SYSTEM LOG GAMIFICATION
+            ///
         }
-         * */
+
+        $this->get('services')->flashWarning($request);
 
         return $this->render('BackendAdminBundle:Complex:new.html.twig', array(
             'entity' => $entity,
@@ -699,67 +800,90 @@ class ComplexController extends Controller
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $myRequest = $request->request->get('complex');
 
-            ///code + phone
-            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
-            $entity->setPhoneCountry($objCountry);
+        $token = $this->get('services')->getBCToken();
+        if($token){
 
+            if ($editForm->isValid()) {
+                $myRequest = $request->request->get('complex');
 
-            $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
-            $entity->setGeoState($geoState);
-
-            $this->em->persist($entity);
-
-            $this->get("services")->blameOnMe($entity);
-            $this->em->flush();
+                ///code + phone
+                $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+                $entity->setPhoneCountry($objCountry);
 
 
-            /*SET THE WEEK SCHEDULE*/
+                $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
+                $entity->setGeoState($geoState);
 
-            /*ERASE LAST SCHEDULE*/
-            ///
-            $this->em->getRepository('BackendAdminBundle:Shift')->clearShiftSchedule($id);
+                $this->em->persist($entity);
 
-            $mySchedule = json_decode($_REQUEST["my_schedule"], true);
+                $this->get("services")->blameOnMe($entity);
+                $this->em->flush();
 
-            foreach ($mySchedule as $key => $weekDay){
+                ///UPDATE COMPLEX TEAM ON GAMIFICATION
+                ///
+                $body = array();
+                $body['name'] = $entity->getName();
+                $body['description'] = $entity->getName();
+                $body['teamType'] = 3;//complex
+                $body["parent"] = $entity->getBusiness()->getTeamCorrelative();//Business team correlative
 
-                $day =  intval($weekDay["day"]);
-                $arrPeriods = $weekDay["periods"];
+                $updateTeamComplex = $this->get('services')->callBCSpace("PUT", "teams/{$entity->getTeamCorrelative()}", $body);
 
-                foreach ($arrPeriods as $pk => $period){
-                    $start = $period["start"];
-                    $end = $period["end"];
+                /*SET THE WEEK SCHEDULE*/
 
-                    $newShift = new Shift();
-                    $newShift->setComplex($entity);
+                /*ERASE LAST SCHEDULE*/
+                ///
+                $this->em->getRepository('BackendAdminBundle:Shift')->clearShiftSchedule($id);
 
-                    $tmpUser = $this->em->getRepository('BackendAdminBundle:user')->findOneByEmail($period["title"]);
-                    if(!$tmpUser){
-                        continue;
+                $mySchedule = json_decode($_REQUEST["my_schedule"], true);
+
+                foreach ($mySchedule as $key => $weekDay){
+
+                    $day =  intval($weekDay["day"]);
+                    $arrPeriods = $weekDay["periods"];
+
+                    foreach ($arrPeriods as $pk => $period){
+                        $start = $period["start"];
+                        $end = $period["end"];
+
+                        $newShift = new Shift();
+                        $newShift->setComplex($entity);
+
+                        $tmpUser = $this->em->getRepository('BackendAdminBundle:user')->findOneByEmail($period["title"]);
+                        if(!$tmpUser){
+                            continue;
+                        }
+                        $newShift->setAssignedTo($tmpUser);
+
+                        $newShift->setWeekdaySingle($day);
+                        $newShift->setHourFrom($start);
+                        $newShift->setHourTo($end);
+
+                        $this->get("services")->blameOnMe($newShift, "create");
+                        $this->get("services")->blameOnMe($newShift, "update");
+
+                        $this->em->persist($newShift);
+                        $this->em->flush();
+
                     }
-                    $newShift->setAssignedTo($tmpUser);
-
-                    $newShift->setWeekdaySingle($day);
-                    $newShift->setHourFrom($start);
-                    $newShift->setHourTo($end);
-
-                    $this->get("services")->blameOnMe($newShift, "create");
-                    $this->get("services")->blameOnMe($newShift, "update");
-
-                    $this->em->persist($newShift);
-                    $this->em->flush();
 
                 }
 
+                $this->get('services')->flashSuccess($request);
+                return $this->redirect($this->generateUrl('backend_admin_complex_index', array('id' => $id)));
+
             }
 
-            $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_complex_index', array('id' => $id)));
-
         }
+        else{
+            ///SYSTEM LOG GAMIFICATION
+            ///
+        }
+
+        $this->get('services')->flashWarning($request);
+
+
 
         $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
 

@@ -387,112 +387,121 @@ class BusinessController extends Controller
         var_dump($form->getErrorsAsString());die;
          * */
 
-        if ($form->isValid()) {
+        $token = $this->get('services')->getBCToken();
+
+        if($token){
+            if ($form->isValid()) {
+                ///code + phone
+                $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+                $entity->setPhoneCountry($objCountry);
 
 
-            ///code + phone
-            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
-            $entity->setPhoneCountry($objCountry);
+                $this->get("services")->blameOnMe($entity, "create");
 
-
-            $this->get("services")->blameOnMe($entity, "create");
-
-            $this->em->persist($entity);
-            $this->em->flush();
-
-            $token = $this->get('services')->getBCToken();
-
-            //CREATE BUSINESS TEAM ON GAMIFICATION
-            $body = array();
-            $body['name'] = $entity->getName();
-            $body['description'] = $entity->getPhoneCountry()->getCode()." ".$entity->getPhoneNumber()." ".$entity->getAddress();
-            $body['teamType'] = 2;//business
-            $body["parent"] = 27;//General
-
-            $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
-            if($createTeam){
-                $teamID = $createTeam["id"];
-                $entity->setTeamCorrelative($teamID);
                 $this->em->persist($entity);
                 $this->em->flush();
 
+
+                //CREATE BUSINESS TEAM ON GAMIFICATION
+                $body = array();
+                $body['name'] = $entity->getName();
+                $body['description'] = $entity->getPhoneCountry()->getCode()." ".$entity->getPhoneNumber()." ".$entity->getAddress();
+                $body['teamType'] = 2;//business
+                $body["parent"] = 27;//General
+
+                $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
+                if($createTeam){
+                    $teamID = $createTeam["id"];
+                    $entity->setTeamCorrelative($teamID);
+                    $this->em->persist($entity);
+                    $this->em->flush();
+
+                }
+
+
+                //SET BUSINESS TO THE USER
+                $userID = intval($_REQUEST["userID"]);
+
+                $userObj= $this->em->getRepository('BackendAdminBundle:User')->find($userID);
+                $userObj->setBusiness($entity);
+                $this->em->persist($userObj);
+                $this->em->flush();
+
+                $countryCode = "+".$entity->getGeoState()->getGeoCountry()->getCode();
+
+                $phone = $countryCode.$entity->getPhoneNumber();
+
+                ////CREATE BUSINESS AND USER ON .INFO
+
+                $billingPassword = uniqid();
+                $body = array(
+                    array('name' => 'account', 'contents' => $entity->getName()),
+                    array('name' => 'phone', 'contents' => $phone),
+                    array('name' => 'email', 'contents' => $entity->getEmail()),
+                    array('name' => 'password', 'contents' => $billingPassword),
+                    array('name' => 'address', 'contents' => $entity->getAddress()),
+                    array('name' => 'state', 'contents' => $entity->getGeoState()->getName()),
+                    array('name' => 'zip', 'contents' => $entity->getZipCode()),
+                    array('name' => 'country', 'contents' => $entity->getGeoState()->getGeoCountry()->getName()),
+                    array('name' => 'company', 'contents' => ""),
+                    array('name' => 'owner_id', 'contents' => 0)
+                )
+                ;
+
+
+                $createCustomer = $this->get('services')->callBCInfo("POST", "customer", $body);
+
+
+                ///VALIDA DEL LADO DEL CLIENTE QUE EL NOMBRE DEL NEGOCIO NO EXISTA EL EMAIL Y PHONE NUMBER
+                //on response
+                $entity->setCustomerID($createCustomer["contact_id"]);
+                $this->em->persist($entity);
+                $this->em->flush();
+
+
+                /////SEND REGISTRATION SUCCESS MAIL
+                /// Usuario de acceso a Bettercondos.space
+                //Usuario de acceso a bettercondos.info
+                //Links
+                //Sitio web bettercondos.tech
+                //Sitio de soporte y documentación.
+                //Datos de contacto
+                ///
+                //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
+
+
+                //iBilling
+                $bodyHtml = $this->translator->trans('label_register_bc_info')."&nbsp;<a href='www.bettercondos.space/?ng=client'>Better Condos iBilling</a>" ."<br/>";
+                $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
+                $bodyHtml .= "<b>Password:&nbsp;</b>".$billingPassword."<br/><br/>";
+
+                //contact
+                $bodyHtml .= $this->translator->trans('label_register_contact');
+
+                //var_dump($bodyHtml);die;
+
+                $to = $entity->getEmail();
+                //($subject, $to, $bodyHtml, $from = null){
+                $message = $this->get('services')->generalTemplateMail("BetterCondos iBilling", $to, $bodyHtml);
+
+                $this->get('services')->flashSuccess($request);
+                return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 1)));
+
+            }
+
+            else{
+                //print "FORMULARIO NO VALIDO";DIE;
+                //SYSTEM LOG
             }
 
 
-            //SET BUSINESS TO THE USER
-            $userID = intval($_REQUEST["userID"]);
-
-            $userObj= $this->em->getRepository('BackendAdminBundle:User')->find($userID);
-            $userObj->setBusiness($entity);
-            $this->em->persist($userObj);
-            $this->em->flush();
-
-            $countryCode = "+".$entity->getGeoState()->getGeoCountry()->getCode();
-
-            $phone = $countryCode.$entity->getPhoneNumber();
-
-            ////CREATE BUSINESS AND USER ON .INFO
-
-            $billingPassword = uniqid();
-            $body = array(
-                array('name' => 'account', 'contents' => $entity->getName()),
-                array('name' => 'phone', 'contents' => $phone),
-                array('name' => 'email', 'contents' => $entity->getEmail()),
-                array('name' => 'password', 'contents' => $billingPassword),
-                array('name' => 'address', 'contents' => $entity->getAddress()),
-                array('name' => 'state', 'contents' => $entity->getGeoState()->getName()),
-                array('name' => 'zip', 'contents' => $entity->getZipCode()),
-                array('name' => 'country', 'contents' => $entity->getGeoState()->getGeoCountry()->getName()),
-                array('name' => 'company', 'contents' => ""),
-                array('name' => 'owner_id', 'contents' => 0)
-            )
-            ;
-
-
-            $createCustomer = $this->get('services')->callBCInfo("POST", "customer", $body);
-
-
-            ///VALIDA DEL LADO DEL CLIENTE QUE EL NOMBRE DEL NEGOCIO NO EXISTA EL EMAIL Y PHONE NUMBER
-            //on response
-            $entity->setCustomerID($createCustomer["contact_id"]);
-            $this->em->persist($entity);
-            $this->em->flush();
-
-
-            /////SEND REGISTRATION SUCCESS MAIL
-            /// Usuario de acceso a Bettercondos.space
-            //Usuario de acceso a bettercondos.info
-            //Links
-            //Sitio web bettercondos.tech
-            //Sitio de soporte y documentación.
-            //Datos de contacto
-            ///
-            //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
-
-
-            //iBilling
-            $bodyHtml = $this->translator->trans('label_register_bc_info')."&nbsp;<a href='www.bettercondos.space/?ng=client'>Better Condos iBilling</a>" ."<br/>";
-            $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
-            $bodyHtml .= "<b>Password:&nbsp;</b>".$billingPassword."<br/><br/>";
-
-            //contact
-            $bodyHtml .= $this->translator->trans('label_register_contact');
-
-            //var_dump($bodyHtml);die;
-
-            $to = $entity->getEmail();
-            //($subject, $to, $bodyHtml, $from = null){
-            $message = $this->get('services')->generalTemplateMail("BetterCondos iBilling", $to, $bodyHtml);
-
-            $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 1)));
-
         }
-        /*
         else{
-            print "FORMULARIO NO VALIDO";DIE;
+            ///SYSTEM LOG GAMIFICATION
+            ///
         }
-         * */
+
+        $this->get('services')->flashWarning($request);
 
         $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
 
@@ -578,6 +587,16 @@ class BusinessController extends Controller
 
             $this->get("services")->blameOnMe($entity);
             $this->em->flush();
+
+            ///UPDATE BUSINESS TEAM ON GAMIFICATION
+            ///
+            $body = array();
+            $body['name'] = $entity->getName();
+            $body['description'] = $entity->getName();
+            $body['teamType'] = 2;//business
+            $body["parent"] = 27;//General
+
+            $updateTeamBusiness = $this->get('services')->callBCSpace("PUT", "teams/{$entity->getTeamCorrelative()}", $body);
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_business_index', array('id' => $id)));

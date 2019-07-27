@@ -22,36 +22,44 @@ Backend\AdminBundle\Entity\ComplexFaq:
             generator:
                 strategy: IDENTITY
     fields:
-        descriptionES:
+        orderList:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            column: order_list
+        question:
             type: text
             nullable: false
             length: 65535
             options:
                 fixed: false
-            column: description_es
-        descriptionEN:
+            column: question
+        answer:
             type: text
             nullable: false
             length: 65535
             options:
                 fixed: false
-            column: description_en
-        createdAt:
-            type: datetime
-            nullable: true
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: true
-            column: updated_at
-
+            column: answer
         enabled:
             type: boolean
             nullable: false
             options:
                 default: '1'
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: '0000-00-00 00:00:00'
+            column: updated_at
     manyToOne:
-
         complex:
             targetEntity: Complex
             cascade: {  }

@@ -70,6 +70,7 @@ class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
         $countQuery->andWhere("c.enabled = 1");
 
 
+
         if($filterComplex != null){
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
             $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
@@ -92,23 +93,7 @@ class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.id ='. $searchItem;
                             break;
                         }
-                    case 'question':
-                        {
-                            $searchQuery = 'e.question LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
 
-                    case 'answer':
-                        {
-                            $searchQuery = 'e.answer LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
-
-                    case 'orderList':
-                        {
-                            $searchQuery = 'e.orderList LIKE \'%'.$searchItem.'%\'';
-                            break;
-                        }
                     case 'complex':
                         {
                             $searchQuery = 'c.name LIKE \'%'.$searchItem.'%\'';
@@ -152,23 +137,6 @@ class ComplexFaqRepository extends \Doctrine\ORM\EntityRepository
                     case 'id':
                         {
                             $orderColumn = 'e.id';
-                            break;
-                        }
-                     case 'question':
-                        {
-                            $orderColumn = 'e.question';
-                            break;
-                        }
-
-                    case 'answer':
-                        {
-                            $orderColumn = 'e.answer';
-                            break;
-                        }
-
-                    case 'orderList':
-                        {
-                            $orderColumn = 'e.orderList';
                             break;
                         }
 

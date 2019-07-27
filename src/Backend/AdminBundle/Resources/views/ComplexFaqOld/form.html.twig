@@ -1,0 +1,121 @@
+<style>
+    .input-group {
+        z-index: 0;
+    }
+</style>
+
+<div class="row">
+	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+
+		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
+
+			<header role="heading">
+				<h2>{{ 'label_form'|trans }}</h2>
+			</header>
+
+			<!-- widget div-->
+			<div role="content">
+
+				<!-- widget edit box -->
+				<div class="jarviswidget-editbox">
+					<!-- This area used as dropdown edit box -->
+
+				</div>
+				<!-- end widget edit box -->
+
+				<!-- widget content -->
+				<div class="widget-body">
+					<div class="form-inputs-g">
+					{#<form id="backend_adminbundle_complex_faq" action="{{path('backend_admin_complex_faq_create')}}" method="POST" name="backend_adminbundle_complex_faq">#}
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+						<fieldset>
+
+                        <div class="form-group col-md-8">
+                            {{ form_label(form.question) }}
+                            {{ form_errors(form.question) }}
+                            {{ form_widget(form.question, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+							<div class="clearfix"></div>
+							<div class="form-group col-md-8">
+								{{ form_label(form.answer) }}
+								{{ form_errors(form.answer) }}
+								{{ form_widget(form.answer, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+							<div class="clearfix"></div>
+                        <div class="form-group col-md-8">
+                            {{ form_label(form.orderList) }}
+                            {{ form_errors(form.orderList) }}
+                            {{ form_widget(form.orderList, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                         </div>
+						<div class="clearfix"></div>
+						<div class="form-group col-md-8">
+							{{ form_label(form.complex) }}
+							{{ form_errors(form.complex) }}
+							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
+							) }}
+						</div>
+							<div class="hide">
+                            {{ form_rest(form) }}
+                        </div>
+
+						</fieldset>
+
+						<div class="form-actions">
+
+
+							<button type="submit" class="btn btn-primary">
+								<i class="fa fa-save"></i>
+								{{ 'label_save'|trans  }}
+							</button>
+						</div>
+
+					<!--</form>-->
+					{{ form_end(form) }}
+					</div>
+
+				</div>
+				<!-- end widget content -->
+
+			</div>
+			<!-- end widget div -->
+
+		</div>
+
+		<div class="clearfix"></div>
+
+	</article>
+</div>
+
+<script type="text/javascript" language="Javascript">
+
+	$( document ).ready(function() {
+                
+		$('[name="complex_faq"]').validate();
+                
+		$('[name="complex_faq"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='complex_faq']").valid()){
+				$('#pizote_spinner').show();
+				return true;
+
+			}
+			else{
+
+				return false;
+			}
+
+		});
+
+		{% if edit is defined %}
+			$("#complex_faq_complex").val({{ entity.complex.id }});
+		{% endif %}
+
+	});
+
+
+</script>

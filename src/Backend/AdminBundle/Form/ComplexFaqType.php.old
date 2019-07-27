@@ -1,15 +1,14 @@
 <?php
+
 namespace Backend\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-
-
-class ComplexFaqType extends AbstractType
+class ComplexFaqOldType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -22,9 +21,11 @@ class ComplexFaqType extends AbstractType
         $repository = $options["repository"];
 
         $builder
-            //->add('descriptionES',  TextareaType::class, array('label'=>"Español", 'required'=>true))
-            ->add('descriptionES', TextareaType::class, array('label'=> 'Español', 'attr' => array('class' => 'ckeditor') ))
-            ->add('descriptionEN', TextareaType::class, array('label'=> 'English', 'attr' => array('class' => 'ckeditor') ));
+            ->add('question',  null, array('label'=>"label_question", 'required'=>true))
+            ->add('answer',  null, array('label'=>"label_answer", 'required'=>true))
+            ->add('orderList',  null, array('label'=>"label_order_list", 'required'=>true));
+//            ->add('complex',  null, array('label'=>"label_complex", 'required'=>true))
+
 
             //IF ROLE IS SUPER ADMIN VIEW ALL
             if($role == "SUPER ADMIN"){
@@ -45,8 +46,9 @@ class ComplexFaqType extends AbstractType
             }
 
 
-    }
 
+    }
+    
     /**
      * @param OptionsResolver $resolver
      */
@@ -57,6 +59,8 @@ class ComplexFaqType extends AbstractType
             'role' => null,
             'repository' => null,
             'userID' => null,
+
+
         ));
     }
 }

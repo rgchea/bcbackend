@@ -25,7 +25,6 @@
 					</a>
 				</div>
 
-
 			</div>
 		{% else %}
 			{% if app.user.role.name == "ADMIN" %}{#EVALUAR QUE ROLES TENDRAN ACCESO A CREAR PROPIEDADES#}
@@ -43,381 +42,193 @@
 
 </div>
 
-<div class="row">
-	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+<div class="body">
+	<section class="content">
 
-		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
-
-			<header role="heading">
-				<h2>{{ 'label_form'|trans }}</h2>
-
-			</header>
-
-			<!-- widget div-->
-			<div role="content">
-
-				<!-- widget edit box -->
-				<div class="jarviswidget-editbox">
-					<!-- This area used as dropdown edit box -->
-
-				</div>
-				<!-- end widget edit box -->
-
-				<!-- widget content -->
-				<div class="widget-body">
-
-					<div class="form-inputs-g">
-					{{ form_start(form) }}
-					{{ form_errors(form) }}
-
-					<fieldset>
-
-						{% if edit is defined %}
-							<div class="form-group col-md-4">
-								<label for="qrcode" class="required" aria-required="true">QR</label>
-								<br/>
-
-
-								<a download="{{ entity.name }}.png" href="data:image/png;base64,{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}" >
-									<img id="property_qr" src="data:image/png;base64,
-									{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}
-									" />
-								</a>
-							</div>
-
-						{% endif %}
-						<div class="clearfix"></div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.name) }}
-							{{ form_errors(form.name) }}
-							{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.propertyNumber) }}
-							{{ form_errors(form.propertyNumber) }}
-							{{ form_widget(form.propertyNumber, { 'attr': {'class' : 'form-control', 'maxlength': '6' } }
-							) }}
-						</div>
-						<div class="clearfix"></div>
-						<div class="form-group col-md-4">
-							{{ form_label(form.complex) }}
-							{{ form_errors(form.complex) }}
-							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
-							) }}
-						</div>
-
-						<div class="form-group col-md-4" id="div_property_complexSector">
-
-							{{ form_label(form.complexSector) }}
-							{{ form_errors(form.complexSector) }}
-							{{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control classic' } }
-							) }}
-						</div>
-
-						<div class="clearfix"></div>
-						<div class="form-group col-md-8">
-							{{ form_label(form.propertyType) }}
-							{{ form_errors(form.propertyType) }}
-							{{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control classic' } }
-							) }}
-						</div>
-						<div class="col-md-2">
-							<label>&nbsp;</label>
-							<input type="text" class="form-control" id="inputPropertyType" name="extra[propertyTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}">
-						</div>
-						<div class="clearfix"></div>
-
-						<div class="form-group col-md-8">
-							{{ form_label(form.address) }}
-							{{ form_errors(form.address) }}
-							{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-
-
-
-						<div class="clearfix"></div>
-
-
-						<div class="hide">
-							{{ form_rest(form) }}
-						</div>
-
-					</fieldset>
-
-						<div class="clearfix"></div>
-						<br/>
-
-						{% if edit is defined %}
-							<h3>{{ 'label_photo'|trans }} </h3>
-							<h2>{{ 'label_max_files'|trans }} </h2>
-							<div class="dropzone my-dropzone" id="form_snippet_image" action="{{path('property_ajax_snippet_image_send')}}">
-							</div>
-							<br/>
-						{% endif %}
-
-
-					<div class="form-actions">
-
-						<button class="btn btn-primary">
-							<i class="fa fa-save"></i>
-							{{ 'label_save'|trans  }}
-						</button>
+		<div class="header">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7">
+						<h3 class="header-title">ADD PROPERTY</h3>
 					</div>
-
-					<!--</form>-->
-					{{ form_end(form) }}
+					<div class="col-md-2 text-left">
+						<p style="margin-top:8px">Current Complex</p>
+					</div>
+					<div class="col-md-3">
+						<select  class="form-control classic" id="exampleFormControlSelect1">
+							<option>Weston Houses, Miami FL</option>
+							<option>Weston Houses 2</option>
+							<option>Weston Houses 3</option>
+							<option>Weston Houses 4</option>
+							<option>Weston Houses 5</option>
+						</select>
 					</div>
 				</div>
-				<!-- end widget content -->
-
+				<div class="row">
+					<div class="col-md-12">
+						<blockquote>
+							<div class="col-md-11">
+								<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate quam ut risus ullamcorper convallis. Morbi pellentesque congue elit malesuada pharetra. Suspendisse iaculis interdum elit, et porta ex tempus eget. Ut nec diam dictum, cursus metus euismod, aliquet ante. Quisque a lacus dapibus, semper ante ac, mollis nibh. Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+							</div>
+							<div class="col-md-1 text-left">
+								<i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+							</div>
+						</blockquote>
+					</div>
+				</div>
 			</div>
-			<!-- end widget div -->
-
 		</div>
 
-		<div class="clearfix"></div>
+		<!-- CONTENT -->
+		<div class="main-content no-bordertop">
 
-	</article>
+
+
+			<div class="container">
+
+
+				<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+				<div class="form-inputs-g">
+
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="col-md-3">
+								<p class="txt-blue-bold">Sector: </p>
+							</div>
+							<div class="col-md-9">
+								<select  class="form-control classic" id="exampleFormControlSelect1">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+								</select>
+							</div>
+
+						</div>
+
+						<div class="col-md-4">
+							<div class="col-md-5">
+								<p class="txt-blue-bold">Property Number: </p>
+							</div>
+							<div class="col-md-7">
+								<input type="text" class="form-control" placeholder="105">
+							</div>
+
+						</div>
+
+
+						<div class="col-md-4">
+							<div class="col-md-4">
+								<p class="txt-blue-bold">Property Type: </p>
+							</div>
+							<div class="col-md-8">
+								<select  class="form-control classic" id="exampleFormControlSelect1">
+									<option>Apto</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+								</select>
+							</div>
+
+						</div>
+
+					</div>
+
+					<br/>
+					<!-- adress -->
+
+					<div class="row">
+						<div class="col-md-1">
+							<p class="txt-blue-bold">Adress: </p>
+						</div>
+						<div class="col-md-11">
+							<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7"></textarea>
+
+						</div>
+					</div>
+
+
+					<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="col-md-3">
+								<p class="txt-blue-bold">Tenant Email: </p>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" placeholder="example@example.com">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-3">
+								<p class="txt-blue-bold text-left">Owner Email: </p>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" placeholder="example@example.com">
+							</div>
+						</div>
+					</div>
+					<br/>
+					<div class="row color1">
+						<div class="col-md-6">
+							<div class="col-md-5">
+								<p class="txt-blue-bold text-left">Maintenance cost: </p>
+							</div>
+							<div class="col-md-7">
+								<input type="text" class="form-control" placeholder="$ 540.00">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-5">
+								<p class="txt-blue-bold text-left">Who Pays Maintenance: </p>
+							</div>
+							<div class="col-md-7 text-right">
+								<label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
+								<label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
+							</div>
+						</div>
+					</div>
+					<br/>
+					<div class="row color2">
+						<div class="col-md-6">
+							<div class="col-md-3">
+								<p class="txt-blue-bold">Agreement Start Date: </p>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" placeholder="example@example.com">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="col-md-3">
+								<p class="txt-blue-bold text-left">Agreement Finish Date: </p>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" placeholder="example@example.com">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-9">
+						</div>
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-primary">CREATE THIS COMPLEX</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<!-- END: CONTENT -->
+	</section>
+
 </div>
 
 <script type="text/javascript" language="Javascript">
-
-	$( document ).ready(function() {
-
-
-		//alert($("#complexSectorType").val());
-
-
-		$("#complexSectorType").change(function(){
-			myValue =$("#complexSectorType option:selected").attr('value');
-
-			if(myValue == 0){
-				$("#inputSectionName").show();
-				$("#inputSectionName").rules("add", {required:true});
-
-			}
-			else{
-				$("#inputSectionName").hide();
-				$("#inputSectionName-error").hide();
-				$("#inputSectionName").rules("add", {required:false});
-			}
-
-
-		});
-
-
-
-		//propertyType
-		$("#property_propertyType").change(function(){
-			myValue =$("#property_propertyType option:selected").attr('value');
-
-			if(myValue == 0){
-				$("#inputPropertyType").show();
-				$("#inputPropertyType").rules("add", {required:true});
-			}
-			else{
-				$("#inputPropertyType").hide();
-				$("#inputPropertyType-error").hide();
-				$("#inputPropertyType").rules("add", {required:false});
-			}
-
-		});
-
-
-
-
-
-		$("[name='property']").validate({
-			success: function(error){
-
-				return true;
-			},
-
-		});
-		//$("#property_zipCode").rules("add", {required:true, minlength: 4, digits:true});
-
-
-		$('[name="property"]').on("submit", function(){
-			//Code: Action (like ajax...)
-			if($("[name='complex']").valid()){
-				$('#pizote_spinner').show();
-				return true;
-
-			}
-			else{
-				return false;
-			}
-
-		});
-
-
-
-		{% if edit is defined %}
-
-			{% set myPath =  url('backend_admin_homepage')~"/uploads/images/property/" %}
-			{% set myPath = myPath|replace({'app_dev.php': ''}) %}
-			{% set myPath = myPath|replace({'/en/': ''}) %}
-			{% set myPath = myPath|replace({'/es/': ''}) %}
-
-
-			////DROPZONE
-			var countFiles = 0;
-			var _actionToDropZone = $("#form_snippet_image").attr('action');
-			Dropzone.autoDiscover = false;
-			//$(".dz-hidden-input").prop("disabled",false);
-
-			var myDropzone = new Dropzone("#form_snippet_image", {
-				url: _actionToDropZone,
-				params: {
-					property: {{ entity.id }}
-				},
-				maxFilesize: 1, // MB
-				maxFiles: 5,
-				addRemoveLinks: true,
-				createImageThumbnails: true,
-				acceptedFiles: ".png,.jpg,.jpeg",
-				thumbnailWidth: 250,
-				thumbnailHeight: 250,
-				autoProcessQueue: true,
-				parallelUploads: 1,
-				uploadMultiple: false,
-				success: function(file, response){
-					//console.log(response.success);
-					file.id = response.success;
-
-				},
-				error: function(file, response){
-					//console.log(response.success);
-					file.id = response.success;
-					if(countFiles > 5){
-						myDropzone.disable();
-					}
-
-
-				},
-
-				init: function() {
-					thisDropzone = this;
-
-					$.get("{{path('property_ajax_snippet_image_get')}}",{property: '{{ entity.id }}' }, function(data) {
-
-
-						$.each(data, function(key,value){
-
-							//var mockFile = { name: value.name, size: value.size };
-							var mockFile = { name: value.name, size: "", id: value.id };
-
-							thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-							thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '{{ myPath }}'+value.name);
-
-							//console.log('{{ myPath }}'+value.name);
-							thisDropzone.emit("complete", mockFile);
-							countFiles++;
-							if(countFiles >= 5){
-								myDropzone.disable();
-							}
-
-						});
-
-						//$(".dz-hidden-input").prop("disabled",true);
-
-
-					});
-
-					this.on("maxfilesexceeded", function(file){
-						alert("{{ 'label_no_more_files'|trans }}");
-						this.removeFile(file);
-						countFiles--;
-						//myDropzone.disable();
-					});
-
-					this.on('removedfile', function (file) {
-
-						//console.log(file);
-
-						$.ajax({
-							type: 'POST',
-							url: "{{path('property_ajax_snippet_image_remove')}}",
-							//data: {id: file.name, _token: $('#csrf-token').val()},
-							data: {id: file.id, name: file.name},
-							dataType: 'html',
-							success: function (data) {
-								var rep = JSON.parse(data);
-								countFiles--;
-								if(countFiles < 5){
-									myDropzone.enable();
-								}
-
-							}
-						})
-
-
-					});
-
-					this.on("addedfile", function(file) {
-						countFiles++;
-						if(countFiles > 5){
-							this.removeFile(file);
-							countFiles--;
-							myDropzone.disable();
-						}
-					});
-
-
-				}
-
-			});
-
-
-			/*
-			myDropzone.on("addedfile", function(file) {
-				alert('nouveau fichier reçu');
-			});
-			*/
-
-
-			$("#property_complex").val({{ entity.complex.id }});
-
-
-		{% endif %}
-
-		changeSection();
-
-		$("#property_complex").change(function(){
-			changeSection();
-		});
-
-
-	});
-
-	function changeSection(){
-
-		myComplex = $("#property_complex").val();
-
-		{% if edit is defined %}
-			selectedSection = '{{ entity.complexSector.id }}';
-		{% else %}
-			selectedSection = 0;
-		{% endif %}
-
-		$.ajax({
-			type:"POST",
-			dataType:"html",
-			async:false,
-			url:"{{ path('backend_admin_property_change_section') }}",
-			//data:"countryShort="+myCountry,
-			data: {complexID: myComplex, selectedSection: selectedSection},
-			success:function(data){
-				$("#property_complexSector").html(data);
-			}
-		});
-
-	}
-
-
-
-
 
 </script>

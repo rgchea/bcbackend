@@ -617,7 +617,7 @@ class RestController extends FOSRestController
             $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
 
             return new JsonResponse(array(
-                'message' => "register",
+                'message' => "register"
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -2728,12 +2728,11 @@ class RestController extends FOSRestController
      *
      * Returns a list with the frequently asked questions of a business.
      *
-     * @Rest\Get("/v1/faq/{complex_id}/{page_id}", name="faq")
+     * @Rest\Get("/v1/faq/{complex_id}", name="faq")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      * @SWG\Parameter( name="complex_id", in="path", type="string", description="The complex id." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
@@ -2752,12 +2751,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="business_name", type="string", description="Name of the business", example="Business" ),
      *                  @SWG\Property( property="business_address", type="string", description="Address of the business", example="4400 Rickenbacker Causeway, Miami, FL, 33149, EE. UU." ),
      *                  @SWG\Property( property="business_phone", type="string", description="Phone of the business", example="+306 5558 8999" ),
-     *                  @SWG\Property( property="faqs", type="array",
-     *                      @SWG\Items(
-     *                          @SWG\Property( property="question", type="string", description="Frequently asked question", example="Pregunta 1" ),
-     *                          @SWG\Property( property="answer", type="string", description="Answer to the frequently asked question", example="Answer 1" ),
-     *                      )
-     *                  ),
+     *                  @SWG\Property( property="faqs", type="string", description="FAQs for the complex", example="Lorem ipsum..." ),
      *              ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
@@ -2781,20 +2775,24 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="FAQ")
      */
-    public function getFaqAction($complex_id, $page_id = 1)
+    public function getFaqAction(Request $request)
     {
         try {
             $this->initialise();
+            $lang = strtolower(trim($request->get('language')));
+            $complex_id = trim($request->get('complex_id'));
 
             /** @var ComplexFaqRepository $complexFaqRepo */
             $complexFaqRepo = $this->em->getRepository('BackendAdminBundle:ComplexFaq');
+            //$complexFaq = $complexFaqRepo->getApiFaqs($complex_id);
+            $complexFaq = $complexFaqRepo->findOneByComplex($complex_id);
             /** @var ComplexRepository $complexRepo */
             $complexRepo = $this->em->getRepository('BackendAdminBundle:Complex');
+            $complex = $complexRepo->findOneById($complex_id);
 
-            $faqs = $complexFaqRepo->getApiFaqs($complex_id, $page_id);
-            $total = $complexFaqRepo->countApiFaqs($complex_id);
-            /** @var Complex $complex */
-            $complex = $complexRepo->getApiFaqs($complex_id);
+            //$faqs = $complexFaqRepo->getApiFaqs($complex_id, $page_id);
+            //$total = $complexFaqRepo->countApiFaqs($complex_id);
+
 
             $data = array(
                 'business_name' => $complex->getBusiness()->getName(),
@@ -2802,18 +2800,21 @@ class RestController extends FOSRestController
                 'business_phone' => $complex->getBusiness()->getPhoneNumber(),
             );
 
-            $data['faqs'] = array();
+            $data['faqs'] = $lang == 'en' ? htmlspecialchars_decode($complexFaq->getDescriptionEN()) : htmlspecialchars_decode($complexFaq->getDescriptionES());
+
             /** @var ComplexFaq $faq */
+            /*
             foreach ($faqs as $faq) {
                 $data['faqs'][] = array(
                     'question' => $faq->getQuestion(),
                     'answer' => $faq->getAnswer(),
                 );
             }
+            */
 
             return new JsonResponse(array(
                 'message' => "faq",
-                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                //'metadata' => $this->calculatePagesMetadata($page_id, $total),
                 'data' => $data
             ));
         } catch (Exception $ex) {
