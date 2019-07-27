@@ -19,7 +19,7 @@
     {{ parent() }}
 
     <div class="header">
-        <div class="container">
+        <br class="container">
             <div class="row">
                 {% if app.user.role.name == "ADMIN" %}{#EVALUAR QUE ROLES TENDRAN ACCESO A CREAR PROPIEDADES#}
                     {#
@@ -33,15 +33,15 @@
                     <div class="col-md-8">&nbsp;</div>
 
                     <div class="col-md-2 text-right">
-                        <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">Invitations</button>
+                        <button  type="submit" class="btn btn-primary-blue" style="width:100%" >Invitations</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">Add Property</button>
+                        <button type="submit" class="btn btn-primary" style="width:100%">Add Property</button>
                     </div>
 
                 {% endif %}
             </div>
-
+            </br>
             <div class="row">
                 <div class="col-md-6">
                     <h3 class="header-title">{{ 'label_menu.property'|trans }}</h3>
@@ -76,10 +76,6 @@
 
 
 
-
-
-
-
     <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
 
         <!-- widget div-->
@@ -104,14 +100,14 @@
                     <tfoot class="dt_tfoot">
                         <tr>
                             <th>ID</th>
-                            <th>{{ 'label_complex'|trans }}</th>
+                            {#<th>{{ 'label_complex'|trans }}</th>#}
                             <th>{{ 'label_complex_sector'|trans }}</th>
                             <th>{{ 'label_name'|trans }}</th>
                             <th>{{ 'label_code'|trans }}</th>
                             <th>{{ 'label_owner'|trans }}</th>
                             <th>{{ 'label_tenant'|trans }}</th>
 
-                            <th>&nbsp;</th>
+                            <th class="pizote-actions">&nbsp;</th>
 
                         </tr>
                     </tfoot>
@@ -119,14 +115,14 @@
                         <tr>
                             {# sorting of properties based on query components #}
                             <th>ID</th>
-                            <th>{{ 'label_complex'|trans }}</th>
+                            {#<th>{{ 'label_complex'|trans }}</th>#}
                             <th>{{ 'label_complex_sector'|trans }}</th>
                             <th>{{ 'label_name'|trans }}</th>
                             <th>{{ 'label_code'|trans }}</th>
                             <th>{{ 'label_owner'|trans }}</th>
                             <th>{{ 'label_tenant'|trans }}</th>
 
-                            <th>{{ 'label_actions'|trans }}</th>
+                            <th class="pizote-actions">{{ 'label_actions'|trans }}</th>
                         </tr>
 
                     </thead>
@@ -156,13 +152,13 @@
 
                     // These are the column name variables that will be sent to the server
                     { "name": "id",   "targets": 0 },
-                    { "name": "complex",   "targets": 1 },
-                    { "name": "sector",   "targets": 2 },
-                    { "name": "name",   "targets": 3 },
-                    { "name": "code",   "targets": 4 },
-                    { "name": "owner",   "targets": 5 },
-                    { "name": "tenant",   "targets": 6 },
-                    { "name": "actions",  "targets": 7 },
+                    {#{ "name": "complex",   "targets": 1 },#}
+                    { "name": "sector",   "targets": 1 },
+                    { "name": "name",   "targets": 2 },
+                    { "name": "code",   "targets": 3 },
+                    { "name": "owner",   "targets": 4 },
+                    { "name": "tenant",   "targets": 5 },
+                    { "name": "actions",  "targets": 6 },
 
                 ],
                 // Server-side parameters
@@ -202,7 +198,7 @@
             var pos = 1;
             $('#dt_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos != 8){//columna Actions
+                if(pos != 7){//columna Actions
                     $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
                 }
 

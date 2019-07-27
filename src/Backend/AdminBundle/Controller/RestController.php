@@ -523,7 +523,7 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid country code.");
             }
 
-            // User existance
+            // User existence
             $user = $this->em->getRepository('BackendAdminBundle:User')->findOneBy(array('enabled' => true, 'email' => $email));
             if ($user != null) {
                 return new JsonResponse(array('message' => 'User already exists.'), JsonResponse::HTTP_CONFLICT);
@@ -600,7 +600,8 @@ class RestController extends FOSRestController
 //            var_dump($response);
 //            fclose($myfile);
 
-            $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
+            ///comment rchea
+            //$gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
             //var_dump($gamificationResponse);die;
 
@@ -615,6 +616,9 @@ class RestController extends FOSRestController
             $bodyHtml .= $this->translator->trans('mail.register_body');
 
             //$message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
+            var_dump(array(
+                'message' => "register"
+            ));die;
 
             return new JsonResponse(array(
                 'message' => "register"
