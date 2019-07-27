@@ -614,7 +614,7 @@ class RestController extends FOSRestController
             $bodyHtml .= "<b>" . $this->translator->trans('mail.label_password') . "</b> " . $password . "<br/><br/>";
             $bodyHtml .= $this->translator->trans('mail.register_body');
 
-            $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
+            //$message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
 
             return new JsonResponse(array(
                 'message' => "register"
