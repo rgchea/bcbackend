@@ -181,6 +181,9 @@ class PropertyController extends Controller
                     case 'actions':
                         {
 
+                            $urlAgreement = $this->generateUrl('backend_admin_property_edit', array('id' => $entity->getId()));
+                            $agreement = "<a href='".$urlAgreement."'><i class='fa fa-file-spreadsheet'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
 
                             $urlEdit = $this->generateUrl('backend_admin_property_edit', array('id' => $entity->getId()));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
@@ -188,7 +191,7 @@ class PropertyController extends Controller
                             $urlDelete = $this->generateUrl('backend_admin_property_delete', array('id' => $entity->getId()));
                             $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $edit.$delete;
+                            $responseTemp = $agreement.$edit.$delete;
                             break;
                         }
 

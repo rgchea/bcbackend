@@ -3538,3 +3538,15 @@
   background-color: #d9edf7;
   color:#31708f;
  }
+
+ .btn-primary-blue{
+     background-color:#03304a;
+     color:#FFF;
+     -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+     border-radius: 8px;
+ }
+
+ .pizote-actions{
+     width:100px
+ }
