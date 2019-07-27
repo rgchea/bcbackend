@@ -60,11 +60,7 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
@@ -268,8 +264,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="620" column="19" selection-start-line="620" selection-start-column="19" selection-end-line="620" selection-end-column="19" />
+            <state relative-caret-position="433">
+              <caret line="603" column="68" selection-start-line="603" selection-start-column="45" selection-end-line="603" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -334,7 +330,6 @@
       <find>getApiFaqs</find>
       <find>create</find>
       <find>'repository'</find>
-      <find>callGamificationService</find>
       <find>&lt;head</find>
       <find>body</find>
       <find>wrapp</find>
@@ -351,6 +346,7 @@
       <find>actions</find>
       <find>add pro</find>
       <find>terms</find>
+      <find>callGamificationService</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;i class='fa fa-pencil-square-o'&gt;&lt;/i&gt;&lt;span class='item-label'&gt;&lt;/span&gt;&lt;/a&gt;&amp;nbsp;&amp;nbsp;</replace>
@@ -752,12 +748,12 @@
       <workItem from="1562252250116" duration="3586000" />
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
-      <workItem from="1564260024309" duration="8491000" />
+      <workItem from="1564260024309" duration="8990000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="820318000" />
+    <option name="totallyTimeSpent" value="820817000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -1209,8 +1205,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="620" column="19" selection-start-line="620" selection-start-column="19" selection-end-line="620" selection-end-column="19" />
+        <state relative-caret-position="433">
+          <caret line="603" column="68" selection-start-line="603" selection-start-column="45" selection-end-line="603" selection-end-column="68" />
         </state>
       </provider>
     </entry>
