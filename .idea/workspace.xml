@@ -60,7 +60,14 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexSectorRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexSectorRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
@@ -262,15 +269,6 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="785" selection-start-line="785" selection-end-line="785" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="213">
@@ -282,8 +280,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="3702" column="67" lean-forward="true" selection-start-line="3702" selection-start-column="67" selection-end-line="3702" selection-end-column="67" />
+            <state relative-caret-position="166">
+              <caret line="611" column="14" selection-start-line="611" selection-start-column="14" selection-end-line="611" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -298,28 +296,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="511">
-              <caret line="66" column="27" selection-start-line="66" selection-start-column="27" selection-end-line="66" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2234">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/form.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3606">
-              <caret line="249" column="42" selection-start-line="249" selection-start-column="42" selection-end-line="249" selection-end-column="42" />
+            <state relative-caret-position="426">
+              <caret line="37" column="64" selection-start-line="37" selection-start-column="64" selection-end-line="37" selection-end-column="64" />
               <folding>
                 <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
               </folding>
@@ -328,19 +308,65 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/new screens/condo-add-property-contract.html">
+        <entry file="file://$USER_HOME$/Desktop/new screens/complex-list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="422" column="21" selection-start-line="252" selection-start-column="4" selection-end-line="422" selection-end-column="21" />
+            <state relative-caret-position="58">
+              <caret line="250" selection-start-line="250" selection-end-line="276" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/new screens/complex properties.html">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8142">
-              <caret line="312" column="24" selection-start-line="312" selection-start-column="24" selection-end-line="312" selection-end-column="24" />
+            <state relative-caret-position="274">
+              <caret line="191" column="56" selection-start-line="191" selection-start-column="56" selection-end-line="191" selection-end-column="56" />
+              <folding>
+                <element signature="e#50#95#0#PHP" expanded="true" />
+                <element signature="e#1459#1466#0" expanded="true" />
+                <element signature="e#1833#1841#0" expanded="true" />
+                <element signature="e#1852#1860#0" expanded="true" />
+                <element signature="e#1940#1948#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/index.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="444">
+              <caret line="101" column="53" selection-start-line="101" selection-start-column="53" selection-end-line="101" selection-end-column="53" />
+              <folding>
+                <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="26" selection-start-line="10" selection-end-line="10" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="179">
+              <caret line="182" selection-start-line="182" selection-end-line="182" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="166">
+              <caret line="102" column="20" selection-start-line="102" selection-end-line="102" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -349,17 +375,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>create</find>
-      <find>'repository'</find>
-      <find>&lt;head</find>
-      <find>body</find>
-      <find>wrapp</find>
-      <find>who p</find>
-      <find>container</find>
-      <find>text-right</find>
-      <find>text-left</find>
-      <find>radi</find>
-      <find>welcomepri</find>
       <find>content</find>
       <find>return new JsonResponse(</find>
       <find>btn-blue</find>
@@ -370,15 +385,26 @@
       <find>$token</find>
       <find>newaction</find>
       <find>actions</find>
-      <find>hover</find>
       <find>redirect</find>
       <find>add pro</find>
       <find>callbc</find>
       <find>register</find>
-      <find>callBCSpace</find>
-      <find>callGamificationService</find>
       <find>this never</find>
+      <find>&lt;/br</find>
+      <find>owner</find>
+      <find>callBCSpace</find>
+      <find>hover</find>
       <find>$edit</find>
+      <find>properties</find>
+      <find>sector</find>
+      <find>index</find>
+      <find>indexacti</find>
+      <find>getCountByComplex</find>
+      <find>from</find>
+      <find>query</find>
+      <find>class</find>
+      <find>&lt;i</find>
+      <find>callGamificationService</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;i class='fa fa-pencil-square-o'&gt;&lt;/i&gt;&lt;span class='item-label'&gt;&lt;/span&gt;&lt;/a&gt;&amp;nbsp;&amp;nbsp;</replace>
@@ -419,9 +445,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/routing/guide.yml" />
-        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Form/GuideType.php" />
-        <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/form.html.twig" />
         <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/servicesEdit.html.twig" />
         <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Services/Log.php" />
         <option value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/doctrine/Manifiesto.orm.yml" />
@@ -459,16 +482,19 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Form/ComplexFaqType.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexFaq/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/ComplexFaq/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexFaqRepository.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/propertyContract.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexSectorRepository.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
       </list>
     </option>
@@ -630,6 +656,12 @@
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
               <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -651,7 +683,26 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="Complex" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
@@ -771,12 +822,12 @@
       <workItem from="1562252250116" duration="3586000" />
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
-      <workItem from="1564260024309" duration="14311000" />
+      <workItem from="1564260024309" duration="17644000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="826138000" />
+    <option name="totallyTimeSpent" value="829471000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -808,22 +859,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="637">
-          <caret line="220" selection-start-line="220" selection-end-line="225" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TermCondition.orm.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="54" selection-start-line="54" selection-end-line="75" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexFaqController.php.old.php" />
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Form/ComplexFaqType.php.old.php" />
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Form/ComplexFaqType.php.old">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -884,13 +919,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="132" selection-start-line="132" selection-end-line="139" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -973,63 +1001,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="548" column="49" selection-start-line="548" selection-start-column="49" selection-end-line="548" selection-end-column="49" />
-          <folding>
-            <element signature="e#50#95#0#PHP" expanded="true" />
-            <element signature="e#289#295#1" expanded="true" />
-            <element signature="e#487#493#1" expanded="true" />
-            <element signature="e#735#741#1" expanded="true" />
-            <element signature="e#1094#1100#1" expanded="true" />
-            <element signature="e#1109#1115#1" expanded="true" />
-            <element signature="e#1145#1152#0" expanded="true" />
-            <element signature="e#1271#1278#0" expanded="true" />
-            <element signature="e#1369#1375#1" expanded="true" />
-            <element signature="e#1384#1390#1" expanded="true" />
-            <element signature="e#1459#1466#0" expanded="true" />
-            <element signature="e#3#11#0" expanded="true" />
-            <element signature="e#18#26#0" expanded="true" />
-            <element signature="e#41#49#0" expanded="true" />
-            <element signature="e#71#79#0" expanded="true" />
-            <element signature="e#166#174#0" expanded="true" />
-            <element signature="e#304#312#0" expanded="true" />
-            <element signature="e#317#325#0" expanded="true" />
-            <element signature="e#368#374#1" expanded="true" />
-            <element signature="e#383#391#0" expanded="true" />
-            <element signature="e#406#414#0" expanded="true" />
-            <element signature="e#417#425#0" expanded="true" />
-            <element signature="e#452#460#0" expanded="true" />
-            <element signature="e#487#495#0" expanded="true" />
-            <element signature="e#582#590#0" expanded="true" />
-            <element signature="e#628#634#1" expanded="true" />
-            <element signature="e#643#651#0" expanded="true" />
-            <element signature="e#653#661#0" expanded="true" />
-            <element signature="e#917#923#1" expanded="true" />
-            <element signature="e#932#940#0" expanded="true" />
-            <element signature="e#941#949#0" expanded="true" />
-            <element signature="e#1045#1053#0" expanded="true" />
-            <element signature="e#1083#1091#0" expanded="true" />
-            <element signature="e#1301#1309#0" expanded="true" />
-            <element signature="e#1327#1335#0" expanded="true" />
-            <element signature="e#1353#1361#0" expanded="true" />
-            <element signature="e#1406#1412#1" expanded="true" />
-            <element signature="e#1421#1429#0" expanded="true" />
-            <element signature="e#1431#1439#0" expanded="true" />
-            <element signature="e#1605#1613#0" expanded="true" />
-            <element signature="e#1633#1641#0" expanded="true" />
-            <element signature="e#1679#1687#0" expanded="true" />
-            <element signature="e#1698#1704#1" expanded="true" />
-            <element signature="e#1713#1721#0" expanded="true" />
-            <element signature="e#1774#1782#0" expanded="true" />
-            <element signature="e#1833#1841#0" expanded="true" />
-            <element signature="e#1852#1860#0" expanded="true" />
-            <element signature="e#1940#1948#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexFaqRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
@@ -1104,32 +1075,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="389" column="54" selection-start-line="389" selection-start-column="8" selection-end-line="389" selection-end-column="54" />
-          <folding>
-            <element signature="e#5#11#0" expanded="true" />
-            <element signature="e#9#15#0" expanded="true" />
-            <element signature="e#12#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="109" column="46" selection-start-line="109" selection-start-column="46" selection-end-line="109" selection-end-column="46" />
-          <folding>
-            <element signature="e#1009#1015#1#HTML" expanded="true" />
-            <element signature="e#1152#1170#0#HTML" expanded="true" />
-            <element signature="e#1333#1351#0#HTML" expanded="true" />
-            <element signature="e#4506#4512#1#HTML" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="498">
@@ -1151,37 +1096,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/new screens/condo-add-property-contract.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="422" column="21" selection-start-line="252" selection-start-column="4" selection-end-line="422" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/new screens/complex properties.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8142">
-          <caret line="312" column="24" selection-start-line="312" selection-start-column="24" selection-end-line="312" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2234">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3606">
-          <caret line="249" column="42" selection-start-line="249" selection-start-column="42" selection-end-line="249" selection-end-column="42" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -1196,31 +1110,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="66" column="27" selection-start-line="66" selection-start-column="27" selection-end-line="66" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="785" selection-start-line="785" selection-end-line="785" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
           <caret line="114" selection-start-line="114" selection-end-line="118" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="615" column="31" selection-start-line="615" selection-start-column="26" selection-end-line="615" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -1231,10 +1124,131 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="43" column="17" lean-forward="true" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="135" lean-forward="true" selection-start-line="135" selection-end-line="135" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="615" column="31" selection-start-line="615" selection-start-column="26" selection-end-line="615" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/new screens/condo-add-property-contract.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="422" column="21" selection-start-line="252" selection-start-column="4" selection-end-line="422" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/new screens/complex properties.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8142">
+          <caret line="312" column="24" selection-start-line="312" selection-start-column="24" selection-end-line="312" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="37" column="64" selection-start-line="37" selection-start-column="64" selection-end-line="37" selection-end-column="64" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="102" column="20" selection-start-line="102" selection-end-line="102" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="394" column="133" lean-forward="true" selection-start-line="394" selection-start-column="30" selection-end-line="394" selection-end-column="133" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexSectorRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="170" selection-start-line="170" selection-end-line="183" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="5" selection-start-line="12" selection-end-line="12" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="182" selection-start-line="182" selection-end-line="182" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/new screens/complex-list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="58">
+          <caret line="250" selection-start-line="250" selection-end-line="276" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="26" selection-start-line="10" selection-end-line="10" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="101" column="53" selection-start-line="101" selection-start-column="53" selection-end-line="101" selection-end-column="53" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="191" column="56" selection-start-line="191" selection-start-column="56" selection-end-line="191" selection-end-column="56" />
+          <folding>
+            <element signature="e#50#95#0#PHP" expanded="true" />
+            <element signature="e#1459#1466#0" expanded="true" />
+            <element signature="e#1833#1841#0" expanded="true" />
+            <element signature="e#1852#1860#0" expanded="true" />
+            <element signature="e#1940#1948#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="3702" column="67" lean-forward="true" selection-start-line="3702" selection-start-column="67" selection-end-line="3702" selection-end-column="67" />
+        <state relative-caret-position="166">
+          <caret line="611" column="14" selection-start-line="611" selection-start-column="14" selection-end-line="611" selection-end-column="14" />
         </state>
       </provider>
     </entry>
