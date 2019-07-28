@@ -609,8 +609,8 @@ class RestController extends FOSRestController
 //            fclose($myfile);
 
             ///comment rchea
-            //$token = $this->get('services')->getBCToken();
-            //$gamificationResponse = $this->callGamificationService( "POST", "users", $body );
+            $token = $this->get('services')->getBCToken();
+            $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
             //var_dump($gamificationResponse);die;
 
