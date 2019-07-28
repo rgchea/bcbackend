@@ -565,13 +565,21 @@ class RestController extends FOSRestController
             }
 
             // Gamification
+            $body = array();
+            $body['email'] = $user->getEmail();
+            $body['username'] = $user->getEmail();
+            $body['firstName'] = $user->getName();
+            $body['lastName'] = $user->getName();
+            $body['locale'] = $lang;
+            /*
             $body = [
-                'email' => $user->getEmail(),
-                'username' => $user->getEmail(),
-                'firstName' => $user->getName(),
-                'lastName' => $user->getName(),
-                'locale' => $lang,
+                "email" => $user->getEmail(),
+                "username" => $user->getEmail(),
+                "firstName" => $user->getName(),
+                "lastName" => $user->getName(),
+                "locale" => $lang,
             ];
+            */
 
 
 
@@ -3689,7 +3697,7 @@ class RestController extends FOSRestController
             $attemps++;
             try {
                 $response = $this->get('services')->callBCSpace($method, $service, $options);
-                printf(" ------------------ This never happens ------------------ ");
+                //printf(" ------------------ This never happens ------------------ ");
                 $success = true;
             } catch (\GuzzleHttp\Exception\ClientException $ex) {
                 printf(" ---= Error %s  =--- ", $ex->getMessage());
