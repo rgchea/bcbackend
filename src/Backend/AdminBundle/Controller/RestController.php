@@ -574,11 +574,11 @@ class RestController extends FOSRestController
             */
 
             $body = [
-                "email" => $user->getEmail(),
-                "username" => $user->getEmail(),
-                "firstName" => $user->getName(),
-                "lastName" => $user->getName(),
-                "locale" => $lang,
+                'email' => $user->getEmail(),
+                'username' => $user->getEmail(),
+                'firstName' => $user->getName(),
+                'lastName' => $user->getName(),
+                'locale' => $lang,
             ];
 
 
