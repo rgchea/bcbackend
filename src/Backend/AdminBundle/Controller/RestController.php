@@ -601,7 +601,8 @@ class RestController extends FOSRestController
 //            fclose($myfile);
 
             ///comment rchea
-            //$gamificationResponse = $this->callGamificationService( "POST", "users", $body );
+            $token = $this->get('services')->getBCToken();
+            $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
             //var_dump($gamificationResponse);die;
 
@@ -634,7 +635,6 @@ class RestController extends FOSRestController
      * @Rest\Get("/countries", name="countries")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -650,6 +650,7 @@ class RestController extends FOSRestController
      *              @SWG\Items(
      *                  @SWG\Property( property="name", type="string", description="Name", example="Guatemala" ),
      *                  @SWG\Property( property="code", type="string", description="Area code", example="502" ),
+     *                  @SWG\Property( property="name_code", type="string", description="Name code", example="GT" ),
      *                  @SWG\Property( property="locale", type="string", description="Language", example="es" )
      *              )
      *          ),
@@ -680,6 +681,7 @@ class RestController extends FOSRestController
                 $data[] = array(
                     'name' => $country->getName(),
                     'code' => $country->getCode(),
+                    'name_code' => $country->getShortName(),
                     'locale' => $country->getLocale()
                 );
             }
