@@ -181,8 +181,8 @@ class PropertyController extends Controller
                     case 'actions':
                         {
 
-                            $urlAgreement = $this->generateUrl('backend_admin_property_edit', array('id' => $entity->getId()));
-                            $agreement = "<a href='".$urlAgreement."'><i class='fa fa-file-spreadsheet'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $urlAgreement = $this->generateUrl('backend_admin_property_new_agreement', array('property_id' => $entity->getId()));
+                            $agreement = "<a href='".$urlAgreement."'><i class='fa fa-file'></i></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
 
                             $urlEdit = $this->generateUrl('backend_admin_property_edit', array('id' => $entity->getId()));
@@ -770,6 +770,38 @@ class PropertyController extends Controller
 
 
         return $this->redirectToRoute('backend_admin_property_edit', array('id' => $propertyID));
+    }
+
+
+
+
+    /**
+     * Creates a new PropertyContract entity.
+     *
+     */
+    public function newAgreementAction(Request $request)
+    {
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+
+        if(isset($_REQUEST["property_id"])){
+            $propertyID = intval($_REQUEST["property_id"]);
+            $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+        }
+        else{
+
+            throw $this->createNotFoundException('The Property does not exist');
+        }
+
+        //$form   = $this->createCreateForm($entity);
+
+        return $this->render('BackendAdminBundle:PropertyContract:newAgreement.html.twig', array(
+            'entity' => $entity,
+            //'form' => $form->createView(),
+
+
+        ));
     }
 
 

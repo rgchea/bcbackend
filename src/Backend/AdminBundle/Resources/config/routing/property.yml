@@ -62,3 +62,7 @@ backend_admin_property_share_ad:
 backend_admin_property_delete_ad:
     path:     /deleteAd
     defaults: { _controller: "BackendAdminBundle:Property:deleteAd" }
+
+backend_admin_property_new_agreement:
+    path:     /newAgreement/
+    defaults: { _controller: "BackendAdminBundle:Property:newAgreement" }
