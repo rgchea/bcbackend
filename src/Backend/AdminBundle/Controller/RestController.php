@@ -565,13 +565,14 @@ class RestController extends FOSRestController
             }
 
             // Gamification
-            $body = array();
+            /*$body = array();
             $body['email'] = $user->getEmail();
             $body['username'] = $user->getEmail();
             $body['firstName'] = $user->getName();
             $body['lastName'] = $user->getName();
             $body['locale'] = $lang;
-            /*
+            */
+
             $body = [
                 "email" => $user->getEmail(),
                 "username" => $user->getEmail(),
@@ -579,7 +580,7 @@ class RestController extends FOSRestController
                 "lastName" => $user->getName(),
                 "locale" => $lang,
             ];
-            */
+
 
 
 
