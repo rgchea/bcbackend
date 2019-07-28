@@ -158,15 +158,38 @@ class ComplexController extends Controller
                             break;
                         }
 
+                    case 'sectors':
+                        {
+
+                            $count = $this->em->getRepository('BackendAdminBundle:ComplexSector')->getCountByComplex($entity->getId());
+                            //$responseTemp = $entity->getZipCode();
+                            $responseTemp = $count;
+                            break;
+                        }
+
+                    case 'properties':
+                        {
+
+                            $count = $this->em->getRepository('BackendAdminBundle:Property')->getCountByComplex($entity->getId());
+                            //$responseTemp = $entity->getZipCode();
+                            $responseTemp = $count;
+                            break;
+                        }
+
                     case 'actions':
                         {
+
+                            $urlAddProperty = $this->generateUrl('backend_admin_property_new');
+                            $addProperty = "<a href='".$urlAddProperty."'><i class='fa fa-plus'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
+
                             $urlEdit = $this->generateUrl('backend_admin_complex_edit', array('id' => $entity->getId()));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_complex_delete', array('id' => $entity->getId()));
                             $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $edit.$delete;
+                            $responseTemp = $addProperty.$edit.$delete;
                             break;
                         }
 

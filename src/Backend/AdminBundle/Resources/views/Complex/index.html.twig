@@ -18,18 +18,41 @@
 {% block body -%}
     {{ parent() }}
 
-    <div class="row">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h3 class="header-title">Your Complexes</h3>
+                </div>
+                <div class="col-md-3 text-right">
 
-        </div>
-        {% if app.user.role.name == "ADMIN" %}
-            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_complex_new') }}">
-                    {{ 'label_create_new'|trans }} {{ 'label_complex'|trans }}
-                </a>
+                </div>
+                <div class="col-md-2 text-right">
+                    {% if app.user.role.name == "ADMIN" %}
+
+                        <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_complex_new') }}">
+                            {{ 'label_create_new'|trans }} {{ 'label_complex'|trans }}
+                        </a>
+
+                    {% endif %}
+
+                </div>
             </div>
-        {% endif %}
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+                        <div class="col-md-11">
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate quam ut risus ullamcorper convallis. Morbi pellentesque congue elit malesuada pharetra. Suspendisse iaculis interdum elit, et porta ex tempus eget. Ut nec diam dictum, cursus metus euismod, aliquet ante. Quisque a lacus dapibus, semper ante ac, mollis nibh. Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                        </div>
+                        <div class="col-md-1 text-right">
+                            <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
         <header>
@@ -60,10 +83,10 @@
                             <th>ID</th>
                             <th>{{ 'label_name'|trans }}</th>
                             <th>{{ 'label_type'|trans }}</th>
-                            <th>{{ 'label_state'|trans }}</th>
-                            <th>{{ 'label_zip_code'|trans }}</th>
+                            <th>{{ 'label_complex_sector'|trans }}</th>
+                            <th>{{ 'label_menu.property'|trans }}</th>
 
-                            <th>&nbsp;</th>
+                            <th class="pizote-actions">&nbsp;</th>
 
                         </tr>
                     </tfoot>
@@ -73,10 +96,10 @@
                             <th>ID</th>
                             <th>{{ 'label_name'|trans }}</th>
                             <th>{{ 'label_type'|trans }}</th>
-                            <th>{{ 'label_state'|trans }}</th>
-                            <th>{{ 'label_zip_code'|trans }}</th>
+                            <th>{{ 'label_complex_sector'|trans }}</th>
+                            <th>{{ 'label_menu.property'|trans }}</th>
 
-                            <th>{{ 'label_actions'|trans }}</th>
+                            <th class="pizote-actions">{{ 'label_actions'|trans }}</th>
                         </tr>
 
                     </thead>
@@ -108,8 +131,10 @@
                     { "name": "id",   "targets": 0 },
                     { "name": "name",   "targets": 1 },
                     { "name": "complexType", "targets": 2 },
-                    { "name": "city",   "targets": 3 },
-                    { "name": "zipCode",   "targets": 4 },
+                    {#{ "name": "city",   "targets": 3 },#}
+                    { "name": "sectors",   "targets": 3 },
+                    {#{ "name": "zipCode",   "targets": 4 },#}
+                    { "name": "properties",   "targets": 4 },
                     { "name": "actions",  "targets": 5 },
 
                 ],

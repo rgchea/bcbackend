@@ -270,4 +270,18 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
             "countResult" => $countResult
         );
     }
+
+    public function getCountByComplex($complexID){
+
+
+        $qb = $this->createQueryBuilder('s');
+        $qb->select('count(s.id)');
+        //$qb->from('BackendAdminBundle:ComplexSector','s');
+        $qb->andWhere('s.complex = :complexid');
+        $qb->setParameter('complexid', $complexID);
+
+        $count = $qb->getQuery()->getSingleScalarResult();
+
+        return intval($count);
+    }
 }
