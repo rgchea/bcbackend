@@ -213,6 +213,11 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
             $ticketCat->setCreatedBy(null);
             $ticketCat->setUpdatedBy(null);
 
+            //rhea comment
+            $ticketCat->setIsGeneral(1);
+            //$ticketCat->setIcon();
+            $ticketCat->setColor("#674ea7");
+
             $em->persist($ticketCat);
 
 
