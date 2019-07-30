@@ -792,7 +792,10 @@ class RestController extends FOSRestController
                 'tenant_id' => $tenant->getId(),
                 'code' => $property->getCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $typeId,
-                'sector_id' => $complexSectorId, 'teamCorrelative' => $property->getTeamCorrelative());
+                'sector_id' => $complexSectorId, 'teamCorrelative' => $property->getTeamCorrelative(),
+                'complex' => $property->getComplex()->getName(),
+                'complex_id' => $property->getComplex()->getId()
+                );
 
             return new JsonResponse(array('message' => "welcomePrivateKey", 'data' => $data,));
         } catch (Exception $ex) {
@@ -829,8 +832,10 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
      *                  @SWG\Property( property="address", type="string", description="Address", example="1 Avenue des Champs-Elysees" ),
      *                  @SWG\Property( property="type_id", type="integer", description="Property Type ID", example="1" ),
-     *                  @SWG\Property( property="complex_id", type="integer", description="Sector ID", example="1" ),
      *                  @SWG\Property( property="player_id", type="integer", description="Team player ID", example="1" ),
+     *                  @SWG\Property( property="complex", type="integer", description="Complex Name", example="complex 1" ),
+     *                  @SWG\Property( property="complex_id", type="integer", description="Complex ID", example="1" ),
+     *                  @SWG\Property( property="sector_id", type="integer", description="Sector ID", example="1" ),
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
@@ -876,10 +881,16 @@ class RestController extends FOSRestController
                 }
 
                 $data[] = array(
-                    'id' => $property->getId(),
-                    'code' => $property->getCode(), 'name' => $property->getName(),
-                    'address' => $property->getAddress(), 'type_id' => $type->getId(),
-                    'sector_id' => $complexSector->getId(), 'player_id' => $property->getTeamCorrelative());
+                        'id' => $property->getId(),
+                        'code' => $property->getCode(),
+                        'name' => $property->getName(),
+                        'address' => $property->getAddress(),
+                        'type_id' => $type->getId(),
+                        'player_id' => $property->getTeamCorrelative(),
+                        'complex' => $property->getComplex()->getName(),
+                        'complex_id' => $property->getComplex()->getId(),
+                        'sector_id' => $complexSector->getId()
+                        );
             }
 
             return new JsonResponse(array(
