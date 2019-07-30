@@ -302,8 +302,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="673">
-              <caret line="750" column="36" lean-forward="true" selection-start-line="750" selection-start-column="36" selection-end-line="750" selection-end-column="36" />
+            <state relative-caret-position="539">
+              <caret line="795" column="64" lean-forward="true" selection-start-line="795" selection-start-column="64" selection-end-line="795" selection-end-column="64" />
               <folding>
                 <element signature="e#50#92#0#PHP" expanded="true" />
               </folding>
@@ -365,8 +365,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dropzone</find>
-      <find>info</find>
       <find>game</find>
       <find>bettercondos.space</find>
       <find>bettercondos</find>
@@ -395,6 +393,8 @@
       <find>error</find>
       <find>409</find>
       <find>401</find>
+      <find>welcomeprivatekey</find>
+      <find>getproper</find>
     </findStrings>
     <replaceStrings>
       <replace>_</replace>
@@ -864,12 +864,12 @@
       <workItem from="1562252250116" duration="3586000" />
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
-      <workItem from="1564260024309" duration="34595000" />
+      <workItem from="1564260024309" duration="35165000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="846422000" />
+    <option name="totallyTimeSpent" value="846992000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="62" width="1920" height="1013" extended-state="0" />
@@ -1270,8 +1270,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="673">
-          <caret line="750" column="36" lean-forward="true" selection-start-line="750" selection-start-column="36" selection-end-line="750" selection-end-column="36" />
+        <state relative-caret-position="539">
+          <caret line="795" column="64" lean-forward="true" selection-start-line="795" selection-start-column="64" selection-end-line="795" selection-end-column="64" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
           </folding>
