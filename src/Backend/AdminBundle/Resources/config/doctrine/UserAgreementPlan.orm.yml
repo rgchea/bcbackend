@@ -34,8 +34,6 @@ Backend\AdminBundle\Entity\UserAgreementPlan:
         expirationDate:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: expiration_date
         monthlyPayment:
             type: boolean
@@ -52,14 +50,10 @@ Backend\AdminBundle\Entity\UserAgreementPlan:
         createdAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: created_at
         updatedAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: updated_at
         enabled:
             type: boolean

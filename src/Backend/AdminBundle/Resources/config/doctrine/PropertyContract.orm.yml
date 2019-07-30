@@ -35,14 +35,10 @@ Backend\AdminBundle\Entity\PropertyContract:
         startDate:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: start_date
         endDate:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: end_date
         isActive:
             type: boolean
@@ -87,14 +83,10 @@ Backend\AdminBundle\Entity\PropertyContract:
         createdAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: created_at
         updatedAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: updated_at
         enabled:
             type: boolean
