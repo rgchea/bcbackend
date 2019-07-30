@@ -657,7 +657,7 @@ class ComplexController extends Controller
 
 
                 ///TICKET CATEGORIES FOR THE COMPLEX
-                $this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories($entity);
+                $this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories($entity->getId());
 
 
                 //sectorType

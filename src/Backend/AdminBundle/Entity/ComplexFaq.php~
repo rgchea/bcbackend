@@ -109,4 +109,149 @@ class ComplexFaq
     {
         return $this->updatedBy;
     }
+    /**
+     * @var string
+     */
+    private $descriptionES;
+
+    /**
+     * @var string
+     */
+    private $descriptionEN;
+
+    /**
+     * @var \DateTime|null
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime|null
+     */
+    private $updatedAt;
+
+    /**
+     * @var bool
+     */
+    private $enabled = '1';
+
+
+    /**
+     * Set descriptionES.
+     *
+     * @param string $descriptionES
+     *
+     * @return ComplexFaq
+     */
+    public function setDescriptionES($descriptionES)
+    {
+        $this->descriptionES = $descriptionES;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionES.
+     *
+     * @return string
+     */
+    public function getDescriptionES()
+    {
+        return $this->descriptionES;
+    }
+
+    /**
+     * Set descriptionEN.
+     *
+     * @param string $descriptionEN
+     *
+     * @return ComplexFaq
+     */
+    public function setDescriptionEN($descriptionEN)
+    {
+        $this->descriptionEN = $descriptionEN;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionEN.
+     *
+     * @return string
+     */
+    public function getDescriptionEN()
+    {
+        return $this->descriptionEN;
+    }
+
+    /**
+     * Set createdAt.
+     *
+     * @param \DateTime|null $createdAt
+     *
+     * @return ComplexFaq
+     */
+    public function setCreatedAt($createdAt = null)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return \DateTime|null
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param \DateTime|null $updatedAt
+     *
+     * @return ComplexFaq
+     */
+    public function setUpdatedAt($updatedAt = null)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return \DateTime|null
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set enabled.
+     *
+     * @param bool $enabled
+     *
+     * @return ComplexFaq
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled.
+     *
+     * @return bool
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
 }

@@ -1836,7 +1836,7 @@ class RestController extends FOSRestController
 
             $this->em->flush();
 
-            $response = array('message' => "");
+            $response = array('message' => $ticket->getId());
             if ($this->container->getParameter('kernel.environment') == 'dev') {
                 $response['debug'] = $ticket->getId();
             }

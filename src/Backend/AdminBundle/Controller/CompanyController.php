@@ -44,6 +44,12 @@ class CompanyController extends Controller
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
         //var_dump($baseurl);die;
 
+
+        ////testing tickets
+        $this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories(12);
+        die;
+
+
         ///////TWILIO TESTING
         //$msg = $this->get('services')->serviceSendSMS("hello there monkey", "+50241550669");
         //var_dump($msg);die;

@@ -192,19 +192,52 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
         //neighborhood
         $em = $this->getEntityManager();
 
-        $arr = array();
-        $arr["en"] = array("General fixes", "Security", "Billing", "Cleaning", "Electricity", "Water", "Neighborhood");
-        $arr["es"] = array("Reparaciones generales", "Seguridad", "Cuentas", "Limpieza", "Electricidad", "Agua", "Vecindario");
+        /*
+         *  General Fixes
+            Security
+            Utilities
+            Cleaning
+            Common Area
+            Maintenance
+            Complaints
+            Emergencies
+            Visits
+
+         *
+         */
 
 
-        $myLocale = $complex->getGeoState()->getGeoCountry()->getLocale();
+        $arrDefault = array(
+            
+                    array("f7d9" => array("en" => "General fixes", "es" => "Reparaciones generales", "hexa" => "#ff0044")),
+                    array("f3ed" => array("en" => "Security", "es" => "Seguridad","hexa" => "#68386c")) ,
+                    array("f552" =>array("en" => "Utilities", "es" => "Servicios","hexa" => "#a22532")) ,
+                    array("f51a" => array("en" => "Cleaning", "es" => "Limpieza","hexa" => "#8b9bb4")),
+                    array("f78c" => array("en" => "Common Area", "es" => "Área común","hexa" => "#1bb954")),
+                    array("f0ad" => array("en" => "Maintenance", "es" => "Mantenimiento","hexa" => "#265d42")),
+                    array("f071" => array("en" => "Complaints", "es" => "Reclamos","hexa" => "#f77622")),
+                    array("f0f9" => array("en" => "Emergencies", "es" => "Emergencias","hexa" => "#8c1091")),
+                    array("f2c2" => array("en" => "Visits", "es" => "Visitas", "hexa" => "#10bba9"))
+                            );
 
-        foreach ($arr[$myLocale] as $key => $cat ){
+
+        $repositoryIcon = $em->getRepository('BackendAdminBundle:Icon');
+        $repositoryComplex = $em->getRepository('BackendAdminBundle:Complex');
+        $objComplex = $repositoryComplex->find($complex);
+
+        $defaultIcons = $repositoryIcon->findByIsGeneral(1);
+
+        $myLocale = $objComplex->getGeoState()->getGeoCountry()->getLocale();
+
+        foreach ($defaultIcons as $icon ){
+
+
+            $name = $myLocale == "en" ? $icon->getName() : $icon->getNameES();
 
             $ticketCat = new TicketCategory();
-            $ticketCat->setName($cat);
-            $ticketCat->setDescription($cat);
-            $ticketCat->setComplex($complex);
+            $ticketCat->setName($name);
+            $ticketCat->setDescription($name);
+            $ticketCat->setComplex($objComplex);
             $ticketCat->setEnabled(1);
             $gtmNow = gmdate("Y-m-d H:i:s");
 
@@ -213,10 +246,11 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
             $ticketCat->setCreatedBy(null);
             $ticketCat->setUpdatedBy(null);
 
-            //rhea comment
+
             $ticketCat->setIsGeneral(1);
-            //$ticketCat->setIcon();
-            $ticketCat->setColor("#674ea7");
+
+            $ticketCat->setIcon($icon);
+            $ticketCat->setColor($icon->getColor());
 
             $em->persist($ticketCat);
 
