@@ -773,10 +773,12 @@ class RestController extends FOSRestController
             $tenant->setUser($this->getUser());
             $tenant->setRole($role);
             $tenant->setPropertyContract($contract);
-            $tenant->setIsOwner(true);
+            //rchea comment
+            $tenant->setIsOwner(false);
             $tenant->setEnabled(true);
 
-            $property->setOwner($this->getUser());
+            ////rchea comment
+            //$property->setOwner($this->getUser());
 
             $this->get("services")->blameOnMe($property, "update");
             $this->get("services")->blameOnMe($tenant, "create");

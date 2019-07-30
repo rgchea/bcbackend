@@ -302,8 +302,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="539">
-              <caret line="795" column="64" lean-forward="true" selection-start-line="795" selection-start-column="64" selection-end-line="795" selection-end-column="64" />
+            <state relative-caret-position="639">
+              <caret line="774" column="27" selection-start-line="774" selection-start-column="27" selection-end-line="774" selection-end-column="27" />
               <folding>
                 <element signature="e#50#92#0#PHP" expanded="true" />
               </folding>
@@ -314,8 +314,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+            <state relative-caret-position="270">
+              <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -365,7 +365,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>game</find>
       <find>bettercondos.space</find>
       <find>bettercondos</find>
       <find>poi</find>
@@ -395,6 +394,7 @@
       <find>401</find>
       <find>welcomeprivatekey</find>
       <find>getproper</find>
+      <find>welcomeprivate</find>
     </findStrings>
     <replaceStrings>
       <replace>_</replace>
@@ -864,12 +864,12 @@
       <workItem from="1562252250116" duration="3586000" />
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
-      <workItem from="1564260024309" duration="35165000" />
+      <workItem from="1564260024309" duration="35795000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="846992000" />
+    <option name="totallyTimeSpent" value="847622000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="62" width="1920" height="1013" extended-state="0" />
@@ -1263,15 +1263,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        <state relative-caret-position="270">
+          <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="795" column="64" lean-forward="true" selection-start-line="795" selection-start-column="64" selection-end-line="795" selection-end-column="64" />
+        <state relative-caret-position="639">
+          <caret line="774" column="27" selection-start-line="774" selection-start-column="27" selection-end-line="774" selection-end-column="27" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
           </folding>
