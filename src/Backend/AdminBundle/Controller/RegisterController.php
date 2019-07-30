@@ -167,10 +167,13 @@ class RegisterController extends Controller
                 $body['lastName'] = $entity->getName();
                 $body['locale'] = $myLocale;
 
+
                 $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
                 if($createUser){
                     //ok
+                    //TO DO: VALIDAR SI EL USUARIO YA EXISTE
                 }
+
 
 
                 $this->get('services')->flashSuccess($request);

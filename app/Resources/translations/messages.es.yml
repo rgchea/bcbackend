@@ -62,7 +62,7 @@ label_register_generate: GENERAREMOS
 label_register_generate_for_you: 'PROPIEDADES PARA TI'
 label_register_create_account: 'Crear cuenta'
 label_register: Registrarse
-label_register_start: EMPEZAR AHORA!
+label_register_start: 'EMPEZAR AHORA!'
 label_register_complete: Bienvenido
 label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos estrucutrales'
 label_register_complete_msg: 'Ahora eres parte de la mejor plataforma para gestionar complejos estructurales www.bettercondos.tech/admin'
@@ -78,6 +78,7 @@ label_address: Dirección
 label_tax_name: Nombre
 label_tax_id: NIT
 label_role: Rol
+label_ticket: Ticket
 label_ticket_type: 'Tipo de Ticket'
 label_ticket_category: 'Categoría de Ticket'
 label_user: Usuario
@@ -185,9 +186,10 @@ label_menu:
     permissions: Permisos
     users: Usuarios
     roles: Roles
-    admin: Admin
+    admin: Administración
     profile: Perfil
     logout: Salir
+    ticket: 'Tickets'
     ticket_type: 'Tipos de Tickets'
     ticket_category: 'Categorias de Tickets'
     company: Compañias

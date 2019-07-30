@@ -451,9 +451,10 @@ class BusinessController extends Controller
 
                 $createCustomer = $this->get('services')->callBCInfo("POST", "customer", $body);
 
-
+                //var_dump($createCustomer);die;
                 ///VALIDA DEL LADO DEL CLIENTE QUE EL NOMBRE DEL NEGOCIO NO EXISTA EL EMAIL Y PHONE NUMBER
                 //on response
+
                 $entity->setCustomerID($createCustomer["contact_id"]);
                 $this->em->persist($entity);
                 $this->em->flush();
@@ -471,7 +472,7 @@ class BusinessController extends Controller
 
 
                 //iBilling
-                $bodyHtml = $this->translator->trans('label_register_bc_info')."&nbsp;<a href='www.bettercondos.space/?ng=client'>Better Condos iBilling</a>" ."<br/>";
+                $bodyHtml = $this->translator->trans('label_register_bc_info')."&nbsp;<a href='www.bettercondos.info/?ng=client'>Better Condos iBilling</a>" ."<br/>";
                 $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
                 $bodyHtml .= "<b>Password:&nbsp;</b>".$billingPassword."<br/><br/>";
 

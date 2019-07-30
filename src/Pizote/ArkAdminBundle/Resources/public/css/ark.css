@@ -3545,7 +3545,13 @@
      -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
      border-radius: 8px;
+
  }
+
+.btn.btn-primary-blue:hover, .btn:focus {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
 
  .pizote-actions{
      width:100px

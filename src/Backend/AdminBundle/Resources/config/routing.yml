@@ -122,3 +122,7 @@ poll:
 propertyContract:
     resource: "@BackendAdminBundle/Resources/config/routing/propertyContract.yml"
     prefix:   /propertyContract
+
+ticket:
+    resource: "@BackendAdminBundle/Resources/config/routing/ticket.yml"
+    prefix:   /ticket
