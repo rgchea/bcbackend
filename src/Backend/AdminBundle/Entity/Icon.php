@@ -290,4 +290,62 @@ class Icon
     {
         return $this->iconUnicode;
     }
+    /**
+     * @var string
+     */
+    private $nameES = '';
+
+
+    /**
+     * Set nameES.
+     *
+     * @param string $nameES
+     *
+     * @return Icon
+     */
+    public function setNameES($nameES)
+    {
+        $this->nameES = $nameES;
+
+        return $this;
+    }
+
+    /**
+     * Get nameES.
+     *
+     * @return string
+     */
+    public function getNameES()
+    {
+        return $this->nameES;
+    }
+    /**
+     * @var string
+     */
+    private $color = '';
+
+
+    /**
+     * Set color.
+     *
+     * @param string $color
+     *
+     * @return Icon
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color.
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
 }

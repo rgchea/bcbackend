@@ -36,11 +36,18 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
     {
         return $qb = $this->genericTicketQueryBuilder()
             ->andWhere('p.id = :prop_id')
-            ->andWhere('tc.id = :cat_id')
-            ->andWhere('a.createdBy = :user')
-            ->setParameter('user', $user)
-            ->setParameter('prop_id', $propertyId)
-            ->setParameter('cat_id', $categoryId);
+            ->andWhere('a.createdBy = :user');
+
+            if(intval($categoryId) != 0){
+                $qb->andWhere('tc.id = :cat_id');
+            }
+            $qb->setParameter('user', $user)
+            ->setParameter('prop_id', $propertyId);
+
+            if(intval($categoryId) != 0){
+                $qb->setParameter('cat_id', $categoryId);
+            }
+
     }
 
     public function getApiSingleTicket($ticketId)

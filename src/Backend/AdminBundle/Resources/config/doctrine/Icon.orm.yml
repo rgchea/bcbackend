@@ -27,6 +27,22 @@ Backend\AdminBundle\Entity\Icon:
                 fixed: false
                 default: ''
             column: name
+        nameES:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+                default: ''
+            column: name_es
+        color:
+            type: string
+            nullable: false
+            length: 8
+            options:
+                fixed: false
+                default: '#ff0044'
+            column: color
         iconClass:
             type: string
             nullable: false
