@@ -120,20 +120,16 @@ Backend\AdminBundle\Entity\Business:
         createdAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: created_at
         updatedAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: updated_at
         enabled:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         createdBy:
             targetEntity: User

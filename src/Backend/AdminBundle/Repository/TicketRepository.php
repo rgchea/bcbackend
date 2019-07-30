@@ -36,17 +36,15 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
     {
         return $qb = $this->genericTicketQueryBuilder()
             ->andWhere('p.id = :prop_id')
-            ->andWhere('a.createdBy = :user');
+            ->setParameter('prop_id', $propertyId)
+            ->andWhere('a.createdBy = :user')
+            ->setParameter('user', $user);
 
             if(intval($categoryId) != 0){
                 $qb->andWhere('tc.id = :cat_id');
-            }
-            $qb->setParameter('user', $user)
-            ->setParameter('prop_id', $propertyId);
-
-            if(intval($categoryId) != 0){
                 $qb->setParameter('cat_id', $categoryId);
             }
+
 
     }
 

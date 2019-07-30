@@ -31,26 +31,18 @@ Backend\AdminBundle\Entity\CommonAreaReservation:
         reservationDateFrom:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: reservation_date_from
         reservationDateTo:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: reservation_date_to
         updatedAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: updated_at
         createdAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: created_at
         enabled:
             type: boolean

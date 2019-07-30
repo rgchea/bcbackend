@@ -39,8 +39,6 @@ Backend\AdminBundle\Entity\PollTenantAnswer:
         createdAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: created_at
         enabled:
             type: boolean

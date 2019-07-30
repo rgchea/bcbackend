@@ -63,20 +63,14 @@ Backend\AdminBundle\Entity\PropertyContractTransaction:
         paymentDate:
             type: datetime
             nullable: true
-            options:
-                default: '0000-00-00 00:00:00'
             column: payment_date
         createdAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: created_at
         updatedAt:
             type: datetime
             nullable: false
-            options:
-                default: '0000-00-00 00:00:00'
             column: updated_at
         enabled:
             type: boolean
