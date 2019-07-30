@@ -752,7 +752,9 @@ class RestController extends FOSRestController
                     'data' => "No previous contract found",
                 ];
 
-                return new JsonResponse($response);
+                //return new JsonResponse($response);
+
+                throw new  HttpException(401, "No previous contract found");
 
             } else if (count($contracts) > 1) {
                 throw new \Exception("One or more active contracts.");
