@@ -743,7 +743,16 @@ class RestController extends FOSRestController
             $contracts = $this->em->getRepository('BackendAdminBundle:PropertyContract')->getApiWelcomePrivateKey($property);
 
             if (count($contracts) <= 0) {
-                throw new \Exception("No available contracts.");
+
+                //throw new \Exception("No available contracts.");
+                $response = [
+                    'code' => 401,
+                    'error' => true,
+                    'data' => "No previous contract found",
+                ];
+
+                return new JsonResponse($response);
+
             } else if (count($contracts) > 1) {
                 throw new \Exception("One or more active contracts.");
             }

@@ -60,19 +60,7 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/editForm.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/editForm.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Shift/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Shift/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
@@ -314,8 +302,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="507">
-              <caret line="766" column="38" selection-start-line="766" selection-start-column="38" selection-end-line="766" selection-end-column="38" />
+            <state relative-caret-position="466">
+              <caret line="750" column="40" lean-forward="true" selection-start-line="750" selection-start-column="40" selection-end-line="750" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -374,9 +362,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>form_snippet_image</find>
-      <find>upload</find>
-      <find>common</find>
       <find>dropzone</find>
       <find>info</find>
       <find>game</find>
@@ -404,6 +389,9 @@
       <find>no available contracts</find>
       <find>getApiWelcomePrivateKey</find>
       <find>tenantcon</find>
+      <find>error</find>
+      <find>409</find>
+      <find>401</find>
     </findStrings>
     <replaceStrings>
       <replace>_</replace>
@@ -873,12 +861,12 @@
       <workItem from="1562252250116" duration="3586000" />
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
-      <workItem from="1564260024309" duration="33292000" />
+      <workItem from="1564260024309" duration="33871000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="845119000" />
+    <option name="totallyTimeSpent" value="845698000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="62" width="1920" height="1013" extended-state="0" />
@@ -1279,8 +1267,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="766" column="38" selection-start-line="766" selection-start-column="38" selection-end-line="766" selection-end-column="38" />
+        <state relative-caret-position="466">
+          <caret line="750" column="40" lean-forward="true" selection-start-line="750" selection-start-column="40" selection-end-line="750" selection-end-column="40" />
         </state>
       </provider>
     </entry>
