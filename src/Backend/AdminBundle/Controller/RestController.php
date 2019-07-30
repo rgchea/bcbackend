@@ -565,13 +565,6 @@ class RestController extends FOSRestController
             }
 
             // Gamification
-            /*$body = array();
-            $body['email'] = $user->getEmail();
-            $body['username'] = $user->getEmail();
-            $body['firstName'] = $user->getName();
-            $body['lastName'] = $user->getName();
-            $body['locale'] = $lang;
-            */
 
             $body = [
                 'email' => $user->getEmail(),
@@ -582,34 +575,6 @@ class RestController extends FOSRestController
             ];
 
 
-
-
-//            $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
-//            var_dump($createUser);die;
-
-//            $client = new \GuzzleHttp\Client();
-//            $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
-//            $token = $repo->getSpaceApiToken();
-//            $gameboardURL = "https://gameboard.space/api/v1/%s.json";
-//
-//            $myfile = fopen("webdictionary.txt", "w") or die("Unable to open file!");
-//
-//            $params = [
-//                'headers' => ['Authorization' => 'Bearer ' . $token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache' ],
-//                'json' => $body,
-//                'debug' => $myfile,
-//                'config' => [
-//                    'curl' => [
-//                        'body_as_string' => true,
-//                    ],
-//                ]
-//            ];
-//
-//            $response = $client->request('POST', sprintf($gameboardURL, "users"), $params);
-//            var_dump($response);
-//            fclose($myfile);
-
-            ///comment rchea
             $token = $this->get('services')->getBCToken();
             $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
@@ -804,6 +769,7 @@ class RestController extends FOSRestController
             $property->setOwner($this->getUser());
 
             $this->get("services")->blameOnMe($property, "update");
+            $this->get("services")->blameOnMe($tenant, "create");
             $this->get("services")->blameOnMe($tenant, "update");
 
             $this->em->persist($tenant);

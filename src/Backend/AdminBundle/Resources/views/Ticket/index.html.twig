@@ -1,0 +1,82 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_property_index') }}"></a>{{ 'label_menu.property'|trans }} </li>
+{% endblock %}
+
+{% block title %}
+    {{ 'label_menu.property'|trans }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+
+
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h3 class="header-title">Your Tickets</h3>
+                    </div>
+                    <div class="col-md-3 text-right">
+
+                    </div>
+                    <div class="col-md-2 text-right">
+                        {% if app.user.role.name == "ADMIN" %}
+
+                            <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_ticket_new') }}">
+                                {{ 'label_create_new'|trans }} {{ 'label_ticket'|trans }}
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <blockquote>
+                            <div class="col-md-11">
+                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate quam ut risus ullamcorper convallis. Morbi pellentesque congue elit malesuada pharetra. Suspendisse iaculis interdum elit, et porta ex tempus eget. Ut nec diam dictum, cursus metus euismod, aliquet ante. Quisque a lacus dapibus, semper ante ac, mollis nibh. Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                            </div>
+                            <div class="col-md-1 text-right">
+                                <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+{% endblock %}
+
+
+{% block extrascripts %}
+
+
+    $(document).on('click', '.btn-delete', function(e){
+    e.preventDefault();
+
+    var url = $(this).attr('href');
+    var c = confirm("{{ 'label_are_you_sure'|trans }}");
+
+    if(c){
+    $('#spinner').show();
+    window.location = url;
+    }else{
+    return false;
+    }
+
+
+    });
+
+{% endblock %}

@@ -210,6 +210,11 @@
 
 	</div>
 	<!--</form>-->
+	{% if register is defined %}
+		<input type="hidden" name="myUser" value="{{ register }}"
+	{% endif %}
+
+
 	{{ form_end(form) }}
 </div>
 

@@ -61,7 +61,7 @@ label_register_generate: 'WE WILL GENERATE'
 label_register_generate_for_you: 'PROPERTIES FOR YOU'
 label_register_generate_msg: 'You Will be able to create more properties and edit the ones you created here.'
 label_register: 'SIGN UP'
-label_register_start: GET STARTED!
+label_register_start: 'GET STARTED!'
 label_register_complete: Welcome
 label_register_invite_msg: 'Invited you to join the best platform to manage building business'
 label_register_complete_msg: 'Now you are part of the best platform to manage building business www.bettercondos.tech/admin'
@@ -77,6 +77,7 @@ label_address: Address
 label_tax_name: 'Tax Name'
 label_tax_id: 'Tax ID'
 label_role: Role
+label_ticket: Ticket
 label_ticket_type: 'Ticket Type'
 label_ticket_category: 'Ticket Category'
 label_agreement_plan: 'Agreement Plan'
@@ -185,9 +186,10 @@ label_menu:
     permissions: Permissions
     users: Users
     roles: Roles
-    admin: Admin
+    admin: Management
     profile: Profile
     logout: Logout
+    ticket: 'Tickets'
     ticket_type: 'Ticket Types'
     ticket_category: 'Ticket Categories'
     company: Companies

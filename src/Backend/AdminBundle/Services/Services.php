@@ -594,6 +594,10 @@ class Services extends Controller
 
     }
 
+    public function callBCSpace1($method, $service, $body = null){
+        return 1;
+    }
+
     public function callBCSpace($method, $service, $body = null){
 
         //$token = "ZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQ";

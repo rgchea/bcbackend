@@ -228,8 +228,11 @@ class ComplexController extends Controller
     {
 
 
+
         $this->get("services")->setVars('complex');
         $this->initialise();
+
+        //var_dump($this->userLogged->getId());die;
 
         $entity = new Complex();
         $form   = $this->createCreateForm($entity);
@@ -241,7 +244,7 @@ class ComplexController extends Controller
         $propertyTypes = $this->em->getRepository('BackendAdminBundle:PropertyType')->findBy(array("enabled" => 1), array("id" => "DESC"));
 
         //redirected from REGISTER
-        $register =  isset($_REQUEST["register"]) ? 1 : 0;
+        $register =  isset($_REQUEST["register"]) ? $this->userLogged->getId() : 0;
 
         return $this->render('BackendAdminBundle:Complex:new.html.twig', array(
             'entity' => $entity,
@@ -419,11 +422,13 @@ class ComplexController extends Controller
     public function createAction(Request $request)
     {
 
-        //print "<pre>";
-        //var_dump($_REQUEST);DIE;
+
 
         $this->get("services")->setVars('complex');
+
         $this->initialise();
+
+        //var_dump($this->userLogged->getId());die;
 
         $entity = new Complex();
         $form = $this->createCreateForm($entity);
@@ -620,19 +625,20 @@ class ComplexController extends Controller
 
                     //create admin user on gamification and enroll to team admins
                     $body = array();
+
                     $body['email'] = $this->userLogged->getEmail();
                     $body['username'] = $this->userLogged->getEmail();
                     $body['firstName'] = $this->userLogged->getName();
                     $body['lastName'] = $this->userLogged->getName();
                     $body['locale'] = $businessLocale;
 
-                    $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
+                    //$createUser = $this->get('services')->callBCSpace("POST", "users", $body);
 
                     //Enroll user to the team admins
                     $body = array();
                     $userTeam = $this->get('services')->callBCSpace("POST", "users/{$this->userLogged->getEmail()}/teams/{$teamIDComplexAdmin}", $body);
                     if($userTeam){
-                        $objUser = $this->em->getRepository('BackendAdminBundle:GeoCountry')->find($this->userLogged->getId());
+                        $objUser = $this->em->getRepository('BackendAdminBundle:User')->find($this->userLogged->getId());
                         $this->userLogged->setPlayerId($objUser);
                         $this->em->persist($objUser);
                     }
