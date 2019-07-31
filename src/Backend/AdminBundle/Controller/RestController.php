@@ -1430,7 +1430,7 @@ class RestController extends FOSRestController
                 if ($type == null) {
                     $type = new TicketType();
                 }
-                $status = $ticket->getTicketStatus()->getId();
+                $status = $ticket->getTicketStatus();
                 if ($status == null) {
                     $status = new TicketStatus();
                 }
@@ -1485,7 +1485,8 @@ class RestController extends FOSRestController
                     'id' => $ticket->getId(),
                     'type_id' => $type->getId(),
                     'type_name' => $type->getName(),
-                    'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
+                    //'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
+                    'status' => $status->getId(),
                     'category' =>
                         array("category_id" => $ticket->getTicketCategory()->getId(), "icon_url" => $ticket->getTicketCategory()->getIcon()->getIconUnicode(), "color" => $ticket->getTicketCategory()->getColor()),
                     'title' => $ticket->getTitle(),

@@ -264,8 +264,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="661">
-              <caret line="1489" column="24" selection-start-line="1489" selection-start-column="24" selection-end-line="1489" selection-end-column="24" />
+            <state relative-caret-position="297">
+              <caret line="1487" column="60" selection-start-line="1487" selection-start-column="60" selection-end-line="1487" selection-end-column="60" />
               <folding>
                 <element signature="e#50#92#0#PHP" expanded="true" />
               </folding>
@@ -318,7 +318,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>repository</find>
       <find>em</find>
       <find>nameEN</find>
       <find>&quot;nameES&quot;</find>
@@ -348,6 +347,7 @@
       <find>TO</find>
       <find>category</find>
       <find>feed</find>
+      <find>$status</find>
     </findStrings>
     <replaceStrings>
       <replace>PollType</replace>
@@ -744,12 +744,12 @@
       <workItem from="1562252250116" duration="3586000" />
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
-      <workItem from="1564260024309" duration="54191000" />
+      <workItem from="1564260024309" duration="54333000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="866018000" />
+    <option name="totallyTimeSpent" value="866160000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1920" y="62" width="1920" height="1013" extended-state="0" />
@@ -1129,8 +1129,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="1489" column="24" selection-start-line="1489" selection-start-column="24" selection-end-line="1489" selection-end-column="24" />
+        <state relative-caret-position="297">
+          <caret line="1487" column="60" selection-start-line="1487" selection-start-column="60" selection-end-line="1487" selection-end-column="60" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
           </folding>
