@@ -15,22 +15,22 @@ class CommonAreaReservation
     /**
      * @var \DateTime
      */
-    private $availableDateFrom = '0000-00-00 00:00:00';
+    private $availableDateFrom;
 
     /**
      * @var \DateTime
      */
-    private $availableDateTo = '0000-00-00 00:00:00';
+    private $availableDateTo;
 
     /**
      * @var \DateTime
      */
-    private $updatedAt = '0000-00-00 00:00:00';
+    private $updatedAt;
 
     /**
      * @var \DateTime
      */
-    private $createdAt = '0000-00-00 00:00:00';
+    private $createdAt;
 
     /**
      * @var bool
@@ -288,12 +288,12 @@ class CommonAreaReservation
     /**
      * @var \DateTime
      */
-    private $reservationDateFrom = '0000-00-00 00:00:00';
+    private $reservationDateFrom;
 
     /**
      * @var \DateTime
      */
-    private $reservationDateTo = '0000-00-00 00:00:00';
+    private $reservationDateTo;
 
 
     /**

@@ -25,7 +25,7 @@ class PollTenantAnswer
     /**
      * @var \DateTime
      */
-    private $createdAt = '0000-00-00 00:00:00';
+    private $createdAt;
 
     /**
      * @var bool

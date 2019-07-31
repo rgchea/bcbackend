@@ -20,7 +20,7 @@ class TicketComment
     /**
      * @var \DateTime
      */
-    private $createdAt = '0000-00-00 00:00:00';
+    private $createdAt;
 
     /**
      * @var bool
@@ -199,7 +199,7 @@ class TicketComment
     /**
      * @var \DateTime
      */
-    private $updatedAt = '0000-00-00 00:00:00';
+    private $updatedAt;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
