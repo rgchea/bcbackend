@@ -1430,13 +1430,22 @@ class RestController extends FOSRestController
                 if ($type == null) {
                     $type = new TicketType();
                 }
-                $status = $ticket->getTicketStatus();
+                $status = $ticket->getTicketStatus()->getId();
                 if ($status == null) {
                     $status = new TicketStatus();
                 }
                 $user = $ticket->getCreatedBy();
                 if ($user == null) {
                     $user = new User();
+                }
+
+
+                ///get one photo
+                ///
+                $photo = "";
+                $objPhoto = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findOneByTicket($ticket->getId());
+                if ($objPhoto) {
+                    $photo = $objPhoto->getPhotoPath();
                 }
 
                 /** @var CommonAreaReservation $reservation */
@@ -1477,10 +1486,13 @@ class RestController extends FOSRestController
                     'type_id' => $type->getId(),
                     'type_name' => $type->getName(),
                     'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
+                    'category' =>
+                        array("category_id" => $ticket->getTicketCategory()->getId(), "icon_url" => $ticket->getTicketCategory()->getIcon()->getIconUnicode(), "color" => $ticket->getTicketCategory()->getColor()),
                     'title' => $ticket->getTitle(),
                     'description' => $ticket->getDescription(),
                     'is_public' => $ticket->getIsPublic(),
                     'username' => $user->getUsername(),
+                    'photo' => $photo,
                     'role' => $role,
                     'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
@@ -1588,8 +1600,6 @@ class RestController extends FOSRestController
                 $followersCount[$follower['id']] = $follower['count'];
             }
 
-            // Fetching the ticket comments
-            $comments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiSingleTicketComments($ticket_id);
 
             $status = $ticket->getTicketStatus();
             if ($status == null) {
@@ -1610,6 +1620,16 @@ class RestController extends FOSRestController
                 'description' => $ticket->getDescription(),
             );
 
+            //get ticket photos
+            $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findBy(array("ticket" => $ticket_id, "enabled" => 1));
+            $data['photos'] = array();
+
+            foreach ($photos as $photo) {
+                $data['photos'][] = $photo->getPhotoPath();
+            }
+
+            // Fetching the ticket comments
+            $comments = $this->em->getRepository('BackendAdminBundle:TicketComment')->getApiSingleTicketComments($ticket_id);
 
             $data['comments'] = array();
             /** @var TicketComment $comment */
