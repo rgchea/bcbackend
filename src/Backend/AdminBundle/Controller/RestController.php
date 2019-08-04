@@ -2940,7 +2940,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of the common areas in the complex of the property.
      *
-     * @Rest\Get("/v1/commonAreas/{property_id}/{page_id}", name="listCommonAreas")
+     * @Rest\Get("/v1/commonAreas/{complex_id}/{page_id}", name="listCommonAreas")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2990,7 +2990,69 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Common Area")
      */
-    public function getCommonAreasAction($property_id, $page_id = 1)
+
+
+
+    public function getCommonAreasAction($complex_id, $page_id = 1)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            $commonAreaRepo = $this->em->getRepository('BackendAdminBundle:CommonArea');
+            /** @var CommonAreaPhotoRepository $commonAreaPhotosRepo */
+            $commonAreaPhotoRepo = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto');
+
+
+            $commonAreas = $commonAreaRepo->getApiCommonAreas($complex_id, $page_id);
+            $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complex_id);
+
+            $cids = $this->getArrayOfIds($commonAreas);
+
+            $rawPhotos = $commonAreaPhotoRepo->getApiCommonAreas($cids);
+            $photos = array();
+            /** @var CommonAreaPhoto $photo */
+            foreach ($rawPhotos as $photo) {
+                $photos[$photo->getCommonArea()->getId()] = $photo;
+            }
+
+            /** @var CommonArea $commonArea */
+            foreach ($commonAreas as $commonArea) {
+                $commonAreaPhotos = array();
+                if (array_key_exists($commonArea->getId(), $photos)) {
+                    /** @var CommonAreaPhoto $photo */
+                    foreach ($photos[$commonArea->getId()] as $photo) {
+                        $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
+                    }
+                }
+
+                $commonAreaType = $commonArea->getCommonAreaType();
+                if ($commonAreaType == null) {
+                    $commonAreaType = new CommonAreaType();
+                }
+
+                $data[] = array(
+                    'id' => $commonArea->getId(),
+                    'name' => $commonArea->getName(),
+                    'description' => $commonArea->getDescription(),
+                    'type' => $commonAreaType->getName(),
+                    'photos' => $commonAreaPhotos,
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "",
+                'metadata' => $this->calculatePagesMetadata($page_id, $total),
+                'data' => $data
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+    public function getCommonAreasOldAction($property_id, $page_id = 1)
     {
         try {
             $this->initialise();

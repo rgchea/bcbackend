@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f24eff6c-8405-41c4-b317-20c8758f1a67" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/sessionComplex.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/.project" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/.project" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/app/AppKernel.php" afterDir="false" />
@@ -73,6 +75,7 @@
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyContract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PropertyContract.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TenantContract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TenantContract.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/PropertyType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TicketRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TicketRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Property.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Property.orm.yml" afterDir="false" />
@@ -310,11 +313,55 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="357" column="13" selection-start-line="357" selection-start-column="7" selection-end-line="357" selection-end-column="13" />
+            <state relative-caret-position="162">
+              <caret line="2942" column="42" selection-start-line="2942" selection-start-column="42" selection-end-line="2942" selection-end-column="42" />
               <folding>
                 <element signature="e#50#92#0#PHP" expanded="true" />
+                <element signature="e#75015#79904#0#PHP" />
+                <element signature="e#79910#82867#0#PHP" />
+                <element signature="e#82873#89136#0#PHP" />
+                <element signature="e#89142#90889#0#PHP" />
+                <element signature="e#90895#92634#0#PHP" />
+                <element signature="e#92640#94413#0#PHP" />
+                <element signature="e#94419#95792#0#PHP" />
+                <element signature="e#95798#98474#0#PHP" />
+                <element signature="e#98479#99400#0#PHP" />
+                <element signature="e#99406#102994#0#PHP" />
+                <element signature="e#102999#104767#0#PHP" />
+                <element signature="e#104773#106902#0#PHP" />
+                <element signature="e#106908#111249#0#PHP" />
+                <element signature="e#111256#112956#0#PHP" />
+                <element signature="e#112962#114903#0#PHP" />
+                <element signature="e#114910#118469#0#PHP" />
+                <element signature="e#118474#120083#0#PHP" />
+                <element signature="e#120089#122075#0#PHP" />
+                <element signature="e#122081#125444#0#PHP" />
+                <element signature="e#125450#126283#0#PHP" />
+                <element signature="e#126290#128056#0#PHP" />
+                <element signature="e#128062#129996#0#PHP" />
+                <element signature="e#130002#133201#0#PHP" />
+                <element signature="e#133267#135162#0#PHP" />
+                <element signature="e#136997#139259#0#PHP" />
+                <element signature="e#171600#173891#0#PHP" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="58">
+              <caret line="32" column="50" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="316">
+              <caret line="40" column="39" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -344,13 +391,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>label_edit</find>
-      <find>save</find>
-      <find>propertycontract</find>
-      <find>setIsAvailable</find>
-      <find>setis</find>
-      <find>setisava</find>
-      <find>findoneby</find>
       <find>findOneBy</find>
       <find>editaction</find>
       <find>ASC</find>
@@ -374,6 +414,13 @@
       <find>generalTemplateMail</find>
       <find>general</find>
       <find>send</find>
+      <find>notifica</find>
+      <find>paymen</find>
+      <find>payments</find>
+      <find>user</find>
+      <find>COMMONAREAS/</find>
+      <find>countApiCommonAreas</find>
+      <find>getApiCommonAreas</find>
     </findStrings>
     <replaceStrings>
       <replace>poll</replace>
@@ -414,7 +461,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Invoice.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/NotificationType.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Poll.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestion.php" />
@@ -456,7 +502,6 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/sessionComplex.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Property.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TenantContract.orm.yml" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Property.orm.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/PropertyContract.orm.yml" />
@@ -465,6 +510,8 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaRepository.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
       </list>
     </option>
   </component>
@@ -664,7 +711,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
+              <item name="Repository" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
@@ -786,12 +833,12 @@
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
       <workItem from="1564260024309" duration="97816000" />
-      <workItem from="1564955150189" duration="2239000" />
+      <workItem from="1564955150189" duration="3939000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="911882000" />
+    <option name="totallyTimeSpent" value="913582000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -823,13 +870,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserAgreementPlan.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="15" column="16" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserBusiness.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="317">
@@ -1072,13 +1112,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="143" column="10" selection-start-line="143" selection-start-column="10" selection-end-line="143" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -1227,12 +1260,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="40" column="39" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="58">
+          <caret line="32" column="50" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="357" column="13" selection-start-line="357" selection-start-column="7" selection-end-line="357" selection-end-column="13" />
+        <state relative-caret-position="162">
+          <caret line="2942" column="42" selection-start-line="2942" selection-start-column="42" selection-end-line="2942" selection-end-column="42" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
+            <element signature="e#75015#79904#0#PHP" />
+            <element signature="e#79910#82867#0#PHP" />
+            <element signature="e#82873#89136#0#PHP" />
+            <element signature="e#89142#90889#0#PHP" />
+            <element signature="e#90895#92634#0#PHP" />
+            <element signature="e#92640#94413#0#PHP" />
+            <element signature="e#94419#95792#0#PHP" />
+            <element signature="e#95798#98474#0#PHP" />
+            <element signature="e#98479#99400#0#PHP" />
+            <element signature="e#99406#102994#0#PHP" />
+            <element signature="e#102999#104767#0#PHP" />
+            <element signature="e#104773#106902#0#PHP" />
+            <element signature="e#106908#111249#0#PHP" />
+            <element signature="e#111256#112956#0#PHP" />
+            <element signature="e#112962#114903#0#PHP" />
+            <element signature="e#114910#118469#0#PHP" />
+            <element signature="e#118474#120083#0#PHP" />
+            <element signature="e#120089#122075#0#PHP" />
+            <element signature="e#122081#125444#0#PHP" />
+            <element signature="e#125450#126283#0#PHP" />
+            <element signature="e#126290#128056#0#PHP" />
+            <element signature="e#128062#129996#0#PHP" />
+            <element signature="e#130002#133201#0#PHP" />
+            <element signature="e#133267#135162#0#PHP" />
+            <element signature="e#136997#139259#0#PHP" />
+            <element signature="e#171600#173891#0#PHP" />
           </folding>
         </state>
       </provider>
