@@ -1,5 +1,13 @@
+label_already_exists: ya existente
+label_agreement_start_date: Fecha inicio del contrato
+label_agreement_end_date: Fecha finalización de contrato
+label_current_complex: 'Complejo actual'
+label_invitations: Invitaciones
+label_title: Título
+label_category: Categoría
+label_time_elapsed: 'Tiempo transcurrido'
 label_welcome: Bienvenidos
-label_create_new: Crear
+label_create_new: Agregar
 label_new: Nuevo
 label_edit: Editar
 label_list: Listado
@@ -150,8 +158,10 @@ label_common_area: 'Area Común'
 label_common_area_schedule: Horarios
 label_regulation: Regulacion
 label_price: Precio
+label_cost: Costo
 label_days: días
 label_maintenance: Mantenimiento
+label_who_pays_maintenance: Quién paga el mantenimiento
 label_reservation_hour_period: 'Periodo de Reservacion por Hora (cada 1hr cada 2hrs, cada 3hrs...)'
 label_required_payment: 'Pago Requerido'
 label_has_equipment: 'Tiene equipo'
@@ -189,7 +199,7 @@ label_menu:
     admin: Administración
     profile: Perfil
     logout: Salir
-    ticket: 'Tickets'
+    ticket: Tickets
     ticket_type: 'Tipos de Tickets'
     ticket_category: 'Categorias de Tickets'
     company: Compañias

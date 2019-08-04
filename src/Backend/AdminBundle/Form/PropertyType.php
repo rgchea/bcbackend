@@ -19,20 +19,13 @@ class PropertyType extends AbstractType
 
         $role = $options["role"];
         $repository = $options["repository"];
+        $complex = $options["complex"];
         //var_dump($options["userID"]);die;
 
 
         $builder
-            ->add('name',  null,
-                array('label'=>"label_name", 'required'=>true,
-                        /*
-                        'attr' => array(
-                                'readonly' => true)
-                        */
-                    )
-                )
+            //->add('name',  null, array('label'=>"label_name", 'required'=>true,))
             ->add('propertyNumber',  null, array('label'=>"label_property_number", 'required'=>true))
-
             ->add('address',  TextareaType::class, array('label'=>"label_address", 'required'=>true, ))
             /*->add('code',  null, array('label'=>"label_code", 'required'=>true,
                     'attr' => array(
@@ -54,6 +47,7 @@ class PropertyType extends AbstractType
             )) ;
 
 
+            /*
             $array = $repository->getComplexByUser($options["userID"]);
             $builder->add('complex', ChoiceType::class, array('choices' => $array, 'label'=>"label_complex", 'required' => true, 'mapped' => false));
 
@@ -62,16 +56,18 @@ class PropertyType extends AbstractType
             foreach ($arrComplex as $k =>$v) {
                 $filters[$v] = $v;//the complex id
             }
+            */
 
             //var_dump($filters);die;
 
             $builder->add('complexSector', null, array('label'=>"label_complex_sector", 'required' => true,
                 'class' => 'Backend\AdminBundle\Entity\ComplexSector',
-                'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($filters){
+                'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
                     return $er->createQueryBuilder('s')
                         ->join("s.complex", 'c')
                         ->where('s.enabled = 1')
-                        ->andWhere("c.id IN (:arrComplex)")->setParameter('arrComplex', $filters)
+                        //->andWhere("c.id IN (:arrComplex)")->setParameter('arrComplex', $options)
+                        ->andWhere("c.id = ". $options["complex"])
                         ->orderBy("s.id", "DESC")
                         ;
                 }
@@ -91,6 +87,7 @@ class PropertyType extends AbstractType
             'role' => null,
             'repository' => null,
             'userID' => null,
+            'complex' => null,
         ));
     }
 }

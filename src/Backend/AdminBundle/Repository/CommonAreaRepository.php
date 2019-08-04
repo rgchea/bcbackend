@@ -12,9 +12,9 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getApiCommonAreas($complexIds, $pageId = 1, $limit = 10)
+    public function getApiCommonAreas($complex_id, $pageId = 1, $limit = 10)
     {
-        $qb = $this->queryBuilderForApiCommonAreas($complexIds);
+        $qb = $this->queryBuilderForApiCommonAreas($complex_id);
 
         $qb->setFirstResult(($pageId - 1) * $limit)// Offset
         ->setMaxResults($limit)// Limit
@@ -23,14 +23,14 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function countApiCommonAreas($complexIds)
+    public function countApiCommonAreas($complex_id)
     {
-        $qb = $this->queryBuilderForApiCommonAreas($complexIds);
+        $qb = $this->queryBuilderForApiCommonAreas($complex_id);
         $qb->select('count(a.id)');
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    private function queryBuilderForApiCommonAreas($complexIds)
+    private function queryBuilderForApiCommonAreas($complex_id)
     {
         $qb = $this->createQueryBuilder('a');
 
@@ -46,11 +46,15 @@ class CommonAreaRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('a.enabled = 1')
         ;
 
+        $qb->andWhere($qb->expr()->eq('c.id', $complex_id));
+
+        /*
         if ( count( $complexIds ) > 0 ) {
             $qb->andWhere($qb->expr()->in('c.id', $complexIds));
         } else {
             $qb->andWhere('c.id = 0');
         }
+        */
 
         return $qb;
     }

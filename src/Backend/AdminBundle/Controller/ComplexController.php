@@ -639,7 +639,7 @@ class ComplexController extends Controller
                     $userTeam = $this->get('services')->callBCSpace("POST", "users/{$this->userLogged->getEmail()}/teams/{$teamIDComplexAdmin}", $body);
                     if($userTeam){
                         $objUser = $this->em->getRepository('BackendAdminBundle:User')->find($this->userLogged->getId());
-                        $this->userLogged->setPlayerId($objUser);
+                        $this->userLogged->setPlayerId($userTeam["id"]);
                         $this->em->persist($objUser);
                     }
 
@@ -654,6 +654,7 @@ class ComplexController extends Controller
                 $userComplex->setUser($this->userLogged);
                 $this->get("services")->blameOnMe($userComplex, "create");
                 $this->em->persist($userComplex);
+                $this->em->flush();
 
 
                 ///TICKET CATEGORIES FOR THE COMPLEX
@@ -706,7 +707,7 @@ class ComplexController extends Controller
                         $myNumber = sprintf("%02d", $j);
                         $propertyNumber = $i.$myNumber;
                         $newProperty->setPropertyNumber($propertyNumber);
-                        $newProperty->setName($propertyTypeName." ".$propertyNumber);
+                        //$newProperty->setName($propertyTypeName." ".$propertyNumber);
                         $newProperty->setIsAvailable(1);
                         $this->get("services")->blameOnMe($newProperty, "create");
                         $this->em->persist($newProperty);
@@ -716,7 +717,7 @@ class ComplexController extends Controller
                         $body['name'] = $newProperty->getName();
                         $body['description'] = $newProperty->getName();
                         $body['teamType'] = 5;//Property
-                        $body["parent"] = $teamIDSector;//Complex team correlative
+                        $body["parent"] = $teamIDSector;//Sector team correlative
 
                         $createTeamProperty = $this->get('services')->callBCSpace("POST", "teams", $body);
                         if($createTeamProperty){
@@ -928,6 +929,18 @@ class ComplexController extends Controller
         */
     }
 
+
+    public function setSessionComplexAction(Request $request){
+
+
+        $myPath = $_REQUEST["myPath"];
+        $myComplex = $_REQUEST["selectComplex"];
+
+        $this->get("services")->setSessionComplex($myComplex);
+
+        return $this->redirect($this->generateUrl($myPath));
+
+    }
 
 
 

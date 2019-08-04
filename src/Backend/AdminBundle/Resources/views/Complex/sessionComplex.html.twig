@@ -1,0 +1,31 @@
+
+<form action="{{ path('backend_admin_complex_session') }}" method="POST" id="formComplexSelect">
+    <div class="col-md-2 text-right">
+        <p style="margin-top:8px">{{ 'label_current_complex'|trans }}</p>
+    </div>
+    <div class="col-md-4">
+        <select  class="form-control classic" id="selectComplex" name="selectComplex" onchange="changeComplex(this.value)">
+
+            {% for key, complex in app.session.get('myComplexes') %}
+
+                {% if complex ==  app.session.get('sessionComplex') %}
+                    {% set selected = 'selected="selected"' %}
+                {% else %}
+                    {% set selected = '' %}
+                {% endif %}
+                <option {{ selected }} value="{{ complex }}">{{key}} </option>
+            {% endfor  %}
+
+        </select>
+        <input type="hidden" name="myPath" value="{{ myPath }}">
+    </div>
+</form>
+
+
+<script type="text/javascript" language="JavaScript">
+
+    function changeComplex(myComplex){
+        $("#pizote_spinner").show();
+        $("#formComplexSelect").submit();
+    }
+</script>

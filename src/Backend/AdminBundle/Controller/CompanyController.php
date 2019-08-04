@@ -46,8 +46,8 @@ class CompanyController extends Controller
 
 
         ////testing tickets
-        $this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories(12);
-        die;
+        //$this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories(12);
+        //die;
 
 
         ///////TWILIO TESTING
@@ -58,36 +58,10 @@ class CompanyController extends Controller
         //###SENDGRID TRANSACTIONAL TEST BEGINS
 
 
-        $myJson = '{
-                       "from":{
-                          "email":"renato@pizotesoft.com"
-                       },
-                       "personalizations":[
-                          {
-                             "to":[
-                                        {
-                                           "email":"cheametal@gmail.com"
-                                        }
-                                     ],                              
-                             "dynamic_template_data":{
-                                "news":
-                                    [
-                                        {"article": "test", "text": "otro test"},
-                                        {"article": "test1", "text": "otro test1"}
-                                    ]
-                    
-                    
-                             }
-                          }
-                       ],
-                       "template_id":"d-38e4355a007149c983fbd19ee2f9856b"
-                    }';
+        $myJson = '';
 
 
-        $body = json_decode($myJson, true);
-        //print "<pre>";
-        //var_dump($body);die;
-        $templateID = "d-38e4355a007149c983fbd19ee2f9856b";
+        $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
 
         //$sendgridResponse = $this->get('services')->callSendgrid($body, $templateID);
         //var_dump($sendgridResponse);die;

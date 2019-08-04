@@ -43,10 +43,6 @@ class TenantContract
      */
     private $propertyContract;
 
-    /**
-     * @var \Backend\AdminBundle\Entity\Role
-     */
-    private $role;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -213,29 +209,6 @@ class TenantContract
         return $this->propertyContract;
     }
 
-    /**
-     * Set role.
-     *
-     * @param \Backend\AdminBundle\Entity\Role|null $role
-     *
-     * @return TenantContract
-     */
-    public function setRole(\Backend\AdminBundle\Entity\Role $role = null)
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * Get role.
-     *
-     * @return \Backend\AdminBundle\Entity\Role|null
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
 
     /**
      * Set createdBy.
@@ -371,5 +344,92 @@ class TenantContract
     public function getPlayerId()
     {
         return $this->playerId;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $owner;
+
+
+    /**
+     * Set owner.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $owner
+     *
+     * @return TenantContract
+     */
+    public function setOwner(\Backend\AdminBundle\Entity\User $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+    /**
+     * @var bool
+     */
+    private $mainTenant = false;
+
+
+    /**
+     * Set mainTenant.
+     *
+     * @param bool $mainTenant
+     *
+     * @return TenantContract
+     */
+    public function setMainTenant($mainTenant)
+    {
+        $this->mainTenant = $mainTenant;
+
+        return $this;
+    }
+
+    /**
+     * Get mainTenant.
+     *
+     * @return bool
+     */
+    public function getMainTenant()
+    {
+        return $this->mainTenant;
+    }
+    /**
+     * @var string|null
+     */
+    private $ownerEmail;
+
+
+    /**
+     * Set ownerEmail.
+     *
+     * @param string|null $ownerEmail
+     *
+     * @return TenantContract
+     */
+    public function setOwnerEmail($ownerEmail = null)
+    {
+        $this->ownerEmail = $ownerEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get ownerEmail.
+     *
+     * @return string|null
+     */
+    public function getOwnerEmail()
+    {
+        return $this->ownerEmail;
     }
 }

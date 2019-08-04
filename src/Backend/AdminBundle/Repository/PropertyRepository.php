@@ -140,8 +140,8 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         }
 
         //owner
-        $query->leftJoin('e.owner', 'o');
-        $countQuery->leftJoin('e.owner', 'o');
+        //$query->leftJoin('e.owner', 'o');
+        //$countQuery->leftJoin('e.owner', 'o');
 
         //main tenant
         $query->leftJoin('e.mainTenant', 't');
