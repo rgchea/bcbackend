@@ -6,63 +6,64 @@
 		z-index: 0;
 	}
 </style>
-<div class="row">
-	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+	<div class="row">
+		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 
-	</div>
+		</div>
 
-	{% if edit is defined %}
+		{% if edit is defined %}
 
-		{% if isAdShared != 0 %}
-			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-				<h4>
-					<label class="pull-right" >{{ 'label_property_share_ad_msg'|trans }}{{ isAdSharedDays }}&nbsp;{{ 'label_days'|trans }}</label>
-				</h4>
-				<br/>
-				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8" style="float: right">
-					<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
-						{{ 'label_property_delete_ad'|trans }}
-					</a>
-				</div>
-
-			</div>
-		{% else %}
-			{% if app.user.role.name == "ADMIN" %}{#EVALUAR QUE ROLES TENDRAN ACCESO A CREAR PROPIEDADES#}
+			{% if isAdShared != 0 %}
 				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-					<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
-						{{ 'label_property_share_ad'|trans }}
-					</a>
+					<h4>
+						<label class="pull-right" >{{ 'label_property_share_ad_msg'|trans }}{{ isAdSharedDays }}&nbsp;{{ 'label_days'|trans }}</label>
+					</h4>
+					<br/>
+					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8" style="float: right">
+						<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
+							{{ 'label_property_delete_ad'|trans }}
+						</a>
+					</div>
+
 				</div>
+			{% else %}
+				{% if app.user.role.name == "ADMIN" %}{#EVALUAR QUE ROLES TENDRAN ACCESO A CREAR PROPIEDADES#}
+					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+						<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
+							{{ 'label_property_share_ad'|trans }}
+						</a>
+					</div>
+				{% endif %}
+
 			{% endif %}
 
 		{% endif %}
 
-	{% endif %}
 
+	</div>
 
-</div>
-
-<div class="body">
-	<section class="content">
 
 		<div class="header">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-7">
-						<h3 class="header-title">ADD PROPERTY</h3>
-					</div>
-					<div class="col-md-2 text-left">
-						<p style="margin-top:8px">Current Complex</p>
-					</div>
-					<div class="col-md-3">
-						<select  class="form-control classic" id="exampleFormControlSelect1">
-							<option>Weston Houses, Miami FL</option>
-							<option>Weston Houses 2</option>
-							<option>Weston Houses 3</option>
-							<option>Weston Houses 4</option>
-							<option>Weston Houses 5</option>
-						</select>
-					</div>
+
+					{% if edit is defined %}
+						<div class="col-md-6">
+							<h3 class="header-title">{{ 'label_edit'|trans }} {{ 'label_property'|trans }}</h3>
+						</div>
+
+					{% else %}
+						<div class="col-md-6">
+							<h3 class="header-title">{{ 'label_create_new'|trans }} {{ 'label_property'|trans }}</h3>
+						</div>
+
+					{% endif %}
+
+					{% if new is defined %}
+						{{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+					{% endif %}
+
+
 				</div>
 				<div class="row">
 					<div class="col-md-12">
@@ -86,149 +87,264 @@
 
 			<div class="container">
 
+				{{ form_start(form) }}
+				{{ form_errors(form) }}
 
-				<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+					<fieldset>
 
-				<div class="form-inputs-g">
+						{% if edit is defined %}
+							<div class="form-group col-md-4">
+								<label for="qrcode" class="required" aria-required="true">QR</label>
+								<br/>
 
 
-					<div class="row">
-						<div class="col-md-4">
-							<div class="col-md-3">
-								<p class="txt-blue-bold">Sector: </p>
+								<a download="{{ entity.name }}.png" href="data:image/png;base64,{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}" >
+									<img id="property_qr" src="data:image/png;base64,
+											{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}
+											" />
+								</a>
 							</div>
-							<div class="col-md-9">
-								<select  class="form-control classic" id="exampleFormControlSelect1">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
+
+						{% endif %}
+						<div class="clearfix"></div>
+
+						<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+						<div class="form-inputs-g">
+
+
+							<div class="row">
+								<div class="col-md-4">
+									<div class="col-md-3">
+										<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}:</p>
+									</div>
+									<div class="col-md-9">
+										{{ form_errors(form.complexSector) }}
+										{{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control classic' } }
+										) }}
+									</div>
+
+								</div>
+
+								<div class="col-md-4">
+									<div class="col-md-5">
+										<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
+									</div>
+									<div class="col-md-7">
+										{{ form_errors(form.propertyNumber) }}
+										{{ form_widget(form.propertyNumber, { 'attr': {'class' : 'form-control', 'maxlength': '6' } }
+										) }}
+									</div>
+
+								</div>
+
+
+								<div class="col-md-4">
+									<div class="col-md-4">
+										<p class="txt-blue-bold">{{ 'label_property_type'|trans }}:</p>
+									</div>
+									<div class="col-md-8">
+										{{ form_errors(form.propertyType) }}
+										{{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control classic' } }
+										) }}
+									</div>
+
+								</div>
+
+							</div>
+
+							<br/>
+
+							<div class="row">
+								<div class="col-md-1">
+									<p class="txt-blue-bold">{{ 'label_address'|trans }}:</p>
+								</div>
+								<div class="col-md-11">
+									{{ form_errors(form.address) }}
+									{{ form_widget(form.address, { 'attr': {'class' : 'form-control rounded-0', 'rows': '7' } }
+									) }}
+
+								</div>
+							</div>
+
+
+							<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="col-md-3">
+										<p class="txt-blue-bold">{{ 'label_tenant'|trans }} {{ 'label_email'|trans }}:</p>
+									</div>
+									<div class="col-md-9">
+										{% if edit is defined %}
+											{% if  tenantContract.user is not null %}
+												{% set tenantEmail = tenantContract.user.email %}
+											{% else %}
+												{% set tenantEmail = tenantContract.invitationUserEmail %}
+											{% endif %}
+
+											<input type="text" class="form-control" value="{{ tenantEmail }}" name="agreement[tenant_email]" id="agreement_tenant_email">
+										{% else %}
+											<input type="text" class="form-control" placeholder="example@example.com" name="agreement[tenant_email]" id="agreement_tenant_email">
+										{% endif %}
+
+
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="col-md-3">
+											<p class="txt-blue-bold text-left">{{ 'label_owner'|trans }} {{ 'label_email'|trans }}:</p>
+
+
+									</div>
+									<div class="col-md-9">
+										{% if edit is defined %}
+											<input type="text" class="form-control" value="{{ tenantContract.ownerEmail }}" name="agreement[owner_email]" id="agreement_owner_email">
+										{% else %}
+											<input type="text" class="form-control" placeholder="example@example.com" name="agreement[owner_email]" id="agreement_owner_email">
+										{% endif %}
+
+									</div>
+								</div>
+							</div>
+							<br/>
+							<div class="row color1">
+								<div class="col-md-6">
+									<div class="col-md-5">
+										<p class="txt-blue-bold text-left">{{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}: </p>
+									</div>
+									<div class="col-md-7">
+										{% if edit is defined %}
+											<input type="text" class="form-control" value="{{ propertyContract.maintenancePrice|number_format(2, '.', '')  }}" id="agreement_maintenance" name="agreement[maintenance]">
+										{% else %}
+											<input type="text" class="form-control" placeholder="$ 540.00" id="agreement_maintenance" name="agreement[maintenance]">
+										{% endif %}
+
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="col-md-5">
+										<p class="txt-blue-bold text-left">{{ 'label_who_pays_maintenance'|trans }}: </p>
+									</div>
+									<div class="col-md-7 text-right">
+										{% if edit is defined %}
+
+											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" {{ propertyContract.whoPaysMaintenance == 'owner' ? 'checked' }} value="owner">Owner</label>
+											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" {{ propertyContract.whoPaysMaintenance == 'tenant' ? 'checked' }} value="tenant">Tenant</label>
+
+										{% else %}
+											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" value="owner">Owner</label>
+											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" checked value="tenant">Tenant</label>
+
+										{% endif %}
+									</div>
+								</div>
+							</div>
+							<br/>
+							<div class="row color2">
+								<div class="col-md-6">
+									<div class="col-md-3">
+										<p class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </p>
+									</div>
+									<div class="col-md-9">
+										{% if edit is defined %}
+
+											<input id="agreement_start_date" name="agreement[start]" type="date" class="form-control" value="{{propertyContract.startDate|date('Y-m-d')}}" />
+											{#value="{{entity.birthdate|date('Y-m-d')}}"#}
+										{% else %}
+											<input id="agreement_start_date" name="agreement[start]" type="date" class="form-control"/>
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="col-md-3">
+										<p class="txt-blue-bold text-left">{{ 'label_agreement_end_date'|trans }}: </p>
+									</div>
+									<div class="col-md-9">
+										{% if edit is defined %}
+
+											<input id="agreement_end_date" name="agreement[end]" type="date" class="form-control" value="{{propertyContract.endDate|date('Y-m-d')}}"  />
+											{#value="{{entity.birthdate|date('Y-m-d')}}"#}
+										{% else %}
+											<input id="agreement_end_date" name="agreement[end]" type="date" class="form-control"/>
+										{% endif %}
+
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-9">
+								</div>
+
+								<div class="col-md-3">
+									<button class="btn btn-primary" type="submit">
+										<i class="fa fa-save"></i>
+										{{ 'label_save'|trans }} {{ 'label_property'|trans }}
+									</button>
+
+								</div>
+
 							</div>
 
 						</div>
 
-						<div class="col-md-4">
-							<div class="col-md-5">
-								<p class="txt-blue-bold">Property Number: </p>
-							</div>
-							<div class="col-md-7">
-								<input type="text" class="form-control" placeholder="105">
-							</div>
-
+						<div class="hide">
+							{{ form_rest(form) }}
 						</div>
+					</fieldset>
+				<!--</form>-->
+				{{ form_end(form) }}
 
 
-						<div class="col-md-4">
-							<div class="col-md-4">
-								<p class="txt-blue-bold">Property Type: </p>
-							</div>
-							<div class="col-md-8">
-								<select  class="form-control classic" id="exampleFormControlSelect1">
-									<option>Apto</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-							</div>
-
-						</div>
-
-					</div>
-
-					<br/>
-					<!-- adress -->
-
-					<div class="row">
-						<div class="col-md-1">
-							<p class="txt-blue-bold">Adress: </p>
-						</div>
-						<div class="col-md-11">
-							<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7"></textarea>
-
-						</div>
-					</div>
-
-
-					<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
-
-					<div class="row">
-						<div class="col-md-6">
-							<div class="col-md-3">
-								<p class="txt-blue-bold">Tenant Email: </p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" placeholder="example@example.com">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="col-md-3">
-								<p class="txt-blue-bold text-left">Owner Email: </p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" placeholder="example@example.com">
-							</div>
-						</div>
-					</div>
-					<br/>
-					<div class="row color1">
-						<div class="col-md-6">
-							<div class="col-md-5">
-								<p class="txt-blue-bold text-left">Maintenance cost: </p>
-							</div>
-							<div class="col-md-7">
-								<input type="text" class="form-control" placeholder="$ 540.00">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="col-md-5">
-								<p class="txt-blue-bold text-left">Who Pays Maintenance: </p>
-							</div>
-							<div class="col-md-7 text-right">
-								<label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
-								<label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
-							</div>
-						</div>
-					</div>
-					<br/>
-					<div class="row color2">
-						<div class="col-md-6">
-							<div class="col-md-3">
-								<p class="txt-blue-bold">Agreement Start Date: </p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" placeholder="example@example.com">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="col-md-3">
-								<p class="txt-blue-bold text-left">Agreement Finish Date: </p>
-							</div>
-							<div class="col-md-9">
-								<input type="text" class="form-control" placeholder="example@example.com">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-9">
-						</div>
-						<div class="col-md-3">
-							<button type="submit" class="btn btn-primary">CREATE THIS COMPLEX</button>
-						</div>
-					</div>
-
-				</div>
 			</div>
 
 		</div>
 		<!-- END: CONTENT -->
-	</section>
 
-</div>
 
 <script type="text/javascript" language="Javascript">
+
+
+	$( document ).ready(function() {
+
+		$("[name='property']").validate({
+			success: function(error){
+
+				return true;
+			},
+
+		});
+
+		$("#agreement_tenant_email").rules("add", {required: true, email:true});
+		$("#agreement_owner_email").rules("add", {required: true, email:true});
+		$("#agreement_maintenance").rules("add", {required: true, number:true});
+		$("#agreement_start_date").rules("add", {required: true});
+		$("#agreement_end_date").rules("add", {required: true});
+
+		//
+		$("#property_complexSector").rules("add", {required: true});
+		$("#property_propertyType").rules("add", {required: true});
+
+
+		$('[name="property"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='property']").valid()){
+				$('#pizote_spinner').show();
+				return true;
+			}
+			else{
+				return false;
+			}
+
+		});
+
+
+
+	});
+
+
 
 </script>

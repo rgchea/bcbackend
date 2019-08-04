@@ -51,7 +51,12 @@ class TicketController extends Controller
 
         //print $this->translator->getLocale();die;
 
-        return $this->render('BackendAdminBundle:Ticket:index.html.twig');
+        //print "<pre>";
+        //var_dump($this->session->get("myComplexes"));die;
+
+        return $this->render('BackendAdminBundle:Ticket:index.html.twig',
+            array('myPath' => 'backend_admin_ticket_index')
+        );
 
 
     }
@@ -76,7 +81,7 @@ class TicketController extends Controller
             $orders = $request->request->get('order');
             $columns = $request->request->get('columns');
 
-            $complexID = $request->request->has("complexID") ? $request->request->get('complexID') : 0;
+
 
 
         }
@@ -84,26 +89,11 @@ class TicketController extends Controller
             die;
 
 
-        ///FILTER BY ROLE
-        $filters = null;
-        if($this->role != "SUPER ADMIN"){
-
-            if($complexID != 0){
-                $filters[$complexID] = $complexID;
-            }
-            else{
-                $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-                foreach ($arrComplex as $k =>$v) {
-                    $filters[$v] = $v;//the complex id
-                }
-
-            }
-
-        }
+        $filterComplex = $this->get("services")->getSessionComplex();
 
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filters);
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -129,64 +119,65 @@ class TicketController extends Controller
 
                             break;
                         }
-                    case 'complex':
-                        {
-                            $responseTemp = $entity->getComplexSector()->getComplex()->getName();
-                            break;
-                        }
 
-                    case 'sector':
+                    case 'title':
                         {
-                            $responseTemp = $entity->getComplexSector()->getName();
+                            $responseTemp = $entity->getTitle();
                             break;
                         }
-                    case 'name':
+                    case 'type':
                         {
-                            $responseTemp = $entity->getName();
-                            break;
-                        }
-                    case 'code':
-                        {
-                            $responseTemp = $entity->getCode();
-                            break;
-                        }
-                    case 'owner':
-                        {
-                            if($entity->getOwner()){
-                                $responseTemp = $entity->getOwner()->getName();
+                            if($entity->getIsPublic()){
+                                $responseText  = $this->translator->getLocale() == "en" ? "Public" : "Público";
+                                $responseTemp = "<button type='button' class='btn btn-default btn-xs'>".$responseText."</button>";
                             }
                             else{
-                                $responseTemp = "";
+                                $responseText  = $this->translator->getLocale() == "en" ? "Private" : "Privado";
+                                $responseTemp = "<button type='button' class='btn btn-info btn-xs'>".$responseText."</button>";
+                            }
+
+
+
+                            break;
+                        }
+
+                    case 'category':
+                        {
+                            $responseTemp = $entity->getTicketCategory()->getName();
+                            break;
+                        }
+                    case 'status':
+                        {
+                            $responseText = $this->translator->getLocale() == "en" ? $entity->getTicketStatus()->getNameEN() : $entity->getTicketStatus()->getNameES();
+
+                            $myStatus = $entity->getTicketStatus()->getNameEN();
+
+                            if($myStatus == "Open"){
+                                $responseTemp = "<button type='button' class='btn btn-danger btn-xs'>".$responseText."</button>";
+                            }
+                            elseif ($myStatus == "Closed"){
+                                $responseTemp = "<button type='button' class='btn btn-success btn-xs'>".$responseText."</button>";
+                            }
+                            else{
+                                $responseTemp = "<button type='button' class='btn btn-warning btn-xs'>".$responseText."</button>";
                             }
 
                             break;
                         }
-                    case 'tenant':
-                        {
-                            if($entity->getOwner()){
-                                $responseTemp = $entity->getMainTenant()->getName();
-                            }
-                            else{
-                                $responseTemp = "";
-                            }
 
+                    case 'elapsed':
+                        {
+                            $responseTemp = "--";
                             break;
                         }
 
                     case 'actions':
                         {
 
-                            $urlAgreement = $this->generateUrl('backend_admin_ticket_new_agreement', array('property_id' => $entity->getId()));
-                            $agreement = "<a href='".$urlAgreement."'><i class='fa fa-file'></i></i><span class='item-label'></span></a>&nbsp;&nbsp;";
-
-
                             $urlEdit = $this->generateUrl('backend_admin_ticket_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-wrench'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
-                            $urlDelete = $this->generateUrl('backend_admin_ticket_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
-
-                            $responseTemp = $agreement.$edit.$delete;
+                            $responseTemp = $edit;
                             break;
                         }
 

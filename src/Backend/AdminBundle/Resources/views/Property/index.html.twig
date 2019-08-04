@@ -33,10 +33,10 @@
                     <div class="col-md-8">&nbsp;</div>
 
                     <div class="col-md-2 text-right">
-                        <button  type="submit" class="btn btn-primary-blue" style="width:100%" >Invitations</button>
+                        <a  href="#" class="btn btn-primary-blue" style="width:100%" >{{ 'label_invitations'|trans }}</a>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary" style="width:100%">Add Property</button>
+                        <a href="{{ path('backend_admin_property_new') }}"  class="btn btn-primary" style="width:100%">{{ 'label_create_new'|trans }} {{ 'label_property'|trans }}</a>
                     </div>
 
                 {% endif %}
@@ -46,18 +46,8 @@
                 <div class="col-md-6">
                     <h3 class="header-title">{{ 'label_menu.property'|trans }}</h3>
                 </div>
-                <div class="col-md-2 text-right">
-                    <p style="margin-top:8px">Current Complex</p>
-                </div>
-                <div class="col-md-4">
-                    <select  class="form-control classic" id="exampleFormControlSelect1">
-                        <option>Weston Houses, Miami FL</option>
-                        <option>Weston Houses 2</option>
-                        <option>Weston Houses 3</option>
-                        <option>Weston Houses 4</option>
-                        <option>Weston Houses 5</option>
-                    </select>
-                </div>
+
+                {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -175,7 +165,7 @@
                 "info" : true,
                 "searching": true,
                 "pageLength": 10,
-                "order": [[1, 'asc']],
+                "order": [[0, 'asc']],
                 {% if myLocale == 'es' %}
                 "language": {
                     "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"

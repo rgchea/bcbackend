@@ -760,7 +760,7 @@ class RestController extends FOSRestController
 
             $contract = $contracts[0];
 
-            $tenants = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array('enabled' => true, 'isOwner' => true, 'propertyContract' => $contract));
+            $tenants = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array('enabled' => true, 'propertyContract' => $contract));
 
             if (count($tenants) > 0) {
                 throw new \Exception("A tenant is already owner.");
@@ -774,7 +774,7 @@ class RestController extends FOSRestController
             $tenant->setRole($role);
             $tenant->setPropertyContract($contract);
             //rchea comment
-            $tenant->setIsOwner(false);
+            //$tenant->setIsOwner(false);
             $tenant->setEnabled(true);
 
             ////rchea comment
@@ -1082,11 +1082,13 @@ class RestController extends FOSRestController
                 $photos[] = $photo->getPhotoPath();
             }
 
+            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $contract->getId(), "mainTenant" => 1, "enabled" => 1));
+
             $data = array(
                 'id' => $property->getId(),
                 'code' => $property->getCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $type->getId(),
-                'is_owner' => $owner->getId() == $this->getUser()->getId(),
+                'is_owner' => $tenantContract->getOwnerEmail() == $this->getUser()->getEmail(),
                 'property_contract_id' => $contract->getId(),
                 'photos' => $photos,
             );
@@ -1784,6 +1786,7 @@ class RestController extends FOSRestController
             }
 
             $ticket = new Ticket();
+            $ticket->setTicketType($this->em->getRepository('BackendAdminBundle:TicketType')->find(1));
             $ticket->setTitle($title);
             $ticket->setDescription($description);
             $ticket->setPossibleSolution($solution);
@@ -2605,7 +2608,7 @@ class RestController extends FOSRestController
 
             $tenantContract = new TenantContract();
             $tenantContract->setPropertyContract($propertyContract);
-            $tenantContract->setIsOwner(false);
+            //$tenantContract->setIsOwner(false);
             $tenantContract->setEnabled(true);
             $tenantContract->setInvitationUserEmail($email);
             $tenantContract->setInvitationAccepted(false);

@@ -51,7 +51,7 @@ Backend\AdminBundle\Entity\PropertyContract:
             nullable: true
             options:
                 unsigned: false
-                default: '5'
+                default: '15'
             column: due_payment_day
         rentalPrice:
             type: float
@@ -61,6 +61,14 @@ Backend\AdminBundle\Entity\PropertyContract:
             options:
                 default: '0.00'
             column: rental_price
+        whoPaysMaintenance:
+            type: string
+            nullable: true
+            length: 16
+            options:
+                fixed: false
+            column: who_pays_maintenance
+
         maintenancePrice:
             type: float
             nullable: true

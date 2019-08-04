@@ -188,6 +188,7 @@ class RegisterController extends Controller
                 //Sitio de soporte y documentación.
                 //Datos de contacto
                 ///
+
                 //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
 
                 //Admin
@@ -204,6 +205,19 @@ class RegisterController extends Controller
 
                 $to = $entity->getEmail();
                 $message = $this->get('services')->generalTemplateMail($this->translator->trans('mail.register_confirm_subject'), $to, $bodyHtml);
+
+
+                //new message from sendgrid
+                /*
+                $myJson = '"complex_name": "'.$objComplex->getName().'"';
+                $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
+
+                //test
+                //$to = "cheametal@gmail.com";
+                //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
+
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
+                */
 
                 //var_dump($message);die;
 

@@ -133,7 +133,9 @@ class Property
      */
     public function getName()
     {
-        return $this->name;
+        //return $this->name;
+
+        return $this->getPropertyType()." ".$this->getPropertyNumber();
     }
 
     /**
@@ -399,64 +401,9 @@ class Property
     {
         return $this->propertyType;
     }
-    /**
-     * @var \Backend\AdminBundle\Entity\User
-     */
-    private $owner;
-
-    /**
-     * @var \Backend\AdminBundle\Entity\User
-     */
-    private $mainTenant;
 
 
-    /**
-     * Set owner.
-     *
-     * @param \Backend\AdminBundle\Entity\User|null $owner
-     *
-     * @return Property
-     */
-    public function setOwner(\Backend\AdminBundle\Entity\User $owner = null)
-    {
-        $this->owner = $owner;
 
-        return $this;
-    }
-
-    /**
-     * Get owner.
-     *
-     * @return \Backend\AdminBundle\Entity\User|null
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * Set mainTenant.
-     *
-     * @param \Backend\AdminBundle\Entity\User|null $mainTenant
-     *
-     * @return Property
-     */
-    public function setMainTenant(\Backend\AdminBundle\Entity\User $mainTenant = null)
-    {
-        $this->mainTenant = $mainTenant;
-
-        return $this;
-    }
-
-    /**
-     * Get mainTenant.
-     *
-     * @return \Backend\AdminBundle\Entity\User|null
-     */
-    public function getMainTenant()
-    {
-        return $this->mainTenant;
-    }
 
     public function __toString(){
         return $this->getName();
@@ -549,5 +496,34 @@ class Property
     public function getPropertyNumber()
     {
         return $this->propertyNumber;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $mainTenant;
+
+
+    /**
+     * Set mainTenant.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $mainTenant
+     *
+     * @return Property
+     */
+    public function setMainTenant(\Backend\AdminBundle\Entity\User $mainTenant = null)
+    {
+        $this->mainTenant = $mainTenant;
+
+        return $this;
+    }
+
+    /**
+     * Get mainTenant.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getMainTenant()
+    {
+        return $this->mainTenant;
     }
 }

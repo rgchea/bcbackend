@@ -22,9 +22,7 @@ Backend\AdminBundle\Entity\Property:
         mainTenant:
             columns:
                 - main_tenant_id
-        owner:
-            columns:
-                - owner_id
+
     id:
         id:
             type: integer
@@ -85,7 +83,7 @@ Backend\AdminBundle\Entity\Property:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
             column: is_available
         createdAt:
             type: datetime
@@ -150,16 +148,6 @@ Backend\AdminBundle\Entity\Property:
             inversedBy: null
             joinColumns:
                 property_type_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-        owner:
-            targetEntity: User
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                owner_id:
                     referencedColumnName: id
             orphanRemoval: false
         mainTenant:

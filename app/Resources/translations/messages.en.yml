@@ -1,5 +1,13 @@
+label_already_exists: already exists
+label_agreement_start_date: Agreement Start Date
+label_agreement_end_date: Agreement Finish Date
+label_current_complex: 'Current Complex'
+label_invitations: Invitations
+label_title: Title
+label_category: Category
+label_time_elapsed: 'Time Elapsed'
 label_welcome: Welcome
-label_create_new: 'Create new'
+label_create_new: Add
 label_new: New
 label_edit: Edit
 label_list: List
@@ -150,8 +158,10 @@ label_regulation: Regulation
 label_common_area: 'Common Area'
 label_common_area_schedule: Schedule
 label_price: Price
+label_cost: Cost
 label_days: days
 label_maintenance: Maintenance
+label_who_pays_maintenance: Who Pays Maintenance
 label_reservation_hour_period: 'Reservation Hour Period (every 1hr, every 2hrs, every 3hrs...)'
 label_required_payment: 'Required Payment'
 label_has_equipment: 'Has Equipment'
@@ -189,7 +199,7 @@ label_menu:
     admin: Management
     profile: Profile
     logout: Logout
-    ticket: 'Tickets'
+    ticket: Tickets
     ticket_type: 'Ticket Types'
     ticket_category: 'Ticket Categories'
     company: Companies

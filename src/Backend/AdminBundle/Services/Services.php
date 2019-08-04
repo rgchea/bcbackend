@@ -379,7 +379,50 @@ class Services extends Controller
 		}		
 		//DIE;
         $session->set('userLogged', $em->getRepository('BackendAdminBundle:User')->find($user));
-		
+
+
+		//complex
+        if($user->getRole()->getName() == "SUPER ADMIN"){
+            if (!$session->has("sessionComplex")) {
+                $session->set("sessionComplex", 0);
+            }
+
+
+            //if (!$session->has("myComplexes")) {
+                $complexes = $em->getRepository('BackendAdminBundle:Complex')->findByEnabled(1);
+                $arrReturn = array();
+                foreach ($complexes as $row) {
+                    $arrReturn[$row->getBusiness()->getName()."-".$row->getName()] = $row->getId();
+                }
+
+                $session->set("myComplexes", $complexes);
+            //}
+
+
+
+        }
+        else{
+
+            if (!$session->has("sessionComplex")) {
+                $complexes = $em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($user->getId());
+
+                foreach ($complexes as $complex){
+                    $session->set("sessionComplex", $complex->getId());
+                    break;
+                }
+            }
+
+
+            //if (!$session->has("myComplexes")) {
+                $complexes = $em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($user->getId());
+                $session->set("myComplexes", $complexes);
+
+            //}
+        }
+
+
+
+
     }	
 	
 
@@ -662,7 +705,7 @@ class Services extends Controller
     }
 
 
-    public function callSendgrid($body, $templateID){
+    public function callSendgrid($jsonData, $templateID, $to){
 
         //$token = "ZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQ";
         $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
@@ -671,6 +714,34 @@ class Services extends Controller
 
         $client = new \GuzzleHttp\Client();
 
+        $body = '{
+                       "from":{
+                          "email":"admin@gameboard.tech"
+                       },
+                       "personalizations":[
+                          {
+                             "to":[
+                                        {
+                                           "email":"'.$to.'"
+                                        }
+                                     ],                              
+                             "dynamic_template_data":{'.$jsonData.'}
+                          }
+                       ],
+                       "template_id":"'.$templateID.'"
+                    }';
+
+        /*
+         *
+         * "news":
+                [
+                    {"article": "test", "text": "otro test"},
+                    {"article": "test1", "text": "otro test1"}
+                ]
+
+         * */
+
+        $body = json_decode($body, true);
         $params = ['headers' => ['Authorization' => 'Bearer '.$apiKey, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json'],
             'json' => $body];
 
@@ -801,6 +872,23 @@ class Services extends Controller
         }
 
         return $token;
+    }
+
+
+    public function setSessionComplex($complexID){
+        $session = new Session();
+        $complex = $session->set('sessionComplex', $complexID);
+
+    }
+
+
+    public function getSessionComplex(){
+
+        $session = new Session();
+        $complex = $session->get('sessionComplex');
+
+        return $complex;
+
     }
 
 	

@@ -487,4 +487,33 @@ class PropertyContract
     {
         return $this->propertyTransactionType;
     }
+    /**
+     * @var string|null
+     */
+    private $whoPaysMaintenance;
+
+
+    /**
+     * Set whoPaysMaintenance.
+     *
+     * @param string|null $whoPaysMaintenance
+     *
+     * @return PropertyContract
+     */
+    public function setWhoPaysMaintenance($whoPaysMaintenance = null)
+    {
+        $this->whoPaysMaintenance = $whoPaysMaintenance;
+
+        return $this;
+    }
+
+    /**
+     * Get whoPaysMaintenance.
+     *
+     * @return string|null
+     */
+    public function getWhoPaysMaintenance()
+    {
+        return $this->whoPaysMaintenance;
+    }
 }
