@@ -870,29 +870,29 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
-            $properties = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperties($this->getUser());
-            $total = $this->em->getRepository('BackendAdminBundle:Property')->countApiProperties($this->getUser());
+            $contracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->getApiProperties($this->getUser());
+            $total = $this->em->getRepository('BackendAdminBundle:TenantContract')->countApiProperties($this->getUser());
 
             /** @var Property $property */
-            foreach ($properties as $property) {
-                $type = $property->getPropertyType();
+            foreach ($contracts as $contract) {
+                $type = $contract->getPropertyContract()->getProperty()->getPropertyType();
                 if ($type == null) {
                     $type = new PropertyType();
                 }
-                $complexSector = $property->getComplexSector();
+                $complexSector = $contract->getPropertyContract()->getProperty()->getComplexSector();
                 if ($complexSector == null) {
                     $complexSector = new ComplexSector();
                 }
 
                 $data[] = array(
-                        'id' => $property->getId(),
-                        'code' => $property->getCode(),
-                        'name' => $property->getName(),
-                        'address' => $property->getAddress(),
+                        'id' => $contract->getPropertyContract()->getProperty()->getId(),
+                        'code' => $contract->getPropertyContract()->getProperty()->getCode(),
+                        'name' => $contract->getPropertyContract()->getProperty()->getName(),
+                        'address' => $contract->getPropertyContract()->getProperty()->getAddress(),
                         'type_id' => $type->getId(),
-                        'player_id' => $property->getTeamCorrelative(),
+                        'player_id' => $contract->getPlayerId(),
                         'complex' => $property->getComplex()->getName(),
-                        'complex_id' => $property->getComplex()->getId(),
+                        'complex_id' => $contract->getPropertyContract()->getProperty()->getComplex()->getId(),
                         'sector_id' => $complexSector->getId()
                         );
             }
@@ -3065,7 +3065,7 @@ class RestController extends FOSRestController
         }
     }
 
-    
+
     /**
      * Gets a common area availability
      *

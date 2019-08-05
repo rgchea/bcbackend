@@ -99,9 +99,9 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('a')
             ->select('count(a.id)')
-            ->where('a.enabled = 1')
-            ->andWhere('a.owner = :user')
-            ->setParameter('user', $user);
+            ->where('a.enabled = 1');
+            //->andWhere('a.owner = :user')
+            //->setParameter('user', $user);
 
         return $qb->getQuery()->getSingleScalarResult();
     }

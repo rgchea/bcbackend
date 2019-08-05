@@ -66,4 +66,58 @@ class TenantContractRepository extends \Doctrine\ORM\EntityRepository
         ;
     }
 
+    public function getApiProperties($userID)
+    {
+        $qb = $this->getGenericApiProperty($userID);
+
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getGenericApiProperty($userID)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->select('tc, s, pt, p, pc')
+
+            ->innerJoin('tc.propertyContract', 'pc', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('pc', 'tc.propertyContract'),
+                $qb->expr()->eq('pc.enabled', '1')
+            ))
+
+            ->leftJoin('pc.property', 'p', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('p', 'pc.property'),
+                $qb->expr()->eq('p.enabled', '1')
+            ))
+
+            ->leftJoin('p.complexSector', 's', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('s', 'p.complexSector'),
+                $qb->expr()->eq('s.enabled', '1')
+            ))
+            ->leftJoin('p.propertyType', 'pt', Join::WITH, $qb->expr()->andX(
+                $qb->expr()->eq('pt', 'a.propertyType'),
+                $qb->expr()->eq('pt.enabled', '1')
+            ))
+
+
+            ->where('tc.enabled = 1')
+            ->andWhere('tc.user = :userID')
+            ->setParameter('userID', $userID)
+            ->orderBy('p.createdAt', 'ASC');
+
+        return $qb;
+    }
+
+
+    public function countApiProperties($user)
+    {
+        $qb = $this->createQueryBuilder('tc')
+            ->select('count(tc.id)')
+            ->where('tc.enabled = 1')
+            ->andWhere('tc.user = :user')
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 }
