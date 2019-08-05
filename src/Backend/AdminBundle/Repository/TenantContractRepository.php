@@ -76,7 +76,7 @@ class TenantContractRepository extends \Doctrine\ORM\EntityRepository
 
     public function getGenericApiProperty($userID)
     {
-        $qb = $this->createQueryBuilder('a');
+        $qb = $this->createQueryBuilder('tc');
 
         $qb->select('tc, s, pt, p, pc')
 
