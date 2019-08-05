@@ -891,7 +891,7 @@ class RestController extends FOSRestController
                         'address' => $contract->getPropertyContract()->getProperty()->getAddress(),
                         'type_id' => $type->getId(),
                         'player_id' => $contract->getPlayerId(),
-                        'complex' => $property->getComplex()->getName(),
+                        'complex' => $contract->getPropertyContract()->getProperty()->getComplex()->getName(),
                         'complex_id' => $contract->getPropertyContract()->getProperty()->getComplex()->getId(),
                         'sector_id' => $complexSector->getId()
                         );
