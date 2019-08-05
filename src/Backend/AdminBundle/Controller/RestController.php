@@ -3009,22 +3009,34 @@ class RestController extends FOSRestController
 
             $cids = $this->getArrayOfIds($commonAreas);
 
-            $rawPhotos = $commonAreaPhotoRepo->getApiCommonAreas($cids);
-            $photos = array();
+            //$rawPhotos = $commonAreaPhotoRepo->getApiCommonAreas($cids);
+            //$photos = array();
             /** @var CommonAreaPhoto $photo */
+            /*
             foreach ($rawPhotos as $photo) {
                 $photos[$photo->getCommonArea()->getId()] = $photo;
-            }
+            }*/
 
             /** @var CommonArea $commonArea */
             foreach ($commonAreas as $commonArea) {
                 $commonAreaPhotos = array();
+
+                $myPhotos = $commonAreaPhotoRepo->findBy(array('commonArea' => $commonArea->getId(), "enabled" => 1));
+
+                if($myPhotos){
+
+                    foreach ($myPhotos as $photo){
+                        $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
+                    }
+                }
+                /*
                 if (array_key_exists($commonArea->getId(), $photos)) {
-                    /** @var CommonAreaPhoto $photo */
+
                     foreach ($photos[$commonArea->getId()] as $photo) {
                         $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
                     }
                 }
+                */
 
                 $commonAreaType = $commonArea->getCommonAreaType();
                 if ($commonAreaType == null) {
