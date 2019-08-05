@@ -2936,7 +2936,7 @@ class RestController extends FOSRestController
 
 
     /**
-     * Gets the common areas of a property.
+     * Gets the common areas of a complex.
      *
      * Returns a list of the common areas in the complex of the property.
      *
@@ -2945,7 +2945,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="property_id", in="path", type="string", description="The ID of the property." )
+     * @SWG\Parameter( name="complex_id", in="path", type="string", description="The ID of the complex." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
@@ -2955,7 +2955,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of common areas of a property.",
+     *     description="Returns the list of common areas of a complex.",
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="object",
