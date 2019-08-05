@@ -84,6 +84,8 @@ class RestController extends FOSRestController
     const QUESTION_TYPE_ONEOPTION_ID = 4;
     const QUESTION_TYPE_RATING_ID = 5;
 
+    const IMAGES_PATH = "https://bettercondos.space/uploads/images/";
+
     protected $em;
     /** @var Translator $translator */
     protected $translator;
@@ -2999,7 +3001,7 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
-            $myPhotoPath = "https://bettercondos.space/uploads/images/common_area/";
+            $myPhotoPath = self::IMAGES_PATH."common_area/";
 
             $commonAreaRepo = $this->em->getRepository('BackendAdminBundle:CommonArea');
             /** @var CommonAreaPhotoRepository $commonAreaPhotosRepo */
@@ -3026,7 +3028,6 @@ class RestController extends FOSRestController
                 $myPhotos = $commonAreaPhotoRepo->findBy(array('commonArea' => $commonArea->getId(), "enabled" => 1));
 
                 if($myPhotos){
-
                     foreach ($myPhotos as $photo){
                         $commonAreaPhotos[] = array('url' => $myPhotoPath.$photo->getPhotoPath());
                     }
@@ -3064,76 +3065,7 @@ class RestController extends FOSRestController
         }
     }
 
-
-
-    public function getCommonAreasOldAction($property_id, $page_id = 1)
-    {
-        try {
-            $this->initialise();
-            $data = array();
-
-            /** @var PropertyRepository $propertyRepo */
-            $propertyRepo = $this->em->getRepository('BackendAdminBundle:Property');
-            /** @var CommonAreaRepository $commonAreaRepo */
-            $commonAreaRepo = $this->em->getRepository('BackendAdminBundle:CommonArea');
-            /** @var CommonAreaPhotoRepository $commonAreaPhotosRepo */
-            $commonAreaPhotoRepo = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto');
-
-            $properties = $propertyRepo->getApiCommonAreas($property_id);
-
-            $complexIds = array();
-            /** @var Property $property */
-            foreach ($properties as $property) {
-                $complexIds[] = $property->getComplexSector()->getComplex()->getId();
-            }
-
-            $commonAreas = $commonAreaRepo->getApiCommonAreas($complexIds, $page_id);
-            $total = $this->em->getRepository('BackendAdminBundle:CommonArea')->countApiCommonAreas($complexIds);
-
-            $cids = $this->getArrayOfIds($commonAreas);
-
-            $rawPhotos = $commonAreaPhotoRepo->getApiCommonAreas($cids);
-            $photos = array();
-            /** @var CommonAreaPhoto $photo */
-            foreach ($rawPhotos as $photo) {
-                $photos[$photo->getCommonArea()->getId()] = $photo;
-            }
-
-            /** @var CommonArea $commonArea */
-            foreach ($commonAreas as $commonArea) {
-                $commonAreaPhotos = array();
-                if (array_key_exists($commonArea->getId(), $photos)) {
-                    /** @var CommonAreaPhoto $photo */
-                    foreach ($photos[$commonArea->getId()] as $photo) {
-                        $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
-                    }
-                }
-
-                $commonAreaType = $commonArea->getCommonAreaType();
-                if ($commonAreaType == null) {
-                    $commonAreaType = new CommonAreaType();
-                }
-
-                $data[] = array(
-                    'id' => $commonArea->getId(),
-                    'name' => $commonArea->getName(),
-                    'description' => $commonArea->getDescription(),
-                    'type' => $commonAreaType->getName(),
-                    'photos' => $commonAreaPhotos,
-                );
-            }
-
-            return new JsonResponse(array(
-                'message' => "",
-                'metadata' => $this->calculatePagesMetadata($page_id, $total),
-                'data' => $data
-            ));
-        } catch (Exception $ex) {
-            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
+    
     /**
      * Gets a common area availability
      *

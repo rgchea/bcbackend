@@ -471,6 +471,7 @@ class BusinessController extends Controller
                 //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
 
 
+
                 //iBilling
                 $bodyHtml = $this->translator->trans('label_register_bc_info')."&nbsp;<a href='www.bettercondos.info/?ng=client'>Better Condos iBilling</a>" ."<br/>";
                 $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";

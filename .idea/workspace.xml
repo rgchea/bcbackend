@@ -60,6 +60,8 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
@@ -282,8 +284,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="470" column="37" selection-start-line="470" selection-start-column="18" selection-end-line="470" selection-end-column="37" />
+            <state relative-caret-position="239">
+              <caret line="472" selection-start-line="472" selection-end-line="472" />
               <folding>
                 <element signature="e#5#11#0" expanded="true" />
                 <element signature="e#9#15#0" expanded="true" />
@@ -296,15 +298,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="3030" column="74" selection-start-line="3030" selection-start-column="74" selection-end-line="3030" selection-end-column="74" />
+            <state relative-caret-position="256">
+              <caret line="3067" column="4" selection-start-line="3067" selection-start-column="4" selection-end-line="3067" selection-end-column="4" />
               <folding>
                 <element signature="e#50#92#0#PHP" expanded="true" />
                 <element signature="e#75015#79904#0#PHP" />
                 <element signature="e#79910#82867#0#PHP" />
                 <element signature="e#82873#89136#0#PHP" />
                 <element signature="e#89142#90889#0#PHP" />
-                <element signature="e#90895#92634#0#PHP" />
                 <element signature="e#92640#94413#0#PHP" />
                 <element signature="e#94419#95792#0#PHP" />
                 <element signature="e#95798#98474#0#PHP" />
@@ -327,24 +328,6 @@
                 <element signature="e#136997#139259#0#PHP" />
                 <element signature="e#171600#173891#0#PHP" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TenantContract.orm.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="81" selection-start-line="81" selection-end-line="81" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Property.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="301" column="17" selection-start-line="301" selection-start-column="17" selection-end-line="301" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -392,12 +375,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sector</find>
-      <find>createaction</find>
-      <find>token</find>
-      <find>space</find>
-      <find>teamproperty</find>
-      <find>$createTeamProperty</find>
       <find>$teamIDProperty</find>
       <find>playerid</find>
       <find>var_dump</find>
@@ -422,6 +399,12 @@
       <find>getcomplex</find>
       <find>commonareas/</find>
       <find>getApiCommonAreas</find>
+      <find>QUESTION_TYPE_RATING_ID</find>
+      <find>TICKET_STATUS_CLOSE_ID</find>
+      <find>MYPHOTO</find>
+      <find>IMAGES_PATH</find>
+      <find>self::</find>
+      <find>images</find>
     </findStrings>
     <replaceStrings>
       <replace>poll</replace>
@@ -462,7 +445,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/NotificationType.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Poll.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestion.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/PollQuestionOption.php" />
@@ -512,6 +494,7 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TenantContract.orm.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TenantContract.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
       </list>
     </option>
@@ -834,12 +817,12 @@
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
       <workItem from="1564260024309" duration="97816000" />
-      <workItem from="1564955150189" duration="6397000" />
+      <workItem from="1564955150189" duration="7144000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="916040000" />
+    <option name="totallyTimeSpent" value="916787000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -1204,18 +1187,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="470" column="37" selection-start-line="470" selection-start-column="18" selection-end-line="470" selection-end-column="37" />
-          <folding>
-            <element signature="e#5#11#0" expanded="true" />
-            <element signature="e#9#15#0" expanded="true" />
-            <element signature="e#12#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="316">
@@ -1230,20 +1201,6 @@
           <folding>
             <element signature="e#50#95#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TenantContract.orm.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="81" selection-start-line="81" selection-end-line="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Property.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="301" column="17" selection-start-line="301" selection-start-column="17" selection-end-line="301" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1275,17 +1232,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TenantContract.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Property.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="301" column="17" selection-start-line="301" selection-start-column="17" selection-end-line="301" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="472" selection-start-line="472" selection-end-line="472" />
+          <folding>
+            <element signature="e#5#11#0" expanded="true" />
+            <element signature="e#9#15#0" expanded="true" />
+            <element signature="e#12#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="3030" column="74" selection-start-line="3030" selection-start-column="74" selection-end-line="3030" selection-end-column="74" />
+        <state relative-caret-position="256">
+          <caret line="3067" column="4" selection-start-line="3067" selection-start-column="4" selection-end-line="3067" selection-end-column="4" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
             <element signature="e#75015#79904#0#PHP" />
             <element signature="e#79910#82867#0#PHP" />
             <element signature="e#82873#89136#0#PHP" />
             <element signature="e#89142#90889#0#PHP" />
-            <element signature="e#90895#92634#0#PHP" />
             <element signature="e#92640#94413#0#PHP" />
             <element signature="e#94419#95792#0#PHP" />
             <element signature="e#95798#98474#0#PHP" />
