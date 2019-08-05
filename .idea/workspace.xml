@@ -351,8 +351,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TenantContractRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="85" column="14" lean-forward="true" selection-start-line="85" selection-start-column="14" selection-end-line="85" selection-end-column="14" />
+            <state relative-caret-position="209">
+              <caret line="19" column="22" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -361,7 +361,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>notifica</find>
       <find>paymen</find>
       <find>payments</find>
       <find>user</find>
@@ -391,6 +390,7 @@
       <find>properties/</find>
       <find>countApiProperties</find>
       <find>player</find>
+      <find>a.</find>
     </findStrings>
     <replaceStrings>
       <replace>poll</replace>
@@ -811,12 +811,12 @@
       <workItem from="1562603829398" duration="28610000" />
       <workItem from="1563315457885" duration="45737000" />
       <workItem from="1564260024309" duration="97816000" />
-      <workItem from="1564955150189" duration="10548000" />
+      <workItem from="1564955150189" duration="10623000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="920191000" />
+    <option name="totallyTimeSpent" value="920266000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -1282,8 +1282,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TenantContractRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="85" column="14" lean-forward="true" selection-start-line="85" selection-start-column="14" selection-end-line="85" selection-end-column="14" />
+        <state relative-caret-position="209">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="22" />
         </state>
       </provider>
     </entry>

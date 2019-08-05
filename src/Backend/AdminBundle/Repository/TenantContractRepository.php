@@ -95,7 +95,7 @@ class TenantContractRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('s.enabled', '1')
             ))
             ->leftJoin('p.propertyType', 'pt', Join::WITH, $qb->expr()->andX(
-                $qb->expr()->eq('pt', 'a.propertyType'),
+                $qb->expr()->eq('pt', 'p.propertyType'),
                 $qb->expr()->eq('pt.enabled', '1')
             ))
 
