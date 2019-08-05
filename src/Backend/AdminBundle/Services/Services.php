@@ -398,16 +398,14 @@ class Services extends Controller
                 $session->set("myComplexes", $complexes);
             //}
 
-
-
         }
         else{
 
             if (!$session->has("sessionComplex")) {
                 $complexes = $em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($user->getId());
 
-                foreach ($complexes as $complex){
-                    $session->set("sessionComplex", $complex->getId());
+                foreach ($complexes as $key => $value){
+                    $session->set("sessionComplex", $value);
                     break;
                 }
             }
