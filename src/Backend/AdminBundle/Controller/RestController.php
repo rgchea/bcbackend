@@ -1788,7 +1788,7 @@ class RestController extends FOSRestController
             }
 
             $ticket = new Ticket();
-            $ticket->setTicketType($this->em->getRepository('BackendAdminBundle:TicketType')->find(1));
+            $ticket->setTicketType($this->em->getRepository('BackendAdminBundle:TicketType')->find(true));
             $ticket->setTitle($title);
             $ticket->setDescription($description);
             $ticket->setPossibleSolution($solution);
@@ -1803,6 +1803,8 @@ class RestController extends FOSRestController
             $ticket->setEnabled(true);
             // ToDo: setAssignedTo
 //            $ticket->setAssignedTo();
+            
+
             $this->get("services")->blameOnMe($ticket, "create");
             $this->get("services")->blameOnMe($ticket, "update");
 
