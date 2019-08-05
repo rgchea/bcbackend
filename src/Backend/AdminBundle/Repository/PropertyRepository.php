@@ -44,6 +44,8 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /*
+
     public function getGenericApiProperty()
     {
         $qb = $this->createQueryBuilder('a');
@@ -62,6 +64,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb;
     }
+    */
 
     public function getApiProperty($code)
     {
@@ -85,6 +88,8 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+
+    /*
     public function getApiProperties($user)
     {
         $qb = $this->getGenericApiProperty();
@@ -105,6 +110,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getQuery()->getSingleScalarResult();
     }
+    */
 
 
     //getRequiredDTData($start, $length, $orders, $search, $columns, $filters);
