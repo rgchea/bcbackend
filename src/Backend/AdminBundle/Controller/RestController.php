@@ -2999,6 +2999,8 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
+            $myPhotoPath = "https://bettercondos.space/uploads/images/common_area/";
+
             $commonAreaRepo = $this->em->getRepository('BackendAdminBundle:CommonArea');
             /** @var CommonAreaPhotoRepository $commonAreaPhotosRepo */
             $commonAreaPhotoRepo = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto');
@@ -3026,7 +3028,7 @@ class RestController extends FOSRestController
                 if($myPhotos){
 
                     foreach ($myPhotos as $photo){
-                        $commonAreaPhotos[] = array('url' => $photo->getPhotoPath());
+                        $commonAreaPhotos[] = array('url' => $myPhotoPath.$photo->getPhotoPath());
                     }
                 }
                 /*
