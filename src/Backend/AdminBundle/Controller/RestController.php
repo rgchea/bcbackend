@@ -1277,7 +1277,7 @@ class RestController extends FOSRestController
      *              @SWG\Items(
      *                  @SWG\Property( property="id", type="integer", description="Category ID", example="1" ),
      *                  @SWG\Property( property="name", type="string", description="Name of the category", example="Category" ),
-     *                  @SWG\Property( property="icon_url", type="string", description="URL for the category's icon", example="/icons/1.jpg" ),
+     *                  @SWG\Property( property="icon_class", type="string", description="CLASS for the category's icon", example="fas fa-wrench" ),
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
