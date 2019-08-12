@@ -33,6 +33,7 @@ class PropertyController extends Controller
     private $role;
 
 
+
     // Set up all necessary variable
     protected function initialise()
     {
@@ -43,7 +44,6 @@ class PropertyController extends Controller
         $this->renderer = $this->get('templating');
         $this->userLogged = $this->session->get('userLogged');
         $this->role = $this->session->get('userLogged')->getRole()->getName();
-
 
     }
 
@@ -120,9 +120,13 @@ class PropertyController extends Controller
         foreach ($objects as $key => $entity)
         {
 
-            $owner = "-";
-            $tenant = "-";
 
+
+            /*
+             *
+             *
+             * $owner = "-";
+            $tenant = "-";
             $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $entity->getId(), "enabled" => 1));
             if($propertyContract){
                 $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1));
@@ -133,6 +137,7 @@ class PropertyController extends Controller
                 }
 
             }
+            */
 
 
             $response .= '["';
@@ -165,23 +170,29 @@ class PropertyController extends Controller
                         }
                     case 'name':
                         {
-                            $responseTemp = $entity->getName();
+
+                            $urlDetail = $this->generateUrl('backend_admin_property_detail', array('id' => $entity->getId()));
+                            $property = "<a href='".$urlDetail."'>".$entity->getName()."</a>";
+
+                            $responseTemp = $property;
                             break;
                         }
+                        /*
                     case 'code':
                         {
                             $responseTemp = $entity->getCode();
                             break;
                         }
+                        */
                     case 'owner':
                         {
 
-                            $responseTemp = $owner;
+                            $responseTemp = $entity->getOwnerEmail();
                             break;
                         }
                     case 'tenant':
                         {
-
+                            $tenant = $entity->getMainTenant() ? $entity->getMainTenant()->getEmail() : "--";
                             $responseTemp = $tenant;
                             break;
                         }
@@ -313,7 +324,7 @@ class PropertyController extends Controller
             $isAdSharedDays = 0;
         }
 
-
+        $tenantContract =  null;
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $entity->getId(), "enabled" => 1), array("id"=> "ASC"));
         if($propertyContract){
             $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id"=> "ASC"));
@@ -572,6 +583,7 @@ class PropertyController extends Controller
 
 
             $tenantContract->setOwnerEmail($ownerEmail);
+            $entity->setOwnerEmail($ownerEmail);
             $tenantContract->setPropertyContract($propertyContract);
             $tenantContract->setEnabled(1);
             $tenantContract->setMainTenant(1);
@@ -840,6 +852,7 @@ class PropertyController extends Controller
             //add player gamification
 
             $tenantContract->setOwnerEmail($ownerEmail);
+            $entity->setOwnerEmail($ownerEmail);
             $tenantContract->setPropertyContract($propertyContract);
             $tenantContract->setEnabled(1);
             $tenantContract->setMainTenant(1);
@@ -1108,6 +1121,9 @@ class PropertyController extends Controller
 
         return $this->render('BackendAdminBundle:PropertyContract:newAgreement.html.twig', array(
             'entity' => $entity,
+            'myPath' => 'backend_admin_property_new_agreement',
+            'new' => true
+
             //'form' => $form->createView(),
 
 
@@ -1116,6 +1132,406 @@ class PropertyController extends Controller
 
 
 
+    public function detailAction(Request $request, $id)
+    {
+        $this->get("services")->setVars('property');
+        $this->initialise();
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
+
+        $deleteForm = $this->createDeleteForm($entity);
+        $editForm = $this->createEditForm($entity);
+
+
+
+        return $this->render('BackendAdminBundle:Property:detail.html.twig', array(
+            'entity' => $entity,
+            'form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+            'edit' => $entity->getId(),
+        ));
+    }
+
+
+    //
+
+    public function updateMaintenanceAction(Request $request, $id)
+    {
+        $this->get("services")->setVars('property');
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
+
+        $deleteForm = $this->createDeleteForm($entity);
+        $editForm = $this->createEditForm($entity);
+
+
+
+        return $this->render('BackendAdminBundle:Property:updateMaintenance.html.twig', array(
+            'entity' => $entity,
+        ));
+    }
+
+    public function contractCancelAction(Request $request, $id)
+    {
+        $this->get("services")->setVars('property');
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
+
+        $deleteForm = $this->createDeleteForm($entity);
+        $editForm = $this->createEditForm($entity);
+
+
+
+        return $this->render('BackendAdminBundle:Property:contractCancel.html.twig', array(
+            'entity' => $entity,
+        ));
+    }
+
+    public function contractExtendAction(Request $request, $id)
+    {
+        $this->get("services")->setVars('property');
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
+
+        $deleteForm = $this->createDeleteForm($entity);
+        $editForm = $this->createEditForm($entity);
+
+
+
+        return $this->render('BackendAdminBundle:Property:contractExtend.html.twig', array(
+            'entity' => $entity,
+        ));
+    }
+
+
+
+    public function listTicketsAction(Request $request, $property)
+    {
+
+        $this->get("services")->setVars('ticket');
+
+        // Set up required variables
+        $this->initialise();
+
+
+        // Get the parameters from DataTable Ajax Call
+        if ($request->getMethod() == 'POST')
+        {
+            $draw = intval($request->request->get('draw'));
+            $start = $request->request->get('start');
+            $length = $request->request->get('length');
+            $search = $request->request->get('search');
+            $orders = $request->request->get('order');
+            $columns = $request->request->get('columns');
+
+
+        }
+        else // If the request is not a POST one, die hard
+            die;
+
+
+        $filterComplex = $this->get("services")->getSessionComplex();
+
+        // Process Parameters
+
+        $results = $this->em->getRepository('BackendAdminBundle:Ticket')->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $property);
+        $objects = $results["results"];
+        $selected_objects_count = count($objects);
+
+        $i = 0;
+        $response = "";
+
+        foreach ($objects as $key => $entity)
+        {
+            $response .= '["';
+
+            $j = 0;
+            $nbColumn = count($columns);
+            foreach ($columns as $key => $column)
+            {
+                // In all cases where something does not exist or went wrong, return -
+                $responseTemp = "-";
+
+                switch($column['name'])
+                {
+                    case 'id':
+                        {
+                            $responseTemp = $entity->getId();
+
+                            break;
+                        }
+
+                    case 'title':
+                        {
+                            $responseTemp = $entity->getTitle();
+                            break;
+                        }
+                    case 'type':
+                        {
+                            if($entity->getIsPublic()){
+                                $responseText  = $this->translator->getLocale() == "en" ? "Public" : "Público";
+                                $responseTemp = "<button type='button' class='btn btn-default btn-xs'>".$responseText."</button>";
+                            }
+                            else{
+                                $responseText  = $this->translator->getLocale() == "en" ? "Private" : "Privado";
+                                $responseTemp = "<button type='button' class='btn btn-info btn-xs'>".$responseText."</button>";
+                            }
+
+
+
+                            break;
+                        }
+
+                    case 'category':
+                        {
+                            $responseTemp = $entity->getTicketCategory()->getName();
+                            break;
+                        }
+                    case 'status':
+                        {
+                            $responseText = $this->translator->getLocale() == "en" ? $entity->getTicketStatus()->getNameEN() : $entity->getTicketStatus()->getNameES();
+
+                            $myStatus = $entity->getTicketStatus()->getNameEN();
+
+                            if($myStatus == "Open"){
+                                $responseTemp = "<button type='button' class='btn btn-danger btn-xs'>".$responseText."</button>";
+                            }
+                            elseif ($myStatus == "Closed"){
+                                $responseTemp = "<button type='button' class='btn btn-success btn-xs'>".$responseText."</button>";
+                            }
+                            else{
+                                $responseTemp = "<button type='button' class='btn btn-warning btn-xs'>".$responseText."</button>";
+                            }
+
+                            break;
+                        }
+
+                    case 'elapsed':
+                        {
+                            $responseTemp = "--";
+                            break;
+                        }
+
+                    case 'actions':
+                        {
+
+                            $urlEdit = $this->generateUrl('backend_admin_ticket_edit', array('id' => $entity->getId()));
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-wrench'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
+                            $responseTemp = $edit;
+                            break;
+                        }
+
+                }
+
+                // Add the found data to the json
+                $response .= $responseTemp;
+
+                if(++$j !== $nbColumn)
+                    $response .='","';
+            }
+
+            $response .= '"]';
+
+            // Not on the last item
+            if(++$i !== $selected_objects_count)
+                $response .= ',';
+        }
+        $myItems = $response;
+        //($request, $repository, $results, $myItems){
+        $return = $this->get("services")->serviceDataTable($request, $this->repository, $results, $myItems);
+
+        return $return;
+
+
+    }
+
+
+
+    public function listBookingsAction(Request $request, $property)
+    {
+
+        $this->get("services")->setVars('commonAreaReservation');
+
+        // Set up required variables
+        $this->initialise();
+
+        // Get the parameters from DataTable Ajax Call
+        if ($request->getMethod() == 'POST')
+        {
+            $draw = intval($request->request->get('draw'));
+            $start = $request->request->get('start');
+            $length = $request->request->get('length');
+            $search = $request->request->get('search');
+            $orders = $request->request->get('order');
+            $columns = $request->request->get('columns');
+
+            $arrDate["start"] = $request->request->get('start_date');
+            $arrDate["end"] = $request->request->get('end_date');
+
+
+        }
+        else // If the request is not a POST one, die hard
+            die;
+
+
+        ///FILTER BY ROLE
+        $filters = null;
+        if($this->role != "SUPER ADMIN"){
+            /*
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $filters[$v] = $v;//the complex id
+            }
+            */
+            $filterComplex = $this->get("services")->getSessionComplex();
+        }
+
+
+        // Further filtering can be done in the Repository by passing necessary arguments
+        if(trim($arrDate["start"]) != "" && trim($arrDate["end"]) != ""){
+            $dateConditions = $arrDate;
+        }
+        else{
+            $dateConditions = null;
+        }
+
+
+        // Process Parameters
+        $businessLocale = $this->translator->getLocale();
+        $results = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $dateConditions, $businessLocale, $property);
+        $objects = $results["results"];
+        $selected_objects_count = count($objects);
+
+        $i = 0;
+        $response = "";
+
+        foreach ($objects as $key => $entity)
+        {
+            $response .= '["';
+
+            $j = 0;
+            $nbColumn = count($columns);
+            foreach ($columns as $key => $column)
+            {
+                // In all cases where something does not exist or went wrong, return -
+                $responseTemp = "-";
+
+
+                switch($column['name'])
+                {
+                    case 'id':
+                        {
+                            $responseTemp = $entity->getId();
+
+                            break;
+                        }
+
+                    case 'user':
+                        {
+                            $responseTemp = $entity->getReservedBy()->getEmail();
+                            break;
+                        }
+
+                    case 'property':
+                        {
+                            $responseTemp = $entity->getProperty()->getName();
+                            break;
+                        }
+                    case 'commonArea':
+                        {
+                            $responseTemp = $entity->getCommonArea()->getName();
+                            break;
+                        }
+                    case 'eventDate':
+                        {
+                            $responseTemp = $entity->getReservationDateFrom()->format('H:i m/d/Y')."<br>". $entity->getReservationDateTo()->format('H:i m/d/Y');
+                            break;
+                        }
+
+                    case 'requested':
+                        {
+
+                            if($entity->getCreatedAt() != NULL){
+                                $responseTemp = $entity->getCreatedAt()->format('m/d/Y H:i');
+                            }
+                            else{
+                                $responseTemp = "--";
+                            }
+
+                            break;
+                        }
+
+                    case 'approved':
+                        {
+
+                            if($entity->getApproved() != NULL){
+                                $responseTemp = $entity->getApproved()->format('m/d/Y H:i');
+                            }
+                            else{
+                                $responseTemp = "--";
+                            }
+
+                            break;
+                        }
+
+                    case 'status':
+                        {
+                            $status = $entity->getCommonAreaReservationStatus();
+                            if($status == "Pending" || $status == "Pendiente"){
+                                $responseTemp = "<button type='button' class='btn btn-warning btn-xs'>".$status."</button>";
+                            }
+
+                            if($status == "Approved" || $status == "Aprobado"){
+                                $responseTemp = "<button type='button' class='btn btn-success btn-xs'>".$status."</button>";
+                            }
+
+                            if($status == "Rejected" || $status == "Rechazado"){
+                                $responseTemp = "<button type='button' class='btn btn-danger btn-xs'>".$status."</button>";
+                            }
+
+                            break;
+                        }
+
+                    case 'actions':
+                        {
+
+
+                            $urlEdit = $this->generateUrl('backend_admin_common_area_reservation_edit', array('id' => $entity->getId()));
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-wrench'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
+                            $responseTemp = $edit;
+                            break;
+                        }
+
+
+                }
+
+                // Add the found data to the json
+                $response .= $responseTemp;
+
+                if(++$j !== $nbColumn)
+                    $response .='","';
+            }
+
+            $response .= '"]';
+
+            // Not on the last item
+            if(++$i !== $selected_objects_count)
+                $response .= ',';
+        }
+        $myItems = $response;
+        //($request, $repository, $results, $myItems){
+        $return = $this->get("services")->serviceDataTable($request, $this->repository, $results, $myItems);
+
+        return $return;
+
+
+    }
 
 
 }

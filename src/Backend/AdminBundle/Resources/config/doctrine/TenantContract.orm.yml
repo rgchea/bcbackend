@@ -31,6 +31,13 @@ Backend\AdminBundle\Entity\TenantContract:
             options:
                 unsigned: false
             column: player_id
+        propertyCode:
+            type: string
+            nullable: false
+            length: 32
+            options:
+                fixed: false
+            column: property_code
         createdAt:
             type: datetime
             nullable: false

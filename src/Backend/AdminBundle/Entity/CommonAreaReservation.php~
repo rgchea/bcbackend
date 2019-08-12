@@ -372,4 +372,62 @@ class CommonAreaReservation
     {
         return $this->commonAreaReservationStatus;
     }
+    /**
+     * @var \DateTime
+     */
+    private $approved;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Property
+     */
+    private $property;
+
+
+    /**
+     * Set approved.
+     *
+     * @param \DateTime $approved
+     *
+     * @return CommonAreaReservation
+     */
+    public function setApproved($approved)
+    {
+        $this->approved = $approved;
+
+        return $this;
+    }
+
+    /**
+     * Get approved.
+     *
+     * @return \DateTime
+     */
+    public function getApproved()
+    {
+        return $this->approved;
+    }
+
+    /**
+     * Set property.
+     *
+     * @param \Backend\AdminBundle\Entity\Property|null $property
+     *
+     * @return CommonAreaReservation
+     */
+    public function setProperty(\Backend\AdminBundle\Entity\Property $property = null)
+    {
+        $this->property = $property;
+
+        return $this;
+    }
+
+    /**
+     * Get property.
+     *
+     * @return \Backend\AdminBundle\Entity\Property|null
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
 }

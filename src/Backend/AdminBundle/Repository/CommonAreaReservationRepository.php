@@ -36,7 +36,7 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 
 
 
-    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $dateConditions, $businessLocale)
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $dateConditions, $businessLocale, $property = null)
     {
 
         // Create Main Query
@@ -45,7 +45,6 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         // Create Count Query
         $countQuery = $this->createQueryBuilder('e');
         $countQuery->select('COUNT(e)');
-
 
 
         //ENABLED
@@ -73,9 +72,18 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         $query->join('ca.complex', 'c');
         $countQuery->join('ca.complex', 'c');
 
+        //property
+        $query->join('e.property', 'p');
+        $countQuery->join('e.property', 'p');
+
         if($filterComplex != null){
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
             $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
+        }
+
+        if($property != null){
+            $query->andWhere('p.id = :propertyID')->setParameter('propertyID', intval($property));
+            $countQuery->andWhere('p.id = :propertyID')->setParameter('propertyID', intval($property));
         }
 
 
@@ -110,11 +118,12 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         {
 
             // Add date condition
-            $query->where('e.reservationDateFrom >= :startDate AND e.reservationDateTo <= :endDate')
+
+            $query->andWhere('e.reservationDateFrom >= :startDate AND e.reservationDateTo <= :endDate')
                 ->setParameter('startDate', date("Y-m-d H:i:s", strtotime($dateConditions["start"])) )
                 ->setParameter('endDate', date('Y-m-d H:i:s', strtotime($dateConditions["end"] . ' +1 day')));
             //$countQuery->where($otherConditions);
-            $countQuery->where('e.reservationDateFrom >= :startDate AND e.reservationDateTo <= :endDate')
+            $countQuery->andWhere('e.reservationDateFrom >= :startDate AND e.reservationDateTo <= :endDate')
                 ->setParameter('startDate', date("Y-m-d H:i:s", strtotime($dateConditions["start"])) )
                 ->setParameter('endDate', date('Y-m-d H:i:s', strtotime($dateConditions["end"] . ' +1 day')));
 
@@ -150,11 +159,36 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'c.name LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
+
+                    case 'property':
+                        {
+                            $searchQuery = 'p.name LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
                     case 'commonArea':
                         {
                             $searchQuery = 'ca.name LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
+
+                    case 'eventDate':
+                        {
+                            $searchQuery = 'e.reservationDateFrom LIKE \'%'.$searchItem.'%\''. ' OR '.'e.reservationDateTo LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+
+                    case 'approved':
+                        {
+                            $searchQuery = 'e.approved LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+
+                    case 'requested':
+                        {
+                            $searchQuery = 'e.createdAt LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+
                     case 'status':
                         {
                             if($businessLocale == "es"){
@@ -235,6 +269,23 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
                             break;
                         }
 
+                    case 'property':
+                        {
+                            $orderColumn = 'p.name';
+                            break;
+                        }
+
+                    case 'approved':
+                        {
+                            $orderColumn = 'e.approved';
+                            break;
+                        }
+
+                    case 'requested':
+                        {
+                            $orderColumn = 'e.createdAt';
+                            break;
+                        }
                     case 'status':
                         {
                             if($businessLocale == "es"){
@@ -349,6 +400,7 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
+    //esta funcion valida si hay otras reservaciones con horario traslapado y aprueba la enviada y las demas las rechaza
     public function validateSchedule($start, $end, $commonAreaID, $reservationID){
 
 

@@ -128,7 +128,6 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         $query->andWhere("e.enabled = 1");
         $countQuery->andWhere("e.enabled = 1");
 
-
         // Create inner joins
 
         //sector
@@ -139,6 +138,8 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         //complex
         $query->join('s.complex', 'c');
         $countQuery->join('s.complex', 'c');
+
+
 
         if ($filterComplex != null) {
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
@@ -172,11 +173,13 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
+                        /*
                     case 'code':
                         {
                             $searchQuery = 'e.code LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
+                        */
 
                     case 'complex':
                         {
@@ -188,14 +191,16 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 's.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
+
                     case 'owner':
                         {
-                            $searchQuery = 'o.name LIKE \'%' . $searchItem . '%\'';
+                            $searchQuery = 'e.ownerEmail LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
+
                     case 'tenant':
                         {
-                            $searchQuery = 't.name LIKE \'%' . $searchItem . '%\'';
+                            $searchQuery = 't.email LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
 
@@ -238,24 +243,28 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.name';
                             break;
                         }
+                        /*
                     case 'code':
                         {
                             $orderColumn = 'e.code';
                             break;
                         }
+                        */
                     case 'sector':
                         {
                             $orderColumn = 's.name';
                             break;
                         }
+
                     case 'owner':
                         {
-                            $orderColumn = 'o.name';
+                            $orderColumn = 'e.ownerEmail';
                             break;
                         }
+
                     case 'tenant':
                         {
-                            $orderColumn = 't.name';
+                            $orderColumn = 't.email';
                             break;
                         }
 

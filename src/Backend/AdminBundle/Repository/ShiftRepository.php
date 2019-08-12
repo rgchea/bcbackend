@@ -269,5 +269,50 @@ class ShiftRepository extends \Doctrine\ORM\EntityRepository
         return $days;
     }
 
+    public function getUsertoAssignTicket($timezone, $complexID){
+
+        $em  = $this->getEntityManager();
+
+        $myCreationTime = gmdate("Y-m-d H:i:s", time() + 3600*($timezone+date("I")));
+        $myTime = gmdate("H:i", time() + 3600*($timezone+date("I")));
+        $weekDay = date('w', strtotime($myCreationTime));
+        $arrWeekDays = array(0 => 6, 1 => 0, 2 => 1, 3 => 2, 4 => 3, 5 => 4, 6 => 5);
+        $weekDaySingle = $arrWeekDays[$weekDay];
+
+
+        $sql = "	SELECT  assigned_to 
+                    FROM    shift
+                    WHERE   weekday_single = {$weekDaySingle}
+                    AND     complex_id = {$complexID}
+                    AND     (hour_from <= '{$myTime}' AND hour_to >= '{$myTime}')
+                    LIMIT 1";
+
+        //var_dump($sql);
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+        if(isset($execute[0])){
+            $user = $em->getRepository('BackendAdminBundle:User')->find($execute[0]["assigned_to"]);
+
+        }
+        else{
+            $complex = $em->getRepository('BackendAdminBundle:Complex')->find($complexID);
+            $business = $complex->getBusiness();
+
+            //search for a supervisor or business admin
+            //supervisor
+            $user = $em->getRepository('BackendAdminBundle:User')->findOneBy(array("role" => 3, "business" => $business->getId()));
+            if(!$user){
+                //business admin
+                $user = $em->getRepository('BackendAdminBundle:User')->findOneBy(array("role" => 1, "business" => $business->getId()));
+            }
+
+        }
+
+        return $user;
+
+    }
+
 
 }

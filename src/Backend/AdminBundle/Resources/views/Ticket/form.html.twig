@@ -6,22 +6,14 @@
 
 	<div class="header">
 		<div class="container">
+
+
 			<div class="row">
-				<div class="col-md-7">
-					<h3 class="header-title">Register New Ticket</h3>
+				<div class="col-md-6">
+					<h3 class="header-title">{{ 'label_new'|trans }} {{ 'label_menu.ticket'|trans }}</h3>
 				</div>
-				<div class="col-md-2 text-right">
-					<p style="margin-top:8px">Current Complex</p>
-				</div>
-				<div class="col-md-3">
-					<select  class="form-control classic" id="exampleFormControlSelect1">
-						<option>Weston Houses, Miami FL</option>
-						<option>Weston Houses 2</option>
-						<option>Weston Houses 3</option>
-						<option>Weston Houses 4</option>
-						<option>Weston Houses 5</option>
-					</select>
-				</div>
+
+				{{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
 			</div>
 			<div class="row">
 				<div class="col-md-12">
@@ -35,6 +27,8 @@
 					</blockquote>
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 

@@ -1315,12 +1315,12 @@ class RestController extends FOSRestController
             /** @var TicketCategory $category */
             foreach ($categories as $category) {
 
-                $iconUrl = ($category->getIcon() != null) ? $category->getIcon()->getIconUnicode() : "";
+                $iconClass = ($category->getIcon() != null) ? $category->getIcon()->getIconClass() : "";
 
                 $data[] = array(
                     'category_id' => $category->getId(),
                     'category_name' => $category->getName(),
-                    'icon_url' => $iconUrl,
+                    'icon_class' => $iconClass,
                     'color' => $category->getColor(),
                 );
             }
@@ -1801,9 +1801,15 @@ class RestController extends FOSRestController
             $ticket->setTenantContract($tenantContract);
             $ticket->setTicketStatus($status);
             $ticket->setEnabled(true);
-            // ToDo: setAssignedTo
-//            $ticket->setAssignedTo();
-            
+
+
+            //setAssignedTo
+            $timezone  = intval($request->get('time_offset')); //(GMT -5:00) EST (U.S. & Canada)
+            $userToAssign = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, $complexSector->getComplex()->getId());
+
+
+            $ticket->setAssignedTo($userToAssign);
+
 
             $this->get("services")->blameOnMe($ticket, "create");
             $this->get("services")->blameOnMe($ticket, "update");

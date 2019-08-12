@@ -204,20 +204,22 @@ class RegisterController extends Controller
                 $bodyHtml .= "<br/><br/>".$this->translator->trans('label_register_contact');
 
                 $to = $entity->getEmail();
-                $message = $this->get('services')->generalTemplateMail($this->translator->trans('mail.register_confirm_subject'), $to, $bodyHtml);
+                //$message = $this->get('services')->generalTemplateMail($this->translator->trans('mail.register_confirm_subject'), $to, $bodyHtml);
 
 
                 //new message from sendgrid
-                /*
-                $myJson = '"complex_name": "'.$objComplex->getName().'"';
-                $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
+                if($this->translator->getLocale() == "en"){
+                    $templateID = "d-e67d965d6e6743edbf1e1fbf62a290ac";
+                }
+                else{
+                    $templateID = "d-e2461e26f08b435cbe57a2abfb10caf2";
+                }
 
-                //test
-                //$to = "cheametal@gmail.com";
-                //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
+                $myToken = '/business/new/?regtoken='.$regToken;
+                $myJson = '"token": "'.$myToken.'"';
 
-                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
-                */
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
+
 
                 //var_dump($message);die;
 

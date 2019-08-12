@@ -9,30 +9,16 @@
 {% block body -%}
     {{ parent() }}
 
-
     <div class="header">
         <div class="container">
+
+
             <div class="row">
-                <div class="col-md-7">
-                    <h3 class="header-title">Add Property Agreement</h3>
+                <div class="col-md-6">
+                    <h3 class="header-title">{{ 'label_create_new'|trans }} {{ 'label_property_agreement'|trans }}</h3>
                 </div>
-                <div class="col-md-2 text-right">
-                    <p style="margin-top:8px">Current Complex</p>
-                </div>
-                <div class="col-md-3">
-                    <!--h3 class="header-title-step">Step 1/2</h3>-->
 
-
-                    <select  class="form-control classic" id="exampleFormControlSelect1">
-                        <option>Weston Houses, Miami FL</option>
-                        <option>Weston Houses 2</option>
-                        <option>Weston Houses 3</option>
-                        <option>Weston Houses 4</option>
-                        <option>Weston Houses 5</option>
-                    </select>
-
-
-                </div>
+                {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -47,10 +33,9 @@
                 </div>
             </div>
 
+
         </div>
-
     </div>
-
     <!-- CONTENT -->
     <div class="main-content no-bordertop">
 
@@ -114,17 +99,17 @@
 
                     </div>
                     <div class="col-md-6">
-                        <div class="col-md-5">
-                            <p class="txt-blue-bold text-right">Who Pays Maintenancet: </p>
+                        <div class="col-md-3">
+                            <p class="txt-blue-bold text-left">Who Pays Maintenancet: </p>
                         </div>
-                        <div class="col-md-7 text-right">
+                        <div class="col-md-9 text-left">
                             <label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
                             <label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
                         </div>
                     </div>
                 </div>
                 <br/>
-                <div class="row color1">
+                <div class="row">
                     <div class="col-md-6">
                         <div class="col-md-3">
                             <p class="txt-blue-bold text-leftt">Owner: </p>
@@ -146,7 +131,7 @@
                 <div class="clearfix"></div>
                 <br/>
 
-                <div class="row color2">
+                <div class="row">
                     <div class="col-md-6">
                         <div class="col-md-3">
                             <p class="txt-blue-bold">Owner Email: </p>

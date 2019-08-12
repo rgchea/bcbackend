@@ -39,4 +39,28 @@ notification_mark_all_read:
     path: /notificationMarkAllRead
     defaults:
         _controller: BackendAdminBundle:CommonAreaReservation:notificationMarkAllRead
+        
+backend_admin_common_area_reservation_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:new" }
+    #methods:  [GET, POST]
+
+backend_admin_common_area_reservation_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:edit" }
+
+backend_admin_common_area_reservation_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:create" }
+    methods:  POST
+
+backend_admin_common_area_reservation_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:update" }
+    methods:  POST
+
+backend_admin_common_area_reservation_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:delete" }
+        
 

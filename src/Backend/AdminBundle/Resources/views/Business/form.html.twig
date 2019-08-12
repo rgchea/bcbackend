@@ -29,217 +29,215 @@
 
 </div>
 
-<div class="form-inputs-g">
+<div class="container">
+	<div class="form-inputs-g">
 
-	{{ form_start(form) }}
-	{{ form_errors(form) }}
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
 
-	{#THE USER WHO CREATES THE BUSINESS #}
-	{% if new is defined %}
-		<input type="hidden" name="userID" value="{{ userID }}">
-	{% endif %}
+		{#THE USER WHO CREATES THE BUSINESS #}
+		{% if new is defined %}
+			<input type="hidden" name="userID" value="{{ userID }}">
+		{% endif %}
 
-	<div id="checkEmailAlert" class="alert alert-warning" role="alert" style="display: none" >
-		{{ 'label_business_check_email'|trans }}
-	</div>
-	<div id="checkPhoneAlert" class="alert alert-warning" role="alert" style="display: none" >
-		{{ 'label_business_check_phone'|trans }}
-	</div>
-
-	<div class="row">
-		<div class="col-md-4">
-			<div class="form-group ">
-				<b>{{ 'label_business'|trans }}</b> {{ form_label(form.name) }}
-				{{ form_errors(form.name) }}
-				{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
-				) }}
-			</div>
+		<div id="checkEmailAlert" class="alert alert-warning" role="alert" style="display: none" >
+			{{ 'label_business_check_email'|trans }}
 		</div>
-		<div class="form-group col-md-2">
-			<div class="form-group ">
-				<label for="name">{{ 'label_country'|trans }}</label>
-				<div id="" class="flagstrap" data-input-name="phone_code" data-selected-country="US"></div>
-			</div>
-		</div>
-		<div class="form-group col-md-2">
-			<div class="form-group ">
-				{{ form_label(form.phoneNumber) }}
-				{{ form_errors(form.phoneNumber) }}
-				{{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
-				) }}
-
-			</div>
-		</div>
-		<div class="form-group col-md-4">
-			<div class="form-group ">
-				{{ form_label(form.email) }}
-				{{ form_errors(form.email) }}
-				{{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
-				) }}
-
-			</div>
+		<div id="checkPhoneAlert" class="alert alert-warning" role="alert" style="display: none" >
+			{{ 'label_business_check_phone'|trans }}
 		</div>
 
-
-	</div>
-	<div class="row">
-		<div class="form-group col-md-4">
-			<div class="form-group ">
-				{{ form_label(form.address) }}
-				{{ form_errors(form.address) }}
-				{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
-				) }}
-			</div>
-		</div>
-
-		<div class="col-md-2">
-			<div class="form-group">
-				<label for="name">{{ 'label_country'|trans }}</label>
-				{% if edit is defined %}
-					<div id="" class="flagstrap" data-input-name="business_country" data-selected-country="{{ entity.geoState.geoCountry.shortName }}"></div>
-				{% else %}
-					<div id="" class="flagstrap" data-input-name="business_country" data-selected-country="US"></div>
-				{% endif %}
-			</div>
-		</div>
-		<div class="col-md-2">
-			<div class="form-group ">
-
-				{{ form_label(form.geoState) }}
-				{{ form_errors(form.geoState) }}
-				<div id="divGeoState">
-					{{ form_widget(form.geoState, { 'attr': {'class' : 'form-control classic' } }) }}
-				</div>
-
-			</div>
-		</div>
-		<div class="col-md-4">
-			{{ form_label(form.zipCode) }}
-			{{ form_errors(form.zipCode) }}
-			{{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
-			) }}
-		</div>
-
-
-
-	</div>
-	<div class="clearfix"></div>
-
-
-	<h2 class="header-title-step">{{ 'label_billing_information'|trans }}</h2>
-	<div class="clearfix"></div>
-
-	<div class="checkbox">
-		<label>
-			<input type="checkbox"  class="" id="copyBillingInfo" onclick=""><a target="" href="#">{{ 'label_billing_copy'|trans }}</a>
-		</label>
-	</div>
-
-
-
-	<div class="clearfix"></div>
-
-	<div class="row">
-		<div id="billing_info">
-
-			<div class="form-group col-md-4">
+		<div class="row">
+			<div class="col-md-4">
 				<div class="form-group ">
-					{{ form_label(form.billingAddress) }}
-					{{ form_errors(form.billingAddress) }}
-					{{ form_widget(form.billingAddress, { 'attr': {'class' : 'form-control' } }
+					<b>{{ 'label_business'|trans }}</b> {{ form_label(form.name) }}
+					{{ form_errors(form.name) }}
+					{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
 					) }}
 				</div>
 			</div>
-			<div class="col-md-2">
-
-				<div class="form-group">
-					<label for="name">{{ 'label_country'|trans }}</label>
-					<div id="divBillingCountry">
-
-						{% if edit is defined %}
-							<div id="myFlagstrap"  class="flagstrap" data-input-name="business_billing_country" data-selected-country="{{ entity.billingGeoState.geoCountry.shortName }}"></div>
-
-						{% else %}
-							<div id="myFlagstrap"  class="flagstrap" data-input-name="business_billing_country" data-selected-country="US"></div>
-						{% endif %}
-
-					</div>
-				</div>
-
-			</div>
-
 			<div class="form-group col-md-2">
 				<div class="form-group ">
-					{{ form_label(form.billingGeoState) }}
-					{{ form_errors(form.billingGeoState) }}
-					<div id="divBillingGeoState">
-						{{ form_widget(form.billingGeoState, { 'attr': {'class' : 'form-control' } }) }}
-					</div>
+					<label for="name">{{ 'label_country'|trans }}</label>
+					<div id="" class="flagstrap" data-input-name="phone_code" data-selected-country="US"></div>
 				</div>
+			</div>
+			<div class="form-group col-md-2">
+				<div class="form-group ">
+					{{ form_label(form.phoneNumber) }}
+					{{ form_errors(form.phoneNumber) }}
+					{{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
+					) }}
 
+				</div>
 			</div>
 			<div class="form-group col-md-4">
 				<div class="form-group ">
-				{{ form_label(form.billingZipCode) }}
-				{{ form_errors(form.billingZipCode) }}
-				{{ form_widget(form.billingZipCode, { 'attr': {'class' : 'form-control' } }
-				) }}
+					{{ form_label(form.email) }}
+					{{ form_errors(form.email) }}
+					{{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
+					) }}
+
 				</div>
 			</div>
 
 
-
 		</div>
-	</div>
-
-
-	<div class="clearfix"></div>
-
-	<div class="row">
-
-		<div class="form-group col-md-6">
-			{{ form_label(form.taxName) }}
-			{{ form_errors(form.taxName) }}
-			{{ form_widget(form.taxName, { 'attr': {'class' : 'form-control' } }
-			) }}
-		</div>
-		<div class="form-group col-md-6">
-			{{ form_label(form.taxIdentifier) }}
-			{{ form_errors(form.taxIdentifier) }}
-			{{ form_widget(form.taxIdentifier, { 'attr': {'class' : 'form-control' } }
-			) }}
-		</div>
-	</div>
-
-
-	<div class="hide">
-		{{ form_rest(form) }}
-	</div>
-
-	<div class="row">
-
-		{% if edit is defined %}
-			<div class="form-actions">
-				<button class="btn btn-primary" type="submit">
-					<i class="fa fa-save"></i>
-					{{ 'label_save'|trans  }}
-				</button>
-			</div>
-		{% else %}
+		<div class="row">
 			<div class="form-group col-md-4">
-				<button type="submit" class="btn btn-primary">{{ 'label_register_create_company_2'|trans }}</button>
+				<div class="form-group ">
+					{{ form_label(form.address) }}
+					{{ form_errors(form.address) }}
+					{{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+					) }}
+				</div>
 			</div>
 
-		{% endif %}
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="name">{{ 'label_country'|trans }}</label>
+					{% if edit is defined %}
+						<div id="" class="flagstrap" data-input-name="business_country" data-selected-country="{{ entity.geoState.geoCountry.shortName }}"></div>
+					{% else %}
+						<div id="" class="flagstrap" data-input-name="business_country" data-selected-country="US"></div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group ">
+
+					{{ form_label(form.geoState) }}
+					{{ form_errors(form.geoState) }}
+					<div id="divGeoState">
+						{{ form_widget(form.geoState, { 'attr': {'class' : 'form-control classic' } }) }}
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-4">
+				{{ form_label(form.zipCode) }}
+				{{ form_errors(form.zipCode) }}
+				{{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
+				) }}
+			</div>
+
+
+
+		</div>
+		<div class="clearfix"></div>
+
+
+		<h2 class="header-title-step">{{ 'label_billing_information'|trans }}</h2>
+		<div class="clearfix"></div>
+
+		<div class="checkbox">
+			<label>
+				<input type="checkbox"  class="" id="copyBillingInfo" onclick=""><a target="" href="#">{{ 'label_billing_copy'|trans }}</a>
+			</label>
+		</div>
+
+
+
+		<div class="clearfix"></div>
+
+		<div class="row">
+			<div id="billing_info">
+
+				<div class="form-group col-md-4">
+					<div class="form-group ">
+						{{ form_label(form.billingAddress) }}
+						{{ form_errors(form.billingAddress) }}
+						{{ form_widget(form.billingAddress, { 'attr': {'class' : 'form-control' } }
+						) }}
+					</div>
+				</div>
+				<div class="col-md-2">
+
+					<div class="form-group">
+						<label for="name">{{ 'label_country'|trans }}</label>
+						<div id="divBillingCountry">
+
+							{% if edit is defined %}
+								<div id="myFlagstrap"  class="flagstrap" data-input-name="business_billing_country" data-selected-country="{{ entity.billingGeoState.geoCountry.shortName }}"></div>
+
+							{% else %}
+								<div id="myFlagstrap"  class="flagstrap" data-input-name="business_billing_country" data-selected-country="US"></div>
+							{% endif %}
+
+						</div>
+					</div>
+
+				</div>
+
+				<div class="form-group col-md-2">
+					<div class="form-group ">
+						{{ form_label(form.billingGeoState) }}
+						{{ form_errors(form.billingGeoState) }}
+						<div id="divBillingGeoState">
+							{{ form_widget(form.billingGeoState, { 'attr': {'class' : 'form-control' } }) }}
+						</div>
+					</div>
+
+				</div>
+				<div class="form-group col-md-4">
+					<div class="form-group ">
+					{{ form_label(form.billingZipCode) }}
+					{{ form_errors(form.billingZipCode) }}
+					{{ form_widget(form.billingZipCode, { 'attr': {'class' : 'form-control' } }
+					) }}
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+
+
+		<div class="clearfix"></div>
+
+		<div class="row">
+
+			<div class="form-group col-md-6">
+				{{ form_label(form.taxName) }}
+				{{ form_errors(form.taxName) }}
+				{{ form_widget(form.taxName, { 'attr': {'class' : 'form-control' } }
+				) }}
+			</div>
+			<div class="form-group col-md-6">
+				{{ form_label(form.taxIdentifier) }}
+				{{ form_errors(form.taxIdentifier) }}
+				{{ form_widget(form.taxIdentifier, { 'attr': {'class' : 'form-control' } }
+				) }}
+			</div>
+		</div>
+
+
+		<div class="hide">
+			{{ form_rest(form) }}
+		</div>
+
+		<div class="row">
+
+			{% if edit is defined %}
+				<div class="form-actions">
+					<button class="btn btn-primary" type="submit">
+						<i class="fa fa-save"></i>
+						{{ 'label_save'|trans  }}
+					</button>
+				</div>
+			{% else %}
+				<div class="form-group col-md-4">
+					<button type="submit" class="btn btn-primary">{{ 'label_register_create_company_2'|trans }}</button>
+				</div>
+
+			{% endif %}
+		</div>
+
+		<!--</form>-->
+		{{ form_end(form) }}
+
 	</div>
-
-	<!--</form>-->
-	{{ form_end(form) }}
-
-</div>
-
-
-
 
 
 </div>

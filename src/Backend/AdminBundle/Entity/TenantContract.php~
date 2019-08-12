@@ -404,4 +404,33 @@ class TenantContract
     {
         return $this->ownerEmail;
     }
+    /**
+     * @var string
+     */
+    private $propertyCode;
+
+
+    /**
+     * Set propertyCode.
+     *
+     * @param string $propertyCode
+     *
+     * @return TenantContract
+     */
+    public function setPropertyCode($propertyCode)
+    {
+        $this->propertyCode = $propertyCode;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyCode.
+     *
+     * @return string
+     */
+    public function getPropertyCode()
+    {
+        return $this->propertyCode;
+    }
 }

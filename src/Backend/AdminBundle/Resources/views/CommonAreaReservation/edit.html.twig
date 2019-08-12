@@ -1,0 +1,318 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+{{ parent() }}
+    <li> <a href="{{ path('backend_admin_common_area_reservation_index') }}">{{ 'label_menu.common_area_reservation'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_common_area_reservation_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+
+
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h3 class="header-title">Reservation 12456789:</h3>
+                    <h4><span style="font-size:14px;">in Weston Condo</span> </h4>
+                </div>
+                <div class="col-md-3 text-right">
+
+                    <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">Approve this Booking</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Reject</button>
+                </div>
+            </div>
+
+            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="main-content no-bordertop">
+        <div class="container">
+            <div class="form-inputs-g">
+
+
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="col-md-3">
+                            <p class="txt-blue-bold">Sector: </p>
+                        </div>
+                        <div class="col-md-9">
+                            <span>1</span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="col-md-7">
+                            <p class="txt-blue-bold">Property Number: </p>
+                        </div>
+                        <div class="col-md-5">
+                            <span>105</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <div class="col-md-5">
+                            <p class="txt-blue-bold">Common Area: </p>
+                        </div>
+                        <div class="col-md-7">
+                            <span>$ 540.00</span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="col-md-5">
+                            <p class="txt-blue-bold text-left">Status: </p>
+                        </div>
+                        <div class="col-md-7">
+                            <span>New</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+
+                <div class="row">
+                    <div class="col-md-12 bg-corner">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="txt-blue-bold">User: </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Andres Garcia</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="txt-blue-bold">Date: </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>12/10/19 9:00 am - 11:00am</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>12/10/19 9:00 am - 11:00am</p>
+                                    </div>
+                                </div>
+                                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="txt-blue-bold">Updated by:</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Jhon Tenant</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="txt-blue-bold">Updated at:</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>12/10/19 9:00 am - 12:00am</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="txt-blue-bold">Reservation Cost: </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>$10.00</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="txt-blue-bold">Discount: </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="$10.00">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="txt-blue-bold">Amount Paid </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="$10.00">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">Update Payment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <br>
+
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-notifications">Notifications</a></li>
+                        <li><a href="#tabs-log">Log</a></li>
+                    </ul>
+
+                    <div id="tabs-notifications">
+                        <div class="text-messages">
+
+                            <div class="row color2">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 text-left">
+                                        <p class="txt-blue-bold">Juan Ramon Ramírez</p>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <p class="txt-blue-time">12/10/19 14:32:25</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row color1">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 text-left">
+                                        <p class="txt-blue-bold">Juan Ramon Ramírez</p>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <p class="txt-blue-time">12/10/19 14:32:25</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row color2">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 text-left">
+                                        <p class="txt-blue-bold">Juan Ramon Ramírez</p>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <p class="txt-blue-time">12/10/19 14:32:25</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+
+                            <div class="row color1">
+
+                                <div class="col-md-12">
+                                    <p class="txt-blue-bold">Send Reply</p>
+                                    <div class="form-group">
+
+                                        <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
+                                    </div>
+
+
+                                    <!-- Button  -->
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-primary">Send Reply</button>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end -->
+                        </div>
+
+                    </div>
+                    <div id="tabs-log">
+                        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                        <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <!-- END: CONTENT -->
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $(function () {
+                $("#tabs").tabs();
+            });
+
+        });
+
+    </script>
+
+
+
+{% endblock %}
+
+{% block extrascripts %}
+    
+    
+
+{% endblock %}

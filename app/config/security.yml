@@ -73,7 +73,6 @@ security:
                 user_provider: fos_userbundle
 
 
-
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

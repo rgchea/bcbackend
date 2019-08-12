@@ -18,6 +18,10 @@ Backend\AdminBundle\Entity\CommonAreaReservation:
         updated_by:
             columns:
                 - updated_by
+        property_id:
+            columns:
+                - property_id
+
     id:
         id:
             type: integer
@@ -28,6 +32,11 @@ Backend\AdminBundle\Entity\CommonAreaReservation:
             generator:
                 strategy: IDENTITY
     fields:
+        approved:
+            type: datetime
+            nullable: true
+            column: approved
+
         reservationDateFrom:
             type: datetime
             nullable: false
@@ -60,6 +69,18 @@ Backend\AdminBundle\Entity\CommonAreaReservation:
                 common_area_id:
                     referencedColumnName: id
             orphanRemoval: false
+        property:
+            targetEntity: Property
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+
         commonAreaReservationStatus:
             targetEntity: CommonAreaReservationStatus
             cascade: {  }

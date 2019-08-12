@@ -4,7 +4,7 @@ backend_admin_ticket_index:
     _controller: BackendAdminBundle:Ticket:index
 
 ticket_list_datatables:
-  path: /ticketType/list/datatables
+  path: /ticket/list/datatables
   defaults:
     _controller: BackendAdminBundle:Ticket:listDatatables
 

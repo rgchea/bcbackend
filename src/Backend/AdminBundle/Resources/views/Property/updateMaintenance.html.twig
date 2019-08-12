@@ -1,0 +1,193 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_property_index') }}">{{ 'label_menu.property'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_property_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <section class="content">
+
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3 class="header-title">Property Details:</h3>
+                    </div>
+                    <div class="col-md-7 text-left">
+                        <h4>Apartment 101 <span style="font-size:14px;">Floor 1, Weston</span> </h4>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+
+                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="main-content no-bordertop">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div class="wrapp-update-m-c">
+                            <h2 class="text-center title-update-m-c">Update Maintenance Cost</h2>
+                            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                            <blockquote>
+                                <div class="col-md-12">
+                                    <p> Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                                </div>
+
+                            </blockquote>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">Who Pays Maintenance: </p>
+                                    </div>
+                                    <div class="col-md-4 text-left ">
+                                        <label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
+                                        <label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">Maintenance Cost:</p>
+                                    </div>
+                                    <div class="col-md-64 text-left ">
+                                        $500.00
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">New Maintenance: </p>
+                                    </div>
+                                    <div class="col-md-4 text-left">
+                                        <label class="radio-inline"><input type="text" class="form-control" placeholder="$400.00" name="optradio"></label>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">Months pending of contract: </p>
+                                    </div>
+                                    <div class="col-md-4 text-left ">
+                                        8.5
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="border: 2px solid" />
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <p class="txt-blue-bold">New Total: </p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <p class="txt-blue-bold">$ 3,400.00</p>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button style="width:80%;" type="submit" class="btn btn-primary">Update Pending Fees</button>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">Cancel</button>
+
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script type="text/javascript">
+        $( function() {
+            $( "#tabs" ).tabs();
+        } );
+    </script>
+{% endblock %}
+
+{% block extrascripts %}
+
+
+
+{% endblock %}

@@ -392,7 +392,10 @@ class Services extends Controller
                 $complexes = $em->getRepository('BackendAdminBundle:Complex')->findByEnabled(1);
                 $arrReturn = array();
                 foreach ($complexes as $row) {
-                    $arrReturn[$row->getBusiness()->getName()."-".$row->getName()] = $row->getId();
+                    if($row->getBusiness()){
+                        $arrReturn[$row->getBusiness()->getName()."-".$row->getName()] = $row->getId();
+                    }
+
                 }
 
                 $session->set("myComplexes", $complexes);

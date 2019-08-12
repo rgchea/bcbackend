@@ -1,0 +1,191 @@
+
+
+    <div class="container">
+
+        <div class="header">
+            <div class="row">
+
+                <div class="col-md-8">&nbsp;</div>
+
+                <div class="col-md-2 text-right">
+                    <a  href="#" class="btn btn-primary-blue" style="width:100%" >Save</a>
+                </div>
+                <div class="col-md-2">
+                    <a href="{{ path('backend_admin_property_new') }}"  class="btn btn-primary" style="width:100%">Cancel</a>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="header-title">Register New Reservation</h3>
+                </div>
+
+                {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="main-content no-bordertop">
+
+
+                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+
+
+                <div class="form-inputs-g">
+
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <p class="txt-blue-bold">Sector: </p>
+                            </div>
+                            <div class="col-md-9">
+                                <select  class="form-control classic" id="exampleFormControlSelect1">
+                                    <option>All</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="col-md-5">
+                                <p class="txt-blue-bold">Property Number: </p>
+                            </div>
+                            <div class="col-md-7">
+                                <select  class="form-control classic" id="exampleFormControlSelect1">
+                                    <option>All</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="col-md-4">
+                                <p class="txt-blue-bold">Common Area: </p>
+                            </div>
+                            <div class="col-md-8">
+                                <select  class="form-control classic" id="exampleFormControlSelect1">
+                                    <option>Electricity</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- adress -->
+                    <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-5 text-right">
+                                    <p class="txt-blue-bold">Date: </p>
+                                </div>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" placeholder="12/12/19">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-5 text-right">
+                                    <p class="txt-blue-bold">Time: </p>
+                                </div>
+                                <div class="col-md-7">
+                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
+                                    <br/>
+                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
+                                    <br/>
+                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
+                                    <br/>
+                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <p class="txt-blue-bold text-left">Reservation Cost: </p>
+                                </div>
+                                <div class="col-md-7 text-right">
+                                    <input type="text" class="form-control" placeholder="$ 10.00">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <p class="txt-blue-bold text-leftt">Discount: </p>
+                                </div>
+                                <div class="col-md-7 text-right">
+                                    <input type="text" class="form-control" placeholder="$ 10.00">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <p class="txt-blue-bold text-left">Amount Paid: </p>
+                                </div>
+                                <div class="col-md-7 text-right">
+                                    <input type="text" class="form-control" placeholder="$ 10.00">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+
+
+                    <div class="row color1">
+
+                        <div class="col-md-12">
+                            <p class="txt-blue-bold">Send Notification</p>
+                            <div class="form-group">
+
+                                <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
+                            </div>
+
+
+                            <!-- Button  -->
+                            <div class="row">
+                                <div class="col-md-10">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary">Send Reply</button>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+        </div>
+    <!-- END: CONTENT -->
+    </div>
