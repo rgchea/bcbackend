@@ -1,3 +1,7 @@
+label_requested: Requested
+label_approved: Approved
+label_event_date: Event Date
+label_booking: Booking
 label_already_exists: already exists
 label_agreement_start_date: Agreement Start Date
 label_agreement_end_date: Agreement Finish Date
@@ -103,6 +107,7 @@ label_es: ES
 label_en: EN
 label_other: Other
 label_complex: Complex
+label_your_complexes: Your Complexes
 label_complex_assigned: 'Assigned complex'
 label_business: Business
 label_business_check_email: 'Email already has been associated with other account'
@@ -119,6 +124,7 @@ label_geo_state: City
 label_poll_question_type: 'Poll Question Type'
 label_property_type: 'Property Type'
 label_property: Property
+label_property_agreement: Property Agreement
 label_property_number: 'Property number'
 label_common_area_type: 'Common Area Type'
 label_complex_faq: 'Complex FAQ'

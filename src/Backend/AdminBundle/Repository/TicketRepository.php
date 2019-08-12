@@ -121,7 +121,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
 
 
-    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex)
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $filterProperty = null)
     {
         //print "entra";die;
         // Create Main Query
@@ -142,6 +142,11 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $query->join('e.complex', 'c');
         $countQuery->join('e.complex', 'c');
 
+        //property
+        $query->join('e.property', 'p');
+        $countQuery->join('e.property', 'p');
+
+
         //ticket category
         $query->join('e.ticketCategory', 'tc');
         $countQuery->join('e.ticketCategory', 'tc');
@@ -151,9 +156,16 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $countQuery->join('e.ticketStatus', 'ts');
 
 
+
         if ($filterComplex != null) {
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
             $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
+        }
+
+        if($filterProperty != null){
+            $query->andWhere('p.id = :propertyID')->setParameter('propertyID', $filterProperty);
+            $countQuery->andWhere('p.id = :propertyID')->setParameter('propertyID', $filterProperty);
+
         }
 
 

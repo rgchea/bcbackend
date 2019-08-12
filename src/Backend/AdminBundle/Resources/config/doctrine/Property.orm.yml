@@ -97,7 +97,14 @@ Backend\AdminBundle\Entity\Property:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
+        ownerEmail:
+            type: string
+            nullable: true
+            length: 32
+            options:
+                fixed: false
+            column: owner_email
     manyToOne:
         complex:
             targetEntity: Complex

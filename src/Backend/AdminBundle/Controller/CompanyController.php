@@ -45,6 +45,24 @@ class CompanyController extends Controller
         //var_dump($baseurl);die;
 
 
+        $timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+
+        $myCreationTime = gmdate("Y-m-d H:i:s", time() + 3600*($timezone+date("I")));
+        $myTime = gmdate("H:i", time() + 3600*($timezone+date("I")));
+        $weekDay = date('w', strtotime($myCreationTime));
+        $arrWeekDays = array(0 => 6, 1 => 0, 2 => 1, 3 => 2, 4 => 3, 5 => 4, 6 => 5);
+        $weekDaySingle = $arrWeekDays[$weekDay];
+
+        print "<pre>";
+        //var_dump($myCreationTime);
+
+        $myShift = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, 4);
+
+        var_dump($myShift);die;
+
+        die;
+
+
         ////testing tickets
         //$this->em->getRepository('BackendAdminBundle:TicketCategory')->loadTicketCategories(12);
         //die;

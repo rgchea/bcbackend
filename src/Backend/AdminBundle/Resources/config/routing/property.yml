@@ -66,3 +66,30 @@ backend_admin_property_delete_ad:
 backend_admin_property_new_agreement:
     path:     /newAgreement/
     defaults: { _controller: "BackendAdminBundle:Property:newAgreement" }
+
+backend_admin_property_detail:
+    path:     /{id}/detail
+    defaults: { _controller: "BackendAdminBundle:Property:detail" }
+
+
+backend_admin_property_update_maintenance:
+    path:     /{id}/updateMaintenance
+    defaults: { _controller: "BackendAdminBundle:Property:updateMaintenance" }
+
+backend_admin_property_contract_extend:
+    path:     /{id}/contractextend
+    defaults: { _controller: "BackendAdminBundle:Property:contractExtend" }
+
+backend_admin_property_contract_cancel:
+    path:     /{id}/contractcancel
+    defaults: { _controller: "BackendAdminBundle:Property:contractCancel" }
+
+property_ticket_list_datatables:
+    path: /{property}/propertyticket/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Property:listTickets
+
+property_booking_list_datatables:
+    path: /{property}/propertybooking/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Property:listBookings

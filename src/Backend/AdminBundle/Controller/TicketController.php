@@ -81,9 +81,6 @@ class TicketController extends Controller
             $orders = $request->request->get('order');
             $columns = $request->request->get('columns');
 
-
-
-
         }
         else // If the request is not a POST one, die hard
             die;
@@ -224,8 +221,8 @@ class TicketController extends Controller
         return $this->render('BackendAdminBundle:Ticket:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
-
-
+            'myPath' => 'backend_admin_ticket_new',
+            'new' => true
 
         ));
     }

@@ -1,3 +1,7 @@
+label_requested: Solicitado
+label_approved: Aprobado
+label_event_date: Fecha de Evento
+label_booking: Reserva
 label_already_exists: ya existente
 label_agreement_start_date: Fecha inicio del contrato
 label_agreement_end_date: Fecha finalización de contrato
@@ -100,6 +104,7 @@ label_es: ES
 label_en: EN
 label_other: Otro
 label_complex: Complejo
+label_your_complexes: Tus Complejos
 label_complex_assigned: 'Complejos asignados'
 label_business: Empresa
 label_business_check_email: 'El correo ingresado ya tiene una cuenta asociada anteriormente'
@@ -114,6 +119,7 @@ label_notification_type: 'Tipo de Notificacion'
 label_poll_question_type: 'Tipo de Pregunta de Encuesta'
 label_property_type: 'Tipo de propiedad'
 label_property: Propiedad
+label_property_agreement: Acuerdo de Propiedad
 label_property_number: 'Número de propiedad'
 label_common_area_type: 'Tipo de Area Común'
 label_geo_country: Pais

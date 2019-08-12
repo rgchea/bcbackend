@@ -1,0 +1,246 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_property_index') }}">{{ 'label_menu.property'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_property_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <section class="content">
+
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h3 class="header-title">Property Details:</h3>
+                    </div>
+                    <div class="col-md-7 text-left">
+                        <h4>Apartment 101 <span style="font-size:14px;">Floor 1, Weston</span> </h4>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+
+                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+
+                <div class="col-md-8">
+
+                    <div class="wrapp-update-m-c">
+                        <h2 class="text-center title-update-m-c">Extend Contract on Apartment 101</h2>
+                        <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                        <blockquote>
+                            <div class="col-md-12">
+                                <p> Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                            </div>
+
+                        </blockquote>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">Who Pays Maintenance: </p>
+                                </div>
+                                <div class="col-md-4 text-left ">
+                                    <label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
+                                    <label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row color2">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">Actual Tenant </p>
+                                </div>
+                                <div class="col-md-4 text-left ">
+                                    Andres Garcia Bernat
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row color1">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">Tenant Email:</p>
+                                </div>
+                                <div class="col-md-64 text-left ">
+                                    andres@gameboard.tech
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row color2">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">Start Date: </p>
+                                </div>
+                                <div class="col-md-4 text-left">
+                                    12/04/18
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row color1">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">Contract expiration: </p>
+                                </div>
+                                <div class="col-md-4 text-left ">
+                                    12/04/18
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row color2">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">End Date: </p>
+                                </div>
+                                <div class="col-md-4 text-left ">
+                                    <label class="radio-inline"><input type="text" placeholder="01/05/19" name="optradio"></label>
+
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row color1">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">Maintenance Fee: </p>
+                                </div>
+                                <div class="col-md-4 text-left ">
+                                    <label class="radio-inline"><input class="form-control" type="text" placeholder="$400.00" name="optradio"></label>
+
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <div class="custom-control custom-checkbox">
+                                        <br/>
+                                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                        <label class="custom-control-label" for="defaultUnchecked">Notify the Owner</label>
+                                        <br/>
+                                        <br/>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-4">
+                                    <button style="width:80%;" type="submit" class="btn btn-primary">Extend Contract</button>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">Cancel</button>
+
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                </div>
+
+            </div>
+        </div>
+        <!-- END: CONTENT -->
+
+    </section>
+
+    <script type="text/javascript">
+        $( function() {
+            $( "#tabs" ).tabs();
+        } );
+    </script>
+{% endblock %}
+
+{% block extrascripts %}
+
+
+
+{% endblock %}

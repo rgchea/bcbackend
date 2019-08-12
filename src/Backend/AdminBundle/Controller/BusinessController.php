@@ -473,6 +473,7 @@ class BusinessController extends Controller
 
 
                 //iBilling
+                /*
                 $bodyHtml = $this->translator->trans('label_register_bc_info')."&nbsp;<a href='www.bettercondos.info/?ng=client'>Better Condos iBilling</a>" ."<br/>";
                 $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
                 $bodyHtml .= "<b>Password:&nbsp;</b>".$billingPassword."<br/><br/>";
@@ -484,7 +485,31 @@ class BusinessController extends Controller
 
                 $to = $entity->getEmail();
                 //($subject, $to, $bodyHtml, $from = null){
-                $message = $this->get('services')->generalTemplateMail("BetterCondos iBilling", $to, $bodyHtml);
+                //$message = $this->get('services')->generalTemplateMail("BetterCondos iBilling", $to, $bodyHtml);
+                */
+
+                //new message from sendgrid
+
+                $to = $entity->getEmail();
+                if($this->translator->getLocale() == "en"){
+                    $templateID = "d-1ff29228de0441c195dab8549491a948";
+                }
+                else{
+                    $templateID = "d-1605156206fc49038df495802135b426";
+                }
+
+                //client_login_url = https://www.bettercondos.info/?ng=client”
+                //client_email
+                //password
+                //business_name
+
+                $myJson = '"business_name": "'.$entity->getName().'",';
+                $myJson .= '"client_login_url": "https://www.bettercondos.info/?ng=client”",';
+                $myJson .= '"client_email": "'.$to.'",';
+                $myJson .= '"password": "'.$billingPassword.'"';
+
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
+
 
                 $this->get('services')->flashSuccess($request);
                 return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 1)));

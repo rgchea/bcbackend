@@ -526,4 +526,33 @@ class Property
     {
         return $this->mainTenant;
     }
+    /**
+     * @var string|null
+     */
+    private $ownerEmail;
+
+
+    /**
+     * Set ownerEmail.
+     *
+     * @param string|null $ownerEmail
+     *
+     * @return Property
+     */
+    public function setOwnerEmail($ownerEmail = null)
+    {
+        $this->ownerEmail = $ownerEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get ownerEmail.
+     *
+     * @return string|null
+     */
+    public function getOwnerEmail()
+    {
+        return $this->ownerEmail;
+    }
 }

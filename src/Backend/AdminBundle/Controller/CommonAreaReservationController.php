@@ -54,7 +54,7 @@ class CommonAreaReservationController extends Controller
 
         //print $this->translator->getLocale();die;
 
-        return $this->render('BackendAdminBundle:CommonAreaReservation:index.html.twig');
+        return $this->render('BackendAdminBundle:CommonAreaReservation:index.html.twig', array('myPath' => 'backend_admin_common_area_reservation_index'));
 
     }
 
@@ -90,10 +90,13 @@ class CommonAreaReservationController extends Controller
         ///FILTER BY ROLE
         $filters = null;
         if($this->role != "SUPER ADMIN"){
+            /*
             $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
             foreach ($arrComplex as $k =>$v) {
                 $filters[$v] = $v;//the complex id
             }
+            */
+            $filterComplex = $this->get("services")->getSessionComplex();
         }
 
 
@@ -106,10 +109,9 @@ class CommonAreaReservationController extends Controller
         }
 
 
-
         // Process Parameters
         $businessLocale = $this->translator->getLocale();
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filters, $dateConditions, $businessLocale);
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $dateConditions, $businessLocale);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -127,6 +129,7 @@ class CommonAreaReservationController extends Controller
                 // In all cases where something does not exist or went wrong, return -
                 $responseTemp = "-";
 
+
                 switch($column['name'])
                 {
                     case 'id':
@@ -138,13 +141,13 @@ class CommonAreaReservationController extends Controller
 
                     case 'user':
                         {
-                            $responseTemp = $entity->getReservedBy()->getName();
+                            $responseTemp = $entity->getReservedBy()->getEmail();
                             break;
                         }
 
-                    case 'complex':
+                    case 'property':
                         {
-                            $responseTemp = $entity->getCommonArea()->getComplex()->getName();
+                            $responseTemp = $entity->getProperty()->getName();
                             break;
                         }
                     case 'commonArea':
@@ -152,26 +155,62 @@ class CommonAreaReservationController extends Controller
                             $responseTemp = $entity->getCommonArea()->getName();
                             break;
                         }
-                    case 'dateFrom':
+                    case 'eventDate':
                         {
-                            $responseTemp = $entity->getReservationDateFrom()->format('Y-m-d  H:i:s');
-                            break;
-                        }
-                    case 'dateTo':
-                        {
-                            $responseTemp = $entity->getReservationDateTo()->format('Y-m-d  H:i:s');
+                            $responseTemp = $entity->getReservationDateFrom()->format('H:i m/d/Y')."<br>". $entity->getReservationDateTo()->format('H:i m/d/Y');
                             break;
                         }
 
+                    case 'requested':
+                        {
+
+                            if($entity->getCreatedAt() != NULL){
+                                $responseTemp = $entity->getCreatedAt()->format('m/d/Y H:i');
+                            }
+                            else{
+                                $responseTemp = "--";
+                            }
+
+                            break;
+                        }
+
+                    case 'approved':
+                        {
+
+                            if($entity->getApproved() != NULL){
+                                $responseTemp = $entity->getApproved()->format('m/d/Y H:i');
+                            }
+                            else{
+                                $responseTemp = "--";
+                            }
+
+                            break;
+                        }
 
                     case 'status':
                         {
-                            $responseTemp = $entity->getCommonAreaReservationStatus();
+                            $status = $entity->getCommonAreaReservationStatus();
+                            if($status == "Pending" || $status == "Pendiente"){
+                                $responseTemp = "<button type='button' class='btn btn-warning btn-xs'>".$status."</button>";
+                            }
+
+                            if($status == "Approved" || $status == "Aprobado"){
+                                $responseTemp = "<button type='button' class='btn btn-success btn-xs'>".$status."</button>";
+                            }
+
+                            if($status == "Rejected" || $status == "Rechazado"){
+                                $responseTemp = "<button type='button' class='btn btn-danger btn-xs'>".$status."</button>";
+                            }
+
+
                             break;
                         }
 
                     case 'actions':
                         {
+
+
+                            /*
 
                             if($entity->getCommonAreaReservationStatus()->getId() == 1){
                                 $urlEdit = $this->generateUrl('backend_admin_common_area_reservation_approve', array('id' => $entity->getId()));
@@ -187,6 +226,14 @@ class CommonAreaReservationController extends Controller
                             else{
                                 $responseTemp = "";
                             }
+                            */
+
+
+                            $urlEdit = $this->generateUrl('backend_admin_common_area_reservation_edit', array('id' => $entity->getId()));
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-wrench'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
+                            $responseTemp = $edit;
+
 
                             break;
                         }
@@ -238,13 +285,14 @@ class CommonAreaReservationController extends Controller
         $start = $entity->getReservationDateFrom()->format('Y-m-d H:i:s');
         $end = $entity->getReservationDateTo()->format('Y-m-d H:i:s');
 
-        $validateSchedule = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->validateSchedule($start, $end, $entity->getCommonArea()->getId(), $id);
+        //$validateSchedule = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->validateSchedule($start, $end, $entity->getCommonArea()->getId(), $id);
 
-        /*
         $entity->setCommonAreaReservationStatus($this->em->getRepository('BackendAdminBundle:CommonAreaReservationStatus')->find(2));
+        $gtmNow = gmdate("Y-m-d H:i:s");
+        $entity->setApproved(new \DateTime($gtmNow));
         $this->get("services")->blameOnMe($entity, "update");
         $this->em->flush();
-        */
+
 
         $this->get('services')->flashSuccess($request);
         return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index'));
@@ -390,6 +438,253 @@ class CommonAreaReservationController extends Controller
         return $this->redirect($this->generateUrl('backend_admin_homepage'));
 
     }
+
+
+
+    public function editAction(Request $request, $id)
+    {
+        $this->get("services")->setVars('commonAreaReservation');
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('BackendAdminBundle:CommonAreaReservation')->find($id);
+
+        $deleteForm = $this->createDeleteForm($entity);
+        $editForm = $this->createEditForm($entity);
+
+        $editForm->handleRequest($request);
+
+
+
+        return $this->render('BackendAdminBundle:CommonAreaReservation:edit.html.twig', array(
+            'entity' => $entity,
+            'form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+            'edit' => $entity->getId(),
+        ));
+    }
+
+
+
+    public function newAction(Request $request)
+    {
+
+        $this->get("services")->setVars('commonAreaReservation');
+        $this->initialise();
+
+        $entity = new CommonAreaReservation();
+        $form   = $this->createCreateForm($entity);
+
+        return $this->render('BackendAdminBundle:CommonAreaReservation:new.html.twig', array(
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'new' => true,
+            'myPath' => 'backend_admin_common_area_reservation_new'
+
+        ));
+    }
+
+
+    /**
+     * Deletes a Ticket entity.
+     *
+     */
+    public function deleteAction(Request $request, $id)
+    {
+
+        $this->get("services")->setVars('commonAreaReservation');
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('BackendAdminBundle:CommonAreaReservation')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Booking entity.');
+        }
+        else{
+
+            //SOFT DELETE
+            $entity->setEnabled(0);
+            $this->get("services")->blameOnMe($entity);
+            $em->persist($entity);
+            $em->flush();
+
+        }
+
+
+
+        $this->get('services')->flashSuccess($request);
+        return $this->redirectToRoute('backend_admin_common_area_reservation_index');
+    }
+
+    /**
+     * Creates a form to delete a Ticket entity.
+     *
+     * @param Ticket
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($entity)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('backend_admin_common_area_reservation_delete', array('id' => $entity->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
+    }
+
+
+
+
+    /**
+     * Creates a new Ticket entity.
+     *
+     */
+    public function createAction(Request $request)
+    {
+
+        //print "<pre>";
+        //var_dump($_REQUEST);DIE;
+
+        $this->get("services")->setVars('commonAreaReservation');
+        $this->initialise();
+
+
+        $entity = new CommonAreaReservation();
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
+        /*print "<pre>";
+        var_dump($form->getErrorsAsString());die;
+         * */
+
+        if ($form->isValid()) {
+
+
+
+            //BLAME ME
+            $this->get("services")->blameOnMe($entity, "create");
+
+            $this->em->persist($entity);
+            $this->em->flush();
+
+
+
+            $this->get('services')->flashSuccess($request);
+            return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index'));
+
+        }
+        /*
+        else{
+            print "FORMULARIO NO VALIDO";DIE;
+        }
+         * */
+
+        return $this->render('BackendAdminBundle:CommonAreaReservation:new.html.twig', array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ));
+    }
+
+    /**
+     * Creates a form to create a Ticket entity.
+     *
+     * @param Ticket $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm($entity)
+    {
+        $this->get("services")->setVars('commonAreaReservation');
+        $this->initialise();
+        $form = $this->createForm(CommonAreaReservationType::class, $entity, array(
+            'action' => $this->generateUrl('backend_admin_common_area_reservation_create'),
+            'method' => 'POST',
+
+        ));
+
+
+        return $form;
+    }
+
+
+
+
+    /**
+     * Creates a form to edit a Ticket entity.
+     *
+     * @param Ticket $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm($entity)
+    {
+        //print "entra";die;
+        $this->get("services")->setVars('commonAreaReservation');
+        $this->initialise();
+
+        //var_dump($this->em->getRepository('BackendAdminBundle:Complex'));die;
+        /*
+        $form = $this->createForm(CommonAreaReservationType::class, $entity, array(
+            'action' => $this->generateUrl('backend_admin_ticket_update',
+                array('id' => $entity->getId(),
+                    'role' => $this->role,
+                    'userID' => $this->userLogged->getId(),
+                    'repository' => $this->em->getRepository('BackendAdminBundle:Complex')
+                )),
+        ));
+        */
+
+        $form = $this->createForm(CommonAreaReservationType::class, $entity, array(
+            'action' => $this->generateUrl('backend_admin_common_area_reservation_update', array('id' => $entity->getId())),
+            //'role' => $this->role,
+        ));
+
+
+
+        return $form;
+    }
+
+
+    /**
+     * Edits an existing Ticket entity.
+     *
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $this->get("services")->setVars('commonAreaReservation');
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('BackendAdminBundle:CommonAreaReservation')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Ticket entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($entity);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+
+
+            //BLAME ME
+            $this->get("services")->blameOnMe($entity, "create");
+            $this->em->persist($entity);
+            $this->em->flush();
+
+            $this->get('services')->flashSuccess($request);
+            return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index', array('id' => $id)));
+
+        }
+
+        //$countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
+
+        return $this->render('BackendAdminBundle:CommonAreaReservation:edit.html.twig', array(
+            'entity'      => $entity,
+            'form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+            //'countries' => $countries
+        ));
+    }
+
 
 
 }
