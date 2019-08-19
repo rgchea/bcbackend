@@ -1499,8 +1499,8 @@ class RestController extends FOSRestController
                     'id' => $ticket->getId(),
                     'type_id' => $type->getId(),
                     'type_name' => $type->getName(),
-                    'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
-                    //'status' => $status->getId(),
+                    //'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
+                    'status' => $status->getId(),
                     'category' =>
                         array("category_id" => $ticket->getTicketCategory()->getId(),
                                 "category_name" => $ticket->getTicketCategory()->getName(),
