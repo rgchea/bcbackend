@@ -94,6 +94,11 @@ property_booking_list_datatables:
     defaults:
         _controller: BackendAdminBundle:Property:listBookings
 
+propertycontracttransaction_list_datatables:
+    path: /{property}/propertypayment/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Property:listPayments
+
 backend_admin_property_invitations:
     path:     /invitations/
     defaults: { _controller: "BackendAdminBundle:Property:invitations" }

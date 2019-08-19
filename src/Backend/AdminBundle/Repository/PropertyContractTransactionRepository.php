@@ -12,9 +12,9 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
 {
 
 
+    //getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, null, $this->translator->getLocale());
 
-
-    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $filterProperty = null, $locale)
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $locale, $filterProperty = null )
     {
         //print "entra";die;
         // Create Main Query
@@ -44,7 +44,6 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
         //property
         $query->join('pc.property', 'p');
         $countQuery->join('pc.property', 'p');
-
 
 
         if ($filterComplex != null) {

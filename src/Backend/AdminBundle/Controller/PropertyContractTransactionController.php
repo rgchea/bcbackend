@@ -84,7 +84,7 @@ class PropertyContractTransactionController extends Controller
 
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, null, $this->translator->getLocale());
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $this->translator->getLocale());
 
         $objects = $results["results"];
         $selected_objects_count = count($objects);
