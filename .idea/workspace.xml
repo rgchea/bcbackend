@@ -60,7 +60,8 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
@@ -309,11 +310,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="219" column="100" lean-forward="true" selection-start-line="219" selection-start-column="100" selection-end-line="219" selection-end-column="100" />
+            <state relative-caret-position="276">
+              <caret line="222" column="41" lean-forward="true" selection-start-line="222" selection-start-column="41" selection-end-line="222" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="284">
+              <caret line="196" column="42" selection-start-line="196" selection-start-column="42" selection-end-line="196" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="3727" column="17" selection-start-line="3727" selection-start-column="17" selection-end-line="3727" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -349,7 +368,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>label_time</find>
       <find>date</find>
       <find>exa</find>
       <find>owner</find>
@@ -373,12 +391,13 @@
       <find>register</find>
       <find>v1</find>
       <find>terms</find>
-      <find>enviar noti</find>
       <find>send</find>
       <find>createaction</find>
       <find>callsend</find>
       <find>maile</find>
       <find>callSendgrid</find>
+      <find>properties</find>
+      <find>enviar noti</find>
     </findStrings>
     <replaceStrings>
       <replace>optionDelete</replace>
@@ -419,7 +438,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/index.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig" />
@@ -447,7 +465,6 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Property.orm.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserNotification.php" />
         <option value="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark_old.css" />
-        <option value="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/invitations.html.twig" />
@@ -470,6 +487,8 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" />
       </list>
     </option>
   </component>
@@ -670,7 +689,92 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="Complex" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Backend" type="462c0819:PsiDirectoryNode" />
+              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Services" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -788,12 +892,12 @@
       <workItem from="1565481099761" duration="6710000" />
       <workItem from="1565564006793" duration="39349000" />
       <workItem from="1565907732358" duration="7000000" />
-      <workItem from="1565970993055" duration="26574000" />
+      <workItem from="1565970993055" duration="27222000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1026780000" />
+    <option name="totallyTimeSpent" value="1027428000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -836,40 +940,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractTransactionRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-229">
-          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="158" column="93" selection-start-line="158" selection-start-column="82" selection-end-line="158" selection-end-column="93" />
-          <folding>
-            <element signature="e#50#95#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContractTransaction/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="200" column="34" selection-start-line="200" selection-start-column="34" selection-end-line="200" selection-end-column="34" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContractTransaction/edit.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="126" selection-start-line="126" selection-end-line="126" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TenantContract.orm.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
@@ -1147,13 +1217,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="3712" column="18" selection-start-line="3712" selection-start-column="18" selection-end-line="3712" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/translations/security.en.yml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1208,8 +1271,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="219" column="100" lean-forward="true" selection-start-line="219" selection-start-column="100" selection-end-line="219" selection-end-column="100" />
+        <state relative-caret-position="276">
+          <caret line="222" column="41" lean-forward="true" selection-start-line="222" selection-start-column="41" selection-end-line="222" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/new.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/edit.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/editForm.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="248" column="28" selection-start-line="248" selection-start-column="18" selection-end-line="248" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="196" column="42" selection-start-line="196" selection-start-column="42" selection-end-line="196" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="3727" column="17" selection-start-line="3727" selection-start-column="17" selection-end-line="3727" selection-end-column="17" />
         </state>
       </provider>
     </entry>
