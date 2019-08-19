@@ -1,3 +1,66 @@
+label_add_property_advice: 'Una vez que crea su complejo, crea automáticamente la cantidad de propiedades que tiene este complejo. Aquí puede agregar propiedades adicionales, las que simplemente no agregó con anterioridad. Agrega todos los detalles de la propiedad, el sector, el número de la propiedad, el tipo, la dirección exacta y todos los detalles relacionados con la creación del acuerdo de propiedad, el correo electrónico, el costo de mantenimiento y la fecha de inicio y finalización. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
+label_complex_properties_advice: 'Una vez que haga clic en un complejo de la lista de complejos, lo redireccionará a la lista de propiedades, esta lista es de todas las propiedades que cargó para un complejo específico. Puede filtrar el complejo y, dependiendo de la que seleccione, se le mostrarán todas las propiedades dentro de ese complejo.
+                                  En esta página también puede enviar invitaciones a los inquilinos para unirse a BetterCondos, agregar su correo electrónico y las fechas de cada contrato de propiedad. También puede agregar una propiedad en caso de que necesite agregar más y agregar un acuerdo de propiedad para cada una. El acuerdo de propiedad es lo que vincula la propiedad con el inquilino de la propiedad.'
+label_complex_add_property_contract_advice: 'Se crea un ID de acuerdo para cada relación entre un inquilino y una propiedad. Esto se debe a que una propiedad puede tener muchos inquilinos y un usuario puede tener muchas propiedades. Cuando un acuerdo entre un inquilino y la administración vence, puede agregar otro acuerdo a esta propiedad, una asociación con otro inquilino.
+                                             El acuerdo tiene una fecha de inicio y fin, normalmente un año, y se puede agregar si hay costos de mantenimiento asociados a esta propiedad. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
+label_complex_list_advice: 'Una vez que haga click en la opción complejo en la navegación principal, podrá ver una lista de todos los complejos que tiene, los que ha agregado al sistema.
+                            Puede agregar tantos como desee y administrar todas las propiedades de cada uno. Puede filtrar los complejos, desde el filtro en la parte superior de la lista, en todas las páginas en las que navega.'
+label_ticket_system_advice: 'Una vez que presiona en Tickets desde la navegación principal, se redirige a esta pantalla, aquí encontrará una lista de todos los tickets que tiene su complejo, con el título, el tipo: si son privados (solo el inquilino y el administrador pueden verlo) o público: (todos pueden ver el estado del ticket). Puede acceder a los detalles del ticket presionando el ícono editar junto a la información del ticket. También puede agregar nuevos tickets y asignarlos presionando el botón Agregar nuevo ticket en la parte superior de esta página.'
+label_ticket_new_advice: 'Es importante que sus residentes e inquilinos siempre carguen los ticktes desde el APP, pero también entendemos que hay un período de transición y que a veces suceden cosas, y usted, como administrador, debe tener acceso para crear nuevos tickets, por lo que creamos una función. para que pueda agregar uno desde el administrador y asignarlo a la propiedad que tenga una necesidad específica.'
+label_payment_control_advice: 'Una vez que presione la opción Pagos en la barra de navegación principal, accederá a esta pantalla. Aquí encontrará todos los pagos que ha agregado y a quién los ha asignado, con el tipo de pago.
+                               Puede registrar un nuevo pago presionando el botón registrar nuevo cargo.'
+label_payment_new_advice: 'Esta pantalla es para agregar o asignar un nuevo pago a un inquilino o residente específico, por un cargo específico. Por ejemplo, una tarifa por una multa.
+                           Puede seleccionar el número de propiedad, el sector y el tipo de pago. Este tipo de pago se puede agregar en la configuración de tipo de pago, puede agregar tantos como necesite, recuerde agregar la fecha de vencimiento. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
+label_update_maintenance_advice: 'Lo único a lo que esta pantalla le da acceso es a actualizar el costo de mantenimiento de un contrato de propiedad, quién lo paga y el monto. Las cantidades añadidas son cuotas mensuales.'
+label_extend_contract_advice: 'Si desea extender el acuerdo de contrato a una propiedad, agregue la extensión del contrato desde el detalle de la propiedad y aparecerá esta pantalla emergente, toda la información se transferirá, el inquilino y la fecha de inicio; solo necesita actualizar quién paga el mantenimiento, la nueva fecha fin y la tarifa de mantenimiento, si necesita cambiarlo. Pulse ampliar contrato y se ampliará el contrato. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
+label_cancel_contract_advice: 'Puede cancelar un contrato de propiedad o contrato cuando lo desee. Solo tiene que presionar cancelar contrato y aparecerá esta pantalla emergente con la información del acuerdo de propiedad actual, una vez que presione cancelar contrato, el contrato se cancelará, y puede agregar o asociar un nuevo acuerdo a la propiedad. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
+label_receive_new_payment_advice: 'Esta pantalla le da acceso para registrar un cargo que ya ha sido pagado, marcarlo como pagado, con un número de transacción, si no tiene el número de transacción, está bien dejarlo en blanco, simplemente presione el botón registrado como pagado y  el spago se aplicará a la carga específica seleccionada.'
+label_send_invitations_advice: 'Una vez que presione enviar invitaciones de la sección de la lista de propiedades, aterrizará aquí, qué hace esta página, le ayuda a enviar invitaciones a todos sus inquilinos, para que puedan comenzar a usar el APP y unirse al complejo. Primero descargue la plantilla, debe de completar la información dentro de la misma, la información que debe completar es, correo electrónico de los propietarios, el correo electrónico de los inquilinos y la fecha de inicio y fin del acuerdo de propiedad. Una vez que se haya completado, puede importar el archivo, esto importará la información y la cargará en la lista de propiedades que ve a continuación, la información que agregó se reflejará allí, si deja algo en blanco, no se mostrará. Una vez que presione actualizar, las invitaciones se enviarán a los correos electrónicos agregados. Una cosa importante para tener en cuenta es que pensamos que nuestro sistema toda la fecha se manejará mes / día / año.'
+label_notification_system_advice: 'En esta sección puede ver todas las notificaciones que ha enviado, con el título y el tipo, y la fecha en que fue enviada. También puede agregar una nueva notificación, una vez que presione el botón enviar notificación. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
+label_notification_system_new_advice: 'Es muy importante que usted, como administrador, pueda comunicarse con todos sus inquilinos y residentes, y desde aquí usted puede crear una nueva notificación, siempre que lo necesite. Puede agregar una categoría específica a la notificación, según su necesidad, anuncio, comunicación, evento, etc. Agregue el título, el contenido y la fecha y hora del evento o anuncio. También puede agregar un recordatorio, que se enviará cuando lo seleccione, 24h, 8h, antes del evento.'
+
+label_before_event: 'hrs antes del evento.'
+label_remind: 'Recordar'
+label_date: Fecha
+label_download_template: 'Descargar formato'
+label_import_properties: 'Importar propiedades'
+label_select_csv: 'Seleccionar archivo CSV'
+label_load: 'Cargar'
+label_sent: 'Enviado'
+lable_register_paid: Registrar como pagado
+label_transaction_number: Número de Transacción
+label_notify_owner: 'Notificar al propietario'
+label_extend: 'Extender'
+label_total: Total
+label_expires: Expira
+label_update: Actualizar
+label_emergency_call: Llamar en emergencia
+label_familiy_members: Miembros
+label_property_details: 'Detalle de propiedad'
+label_log: 'Log'
+label_notifications: 'Notificaciones'
+label_update_payment: 'Actualizar pago'
+label_updated_at: 'Modificado'
+label_updated_by: 'Modificado por'
+label_booking_approve: 'Aprobar reserva'
+label_booking_reject: 'Rechazar reserva'
+label_send_notification: 'Enviar notificación'
+label_amount_paid: 'Monto pagado'
+label_discount: 'Descuento'
+label_time: "Hora"
+label_amount: 'Cantidad'
+label_due_date: 'Fecha límite'
+label_issued: 'Emitido'
+label_paid: 'Pagado'
+label_payment_control: Control de Pagos
+label_payment: Pago
+label_charge: 'Cargo'
+label_messages: Mensajes
+label_close: Cerrar
+label_reply: Responder
+label_rate_your: Califica a tu
+label_in: En
+label_solution: Solución
 label_requested: Solicitado
 label_approved: Aprobado
 label_event_date: Fecha de Evento
@@ -232,6 +295,8 @@ label_menu:
     common_area_reservation: 'Reservaciones Area Común'
     poll: Encuestas
     property_contract: Contratos
+    payment: Pagos
+    user_notification: 'Notificaciones'
 resetting:
     title: 'Reiniciar Contraseña'
     message: 'Al presionar el siguiente link se direccionará a la página para ingresar su nueva contraseña'

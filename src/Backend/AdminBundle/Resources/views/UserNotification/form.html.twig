@@ -1,0 +1,197 @@
+<style>
+    .input-group {
+        z-index: 0;
+    }
+</style>
+
+
+
+<div class="header">
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-6">
+				<h3 class="header-title">{{ 'label_menu.user_notification'|trans }}</h3>
+			</div>
+
+			{{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<blockquote>
+					<div class="col-md-11">
+						<p> {{ 'label_notification_system_advice'|trans }}  </p>
+					</div>
+					<div class="col-md-1 text-right">
+						<i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+					</div>
+				</blockquote>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+
+	<!-- CONTENT -->
+	<div class="main-content no-bordertop">
+
+
+
+		<div class="container">
+
+
+			<div class="form-inputs-g">
+
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="col-md-3">
+							<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
+						</div>
+						<div class="col-md-9">
+							<select  class="form-control classic" id="exampleFormControlSelect1">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</select>
+						</div>
+
+					</div>
+
+					<div class="col-md-4">
+						<div class="col-md-5">
+							<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
+						</div>
+						<div class="col-md-7">
+							<select  class="form-control classic" id="exampleFormControlSelect1">
+								<option>4001</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</select>
+						</div>
+
+					</div>
+
+
+					<div class="col-md-4">
+						<div class="col-md-4">
+							<p class="txt-blue-bold">{{ 'label_category'|trans }}: </p>
+						</div>
+						<div class="col-md-8">
+							<select  class="form-control classic" id="exampleFormControlSelect1">
+								<option>Maintaince</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</select>
+						</div>
+
+					</div>
+
+				</div>
+
+				<br/>
+				<!-- adress -->
+
+				<div class="row">
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_title'|trans }}: </p>
+					</div>
+					<div class="col-md-7">
+						<input type="text" class="form-control" placeholder="example@example.com">
+					</div>
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_date'|trans }}: </p>
+					</div>
+					<div class="col-md-1">
+						<input type="text" class="form-control" placeholder="12/12/19 15:00">
+					</div>
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_time'|trans }}: </p>
+					</div>
+					<div class="col-md-1">
+						<input type="text" class="form-control" placeholder="12/12/19 15:00">
+					</div>
+
+
+				</div>
+				<br/>
+
+
+				<div class="row">
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
+					</div>
+					<br/>
+					<div class="col-md-11">
+						<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7"></textarea>
+					</div>
+				</div>
+
+				<br/>
+				<div class="row">
+					<div class="col-md-1">
+
+					</div>
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_remind'|trans }} </p>
+					</div>
+					<div class="col-md-3">
+						<select  class="form-control classic" id="exampleFormControlSelect1">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+						<p class="txt-blue-bold">{{ 'label_before_event'|trans }} </p>
+					</div>
+					<div class="col-md-2">
+
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary">{{ 'label_send_notification'|trans }}</button>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+
+	</div>
+	<!-- END: CONTENT -->
+
+
+</div>
+<script type="text/javascript" language="Javascript">
+
+	$( document ).ready(function() {
+
+
+        $('[name="role"]').validate();
+		$('[name="role"]').on("submit", function(){
+			//Code: Action (like ajax...)
+			if($("[name='role']").valid()){
+				$('#pizote_spinner').show();
+				return true;
+
+			}
+			else{
+				return false;
+			}
+
+		});
+
+	});
+
+
+</script>

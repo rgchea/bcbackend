@@ -12,6 +12,9 @@ Backend\AdminBundle\Entity\TenantContract:
         user_id:
             columns:
                 - user_id
+        owner_id:
+            columns:
+                - owner_id
         updated_by:
             columns:
                 - updated_by
@@ -86,6 +89,17 @@ Backend\AdminBundle\Entity\TenantContract:
                 user_id:
                     referencedColumnName: id
             orphanRemoval: false
+        owner:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                owner_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
         propertyContract:
             targetEntity: PropertyContract
             cascade: {  }

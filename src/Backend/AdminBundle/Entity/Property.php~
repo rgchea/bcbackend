@@ -55,7 +55,7 @@ class Property
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\ComplexSector
@@ -406,7 +406,7 @@ class Property
 
 
     public function __toString(){
-        return $this->getName();
+        return $this->getPropertyType()." ".$this->getPropertyNumber();
     }
 
 
@@ -554,5 +554,34 @@ class Property
     public function getOwnerEmail()
     {
         return $this->ownerEmail;
+    }
+    /**
+     * @var float|null
+     */
+    private $maintenancePrice;
+
+
+    /**
+     * Set maintenancePrice.
+     *
+     * @param float|null $maintenancePrice
+     *
+     * @return Property
+     */
+    public function setMaintenancePrice($maintenancePrice = null)
+    {
+        $this->maintenancePrice = $maintenancePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get maintenancePrice.
+     *
+     * @return float|null
+     */
+    public function getMaintenancePrice()
+    {
+        return $this->maintenancePrice;
     }
 }

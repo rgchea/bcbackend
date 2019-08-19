@@ -20,7 +20,7 @@ class TenantContractRepository extends \Doctrine\ORM\EntityRepository
         $qb->where('a.enabled = 1')
             ->andWhere('a.invitationUserEmail = :email')
             ->andWhere('a.user IS NULL')
-            ->andWhere('a.isOwner = false')
+            //->andWhere('a.isOwner = false')
             ->setParameter('email', $email)
         ;
 

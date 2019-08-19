@@ -36,7 +36,7 @@ class PropertyType
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\User

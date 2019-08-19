@@ -3,10 +3,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                    <h3 class="header-title">Ticket1245789</h3>
+                    <h3 class="header-title">{{ 'label_ticket'|trans }} {{ entity.id }}</h3>
                 </div>
                 <div class="col-md-2 text-left">
-                    <p style="margin-top:15px">in Weston Condo</p>
+                    <p style="margin-top:15px">{{ 'label_in'|trans }} {{ entity.complex }}</p>
                 </div>
                 <div class="col-md-4">
 
@@ -34,7 +34,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="col-md-3">
-                            <p class="txt-blue-bold">Sector: </p>
+                            <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
                         </div>
                         <div class="col-md-9">
                             <span>1</span>
@@ -43,7 +43,7 @@
 
                     <div class="col-md-3">
                         <div class="col-md-7">
-                            <p class="txt-blue-bold">Property Number: </p>
+                            <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
                         </div>
                         <div class="col-md-5">
                             <span>105</span>
@@ -53,7 +53,7 @@
 
                     <div class="col-md-3">
                         <div class="col-md-7">
-                            <p class="txt-blue-bold">Type: </p>
+                            <p class="txt-blue-bold">{{ 'label_type'|trans }}: </p>
                         </div>
                         <div class="col-md-5 text-left">
                             <span>Private</span>
@@ -62,7 +62,7 @@
 
                     <div class="col-md-3">
                         <div class="col-md-7">
-                            <p class="txt-blue-bold">Status: </p>
+                            <p class="txt-blue-bold">{{ 'label_status'|trans }}: </p>
                         </div>
                         <div class="col-md-5 text-left">
                             <span>Open</span>
@@ -80,7 +80,7 @@
                     <div class="col-md-7">
                         <div class="row">
                             <div class="col-md-4">
-                                <p class="txt-blue-bold">Description: </p>
+                                <p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
 
                             </div>
                             <div class="col-md-8">
@@ -89,7 +89,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <p class="txt-blue-bold">Solution: </p>
+                                <p class="txt-blue-bold">{{ 'label_solution'|trans }}: </p>
 
                             </div>
                             <div class="col-md-8">
@@ -105,21 +105,18 @@
                             <div class="col-md-2"></div>
                             <div class="col-md-8">
 
-
-
                                 <div class="bg-rate text-center">
 
-
-                                    <h2 class="txt-blue-bold">Rate your Tenant</h2>
+                                    <h2 class="txt-blue-bold">{{ 'label_rate_your'|trans }} {{ 'label_tenant'|trans }}</h2>
 
                                     <span class="fa fa-star" id="star1" onclick="add(this,1)"></span>
                                     <span class="fa fa-star" id="star2" onclick="add(this,2)"></span>
                                     <span class="fa fa-star" id="star3" onclick="add(this,3)"></span>
                                     <span class="fa fa-star" id="star4" onclick="add(this,4)"></span>
                                     <span class="fa fa-star" id="star5" onclick="add(this,5)"></span>
+                                    <br/>
+                                    <button style="width: 60%; margin-top: 10px" type="submit" class="btn btn-primary">{{ 'label_close'|trans }} {{ 'label_ticket'|trans }}</button>
 
-
-                                    <button type="submit" class="btn btn-primary">Send Reply</button>
 
                                 </div>
 
@@ -142,7 +139,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 style="color:#03304a; font-size:24px;" class="txt-blue-bold text-left">Messages </h3>
+                        <h3 style="color:#03304a; font-size:24px;" class="txt-blue-bold text-left">{{ 'label_messages'|trans }} </h3>
                     </div>
                 </div>
 
@@ -211,19 +208,18 @@
                     <div class="row color1">
 
                         <div class="col-md-12">
-                            <p class="txt-blue-bold">Send Reply</p>
+                            <p class="txt-blue-bold">{{ 'label_reply'|trans }}</p>
                             <div class="form-group">
 
                                 <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
                             </div>
-
 
                             <!-- Button  -->
                             <div class="row">
                                 <div class="col-md-10">
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">Send Reply</button>
+                                    <button type="submit" class="btn btn-primary">{{ 'label_reply'|trans }}</button>
                                     <p></p>
                                 </div>
                             </div>

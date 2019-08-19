@@ -93,3 +93,11 @@ property_booking_list_datatables:
     path: /{property}/propertybooking/list/datatables
     defaults:
         _controller: BackendAdminBundle:Property:listBookings
+
+backend_admin_property_invitations:
+    path:     /invitations/
+    defaults: { _controller: "BackendAdminBundle:Property:invitations" }
+
+backend_admin_property_invitations_import:
+    path:     /invitationsimport/
+    defaults: { _controller: "BackendAdminBundle:Property:invitationsImport" }

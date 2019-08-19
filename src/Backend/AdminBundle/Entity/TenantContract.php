@@ -433,4 +433,33 @@ class TenantContract
     {
         return $this->propertyCode;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\User
+     */
+    private $owner;
+
+
+    /**
+     * Set owner.
+     *
+     * @param \Backend\AdminBundle\Entity\User|null $owner
+     *
+     * @return TenantContract
+     */
+    public function setOwner(\Backend\AdminBundle\Entity\User $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner.
+     *
+     * @return \Backend\AdminBundle\Entity\User|null
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
 }

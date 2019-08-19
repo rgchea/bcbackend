@@ -1,0 +1,34 @@
+backend_admin_usernotification_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:UserNotification:index
+
+usernotification_list_datatables:
+    path: /notification/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:UserNotification:listDatatables
+
+backend_admin_usernotification_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:UserNotification:new" }
+    #methods:  [GET, POST]
+
+backend_admin_usernotification_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:UserNotification:edit" }
+
+backend_admin_usernotification_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:UserNotification:create" }
+    methods:  POST
+
+backend_admin_usernotification_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:UserNotification:update" }
+    methods:  POST
+
+backend_admin_usernotification_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:UserNotification:delete" }
+
+    #methods:  DELETE

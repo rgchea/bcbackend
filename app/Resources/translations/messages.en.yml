@@ -1,3 +1,67 @@
+label_add_property_advice: 'Once you create your complex, you automatically create the amount of properties that this complex has. This option is to add the properties that are different or additional, or the ones you simply missed. You add all the details of the property, the sector, the number the type, the exact address, and all the details regarding the creation of the property agreement, the email, maintenance cost and the start and end date. An important thing to note, is that thought our system all date will be handled month / day /year.'
+label_complex_properties_advice: 'Once you click on a complex from the complex list, you will be redirected to the property list, this list is of all the properties, you loaded for a specific complex. You can filter the complex and depending on the one you select you will be showed all the properties within that complex.
+                                  On this page you can also send invitations to tenants to join BetterCondos, adding their email, and the dates of each property agreement. You can also add a property in case you need to add more and add a property agreement for each. The property agreement is what ties the property to the tenant of the property.'
+label_complex_add_property_contract_advice: 'An agreement ID is created for each relationship between one tenant and a property.   This is because one property can have many tenants and one user can have many properties. When an agreement between a tenant and the administration expires, you can add another agreement to this property, an association with another tenant.
+                                             And agreement has a start and end date, normally a year, and you can add If there are maintenance costs associated to this property.  An important thing to note, is that thought our system all date will be handled month / day /year. '
+label_complex_list_advice: 'Once you click on the complex option on the main navigation, you will be able to see a list of all the complexes you have, the ones that you have added to the system.
+                            You can add as many of them as you like and manage all the properties for each. You can filter the complexes from the filter at the top of the list, on all the pages you navigate on.'
+
+label_ticket_system_advice: 'Once you press in open tickets you are redirected to this screen, here you will find a list of all the tickets that your complex has, with the title, type: if they are private (only the tenant and administrator can see it)  or public: (everyone can see the status of the ticket). You can access the details of the ticket by pressing the edit icon next to the ticket information.  You can also add new tickets and assign them by pressing the add new ticket button at the top of this page.'
+label_ticket_new_advice: 'It’s important that your residents and tenants always upload tickets directly from the APP, but we also understand that there is a transition period and that things sometimes happen, and you as an administrator need to have access to create new tickets,  so we created a function so you can add one and assign It to the property that has the specific need. '
+label_payment_control_advice: 'Once press the Payment option on the main navigation bar, you access this screen. Here you will find all the payments you have added and who you have assigned them to, with the type of payment.
+                               You can register a new payment by pressing the register new charge button.'
+label_payment_new_advice: 'This screen is to add or assign a new payment to a specific tenant or resident, for a specific charge. For example, a fee for a fine.
+                           You can select the property number, the sector and the paymnt type. This payment type can be added in the configuration in payment type, you can add as many as you need, remember to add the due date. An important thing to note, is that thought our system all date will be handled month / day /year.'
+label_update_maintenance_advice: 'The only thing this screen gives you access to is to update the maintenance cost of a property agreement, who pays it, and the amount. The amounts added are monthly fees.'
+label_extend_contract_advice: 'If you want to extend the contract agreement to one property, you add extend contract from the detail of the property and this screen pop up will appear,  all the information will be carried over, the tenant and start date, you just need to update who pays maintenance, the new end date and the maintenance fee, if you need to change it. Press extend contract and the contract will be extended.  An important thing to note, is that thought our system all date will be handled month / day /year.'
+label_cancel_contract_advice: 'You can cancel a property agreement or contract whenever you want to. You just need to press cancel contract and this screen pop up will appear with the information of the current property agreement, once you press cancel contract, the contract will be canceled, and you can add and associate a new agreement to the property.  An important thing to note, is that thought our system all date will be handled month / day /year.'
+label_receive_new_payment_advice: 'This screen gives you access to register a charge that has already been paid, Mark it as paid, with a transaction number, if you don’t have the transaction number its ok to leave it blank, just press the registered as paid button and the payment will be applied to the specific charge selected.'
+label_send_invitations_advice: 'Once you press send invitations from the property list section, you will land here, what does this page does, well this page helps you send invitations to all your tenants, so they can start using the APP and join the complex. First download the template, once you have filled out all the information there, for each property number the information you need to fill is owners’ email, tenants’ email, and the property agreement start and end date. Once its completed you can import the file, this will import the information, and upload it to the property list below, the information that you added will be reflexed there, if you left anything blank it will not show. Once you press update, the invitations will be sent out to the emails added.  An important thing to note, is that thought our system all date will be handled month / day /year.'
+label_notification_system_advice: 'On this section you can see all the notifications you have sent out, with the title and the type of notification, with the date you sent it out. You can also add a new notification, once you press the send notification button. An important thing to note, is that thought our system all date will be handled month / day /year.'
+label_notification_system_new_advice: 'It’s very important that you as an administrator can communicate with all your tenants and resident, this is where the notification section comes in, you are able to create a new notification, whenever you need to. You can add a specific category to the notification, depending on your need, announcement, communication, event, etc. Add the title, content, and the date and time of the event or announcement. You can also add a reminder, that will be sent out when you select it, 24h, 8h, before the event.'
+
+label_before_event: 'hrs before the event.'
+label_remind: 'Remind'
+label_date: Date
+label_download_template: 'Download template'
+label_import_properties: 'Import properties'
+label_select_csv: 'Select CSV file'
+label_load: 'Load'
+label_sent: 'Sent'
+lable_register_paid: Register as paid
+label_transaction_number: Transaction Number
+label_notify_owner: 'Notify the owner'
+label_extend: 'Extend'
+label_total: Total
+label_expires: Expires
+label_update: Update
+label_emergency_call: Emergency call
+label_familiy_members: Members
+label_property_details: 'Property Details'
+label_log: 'Log'
+label_notifications: 'Notifications'
+label_update_payment: 'Update payment'
+label_updated_at: 'Updated at'
+label_updated_by: 'Updated by'
+label_booking_approve: 'Approve this Booking'
+label_booking_reject: 'Reject this Booking'
+label_send_notification: 'Send notification'
+label_amount_paid: 'Amount paid'
+label_discount: 'Discount'
+label_time: 'Time'
+label_amount: 'Amount'
+label_due_date: 'Due date'
+label_issued: 'Issued'
+label_paid: 'Paid'
+label_payment_control: Payment Control
+label_payment: Payment
+label_charge: 'Charge'
+label_messages: Messages
+label_close: Close
+label_reply: Reply
+label_rate_your: Rate your
+label_in: In
+label_solution: Solution
 label_requested: Requested
 label_approved: Approved
 label_event_date: Event Date
@@ -232,6 +296,8 @@ label_menu:
     common_area_reservation: 'Common Area Reservation'
     poll: Polls
     property_contract: Contracts
+    payment: Payments
+    user_notification: 'Notifications'
 resetting:
     title: 'Reset Password'
     message: 'Clicking on the next link you will be redirected to a page in order to restore your password'

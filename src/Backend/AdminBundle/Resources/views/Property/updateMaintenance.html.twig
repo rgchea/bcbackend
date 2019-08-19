@@ -16,12 +16,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <h3 class="header-title">Property Details:</h3>
+                        <h3 class="header-title">{{ 'label_property_details'|trans }}</h3>
                     </div>
                     <div class="col-md-7 text-left">
-                        <h4>Apartment 101 <span style="font-size:14px;">Floor 1, Weston</span> </h4>
+                        <h4>{{ entity }}<span style="font-size:14px;"> {{ entity.complex }}</span> </h4>
                     </div>
                     <div class="col-md-2">
+                        {#<button type="submit" class="btn btn-primary">Change Tenant</button>#}
                     </div>
                 </div>
 
@@ -41,12 +42,12 @@
                     <div class="col-md-8">
 
                         <div class="wrapp-update-m-c">
-                            <h2 class="text-center title-update-m-c">Update Maintenance Cost</h2>
+                            <h2 class="text-center title-update-m-c">{{ 'label_update'|trans }} {{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}</h2>
                             <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
                             <blockquote>
                                 <div class="col-md-12">
-                                    <p> Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                                    <p> {{ 'label_update_maintenance_advice'|trans }} </p>
                                 </div>
 
                             </blockquote>
@@ -57,11 +58,11 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <p class="txt-blue-bold">Who Pays Maintenance: </p>
+                                        <p class="txt-blue-bold">{{ 'label_who_pays_maintenance'|trans }}: </p>
                                     </div>
                                     <div class="col-md-4 text-left ">
-                                        <label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
-                                        <label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
+                                        <label class="radio-inline"><input type="radio" name="optradio" checked>{{ 'label_owner'|trans }}</label>
+                                        <label class="radio-inline"><input type="radio" name="optradio" checked>{{ 'label_tenant'|trans }}</label>
                                     </div>
                                     <div class="col-md-2">
 
@@ -75,7 +76,7 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <p class="txt-blue-bold">Maintenance Cost:</p>
+                                        <p class="txt-blue-bold">{{ 'label_maintenance'|trans }} ({{ 'label_cost'|trans }}):</p>
                                     </div>
                                     <div class="col-md-64 text-left ">
                                         $500.00
@@ -85,15 +86,13 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="col-md-2">
 
                                     </div>
                                     <div class="col-md-4">
-                                        <p class="txt-blue-bold">New Maintenance: </p>
+                                        <p class="txt-blue-bold">{{ 'label_new'|trans }} {{ 'label_cost'|trans }}: </p>
                                     </div>
                                     <div class="col-md-4 text-left">
                                         <label class="radio-inline"><input type="text" class="form-control" placeholder="$400.00" name="optradio"></label>
@@ -111,7 +110,7 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <p class="txt-blue-bold">Months pending of contract: </p>
+                                        <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }} {{ 'label_in'|trans }}: </p>
                                     </div>
                                     <div class="col-md-4 text-left ">
                                         8.5
@@ -132,7 +131,7 @@
 
                                     </div>
                                     <div class="col-md-4 text-center">
-                                        <p class="txt-blue-bold">New Total: </p>
+                                        <p class="txt-blue-bold">{{ 'label_new'|trans }} {{ 'label_total'|trans }}: </p>
                                     </div>
                                     <div class="col-md-4 text-center">
                                         <p class="txt-blue-bold">$ 3,400.00</p>
@@ -150,12 +149,10 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <button style="width:80%;" type="submit" class="btn btn-primary">Update Pending Fees</button>
+                                        <button style="width:80%;" type="submit" class="btn btn-primary">{{ 'label_update'|trans }}</button>
                                     </div>
                                     <div class="col-md-4">
-
-                                        <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">Cancel</button>
-
+                                        <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">{{ 'label_cancel'|trans }}</button>
                                     </div>
                                     <div class="col-md-2">
 

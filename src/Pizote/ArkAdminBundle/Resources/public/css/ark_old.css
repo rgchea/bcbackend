@@ -198,9 +198,9 @@ a:focus {
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
     /*
-   background-color: #5b98cc;
-   border-color: #5b98cc;
-    */
+    background-color: #5b98cc;
+    border-color: #5b98cc;
+     */
     background-color: #03304A;
     border-color: #03304A;
 
@@ -276,8 +276,8 @@ a:focus {
     cursor: not-allowed;
 }
 /*
-  * Colored styles
-  */
+   * Colored styles
+   */
 .text-muted {
     color: #c4c4c4;
 }
@@ -315,8 +315,8 @@ a:focus {
     color: #d15956;
 }
 /*
-  * Dropdown menu
-  */
+   * Dropdown menu
+   */
 .dropdown-menu {
     font-size: 13px;
     -webkit-border-radius: 2px;
@@ -336,8 +336,8 @@ a:focus {
     background-color: #5b98cc;
 }
 /*
-  * Breadcrumb
-  */
+   * Breadcrumb
+   */
 .breadcrumb {
     padding: 8px 15px;
     margin-bottom: 0;
@@ -350,8 +350,8 @@ a:focus {
     color: #666;
 }
 /*
-  * Charts
-  */
+   * Charts
+   */
 .pie-chart {
     position: relative;
     text-align: center;
@@ -376,8 +376,8 @@ a:focus {
     text-transform: uppercase;
 }
 /*
-  * Images
-  */
+   * Images
+   */
 .img-rounded,
 .img-thumbnail {
     -webkit-border-radius: 2px;
@@ -390,8 +390,8 @@ a:focus {
     padding: 2px;
 }
 /*
-  * Panels
-  */
+   * Panels
+   */
 .panel {
     border: solid 1px #EEE;
     -webkit-box-shadow: none;
@@ -552,8 +552,8 @@ a:focus {
     border-bottom: none;
 }
 /*
-  * Wells
-  */
+   * Wells
+   */
 .well {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -571,8 +571,8 @@ a:focus {
     margin-top: 0px;
 }
 /*
-  * Dialogs
-  */
+   * Dialogs
+   */
 .modal-content {
     -webkit-box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
@@ -581,8 +581,8 @@ a:focus {
     border-radius: 2px;
 }
 /*
-  * Alerts
-  */
+   * Alerts
+   */
 .alert {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -615,8 +615,8 @@ a:focus {
     color: #b43431;
 }
 /*
-  * Date range picker
-  */
+   * Date range picker
+   */
 .daterangepicker {
     font-size: 12px;
     font-family: 'Open Sans', Arial, sans-serif;
@@ -637,8 +637,8 @@ a:focus {
     border-color: #5b98cc;
 }
 /*
-  * Buttons
-  */
+   * Buttons
+   */
 .btn {
     font-size: inherit;
     border: none;
@@ -768,8 +768,8 @@ a:focus {
     border-left: solid 1px #d66966;
 }
 /*
-  * Badge
-  */
+   * Badge
+   */
 .badge {
     padding: 3px 6px;
     background-color: #DDDDDD;
@@ -790,8 +790,8 @@ a:focus {
     background-color: #d97572;
 }
 /*
-  * Navbar
-  */
+   * Navbar
+   */
 .nav > li > a:hover,
 .nav > li > a:focus {
     background-color: #f7f7f7;
@@ -846,8 +846,8 @@ a:focus {
     margin-top: 0px;
 }
 /*
-  * Tabs
-  */
+   * Tabs
+   */
 .tab-content {
     padding: 10px;
     border-left: solid 1px #eeeeee;
@@ -855,8 +855,8 @@ a:focus {
     border-bottom: solid 1px #eeeeee;
 }
 /*
-  * List Group
-  */
+   * List Group
+   */
 .list-group-item {
     border: solid 1px #EEE;
 }
@@ -883,29 +883,29 @@ a.list-group-item:focus {
     border-bottom-left-radius: 2px;
 }
 /*
-  * Jumbatron
-  */
+   * Jumbatron
+   */
 .jumbotron {
     background-color: #FAFAFA;
 }
 /*
-  * Progress Bar
-  */
+   * Progress Bar
+   */
 .progress {
     height: 7px;
     border-radius: 0px;
 }
 /*
-  * Tooltip
-  */
+   * Tooltip
+   */
 .tooltip-inner {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
 }
 /*
-  * Popover
-  */
+   * Popover
+   */
 .popover {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -914,8 +914,8 @@ a.list-group-item:focus {
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
 }
 /*
-  * Arrow
-  */
+   * Arrow
+   */
 .arrowed {
     position: relative;
     min-height: 19px;
@@ -1063,8 +1063,8 @@ a.list-group-item:focus {
     border-bottom-color: #d97572;
 }
 /**
-  * Main navigation
-  */
+   * Main navigation
+   */
 .navbar-default.navbar-main {
     background-color: #FFF;
     border-bottom: solid 1px #f7f7f7;
@@ -1285,8 +1285,8 @@ a.list-group-item:focus {
     margin: 0 5px 0 0;
 }
 /**
-  * Top navigation
-  */
+   * Top navigation
+   */
 .navbar-default.navbar-top {
     background-color: #FFF;
     border-bottom: solid 1px #f7f7f7;
@@ -1525,8 +1525,8 @@ body.fixed_header.fixed_menu .wrapper {
     padding-top: 102px;
 }
 /*
-  * Content section
-  */
+   * Content section
+   */
 .body {
     position: relative;
     overflow: hidden;
@@ -1547,8 +1547,8 @@ body.fixed_header.fixed_menu .wrapper {
     margin-top: 5px;
 }
 /*
-  * Left sidebar section
-  */
+   * Left sidebar section
+   */
 .sidebar {
     display: none;
 }
@@ -1681,8 +1681,8 @@ body.fixed_header.fixed_menu .wrapper {
     display: block;
 }
 /*
-  * Left sidebar Light (collapsed) section
-  */
+   * Left sidebar Light (collapsed) section
+   */
 .sidemenu-switch {
     display: none !important;
 }
@@ -1717,8 +1717,8 @@ body.fixed_header.fixed_menu .wrapper {
     }
 }
 /*
-  * Header
-  */
+   * Header
+   */
 .header:before,
 .header:after {
     content: " ";
@@ -1744,8 +1744,8 @@ body.fixed_header.fixed_menu .wrapper {
     padding-left: 2px;
 }
 /*
-  * Main content
-  */
+   * Main content
+   */
 .content {
     background-color: #FFF;
     /*overflow: hidden;*/
@@ -1804,8 +1804,8 @@ body.fixed_header.fixed_menu .wrapper {
     height: 250px;
 }
 /*
-  * Error pages
-  */
+   * Error pages
+   */
 .panel.error-panel {
     border: none;
     margin: 30px auto 0 auto;
@@ -1829,8 +1829,8 @@ body.fixed_header.fixed_menu .wrapper {
     }
 }
 /**
-  * Search Area
-  */
+   * Search Area
+   */
 .search {
     position: relative;
 }
@@ -1881,8 +1881,8 @@ body.fixed_header.fixed_menu .wrapper {
     display: block;
 }
 /**
-  * Data Tables
-  */
+   * Data Tables
+   */
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0;
     border: 0;
@@ -1937,19 +1937,19 @@ table.dataTable thead th {
     padding: 10px 18px 10px 10px;
 }
 /**
-  * Select2 Bootstrap CSS
-  * Compatible with Select2 3.3.2, 3.4.1, 3.4.2 and Twitter Bootstrap 3.0.0
-  * MIT License
-  */
+   * Select2 Bootstrap CSS
+   * Compatible with Select2 3.3.2, 3.4.1, 3.4.2 and Twitter Bootstrap 3.0.0
+   * MIT License
+   */
 /**
-  * Reset Bootstrap 3 .form-control styles which - if applied to the
-  * original <select>-element the Select2-plugin may be run against -
-  * are copied to the .select2-container.
-  *
-  * 1. Overwrite .select2-container's original display:inline-block
-  *    with Bootstrap 3's default for .form-control, display:block;
-  *    courtesy of @juristr (@see https://github.com/fk/select2-bootstrap-css/pull/1)
-  */
+   * Reset Bootstrap 3 .form-control styles which - if applied to the
+   * original <select>-element the Select2-plugin may be run against -
+   * are copied to the .select2-container.
+   *
+   * 1. Overwrite .select2-container's original display:inline-block
+   *    with Bootstrap 3's default for .form-control, display:block;
+   *    courtesy of @juristr (@see https://github.com/fk/select2-bootstrap-css/pull/1)
+   */
 .select2-container.form-control {
     background: transparent;
     display: block;
@@ -1968,8 +1968,8 @@ table.dataTable thead th {
     border: none;
 }
 /**
-  * Adjust Select2 inputs to fit Bootstrap 3 default .form-control appearance.
-  */
+   * Adjust Select2 inputs to fit Bootstrap 3 default .form-control appearance.
+   */
 .select2-container .select2-choices .select2-search-field input,
 .select2-container .select2-choice,
 .select2-container .select2-choices {
@@ -1995,23 +1995,23 @@ table.dataTable thead th {
     box-shadow: none;
 }
 /**
-  * Adjust Select2 input heights to match the Bootstrap default.
-  */
+   * Adjust Select2 input heights to match the Bootstrap default.
+   */
 .select2-container .select2-choice {
     height: 32px;
     line-height: 1.42857143;
 }
 /**
-  * Address Multi Select2's height which - depending on how many elements have been selected -
-  * may grown higher than their initial size.
-  */
+   * Address Multi Select2's height which - depending on how many elements have been selected -
+   * may grown higher than their initial size.
+   */
 .select2-container.select2-container-multi.form-control {
     height: auto;
 }
 /**
-  * Address Bootstrap 3 control sizing classes
-  * @see http://getbootstrap.com/css/#forms-control-sizes
-  */
+   * Address Bootstrap 3 control sizing classes
+   * @see http://getbootstrap.com/css/#forms-control-sizes
+   */
 .select2-container.input-sm .select2-choice,
 .input-group-sm .select2-container .select2-choice {
     height: 30px;
@@ -2036,10 +2036,10 @@ table.dataTable thead th {
     height: 44px;
 }
 /**
-  * Adjust height and line-height for .select2-search-field amd multi-select Select2 widgets.
-  *
-  * 1. Class repetition to address missing .select2-chosen in Select2 < 3.3.2.
-  */
+   * Adjust height and line-height for .select2-search-field amd multi-select Select2 widgets.
+   *
+   * 1. Class repetition to address missing .select2-chosen in Select2 < 3.3.2.
+   */
 .select2-container-multi .select2-choices .select2-search-field input {
     margin: 0;
 }
@@ -2078,10 +2078,10 @@ table.dataTable thead th {
     line-height: 24px;
 }
 /**
-  * Adjust the single Select2's dropdown arrow button appearance.
-  *
-  * 1. For Select2 v.3.3.2.
-  */
+   * Adjust the single Select2's dropdown arrow button appearance.
+   *
+   * 1. For Select2 v.3.3.2.
+   */
 .select2-container .select2-choice .select2-arrow,
 .select2-container .select2-choice div {
     border-left: none;
@@ -2095,11 +2095,11 @@ table.dataTable thead th {
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 /**
-  * Adjust the dropdown arrow button icon position for the single-select Select2 elements
-  * to make it line up vertically now that we increased the height of .select2-container.
-  *
-  * 1. Class repetition to address missing .select2-chosen in Select2 v.3.3.2.
-  */
+   * Adjust the dropdown arrow button icon position for the single-select Select2 elements
+   * to make it line up vertically now that we increased the height of .select2-container.
+   *
+   * 1. Class repetition to address missing .select2-chosen in Select2 v.3.3.2.
+   */
 .select2-container .select2-choice .select2-arrow b,
 .select2-container .select2-choice div b {
     background-position: 0 3px;
@@ -2133,9 +2133,9 @@ table.dataTable thead th {
     background-position: -18px 9px;
 }
 /**
-  * Address Bootstrap's validation states and change Select2's border colors and focus states.
-  * Apply .has-warning, .has-danger or .has-succes to #select2-drop to match Bootstraps' colors.
-  */
+   * Address Bootstrap's validation states and change Select2's border colors and focus states.
+   * Apply .has-warning, .has-danger or .has-succes to #select2-drop to match Bootstraps' colors.
+   */
 .has-warning .select2-choice,
 .has-warning .select2-choices {
     border-color: #8a6d3b;
@@ -2185,9 +2185,9 @@ table.dataTable thead th {
     border-top-color: #2b542c;
 }
 /**
-  * Make Select2's active-styles - applied to .select2-container when the widget receives focus -
-  * fit Bootstrap 3's .form-element:focus appearance.
-  */
+   * Make Select2's active-styles - applied to .select2-container when the widget receives focus -
+   * fit Bootstrap 3's .form-element:focus appearance.
+   */
 .select2-container-active .select2-choice,
 .select2-container-multi.select2-container-active .select2-choices {
     border-color: #66afe9;
@@ -2205,23 +2205,23 @@ table.dataTable thead th {
     border-top-color: #66afe9;
 }
 /**
-  * Select2 widgets in Bootstrap Input Groups
-  *
-  * When Select2 widgets are combined with other elements using Bootstrap 3's
-  * "Input Group" component, we don't want specific edges of the Select2 container
-  * to have a border-radius.
-  *
-  * In Bootstrap 2, input groups required a markup where these style adjustments
-  * could be bound to a CSS-class identifying if the additional elements are appended,
-  * prepended or both.
-  *
-  * Bootstrap 3 doesn't rely on these classes anymore, so we have to use our own.
-  * Use .select2-bootstrap-prepend and .select2-bootstrap-append on a Bootstrap 3 .input-group
-  * to let the contained Select2 widget know which edges should not be rounded as they are
-  * directly followed by another element.
-  *
-  * @see http://getbootstrap.com/components/#input-groups
-  */
+   * Select2 widgets in Bootstrap Input Groups
+   *
+   * When Select2 widgets are combined with other elements using Bootstrap 3's
+   * "Input Group" component, we don't want specific edges of the Select2 container
+   * to have a border-radius.
+   *
+   * In Bootstrap 2, input groups required a markup where these style adjustments
+   * could be bound to a CSS-class identifying if the additional elements are appended,
+   * prepended or both.
+   *
+   * Bootstrap 3 doesn't rely on these classes anymore, so we have to use our own.
+   * Use .select2-bootstrap-prepend and .select2-bootstrap-append on a Bootstrap 3 .input-group
+   * to let the contained Select2 widget know which edges should not be rounded as they are
+   * directly followed by another element.
+   *
+   * @see http://getbootstrap.com/components/#input-groups
+   */
 .input-group.select2-bootstrap-prepend [class^="select2-choice"] {
     border-bottom-left-radius: 0 !important;
     border-top-left-radius: 0 !important;
@@ -2243,17 +2243,17 @@ table.dataTable thead th {
     background-image: none;
 }
 /**
-  * Adjust Select2's choices hover and selected styles to match Bootstrap 3's default dropdown styles.
-  */
+   * Adjust Select2's choices hover and selected styles to match Bootstrap 3's default dropdown styles.
+   */
 .select2-results .select2-highlighted {
     color: #fff;
     background-color: #428bca;
 }
 /**
-  * Adjust alignment of Bootstrap 3 buttons in Bootstrap 3 Input Groups to address
-  * Multi Select2's height which - depending on how many elements have been selected -
-  * may grown higher than their initial size.
-  */
+   * Adjust alignment of Bootstrap 3 buttons in Bootstrap 3 Input Groups to address
+   * Multi Select2's height which - depending on how many elements have been selected -
+   * may grown higher than their initial size.
+   */
 .select2-bootstrap-append .select2-container-multiple,
 .select2-bootstrap-prepend .select2-container-multiple,
 .select2-bootstrap-append .input-group-btn,
@@ -2263,8 +2263,8 @@ table.dataTable thead th {
     vertical-align: top;
 }
 /**
-  * Make Multi Select2's choices match Bootstrap 3's default button styles.
-  */
+   * Make Multi Select2's choices match Bootstrap 3's default button styles.
+   */
 .select2-container-multi .select2-choices .select2-search-choice {
     color: #555555;
     background: #fff;
@@ -2284,26 +2284,26 @@ table.dataTable thead th {
     box-shadow: none;
 }
 /**
-  * Address Multi Select2's choice close-button vertical alignment.
-  */
+   * Address Multi Select2's choice close-button vertical alignment.
+   */
 .select2-search-choice-close {
     margin-top: -7px;
     top: 50%;
 }
 /**
-  * Adjust the single Select2's clear button position (used to reset the select box
-  * back to the placeholder value and visible once a selection is made
-  * activated by Select2's "allowClear" option).
-  */
+   * Adjust the single Select2's clear button position (used to reset the select box
+   * back to the placeholder value and visible once a selection is made
+   * activated by Select2's "allowClear" option).
+   */
 .select2-container .select2-choice abbr {
     top: 50%;
 }
 /**
-  * Adjust "no results" and "selection limit" messages to make use
-  * of Bootstrap 3's default "Alert" style.
-  *
-  * @see http://getbootstrap.com/components/#alerts-default
-  */
+   * Adjust "no results" and "selection limit" messages to make use
+   * of Bootstrap 3's default "Alert" style.
+   *
+   * @see http://getbootstrap.com/components/#alerts-default
+   */
 .select2-results .select2-no-results,
 .select2-results .select2-searching,
 .select2-results .select2-selection-limit {
@@ -2311,12 +2311,12 @@ table.dataTable thead th {
     color: #8a6d3b;
 }
 /**
-  * Address disabled Select2 styles.
-  *
-  * 1. For Select2 v.3.3.2.
-  * 2. Revert border-left:0 inherited from Select2's CSS to prevent the arrow
-  *    from jumping when switching from disabled to enabled state and vice versa.
-  */
+   * Address disabled Select2 styles.
+   *
+   * 1. For Select2 v.3.3.2.
+   * 2. Revert border-left:0 inherited from Select2's CSS to prevent the arrow
+   *    from jumping when switching from disabled to enabled state and vice versa.
+   */
 .select2-container.select2-container-disabled .select2-choice,
 .select2-container.select2-container-disabled .select2-choices {
     cursor: not-allowed;
@@ -2332,26 +2332,26 @@ table.dataTable thead th {
     /* 2 */
 }
 /**
-  * Address Select2's loading indicator position - which should not stick
-  * to the right edge of Select2's search input.
-  *
-  * 1. in .select2-search input
-  * 2. in Multi Select2's .select2-search-field input
-  * 3. in the status-message of infinite-scroll with remote data (@see http://ivaynberg.github.io/select2/#infinite)
-  *
-  * These styles alter Select2's default background-position of 100%
-  * and supply the new background-position syntax to browsers which support it:
-  *
-  * 1. Android, Safari < 6/Mobile, IE<9: change to a relative background-position of 99%
-  * 2. Chrome 25+, Firefox 13+, IE 9+, Opera 10.5+: use the new CSS3-background-position syntax
-  *
-  * @see http://www.w3.org/TR/css3-background/#background-position
-  *
-  * @todo Since both Select2 and Bootstrap 3 only support IE8 and above,
-  * we could use the :after-pseudo-element to display the loading indicator.
-  * Alternatively, we could supply an altered loading indicator image which already
-  * contains an offset to the right.
-  */
+   * Address Select2's loading indicator position - which should not stick
+   * to the right edge of Select2's search input.
+   *
+   * 1. in .select2-search input
+   * 2. in Multi Select2's .select2-search-field input
+   * 3. in the status-message of infinite-scroll with remote data (@see http://ivaynberg.github.io/select2/#infinite)
+   *
+   * These styles alter Select2's default background-position of 100%
+   * and supply the new background-position syntax to browsers which support it:
+   *
+   * 1. Android, Safari < 6/Mobile, IE<9: change to a relative background-position of 99%
+   * 2. Chrome 25+, Firefox 13+, IE 9+, Opera 10.5+: use the new CSS3-background-position syntax
+   *
+   * @see http://www.w3.org/TR/css3-background/#background-position
+   *
+   * @todo Since both Select2 and Bootstrap 3 only support IE8 and above,
+   * we could use the :after-pseudo-element to display the loading indicator.
+   * Alternatively, we could supply an altered loading indicator image which already
+   * contains an offset to the right.
+   */
 .select2-search input.select2-active,
 .select2-container-multi .select2-choices .select2-search-field input.select2-active,
 .select2-more-results.select2-active {
@@ -2361,8 +2361,8 @@ table.dataTable thead th {
     /* 5 */
 }
 /*
-  * Forms
-  */
+   * Forms
+   */
 .form-control {
     text-align: center;
     -webkit-border-radius: 8px;
@@ -2388,8 +2388,8 @@ fieldset[disabled] .form-control {
     background-color: #FAFAFA;
 }
 /*
-  * Date Picker
-  */
+   * Date Picker
+   */
 .datepicker-dropdown {
     font-size: 12px;
 }
@@ -2429,8 +2429,8 @@ fieldset[disabled] .form-control {
     background-color: #357ebd;
 }
 /*
-  * Input group
-  */
+   * Input group
+   */
 .input-group-btn > .btn {
     padding: 8px 12px;
 }
@@ -2455,8 +2455,8 @@ fieldset[disabled] .form-control {
     border-top-left-radius: 0;
 }
 /*
-  * Validation styles
-  */
+   * Validation styles
+   */
 /* Has Success */
 .has-success .form-control {
     border-color: #5cb85c;
@@ -2554,8 +2554,8 @@ fieldset[disabled] .form-control {
     border-color: #d97572;
 }
 /*
-  * Uniform styles
-  */
+   * Uniform styles
+   */
 input[type="radio"],
 input[type="checkbox"] {
     /*visibility: hidden;*/
@@ -2608,8 +2608,8 @@ div.radio span.checked:before {
     content: "\f192";
 }
 /**
-  * Nestable
-  */
+   * Nestable
+   */
 .dd {
     position: relative;
     display: block;
@@ -2740,8 +2740,8 @@ div.radio span.checked:before {
     margin-top: 0;
 }
 /*
-  * Tables
-  */
+   * Tables
+   */
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
@@ -2791,8 +2791,8 @@ div.radio span.checked:before {
     margin-top: 0px;
 }
 /**
-  * Calendar Section
-  */
+   * Calendar Section
+   */
 .fc-event {
     background-color: #428bca;
     border-color: #428bca;
@@ -2855,8 +2855,8 @@ a.fc-event:hover {
     border-bottom-left-radius: 2px;
 }
 /*
-  * Gallery Section
-  */
+   * Gallery Section
+   */
 .gallery {
     list-style: none;
     padding: 0;
@@ -2953,8 +2953,8 @@ a.fc-event:hover {
     margin: 5px 25px 0 25px;
 }
 /*
-  * User Profile
-  */
+   * User Profile
+   */
 .panel.panel-profile {
     border: none;
 }
@@ -2976,13 +2976,13 @@ a.fc-event:hover {
     margin-top: 0;
 }
 /*
-  * Login
-  */
+   * Login
+   */
 body.cover {
     /*background: transparent url('../../img/login/background.jpg') 0 0;
-   background-size: cover;
-   background-attachment: fixed;
- */
+    background-size: cover;
+    background-attachment: fixed;
+  */
     background-color: #03304a;
 }
 
@@ -3365,11 +3365,11 @@ blockquote {
     border: 1px solid #CCC;
     width: 100%;
 /*
- box-shadow: 1px 1px 1px #999,
-             2px 2px 1px #999,
-             3px 3px 1px #999;
- transition-duration: .3s;
- */
+  box-shadow: 1px 1px 1px #999,
+              2px 2px 1px #999,
+              3px 3px 1px #999;
+  transition-duration: .3s;
+  */
 
 span.author {
     position: relative;
@@ -3523,6 +3523,7 @@ i {
 
 /**** CONDO ADD PROPERTY ****/
 
+
 .btn-primary-blue{
     background-color:#03304a;
     color:#FFF;
@@ -3557,16 +3558,20 @@ i {
     color:#31708f;
 }
 
+
 .btn_update{
     background-color: #000 !important;
     color: #fff !important;
     width: 20% !important;
+    min-width: 100px;
 }
+
 
 .btn_cancel{
     background-color: red !important;
     color: #fff !important;
     width: 20% !important;
+    min-width: 100px;
 }
 
 .btn_gris_tickets{
@@ -3617,6 +3622,14 @@ i {
     font-weight: normal !important;
 }
 
+.btn_red_tickets{
+    background-color: red !important;
+    color: #FFF !important;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    font-weight: normal !important;
+}
 
 .wrapp-update-m-c{
     padding: 20px;
@@ -3667,6 +3680,8 @@ i {
 }
 
 
+
+
 .btn-cancel-contract{
     background-color:red!important;
     color: #fff !important;
@@ -3678,5 +3693,29 @@ i {
 }
 
 .color2 p{
+    color:#03304a;
+}
+
+
+.color input{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.bg-corner{
+    background-color:	#DCDCDC;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding:10px;
+    color:#03304a;
+}
+
+.bg-corner input{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.form-inputs-g p{
     color:#03304a;
 }

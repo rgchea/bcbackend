@@ -164,7 +164,11 @@ class TicketController extends Controller
 
                     case 'elapsed':
                         {
-                            $responseTemp = "--";
+
+                            $nowtime = strtotime("now");
+                            $oldtime = strtotime($entity->getCreatedAt()->format('Y-m-d'));
+                            $elapsed = $this->get('services')->time_elapsed_A($nowtime-$oldtime);
+                            $responseTemp = $elapsed;
                             break;
                         }
 
@@ -391,8 +395,6 @@ class TicketController extends Controller
                 $propertyTypeName = $businessLocale == "en" ? $propertyType->getNameEN() : $propertyType->getNameES();
             }
 
-            $code = $this->get("services")->getToken(6);
-            $entity->setCode($code);
             $entity->setIsAvailable(1);
 
 

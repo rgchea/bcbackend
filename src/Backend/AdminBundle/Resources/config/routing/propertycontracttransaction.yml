@@ -1,0 +1,34 @@
+backend_admin_propertycontracttransaction_index:
+    path: /
+    defaults:
+        _controller: BackendAdminBundle:PropertyContractTransaction:index
+
+propertycontracttransaction_list_datatables:
+    path: /complex/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:PropertyContractTransaction:listDatatables
+
+backend_admin_propertycontracttransaction_new:
+    path:     /new/
+    defaults: { _controller: "BackendAdminBundle:PropertyContractTransaction:new" }
+    #methods:  [GET, POST]
+
+backend_admin_propertycontracttransaction_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "BackendAdminBundle:PropertyContractTransaction:edit" }
+
+backend_admin_propertycontracttransaction_create:
+    path:     /create
+    defaults: { _controller: "BackendAdminBundle:PropertyContractTransaction:create" }
+    methods:  POST
+
+backend_admin_propertycontracttransaction_update:
+    path:     /{id}/update
+    defaults: { _controller: "BackendAdminBundle:PropertyContractTransaction:update" }
+    methods:  POST
+
+backend_admin_propertycontracttransaction_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BackendAdminBundle:PropertyContractTransaction:delete" }
+
+    #methods:  DELETE

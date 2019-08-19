@@ -12,6 +12,14 @@ Backend\AdminBundle\Entity\UserNotification:
         sent_to:
             columns:
                 - sent_to
+        complex_to_notify:
+            columns:
+                - complex_to_notify
+        sector_to_notify:
+            columns: sector_to_notify
+
+        property_to_notify:
+            columns: property_to_notify
 
         created_by:
             columns:
@@ -19,9 +27,16 @@ Backend\AdminBundle\Entity\UserNotification:
         ticket_id:
             columns:
                 - ticket_id
+        ticket_category_id:
+            columns:
+                - ticket_category_id
+
         tenant_contract_id:
             columns:
                 - tenant_contract_id
+        common_area_reservation_id:
+            columns:
+                - common_area_reservation_id
 
     id:
         id:
@@ -38,6 +53,12 @@ Backend\AdminBundle\Entity\UserNotification:
             nullable: false
             options:
                 default: false
+        title:
+            type: text
+            nullable: true
+            length: 160
+            options:
+                fixed: false
         description:
             type: text
             nullable: false
@@ -51,15 +72,33 @@ Backend\AdminBundle\Entity\UserNotification:
             length: 65535
             options:
                 fixed: false
+        reminder:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+                comment: '1 to 24hrs'
+            column: reminder
 
         createdAt:
             type: datetime
-            nullable: false
+            nullable: true
             column: created_at
         updatedAt:
             type: datetime
-            nullable: false
+            nullable: true
             column: updated_at
+
+        isScheduled:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+        scheduledTime:
+            type: datetime
+            nullable: true
+            column: scheduled_time
+
         enabled:
             type: boolean
             nullable: false
@@ -138,5 +177,47 @@ Backend\AdminBundle\Entity\UserNotification:
                     referencedColumnName: id
             orphanRemoval: false
 
+        complexToNotify:
+            targetEntity: Complex
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_to_notify:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+        sectorToNotify:
+            targetEntity: ComplexSector
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                sector_to_notify:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+        propertyToNotify:
+            targetEntity: Property
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_to_notify:
+                    referencedColumnName: id
+            orphanRemoval: false
+
+        ticketCategory:
+            targetEntity: TicketCategory
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                ticket_category_id:
+                    referencedColumnName: id
 
     lifecycleCallbacks: {  }

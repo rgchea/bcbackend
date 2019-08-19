@@ -168,9 +168,9 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.id =' . $searchItem;
                             break;
                         }
-                    case 'name':
+                    case 'number':
                         {
-                            $searchQuery = 'e.name LIKE \'%' . $searchItem . '%\'';
+                            $searchQuery = 'e.propertyNumber LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
                         /*
@@ -238,9 +238,9 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.id';
                             break;
                         }
-                    case 'name':
+                    case 'number':
                         {
-                            $orderColumn = 'e.name';
+                            $orderColumn = 'e.propertyNumber';
                             break;
                         }
                         /*

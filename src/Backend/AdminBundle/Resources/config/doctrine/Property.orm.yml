@@ -55,7 +55,7 @@ Backend\AdminBundle\Entity\Property:
                 fixed: false
         code:
             type: string
-            nullable: false
+            nullable: true
             length: 32
             options:
                 fixed: false
@@ -105,6 +105,13 @@ Backend\AdminBundle\Entity\Property:
             options:
                 fixed: false
             column: owner_email
+        maintenancePrice:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 2
+            column: maintenance_price
+
     manyToOne:
         complex:
             targetEntity: Complex

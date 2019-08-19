@@ -1,0 +1,141 @@
+<div class="container">
+
+
+	<div class="header">
+
+		<div class="row">
+			<div class="col-md-6">
+				<h3 class="header-title">{{ new is defined ? 'label_new'|trans : '' }} {{ 'label_payment'|trans }}</h3>
+			</div>
+
+			{{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<blockquote>
+					<div class="col-md-11">
+						<p> {{ 'label_payment_new_advice'|trans }}  </p>
+					</div>
+					<div class="col-md-1 text-right">
+						<i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+					</div>
+				</blockquote>
+			</div>
+		</div>
+
+
+	</div>
+
+	<!-- CONTENT -->
+	<div class="main-content no-bordertop">
+
+
+		<div class="form-inputs-g">
+
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="col-md-3">
+						<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
+					</div>
+					<div class="col-md-9">
+						<select  class="form-control classic" id="exampleFormControlSelect1">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+
+				</div>
+
+				<div class="col-md-4">
+					<div class="col-md-5">
+						<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
+					</div>
+					<div class="col-md-7">
+						<select  class="form-control classic" id="exampleFormControlSelect1">
+							<option>4001</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+
+				</div>
+
+
+				<div class="col-md-4">
+					<div class="col-md-4">
+						<p class="txt-blue-bold">{{ 'label_payment'|trans }}: </p>
+					</div>
+					<div class="col-md-8">
+						<select  class="form-control classic" id="exampleFormControlSelect1">
+							<option>Maintaince</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+
+				</div>
+
+			</div>
+
+			<br/>
+			<!-- adress -->
+
+			<div class="row">
+				<div class="col-md-1">
+					<p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
+				</div>
+				<br/>
+				<div class="col-md-11">
+					<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+
+				<div class="col-md-1">
+					<p class="txt-blue-bold">{{ 'label_due_date'|trans }}: </p>
+				</div>
+				<div class="col-md-5 text-left">
+					<input type="text" class="form-control" placeholder="$40.00">
+				</div>
+				<div class="col-md-1">
+					<p class="txt-blue-bold">{{ 'label_amount'|trans }}: </p>
+				</div>
+				<div class="col-md-5">
+					<input type="text" class="form-control" placeholder="$40.00">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-1">
+					<p class="txt-blue-bold">{{ 'label_comment'|trans }}: </p>
+				</div>
+				<br/>
+				<div class="col-md-11">
+					<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+				</div>
+			</div>
+
+			<br/>
+			<div class="row">
+				<div class="col-md-9">
+				</div>
+				<div class="col-md-3">
+					<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+</div>
