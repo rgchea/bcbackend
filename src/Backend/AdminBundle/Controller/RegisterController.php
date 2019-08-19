@@ -153,7 +153,6 @@ class RegisterController extends Controller
 
 
                 $this->get("services")->blameOnMe($entity, "create");
-
                 $this->em->persist($entity);
                 $this->em->flush();
 
@@ -215,7 +214,7 @@ class RegisterController extends Controller
                     $templateID = "d-e2461e26f08b435cbe57a2abfb10caf2";
                 }
 
-                $myToken = '/business/new/?regtoken='.$regToken;
+                $myToken = $this->translator->getLocale().'/business/new/?regtoken='.$regToken;
                 $myJson = '"token": "'.$myToken.'"';
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
