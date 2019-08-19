@@ -127,7 +127,7 @@ class RestController extends FOSRestController
     /*DEVICE FUNCTIONS*/
 
     /**
-     * @Rest\Post("/v1/app/deviceSetToken", name="device_set_token")
+     * @Rest\Post("/app/deviceSetToken", name="device_set_token")
      *
      * @SWG\Parameter( name="token", in="body", type="string", description="the token to be saved", schema={} )
      * @SWG\Parameter( name="phone_id", in="body", type="string", description="apple uses UDID, Android uses UUID", schema={} )
@@ -217,7 +217,7 @@ class RestController extends FOSRestController
      *
      * This call takes the username and password, validates them, and if they are correctly, it will return a token to be used in all subsecuent requests.
      *
-     * @Rest\Post("/v1/login_check", name="login_check")
+     * @Rest\Post("/login_check", name="login_check")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      *
@@ -305,7 +305,7 @@ class RestController extends FOSRestController
      *
      * Returns an HTML with the terms and conditions inside the data property based on the language.
      *
-     * @Rest\Get("/v1/termsConditions", name="termsConditions")
+     * @Rest\Get("/termsConditions", name="termsConditions")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      *
@@ -361,7 +361,7 @@ class RestController extends FOSRestController
      *
      * Takes the username (email) and resets the password with a 32 chars lenght random password, which is sent by email to the user.
      *
-     * @Rest\Post("/v1/forgotPassword", name="forgotPassword", options={})
+     * @Rest\Post("/forgotPassword", name="forgotPassword", options={})
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      *
@@ -453,7 +453,7 @@ class RestController extends FOSRestController
      *
      * Takes the body and creates a user with this. It sents a welcome email to the new user.
      *
-     * @Rest\Post("/v1/register", name="register")
+     * @Rest\Post("/register", name="register")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      *
@@ -617,7 +617,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of countries available in the system.
      *
-     * @Rest\Get("/v1/countries", name="countries")
+     * @Rest\Get("/countries", name="countries")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      *
