@@ -1493,6 +1493,8 @@ class RestController extends FOSRestController
                     $role = "";
                 }
 
+                $iconClass = ($ticket->getTicketCategory()->getIcon() != null) ? $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
+
                 $data[] = array(
                     'id' => $ticket->getId(),
                     'type_id' => $type->getId(),
@@ -1500,7 +1502,8 @@ class RestController extends FOSRestController
                     //'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
                     'status' => $status->getId(),
                     'category' =>
-                        array("category_id" => $ticket->getTicketCategory()->getId(), "icon_url" => $ticket->getTicketCategory()->getIcon()->getIconUnicode(), "color" => $ticket->getTicketCategory()->getColor()),
+
+                        array("category_id" => $ticket->getTicketCategory()->getId(), "icon_class" => $iconClass, "color" => $ticket->getTicketCategory()->getColor()),
                     'title' => $ticket->getTitle(),
                     'description' => $ticket->getDescription(),
                     'is_public' => $ticket->getIsPublic(),

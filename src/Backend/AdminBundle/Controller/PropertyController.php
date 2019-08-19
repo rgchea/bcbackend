@@ -1707,6 +1707,149 @@ class PropertyController extends Controller
     }
 
 
+
+    public function listPaymentsAction(Request $request, $property)
+    {
+
+        $this->get("services")->setVars('propertyContractTransaction');
+
+        // Set up required variables
+        $this->initialise();
+
+
+        // Get the parameters from DataTable Ajax Call
+        if ($request->getMethod() == 'POST')
+        {
+            $draw = intval($request->request->get('draw'));
+            $start = $request->request->get('start');
+            $length = $request->request->get('length');
+            $search = $request->request->get('search');
+            $orders = $request->request->get('order');
+            $columns = $request->request->get('columns');
+
+        }
+        else // If the request is not a POST one, die hard
+            die;
+
+        $filterComplex = $this->get("services")->getSessionComplex();
+
+        // Process Parameters
+
+        $results = $this->em->getRepository('BackendAdminBundle:PropertyContractTransaction')->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $this->translator->getLocale(), $property);
+
+        $objects = $results["results"];
+        $selected_objects_count = count($objects);
+
+        $i = 0;
+        $response = "";
+
+        foreach ($objects as $key => $entity)
+        {
+            $response .= '["';
+
+            $j = 0;
+            $nbColumn = count($columns);
+            foreach ($columns as $key => $column)
+            {
+                // In all cases where something does not exist or went wrong, return -
+                $responseTemp = "-";
+
+                switch($column['name'])
+                {
+                    case 'id':
+                        {
+                            $responseTemp = $entity->getId();
+
+                            break;
+                        }
+                    case 'description':
+                        {
+                            $responseTemp = $entity->getDescription();
+                            break;
+                        }
+                    case 'property':
+                        {
+                            $responseTemp = $entity->getPropertyContract()->getProperty();
+                            break;
+                        }
+
+                    case 'type':
+                        {
+                            $responseTemp = $entity->getPropertyTransactionType();
+                            break;
+                        }
+                    case 'status':
+                        {
+                            $myStatus = $entity->getStatus();
+                            if($myStatus == 0){
+                                $status = $this->translator->getLocale() == 'en' ? "Pending" : "Pendiente";
+                                $status = "<button type='button' class='btn btn-warning btn-xs'>".$status."</button>";
+                            }
+                            else{
+                                $status= $this->translator->getLocale() == 'en' ? "Paid" : "Pagado";
+                                $status = "<button type='button' class='btn btn-success btn-xs'>".$status."</button>";
+                            }
+
+                            $responseTemp = $status;
+                            break;
+                        }
+
+                    case 'createdat':
+                        {
+                            $responseTemp = $entity->getCreatedAt()->format("m/d/y");
+                            break;
+                        }
+
+                    case 'paid':
+                        {
+                            if($entity->getPaidDate() != NULL){
+                                $responseTemp = $entity->getPaidDate()->format("m/d/y");
+                            }
+                            else{
+                                $responseTemp = "--";
+                            }
+
+                            break;
+                        }
+
+                    case 'actions':
+                        {
+                            $urlEdit = $this->generateUrl('backend_admin_propertycontracttransaction_edit', array('id' => $entity->getId()));
+                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
+
+                            $responseTemp = $edit;
+                            break;
+                        }
+
+                }
+
+                // Add the found data to the json
+                $response .= $responseTemp;
+
+                if(++$j !== $nbColumn)
+                    $response .='","';
+            }
+
+            $response .= '"]';
+
+            // Not on the last item
+            if(++$i !== $selected_objects_count)
+                $response .= ',';
+        }
+        $myItems = $response;
+        //($request, $repository, $results, $myItems){
+        $return = $this->get("services")->serviceDataTable($request, $this->repository, $results, $myItems);
+
+        return $return;
+
+
+    }
+
+
+
+
+
     /**
      * Creates a new PropertyContract entity.
      *
