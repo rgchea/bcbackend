@@ -3721,3 +3721,9 @@ i {
 .form-inputs-g p{
     color:#03304a;
 }
+
+.generateText{
+    font-size: 12px;
+    text-align: right;
+    color: #FFF;    
+}
