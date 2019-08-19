@@ -274,15 +274,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="24" column="29" selection-start-line="24" selection-end-line="24" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="103">
@@ -326,8 +317,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="1506" column="80" lean-forward="true" selection-start-line="1506" selection-start-column="80" selection-end-line="1506" selection-end-column="80" />
+            <state relative-caret-position="324">
+              <caret line="1506" column="90" selection-start-line="1506" selection-start-column="90" selection-end-line="1506" selection-end-column="90" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketCategory.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="181">
+              <caret line="257" column="32" lean-forward="true" selection-start-line="257" selection-start-column="32" selection-end-line="257" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -375,7 +375,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>maile</find>
       <find>callSendgrid</find>
       <find>properties</find>
       <find>enviar noti</find>
@@ -405,6 +404,7 @@
       <find>payment_ta</find>
       <find>icon_class</find>
       <find>feed</find>
+      <find>tostring</find>
     </findStrings>
     <replaceStrings>
       <replace>optionDelete</replace>
@@ -696,51 +696,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
               <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="Ticket" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Services" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -858,12 +814,12 @@
       <workItem from="1565481099761" duration="6710000" />
       <workItem from="1565564006793" duration="39349000" />
       <workItem from="1565907732358" duration="7000000" />
-      <workItem from="1565970993055" duration="31501000" />
+      <workItem from="1565970993055" duration="31782000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1031707000" />
+    <option name="totallyTimeSpent" value="1031988000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -906,13 +862,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/role.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/notification.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1259,10 +1208,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketCategory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="257" column="32" lean-forward="true" selection-start-line="257" selection-start-column="32" selection-end-line="257" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="1506" column="80" lean-forward="true" selection-start-line="1506" selection-start-column="80" selection-end-line="1506" selection-end-column="80" />
+        <state relative-caret-position="324">
+          <caret line="1506" column="90" selection-start-line="1506" selection-start-column="90" selection-end-line="1506" selection-end-column="90" />
         </state>
       </provider>
     </entry>
