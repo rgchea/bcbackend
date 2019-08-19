@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Usernotification</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ userNotification.id }}</td>
+            </tr>
+            <tr>
+                <th>Isread</th>
+                <td>{% if userNotification.isRead %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ userNotification.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ userNotification.description }}</td>
+            </tr>
+            <tr>
+                <th>Notice</th>
+                <td>{{ userNotification.notice }}</td>
+            </tr>
+            <tr>
+                <th>Reminder</th>
+                <td>{{ userNotification.reminder }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if userNotification.createdAt %}{{ userNotification.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if userNotification.updatedAt %}{{ userNotification.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Isscheduled</th>
+                <td>{% if userNotification.isScheduled %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Scheduledtime</th>
+                <td>{% if userNotification.scheduledTime %}{{ userNotification.scheduledTime|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enabled</th>
+                <td>{% if userNotification.enabled %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('usernotification_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('usernotification_edit', { 'id': userNotification.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

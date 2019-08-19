@@ -72,7 +72,7 @@
 					<div class="col-md-12">
 						<blockquote>
 							<div class="col-md-11">
-								<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate quam ut risus ullamcorper convallis. Morbi pellentesque congue elit malesuada pharetra. Suspendisse iaculis interdum elit, et porta ex tempus eget. Ut nec diam dictum, cursus metus euismod, aliquet ante. Quisque a lacus dapibus, semper ante ac, mollis nibh. Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+								<p> {{ 'label_add_property_advice'|trans }} </p>
 							</div>
 							<div class="col-md-1 text-right">
 								<i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
@@ -87,14 +87,26 @@
 		<!-- CONTENT -->
 		<div class="main-content no-bordertop">
 
-
-
 			<div class="container">
+
+
 
 				{{ form_start(form) }}
 				{{ form_errors(form) }}
 
 					<fieldset>
+
+						{% if edit is defined %}
+							{% if propertyContract is not null and tenantContract is not null%}
+								<input type="hidden" name="tenantContract" value="{{ tenantContract.id }}">
+								<input type="hidden" name="propertyContract" value="{{ propertyContract.id }}">
+							{% else %}
+								<input type="hidden" name="tenantContract" value="0">
+								<input type="hidden" name="propertyContract" value="0">
+
+							{% endif %}
+
+						{% endif %}
 
 						<div class="clearfix"></div>
 
@@ -149,12 +161,14 @@
 								<div class="col-md-1">
 									<p class="txt-blue-bold">{{ 'label_address'|trans }}:</p>
 								</div>
-								<div class="col-md-7">
+								<div class="col-md-11">
 									{{ form_errors(form.address) }}
-									{{ form_widget(form.address, { 'attr': {'class' : 'form-control rounded-0', 'rows': '7' } }
+									{{ form_widget(form.address, { 'attr': {'class' : 'form-control rounded-0', 'rows': '6' } }
 									) }}
 
 								</div>
+
+								{#
 								{% if edit is defined %}
 									<div class="col-md-1">
 										<p class="txt-blue-bold">QR:</p>
@@ -171,6 +185,9 @@
 									</div>
 
 								{% endif %}
+
+								#}
+
 							</div>
 
 
@@ -184,10 +201,17 @@
 									</div>
 									<div class="col-md-9">
 										{% if edit is defined %}
-											{% if  tenantContract.user is not null %}
-												{% set tenantEmail = tenantContract.user.email %}
+
+											{% if propertyContract is not null and tenantContract is not null%}
+												{% if  tenantContract.user is not null %}
+													{% set tenantEmail = tenantContract.user.email %}
+												{% else %}
+													{% set tenantEmail = tenantContract.invitationUserEmail %}
+												{% endif %}
+
 											{% else %}
-												{% set tenantEmail = tenantContract.invitationUserEmail %}
+
+												{% set tenantEmail = '' %}
 											{% endif %}
 
 											<input type="text" class="form-control" value="{{ tenantEmail }}" name="agreement[tenant_email]" id="agreement_tenant_email">
@@ -205,7 +229,7 @@
 
 									</div>
 									<div class="col-md-9">
-										{% if edit is defined %}
+										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
 											<input type="text" class="form-control" value="{{ tenantContract.ownerEmail }}" name="agreement[owner_email]" id="agreement_owner_email">
 										{% else %}
 											<input type="text" class="form-control" placeholder="example@example.com" name="agreement[owner_email]" id="agreement_owner_email">
@@ -221,7 +245,7 @@
 										<p class="txt-blue-bold text-left">{{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}: </p>
 									</div>
 									<div class="col-md-7">
-										{% if edit is defined %}
+										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
 											<input type="text" class="form-control" value="{{ propertyContract.maintenancePrice|number_format(2, '.', '')  }}" id="agreement_maintenance" name="agreement[maintenance]">
 										{% else %}
 											<input type="text" class="form-control" placeholder="$ 540.00" id="agreement_maintenance" name="agreement[maintenance]">
@@ -234,7 +258,7 @@
 										<p class="txt-blue-bold text-left">{{ 'label_who_pays_maintenance'|trans }}: </p>
 									</div>
 									<div class="col-md-7 text-right">
-										{% if edit is defined %}
+										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
 
 											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" {{ propertyContract.whoPaysMaintenance == 'owner' ? 'checked' }} value="owner">Owner</label>
 											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" {{ propertyContract.whoPaysMaintenance == 'tenant' ? 'checked' }} value="tenant">Tenant</label>
@@ -254,7 +278,7 @@
 										<p class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </p>
 									</div>
 									<div class="col-md-9">
-										{% if edit is defined %}
+										{% if edit is defined and propertyContract is not null and tenantContract is not null %}
 
 											<input id="agreement_start_date" name="agreement[start]" type="date" class="form-control" value="{{propertyContract.startDate|date('Y-m-d')}}" />
 											{#value="{{entity.birthdate|date('Y-m-d')}}"#}
@@ -268,7 +292,7 @@
 										<p class="txt-blue-bold text-left">{{ 'label_agreement_end_date'|trans }}: </p>
 									</div>
 									<div class="col-md-9">
-										{% if edit is defined %}
+										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
 
 											<input id="agreement_end_date" name="agreement[end]" type="date" class="form-control" value="{{propertyContract.endDate|date('Y-m-d')}}"  />
 											{#value="{{entity.birthdate|date('Y-m-d')}}"#}
@@ -288,7 +312,7 @@
 								<div class="col-md-3">
 									<button class="btn btn-primary" type="submit">
 										<i class="fa fa-save"></i>
-										{{ 'label_save'|trans }} {{ 'label_property'|trans }}
+										{{ 'label_save'|trans }}
 									</button>
 
 								</div>

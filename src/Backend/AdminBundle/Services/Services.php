@@ -383,6 +383,7 @@ class Services extends Controller
 
 		//complex
         if($user->getRole()->getName() == "SUPER ADMIN"){
+            /*
             if (!$session->has("sessionComplex")) {
                 $session->set("sessionComplex", 0);
             }
@@ -400,6 +401,7 @@ class Services extends Controller
 
                 $session->set("myComplexes", $complexes);
             //}
+            */
 
         }
         else{
@@ -890,6 +892,27 @@ class Services extends Controller
 
         return $complex;
 
+    }
+
+
+    function time_elapsed_A($secs){
+
+        //$date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
+        //echo $date->format('d-m-Y H:i:s');
+
+        $bit = array(
+            'y' => $secs / 31556926 % 12,
+            'w' => $secs / 604800 % 52,
+            'd' => $secs / 86400 % 7,
+            'h' => $secs / 3600 % 24,
+            'm' => $secs / 60 % 60,
+            's' => $secs % 60
+        );
+
+        foreach($bit as $k => $v)
+            if($v > 0)$ret[] = $v . $k;
+
+        return join(' ', $ret);
     }
 
 	

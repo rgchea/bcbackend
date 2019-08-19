@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block title %}
-    {{ 'label_menu.property'|trans }}
+    {{ 'label_menu.ticket'|trans }}
 {% endblock %}
 
 {% block javascripts %}
@@ -32,7 +32,7 @@
             <br/>
             <div class="row">
                 <div class="col-md-6">
-                    <h3 class="header-title">Your Tickets</h3>
+                    <h3 class="header-title">{{ 'label_menu.ticket'|trans }}</h3>
                 </div>
 
                 {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
@@ -41,7 +41,7 @@
                 <div class="col-md-12">
                     <blockquote>
                         <div class="col-md-11">
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate quam ut risus ullamcorper convallis. Morbi pellentesque congue elit malesuada pharetra. Suspendisse iaculis interdum elit, et porta ex tempus eget. Ut nec diam dictum, cursus metus euismod, aliquet ante. Quisque a lacus dapibus, semper ante ac, mollis nibh. Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                            <p> {{ 'label_ticket_system_advice'|trans }}  </p>
                         </div>
                         <div class="col-md-1 text-right">
                             <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>

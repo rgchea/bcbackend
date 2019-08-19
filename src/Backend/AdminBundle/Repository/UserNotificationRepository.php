@@ -59,4 +59,131 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('user', $user);
     }
 
+
+
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('e');
+
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('e');
+        $countQuery->select('COUNT(e)');
+
+        //ENABLED
+        $query->andWhere("e.enabled = 1");
+        $countQuery->andWhere("e.enabled = 1");
+
+        //ticket category
+        $query->join('e.ticketCategory', 'tc');
+        $countQuery->join('e.ticketCategory', 'tc');
+
+
+        // Fields Search
+        foreach ($columns as $key => $column)
+        {
+            if ($column['search']['value'] != '')
+            {
+                // $searchItem is what we are looking for
+                $searchItem = $column['search']['value'];
+                $searchQuery = null;
+
+                switch($column['name'])
+                {
+                    case 'id':
+                        {
+                            $searchQuery = 'e.id ='. $searchItem;
+                            break;
+                        }
+                    case 'title':
+                        {
+                            $searchQuery = 'e.title LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+                    case 'category':
+                        {
+                            $searchQuery = 'tc.name LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+
+                    case 'sent':
+                        {
+                            $searchQuery = 'e.scheduledTime LIKE \'%'.$searchItem.'%\'';
+                            break;
+                        }
+
+                }
+
+
+                if ($searchQuery !== null)
+                {
+                    $query->andWhere($searchQuery);
+                    $countQuery->andWhere($searchQuery);
+                }
+            }
+        }
+
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+
+        // Order
+        // Orders
+        foreach ($orders as $key => $order)
+        {
+            // Orders does not contain the name of the column, but its number,
+            // so add the name so we can handle it just like the $columns array
+            $orders[$key]['name'] = $columns[$order['column']]['name'];
+        }
+
+        foreach ($orders as $key => $order)
+        {
+
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+
+                switch($order['name'])
+                {
+                    case 'id':
+                        {
+                            $orderColumn = 'e.id';
+                            break;
+                        }
+                    case 'title':
+                        {
+                            $orderColumn = 'e.title';
+                            break;
+                        }
+                    case 'category':
+                        {
+                            $orderColumn = 'tc.name';
+                            break;
+                        }
+
+                    case 'sent':
+                        {
+                            $orderColumn = 'e.scheduledTime';
+                            break;
+                        }
+
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+
+
+        $results = $query->getQuery()->getResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+
+        return array(
+            "results" 		=> $results,
+            "countResult"	=> $countResult
+        );
+    }
+
 }

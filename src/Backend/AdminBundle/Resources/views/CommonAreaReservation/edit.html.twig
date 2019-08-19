@@ -10,25 +10,23 @@
 {% block body -%}
     {{ parent() }}
 
-
-
     <div class="header">
         <div class="container">
-            <div class="row">
-                <div class="col-md-7">
-                    <h3 class="header-title">Reservation 12456789:</h3>
-                    <h4><span style="font-size:14px;">in Weston Condo</span> </h4>
-                </div>
-                <div class="col-md-3 text-right">
 
-                    <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">Approve this Booking</button>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="header-title">{{ 'label_booking'|trans }} {{ entity.id }}</h3>
+                    <h4><span style="font-size:14px;">{{ 'label_in'|trans }} {{ entity.property.complex }}</span> </h4>
+
+                </div>
+
+                <div class="col-md-2 text-right">
+                    <a  href="#" class="btn btn-primary-blue" style="width:100%" >{{ 'label_booking_approve'|trans }}</a>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Reject</button>
+                    <a href="{{ path('backend_admin_property_new') }}"  class="btn btn-primary" style="width:100%">{{ 'label_booking_reject'|trans }}</a>
                 </div>
             </div>
-
-            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
         </div>
     </div>
@@ -38,12 +36,13 @@
         <div class="container">
             <div class="form-inputs-g">
 
-
+                <br/>
+                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
                 <div class="row">
                     <div class="col-md-3">
                         <div class="col-md-3">
-                            <p class="txt-blue-bold">Sector: </p>
+                            <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
                         </div>
                         <div class="col-md-9">
                             <span>1</span>
@@ -53,7 +52,7 @@
 
                     <div class="col-md-3">
                         <div class="col-md-7">
-                            <p class="txt-blue-bold">Property Number: </p>
+                            <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
                         </div>
                         <div class="col-md-5">
                             <span>105</span>
@@ -64,7 +63,7 @@
 
                     <div class="col-md-3">
                         <div class="col-md-5">
-                            <p class="txt-blue-bold">Common Area: </p>
+                            <p class="txt-blue-bold">{{ 'label_common_area'|trans }}: </p>
                         </div>
                         <div class="col-md-7">
                             <span>$ 540.00</span>
@@ -74,7 +73,7 @@
 
                     <div class="col-md-3">
                         <div class="col-md-5">
-                            <p class="txt-blue-bold text-left">Status: </p>
+                            <p class="txt-blue-bold text-left">{{ 'label_status'|trans }}: </p>
                         </div>
                         <div class="col-md-7">
                             <span>New</span>
@@ -97,7 +96,7 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="txt-blue-bold">User: </p>
+                                        <p class="txt-blue-bold">{{ 'label_user'|trans }}: </p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>Andres Garcia</p>
@@ -105,7 +104,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="txt-blue-bold">Date: </p>
+                                        <p class="txt-blue-bold">{{ 'label_event_date'|trans }}: </p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>12/10/19 9:00 am - 11:00am</p>
@@ -123,7 +122,7 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="txt-blue-bold">Updated by:</p>
+                                        <p class="txt-blue-bold">{{ 'label_updated_by'|trans }}:</p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>Jhon Tenant</p>
@@ -133,7 +132,7 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="txt-blue-bold">Updated at:</p>
+                                        <p class="txt-blue-bold">{{ 'label_updated_at'|trans }}:</p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>12/10/19 9:00 am - 12:00am</p>
@@ -143,7 +142,7 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="txt-blue-bold">Reservation Cost: </p>
+                                        <p class="txt-blue-bold">{{ 'label_cost'|trans }}: </p>
                                     </div>
                                     <div class="col-md-6">
                                         <p>$10.00</p>
@@ -151,7 +150,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="txt-blue-bold">Discount: </p>
+                                        <p class="txt-blue-bold">{{ 'label_discount'|trans }}: </p>
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" placeholder="$10.00">
@@ -159,7 +158,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="txt-blue-bold">Amount Paid </p>
+                                        <p class="txt-blue-bold">{{ 'label_amount_paid'|trans }}:</p>
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" placeholder="$10.00">
@@ -170,7 +169,7 @@
 
                                     </div>
                                     <div class="col-md-6">
-                                        <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">Update Payment</button>
+                                        <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">{{ 'label_update_payment'|trans }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -183,8 +182,8 @@
 
                 <div id="tabs">
                     <ul>
-                        <li><a href="#tabs-notifications">Notifications</a></li>
-                        <li><a href="#tabs-log">Log</a></li>
+                        <li><a href="#tabs-notifications">{{ 'label_notifications'|trans }}</a></li>
+                        <li><a href="#tabs-log">{{ 'label_log'|trans }}</a></li>
                     </ul>
 
                     <div id="tabs-notifications">
@@ -253,7 +252,7 @@
                             <div class="row color1">
 
                                 <div class="col-md-12">
-                                    <p class="txt-blue-bold">Send Reply</p>
+                                    <p class="txt-blue-bold">{{ 'label_reply'|trans }}</p>
                                     <div class="form-group">
 
                                         <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
@@ -265,7 +264,7 @@
                                         <div class="col-md-10">
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="submit" class="btn btn-primary">Send Reply</button>
+                                            <button type="submit" class="btn btn-primary">{{ 'label_reply'|trans }}</button>
                                             <p></p>
                                         </div>
                                     </div>

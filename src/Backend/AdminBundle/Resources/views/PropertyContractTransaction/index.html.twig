@@ -1,0 +1,229 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_propertycontracttransaction_index') }}"></a>{{ 'label_menu.payment'|trans }} </li>
+{% endblock %}
+
+{% block title %}
+    {{ 'label_payment_control'|trans }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+    <div class="container">
+
+
+        <div class="header">
+
+                <div class="row">
+
+                    <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_propertycontracttransaction_new') }}">
+                        {{ 'label_create_new'|trans }} {{ 'label_charge'|trans }}
+                    </a>
+
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="header-title">{{ 'label_menu.payment'|trans }}</h3>
+                    </div>
+
+                    {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <blockquote>
+                            <div class="col-md-11">
+                                <p> {{ 'label_payment_control_advice'|trans }}  </p>
+                            </div>
+                            <div class="col-md-1 text-right">
+                                <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+
+
+        </div>
+
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+            <header>
+                <h2> {{ 'label_payment_control'|trans }}</h2>
+            </header>
+
+            <!-- widget div-->
+            <div>
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+
+                <!-- end widget edit box -->
+
+                <!-- widget content -->
+                <div class="widget-body no-padding">
+
+                    <div class="widget-body-toolbar">
+
+                    </div>
+
+                    <table id="dt_table" class="table table-striped  table-hover">
+                        <tfoot class="dt_tfoot">
+                            <tr>
+                                <th>ID</th>
+                                <th>{{ 'label_description'|trans }}</th>
+                                <th>{{ 'label_property'|trans }}</th>
+                                <th>{{ 'label_type'|trans }}</th>
+                                <th>{{ 'label_status'|trans }}</th>
+                                <th>{{ 'label_issued'|trans }}</th>
+                                <th>{{ 'label_paid'|trans }}</th>
+                                <th>&nbsp;</th>
+
+                            </tr>
+                        </tfoot>
+                        <thead>
+                            <tr>
+                                {# sorting of properties based on query components #}
+                                <th>ID</th>
+                                <th>{{ 'label_description'|trans }}</th>
+                                <th>{{ 'label_property'|trans }}</th>
+                                <th>{{ 'label_type'|trans }}</th>
+                                <th>{{ 'label_status'|trans }}</th>
+                                <th>{{ 'label_issued'|trans }}</th>
+                                <th>{{ 'label_paid'|trans }}</th>
+                                <th>{{ 'label_actions'|trans }}</th>
+                            </tr>
+
+                        </thead>
+                        <tbody></tbody>
+
+                    </table>
+                    {# display navigation #}
+
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var table;
+        {% set myLocale = app.request.getLocale() %};
+
+        function fetchData(){
+
+            table  = $('#dt_table').DataTable({
+                "columnDefs": [
+
+                    // These are the column name variables that will be sent to the server
+                    { "name": "id",   "targets": 0 },
+                    { "name": "description",   "targets": 1 },
+                    { "name": "property",   "targets": 2 },
+                    { "name": "type",   "targets": 3 },
+                    { "name": "status",  "targets": 4 },
+                    { "name": "createdat",  "targets": 5 },
+                    { "name": "paid",  "targets": 6 },
+                    { "name": "actions",  "targets": 7 },
+
+                ],
+                // Server-side parameters
+                "processing": true,
+                "serverSide": true,
+                // Ajax call
+                "ajax": {
+                    "url": "{{ path('propertycontracttransaction_list_datatables') }}",
+                    "type": "POST",
+                    //dataType: "html"
+                },
+                // Classic DataTables parameters
+                "paging" : true,
+                "info" : true,
+                "searching": true,
+                "pageLength": 10,
+                "order": [[1, 'asc']],
+                {% if myLocale == 'es' %}
+                "language": {
+                    "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+                }
+                {% else %}
+                "language": {
+                    "infoFiltered": ""
+                }
+                {% endif %}
+
+
+            });
+
+        }
+
+        $(document).ready(function(){
+
+
+
+            // Add a text input to each footer cell
+            var pos = 1;
+            $('#dt_table tfoot th').each( function () {
+                var title = $(this).text();
+                if(pos != 8){//columna Actions
+                    $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
+                }
+
+                pos ++;
+            });
+
+
+            fetchData();
+
+            // Apply the search
+            pos = 1;
+            table.columns().every( function () {
+                var that = this;
+
+                $("#input"+pos).on( 'keyup change', function () {
+                    if ( that.search() !== this.value )
+                    {
+                        that.search( this.value ).draw();
+                    }
+                });
+                pos++;
+            });
+
+            $("#input5").remove();
+        });
+
+    </script>
+
+
+{% endblock %}
+
+
+{% block extrascripts %}
+
+
+    $(document).on('click', '.btn-delete', function(e){
+    e.preventDefault();
+
+    var url = $(this).attr('href');
+    var c = confirm("{{ 'label_are_you_sure'|trans }}");
+
+    if(c){
+    $('#spinner').show();
+    window.location = url;
+    }else{
+    return false;
+    }
+
+
+    });
+
+{% endblock %}

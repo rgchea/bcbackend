@@ -126,3 +126,11 @@ propertyContract:
 ticket:
     resource: "@BackendAdminBundle/Resources/config/routing/ticket.yml"
     prefix:   /ticket
+
+backend_admin_propertycontracttransaction:
+    resource: "@BackendAdminBundle/Resources/config/routing/propertycontracttransaction.yml"
+    prefix:   /propertycontracttransaction
+
+backend_admin_usernotification:
+    resource: "@BackendAdminBundle/Resources/config/routing/usernotification.yml"
+    prefix:   /usernotification

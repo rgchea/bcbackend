@@ -21,6 +21,10 @@ Backend\AdminBundle\Entity\PropertyContractTransaction:
         created_by:
             columns:
                 - created_by
+        complex_id:
+            columns:
+                - complex_id
+
     id:
         id:
             type: integer
@@ -31,20 +35,35 @@ Backend\AdminBundle\Entity\PropertyContractTransaction:
             generator:
                 strategy: IDENTITY
     fields:
+
+        description:
+            type: string
+            nullable: true
+            length: 160
+            options:
+                fixed: false
+        comment:
+            type: string
+            nullable: true
+            length: 160
+            options:
+                fixed: false
+            column: comment
+
         paymentAmount:
             type: float
             nullable: false
             precision: 10
             scale: 2
             options:
-                default: '0.00'
+                default: 0.00
             column: payment_amount
         status:
             type: boolean
             nullable: false
             options:
                 comment: 'pagado es 1, pendiente es 0'
-                default: '0'
+                default: false
         paymentType:
             type: string
             nullable: true
@@ -60,10 +79,14 @@ Backend\AdminBundle\Entity\PropertyContractTransaction:
             options:
                 fixed: false
             column: transaction_number
-        paymentDate:
+        dueDate:
             type: datetime
             nullable: true
-            column: payment_date
+            column: due_date
+        paidDate:
+            type: datetime
+            nullable: true
+            column: paid_date
         createdAt:
             type: datetime
             nullable: false
@@ -76,7 +99,7 @@ Backend\AdminBundle\Entity\PropertyContractTransaction:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         propertyContract:
             targetEntity: PropertyContract
@@ -138,4 +161,16 @@ Backend\AdminBundle\Entity\PropertyContractTransaction:
                 updated_by:
                     referencedColumnName: id
             orphanRemoval: false
+
+        complex:
+            targetEntity: Complex
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                complex_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+
     lifecycleCallbacks: {  }

@@ -16,17 +16,16 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <h3 class="header-title">Property Details:</h3>
+                        <h3 class="header-title">{{ 'label_property_details'|trans }}</h3>
                     </div>
                     <div class="col-md-7 text-left">
-                        <h4>Apartment 101 <span style="font-size:14px;">Floor 1, Weston</span> </h4>
+                        <h4>{{ entity }}<span style="font-size:14px;"> {{ entity.complex }}</span> </h4>
                     </div>
                     <div class="col-md-2">
+                        {#<button type="submit" class="btn btn-primary">Change Tenant</button>#}
                     </div>
                 </div>
-
                 <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
             </div>
         </div>
 
@@ -40,12 +39,12 @@
                 <div class="col-md-8">
 
                     <div class="wrapp-update-m-c">
-                        <h2 class="text-center title-update-m-c">Cancel Contract on Apartament 101</h2>
+                        <h2 class="text-center title-update-m-c">{{ 'label_cancel'|trans }} {{ 'label_property_agreement'|trans }} </h2>
                         <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
                         <blockquote>
                             <div class="col-md-12">
-                                <p> Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                                <p> {{ 'label_cancel_contract_advice'|trans }}  </p>
                             </div>
 
                         </blockquote>
@@ -56,7 +55,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <p class="txt-blue-bold">Actual Tenant </p>
+                                    <p class="txt-blue-bold">{{ 'label_tenant'|trans }}</p>
                                 </div>
                                 <div class="col-md-4 text-left ">
                                     Andres Garcia Bernat
@@ -73,7 +72,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <p class="txt-blue-bold">Tenant Email:</p>
+                                    <p class="txt-blue-bold">{{ 'label_email'|trans }} ({{ 'label_tenant'|trans }}):</p>
                                 </div>
                                 <div class="col-md-64 text-left ">
                                     andres@gameboard.tech
@@ -91,7 +90,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <p class="txt-blue-bold">Start Date: </p>
+                                    <p class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </p>
                                 </div>
                                 <div class="col-md-4 text-left">
                                     12/04/18
@@ -109,7 +108,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <p class="txt-blue-bold">Contract expiration: </p>
+                                    <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }}: </p>
                                 </div>
                                 <div class="col-md-4 text-left ">
                                     12/04/18
@@ -126,7 +125,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <p class="txt-blue-bold">Maintenance Fee: </p>
+                                    <p class="txt-blue-bold">{{ 'label_maintenance'|trans }}: </p>
                                 </div>
                                 <div class="col-md-4 text-left ">
                                     $500.00
@@ -148,7 +147,7 @@
                                     <div class="custom-control custom-checkbox">
                                         <br/>
                                         <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                                        <label class="custom-control-label" for="defaultUnchecked">Notify the Owner</label>
+                                        <label class="custom-control-label" for="defaultUnchecked">{{ 'label_notify_owner'|trans }}</label>
                                         <br/>
                                         <br/>
 
@@ -167,11 +166,11 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <button style="width:80%;" type="submit" class="btn btn-primary btn-cancel-contract">Update Pending Fees</button>
+                                    <button style="width:80%;" type="submit" class="btn btn-primary btn-cancel-contract">{{ 'label_cancel'|trans }} {{ 'label_property_agreement'|trans }}</button>
                                 </div>
                                 <div class="col-md-4">
 
-                                    <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">Cancel</button>
+                                    <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">{{ 'label_cancel'|trans }}</button>
 
                                 </div>
                                 <div class="col-md-2">
@@ -202,7 +201,6 @@
 {% endblock %}
 
 {% block extrascripts %}
-
 
 
 {% endblock %}

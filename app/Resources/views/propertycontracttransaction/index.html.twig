@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Propertycontracttransactions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Comment</th>
+                <th>Paymentamount</th>
+                <th>Status</th>
+                <th>Paymenttype</th>
+                <th>Transactionnumber</th>
+                <th>Duedate</th>
+                <th>Createdat</th>
+                <th>Updatedat</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for propertyContractTransaction in propertyContractTransactions %}
+            <tr>
+                <td><a href="{{ path('propertycontracttransaction_show', { 'id': propertyContractTransaction.id }) }}">{{ propertyContractTransaction.id }}</a></td>
+                <td>{{ propertyContractTransaction.description }}</td>
+                <td>{{ propertyContractTransaction.comment }}</td>
+                <td>{{ propertyContractTransaction.paymentAmount }}</td>
+                <td>{% if propertyContractTransaction.status %}Yes{% else %}No{% endif %}</td>
+                <td>{{ propertyContractTransaction.paymentType }}</td>
+                <td>{{ propertyContractTransaction.transactionNumber }}</td>
+                <td>{% if propertyContractTransaction.dueDate %}{{ propertyContractTransaction.dueDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if propertyContractTransaction.createdAt %}{{ propertyContractTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if propertyContractTransaction.updatedAt %}{{ propertyContractTransaction.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if propertyContractTransaction.enabled %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('propertycontracttransaction_show', { 'id': propertyContractTransaction.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('propertycontracttransaction_edit', { 'id': propertyContractTransaction.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('propertycontracttransaction_new') }}">Create a new propertyContractTransaction</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Usernotifications list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Isread</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Notice</th>
+                <th>Reminder</th>
+                <th>Createdat</th>
+                <th>Updatedat</th>
+                <th>Isscheduled</th>
+                <th>Scheduledtime</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for userNotification in userNotifications %}
+            <tr>
+                <td><a href="{{ path('usernotification_show', { 'id': userNotification.id }) }}">{{ userNotification.id }}</a></td>
+                <td>{% if userNotification.isRead %}Yes{% else %}No{% endif %}</td>
+                <td>{{ userNotification.title }}</td>
+                <td>{{ userNotification.description }}</td>
+                <td>{{ userNotification.notice }}</td>
+                <td>{{ userNotification.reminder }}</td>
+                <td>{% if userNotification.createdAt %}{{ userNotification.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if userNotification.updatedAt %}{{ userNotification.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if userNotification.isScheduled %}Yes{% else %}No{% endif %}</td>
+                <td>{% if userNotification.scheduledTime %}{{ userNotification.scheduledTime|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if userNotification.enabled %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('usernotification_show', { 'id': userNotification.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('usernotification_edit', { 'id': userNotification.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('usernotification_new') }}">Create a new userNotification</a>
+        </li>
+    </ul>
+{% endblock %}

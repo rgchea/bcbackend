@@ -1,0 +1,156 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+{{ parent() }}
+    <li> <a href="{{ path('backend_admin_propertycontracttransaction_index') }}">{{ 'label_menu.payment'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_propertycontracttransaction_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h3 class="header-title">Register New Payment No 12459</h3>
+                </div>
+                <div class="col-md-2 text-right"></div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+                        <div class="col-md-11">
+                            <p> {{ 'label_receive_new_payment_advice'|trans }}  </p>
+                        </div>
+                        <div class="col-md-1 text-right">
+                            <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="main-content no-bordertop">
+
+        <div class="container">
+
+            <div class="form-inputs-g">
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="col-md-3">
+                            <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
+                        </div>
+                        <div class="col-md-9">
+                            <p>1</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="col-md-5">
+                            <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
+                        </div>
+                        <div class="col-md-7">
+                            <p>4001</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="col-md-4">
+                            <p class="txt-blue-bold">{{ 'label_type'|trans }}: </p>
+                        </div>
+                        <div class="col-md-8">
+                            <p>Maintenance</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <br/>
+                <!-- address -->
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12">
+                        <p>This is the payment description</p>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <p class="txt-blue-bold">{{ 'label_due_date'|trans }}: </p>
+                    </div>
+                    <div class="col-md-2 text-left">
+                        <p>10/07/19</p>
+                    </div>
+                    <div class="col-md-1">
+                        <p class="txt-blue-bold">{{ 'label_amount'|trans }}: </p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>10/07/19</p>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <p class="txt-blue-bold">{{ 'label_comment'|trans }}: </p>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12">
+                        <p>This is the payment comment, this could be a long text, buy maybe not that long</p>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="col-md-1">
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <p class="txt-blue-bold">{{ 'label_transaction_number'|trans }}: </p>
+                    </div>
+                    <div class="col-md-4 text-left">
+                        <input type="text" class="form-control" placeholder="123456789">
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">{{ 'lable_register_paid'|trans }}</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- END: CONTENT -->
+
+
+{% endblock %}
+
+{% block extrascripts %}
+    
+    
+
+{% endblock %}

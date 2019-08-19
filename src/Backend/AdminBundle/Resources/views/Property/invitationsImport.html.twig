@@ -1,0 +1,78 @@
+{% extends 'BackendAdminBundle::layout.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li> <a href="{{ path('backend_admin_property_index') }}">{{ 'label_menu.property'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_property_invitations') }}">{{ 'label_import_properties'|trans  }}</a> </li>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <div class="header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="header-title">{{ 'label_import_properties'|trans }}</h3>
+                </div>
+
+                {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+                        <div class="col-md-11">
+                            <p> {{ 'label_send_invitations_advice'|trans }}  </p>
+                        </div>
+                        <div class="col-md-1 text-right">
+                            <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+
+            <!-- widget div-->
+                <form action="{{ path('backend_admin_property_invitations_import') }}" method="post" enctype="multipart/form-data">
+
+
+                    <fieldset>
+                        <input type="hidden" name="loadSubmit" />
+
+                        <div class="form-group col-md-6">
+                            <label for="" class="required">{{ 'label_select_csv'|trans }}</label>
+                            <input type="file" name="file" id="file" />
+                        </div>
+
+                        <div class="hide">
+
+                        </div>
+
+                    </fieldset>
+
+                    <div class="form-actions">
+
+                        <button class="btn btn-primary" type="submit" name="submit">
+                            <i class="fa fa-save"></i>
+                            {{ 'label_load'|trans }}
+                        </button>
+                    </div>
+                </form>
+
+            <!-- end widget div -->
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extrascripts %}
+
+
+
+{% endblock %}

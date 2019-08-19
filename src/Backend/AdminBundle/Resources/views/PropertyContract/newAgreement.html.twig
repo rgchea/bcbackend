@@ -12,19 +12,18 @@
     <div class="header">
         <div class="container">
 
-
             <div class="row">
                 <div class="col-md-6">
                     <h3 class="header-title">{{ 'label_create_new'|trans }} {{ 'label_property_agreement'|trans }}</h3>
                 </div>
+                {#{{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}#}
 
-                {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <blockquote>
                         <div class="col-md-11">
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vulputate quam ut risus ullamcorper convallis. Morbi pellentesque congue elit malesuada pharetra. Suspendisse iaculis interdum elit, et porta ex tempus eget. Ut nec diam dictum, cursus metus euismod, aliquet ante. Quisque a lacus dapibus, semper ante ac, mollis nibh. Integer gravida tellus nec commodo facilisis. Ut ornare ex a dui elementum, quis mollis ante tristique. Sed hendrerit congue neque, non ornare enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.  </p>
+                            <p> {{ 'label_complex_add_property_contract_advice'|trans }}  </p>
                         </div>
                         <div class="col-md-1 text-right">
                             <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
@@ -33,138 +32,130 @@
                 </div>
             </div>
 
-
         </div>
     </div>
     <!-- CONTENT -->
     <div class="main-content no-bordertop">
 
-
-
         <div class="container">
 
+            <form name="agreement" method="POST" action="{{ path('backend_admin_property_new_agreement') }}">
+                <div class="form-inputs-g">
 
+                    <input type="hidden" name="property_id" value="{{ entity.id }}" >
+                    <input type="hidden" name="submit" value="{{ entity.id }}" >
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-3">
+                                <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
+                            </div>
+                            <div class="col-md-9">
+                                <span>{{ entity.complexSector }}</span>
+                            </div>
 
-            <div class="form-inputs-g">
-
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="col-md-3">
-                            <p class="txt-blue-bold">Sector: </p>
                         </div>
-                        <div class="col-md-9">
-                            <span>1</span>
+
+                        <div class="col-md-4">
+                            <div class="col-md-5">
+                                <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
+                            </div>
+                            <div class="col-md-7">
+                                <span>{{ entity.propertyNumber }}</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="col-md-5">
+                                <p class="txt-blue-bold">{{ 'label_maintenance'|trans }} $: </p>
+                            </div>
+                            <div class="col-md-7 text-right">
+                                <input type="text" class="form-control" value="{{ entity.maintenancePrice|number_format(2, '.', '') }}" name="agreement[maintenance]" >
+
+                            </div>
+
                         </div>
 
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="col-md-5">
-                            <p class="txt-blue-bold">Property Number: </p>
+                    <br/>
+                    <!-- adress -->
+
+                    <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                <p class="txt-blue-bold">{{ 'label_tenant'|trans }} {{ 'label_email'|trans }}: </p>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="example@example.com" name="agreement[tenant_email]" >
+                            </div>
+
                         </div>
-                        <div class="col-md-7">
-                            <span>105</span>
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                <p class="txt-blue-bold text-left">{{ 'label_who_pays_maintenance'|trans }}: </p>
+                            </div>
+                            <div class="col-md-9 text-left">
+                                <label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" value="owner">{{ 'label_owner'|trans }}</label>
+                                <label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" value="tenant" checked>{{ 'label_tenant'|trans }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                <p class="txt-blue-bold text-leftt">{{ 'label_agreement_start_date'|trans }}: </p>
+                            </div>
+                            <div class="col-md-9">
+                                <input id="endDate" name="agreement[start]" type="date" class="form-control"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                <p class="txt-blue-bold text-leftt">{{ 'label_agreement_end_date'|trans }}:</p>
+                            </div>
+                            <div class="col-md-9">
+                                <input id="endDate" name="agreement[end]" type="date" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                <p class="txt-blue-bold">{{ 'label_owner'|trans }} {{ 'label_email'|trans }}: </p>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="{{ entity.ownerEmail }}" name="agreement[owner_email]" >
+                            </div>
                         </div>
 
                     </div>
 
+                    <br/>
 
-                    <div class="col-md-4">
-                        <div class="col-md-5">
-                            <p class="txt-blue-bold">Maintenance cost: </p>
+                    <div class="row">
+                        <div class="col-md-8">
                         </div>
-                        <div class="col-md-7 text-right">
-                            <span>$ 540.00</span>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
                         </div>
-
+                        <div class="col-md-2">
+                            <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">{{ 'label_cancel'|trans }}</button>
+                        </div>
                     </div>
+
 
                 </div>
-
-                <br/>
-                <!-- adress -->
-
-                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-3">
-                            <p class="txt-blue-bold">Tenant Email: </p>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" placeholder="example@example.com">
-                        </div>
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="col-md-3">
-                            <p class="txt-blue-bold text-left">Who Pays Maintenancet: </p>
-                        </div>
-                        <div class="col-md-9 text-left">
-                            <label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
-                            <label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-3">
-                            <p class="txt-blue-bold text-leftt">Owner: </p>
-                        </div>
-                        <div class="col-md-9">
-                            <span>Andres Garcia Bernat</span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="col-md-3">
-                            <p class="txt-blue-bold text-leftt">Start Date </p>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" placeholder="01/05/19">
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <br/>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-3">
-                            <p class="txt-blue-bold">Owner Email: </p>
-                        </div>
-                        <div class="col-md-9">
-                            <span>andres@gameborad.tech</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="col-md-3">
-                            <p class="txt-blue-bold text-leftt">Finish Date </p>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" placeholder="01/05/19">
-                        </div>
-                    </div>
-                </div>
-
-                <br/>
-
-                <div class="row">
-                    <div class="col-md-8">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                    <div class="col-md-2">
-                        <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">Cancel</button>
-                    </div>
-                </div>
-
-
-            </div>
+            </form>
         </div>
 
     </div>

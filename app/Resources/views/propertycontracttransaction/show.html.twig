@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Propertycontracttransaction</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ propertyContractTransaction.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ propertyContractTransaction.description }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ propertyContractTransaction.comment }}</td>
+            </tr>
+            <tr>
+                <th>Paymentamount</th>
+                <td>{{ propertyContractTransaction.paymentAmount }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{% if propertyContractTransaction.status %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Paymenttype</th>
+                <td>{{ propertyContractTransaction.paymentType }}</td>
+            </tr>
+            <tr>
+                <th>Transactionnumber</th>
+                <td>{{ propertyContractTransaction.transactionNumber }}</td>
+            </tr>
+            <tr>
+                <th>Duedate</th>
+                <td>{% if propertyContractTransaction.dueDate %}{{ propertyContractTransaction.dueDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if propertyContractTransaction.createdAt %}{{ propertyContractTransaction.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedat</th>
+                <td>{% if propertyContractTransaction.updatedAt %}{{ propertyContractTransaction.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enabled</th>
+                <td>{% if propertyContractTransaction.enabled %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('propertycontracttransaction_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('propertycontracttransaction_edit', { 'id': propertyContractTransaction.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

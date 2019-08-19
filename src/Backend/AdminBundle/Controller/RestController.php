@@ -562,6 +562,14 @@ class RestController extends FOSRestController
             foreach ($tenantContracts as $tenantContract) {
                 $tenantContract->setUser($user);
                 $this->get("services")->blameOnMe($tenantContract, "update");
+
+                if($tenantContract->getMainTenant()){
+                    $objProperty = $tenantContract->getProperty();
+                    $objProperty->setMainTenant($user);
+                    $this->em->persist($objProperty);
+
+                }
+
                 $notification = $this->createInviteUserNotification($tenantContract, $tenantContract->getCreatedBy(), $user);
                 $this->em->persist($tenantContract);
                 $this->em->persist($notification);

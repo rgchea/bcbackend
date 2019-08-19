@@ -3,22 +3,10 @@
     <div class="container">
 
         <div class="header">
-            <div class="row">
 
-                <div class="col-md-8">&nbsp;</div>
-
-                <div class="col-md-2 text-right">
-                    <a  href="#" class="btn btn-primary-blue" style="width:100%" >Save</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="{{ path('backend_admin_property_new') }}"  class="btn btn-primary" style="width:100%">Cancel</a>
-                </div>
-
-            </div>
-            <br>
             <div class="row">
                 <div class="col-md-6">
-                    <h3 class="header-title">Register New Reservation</h3>
+                    <h3 class="header-title">{{ 'label_new'|trans }} {{ 'label_booking'|trans }}</h3>
                 </div>
 
                 {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
@@ -27,7 +15,6 @@
 
         <!-- CONTENT -->
         <div class="main-content no-bordertop">
-
 
                 <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
@@ -39,7 +26,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="col-md-3">
-                                <p class="txt-blue-bold">Sector: </p>
+                                <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
                             </div>
                             <div class="col-md-9">
                                 <select  class="form-control classic" id="exampleFormControlSelect1">
@@ -55,7 +42,7 @@
 
                         <div class="col-md-4">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold">Property Number: </p>
+                                <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
                             </div>
                             <div class="col-md-7">
                                 <select  class="form-control classic" id="exampleFormControlSelect1">
@@ -72,7 +59,7 @@
 
                         <div class="col-md-4">
                             <div class="col-md-4">
-                                <p class="txt-blue-bold">Common Area: </p>
+                                <p class="txt-blue-bold">{{ 'label_common_area'|trans }}: </p>
                             </div>
                             <div class="col-md-8">
                                 <select  class="form-control classic" id="exampleFormControlSelect1">
@@ -97,7 +84,7 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-5 text-right">
-                                    <p class="txt-blue-bold">Date: </p>
+                                    <p class="txt-blue-bold">{{ 'label_event_date'|trans }}: </p>
                                 </div>
                                 <div class="col-md-7">
                                     <input type="text" class="form-control" placeholder="12/12/19">
@@ -106,7 +93,7 @@
 
                             <div class="row">
                                 <div class="col-md-5 text-right">
-                                    <p class="txt-blue-bold">Time: </p>
+                                    <p class="txt-blue-bold">{{ 'label_time'|trans }}: </p>
                                 </div>
                                 <div class="col-md-7">
                                     <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
@@ -123,7 +110,7 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <p class="txt-blue-bold text-left">Reservation Cost: </p>
+                                    <p class="txt-blue-bold text-left">{{ 'label_cost'|trans }}: </p>
                                 </div>
                                 <div class="col-md-7 text-right">
                                     <input type="text" class="form-control" placeholder="$ 10.00">
@@ -132,7 +119,7 @@
 
                             <div class="row">
                                 <div class="col-md-5">
-                                    <p class="txt-blue-bold text-leftt">Discount: </p>
+                                    <p class="txt-blue-bold text-leftt">{{ 'label_discount'|trans }}: </p>
                                 </div>
                                 <div class="col-md-7 text-right">
                                     <input type="text" class="form-control" placeholder="$ 10.00">
@@ -141,7 +128,7 @@
 
                             <div class="row">
                                 <div class="col-md-5">
-                                    <p class="txt-blue-bold text-left">Amount Paid: </p>
+                                    <p class="txt-blue-bold text-left">{{ 'label_amount_paid'|trans }}: </p>
                                 </div>
                                 <div class="col-md-7 text-right">
                                     <input type="text" class="form-control" placeholder="$ 10.00">
@@ -162,7 +149,7 @@
                     <div class="row color1">
 
                         <div class="col-md-12">
-                            <p class="txt-blue-bold">Send Notification</p>
+                            <p class="txt-blue-bold">{{ 'label_send_notification'|trans }}</p>
                             <div class="form-group">
 
                                 <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
@@ -174,12 +161,21 @@
                                 <div class="col-md-10">
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">Send Reply</button>
+                                    <button type="submit" class="btn btn-primary">{{ 'label_send_notification'|trans }}</button>
                                     <p></p>
                                 </div>
                             </div>
                         </div>
 
+                    </div>
+
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-9">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+                        </div>
                     </div>
 
 

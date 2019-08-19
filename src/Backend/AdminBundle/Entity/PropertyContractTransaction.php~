@@ -15,12 +15,12 @@ class PropertyContractTransaction
     /**
      * @var float
      */
-    private $paymentAmount = '0.00';
+    private $paymentAmount = 0.00;
 
     /**
      * @var bool
      */
-    private $status = '0';
+    private $status = 0;
 
     /**
      * @var string|null
@@ -45,7 +45,7 @@ class PropertyContractTransaction
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = 1;
 
     /**
      * @var \Backend\AdminBundle\Entity\PropertyContract
@@ -179,29 +179,6 @@ class PropertyContractTransaction
         return $this->transactionNumber;
     }
 
-    /**
-     * Set paymentDate.
-     *
-     * @param \DateTime|null $paymentDate
-     *
-     * @return PropertyContractTransaction
-     */
-    public function setPaymentDate($paymentDate = null)
-    {
-        $this->paymentDate = $paymentDate;
-
-        return $this;
-    }
-
-    /**
-     * Get paymentDate.
-     *
-     * @return \DateTime|null
-     */
-    public function getPaymentDate()
-    {
-        return $this->paymentDate;
-    }
 
     /**
      * Set createdAt.
@@ -427,5 +404,150 @@ class PropertyContractTransaction
     public function getUpdatedBy()
     {
         return $this->updatedBy;
+    }
+    /**
+     * @var string|null
+     */
+    private $description;
+
+    /**
+     * @var string|null
+     */
+    private $comment;
+
+    /**
+     * @var \DateTime|null
+     */
+    private $dueDate;
+
+
+    /**
+     * Set description.
+     *
+     * @param string|null $description
+     *
+     * @return PropertyContractTransaction
+     */
+    public function setDescription($description = null)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description.
+     *
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set comment.
+     *
+     * @param string|null $comment
+     *
+     * @return PropertyContractTransaction
+     */
+    public function setComment($comment = null)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment.
+     *
+     * @return string|null
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set dueDate.
+     *
+     * @param \DateTime|null $dueDate
+     *
+     * @return PropertyContractTransaction
+     */
+    public function setDueDate($dueDate = null)
+    {
+        $this->dueDate = $dueDate;
+
+        return $this;
+    }
+
+    /**
+     * Get dueDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getDueDate()
+    {
+        return $this->dueDate;
+    }
+    /**
+     * @var \DateTime|null
+     */
+    private $paidDate;
+
+
+    /**
+     * Set paidDate.
+     *
+     * @param \DateTime|null $paidDate
+     *
+     * @return PropertyContractTransaction
+     */
+    public function setPaidDate($paidDate = null)
+    {
+        $this->paidDate = $paidDate;
+
+        return $this;
+    }
+
+    /**
+     * Get paidDate.
+     *
+     * @return \DateTime|null
+     */
+    public function getPaidDate()
+    {
+        return $this->paidDate;
+    }
+    /**
+     * @var \Backend\AdminBundle\Entity\Complex
+     */
+    private $complex;
+
+
+    /**
+     * Set complex.
+     *
+     * @param \Backend\AdminBundle\Entity\Complex|null $complex
+     *
+     * @return PropertyContractTransaction
+     */
+    public function setComplex(\Backend\AdminBundle\Entity\Complex $complex = null)
+    {
+        $this->complex = $complex;
+
+        return $this;
+    }
+
+    /**
+     * Get complex.
+     *
+     * @return \Backend\AdminBundle\Entity\Complex|null
+     */
+    public function getComplex()
+    {
+        return $this->complex;
     }
 }

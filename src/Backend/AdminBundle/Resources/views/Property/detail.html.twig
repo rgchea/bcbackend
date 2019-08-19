@@ -19,13 +19,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <h3 class="header-title">Property Details:</h3>
+                        <h3 class="header-title">{{ 'label_property_details'|trans }}</h3>
                     </div>
                     <div class="col-md-7 text-left">
-                        <h4>Apartment 101 <span style="font-size:14px;">Floor 1, Weston</span> </h4>
+                        <h4>{{ entity }}<span style="font-size:14px;"> {{ entity.complex }}</span> </h4>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">Change Tenant</button>
+                        {#<button type="submit" class="btn btn-primary">Change Tenant</button>#}
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@
                     <div class="row color2">
                         <div class="col-md-6">
                             <div class="col-md-3">
-                                <p class="txt-blue-bold">Actual Tenant</p>
+                                <p class="txt-blue-bold">{{ 'label_tenant'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">Owner</p>
+                                <p class="txt-blue-bold">{{ 'label_owner'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -67,7 +67,7 @@
                     <div class="row color1">
                         <div class="col-md-6">
                             <div class="col-md-4">
-                                <p class="txt-blue-bold text-left">Family Members: </p>
+                                <p class="txt-blue-bold text-left">{{ 'label_familiy_members'|trans }}: </p>
                             </div>
                             <div class="col-md-8">
                                 <p>4 <br> Omar Alvarez, Monica Solares, Renato Hernandez, Diego Fernandez</p>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">Address: </p>
+                                <p class="txt-blue-bold">{{ 'label_address'|trans }}: </p>
                             </div>
                             <div class="col-md-1">
 
@@ -90,7 +90,7 @@
                     <div class="row color2">
                         <div class="col-md-6">
                             <div class="col-md-3">
-                                <p class="txt-blue-bold">Tenant Email:</p>
+                                <p class="txt-blue-bold">{{ 'label_tenant'|trans }} - {{ 'label_email'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -101,7 +101,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">Owner Email:</p>
+                                <p class="txt-blue-bold">{{ 'label_owner'|trans }} - {{ 'label_email'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -115,7 +115,7 @@
                     <div class="row color1">
                         <div class="col-md-6">
                             <div class="col-md-3">
-                                <p class="txt-blue-bold">Tenant Phone:</p>
+                                <p class="txt-blue-bold">{{ 'label_tenant'|trans }} - {{ 'label_phone'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -126,7 +126,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">Owner Phone:</p>
+                                <p class="txt-blue-bold">{{ 'label_tenant'|trans }} - {{ 'label_phone'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -140,7 +140,7 @@
                     <div class="row color2">
                         <div class="col-md-6">
                             <div class="col-md-3">
-                                <p class="txt-blue-bold">Emergency Call:</p>
+                                <p class="txt-blue-bold">{{ 'label_emergency_call'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -151,7 +151,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">Emergency Call:</p>
+                                <p class="txt-blue-bold">{{ 'label_emergency_call'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
@@ -169,7 +169,7 @@
                     <div class="row color2">
                         <div class="col-md-6">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold text-left">Select Agreement </p>
+                                <p class="txt-blue-bold text-left">{{ 'label_property_agreement'|trans }}:</p>
                             </div>
                             <div class="col-md-7">
 
@@ -186,7 +186,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold text-right">Who Pays Maintenance: </p>
+                                <p class="txt-blue-bold text-right">{{ 'label_who_pays_maintenance'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
                                 <label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
@@ -198,7 +198,7 @@
                     <div class="row color1">
                         <div class="col-md-6">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold">Contract end date: </p>
+                                <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_end'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
                                 12/04/22
@@ -206,10 +206,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold text-right">Maintenance cost: </p>
+                                <p class="txt-blue-bold text-right">{{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                $540 <a href="{{ path('backend_admin_property_update_maintenance', {id: entity.id}) }}"  ><button class="btn_update btn-primary" type="button">Update</button></a>
+                                $540 <a href="{{ path('backend_admin_property_update_maintenance', {id: entity.id}) }}"  ><button class="btn_update btn-primary" type="button">{{ 'label_update'|trans }}</button></a>
                             </div>
                         </div>
                     </div>
@@ -219,7 +219,7 @@
                     <div class="row color2">
                         <div class="col-md-6">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold">Contract start date: </p>
+                                <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_start'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
                                 12/04/22
@@ -227,10 +227,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold text-right">Contract expires in: </p>
+                                <p class="txt-blue-bold text-right">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }} {{ 'label_in'|trans }} : </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                10 months, 4 weeks, 10 days <a href="{{ path('backend_admin_property_contract_extend', {id: entity.id}) }}"  ><button type="button"  class="btn_update btn-primary">Extend</button></a>&nbsp;&nbsp;<a href="{{ path('backend_admin_property_contract_cancel', {id: entity.id}) }}"  ><button type="submit"  class="btn_cancel btn-primary">Cancel</button></a>
+                                10 months, 4 weeks, 10 days <a href="{{ path('backend_admin_property_contract_extend', {id: entity.id}) }}" ><button type="button"  class="btn_update btn-primary">{{ 'label_extend'|trans }} </button></a>&nbsp;&nbsp;<a href="{{ path('backend_admin_property_contract_cancel', {id: entity.id}) }}"  ><button type="submit"  class="btn_cancel btn-primary">{{ 'label_cancel'|trans }}</button></a>
                             </div>
                         </div>
                     </div>
@@ -238,10 +238,10 @@
 
                     <div id="tabs">
                         <ul>
-                            <li><a href="#tabs-tickets">Tickets</a></li>
-                            <li><a href="#tabs-payments">Payments</a></li>
-                            <li><a href="#tabs-booking">Booking</a></li>
-                            <li><a href="#tabs-log">Log</a></li>
+                            <li><a href="#tabs-tickets">{{ 'label_menu.ticket'|trans }}</a></li>
+                            <li><a href="#tabs-payments">{{ 'label_menu.payment'|trans }}</a></li>
+                            <li><a href="#tabs-booking">{{ 'label_booking'|trans }}</a></li>
+                            <li><a href="#tabs-log">{{ 'label_log'|trans }}</a></li>
                         </ul>
                         <div id="tabs-tickets">
 

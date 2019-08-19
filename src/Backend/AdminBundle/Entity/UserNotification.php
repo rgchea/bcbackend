@@ -26,7 +26,7 @@ class UserNotification
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\User
@@ -429,5 +429,240 @@ class UserNotification
     public function getSentTo()
     {
         return $this->sentTo;
+    }
+    /**
+     * @var string|null
+     */
+    private $title;
+
+    /**
+     * @var int|null
+     */
+    private $reminder;
+
+    /**
+     * @var bool
+     */
+    private $isScheduled = false;
+
+    /**
+     * @var \DateTime
+     */
+    private $scheduledTime;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Complex
+     */
+    private $complexToNotify;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\ComplexSector
+     */
+    private $sectorToNotify;
+
+    /**
+     * @var \Backend\AdminBundle\Entity\Property
+     */
+    private $propertyToNotify;
+
+
+    /**
+     * Set title.
+     *
+     * @param string|null $title
+     *
+     * @return UserNotification
+     */
+    public function setTitle($title = null)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title.
+     *
+     * @return string|null
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set reminder.
+     *
+     * @param int|null $reminder
+     *
+     * @return UserNotification
+     */
+    public function setReminder($reminder = null)
+    {
+        $this->reminder = $reminder;
+
+        return $this;
+    }
+
+    /**
+     * Get reminder.
+     *
+     * @return int|null
+     */
+    public function getReminder()
+    {
+        return $this->reminder;
+    }
+
+    /**
+     * Set isScheduled.
+     *
+     * @param bool $isScheduled
+     *
+     * @return UserNotification
+     */
+    public function setIsScheduled($isScheduled)
+    {
+        $this->isScheduled = $isScheduled;
+
+        return $this;
+    }
+
+    /**
+     * Get isScheduled.
+     *
+     * @return bool
+     */
+    public function getIsScheduled()
+    {
+        return $this->isScheduled;
+    }
+
+    /**
+     * Set scheduledTime.
+     *
+     * @param \DateTime $scheduledTime
+     *
+     * @return UserNotification
+     */
+    public function setScheduledTime($scheduledTime)
+    {
+        $this->scheduledTime = $scheduledTime;
+
+        return $this;
+    }
+
+    /**
+     * Get scheduledTime.
+     *
+     * @return \DateTime
+     */
+    public function getScheduledTime()
+    {
+        return $this->scheduledTime;
+    }
+
+    /**
+     * Set complexToNotify.
+     *
+     * @param \Backend\AdminBundle\Entity\Complex|null $complexToNotify
+     *
+     * @return UserNotification
+     */
+    public function setComplexToNotify(\Backend\AdminBundle\Entity\Complex $complexToNotify = null)
+    {
+        $this->complexToNotify = $complexToNotify;
+
+        return $this;
+    }
+
+    /**
+     * Get complexToNotify.
+     *
+     * @return \Backend\AdminBundle\Entity\Complex|null
+     */
+    public function getComplexToNotify()
+    {
+        return $this->complexToNotify;
+    }
+
+    /**
+     * Set sectorToNotify.
+     *
+     * @param \Backend\AdminBundle\Entity\ComplexSector|null $sectorToNotify
+     *
+     * @return UserNotification
+     */
+    public function setSectorToNotify(\Backend\AdminBundle\Entity\ComplexSector $sectorToNotify = null)
+    {
+        $this->sectorToNotify = $sectorToNotify;
+
+        return $this;
+    }
+
+    /**
+     * Get sectorToNotify.
+     *
+     * @return \Backend\AdminBundle\Entity\ComplexSector|null
+     */
+    public function getSectorToNotify()
+    {
+        return $this->sectorToNotify;
+    }
+
+    /**
+     * Set propertyToNotify.
+     *
+     * @param \Backend\AdminBundle\Entity\Property|null $propertyToNotify
+     *
+     * @return UserNotification
+     */
+    public function setPropertyToNotify(\Backend\AdminBundle\Entity\Property $propertyToNotify = null)
+    {
+        $this->propertyToNotify = $propertyToNotify;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyToNotify.
+     *
+     * @return \Backend\AdminBundle\Entity\Property|null
+     */
+    public function getPropertyToNotify()
+    {
+        return $this->propertyToNotify;
+    }
+
+
+
+    /**
+     * @var \Backend\AdminBundle\Entity\TicketCategory
+     */
+    private $ticketCategory;
+
+
+    /**
+     * Set ticketCategory.
+     *
+     * @param \Backend\AdminBundle\Entity\TicketCategory|null $ticketCategory
+     *
+     * @return UserNotification
+     */
+    public function setTicketCategory(\Backend\AdminBundle\Entity\TicketCategory $ticketCategory = null)
+    {
+        $this->ticketCategory = $ticketCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get ticketCategory.
+     *
+     * @return \Backend\AdminBundle\Entity\TicketCategory|null
+     */
+    public function getTicketCategory()
+    {
+        return $this->ticketCategory;
     }
 }

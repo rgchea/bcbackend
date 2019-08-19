@@ -34,11 +34,11 @@ Backend\AdminBundle\Entity\PropertyContract:
             column: team_correlative
         startDate:
             type: datetime
-            nullable: false
+            nullable: true
             column: start_date
         endDate:
             type: datetime
-            nullable: false
+            nullable: true
             column: end_date
         isActive:
             type: boolean
