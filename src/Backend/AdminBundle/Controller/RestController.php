@@ -1503,7 +1503,10 @@ class RestController extends FOSRestController
                     'status' => $status->getId(),
                     'category' =>
 
-                        array("category_id" => $ticket->getTicketCategory()->getId(), "icon_class" => $iconClass, "color" => $ticket->getTicketCategory()->getColor()),
+                        array("category_id" => $ticket->getTicketCategory()->getId(),
+                                "category_name" => $ticket->getTicketCategory(),
+                                "icon_class" => $iconClass,
+                                "color" => $ticket->getTicketCategory()->getColor()),
                     'title' => $ticket->getTitle(),
                     'description' => $ticket->getDescription(),
                     'is_public' => $ticket->getIsPublic(),
