@@ -31,3 +31,9 @@ backend_admin_complex_sector_delete:
     path:     /{id}/delete
     defaults: { _controller: "BackendAdminBundle:ComplexSector:delete" }
     #methods:  DELETE
+
+backend_admin_complex_sector_list_properties:
+    path: /complexSector/list/properties
+    defaults:
+        _controller: BackendAdminBundle:ComplexSector:listProperties
+

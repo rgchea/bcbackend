@@ -219,14 +219,21 @@ class TicketController extends Controller
         $this->get("services")->setVars('ticket');
         $this->initialise();
 
-        $entity = new Ticket();
-        $form   = $this->createCreateForm($entity);
+        //$entity = new Ticket();
+        //$form   = $this->createCreateForm($entity);
+
+        $myComplexID = $this->get("services")->getSessionComplex();
+
+        $ticketCategory = $this->em->getRepository("BackendAdminBundle:TicketCategory")->findBy(array('complex'=> $myComplexID, 'enabled' => 1));
+        $complexSector = $this->em->getRepository("BackendAdminBundle:ComplexSector")->findBy(array('complex'=> $myComplexID, 'enabled' => 1));
 
         return $this->render('BackendAdminBundle:Ticket:new.html.twig', array(
-            'entity' => $entity,
-            'form' => $form->createView(),
+            //'entity' => $entity,
+            //'form' => $form->createView(),
             'myPath' => 'backend_admin_ticket_new',
-            'new' => true
+            'new' => true,
+            'ticketCategory' => $ticketCategory,
+            'complexSector' => $complexSector
 
         ));
     }

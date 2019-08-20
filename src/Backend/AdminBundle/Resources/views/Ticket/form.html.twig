@@ -1,6 +1,7 @@
 {# DROPZONE FILE UPLOADER#}
 <script src="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.css') }}">
+<script src="{{ asset('bundles/backendadmin/js/backend.js')  }}"></script>
 
 <section class="content">
 
@@ -35,8 +36,6 @@
 	<!-- CONTENT -->
 	<div class="main-content no-bordertop">
 
-
-
 		<div class="container">
 
 
@@ -49,12 +48,10 @@
 							<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
 						</div>
 						<div class="col-md-9">
-							<select  class="form-control classic" id="exampleFormControlSelect1">
-								<option>All</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+							<select  class="form-control classic" id="sector_select" name="sector_select">
+								{% for sector in complexSector %}
+									<option value="{{ sector.id }}">{{ sector }}</option>
+								{% endfor %}
 							</select>
 						</div>
 
@@ -65,12 +62,8 @@
 							<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
 						</div>
 						<div class="col-md-7">
-							<select  class="form-control classic" id="exampleFormControlSelect1">
-								<option>All</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+							<select  class="form-control classic" id="property_select">
+
 							</select>
 						</div>
 
@@ -168,6 +161,10 @@
 		{% set myPath = myPath|replace({'app_dev.php': ''}) %}
 		{% set myPath = myPath|replace({'/en/': ''}) %}
 		{% set myPath = myPath|replace({'/es/': ''}) %}
+		
+		$("#sector_select").change(function () {
+			changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val() );
+		});
 
 
 
