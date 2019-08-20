@@ -1576,7 +1576,7 @@ class RestController extends FOSRestController
      *                          @SWG\Property( property="timestamp", type="string", description="Comment's creation time", example="1272509157" ),
      *                          @SWG\Property( property="like", type="string", description="User that liked the comment", example="user2" ),
      *                          @SWG\Property( property="comment", type="string", description="Comment content", example="Comment" ),
-     *                          @SWG\Property( property="icon_url", type="string", description="URL for the icon", example="/icons/1.jpg" ),
+     *                          @SWG\Property( property="avatar_url", type="string", description="URL for the avatar", example="/avatars/1.jpg" ),
      *                      )
      *                  ),
      *                  @SWG\Property( property="common_area", type="object",
@@ -1687,10 +1687,11 @@ class RestController extends FOSRestController
 
                 $data['comments'][] = array(
                     'username' => $commentUser->getUsername(),
+                    'user_fullname' => $commentUser->getName(),
                     'timestamp' => $comment->getCreatedAt()->getTimestamp(),
                     'like' => $likeUser->getUsername(),
                     'comment' => $comment->getCommentDescription(),
-                    'icon_url' => "",
+                    'avatar_url' => $commentUser->getAvatarPath(),
                 );
             }
 
@@ -1825,7 +1826,7 @@ class RestController extends FOSRestController
             }
 
             $ticket = new Ticket();
-            $ticket->setTicketType($this->em->getRepository('BackendAdminBundle:TicketType')->find(true));
+            $ticket->setTicketType($this->em->getRepository('BackendAdminBundle:TicketType')->find(1));
             $ticket->setTitle($title);
             $ticket->setDescription($description);
             $ticket->setPossibleSolution($solution);
