@@ -531,5 +531,23 @@ class ComplexSectorController extends Controller
     }
 
 
+    public function listPropertiesAction(Request $request){
+
+        $this->get("services")->setVars('complexSector');
+        $this->initialise();
+
+        $sectorID = intval($_REQUEST["sector_id"]);
+
+        $properties = $this->em->getRepository('BackendAdminBundle:Property')->getPropertiesWithContract($sectorID);
+
+        //print "<pre>";
+        //var_dump($properties);die;
+
+        return new JsonResponse($properties);
+
+
+    }
+
+
 }
 

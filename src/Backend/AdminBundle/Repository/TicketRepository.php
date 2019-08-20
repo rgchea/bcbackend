@@ -20,7 +20,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
             ->setFirstResult(($pageId - 1) * $limit)// Offset
             ->setMaxResults($limit)// Limit
-            ->orderBy('a.createdAt', 'ASC');
+            ->orderBy('a.createdAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }
@@ -34,7 +34,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
     private function queryBuilderForApiFeed($propertyId, $categoryId, $user)
     {
-        return $qb = $this->genericTicketQueryBuilder()
+         $qb = $this->genericTicketQueryBuilder()
             ->andWhere('p.id = :prop_id')
             ->setParameter('prop_id', $propertyId)
             ->andWhere('a.createdBy = :user')
@@ -44,6 +44,8 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                 $qb->andWhere('tc.id = :cat_id');
                 $qb->setParameter('cat_id', $categoryId);
             }
+
+         return $qb;
 
 
     }
@@ -61,8 +63,8 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('a');
 
-        return $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
-            ->leftJoin('a.ticketCategory', 'tc', Join::WITH, $qb->expr()->andX(
+         $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
+            ->innerJoin('a.ticketCategory', 'tc', Join::WITH, $qb->expr()->andX(
                 $qb->expr()->eq('tc', 'a.ticketCategory'),
                 $qb->expr()->eq('tc.enabled', '1')
             ))
@@ -95,6 +97,8 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('p.enabled', '1')
             ))
             ->where('a.enabled = 1');
+
+         return $qb;
     }
 
 

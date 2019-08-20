@@ -299,4 +299,28 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
         return intval($count);
     }
+
+
+
+    public function getPropertiesWithContract($sectorID){
+
+
+        $sql = "	SELECT 	DISTINCT(p.id), p.property_number
+                    FROM 	property p
+                        INNER JOIN property_contract pc ON (pc.property_id = p.id)
+                        INNER JOIN tenant_contract tc ON (tc.property_contract_id = pc.id)
+                    WHERE 	p.complex_sector_id = {$sectorID}
+                    AND     pc.enabled = 1
+                    AND     pc.is_active = 1
+                    AND     tc.enabled = 1
+                    ORDER BY id DESC
+                    ";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        return $execute;
+    }
 }
