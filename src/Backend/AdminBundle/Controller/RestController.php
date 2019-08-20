@@ -2071,7 +2071,7 @@ class RestController extends FOSRestController
 
             $this->em->flush();
 
-            $commentUser = $ticketComment->getCreatedBy();
+            $commentUser = $this->getUser();
             $likeUser = $ticketComment->getLikedBy();
             /*
             if ($likeUser == null) {
