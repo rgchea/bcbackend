@@ -2071,13 +2071,13 @@ class RestController extends FOSRestController
 
             $this->em->flush();
 
-            $commentUser = $this->getUser();
+            $commentUser = $ticketComment->getCreatedBy();
             $likeUser = $ticketComment->getLikedBy();
-            /*
+
             if ($likeUser == null) {
                 $likeUser = new User();
             }
-            */
+            
 
             return new JsonResponse(array(
                 'comment' => array(
