@@ -1555,13 +1555,19 @@ class RestController extends FOSRestController
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="object",
-     *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
-     *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
+     *
+     *
+     *                  @SWG\Property( property="id", type="string", description="Ticket ID", example="1" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
-     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
-     *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
-     *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
+     *                  @SWG\Property( property="category", type="array", description="category info", example="array(category_id, category_name, , icon_class, color)" ),
+     *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
      *                  @SWG\Property( property="description", type="string", description="Ticket description", example="Lorem ipsum." ),
+     *                  @SWG\Property( property="is_public", type="boolean", description="Is ticket public?", example="true" ),
+     *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
+     *                  @SWG\Property( property="user_fullname", type="string", description="Ticket's creator name", example="Firstname Lastname" ),
+     *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),*
+     *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *                  @SWG\Property( property="comments", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="username", type="string", description="Comments's creator username", example="2" ),
@@ -1630,7 +1636,7 @@ class RestController extends FOSRestController
                 $ticketUser = new User();
             }
 
-          
+
 
             $iconClass = ( $ticket->getTicketCategory()->getIcon() != null) ?  $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
 
