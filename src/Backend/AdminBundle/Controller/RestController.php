@@ -1558,6 +1558,8 @@ class RestController extends FOSRestController
      *
      *
      *                  @SWG\Property( property="id", type="string", description="Ticket ID", example="1" ),
+     *                  @SWG\Property( property="type_id", type="string", description="Ticket type ID", example="1" ),
+     *                  @SWG\Property( property="type_name", type="string", description="Ticket type name", example="TicketTypeName" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
      *                  @SWG\Property( property="category", type="array", description="category info", example="array(category_id, category_name, , icon_class, color)" ),
      *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
@@ -1637,11 +1639,12 @@ class RestController extends FOSRestController
             }
 
 
-
             $iconClass = ( $ticket->getTicketCategory()->getIcon() != null) ?  $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
 
             $data = array(
                 'id' => $ticket->getId(),
+                'type_id' => $ticket->getTicketType()->getId(),
+                'type_name' => $ticket->getTicketType()->getName(),
                 'status' => $status->getId(),
                 'category' =>
                     array("category_id" => $ticket->getTicketCategory()->getId(),

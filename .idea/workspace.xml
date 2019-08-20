@@ -285,8 +285,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1">
-              <caret line="1571" column="39" lean-forward="true" selection-start-line="1571" selection-start-column="39" selection-end-line="1571" selection-end-column="39" />
+            <state relative-caret-position="440">
+              <caret line="1561" column="135" selection-start-line="1561" selection-start-column="135" selection-end-line="1561" selection-end-column="135" />
               <folding>
                 <element signature="e#50#92#0#PHP" expanded="true" />
               </folding>
@@ -307,8 +307,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>$filterProperty</find>
-      <find>list_datatables</find>
       <find>propertycontracttransaction_list_datatables</find>
       <find>$property</find>
       <find>dt_table</find>
@@ -335,8 +333,10 @@
       <find>v1/ticket</find>
       <find>$iconClass</find>
       <find>$photo</find>
-      <find>getfeed</find>
+      <find>$type = $ticket-&gt;getTicketType();</find>
       <find>singleti</find>
+      <find>getfeed</find>
+      <find>singletick</find>
     </findStrings>
     <replaceStrings>
       <replace>optionDelete</replace>
@@ -839,12 +839,12 @@
       <workItem from="1565481099761" duration="6710000" />
       <workItem from="1565564006793" duration="39349000" />
       <workItem from="1565907732358" duration="7000000" />
-      <workItem from="1565970993055" duration="40551000" />
+      <workItem from="1565970993055" duration="40804000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1040757000" />
+    <option name="totallyTimeSpent" value="1041010000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -1245,8 +1245,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1">
-          <caret line="1571" column="39" lean-forward="true" selection-start-line="1571" selection-start-column="39" selection-end-line="1571" selection-end-column="39" />
+        <state relative-caret-position="440">
+          <caret line="1561" column="135" selection-start-line="1561" selection-start-column="135" selection-end-line="1561" selection-end-column="135" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
           </folding>
