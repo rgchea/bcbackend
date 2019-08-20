@@ -11,6 +11,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 
 use Backend\AdminBundle\Entity\Ticket;
+use Backend\AdminBundle\Entity\TicketStatusLog;
 use Backend\AdminBundle\Form\TicketType;
 
 
@@ -374,59 +375,76 @@ class TicketController extends Controller
         $this->get("services")->setVars('ticket');
         $this->initialise();
 
-
-        $entity = new Ticket();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-        /*print "<pre>";
-        var_dump($form->getErrorsAsString());die;
-         * */
-
-        if ($form->isValid()) {
-
-            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["property"]["complex"]));
-
-            //$businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
-            $sectorID = $_REQUEST["property"]["complexSector"];
-            $objComplexSector = $this->em->getRepository('BackendAdminBundle:ComplexSector')->find($sectorID);
-            $business = $objComplexSector->getComplex()->getBusiness();
-            $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
-
-            $myTicketType = intval($_REQUEST["property"]["propertyType"]);
-            $propertyType = $this->em->getRepository('BackendAdminBundle:TicketType')->find($myTicketType);
-
-            if($myTicketType == 0){ //OTHER
-                $propertyTypeName = trim($_REQUEST["extra"]["propertyTypeName"]);
-            }
-            else{
-                $propertyTypeName = $businessLocale == "en" ? $propertyType->getNameEN() : $propertyType->getNameES();
-            }
-
-            $entity->setIsAvailable(1);
-
-
-            //BLAME ME
-            $this->get("services")->blameOnMe($entity, "create");
-
-            $this->em->persist($entity);
-            $this->em->flush();
+        $sectorID = intval($_REQUEST["sector_select"]);
+        $complexID = intval($this->get("services")->getSessionComplex());
+        $propertyID = intval($_REQUEST["property_select"]);
+        $categoryID = intval($_REQUEST["category_select"]);
+        $title = trim($_REQUEST["title"]);
+        $description = trim($_REQUEST["description"]);
+        $solution = trim($_REQUEST["solution"]);
+        $isPublic = isset($_REQUEST["is_public"]) ? 1 : 0;
 
 
 
-            $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_ticket_index'));
+        $objComplex = $this->em->getRepository('BackendAdminBundle:Complex')->find($complexID);
+        $objComplexSector = $this->em->getRepository('BackendAdminBundle:ComplexSector')->find($sectorID);
+        $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+        $objCategory = $this->em->getRepository('BackendAdminBundle:TicketCategory')->find($categoryID);
+        $objTicketType = $this->em->getRepository('BackendAdminBundle:TicketType')->find(1);
+        $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);//OPEN
 
+
+
+        $ticket = new Ticket();
+        $ticket->setTicketType($objTicketType);
+        $ticket->setTitle($title);
+        $ticket->setDescription($description);
+        $ticket->setPossibleSolution($solution);
+        $ticket->setIsPublic($isPublic);
+        $ticket->setTicketCategory($objCategory);
+        $ticket->setComplexSector($objComplexSector);
+        $ticket->setComplex($objComplexSector->getComplex());
+        $ticket->setProperty($objProperty);
+        //$ticket->setCommonAreaReservation($commonAreaReservation);
+
+        $tenantContract =  null;
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $propertyID, 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+        if($propertyContract) {
+            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
         }
-        /*
-        else{
-            print "FORMULARIO NO VALIDO";DIE;
-        }
-         * */
 
-        return $this->render('BackendAdminBundle:Ticket:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
+        $ticket->setTenantContract($tenantContract);
+        $ticket->setTicketStatus($status);
+        $ticket->setEnabled(true);
+
+
+        //setAssignedTo
+        //$timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+        $timezone = intval($objComplex->getBusiness()->getGeoState()->getTimezoneOffset());
+        $userToAssign = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, $complexID);
+
+
+        $ticket->setAssignedTo($userToAssign);
+
+        $this->get("services")->blameOnMe($ticket, "create");
+        $this->get("services")->blameOnMe($ticket, "update");
+
+        $statusLog = new TicketStatusLog();
+        $statusLog->setTicketStatus($status);
+        $statusLog->setTicket($ticket);
+        $this->get("services")->blameOnMe($statusLog, "create");
+        $this->get("services")->blameOnMe($statusLog, "update");
+
+        $ticket->setCreatedBy($tenantContract->getUser());
+        $this->em->persist($ticket);
+        $this->em->persist($statusLog);
+
+        $this->em->flush();
+
+
+        $this->get('services')->flashSuccess($request);
+        return $this->redirect($this->generateUrl('backend_admin_ticket_index'));
+
     }
 
     /**
