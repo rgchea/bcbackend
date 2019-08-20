@@ -2071,8 +2071,23 @@ class RestController extends FOSRestController
 
             $this->em->flush();
 
+            $commentUser = $ticketComment->getCreatedBy();
+            $likeUser = $ticketComment->getLikedBy();
+            /*
+            if ($likeUser == null) {
+                $likeUser = new User();
+            }
+            */
+
             return new JsonResponse(array(
-                'message' => "",
+                'comment' => array(
+                    'username' => $commentUser->getUsername(),
+                    'user_fullname' => $commentUser->getName(),
+                    'timestamp' => $ticketComment->getCreatedAt()->getTimestamp(),
+                    'like' => $likeUser->getUsername(),
+                    'comment' => $ticketComment->getCommentDescription(),
+                    'avatar_url' => $commentUser->getAvatarPath(),
+                )
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

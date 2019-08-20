@@ -2,6 +2,8 @@
 
 	function changeProperties(myUrl, loadItemsObjectID, sectorID){
 
+		$("#pizote_spinner").show();
+
 		$.ajax({
 			type:"POST",
 			dataType:"json",
@@ -20,6 +22,7 @@
                 });
 
 				$("#"+loadItemsObjectID).html(items);
+				$("#pizote_spinner").hide();
 
 			}
 		});

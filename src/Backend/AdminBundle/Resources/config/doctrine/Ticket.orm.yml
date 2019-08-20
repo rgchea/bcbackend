@@ -33,9 +33,7 @@ Backend\AdminBundle\Entity\Ticket:
         updated_by:
             columns:
                 - updated_by
-        business_id:
-            columns:
-                - business_id
+
         complex_sector_id:
             columns:
                 - complex_sector_id
@@ -190,16 +188,6 @@ Backend\AdminBundle\Entity\Ticket:
             inversedBy: null
             joinColumns:
                 ticket_type_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-        business:
-            targetEntity: Business
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                business_id:
                     referencedColumnName: id
             orphanRemoval: false
         complex:
