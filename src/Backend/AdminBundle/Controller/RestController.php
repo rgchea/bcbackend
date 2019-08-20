@@ -1630,19 +1630,32 @@ class RestController extends FOSRestController
                 $ticketUser = new User();
             }
 
+          
+
+            $iconClass = ( $ticket->getTicketCategory()->getIcon() != null) ?  $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
+
             $data = array(
+                'id' => $ticket->getId(),
+                'status' => $status->getId(),
+                'category' =>
+                    array("category_id" => $ticket->getTicketCategory()->getId(),
+                        "category_name" => $ticket->getTicketCategory()->getName(),
+                        "icon_class" => $iconClass,
+                        "color" => $ticket->getTicketCategory()->getColor()),
                 'title' => $ticket->getTitle(),
+                'description' => $ticket->getDescription(),
+                'is_public' => $ticket->getIsPublic(),
                 'username' => $ticketUser->getUsername(),
-                'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
+                'user_fullname' => $ticketUser->getName(),
                 'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
                 'followers_quantity' => (array_key_exists($ticket->getId(), $followersCount)) ? $followersCount[$ticket->getId()] : 0,
                 'comments_quantity' => (array_key_exists($ticket->getId(), $commentsCount)) ? $commentsCount[$ticket->getId()] : 0,
-                'description' => $ticket->getDescription(),
+
             );
 
             //get ticket photos
             $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findBy(array("ticket" => $ticket_id, "enabled" => 1));
-            $data['photos'] = array();
+            $data['photo'] = array();
 
             foreach ($photos as $photo) {
                 $data['photos'][] = $photo->getPhotoPath();
