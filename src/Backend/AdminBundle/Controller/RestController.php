@@ -1942,6 +1942,7 @@ class RestController extends FOSRestController
      *
      * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
      * @SWG\Parameter( name="rating", in="body", type="integer", description="Rating.", schema={} )
+     * @SWG\Parameter( name="status_id", in="body", required=true, type="integer", description="status ID", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
