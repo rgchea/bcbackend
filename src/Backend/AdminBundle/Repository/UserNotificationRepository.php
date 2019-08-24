@@ -20,7 +20,7 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
         $qb->select('a, u, t, nt')
             ->setFirstResult(($pageId - 1) * $limit)// Offset
             ->setMaxResults($limit)// Limit
-            ->orderBy('a.createdAt', 'ASC');
+            ->orderBy('a.createdAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }
