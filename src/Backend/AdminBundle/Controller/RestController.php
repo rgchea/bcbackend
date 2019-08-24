@@ -1935,7 +1935,7 @@ class RestController extends FOSRestController
      *
      * Closes a ticket and adds a rating to it.
      *
-     * @Rest\Put("/v1/ticket", name="closeTicket")
+     * @Rest\Put("/v1/ticketclose", name="closeTicket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1967,7 +1967,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Ticket")
      */
 
-    public function putTicketAction(Request $request)
+    public function putTicketcloseAction(Request $request)
     {
         try {
             $this->initialise();
@@ -2022,7 +2022,7 @@ class RestController extends FOSRestController
      * Re opens a ticket.
      *
      *
-     * @Rest\Put("/v1/ticketopen", name="Ticket")
+     * @Rest\Put("/v1/ticketopen", name="openTicket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
