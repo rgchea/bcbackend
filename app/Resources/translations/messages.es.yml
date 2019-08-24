@@ -24,6 +24,10 @@ label_wizard_3: 'Recuerde que después de crear su complejo y sus propiedades, n
 label_booking_approval_advice: 'Puede administrar sus áreas comunes desde el Administrador de la Web; una vez que llegue al panel de Reservas, podrá ver una lista de todo lo que sus inquilinos han reservado o reservado en los últimos días. Una vez que haga clic en la parte superior del icono de edición, podrá ver los detalles de esta reserva, aquí es donde puede aprobarla o rechazarla.'
 
 
+label_ticket_close_72: 'Este ticket se cerrará automáticamente en 72hrs'
+label_pending: Pendiente
+label_rejected: 'Rechazado'
+label_detail: 'Detalle'
 label_before_event: 'hrs antes del evento.'
 label_remind: 'Recordar'
 label_date: Fecha
@@ -153,7 +157,8 @@ label_phone: Teléfono
 label_country: País
 label_state: Ciudad
 label_zip_code: 'Código Zip'
-label_timezone: 'Zona Horaria'
+label_timezone: 'Desfase Zona Horaria'
+label_timezone_name: 'Nombre Zona Horaria'
 label_address: Dirección
 label_tax_name: Nombre
 label_tax_id: NIT

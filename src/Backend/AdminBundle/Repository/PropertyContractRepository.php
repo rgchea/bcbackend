@@ -215,4 +215,20 @@ class PropertyContractRepository extends \Doctrine\ORM\EntityRepository
         );
     }
 
+
+    public function disableContracts($activeContractID, $propertyID){
+
+        $sql = "	UPDATE  property_contract
+					SET	    is_active = 0
+					WHERE   id != {$activeContractID}
+					AND     property_id = {$propertyID}
+					AND     property_transaction_type_id = 3";
+        //WHERE 	role_id = '{$roleID}'";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+    }
+
+
 }

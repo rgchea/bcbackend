@@ -1744,7 +1744,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="solution", in="body", required=true, type="string", description="Rhe ticket's solution.", schema={} )
      * @SWG\Parameter( name="is_public", in="body", required=true, type="boolean", description="Is the ticket public or private.", schema={} )
      * @SWG\Parameter( name="category_id", in="body", required=true, type="integer", description="The category ID of the ticket.", schema={} )
-     * @SWG\Parameter( name="sector_id", in="body", required=true, type="integer", description="The complex sector ID of the ticket.", schema={} )
+     * @SWG\Parameter( name="sector_id", in="body", required=true, type="integer", description="The sector ID of the ticket.", schema={} )
      * @SWG\Parameter( name="property_id", in="body", required=true, type="integer", description="The property ID of the ticket.", schema={} )
      * @SWG\Parameter( name="common_area_reservation_id", in="body", type="integer", description="The common area reservation ID of the ticket.", schema={} )
      * @SWG\Parameter( name="tenant_contract_id", in="body", type="integer", description="The tenant contract ID.", schema={} )
@@ -2077,7 +2077,7 @@ class RestController extends FOSRestController
             if ($likeUser == null) {
                 $likeUser = new User();
             }
-            
+
 
             return new JsonResponse(array(
                 'comment' => array(

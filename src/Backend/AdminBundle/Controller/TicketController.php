@@ -12,7 +12,9 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketStatusLog;
+use Backend\AdminBundle\Entity\TicketComment;
 use Backend\AdminBundle\Form\TicketType;
+use Backend\AdminBundle\Entity\UserNotification;
 
 
 class TicketController extends Controller
@@ -262,53 +264,15 @@ class TicketController extends Controller
     public function editAction(Request $request, $id)
     {
         $this->get("services")->setVars('ticket');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Ticket')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:Ticket')->find($id);
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
-
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirectToRoute('backend_admin_ticket_edit', array('id' => $id));
-        }
-
-
-        //get shared ad ticket
-        $isAdShared = $em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array("ticketType" => 2, "property" => $id));
-        if($isAdShared){
-
-            $createdAt = $isAdShared->getCreatedAt()->format('Y-m-d');
-
-            $now = time(); // or your date as well
-            $your_date = strtotime($createdAt);
-            $datediff = $now - $your_date;
-            $days =  round($datediff / (60 * 60 * 24));
-            $isAdSharedDays = 30-$days;
-
-            $isAdShared = $isAdShared->getId();
-        }
-        else{
-            $isAdShared = 0;
-            $isAdSharedDays = 0;
-        }
-
-
-
+        $ticketComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->findBy(array('ticket' => $id, 'enabled' => 1), array('id' => 'DESC'));
 
         return $this->render('BackendAdminBundle:Ticket:edit.html.twig', array(
             'entity' => $entity,
-            'form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-            'edit' => $entity->getId(),
-            'isAdShared' => $isAdShared,
-            'isAdSharedDays' => $isAdSharedDays
+            'ticketComments' => $ticketComments
         ));
     }
 
@@ -420,7 +384,7 @@ class TicketController extends Controller
 
         //setAssignedTo
         //$timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
-        $timezone = intval($objComplex->getBusiness()->getGeoState()->getTimezoneOffset());
+        $timezone = str_replace("GMT", '', $objComplex->getBusiness()->getGeoState()->getTimezoneOffset());
         $userToAssign = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, $complexID);
 
 
@@ -428,6 +392,7 @@ class TicketController extends Controller
 
         $this->get("services")->blameOnMe($ticket, "create");
         $this->get("services")->blameOnMe($ticket, "update");
+
 
         $statusLog = new TicketStatusLog();
         $statusLog->setTicketStatus($status);
@@ -812,6 +777,108 @@ class TicketController extends Controller
 
 
         ));
+    }
+
+
+    public function closeAction(Request $request, $id)
+    {
+
+        $this->get("services")->setVars('ticket');
+        $this->initialise();
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Ticket')->find($id);
+
+        $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(3);//SOLVED
+        $entity->setTicketStatus($status);
+
+
+        $statusLog = new TicketStatusLog();
+        $statusLog->setTicketStatus($status);
+        $statusLog->setTicket($entity);
+
+
+        ////CREATE USER NOTIFICATION
+        $objUserNotification = New UserNotification();
+        $objUserNotification->setTicket($entity);
+        $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(2);//TYPE=TICKET
+        $objUserNotification->setNotificationType($type);
+        $objUserNotification->setIsRead(0);
+        $objUserNotification->setEnabled(1);
+        $objUserNotification->setTitle();
+        $title = $this->userLogged->getName();
+        $description = "Ticket #".$entity->getId()." ";
+        $objUserNotification->setDescription($description);
+        $objUserNotification->setNotice($this->translator->trans('label_ticket_close_72'));
+        $objUserNotification->setSentTo($entity->getCreatedBy());
+
+
+        $this->get("services")->blameOnMe($statusLog, "create");
+        $this->get("services")->blameOnMe($statusLog, "update");
+        $this->get("services")->blameOnMe($entity, "update");
+        $this->get("services")->blameOnMe($objUserNotification, "create");
+        $this->get("services")->blameOnMe($objUserNotification, "update");
+
+
+        $this->em->persist($entity);
+        $this->em->persist($statusLog);
+        $this->em->persist($objUserNotification);
+
+
+        $this->em->flush();
+
+
+        $this->get('services')->flashSuccess($request);
+        return $this->redirectToRoute('backend_admin_ticket_index');
+
+
+    }
+
+
+
+
+    public function commentAction(Request $request, $id)
+    {
+
+        $this->get("services")->setVars('ticket');
+        $this->initialise();
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Ticket')->find($id);
+
+        $comment = new TicketComment();
+        $comment->setTicket($entity);
+        $comment->setCommentDescription(trim($_REQUEST["comment"]));
+        $comment->setEnabled(1);
+
+        $this->get("services")->blameOnMe($comment, "create");
+        $this->get("services")->blameOnMe($comment, "update");
+
+        $this->em->persist($comment);
+        $this->em->flush();
+
+        $this->get('services')->flashSuccess($request);
+        return $this->redirectToRoute('backend_admin_ticket_index');
+    }
+
+
+    public function ratingTenantAction(Request $request, $id)
+    {
+
+        $this->get("services")->setVars('ticket');
+        $this->initialise();
+
+        $rating = intval($_REQUEST["rating"]);
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Ticket')->find($id);
+        $entity->setRatingToTenant($rating);
+
+        $this->get("services")->blameOnMe($entity, "update");
+
+        $this->em->persist($entity);
+        $this->em->flush();
+
+        //$this->get('services')->flashSuccess($request);
+
+        return new JsonResponse(array('success' => true));
     }
 
 

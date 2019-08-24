@@ -1,17 +1,17 @@
-Backend\AdminBundle\Entity\GeoState:
+Backend\AdminBundle\Entity\PaymentLog:
     type: entity
-    table: geo_state
-    repositoryClass: Backend\AdminBundle\Repository\GeoStateRepository
+    table: payment_log
+    repositoryClass: Backend\AdminBundle\Repository\PaymentLogRepository
     indexes:
-        created_by:
+        property_contract_transaction_id:
             columns:
-                - created_by
-        geo_country_id:
-            columns:
-                - geo_country_id
+                - property_contract_transaction_id
         updated_by:
             columns:
                 - updated_by
+        created_by:
+            columns:
+                - created_by
     id:
         id:
             type: integer
@@ -22,35 +22,21 @@ Backend\AdminBundle\Entity\GeoState:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
-            type: string
-            nullable: false
-            length: 32
-            options:
-                fixed: false
-                default: ''
-        zipCode:
-            type: string
-            nullable: false
-            length: 8
-            options:
-                fixed: false
-                default: ''
-            column: zip_code
-        timezoneOffset:
+        status:
             type: string
             nullable: true
             length: 16
             options:
                 fixed: false
-            column: timezone_offset
-        timezoneName:
-            type: string
-            nullable: true
-            length: 32
+        paymentAmount:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
             options:
-                fixed: false
-            column: timezone_name
+                default: 0.00
+            column: payment_amount
+
         createdAt:
             type: datetime
             nullable: false
@@ -59,20 +45,15 @@ Backend\AdminBundle\Entity\GeoState:
             type: datetime
             nullable: false
             column: updated_at
-        enabled:
-            type: boolean
-            nullable: false
-            options:
-                default: '1'
     manyToOne:
-        geoCountry:
-            targetEntity: GeoCountry
+        propertyContractTransaction:
+            targetEntity: PropertyContractTransaction
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                geo_country_id:
+                property_contract_transaction_id:
                     referencedColumnName: id
             orphanRemoval: false
         createdBy:
