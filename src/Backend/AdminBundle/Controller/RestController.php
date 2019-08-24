@@ -2019,10 +2019,10 @@ class RestController extends FOSRestController
 
 
     /**
-     * Re open a ticket.
+     * Re opens a ticket.
      *
      *
-     * @Rest\Put("/v1/ticketopen", name="reopenTicket")
+     * @Rest\Put("/v1/ticketopen", name="ticketopen")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -2053,7 +2053,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Ticket")
      */
 
-    public function putTicketOpenAction(Request $request)
+    public function putTicketopenAction(Request $request)
     {
         try {
             $this->initialise();
