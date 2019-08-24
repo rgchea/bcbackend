@@ -1147,6 +1147,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="user_notification", type="object",
      *                      @SWG\Property( property="type_id", type="integer", description="Type of Notification ID", example="1" ),
      *                      @SWG\Property( property="type", type="string", description="Type of Notification", example="accept_invitation" ),
+     *                      @SWG\Property( property="title", type="string", description="tile", example="Notification title" ),
      *                      @SWG\Property( property="description", type="string", description="Description", example="Notification Description" ),
      *                      @SWG\Property( property="replies_quantity", type="integer", description="Quantity of replies for the associated ticket", example="10" ),
      *                      @SWG\Property( property="timestamp", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
@@ -1241,6 +1242,7 @@ class RestController extends FOSRestController
                     'notification' => array(
                         'type_id' => $type->getId(),
                         'type' => (($lang == 'en') ? $type->getNameEN() : $type->getNameES()),
+                        'title' => $notification->getTitle(),
                         'description' => $notification->getDescription(),
                         'replies_quantity' => (array_key_exists($ticketId, $commentsReplies)) ? $commentsReplies[$ticketId] : 0,
                         'createdAt' => $user->getCreatedAt()->getTimestamp(),
