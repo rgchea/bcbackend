@@ -1247,8 +1247,8 @@ class RestController extends FOSRestController
                         'title' => $notification->getTitle(),
                         'description' => $notification->getDescription(),
                         'replies_quantity' => (array_key_exists($ticketId, $commentsReplies)) ? $commentsReplies[$ticketId] : 0,
-                        //'createdAt' => $user->getCreatedAt()->getTimestamp(),
-                        'createdAt' => $createdAt,
+                        'createdAt' => $notification->getCreatedAt()->getTimestamp(),
+                        //'createdAt' => $createdAt,
                         'notice' => $notification->getNotice(),
                     ),
                 );
