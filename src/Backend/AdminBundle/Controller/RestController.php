@@ -1229,6 +1229,8 @@ class RestController extends FOSRestController
                     $tenantContractId = $notification->getTenantContract()->getId();
                 }
 
+                $createdAt =  strtotime($user->getCreatedAt()->format("Y-m-d H:i:s"));
+
                 $data[] = array(
                     'ticket_id' => $ticketId,
                     'common_area_reservation_id' => $commonAreaReservationId,
@@ -1245,7 +1247,8 @@ class RestController extends FOSRestController
                         'title' => $notification->getTitle(),
                         'description' => $notification->getDescription(),
                         'replies_quantity' => (array_key_exists($ticketId, $commentsReplies)) ? $commentsReplies[$ticketId] : 0,
-                        'createdAt' => $user->getCreatedAt()->getTimestamp(),
+                        //'createdAt' => $user->getCreatedAt()->getTimestamp(),
+                        'createdAt' => $createdAt,
                         'notice' => $notification->getNotice(),
                     ),
                 );
