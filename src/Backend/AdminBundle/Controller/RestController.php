@@ -2053,7 +2053,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Ticket")
      */
 
-    public function putOpenticketAction(Request $request)
+    public function putOpenTicketAction(Request $request)
     {
         try {
             $this->initialise();
