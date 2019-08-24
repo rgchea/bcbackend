@@ -1140,6 +1140,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="user", type="object",
      *                      @SWG\Property( property="avatar_path", type="string", description="Avatar Path", example="/avatars/1.jpg" ),
      *                      @SWG\Property( property="username", type="string", description="Username", example="user1" ),
+     *                      @SWG\Property( property="user_fullname", type="string", description="User full name", example="Diego Maradona" ),
      *                      @SWG\Property( property="role", type="string", description="Role of the User", example="Role" ),
      *                  ),
      *
@@ -1234,6 +1235,7 @@ class RestController extends FOSRestController
                     'user' => array(
                         'avatar_path' => $user->getAvatarPath(),
                         'username' => $user->getUsername(),
+                        'user_fullname' => $user->getName(),
                         'role' => (($lang == 'en') ? $user->getRole()->getName() : $user->getRole()->getNameES()),
                     ),
                     'notification' => array(
