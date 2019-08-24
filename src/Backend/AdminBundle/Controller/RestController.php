@@ -1931,11 +1931,11 @@ class RestController extends FOSRestController
     }
 
     /**
-     * Closes a ticket.
+     * Updates a ticket.
      *
-     * Closes a ticket and adds a rating to it.
+     * UPDATES a ticket and adds a rating to it.
      *
-     * @Rest\Post("/v1/ticketclose", name="closeTicket")
+     * @Rest\Put("/v1/ticket", name="updateTicket")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -1967,7 +1967,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Ticket")
      */
 
-    public function postTicketcloseAction(Request $request)
+    public function putTicketAction(Request $request)
     {
         try {
             $this->initialise();
@@ -1979,6 +1979,8 @@ class RestController extends FOSRestController
             $ticketId = trim($request->get('ticket_id'));
             $rating = trim($request->get('rating'));
 
+            $statusId = trim($request->get('status_id'));
+
             // Required parameter
             /** @var Ticket $ticket */
             $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array('enabled' => true, 'id' => $ticketId));
@@ -1986,7 +1988,8 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid ticket ID.");
             }
 
-            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(self::TICKET_STATUS_CLOSE_ID);
+            //$status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(self::TICKET_STATUS_CLOSE_ID);
+            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById($statusId);
             if ($status == null) {
                 throw new \Exception("Invalid ticket status.");
             }
@@ -2018,88 +2021,6 @@ class RestController extends FOSRestController
 
 
 
-    /**
-     * Re opens a ticket.
-     *
-     *
-     * @Rest\Put("/v1/ticketopen", name="openTicket")
-     *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
-     *
-     * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
-     *
-     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
-     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Re open an existing ticket.",
-     *     @SWG\Schema (
-     *          @SWG\Property( property="message", type="string", example="" )
-     *      )
-     * )
-     *
-     * @SWG\Response(
-     *     response=500, description="Internal error.",
-     *     @SWG\Schema (
-     *          @SWG\Property(property="data", type="string", example="" ),
-     *          @SWG\Property( property="message", type="string", example="Internal error." )
-     *     )
-     * )
-     *
-     * @SWG\Tag(name="Ticket")
-     */
-
-    public function putTicketopenAction(Request $request)
-    {
-        try {
-            $this->initialise();
-
-            if (!$request->headers->has('Content-Type')) {
-                throw new \Exception("Missing Content-Type header.");
-            }
-
-            $ticketId = trim($request->get('ticket_id'));
-            //$rating = trim($request->get('rating'));
-
-            // Required parameter
-            /** @var Ticket $ticket */
-            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array('enabled' => true, 'id' => $ticketId));
-            if ($ticket == null) {
-                throw new \Exception("Invalid ticket ID.");
-            }
-
-            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(self::TICKET_STATUS_OPEN_ID);
-            if ($status == null) {
-                throw new \Exception("Invalid ticket status.");
-            }
-
-            //$ticket->setRatingToTenant($rating);
-            $ticket->setTicketStatus($status);
-
-            $this->get("services")->blameOnMe($ticket, "update");
-
-            $statusLog = new TicketStatusLog();
-            $statusLog->setTicketStatus($status);
-            $statusLog->setTicket($ticket);
-            $this->get("services")->blameOnMe($statusLog, "create");
-            $this->get("services")->blameOnMe($statusLog, "update");
-
-            $this->em->persist($ticket);
-            $this->em->persist($statusLog);
-
-            $this->em->flush();
-
-            return new JsonResponse(array(
-                'message' => "",
-            ));
-        } catch (Exception $ex) {
-            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
 
     /**
      * Creates a comment.
