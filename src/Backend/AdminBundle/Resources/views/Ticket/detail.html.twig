@@ -1,3 +1,5 @@
+<script src="{{ asset('bundles/pizotearkadmin/js/starrr-gh-pages/dist/starrr.js')  }}"></script>
+<link href="{{ asset('bundles/pizotearkadmin/js/starrr-gh-pages/dist/starrr.css')  }}" rel="stylesheet" />
 <section class="content">
     <div class="header">
         <div class="container">
@@ -27,207 +29,212 @@
 
         <div class="container">
 
-            <div class="form-inputs-g">
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="form-inputs-g">
+                    <div class="row">
                         <div class="col-md-3">
-                            <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
-                        </div>
-                        <div class="col-md-9">
-                            <span>1</span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="col-md-7">
-                            <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
-                        </div>
-                        <div class="col-md-5">
-                            <span>105</span>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-3">
-                        <div class="col-md-7">
-                            <p class="txt-blue-bold">{{ 'label_type'|trans }}: </p>
-                        </div>
-                        <div class="col-md-5 text-left">
-                            <span>Private</span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="col-md-7">
-                            <p class="txt-blue-bold">{{ 'label_status'|trans }}: </p>
-                        </div>
-                        <div class="col-md-5 text-left">
-                            <span>Open</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- adress -->
-
-                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
-
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="row">
                             <div class="col-md-4">
-                                <p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
-
+                                <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
                             </div>
                             <div class="col-md-8">
-                                <p class="txt-blue-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi. </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <p class="txt-blue-bold">{{ 'label_solution'|trans }}: </p>
-
-                            </div>
-                            <div class="col-md-8">
-                                <p class="txt-blue-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec,  </p>
+                                <span>{{ entity.complexSector.name }}</span>
                             </div>
                         </div>
 
-
-                    </div>
-                    <div class="col-md-5">
-
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-8">
-
-                                <div class="bg-rate text-center">
-
-                                    <h2 class="txt-blue-bold">{{ 'label_rate_your'|trans }} {{ 'label_tenant'|trans }}</h2>
-
-                                    <span class="fa fa-star" id="star1" onclick="add(this,1)"></span>
-                                    <span class="fa fa-star" id="star2" onclick="add(this,2)"></span>
-                                    <span class="fa fa-star" id="star3" onclick="add(this,3)"></span>
-                                    <span class="fa fa-star" id="star4" onclick="add(this,4)"></span>
-                                    <span class="fa fa-star" id="star5" onclick="add(this,5)"></span>
-                                    <br/>
-                                    <button style="width: 60%; margin-top: 10px" type="submit" class="btn btn-primary">{{ 'label_close'|trans }} {{ 'label_ticket'|trans }}</button>
-
-
-                                </div>
-
-
+                        <div class="col-md-3">
+                            <div class="col-md-7">
+                                <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-5">
+                                <span>{{ entity.property.propertyNumber }}</span>
+                            </div>
                         </div>
 
 
+                        <div class="col-md-3">
+                            <div class="col-md-7">
+                                <p class="txt-blue-bold">{{ 'label_is_public'|trans }}: </p>
+                            </div>
+                            <div class="col-md-5 text-left">
+                                {% if app.request.getLocale() == 'en' %}
+                                    <span>{{ entity.isPublic ? 'Yes' : 'No' }}</span>
+                                {% else %}
+                                    <span>{{ entity.isPublic ? 'Si' : 'No' }}</span>
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="col-md-7">
+                                <p class="txt-blue-bold">{{ 'label_status'|trans }}: </p>
+                            </div>
+                            <div class="col-md-5 text-left">
+                                <span>{{ entity.ticketStatus }}</span>
+                            </div>
+                        </div>
 
                     </div>
 
-                </div>
-
-
-
-                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
-
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3 style="color:#03304a; font-size:24px;" class="txt-blue-bold text-left">{{ 'label_messages'|trans }} </h3>
-                    </div>
-                </div>
-
-                <div class="text-messages">
-
-                    <div class="row color2">
-                        <div class="col-md-12">
-                            <div class="col-md-6 text-left">
-                                <p class="txt-blue-bold">Juan Ramon Ramírez</p>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <p class="txt-blue-time">12/10/19 14:32:25</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row color1">
-                        <div class="col-md-12">
-                            <div class="col-md-6 text-left">
-                                <p class="txt-blue-bold">Juan Ramon Ramírez</p>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <p class="txt-blue-time">12/10/19 14:32:25</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row color2">
-                        <div class="col-md-12">
-                            <div class="col-md-6 text-left">
-                                <p class="txt-blue-bold">Juan Ramon Ramírez</p>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <p class="txt-blue-time">12/10/19 14:32:25</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- adress -->
 
                     <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
 
-                    <div class="row color1">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
 
-                        <div class="col-md-12">
-                            <p class="txt-blue-bold">{{ 'label_reply'|trans }}</p>
-                            <div class="form-group">
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="txt-blue-light">{{ entity.description }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">{{ 'label_solution'|trans }}: </p>
 
-                                <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="txt-blue-light">{{ entity.possibleSolution }}</p>
+                                </div>
                             </div>
 
-                            <!-- Button  -->
+
+                        </div>
+                        <div class="col-md-5">
+
+
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+
+                                    <div class="bg-rate text-center">
+
+                                        <h2 class="txt-blue-bold">{{ 'label_rate_your'|trans }} {{ 'label_tenant'|trans }}</h2>
+
+                                        <div class='starrr'></div>
+                                        <br/>
+                                        <form name="closeTicketForm" id="closeTicketForm" action="{{  path('backend_admin_ticket_close', { id: entity.id}) }}" method="POST" onsubmit="$('#pizote_spinner').show()">
+                                            <button style="width: 60%; margin-top: 10px" type="submit" class="btn btn-primary">{{ 'label_close'|trans }} {{ 'label_ticket'|trans }}</button>
+                                        </form>
+
+                                    </div>
+
+
                                 </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">{{ 'label_reply'|trans }}</button>
-                                    <p></p>
-                                </div>
+                                <div class="col-md-2"></div>
                             </div>
                         </div>
 
                     </div>
-                    <!-- end -->
-                </div>
-            </div>
 
+
+
+                    <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 style="color:#03304a; font-size:24px;" class="txt-blue-bold text-left">{{ 'label_messages'|trans }} </h3>
+                        </div>
+                    </div>
+
+                    <div class="text-messages">
+                        {% set color = "color2" %}
+                        {% for comment in ticketComments %}
+
+                            <div class="row {{ color }}">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 text-left">
+                                        <p class="txt-blue-bold">{{ comment.createdBy.name }}</p>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        {% if comment.ticket.complex.geoState.timezoneName is not null %}
+                                            {% set timezone =  comment.ticket.complex.geoState.timezoneName %}
+                                        {% else %}
+                                            {% set timezone = 'America/New_York' %}
+                                        {% endif %}
+                                        <p class="txt-blue-time">{{ comment.createdAt|date("m/d/Y H:i:s", timezone) }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>{{ comment.commentDescription }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if color == "color2" %}
+                                {% set color = "color1" %}
+                            {% else %}
+                                {% set color = "color2" %}
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                        <form name="commentTicketForm" id="commentTicketForm" action="{{ path('backend_admin_ticket_comment', { id: entity.id}) }}" method="POST" onsubmit="$('#pizote_spinner').show()">
+                            <div class="row {{ color }}">
+
+                                <div class="col-md-12">
+                                    <p class="txt-blue-bold">{{ 'label_reply'|trans }}</p>
+                                    <div class="form-group">
+
+                                        <textarea class="form-control" id="comment" name="comment" rows="6"></textarea>
+                                    </div>
+
+                                    <!-- Button  -->
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-primary">{{ 'label_reply'|trans }}</button>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- end -->
+                        </form>
+                    </div>
+                </div>
         </div>
         <!-- END: CONTENT -->
     </div>
 </section>
+
+<script type="text/javascript" language="Javascript">
+
+    $( document ).ready(function() {
+
+        myUrl = "{{ path('backend_admin_ticket_rating_tenant', {id: entity.id}) }}";
+
+
+        $('.starrr').starrr({
+            {% if entity.ratingToTenant is not null %}
+                rating: {{ entity.ratingToTenant }},
+            {% endif %}
+
+            change: function(e, value){
+                //alert('new rating is ' + value)
+                $("#pizote_spinner").show();
+                $.ajax({
+                    type:"POST",
+                    dataType:"json",
+                    url: myUrl,
+                    data:"rating="+value,
+                    success:function(data){
+
+                        $("#pizote_spinner").hide();
+
+                    }
+                });
+
+            }
+        })
+
+    });
+
+</script>

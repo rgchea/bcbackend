@@ -323,4 +323,157 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
         return $execute;
     }
+
+
+
+    public function getPropertyLog($propertyID, $locale){
+
+        //LOG COLUMNS
+        // date, description, user, status
+
+
+
+        //TICKETS
+        $sqlTickets = "	    SELECT 	tlog.created_at createddate, u.name username, 
+	                                t.id ticket_id, ts.name_es status_es, ts.name_en status_en
+                            FROM 	property p
+                                INNER JOIN ticket t ON (t.property_id =  p.id)
+                                INNER JOIN ticket_status_log tlog ON (tlog.ticket_id = t.id)
+                                INNER JOIN ticket_status ts ON (ts.id = tlog.ticket_status_id)
+                                INNER JOIN user u ON (tlog.created_by = u.id)
+                            WHERE  p.id = {$propertyID}
+                            ORDER BY tlog.created_at DESC
+                            LIMIT 100     
+                            ";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sqlTickets);
+        $stmt->execute();
+
+        $executeTickets = $stmt->fetchAll();
+
+        $tempArray = array();
+        $arrOrder = array();
+
+        $index = 0;
+
+        foreach($executeTickets as $key => $value ){
+
+            $createdAt = $value["createddate"];
+            $unixtime = strtotime($createdAt);
+
+            $arrOrder[$index] = $unixtime;
+
+            $tempArray[$index] = array();
+            $tempArray[$index]["date"] = $createdAt;
+            $tempArray[$index]["description"] = "Ticket #".$value["ticket_id"];
+            $tempArray[$index]["user"] = $value["username"];
+            $tempArray[$index]["status"] = $locale == "en" ? $value["status_en"] : $value["status_es"];
+
+            $index++;
+        }
+
+
+        //PAYMENTS
+        $sqlPayments = "SELECT 	plog.created_at createddate, u.name username, plog.status, plog.payment_amount, 
+                                t.description, t.id payment_id, 
+                                ttype.name_es, ttype.name_en, 
+                                carea.name common_area
+                        FROM	property_contract_transaction t
+                            INNER JOIN payment_log plog ON (plog.property_contract_transaction_id = t.id)
+                            INNER JOIN property_transaction_type ttype ON (ttype.id = t.property_transaction_type_id)
+                            INNER JOIN property_contract contract ON (contract.id = t.property_contract_id)
+                            INNER JOIN property p ON (p.id = contract.property_id)
+                            LEFT JOIN  common_area_reservation reservation ON (reservation.id = t.common_area_reservation_id)
+                            LEFT JOIN  common_area carea ON (carea.id = reservation.common_area_id)
+                            INNER JOIN user u ON (plog.created_by = u.id)
+                        WHERE	p.id = {$propertyID}
+                        ORDER BY plog.created_at DESC  
+                        LIMIT 100      
+                        ";
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sqlPayments);
+        $stmt->execute();
+
+        $executePayments = $stmt->fetchAll();
+
+        foreach($executePayments as $key => $value ){
+
+            $createdAt = $value["createddate"];
+            $unixtime = strtotime($createdAt);
+
+            $arrOrder[$index] = $unixtime;
+
+            $tempArray[$index] = array();
+            $tempArray[$index]["date"] = $createdAt;
+
+            $payment = $locale == "en" ? "Payment" : "Pago";
+            $commonArea = $value["common_area"] != NULL ? $value["common_area"] : '';
+            $tempArray[$index]["description"] = $commonArea." {$payment} #".$value["payment_id"].": $".number_format($value["payment_amount"], 2, ".",'');
+            $tempArray[$index]["user"] = $value["username"];
+            $tempArray[$index]["status"] = $value["status"];
+
+            $index++;
+        }
+
+
+        ///BOOKING
+        $sqlBooking = "SELECT 	blog.created_at createddate, u.name username, blog.status, 
+                                carea.name common_area,
+                                car.id
+                        FROM    booking_log blog 
+                            INNER JOIN common_area_reservation car ON (blog.common_area_reservation_id = car.id)
+                            
+                            INNER JOIN  common_area carea ON (carea.id = car.common_area_id)
+                            INNER JOIN user u ON (blog.created_by = u.id)
+                            INNER JOIN property p ON (p.id = car.property_id)
+                        WHERE	p.id = {$propertyID}
+                        ORDER BY blog.created_at DESC  
+                        LIMIT 100      
+                        ";
+        //INNER JOIN common_area_reservation_status rstatus ON (rstatus.id = car.common_area_reservation_status_id)
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sqlBooking);
+        $stmt->execute();
+
+        $executeBooking = $stmt->fetchAll();
+
+        foreach($executeBooking as $key => $value ){
+
+            $createdAt = $value["createddate"];
+            $unixtime = strtotime($createdAt);
+
+            $arrOrder[$index] = $unixtime;
+
+            $tempArray[$index] = array();
+            $tempArray[$index]["date"] = $createdAt;
+
+
+            $reservation = $locale == "en" ? "Booking" : "Reservación";
+            $commonArea = $value["common_area"];
+            $tempArray[$index]["description"] = $reservation ."#".$value["id"].": ".$commonArea;
+
+            $tempArray[$index]["user"] = $value["username"];
+            $tempArray[$index]["status"] = $value["status"];
+
+            $index++;
+        }
+
+        //arsort() - sort associative arrays in descending order, according to the value.
+
+        arsort($arrOrder);
+        //var_dump($arrOrder);die;
+        $arrReturn = array();
+
+        foreach ($arrOrder as $key => $value){
+
+            $arrReturn[] = $tempArray[$key];
+
+        }
+
+        return $arrReturn;
+
+    }
+
 }

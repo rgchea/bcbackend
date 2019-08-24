@@ -3,14 +3,17 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li> <a href="{{ path('backend_admin_property_index') }}">{{ 'label_menu.property'|trans  }}</a> </li>
-    <li> <a href="{{ path('backend_admin_property_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_property_detail', { 'id': entity.id }) }}">{{ 'label_detail'|trans  }}</a> </li>
 
 {% endblock %}
 
 {% block body -%}
     {{ parent() }}
 
+
     {% set myLocale = app.request.getLocale() %};
+
+
 
     <style>
         .fulltable{
@@ -50,7 +53,7 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>Andres Garcia Bernat</p>
+                                <p>{{ mainContract.user.name }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -61,7 +64,7 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>Andres Garcia Bernat</p>
+                                <p>{{ mainContract.owner is not null ? mainContract.owner.name : '' }}</p>
                             </div>
                         </div>
                     </div>
@@ -72,7 +75,14 @@
                                 <p class="txt-blue-bold text-left">{{ 'label_familiy_members'|trans }}: </p>
                             </div>
                             <div class="col-md-8">
-                                <p>4 <br> Omar Alvarez, Monica Solares, Renato Hernandez, Diego Fernandez</p>
+                                {%  set strTenants = '' %}
+                                {%  set intTenants = 0 %}
+                                {% for contract in tenantContracts  %}
+                                    {%  set strTenants = strTenants ~ contract.user.name ~ ',' %}
+                                    {% set intTenants = intTenants+1 %}
+                                {%  endfor %}
+
+                                <p>{{ intTenants }}<br> {{ strTenants }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -83,7 +93,7 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>1234 SW 33186</p>
+                                <p>{{ entity.address }}</p>
                             </div>
                         </div>
                     </div>
@@ -98,7 +108,7 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>andres@gameboard.tech</p>
+                                <p>{{ mainContract.user.email }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -109,7 +119,7 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>(andres@gameboard.tech</p>
+                                <p>{{ mainContract.ownerEmail }}</p>
                             </div>
                         </div>
                     </div>
@@ -123,18 +133,18 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>(305) 9999-5555</p>
+                                <p>{{ mainContract.user.mobilePhone }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">{{ 'label_tenant'|trans }} - {{ 'label_phone'|trans }}:</p>
+                                <p class="txt-blue-bold">{{ 'label_owner'|trans }} - {{ 'label_phone'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
                             </div>
                             <div class="col-md-8">
-                                <p>(305) 9999-5555</p>
+                                <p>{{ mainContract.owner is not null ? mainContract.owner.mobilePhone : '' }}</p>
                             </div>
                         </div>
                     </div>
@@ -148,9 +158,10 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>Monica Solares - (305) 9999-5555 <br/> Frederick Mora (405) 444-4578 </p>
+                                <p>{{ mainContract.user.emergencyPhoneNumber }}</p>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
                                 <p class="txt-blue-bold">{{ 'label_emergency_call'|trans }}:</p>
@@ -159,7 +170,7 @@
 
                             </div>
                             <div class="col-md-8">
-                                <p>Monica Solares - (305) 9999-5555 <br/> Frederick Mora (405) 444-4578 </p>
+                                <p>{{ mainContract.owner is not null ? mainContract.owner.emergencyPhoneNumber : '' }} </p>
                             </div>
                         </div>
                     </div>
@@ -174,16 +185,7 @@
                                 <p class="txt-blue-bold text-left">{{ 'label_property_agreement'|trans }}:</p>
                             </div>
                             <div class="col-md-7">
-
-                                <select  class="form-control classic" id="exampleFormControlSelect1">
-                                    <option>CO1-12.04.18</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-
-
+                                {{ propertyContract.id }}
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -191,19 +193,20 @@
                                 <p class="txt-blue-bold text-right">{{ 'label_who_pays_maintenance'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                <label class="radio-inline"><input type="radio" name="optradio" checked>Owner</label>
-                                <label class="radio-inline"><input type="radio" name="optradio" checked>Tenant</label>
+
+                                {{ propertyContract.whoPaysMaintenance == 'owner' ? 'label_owner'|trans : 'label_tenant'|trans }}
                             </div>
                         </div>
                     </div>
 
                     <div class="row color1">
                         <div class="col-md-6">
+
                             <div class="col-md-5">
-                                <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_end'|trans }}: </p>
+                                <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_start'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                12/04/22
+                                {{ propertyContract.startDate|date("m/d/Y") }}
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -211,28 +214,29 @@
                                 <p class="txt-blue-bold text-right">{{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                $540 <a href="{{ path('backend_admin_property_update_maintenance', {id: entity.id}) }}"  ><button class="btn_update btn-primary" type="button">{{ 'label_update'|trans }}</button></a>
+                                {{ propertyContract.maintenancePrice|number_format(2, '.', '') }} <a href="{{ path('backend_admin_property_update_maintenance', {id: entity.id}) }}"  ><button class="btn_update btn-primary" type="button">{{ 'label_update'|trans }}</button></a>
                             </div>
                         </div>
                     </div>
 
-
-
                     <div class="row color2">
                         <div class="col-md-6">
                             <div class="col-md-5">
-                                <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_start'|trans }}: </p>
+                                <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_end'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                12/04/22
+                                {{ propertyContract.endDate|date("m/d/Y") }}
                             </div>
+
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-5">
                                 <p class="txt-blue-bold text-right">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }} {{ 'label_in'|trans }} : </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                10 months, 4 weeks, 10 days <a href="{{ path('backend_admin_property_contract_extend', {id: entity.id}) }}" ><button type="button"  class="btn_update btn-primary">{{ 'label_extend'|trans }} </button></a>&nbsp;&nbsp;<a href="{{ path('backend_admin_property_contract_cancel', {id: entity.id}) }}"  ><button type="submit"  class="btn_cancel btn-primary">{{ 'label_cancel'|trans }}</button></a>
+                                {{ remainingTime }}
+                                <br/>
+                                <a href="{{ path('backend_admin_property_contract_extend', {id: entity.id}) }}" ><button type="button"  class="btn_update btn-primary">{{ 'label_extend'|trans }} </button></a>&nbsp;&nbsp;<a href="{{ path('backend_admin_property_contract_cancel', {id: entity.id}) }}"  ><button type="submit"  class="btn_cancel btn-primary">{{ 'label_cancel'|trans }}</button></a>
                             </div>
                         </div>
                     </div>
@@ -413,7 +417,39 @@
                             <!-- end widget content -->                            
                         </div>
                         <div id="tabs-log">
-                            <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+                            <br/>
+
+                            <table id="log_table" class="table table-striped  table-hover fulltable">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'label_date'|trans }}</th>
+                                        <th>{{ 'label_description'|trans }}</th>
+                                        <th>{{ 'label_user'|trans }}</th>
+                                        <th>{{ 'label_status'|trans }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% if entity.complex.geoState.timezoneName is not null %}
+                                    {% set timezone =  entity.complex.geoState.timezoneName %}
+                                {% else %}
+                                    {% set timezone = 'America/New_York' %}
+                                {% endif %}
+
+                                {% for key, l in log %}
+
+                                    <tr>
+                                        <td>{{ l.date|date("m/d/Y H:i:s", timezone )}}</td>
+                                        <td>{{ l.description }}</td>
+                                        <td>{{ l.user }}</td>
+                                        <td>{{ l.status|trans }}</td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+
+
                         </div>
 
                     </div>
@@ -468,7 +504,7 @@
                     "info" : true,
                     "searching": true,
                     "pageLength": 10,
-                    "order": [[1, 'asc']],
+                    "order": [[0, 'desc']],
                     {% if myLocale == 'es' %}
                     "language": {
                         "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
@@ -565,7 +601,17 @@
                     "info" : true,
                     "searching": true,
                     "pageLength": 10,
-                    "order": [[7, 'asc']]/*ACTIONS*/
+                    "order": [[7, 'asc']],/*ACTIONS*/
+                    {% if myLocale == 'es' %}
+                    "language": {
+                        "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+                    }
+                    {% else %}
+                    "language": {
+                        "infoFiltered": ""
+                    }
+                    {% endif %}
+
                 });
 
             }
@@ -724,7 +770,30 @@
             $("#payment_input5").remove();
         });
 
+
+
+        {#--- LOG ---#}
+        $('#log_table').DataTable( {
+            /* Disable initial sort */
+            "aaSorting": [],
+
+            {% if myLocale == 'es' %}
+            "language": {
+                "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+            }
+            {% else %}
+            "language": {
+                "infoFiltered": ""
+            }
+            {% endif %}
+
+        } );
+
+        $("#log_table_filter").show();
+
     </script>
+
+
 
 {% endblock %}
 

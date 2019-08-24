@@ -60,7 +60,31 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoState.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoState.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/GeoStateType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/GeoStateType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/GeoState.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/GeoState.orm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/User.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/User.orm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/ticket.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/ticket.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/GeoState/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/GeoState/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractCancel.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractCancel.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractExtend.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractExtend.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/detail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/detail.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/updateMaintenance.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/updateMaintenance.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
@@ -274,69 +298,42 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="222" column="15" selection-start-line="222" selection-start-column="9" selection-end-line="222" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="24" column="29" selection-start-line="24" selection-end-line="24" selection-end-column="29" />
+            <state relative-caret-position="405">
+              <caret line="27" column="80" selection-start-line="27" selection-end-line="27" selection-end-column="80" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/public/js/backend.js">
+        <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="2" column="29" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="29" />
+            <state relative-caret-position="390">
+              <caret line="26" column="21" selection-start-line="26" selection-end-line="26" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/form.html.twig">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="132" column="128" selection-start-line="132" selection-start-column="128" selection-end-line="132" selection-end-column="128" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1245">
-              <caret line="83" column="63" selection-start-line="83" selection-start-column="58" selection-end-line="83" selection-end-column="63" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="422" column="17" selection-start-line="422" selection-start-column="8" selection-end-line="422" selection-end-column="17" />
+            <state relative-caret-position="157">
+              <caret line="1736" column="6" selection-start-line="1736" selection-start-column="6" selection-end-line="1736" selection-end-column="6" />
               <folding>
-                <element signature="e#50#95#0#PHP" expanded="true" />
+                <element signature="e#50#92#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
+        <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="2079" column="12" selection-start-line="2079" selection-start-column="12" selection-end-line="2079" selection-end-column="12" />
+            <state relative-caret-position="319">
+              <caret line="811" column="52" selection-start-line="811" selection-start-column="52" selection-end-line="811" selection-end-column="52" />
               <folding>
-                <element signature="e#50#92#0#PHP" expanded="true" />
+                <element signature="e#50#95#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -346,42 +343,38 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>validate</find>
-      <find>submit</find>
-      <find>form</find>
-      <find>newaction</find>
-      <find>ticketForm</find>
-      <find>session</find>
-      <find>property</find>
-      <find>changeProperties</find>
-      <find>ticket</find>
-      <find>ticketcate</find>
-      <find>property_sele</find>
-      <find>creates a ticke</find>
-      <find>busin</find>
-      <find>business</find>
-      <find>setbusiness</find>
-      <find>$tenantContract</find>
-      <find>createaction</find>
-      <find>flush</find>
-      <find>$commonAreaReservationId</find>
-      <find>photo</find>
-      <find>check</find>
-      <find>getUsertoAssignTicket</find>
-      <find>isEmpty</find>
-      <find>public</find>
+      <find>border</find>
+      <find>333 !</find>
+      <find>#333</find>
+      <find>white</find>
+      <find>;</find>
+      <find>datatable</find>
+      <find>dataTables.bootstrap</find>
+      <find>myLocale</find>
+      <find>search</find>
+      <find>display: none</find>
+      <find>dataTables_filter</find>
+      <find>DataTable(</find>
+      <find>&lt;table</find>
+      <find>log_ta</find>
+      <find>datatables</find>
+      <find>datatables.boo</find>
+      <find>PaymentLog</find>
+      <find>pending</find>
+      <find>rejected</find>
+      <find>callsendgrid</find>
+      <find>mail</find>
+      <find>extend</find>
+      <find>timezone</find>
       <find>creates a com</find>
-      <find>singleticket</find>
-      <find>creates a comment</find>
-      <find>$commentUser</find>
-      <find>$likeUser</find>
-      <find>user</find>
+      <find>getinbox</find>
+      <find>editaction</find>
+      <find>$tenant</find>
+      <find>close</find>
+      <find>getcommonarea</find>
+      <find>createtic</find>
     </findStrings>
     <replaceStrings>
-      <replace>optionDelete</replace>
-      <replace>question.type_en</replace>
-      <replace>myThumbnail</replace>
-      <replace>005CBF</replace>
       <replace>ComplexFaq</replace>
       <replace>complex_faq</replace>
       <replace>dt_table_faq</replace>
@@ -393,7 +386,6 @@
       <replace>;</replace>
       <replace>_ticket</replace>
       <replace>&quot;id&quot;=&gt; &quot;ASC&quot;</replace>
-      <replace>#03304A</replace>
       <replace>backend_admin_common_area_reservation_</replace>
       <replace>CommonAreaReservation</replace>
       <replace>CommonAreaReservationType</replace>
@@ -408,6 +400,11 @@
       <replace>UserNotification</replace>
       <replace>_usernotification_</replace>
       <replace>_usernotification</replace>
+      <replace>PaymentLog</replace>
+      <replace>$tempArray</replace>
+      <replace>#242424</replace>
+      <replace>#03304A</replace>
+      <replace>BookingLog</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -416,22 +413,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/updateMaintenance.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractExtend.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractCancel.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContractTransaction/form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContractTransaction/edit.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContractTransaction/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/TenantContract.orm.yml" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Property.orm.yml" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/UserNotification.php" />
-        <option value="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark_old.css" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/invitations.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/invitationsImport.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/notification.yml" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/NotificationController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/usernotification.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/UserNotificationRepository.php" />
@@ -446,27 +427,43 @@
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/edit.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractTransactionController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractTransactionRepository.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml" />
         <option value="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/detail.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/index.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/complexSector.yml" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TicketRepository.php" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/public/js/backend.js" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Ticket.orm.yml" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
-        <option value="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/GeoState.orm.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/GeoState/form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Form/GeoStateType.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/ticket.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractRepository.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/updateMaintenance.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractCancel.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractExtend.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/User.orm.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/PaymentLog.orm.yml" />
+        <option value="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/layout.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig" />
+        <option value="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/views/layout.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/BookingLog.orm.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/detail.html.twig" />
         <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" />
+        <option value="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" />
+        <option value="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" />
+        <option value="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" />
       </list>
     </option>
   </component>
@@ -597,11 +594,10 @@
       <path value="$PROJECT_DIR$/vendor/yellowskies/qr-code-bundle" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="160" />
-    <option name="y" value="114" />
-    <option name="width" value="960" />
-    <option name="height" value="551" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="733" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -611,7 +607,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -623,12 +618,6 @@
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
               <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
@@ -673,106 +662,63 @@
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
               <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
               <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
+              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Resources" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="AdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="Register" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sf_better_condos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sf_better_condos" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Pizote" type="462c0819:PsiDirectoryNode" />
-              <item name="ArkAdminBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css" />
-      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/img/favicon" />
-      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/views" />
-      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Lib" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Lib" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine" />
       <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views" />
       <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Controller" />
       <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing" />
       <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property" />
-      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Form" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/js" />
+      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css" />
+      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/img/favicon" />
+      <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/views" />
+      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Lib" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -860,18 +806,19 @@
       <workItem from="1565481099761" duration="6710000" />
       <workItem from="1565564006793" duration="39349000" />
       <workItem from="1565907732358" duration="7000000" />
-      <workItem from="1565970993055" duration="50308000" />
+      <workItem from="1565970993055" duration="56905000" />
+      <workItem from="1566403700232" duration="41069000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1050514000" />
+    <option name="totallyTimeSpent" value="1098180000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="733" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="733" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4933185" visible="true" weight="0.23990306" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4933185" visible="true" weight="0.24394184" />
       <window_info id="Structure" order="1" sideWeight="0.5066815" side_tool="true" weight="0.21033014" />
       <window_info id="Favorites" order="2" sideWeight="0.5022272" side_tool="true" weight="0.22364217" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -908,268 +855,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserNotificationController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="176" column="59" selection-start-line="176" selection-start-column="59" selection-end-line="176" selection-end-column="59" />
-          <folding>
-            <element signature="e#50#95#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/new screens/notification-system-send.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="413" column="21" selection-start-line="286" selection-end-line="413" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/UserNotification/form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="154" column="81" selection-start-line="154" selection-start-column="81" selection-end-line="154" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContract/newAgreement.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="73" column="167" selection-start-line="73" selection-start-column="167" selection-end-line="73" selection-end-column="167" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TenantContractRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/new screens/ark.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="3716" column="20" selection-start-line="3716" selection-start-column="20" selection-end-line="3716" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/translations/security.en.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/security.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="45" column="30" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/new.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/edit.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/editForm.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="248" column="28" selection-start-line="248" selection-start-column="18" selection-end-line="248" selection-end-column="28" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="222" column="41" selection-start-line="222" selection-start-column="41" selection-end-line="222" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="363" column="32" selection-start-line="363" selection-start-column="20" selection-end-line="363" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Register/confirm.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="19" column="53" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/edit.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="108" column="65" selection-start-line="108" selection-start-column="65" selection-end-line="108" selection-end-column="65" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/edit.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="283" selection-start-line="283" selection-end-line="283" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="18" column="53" selection-start-line="18" selection-start-column="53" selection-end-line="18" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/PropertyContractTransaction/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1619">
-          <caret line="203" column="13" selection-start-line="117" selection-start-column="4" selection-end-line="203" selection-end-column="13" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/ticket.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="57" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="96" column="43" selection-start-line="96" selection-end-line="96" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Entity/TicketCategory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="257" column="32" selection-start-line="257" selection-start-column="32" selection-end-line="257" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="3543" selection-start-line="3543" selection-end-line="3544" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/detail.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="280" column="66" selection-start-line="280" selection-start-column="66" selection-end-line="280" selection-end-column="66" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractTransactionRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="16" column="123" selection-start-line="16" selection-start-column="108" selection-end-line="16" selection-end-column="123" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractTransactionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="86" column="117" selection-start-line="86" selection-start-column="117" selection-end-line="86" selection-end-column="117" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketStatusController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="887" column="37" selection-start-line="887" selection-start-column="20" selection-end-line="887" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="75" column="95" selection-start-line="75" selection-start-column="8" selection-end-line="75" selection-end-column="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
-          <caret line="105" selection-start-line="105" selection-end-line="105" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/complexSector.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="34" column="44" selection-start-line="34" selection-end-line="34" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ModuleAccessRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="33" column="33" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexSectorController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="543" column="10" selection-start-line="543" selection-start-column="10" selection-end-line="543" selection-end-column="10" />
-          <folding>
-            <element signature="e#50#95#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TicketRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1191,13 +876,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/public/js/backend.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="2" column="29" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Ticket.orm.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
@@ -1212,24 +890,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/index.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="329" column="23" selection-start-line="329" selection-start-column="23" selection-end-line="329" selection-end-column="23" />
+        <state relative-caret-position="299">
+          <caret line="157" column="35" selection-start-line="157" selection-start-column="35" selection-end-line="157" selection-end-column="35" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="841" selection-start-line="841" selection-end-line="841" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ShiftController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="184" column="68" selection-start-line="184" selection-start-column="68" selection-end-line="184" selection-end-column="68" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ShiftRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
-          <caret line="271" column="51" selection-start-line="271" selection-start-column="42" selection-end-line="271" selection-end-column="51" />
+          <caret line="271" column="41" selection-start-line="271" selection-start-column="20" selection-end-line="271" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Form/GeoStateType.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="222" column="15" selection-start-line="222" selection-start-column="9" selection-end-line="222" selection-end-column="15" />
+        <state relative-caret-position="432">
+          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/GeoState.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="46" column="21" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/public/js/backend.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="6" selection-start-line="6" selection-end-line="27" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/ticket.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="45" column="34" selection-start-line="45" selection-end-line="45" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/GeoState/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="102" selection-start-line="99" selection-end-line="102" />
         </state>
       </provider>
     </entry>
@@ -1240,36 +963,261 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ModuleAccessRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="18" selection-start-line="18" selection-end-line="23" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractTransactionRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="16" column="123" selection-start-line="16" selection-start-column="108" selection-end-line="16" selection-end-column="123" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractTransactionController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
-          <caret line="24" column="29" selection-start-line="24" selection-end-line="24" selection-end-column="29" />
+          <caret line="201" column="37" selection-start-line="201" selection-start-column="17" selection-end-line="201" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyContractRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="218" column="36" selection-start-line="218" selection-start-column="20" selection-end-line="218" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/edit.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="338" lean-forward="true" selection-start-line="338" selection-end-line="338" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/updateMaintenance.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="121" selection-start-line="5" selection-start-column="121" selection-end-line="5" selection-end-column="121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/User/form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="76" column="167" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="167" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/property.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="82" column="38" selection-start-line="82" selection-end-line="82" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="20" column="39" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Complex.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="119" selection-start-line="112" selection-end-line="119" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/User.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="56" column="27" selection-start-line="56" selection-start-column="27" selection-end-line="56" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractExtend.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="172" column="105" selection-start-line="172" selection-start-column="40" selection-end-line="172" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/contractCancel.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="687">
+          <caret line="134" column="59" selection-start-line="134" selection-start-column="40" selection-end-line="134" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/PropertyContractTransaction.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="38" selection-start-line="38" selection-end-line="43" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/PaymentLog.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/GeoCountry/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="53" selection-start-line="53" selection-end-line="78" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/invitations.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1049">
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/Region/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="653">
+          <caret line="104" column="30" selection-start-line="104" selection-start-column="30" selection-end-line="104" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/layout.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="188" column="52" selection-start-line="188" selection-start-column="52" selection-end-line="188" selection-end-column="52" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="732">
+          <caret line="3121" selection-start-line="3121" selection-end-line="3121" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="3468" selection-start-line="3465" selection-end-line="3468" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/views/layout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="86" column="12" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="96" column="73" selection-start-line="96" selection-start-column="73" selection-end-line="96" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/BookingLog.orm.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Property/detail.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="413" column="53" selection-start-line="413" selection-start-column="53" selection-end-line="413" selection-end-column="53" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="1521" selection-start-line="1521" selection-end-line="1521" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Ticket/detail.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1245">
-          <caret line="83" column="63" selection-start-line="83" selection-start-column="58" selection-end-line="83" selection-end-column="63" />
+        <state relative-caret-position="297">
+          <caret line="152" selection-start-line="152" selection-end-line="152" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php">
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RegisterController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="422" column="17" selection-start-line="422" selection-start-column="8" selection-end-line="422" selection-end-column="17" />
-          <folding>
-            <element signature="e#50#95#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="235">
+          <caret line="208" selection-start-line="208" selection-end-line="219" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="584">
+          <caret line="454" column="94" selection-start-line="454" selection-start-column="94" selection-end-line="454" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.en.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="80" selection-start-line="27" selection-end-line="27" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/translations/messages.es.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="21" selection-start-line="26" selection-end-line="26" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="2079" column="12" selection-start-line="2079" selection-start-column="12" selection-end-line="2079" selection-end-column="12" />
+        <state relative-caret-position="157">
+          <caret line="1736" column="6" selection-start-line="1736" selection-start-column="6" selection-end-line="1736" selection-end-column="6" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="811" column="52" selection-start-line="811" selection-start-column="52" selection-end-line="811" selection-end-column="52" />
+          <folding>
+            <element signature="e#50#95#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

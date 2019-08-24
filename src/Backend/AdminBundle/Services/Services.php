@@ -841,12 +841,6 @@ class Services extends Controller
 
 
 
-
-    public function loadCommonAreaType($complex){
-
-    }
-
-
     public function crypto_rand_secure($min, $max)
     {
         $range = $max - $min;

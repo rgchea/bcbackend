@@ -290,4 +290,33 @@ class GeoState
         return $this->getName();
     }
 
+    /**
+     * @var string|null
+     */
+    private $timezoneName;
+
+
+    /**
+     * Set timezoneName.
+     *
+     * @param string|null $timezoneName
+     *
+     * @return GeoState
+     */
+    public function setTimezoneName($timezoneName = null)
+    {
+        $this->timezoneName = $timezoneName;
+
+        return $this;
+    }
+
+    /**
+     * Get timezoneName.
+     *
+     * @return string|null
+     */
+    public function getTimezoneName()
+    {
+        return $this->timezoneName;
+    }
 }

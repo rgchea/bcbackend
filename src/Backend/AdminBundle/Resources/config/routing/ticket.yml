@@ -32,3 +32,18 @@ backend_admin_ticket_delete:
   defaults: { _controller: "BackendAdminBundle:Ticket:delete" }
 
   #methods:  DELETE
+
+backend_admin_ticket_close:
+  path:     /{id}/close
+  defaults: { _controller: "BackendAdminBundle:Ticket:close" }
+  methods:  POST
+
+backend_admin_ticket_comment:
+  path:     /{id}/comment
+  defaults: { _controller: "BackendAdminBundle:Ticket:comment" }
+  methods:  POST
+
+backend_admin_ticket_rating_tenant:
+  path:     /{id}/ratingtenant
+  defaults: { _controller: "BackendAdminBundle:Ticket:ratingTenant" }
+  methods:  POST

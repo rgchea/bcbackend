@@ -662,4 +662,33 @@ class User extends BaseUser
     {
         return $this->playerId;
     }
+    /**
+     * @var string|null
+     */
+    private $emergencyPhoneNumber;
+
+
+    /**
+     * Set emergencyPhoneNumber.
+     *
+     * @param string|null $emergencyPhoneNumber
+     *
+     * @return User
+     */
+    public function setEmergencyPhoneNumber($emergencyPhoneNumber = null)
+    {
+        $this->emergencyPhoneNumber = $emergencyPhoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get emergencyPhoneNumber.
+     *
+     * @return string|null
+     */
+    public function getEmergencyPhoneNumber()
+    {
+        return $this->emergencyPhoneNumber;
+    }
 }

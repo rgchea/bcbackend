@@ -536,6 +536,9 @@ class PropertyContractController extends Controller
             $this->em->flush();
 
 
+            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableContracts($entity->getId(), $objProperty->getId());
+
+
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_property_contract_index'));
 

@@ -3,7 +3,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li> <a href="{{ path('backend_admin_property_index') }}">{{ 'label_menu.property'|trans  }}</a> </li>
-    <li> <a href="{{ path('backend_admin_property_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_property_detail', { 'id': entity.id }) }}">{{ 'label_detail'|trans  }}</a> </li>
 
 {% endblock %}
 
@@ -35,155 +35,177 @@
                 <div class="col-md-2">
 
                 </div>
+                <form method="POST" action="{{ path('backend_admin_property_contract_cancel', {id: entity.id}) }}" id="updateForm">
+                    <input type="hidden" name="submit" value="true">
+                    <div class="col-md-8">
 
-                <div class="col-md-8">
+                        <div class="wrapp-update-m-c">
+                            <h2 class="text-center title-update-m-c">{{ 'label_cancel'|trans }} {{ 'label_property_agreement'|trans }} </h2>
+                            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
-                    <div class="wrapp-update-m-c">
-                        <h2 class="text-center title-update-m-c">{{ 'label_cancel'|trans }} {{ 'label_property_agreement'|trans }} </h2>
-                        <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
-                        <blockquote>
-                            <div class="col-md-12">
-                                <p> {{ 'label_cancel_contract_advice'|trans }}  </p>
-                            </div>
-
-                        </blockquote>
-
-                        <div class="row color2">
-                            <div class="col-md-12">
-                                <div class="col-md-2">
-
+                            <blockquote>
+                                <div class="col-md-12">
+                                    <p> {{ 'label_cancel_contract_advice'|trans }}  </p>
                                 </div>
-                                <div class="col-md-4">
-                                    <p class="txt-blue-bold">{{ 'label_tenant'|trans }}</p>
-                                </div>
-                                <div class="col-md-4 text-left ">
-                                    Andres Garcia Bernat
-                                </div>
-                                <div class="col-md-2">
 
-                                </div>
-                            </div>
-                        </div>
+                            </blockquote>
 
-                        <div class="row color1">
-                            <div class="col-md-12">
-                                <div class="col-md-2">
+                            <div class="row color2">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
 
-                                </div>
-                                <div class="col-md-4">
-                                    <p class="txt-blue-bold">{{ 'label_email'|trans }} ({{ 'label_tenant'|trans }}):</p>
-                                </div>
-                                <div class="col-md-64 text-left ">
-                                    andres@gameboard.tech
-                                </div>
-                                <div class="col-md-2">
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row color2">
-                            <div class="col-md-12">
-                                <div class="col-md-2">
-
-                                </div>
-                                <div class="col-md-4">
-                                    <p class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </p>
-                                </div>
-                                <div class="col-md-4 text-left">
-                                    12/04/18
-                                </div>
-                                <div class="col-md-2">
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row color1">
-                            <div class="col-md-12">
-                                <div class="col-md-2">
-
-                                </div>
-                                <div class="col-md-4">
-                                    <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }}: </p>
-                                </div>
-                                <div class="col-md-4 text-left ">
-                                    12/04/18
-                                </div>
-                                <div class="col-md-2">
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row color2">
-                            <div class="col-md-12">
-                                <div class="col-md-2">
-
-                                </div>
-                                <div class="col-md-4">
-                                    <p class="txt-blue-bold">{{ 'label_maintenance'|trans }}: </p>
-                                </div>
-                                <div class="col-md-4 text-left ">
-                                    $500.00
-                                </div>
-                                <div class="col-md-2">
-
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="row">
-
-                            <div class="col-md-12">
-                                <div class="col-md-3">
-                                </div>
-                                <div class="col-md-6 text-center">
-                                    <div class="custom-control custom-checkbox">
-                                        <br/>
-                                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                                        <label class="custom-control-label" for="defaultUnchecked">{{ 'label_notify_owner'|trans }}</label>
-                                        <br/>
-                                        <br/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">{{ 'label_tenant'|trans }}:</p>
+                                    </div>
+                                    <div class="col-md-4 text-left ">
+                                        {{ tenantContract.user.name }}
+                                    </div>
+                                    <div class="col-md-2">
 
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                            </div>
 
+                            <div class="row color1">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">{{ 'label_email'|trans }} ({{ 'label_tenant'|trans }} ):</p>
+                                    </div>
+                                    <div class="col-md-64 text-left ">
+                                        {{ tenantContract.user.email }}
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="col-md-2">
+                            <div class="row color2">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
 
-                                </div>
-                                <div class="col-md-4">
-                                    <button style="width:80%;" type="submit" class="btn btn-primary btn-cancel-contract">{{ 'label_cancel'|trans }} {{ 'label_property_agreement'|trans }}</button>
-                                </div>
-                                <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </p>
+                                    </div>
+                                    <div class="col-md-4 text-left">
+                                        {{ propertyContract.startDate|date("Y-m-d") }}
 
-                                    <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">{{ 'label_cancel'|trans }}</button>
+                                    </div>
+                                    <div class="col-md-2">
 
-                                </div>
-                                <div class="col-md-2">
-
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+
+
+                            <div class="row color1">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">{{ 'label_agreement_end_date'|trans }}: </p>
+                                    </div>
+                                    <div class="col-md-4 text-left ">
+                                        {{ propertyContract.endDate|date("Y-m-d") }}
+
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row color2">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }}: </p>
+                                    </div>
+                                    <div class="col-md-4 text-left ">
+                                        {{ remainingTime }}
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row color1">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="txt-blue-bold">{{ 'label_maintenance'|trans }}: </p>
+                                    </div>
+                                    <div class="col-md-4 text-left ">
+                                        {{ propertyContract.maintenancePrice|number_format(2, '.', '') }}
+
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <div class="custom-control custom-checkbox">
+                                            <br/>
+                                            <input type="checkbox" class="custom-control-input" id="notifyOwner" name="notifyOwner">
+                                            <label class="custom-control-label" for="defaultUnchecked">{{ 'label_notify_owner'|trans }}</label>
+                                            <br/>
+                                            <br/>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button style="width:80%;" type="submit" class="btn btn-primary btn-cancel-contract">{{ 'label_cancel'|trans }} {{ 'label_property_agreement'|trans }}</button>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <a href="{{ path('backend_admin_property_detail', {id: entity.id}) }}" style="background-color:black; color:#FFF; width:80%;" class="btn btn-primary">{{ 'label_cancel'|trans }}</a>
+
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
 
                     </div>
-
-                </div>
-
+                </form>
                 <div class="col-md-2">
 
                 </div>

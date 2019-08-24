@@ -11,6 +11,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+
     <script src="{{ asset('bundles/pizotearkadmin/js/plugin/datatables/jquery.dataTables-cust.js') }}"></script>
     <script src="{{ asset('bundles/pizotearkadmin/js/plugin/datatables/ColReorder.min.js') }}"></script>
     <script src="{{ asset('bundles/pizotearkadmin/js/plugin/datatables/FixedColumns.min.js') }}"></script>
@@ -42,6 +44,8 @@
 
 {% block body -%}
     {{ parent() }}
+
+
     <div class="container">
 
         <div class="header">
@@ -182,6 +186,8 @@
     </div>
     <script type="text/javascript">
 
+        {% set myLocale = app.request.getLocale() %}
+
         var table;
 
         function fetchData(){
@@ -222,7 +228,16 @@
                 "info" : true,
                 "searching": true,
                 "pageLength": 10,
-                "order": [[7, 'asc']]/*ACTIONS*/
+                "order": [[7, 'asc']],/*ACTIONS*/
+                {% if myLocale == 'es' %}
+                "language": {
+                    "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+                }
+                {% else %}
+                "language": {
+                    "infoFiltered": ""
+                }
+                {% endif %}
             });
 
         }

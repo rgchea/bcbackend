@@ -3,7 +3,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li> <a href="{{ path('backend_admin_property_index') }}">{{ 'label_menu.property'|trans  }}</a> </li>
-    <li> <a href="{{ path('backend_admin_property_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
+    <li> <a href="{{ path('backend_admin_property_detail', { 'id': entity.id }) }}">{{ 'label_detail'|trans  }}</a> </li>
 
 {% endblock %}
 
@@ -39,131 +39,136 @@
 
                     </div>
 
-                    <div class="col-md-8">
+                    <form method="POST" action="{{ path('backend_admin_property_update_maintenance', {id: entity.id}) }}" id="updateForm">
 
-                        <div class="wrapp-update-m-c">
-                            <h2 class="text-center title-update-m-c">{{ 'label_update'|trans }} {{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}</h2>
-                            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+                        <input type="hidden" name="submit" value="true">
+                        <div class="col-md-8">
 
-                            <blockquote>
-                                <div class="col-md-12">
-                                    <p> {{ 'label_update_maintenance_advice'|trans }} </p>
+                            <div class="wrapp-update-m-c">
+                                <h2 class="text-center title-update-m-c">{{ 'label_update'|trans }} {{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}</h2>
+                                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                                <blockquote>
+                                    <div class="col-md-12">
+                                        <p> {{ 'label_update_maintenance_advice'|trans }} </p>
+                                    </div>
+
+                                </blockquote>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="txt-blue-bold">{{ 'label_who_pays_maintenance'|trans }}: </p>
+                                        </div>
+                                        <div class="col-md-6 text-left ">
+
+                                            <label class="radio-inline"><input type="radio" value="owner" name="whopaysmaintenance" {{ propertyContract.whoPaysMaintenance == 'owner' ? 'checked' : '' }}>{{ 'label_owner'|trans }}</label>
+                                            <label class="radio-inline"><input type="radio" value="tenant" name="whopaysmaintenance" {{ propertyContract.whoPaysMaintenance == 'tenant' ? 'checked' : '' }}>{{ 'label_tenant'|trans }}</label>
+                                        </div>
+
+                                    </div>
                                 </div>
 
-                            </blockquote>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="txt-blue-bold">{{ 'label_maintenance'|trans }} ({{ 'label_cost'|trans }}):</p>
+                                        </div>
+                                        <div class="col-md-64 text-left ">
+                                            {{ propertyContract.maintenancePrice|number_format(2, '.', '') }}
+                                        </div>
+                                        <div class="col-md-2">
 
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="txt-blue-bold">{{ 'label_who_pays_maintenance'|trans }}: </p>
-                                    </div>
-                                    <div class="col-md-4 text-left ">
-                                        <label class="radio-inline"><input type="radio" name="optradio" checked>{{ 'label_owner'|trans }}</label>
-                                        <label class="radio-inline"><input type="radio" name="optradio" checked>{{ 'label_tenant'|trans }}</label>
-                                    </div>
-                                    <div class="col-md-2">
-
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="txt-blue-bold">{{ 'label_new'|trans }} {{ 'label_cost'|trans }}: </p>
+                                        </div>
+                                        <div class="col-md-4 text-left">
+                                            <label class="radio-inline"><input type="text" class="form-control" placeholder="{{ propertyContract.maintenancePrice|number_format(2, '.', '') }}" name="newPrice" id="newPrice" required></label>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }} {{ 'label_in'|trans }}: </p>
+                                        </div>
+                                        <div class="col-md-4 text-left ">
+                                            {{ remainingTime }}
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr style="border: 2px solid" />
+                                {#
+                                <div class="row">
+
+                                    <div class="col-md-12">
+
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <p class="txt-blue-bold">{{ 'label_new'|trans }} {{ 'label_total'|trans }}: </p>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <p class="txt-blue-bold">$ 3,400.00</p>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                #}
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button style="width:80%;" type="submit" class="btn btn-primary">{{ 'label_update'|trans }}</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="{{ path('backend_admin_property_detail', {id: entity.id}) }}" style="background-color:black; color:#FFF; width:80%;" class="btn btn-primary">{{ 'label_cancel'|trans }}</a>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-2">
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="txt-blue-bold">{{ 'label_maintenance'|trans }} ({{ 'label_cost'|trans }}):</p>
-                                    </div>
-                                    <div class="col-md-64 text-left ">
-                                        $500.00
-                                    </div>
-                                    <div class="col-md-2">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-2">
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="txt-blue-bold">{{ 'label_new'|trans }} {{ 'label_cost'|trans }}: </p>
-                                    </div>
-                                    <div class="col-md-4 text-left">
-                                        <label class="radio-inline"><input type="text" class="form-control" placeholder="$400.00" name="optradio"></label>
-                                    </div>
-                                    <div class="col-md-2">
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-2">
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p class="txt-blue-bold">{{ 'label_property_agreement'|trans }} {{ 'label_expires'|trans }} {{ 'label_in'|trans }}: </p>
-                                    </div>
-                                    <div class="col-md-4 text-left ">
-                                        8.5
-                                    </div>
-                                    <div class="col-md-2">
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr style="border: 2px solid" />
-
-                            <div class="row">
-
-                                <div class="col-md-12">
-
-                                    <div class="col-md-2">
-
-                                    </div>
-                                    <div class="col-md-4 text-center">
-                                        <p class="txt-blue-bold">{{ 'label_new'|trans }} {{ 'label_total'|trans }}: </p>
-                                    </div>
-                                    <div class="col-md-4 text-center">
-                                        <p class="txt-blue-bold">$ 3,400.00</p>
-                                    </div>
-                                    <div class="col-md-2">
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-2">
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button style="width:80%;" type="submit" class="btn btn-primary">{{ 'label_update'|trans }}</button>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button style="background-color:black; color:#FFF; width:80%;" type="submit" class="btn btn-primary">{{ 'label_cancel'|trans }}</button>
-                                    </div>
-                                    <div class="col-md-2">
-
-                                    </div>
-                                </div>
-                            </div>
-
 
                         </div>
+                    </form>
 
-                    </div>
+
 
                     <div class="col-md-2">
 
@@ -177,9 +182,31 @@
     </section>
 
     <script type="text/javascript">
-        $( function() {
-            $( "#tabs" ).tabs();
-        } );
+
+        $("#updateForm").validate({
+            success: function(error){
+
+                return true;
+            },
+
+        });
+
+        $("#newPrice").rules("add", {required: true, number:true});
+        //
+
+
+        $("#updateForm").on("submit", function(){
+            //Code: Action (like ajax...)
+            if($("#updateForm").valid()){
+                $('#pizote_spinner').show();
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        });
+
     </script>
 {% endblock %}
 

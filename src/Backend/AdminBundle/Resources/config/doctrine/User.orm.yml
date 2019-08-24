@@ -53,6 +53,15 @@ Backend\AdminBundle\Entity\User:
             options:
                 fixed: false
             column: mobile_phone
+
+        emergencyPhoneNumber:
+            type: string
+            nullable: true
+            length: 64
+            options:
+                fixed: false
+            column: emergency_phone_number
+
         birthdate:
             type: date
             nullable: true

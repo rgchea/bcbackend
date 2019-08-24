@@ -39,10 +39,18 @@
                             {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
                             ) }}
                         </div>
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.timezoneOffset) }}
+								{{ form_errors(form.timezoneOffset) }}
+								{{ form_widget(form.timezoneOffset, { 'attr': {'class' : 'form-control classic' } }
+								) }}
+							</div>
+
                         <div class="form-group col-md-6">
-                                {{ form_label(form.timezoneOffset) }}
-                                {{ form_errors(form.timezoneOffset) }}
-                                {{ form_widget(form.timezoneOffset, { 'attr': {'class' : 'form-control classic' } }
+                                {{ form_label(form.timezoneName) }}
+                                {{ form_errors(form.timezoneName) }}
+                                {{ form_widget(form.timezoneName, { 'attr': {'class' : 'form-control classic', 'placeholder': 'America/New_York' } }
                                 ) }}
                         </div>
                         <div class="clearfix"></div>

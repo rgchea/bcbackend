@@ -541,6 +541,9 @@ class PropertyController extends Controller
             $this->em->persist($propertyContract);
             $this->em->flush();
 
+            //DISABLE OLD CONTRACTS
+            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableContracts($propertyContract->getId(), $entity->getId());
+
 
             ///CREATE TENANT CONTRACT
             $tenantContract = new TenantContract();
@@ -838,6 +841,10 @@ class PropertyController extends Controller
 
             $this->em->persist($propertyContract);
             $this->em->flush();
+
+            //DISABLE OLD CONTRACTS
+            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableContracts($propertyContract->getId(), $entity->getId());
+
 
             ///SET TENANT CONTRACT
             if($_REQUEST["tenantContract"] != 0){
@@ -1201,6 +1208,10 @@ class PropertyController extends Controller
             $this->em->persist($propertyContract);
             $this->em->flush();
 
+            //DISABLE OLD CONTRACTS
+            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableContracts($propertyContract->getId(), $entity->getId());
+
+
 
             ///CREATE TENANT CONTRACT
             $tenantContract = new TenantContract();
@@ -1311,18 +1322,30 @@ class PropertyController extends Controller
         $this->initialise();
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+        $mainContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
+        $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
 
+        $nowtime = strtotime("now");
+        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
+
+        //print "<pre>";
+        //var_dump($this->em->getRepository('BackendAdminBundle:Property')->getPropertyLog($id, $this->translator->getLocale()));die;
+        $log = $this->em->getRepository('BackendAdminBundle:Property')->getPropertyLog($id, $this->translator->getLocale());
 
 
         return $this->render('BackendAdminBundle:Property:detail.html.twig', array(
             'entity' => $entity,
-            'form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
             'edit' => $entity->getId(),
+            'propertyContract' => $propertyContract,
+            'mainContract' => $mainContract,
+            'tenantContracts' => $tenantContracts,
+            'remainingTime' => $remainingTime,
+            'log' => $log
+
         ));
     }
 
@@ -1332,51 +1355,193 @@ class PropertyController extends Controller
     public function updateMaintenanceAction(Request $request, $id)
     {
         $this->get("services")->setVars('property');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
+        $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
 
+        if(isset($_REQUEST["submit"])){
+
+            //print "<pre>";
+            //var_dump($_REQUEST);die;
+
+
+            $propertyContract->setWhoPaysMaintenance($_REQUEST["whopaysmaintenance"]);
+            $propertyContract->setMaintenancePrice(floatval($_REQUEST["newPrice"]));
+
+            $entity->setMaintenancePrice(floatval($_REQUEST["newPrice"]));
+
+            $this->em->persist($propertyContract);
+            $this->em->persist($entity);
+
+            $this->get("services")->blameOnMe($entity, 'update');
+            $this->get("services")->blameOnMe($propertyContract, 'update');
+
+            $this->em->flush();
+
+
+            $this->get('services')->flashSuccess($request);
+            return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
+
+
+        }
+
+        $nowtime = strtotime("now");
+        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
 
 
         return $this->render('BackendAdminBundle:Property:updateMaintenance.html.twig', array(
             'entity' => $entity,
+            'propertyContract' => $propertyContract,
+            'remainingTime' => $remainingTime
         ));
     }
 
     public function contractCancelAction(Request $request, $id)
     {
+
         $this->get("services")->setVars('property');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
+        $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+        $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
 
+        if(isset($_REQUEST["submit"])){
+
+            //print "<pre>";
+            //var_dump($_REQUEST);die;
+
+            $propertyContract->setIsActive(0);
+            //$propertyContract->setEnabled(0);
+            $this->em->persist($propertyContract);
+            //$this->em->persist($entity);
+
+
+            ///SEND MAIL NOTIFY THE OWNER
+            if(isset($_REQUEST["notifyOwner"])){
+
+                //new message from sendgrid
+                if($this->translator->getLocale() == "en"){
+                    $templateID = "d-6f2dbc6839e244758156ef7555ba8d8e";
+                }
+                else{
+                    $templateID = "d-744e784eebb643ffa5c4a45c6143a6fc";
+                }
+
+                //tenant_name
+                //property_address
+                //complex_name
+                $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
+                $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
+                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'",';
+
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
+
+            }
+
+            $this->get("services")->blameOnMe($propertyContract, 'update');
+
+            $this->em->flush();
+
+            $this->get('services')->flashSuccess($request);
+            return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
+
+
+        }
+
+        $nowtime = strtotime("now");
+        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
 
 
         return $this->render('BackendAdminBundle:Property:contractCancel.html.twig', array(
             'entity' => $entity,
+            'propertyContract' => $propertyContract,
+            'tenantContract' => $tenantContract,
+            'remainingTime' => $remainingTime
         ));
+
     }
 
     public function contractExtendAction(Request $request, $id)
     {
         $this->get("services")->setVars('property');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
+        $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+        $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
 
+        if(isset($_REQUEST["submit"])){
+
+            //print "<pre>";
+            //var_dump($_REQUEST);die;
+
+
+            $propertyContract->setWhoPaysMaintenance($_REQUEST["whopaysmaintenance"]);
+
+            $startDate = trim($_REQUEST["startDate"]);
+            $startDate = new \DateTime($startDate);
+            $propertyContract->setStartDate($startDate);
+
+            $endDate = trim($_REQUEST["endDate"]);
+            $endDate = new \DateTime($endDate);
+            $propertyContract->setEndDate($endDate);
+
+
+            $this->em->persist($propertyContract);
+            //$this->em->persist($entity);
+
+
+            ///SEND MAIL NOTIFY THE OWNER
+            if(isset($_REQUEST["notifyOwner"])){
+
+                //new message from sendgrid
+                if($this->translator->getLocale() == "en"){
+                    $templateID = "d-c3de70b4c3e546e1bbbdc4926ec58c87";
+                }
+                else{
+                    $templateID = "d-888fa43845274964b59a6fdff7872c04";
+                }
+
+                //tenant_name
+                //property_address
+                //expiration_date
+                //complex_name
+                $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
+                $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
+                $myJson = '"expiration_date": "'.$propertyContract->getEndDate()->format("m/d/Y") .'",';
+                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'",';
+
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
+
+            }
+
+
+            $this->get("services")->blameOnMe($propertyContract, 'update');
+            $this->em->flush();
+
+            $this->get('services')->flashSuccess($request);
+            return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
+
+
+        }
+
+        $nowtime = strtotime("now");
+        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
 
 
         return $this->render('BackendAdminBundle:Property:contractExtend.html.twig', array(
             'entity' => $entity,
+            'propertyContract' => $propertyContract,
+            'tenantContract' => $tenantContract,
+            'remainingTime' => $remainingTime
         ));
     }
 
