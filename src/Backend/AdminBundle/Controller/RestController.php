@@ -3298,6 +3298,22 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid common area ID.");
             }
 
+            $myPhotoPath = self::IMAGES_PATH."common_area/";
+
+            $commonAreaPhotos = array();
+
+            $myPhotos = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->findBy(array('commonArea' => $commonArea->getId(), "enabled" => 1));
+
+            if($myPhotos){
+                foreach ($myPhotos as $photo){
+                    $commonAreaPhotos[] = array('url' => $myPhotoPath.$photo->getPhotoPath());
+                }
+            }
+
+
+
+
+
             $data = array(
                 'name' => $commonArea->getName(),
                 'description' => $commonArea->getDescription(),
@@ -3308,6 +3324,7 @@ class RestController extends FOSRestController
                 'required_payment' => $commonArea->getRequiredPayment(),
                 'has_equipment' => $commonArea->getHasEquipment(),
                 'equipment_description' => $commonArea->getEquipmentDescription(),
+                'photos' => $commonAreaPhotos,
             );
 
             return new JsonResponse(array(
