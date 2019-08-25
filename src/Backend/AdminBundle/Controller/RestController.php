@@ -1675,7 +1675,7 @@ class RestController extends FOSRestController
 
             //get ticket photos
             $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findBy(array("ticket" => $ticket_id, "enabled" => 1));
-            $data['photo'] = array();
+            $data['photos'] = array();
 
             foreach ($photos as $photo) {
                 $data['photos'][] = $photo->getPhotoPath();
