@@ -806,7 +806,7 @@ class TicketController extends Controller
         $objUserNotification->setEnabled(1);
         $objUserNotification->setTitle();
         $title = $this->userLogged->getName();
-        $description = "Ticket #".$entity->getId()." ";
+        $description = "Ticket #".$entity->getId(). " ". $this->translator->trans('label_ticket_solved');
         $objUserNotification->setDescription($description);
         $objUserNotification->setNotice($this->translator->trans('label_ticket_close_72'));
         $objUserNotification->setSentTo($entity->getCreatedBy());
