@@ -68,8 +68,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class RestController extends FOSRestController
 {
-    const AVATAR_UPLOADS_FOLDER = 'avatars';
-    const TICKET_UPLOADS_FOLDER = 'tickets';
+    const AVATAR_UPLOADS_FOLDER = 'avatars/';
+    const TICKET_UPLOADS_FOLDER = 'tickets/';
     const TENANT_ROLE_ID = 4;
     const COMMON_AREA_RESERVATION_STATUS_ID = 1;
     const TICKET_STATUS_OPEN_ID = 1;
@@ -84,7 +84,8 @@ class RestController extends FOSRestController
     const QUESTION_TYPE_ONEOPTION_ID = 4;
     const QUESTION_TYPE_RATING_ID = 5;
 
-    const IMAGES_PATH = "https://bettercondos.space/uploads/images/";
+    //const IMAGES_PATH = "https://bettercondos.space/uploads/images/";
+    const IMAGES_PATH = "/uploads/images/";
 
     protected $em;
     /** @var Translator $translator */
@@ -1786,6 +1787,9 @@ class RestController extends FOSRestController
 
     public function postTicketAction(Request $request)
     {
+
+        $myPhotoPath = self::IMAGES_PATH.self::TICKET_UPLOADS_FOLDER;
+
         try {
             $this->initialise();
 
@@ -1873,7 +1877,14 @@ class RestController extends FOSRestController
             $validator = $this->get('validator');
 
             foreach ($photos as $photo) {
+
+                //var_dump($photo);die;
+
+                $photo = str_replace('data:image/png;base64,', '', $photo);
+                $photo = str_replace(' ', '+', $photo);
                 $decodedPhoto = base64_decode($photo);
+
+
 
                 $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
                 file_put_contents($tmpPath, $decodedPhoto);
@@ -1884,15 +1895,14 @@ class RestController extends FOSRestController
                     $uploadedFile,
                     array(
                         new File(array(
-                            'maxSize' => '5M',
-                            'mimeTypes' => array('image/*')
+                            //'maxSize' => '5M',
+                            'mimeTypes' => ['image/png', 'image/jpg','image/jpeg']
                         ))
                     )
                 );
 
-                if ($violations->count() > 0) {
-                    throw new \Exception("Invalid image.");
-                }
+
+
 
                 $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
@@ -1904,10 +1914,11 @@ class RestController extends FOSRestController
                 }
 
                 $ticketPhoto = new TicketFilePhoto();
-                $ticketPhoto->setPhotoPath($uploadedFile->getPath());
-//                $ticketPhoto->setFilename($fileName);
-//                $ticketPhoto->setOriginalFilename(($originalFilename!=null)?$originalFilename:$fileName);
-//                $ticketPhoto->setMimeType($uploadedFile->getMimeType());
+                $ticketPhoto->setPhotoPath($myPhotoPath.$fileName);
+                $ticketPhoto->setTicket($ticket);
+                //$ticketPhoto->setFilename($fileName);
+                //$ticketPhoto->setOriginalFilename(($originalFilename!=null)?$originalFilename:$fileName);
+                //$ticketPhoto->setMimeType($uploadedFile->getMimeType());
 
                 $this->get("services")->blameOnMe($ticketPhoto, "create");
                 $this->get("services")->blameOnMe($ticketPhoto, "update");
@@ -1916,6 +1927,8 @@ class RestController extends FOSRestController
 
             $this->em->persist($ticket);
             $this->em->persist($statusLog);
+
+
 
             $this->em->flush();
 
