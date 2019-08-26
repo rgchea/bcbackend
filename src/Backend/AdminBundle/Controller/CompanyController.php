@@ -41,6 +41,8 @@ class CompanyController extends Controller
         //$this->get("services")->setVars('company');
         $this->initialise();
 
+        //print $this->translator->trans('label_ticket_solved');die;
+
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
         //var_dump($baseurl);die;
 
