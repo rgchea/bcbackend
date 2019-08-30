@@ -173,6 +173,9 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         }
 
 
+        //EXCLUDE FROM LIST THE RESERVATION AND SHARE
+        $query->andWhere('e.ticketType = :ttype')->setParameter('ttype', 1);
+
 
         // Fields Search
         foreach ($columns as $key => $column) {

@@ -129,11 +129,13 @@ class TicketController extends Controller
                         {
                             if($entity->getIsPublic()){
                                 $responseText  = $this->translator->getLocale() == "en" ? "Public" : "Público";
-                                $responseTemp = "<button type='button' class='btn btn-default btn-xs'>".$responseText."</button>";
+                                $responseTemp = "<span class='label label-primary'>".$responseText."</span>";
                             }
                             else{
                                 $responseText  = $this->translator->getLocale() == "en" ? "Private" : "Privado";
-                                $responseTemp = "<button type='button' class='btn btn-info btn-xs'>".$responseText."</button>";
+
+
+                                $responseTemp = "<span class='label label-info'>".$responseText."</span>";
                             }
 
 
@@ -153,13 +155,13 @@ class TicketController extends Controller
                             $myStatus = $entity->getTicketStatus()->getNameEN();
 
                             if($myStatus == "Open"){
-                                $responseTemp = "<button type='button' class='btn btn-danger btn-xs'>".$responseText."</button>";
+                                $responseTemp = "<span class='label label-warning'>".$responseText."</span>";
                             }
                             elseif ($myStatus == "Closed"){
-                                $responseTemp = "<button type='button' class='btn btn-success btn-xs'>".$responseText."</button>";
+                                $responseTemp = "<span class='label label-default'>".$responseText."</span>";
                             }
                             else{
-                                $responseTemp = "<button type='button' class='btn btn-warning btn-xs'>".$responseText."</button>";
+                                $responseTemp = "<span class='label label-success'>".$responseText."</span>";
                             }
 
                             break;
@@ -804,8 +806,8 @@ class TicketController extends Controller
         $objUserNotification->setNotificationType($type);
         $objUserNotification->setIsRead(0);
         $objUserNotification->setEnabled(1);
-        $objUserNotification->setTitle();
         $title = $this->userLogged->getName();
+        $objUserNotification->setTitle($title);
         $description = "Ticket #".$entity->getId(). " ". $this->translator->trans('label_ticket_solved');
         $objUserNotification->setDescription($description);
         $objUserNotification->setNotice($this->translator->trans('label_ticket_close_72'));

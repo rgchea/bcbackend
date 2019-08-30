@@ -43,6 +43,10 @@ class CompanyController extends Controller
 
         //print $this->translator->trans('label_ticket_solved');die;
 
+        $tmp = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getCommonAreaAvailability(5, '2019-08-26');
+        die;
+
+
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
         //var_dump($baseurl);die;
 

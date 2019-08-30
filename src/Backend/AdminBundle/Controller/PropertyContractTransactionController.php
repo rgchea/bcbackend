@@ -205,16 +205,25 @@ class PropertyContractTransactionController extends Controller
     public function newAction(Request $request)
     {
         $this->get("services")->setVars('propertyContractTransaction');
+        $this->initialise();
 
         $entity = new PropertyContractTransaction();
-        $form   = $this->createCreateForm($entity);
+        //$form   = $this->createCreateForm($entity);
+
+        $myComplexID = $this->get("services")->getSessionComplex();
+
+        $paymentType = $this->em->getRepository("BackendAdminBundle:PropertyTransactionType")->findBy(array("enabled" => 1), array("nameEN" => "ASC"));
+        $complexSector = $this->em->getRepository("BackendAdminBundle:ComplexSector")->findBy(array('complex'=> $myComplexID, 'enabled' => 1));
+
 
 
         return $this->render('BackendAdminBundle:PropertyContractTransaction:new.html.twig', array(
             'entity' => $entity,
-            'form' => $form->createView(),
+            //'form' => $form->createView(),
             'myPath' => 'backend_admin_propertycontracttransaction_new',
-            'new' => true
+            'new' => true,
+            'complexSector' => $complexSector,
+            'paymentType' => $paymentType
 
         ));
     }
@@ -246,23 +255,8 @@ class PropertyContractTransactionController extends Controller
 
         $entity = $em->getRepository('BackendAdminBundle:PropertyContractTransaction')->find($id);
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
-        //$editForm = $this->createForm('Backend\AdminBundle\Form\PropertyContractTransactionType', $propertyContractTransaction);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirectToRoute('backend_admin_propertycontracttransaction_edit', array('id' => $id));
-        }
-
         return $this->render('BackendAdminBundle:PropertyContractTransaction:edit.html.twig', array(
             'entity' => $entity,
-            'form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
             'edit' => $entity->getId()
         ));
     }
@@ -364,41 +358,43 @@ class PropertyContractTransactionController extends Controller
     {
 
         $this->get("services")->setVars('propertyContractTransaction');
+        $this->initialise();
+
+        //print "<pre>";
+        //var_dump($_REQUEST);die;
+        $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find(intval($_REQUEST["property_select"]));
+
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $objProperty->getId(), 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+        $transactionType = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(intval($_REQUEST["type_select"]));//reservacion
+
+        $payment = new PropertyContractTransaction();
+        $payment->setEnabled(1);
+        $payment->setComplex($objProperty->getComplex());
+        $payment->setPropertyContract($propertyContract);
+        $payment->setPropertyTransactionType($transactionType);
+        //$payment->setCommonAreaReservation($entity);
+        $payment->setDescription(trim($_REQUEST["description"]));
+        $payment->setComment(trim($_REQUEST["comment"]));
+
+        $payment->setPaymentAmount(floatval($_REQUEST["amount"]));
+        $payment->setDueDate(new \Datetime($_REQUEST["due_date"]));
+        //status
+        $payment->setStatus(0);
+
+        //BLAME ME
+        $this->get("services")->blameOnMe($payment, "create");
+        $this->get("services")->blameOnMe($payment, "update");
+
+        $this->em->persist($payment);
 
 
-        $entity = new PropertyContractTransaction();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-        /*print "<pre>";
-        var_dump($form->getErrorsAsString());die;
-         * */
-
-        if ($form->isValid()) {
-            $myRequest = $request->request->get('propertyContractTransaction');
-            //var_dump($myRequest);die;
-            $em = $this->getDoctrine()->getManager();
-            //var_dump($request->get('propertyContractTransaction');die;
-
-            $this->get("services")->blameOnMe($entity, "create");
-
-            $em->persist($entity);
-            $em->flush();
+        $this->em->flush();
 
 
-            $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_propertycontracttransaction_index'));
+        $this->get('services')->flashSuccess($request);
+        return $this->redirect($this->generateUrl('backend_admin_propertycontracttransaction_index'));
 
-        }
-        /*
-        else{
-            print "FORMULARIO NO VALIDO";DIE;
-        }
-         * */
 
-        return $this->render('BackendAdminBundle:PropertyContractTransaction:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
     }
 
     /**
@@ -451,33 +447,36 @@ class PropertyContractTransactionController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('propertyContractTransaction');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:PropertyContractTransaction')->find($id);
+        //print "<pre>";
+        //var_dump($_REQUEST);DIE;
 
-        if (!$entity) {
+        $payment = $this->em->getRepository('BackendAdminBundle:PropertyContractTransaction')->find($id);
+
+        if (!$payment) {
             throw $this->createNotFoundException('Unable to find PropertyContractTransaction entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $myRequest = $request->request->get('propertyContractTransaction');
-            $this->get("services")->blameOnMe($entity);
-            $em->flush();
+        ///paid & paid date
+        $payment->setPaidBy($payment->getPropertyContract()->getProperty()->getMainTenant());
+        $gtmNow = gmdate("Y-m-d H:i:s");
+        $payment->setPaidDate(new \DateTime($gtmNow));
+        //status
+        $payment->setStatus(1);
+        $payment->setTransactionNumber(trim($_REQUEST["transaction_number"]));
 
-            $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_propertycontracttransaction_index', array('id' => $id)));
+        //BLAME ME
+        $this->get("services")->blameOnMe($payment, "update");
 
-        }
+        $this->em->persist($payment);
 
-        return $this->render('BackendAdminBundle:PropertyContractTransaction:edit.html.twig', array(
-            'entity'      => $entity,
-            'form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        $this->em->flush();
+
+        $this->get('services')->flashSuccess($request);
+        return $this->redirect($this->generateUrl('backend_admin_propertycontracttransaction_index', array('id' => $id)));
+
     }
 
 

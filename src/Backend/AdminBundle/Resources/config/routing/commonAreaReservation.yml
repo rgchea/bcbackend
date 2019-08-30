@@ -62,5 +62,28 @@ backend_admin_common_area_reservation_update:
 backend_admin_common_area_reservation_delete:
     path:     /{id}/delete
     defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:delete" }
-        
 
+
+backend_admin_common_area_reservation_availability:
+    path:     /getAvailability
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:getAvailability" }
+
+
+backend_admin_common_area_reservation_get_cost:
+    path:     /getCost
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:getCost" }
+
+
+backend_admin_common_area_reservation_update_payment:
+    path:     /updatePayment
+    defaults: { _controller: "BackendAdminBundle:CommonAreaReservation:updatePayment" }
+
+common_area_reservation_list_log:
+    path: /{reservation}/commonAreaReservation/list/log
+    defaults:
+        _controller: BackendAdminBundle:CommonAreaReservation:listLog
+
+backend_admin_common_area_reservation_comment:
+    path: /{id}/commonAreaReservation/comment
+    defaults:
+        _controller: BackendAdminBundle:CommonAreaReservation:comment

@@ -1,0 +1,90 @@
+Backend\AdminBundle\Entity\BookingComment:
+    type: entity
+    table: booking_comment
+    repositoryClass: Backend\AdminBundle\Repository\BookingCommentRepository
+    indexes:
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
+        common_area_reservation_id:
+            columns:
+                - common_area_reservation_id
+        liked_by:
+            columns:
+                - liked_by
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        commentDescription:
+            type: string
+            nullable: false
+            length: 160
+            options:
+                fixed: false
+                default: ''
+            column: comment_description
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+        enabled:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+    manyToOne:
+        commonAreaReservation:
+            targetEntity: CommonAreaReservation
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                common_area_reservation_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        likedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                liked_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

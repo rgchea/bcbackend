@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h3 class="header-title">Register New Payment No 12459</h3>
+                    <h3 class="header-title">{{ 'label_payment'|trans }} #{{ entity.id }}</h3>
                 </div>
                 <div class="col-md-2 text-right"></div>
                 <div class="col-md-3"></div>
@@ -48,7 +48,7 @@
                             <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
                         </div>
                         <div class="col-md-9">
-                            <p>1</p>
+                            <p>{{ entity.propertyContract.property.complexSector.name }}</p>
                         </div>
 
                     </div>
@@ -58,7 +58,7 @@
                             <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
                         </div>
                         <div class="col-md-7">
-                            <p>4001</p>
+                            <p>{{ entity.propertyContract.property.propertyNumber }}</p>
                         </div>
 
                     </div>
@@ -69,7 +69,7 @@
                             <p class="txt-blue-bold">{{ 'label_type'|trans }}: </p>
                         </div>
                         <div class="col-md-8">
-                            <p>Maintenance</p>
+                            <p>{{ entity.propertyTransactionType }}</p>
                         </div>
 
                     </div>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-12">
-                        <p>This is the payment description</p>
+                        <p>{{ entity.description }}</p>
                     </div>
                 </div>
 
@@ -95,13 +95,14 @@
                         <p class="txt-blue-bold">{{ 'label_due_date'|trans }}: </p>
                     </div>
                     <div class="col-md-2 text-left">
-                        <p>10/07/19</p>
-                    </div>
-                    <div class="col-md-1">
-                        <p class="txt-blue-bold">{{ 'label_amount'|trans }}: </p>
+                        <p>{{ entity.dueDate|date("m/d/Y") }}</p>
+
                     </div>
                     <div class="col-md-2">
-                        <p>10/07/19</p>
+                        <p class="txt-blue-bold">{{ 'label_amount'|trans }} $: </p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>{{ entity.paymentAmount|number_format(2, '.', '') }}</p>
                     </div>
 
 
@@ -113,38 +114,69 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-md-12">
-                        <p>This is the payment comment, this could be a long text, buy maybe not that long</p>
+                        <p>{{ entity.comment }}</p>
                     </div>
                 </div>
                 <br/>
-                <div class="row">
-                    <div class="col-md-1">
 
-                    </div>
-                    <div class="col-md-1">
+                <form method="POST" action="{{ path('backend_admin_propertycontracttransaction_update', {id: entity.id}) }}" name="paymentForm" id="paymentForm">
+                    <div class="row">
+                        <div class="col-md-1">
 
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <p class="txt-blue-bold">{{ 'label_transaction_number'|trans }}: </p>
+                        </div>
+                        <div class="col-md-4 text-left">
+                            <input type="text" class="form-control" placeholder="123456789" name="transaction_number" id="transaction_number">
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">{{ 'lable_register_paid'|trans }}</button>
+                        </div>
                     </div>
 
-                    <div class="col-md-2">
-                        <p class="txt-blue-bold">{{ 'label_transaction_number'|trans }}: </p>
-                    </div>
-                    <div class="col-md-4 text-left">
-                        <input type="text" class="form-control" placeholder="123456789">
-                    </div>
-                    <div class="col-md-2">
+                </form>
 
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">{{ 'lable_register_paid'|trans }}</button>
-
-                    </div>
-                </div>
 
             </div>
         </div>
 
     </div>
     <!-- END: CONTENT -->
+
+    <script type="text/javascript" language="JavaScript">
+
+        $( document ).ready(function() {
+
+            $("#paymentForm").validate();
+
+
+            $("#transaction_number").rules("add", {required:false, number:true});
+
+
+        });
+
+        $('[name="paymentForm"]').on("submit", function(){
+            //Code: Action (like ajax...)
+
+            if($("[name='paymentForm']").valid()){
+                $('#pizote_spinner').show();
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        });
+
+    </script>
 
 
 {% endblock %}

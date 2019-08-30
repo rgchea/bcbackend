@@ -1,5 +1,5 @@
 
-
+<script src="{{ asset('bundles/backendadmin/js/backend.js')  }}"></script>
     <div class="container">
 
         <div class="header">
@@ -19,169 +19,252 @@
                 <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
 
-
-                <div class="form-inputs-g">
-
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="col-md-3">
-                                <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
-                            </div>
-                            <div class="col-md-9">
-                                <select  class="form-control classic" id="exampleFormControlSelect1">
-                                    <option>All</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="col-md-5">
-                                <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
-                            </div>
-                            <div class="col-md-7">
-                                <select  class="form-control classic" id="exampleFormControlSelect1">
-                                    <option>All</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-
-                        </div>
+                <form method="POST" id="bookingForm" name="bookingForm" action="{{ path('backend_admin_common_area_reservation_create') }}">
+                    <div class="form-inputs-g">
 
 
-                        <div class="col-md-4">
+                        <div class="row">
                             <div class="col-md-4">
-                                <p class="txt-blue-bold">{{ 'label_common_area'|trans }}: </p>
+                                <div class="col-md-3">
+                                    <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
+                                </div>
+                                <div class="col-md-9">
+                                    <select  class="form-control classic" id="sector_select" name="sector_select">
+                                        {% for sector in complexSector %}
+                                            <option value="{{ sector.id }}">{{ sector }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
                             </div>
-                            <div class="col-md-8">
-                                <select  class="form-control classic" id="exampleFormControlSelect1">
-                                    <option>Electricity</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
 
-                        </div>
-
-                    </div>
-
-
-                    <!-- adress -->
-                    <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-5 text-right">
-                                    <p class="txt-blue-bold">{{ 'label_event_date'|trans }}: </p>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
                                 </div>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control" placeholder="12/12/19">
+                                    <select  class="form-control classic" id="property_select" name="property_select">
+
+                                    </select>
                                 </div>
+
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-5 text-right">
-                                    <p class="txt-blue-bold">{{ 'label_time'|trans }}: </p>
+
+                            <div class="col-md-4">
+                                <div class="col-md-4">
+                                    <p class="txt-blue-bold">{{ 'label_common_area'|trans }}: </p>
                                 </div>
-                                <div class="col-md-7">
-                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
-                                    <br/>
-                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
-                                    <br/>
-                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
-                                    <br/>
-                                    <label class="radio-inline"><input type="radio" name="optradio" checked>9:00 am - 11:00am</label>
+                                <div class="col-md-8">
+                                    <select  class="form-control classic" id="area_select" name="area_select">
+                                        {% for carea in commonArea %}
+                                            <option value="{{ carea.id }}">{{ carea.name }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
+
                             </div>
 
                         </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <p class="txt-blue-bold text-left">{{ 'label_cost'|trans }}: </p>
-                                </div>
-                                <div class="col-md-7 text-right">
-                                    <input type="text" class="form-control" placeholder="$ 10.00">
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <p class="txt-blue-bold text-leftt">{{ 'label_discount'|trans }}: </p>
-                                </div>
-                                <div class="col-md-7 text-right">
-                                    <input type="text" class="form-control" placeholder="$ 10.00">
-                                </div>
-                            </div>
+                        <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <p class="txt-blue-bold text-left">{{ 'label_amount_paid'|trans }}: </p>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-5 text-right">
+                                        <p class="txt-blue-bold">{{ 'label_event_date'|trans }}: </p>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input name="event_date" id="event_date" type="date" class="form-control">
+                                    </div>
                                 </div>
-                                <div class="col-md-7 text-right">
-                                    <input type="text" class="form-control" placeholder="$ 10.00">
+
+                                <div class="row">
+                                    <div class="col-md-5 text-right">
+                                        <p class="txt-blue-bold">{{ 'label_time'|trans }}: </p>
+                                    </div>
+                                    <div class="col-md-7" id="divTime">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="txt-blue-bold text-left">{{ 'label_cost'|trans }} $: </p>
+                                    </div>
+                                    <div class="col-md-7 text-right">
+                                        <input type="text" name="cost" id="cost" class="form-control" value="0.00">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="txt-blue-bold text-leftt">{{ 'label_discount'|trans }} $: </p>
+                                    </div>
+                                    <div class="col-md-7 text-right">
+                                        <input type="text" name="discount" id="discount" class="form-control" value="0.00">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p class="txt-blue-bold text-left">{{ 'label_amount_paid'|trans }} $: </p>
+                                    </div>
+                                    <div class="col-md-7 text-right">
+                                        <input type="text" name="amount_paid" id="amount_paid" class="form-control" value="0.00">
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-9">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+                            </div>
+                        </div>
+
+
                     </div>
-
-
-
-
-
-
-                    <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-
-
-
-                    <div class="row color1">
-
-                        <div class="col-md-12">
-                            <p class="txt-blue-bold">{{ 'label_send_notification'|trans }}</p>
-                            <div class="form-group">
-
-                                <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
-                            </div>
-
-
-                            <!-- Button  -->
-                            <div class="row">
-                                <div class="col-md-10">
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">{{ 'label_send_notification'|trans }}</button>
-                                    <p></p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <br/>
-                    <div class="row">
-                        <div class="col-md-9">
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-                        </div>
-                    </div>
-
-
-                </div>
-
+                </form>
 
         </div>
-    <!-- END: CONTENT -->
     </div>
+    <!-- END: CONTENT -->
+
+    <script type="text/javascript" language="JavaScript">
+
+        $( document ).ready(function() {
+
+
+            $("#event_date").change(function(){
+                getCommonAreaAvailability();
+            });
+            $("#area_select").change(function(){
+                getCommonAreaAvailability();
+                getCost();
+            });
+
+            //i am ready
+            getCost();
+
+
+            $("#sector_select").change(function () {
+                changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val() );
+            });
+
+            changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val() );
+
+
+            $("#bookingForm").validate();
+
+
+            $("#sector_select").rules("add", {required:true});
+            $("#property_select").rules("add", {required:true});
+            $("#area_select").rules("add", {required:true});
+            $("#event_date").rules("add", {required:true});
+            $("#cost").rules("add", {required:true, number: true});
+            $("#discount").rules("add", {required:true, number: true});
+            $("#amount_paid").rules("add", {required:true, number: true});
+            $('[name="time"]').rules("add", {required:true});
+
+
+
+
+
+
+        });
+
+
+        $('[name="bookingForm"]').on("submit", function(){
+            //Code: Action (like ajax...)
+            total = parseFloat($("#cost").val()) - ( parseFloat($("#discount").val()) + parseFloat($("#amoun_paid").val()) );
+
+            if(total > 0 ){
+                alert("{{ 'label_cancel_total'|trans }}");
+                $("#amount_paid").focus();
+                return false;
+
+            }
+
+
+            if(timeSet != 0){
+                if($("[name='bookingForm']").valid()){
+                    $('#pizote_spinner').show();
+                    return true;
+                }
+                else{
+                    return false;
+                }
+
+            }
+            else{
+                alert("{{ 'label_time_required'|trans }}");
+                return false;
+            }
+        });
+
+        var availabilityUrl = "{{ path('backend_admin_common_area_reservation_availability') }}";
+        var timeSet = 0;
+
+
+        function getCommonAreaAvailability(){
+
+            timeSet = 0;
+
+            $("#pizote_spinner").show();
+
+            $.ajax({
+                type:"POST",
+                dataType:"json",
+                url: availabilityUrl,
+                data: { 'area_id': $("#area_select").val(), "event_date": $("#event_date").val()},
+                success:function(data){
+
+                    console.log(data);
+
+                    var items = [];
+
+                    $.each( data, function( key, val ) {
+                        items.push( "<label class='radio-inline' ><input type='radio' checked='checked' name='time' value='" + val.hour + "'>" + val.hour + "</label><br/>");
+                        timeSet++;
+                    });
+
+                    $("#divTime").html(items);
+                    $("#pizote_spinner").hide();
+                    //alert(timeSet);
+
+                }
+            });
+        }
+
+        var costUrl = "{{ path('backend_admin_common_area_reservation_get_cost') }}";
+        function getCost(){
+
+            //backend_admin_common_area_reservation_get_cost
+            $("#pizote_spinner").show();
+
+            $.ajax({
+                type:"POST",
+                dataType:"json",
+                url: costUrl,
+                data: { 'area_id': $("#area_select").val()},
+                success:function(data){
+
+                    console.log(data);
+                    $("#cost").val(Number.parseFloat(data.cost).toFixed(2));
+
+                    $("#pizote_spinner").hide();
+
+                }
+            });
+
+        }
+
+
+    </script>

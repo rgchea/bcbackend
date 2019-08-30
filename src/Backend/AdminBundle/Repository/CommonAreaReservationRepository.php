@@ -13,7 +13,7 @@ use Doctrine\ORM\Query\Expr\Join;
 class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiCommonAreaAvailability($commonAreaId)
+    public function getApiCommonAreaAvailability($commonAreaId, $date)
     {
         $qb = $this->createQueryBuilder('a');
 
@@ -29,7 +29,19 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
             ->where('a.enabled = 1')
             ->andWhere('c.id = :common_area_id')
             ->setParameter('common_area_id', $commonAreaId)
+            ->andWhere('a.reservationDateFrom >= :myDateStart AND a.reservationDateTo <= :myDateEnd')
+            ->setParameter('myDateStart', date("Y-m-d H:i:s", strtotime($date." 00:00:00")))
+            ->setParameter('myDateEnd', date("Y-m-d H:i:s", strtotime($date." 23:59:59")))
+
             ->orderBy('a.createdAt', 'ASC');
+
+
+        //$query=$qb->getQuery();
+        // SHOW SQL:
+        //echo $query->getSQL();
+        // Show Parameters:
+        //echo $query->getParameters();
+        //die;
 
         return $qb->getQuery()->getResult();
     }
@@ -564,5 +576,10 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         return true;
 
     }
+
+
+
+    //getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, null, $this->translator->getLocale());
+
 
 }
