@@ -10,4 +10,138 @@ namespace Backend\AdminBundle\Repository;
  */
 class BookingLogRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+
+    public function getLogDTData($start, $length, $orders, $search, $columns, $translator, $filterReservation = null )
+    {
+        //print "entra";die;
+        // Create Main Query
+        $query = $this->createQueryBuilder('e');
+
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('e');
+        $countQuery->select('COUNT(e)');
+
+
+
+        //Reservation
+        $query->join('e.commonAreaReservation', 'ar');
+        $countQuery->join('e.commonAreaReservation', 'ar');
+
+        //User
+        $query->join('e.createdBy', 'u');
+        $countQuery->join('e.createdBy', 'u');
+
+
+        if($filterReservation != null){
+            $query->andWhere('ar.id = :reservationID')->setParameter('reservationID', $filterReservation);
+            $countQuery->andWhere('ar.id = :reservationID')->setParameter('reservationID', $filterReservation);
+        }
+
+
+
+        // Fields Search
+        foreach ($columns as $key => $column) {
+            if ($column['search']['value'] != '') {
+                // $searchItem is what we are looking for
+                $searchItem = $column['search']['value'];
+                $searchQuery = null;
+
+                switch ($column['name']) {
+                    case 'id':
+                        {
+                            $searchQuery = 'e.id =' . $searchItem;
+                            break;
+                        }
+
+                    case 'user':
+                        {
+                            $searchQuery = 'u.name LIKE \'%' . $searchItem . '%\'';
+                            break;
+                        }
+
+
+                    case 'date':
+                        {
+                            $searchQuery = 'e.createdAt LIKE \'%' . $searchItem . '%\'';
+                            break;
+                        }
+                    /*
+                    case 'status':
+                        {
+                            $searchQuery = 'e.status LIKE \'%' . $searchItem . '%\'';
+                            break;
+                        }
+                    */
+
+
+                }
+
+
+                if ($searchQuery !== null) {
+                    $query->andWhere($searchQuery);
+                    $countQuery->andWhere($searchQuery);
+                }
+            }
+        }
+
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+
+        // Order
+        // Orders
+        foreach ($orders as $key => $order) {
+
+            // Orders does not contain the name of the column, but its number,
+            // so add the name so we can handle it just like the $columns array
+            $orders[$key]['name'] = $columns[$order['column']]['name'];
+        }
+
+        foreach ($orders as $key => $order) {
+
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '') {
+                $orderColumn = null;
+
+                switch ($order['name']) {
+                    case 'id':
+                        {
+                            $orderColumn = 'e.id';
+                            break;
+                        }
+                    case 'date':
+                        {
+                            $orderColumn = 'e.createdAt';
+                            break;
+                        }
+
+                    case 'status':
+                        {
+                            $orderColumn = 'e.status';
+                            break;
+                        }
+                    case 'user':
+                        {
+                            $orderColumn = 'u.name';
+                            break;
+                        }
+
+                }
+
+                if ($orderColumn !== null) {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+
+
+        $results = $query->getQuery()->getResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+
+        return array(
+            "results" => $results,
+            "countResult" => $countResult
+        );
+    }
 }

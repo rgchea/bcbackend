@@ -10,6 +10,8 @@
 {% block body -%}
     {{ parent() }}
 
+    {% set myLocale = app.request.getLocale() %}
+
     <div class="header">
         <div class="container">
 
@@ -20,12 +22,14 @@
 
                 </div>
 
-                <div class="col-md-2 text-right">
-                    <a  href="#" class="btn btn-primary-blue" style="width:100%" >{{ 'label_booking_approve'|trans }}</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="{{ path('backend_admin_property_new') }}"  class="btn btn-primary" style="width:100%">{{ 'label_booking_reject'|trans }}</a>
-                </div>
+                {# if entity.commonAreaReservationStatus.id == 1 #}
+                    <div class="col-md-2 text-right">
+                        <a  href="{{ path('backend_admin_common_area_reservation_approve', {id: entity.id}) }}" class="btn btn-primary-blue" style="width:100%" >{{ 'label_booking_approve'|trans }}</a>
+
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ path('backend_admin_common_area_reservation_deny', {id: entity.id}) }}"  class="btn btn-primary" style="width:100%">{{ 'label_booking_reject'|trans }}</a></div>
+                {# endif #}
             </div>
 
         </div>
@@ -41,11 +45,11 @@
 
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
                         </div>
-                        <div class="col-md-9">
-                            <span>1</span>
+                        <div class="col-md-8">
+                            <span>{{ entity.property.complexSector.name }}</span>
                         </div>
 
                     </div>
@@ -55,7 +59,7 @@
                             <p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
                         </div>
                         <div class="col-md-5">
-                            <span>105</span>
+                            <span>{{ entity.property.propertyNumber }}</span>
                         </div>
 
                     </div>
@@ -66,7 +70,7 @@
                             <p class="txt-blue-bold">{{ 'label_common_area'|trans }}: </p>
                         </div>
                         <div class="col-md-7">
-                            <span>$ 540.00</span>
+                            <span>{{ entity.commonArea.name }}</span>
                         </div>
 
                     </div>
@@ -76,7 +80,7 @@
                             <p class="txt-blue-bold text-left">{{ 'label_status'|trans }}: </p>
                         </div>
                         <div class="col-md-7">
-                            <span>New</span>
+                            <span>{{ entity.commonAreaReservationStatus }}</span>
                         </div>
 
                     </div>
@@ -99,7 +103,7 @@
                                         <p class="txt-blue-bold">{{ 'label_user'|trans }}: </p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>Andres Garcia</p>
+                                        <p>{{ entity.reservedBy.name }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -107,7 +111,7 @@
                                         <p class="txt-blue-bold">{{ 'label_event_date'|trans }}: </p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>12/10/19 9:00 am - 11:00am</p>
+                                        <p>{{ entity.reservationDateFrom|date("m/d/Y") }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -115,7 +119,7 @@
 
                                     </div>
                                     <div class="col-md-6">
-                                        <p>12/10/19 9:00 am - 11:00am</p>
+                                        <p>{{ entity.reservationDateTo|date("m/d/Y") }}</p>
                                     </div>
                                 </div>
                                 <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
@@ -125,7 +129,7 @@
                                         <p class="txt-blue-bold">{{ 'label_updated_by'|trans }}:</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>Jhon Tenant</p>
+                                        <p>{{ entity.updatedBy.name }}</p>
                                     </div>
                                 </div>
 
@@ -135,46 +139,53 @@
                                         <p class="txt-blue-bold">{{ 'label_updated_at'|trans }}:</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>12/10/19 9:00 am - 12:00am</p>
+                                        <p>{{ entity.updatedAt|date("m/d/Y") }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p class="txt-blue-bold">{{ 'label_cost'|trans }}: </p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>$10.00</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p class="txt-blue-bold">{{ 'label_discount'|trans }}: </p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="$10.00">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p class="txt-blue-bold">{{ 'label_amount_paid'|trans }}:</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="$10.00">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
 
-                                    </div>
+                            {% if payment is not null %}
+                                <form id="paymentform" name="paymentForm" method="POST" action="{{ path('backend_admin_common_area_reservation_update_payment') }}">
+                                    <input type="hidden" name="payment_id" value="{{ payment.id }}" >
                                     <div class="col-md-6">
-                                        <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">{{ 'label_update_payment'|trans }}</button>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="txt-blue-bold">{{ 'label_cost'|trans }}: </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="hidden" name="cost" id="cost" class="form-control" value="{{ payment.paymentAmount|number_format(2, '.', '') }}">
+                                                <p>{{ payment.paymentAmount|number_format(2, '.', '') }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="txt-blue-bold">{{ 'label_discount'|trans }}: </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text"name="discount" id="discount" class="form-control" value="{{ payment.discount|number_format(2, '.', '') }}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="txt-blue-bold">{{ 'label_amount_paid'|trans }}:</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" name="amount_paid" id="amount_paid" class="form-control" value="{{ payment.paidAmount|number_format(2, '.', '') }}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button style="background-color:black; color:#FFF;"  type="submit" class="btn btn-primary">{{ 'label_update_payment'|trans }}</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </form>
+                            {% endif %}
+
                         </div>
-
 
                     </div>
                 </div>
@@ -189,103 +200,97 @@
                     <div id="tabs-notifications">
                         <div class="text-messages">
 
-                            <div class="row color2">
-                                <div class="col-md-12">
-                                    <div class="col-md-6 text-left">
-                                        <p class="txt-blue-bold">Juan Ramon Ramírez</p>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <p class="txt-blue-time">12/10/19 14:32:25</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            {% set color = "color2" %}
+                            {% for comment in bookingComments %}
 
-                            <div class="row color1">
-                                <div class="col-md-12">
-                                    <div class="col-md-6 text-left">
-                                        <p class="txt-blue-bold">Juan Ramon Ramírez</p>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <p class="txt-blue-time">12/10/19 14:32:25</p>
-                                    </div>
-                                </div>
-                                <div class="row">
+                                <div class="row {{ color }}">
                                     <div class="col-md-12">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                        </p>
+                                        <div class="col-md-6 text-left">
+                                            <p class="txt-blue-bold">{{ comment.createdBy.name }}</p>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            {% if comment.commonAreaReservation.commonArea.complex.geoState.timezoneName is not null %}
+                                                {% set timezone =  comment.commonAreaReservation.commonArea.complex.geoState.timezoneName %}
+                                            {% else %}
+                                                {% set timezone = 'America/New_York' %}
+                                            {% endif %}
+                                            <p class="txt-blue-time">{{ comment.createdAt|date("m/d/Y H:i:s", timezone) }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>{{ comment.commentDescription }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                {% if color == "color2" %}
+                                    {% set color = "color1" %}
+                                {% else %}
+                                    {% set color = "color2" %}
+                                {% endif %}
 
-                            <div class="row color2">
-                                <div class="col-md-12">
-                                    <div class="col-md-6 text-left">
-                                        <p class="txt-blue-bold">Juan Ramon Ramírez</p>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <p class="txt-blue-time">12/10/19 14:32:25</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque velit lorem, euismod sed purus nec, dictum auctor enim. Donec varius leo ac lacus auctor, eget tristique nisi consequat. Nullam sit amet posuere elit, a placerat dolor. Morbi tellus quam, imperdiet ac erat sit amet, varius condimentum nisi.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
+                            {% endfor %}
+                            <!-- end -->
                             <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
+                            <form name="commentBookingForm" id="commentBookingForm" action="{{ path('backend_admin_common_area_reservation_comment', { id: entity.id}) }}" method="POST" onsubmit="$('#pizote_spinner').show()">
+                                <div class="row {{ color }}">
 
-                            <div class="row color1">
+                                    <div class="col-md-12">
+                                        <p class="txt-blue-bold">{{ 'label_reply'|trans }}</p>
+                                        <div class="form-group">
 
-                                <div class="col-md-12">
-                                    <p class="txt-blue-bold">{{ 'label_reply'|trans }}</p>
-                                    <div class="form-group">
+                                            <textarea class="form-control" id="comment" name="comment" rows="6"></textarea>
+                                        </div>
 
-                                        <textarea class="form-control" id="exampleFormControlTextarea3" rows="6"></textarea>
+                                        <!-- Button  -->
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-primary">{{ 'label_reply'|trans }}</button>
+                                                <p></p>
+                                            </div>
+                                        </div>
                                     </div>
 
-
-                                    <!-- Button  -->
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="submit" class="btn btn-primary">{{ 'label_reply'|trans }}</button>
-                                            <p></p>
-                                        </div>
-                                    </div>
                                 </div>
-
-                            </div>
-                            <!-- end -->
+                                <!-- end -->
+                            </form>                            
+                            
                         </div>
 
                     </div>
                     <div id="tabs-log">
-                        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-                        <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+                        <br/>
+
+                        <table id="log_table" class="table table-striped  table-hover fulltable">
+                            <tfoot class="dt_tfoot">
+                                <tr>
+
+                                    <th>{{ 'label_date'|trans }}</th>
+                                    <th>&nbsp;{{ 'label_description'|trans }}</th>
+                                    <th>{{ 'label_user'|trans }}</th>
+                                    <th>{{ 'label_status'|trans }}</th>
+
+                                </tr>
+                            </tfoot>
+                            <thead>
+                                <tr>
+                                    <th>{{ 'label_date'|trans }}</th>
+                                    <th>&nbsp;{{ 'label_description'|trans }}</th>
+                                    <th>{{ 'label_user'|trans }}</th>
+                                    <th>{{ 'label_status'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+
                     </div>
 
                 </div>
 
             </div>
-
-
-
 
         </div>
     </div>
@@ -296,9 +301,125 @@
 
         $(document).ready(function() {
 
+
+
             $(function () {
                 $("#tabs").tabs();
             });
+
+
+            $("#paymentform").validate();
+
+
+            $("#cost").rules("add", {required:true, number: true});
+            $("#discount").rules("add", {required:true, number: true});
+            $("#amount_paid").rules("add", {required:true, number: true});
+
+
+
+            var logTable;
+
+
+            function fetchLog(){
+
+                logTable  = $('#log_table').DataTable({
+                    "columnDefs": [
+
+                        // These are the column name variables that will be sent to the server
+                        { "name": "date",   "targets": 0 },
+                        { "name": "description",   "targets": 1 },
+                        { "name": "user",   "targets": 2 },
+                        { "name": "status",   "targets": 3 },
+
+                    ],
+                    // Server-side parameters
+                    "processing": true,
+                    "serverSide": true,
+                    // Ajax call
+                    "ajax": {
+                        "url": "{{ path('common_area_reservation_list_log', {reservation: entity.id}) }}",
+                        "type": "POST",
+                        //dataType: "html"
+                    },
+                    // Classic DataTables parameters
+                    "paging" : true,
+                    "info" : true,
+                    "searching": true,
+                    "pageLength": 10,
+                    "order": [[0, 'desc']],
+                    {% if myLocale == 'es' %}
+                    "language": {
+                        "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+                    },
+                    {% else %}
+                    "language": {
+                        "infoFiltered": ""
+                    },
+                    {% endif %}
+
+
+
+                });
+
+            }
+
+            //### LOG ###
+            // Add a text input to each footer cell
+            var pos = 1;
+            $('#log_table tfoot th').each( function () {
+                var title = $(this).text();
+
+                $(this).html( "<input id='log_input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:50%'/>" );
+
+                pos ++;
+            });
+
+
+            fetchLog();
+
+            // Apply the search
+            pos = 1;
+            logTable.columns().every( function () {
+                var that = this;
+
+                $("#log_input"+pos).on( 'keyup change', function () {
+                    if ( that.search() !== this.value )
+                    {
+                        that.search( this.value ).draw();
+                    }
+                });
+                pos++;
+            });
+
+
+            $("#log_input2").remove();
+            $("#log_input4").remove();
+
+
+        });
+
+
+
+
+        $('[name="paymentForm"]').on("submit", function(){
+            //Code: Action (like ajax...)
+            total = parseFloat($("#cost").val()) - ( parseFloat($("#discount").val()) + parseFloat($("#amount_paid").val()) );
+
+            if(total > 0 ){
+                alert("{{ 'label_cancel_total'|trans }}");
+                $("#amount_paid").focus();
+                return false;
+
+            }
+
+
+            if($("[name='paymentForm']").valid()){
+                $('#pizote_spinner').show();
+                return true;
+            }
+            else{
+                return false;
+            }
 
         });
 

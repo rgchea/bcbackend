@@ -12,6 +12,48 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
 {
 
 
+
+
+    public function getApiPayments($propertyID, $month, $year)
+    {
+
+        $dateStart = $year."-".$month."-"."01 00:00:00";
+        $dateEnd = $year."-".$month."-"."31 23:59:59";
+
+        $query = $this->createQueryBuilder('e');
+
+        //ENABLED
+        $query->andWhere("e.enabled = 1");
+
+        // Create inner joins
+        //complex
+        //$query->join('e.complex', 'c');
+        //transactionType
+        $query->join('e.propertyTransactionType', 'tt');
+        //property Contract
+        $query->join('e.propertyContract', 'pc');
+        //property
+        $query->join('pc.property', 'p');
+
+        $query->andWhere('p.id = :prop_id')
+        ->setParameter('prop_id', $propertyID)
+
+
+        ->andWhere('e.createdAt >= :myDateStart AND e.createdAt <= :myDateEnd')
+        ->setParameter('myDateStart', date("Y-m-d H:i:s", strtotime($dateStart)))
+        ->setParameter('myDateEnd', date("Y-m-d H:i:s", strtotime($dateEnd)));
+
+
+        $query->orderBy('e.createdAt', 'DESC');
+
+        return $query->getQuery()->getResult();
+    }
+
+
+
+
+
+
     //getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, null, $this->translator->getLocale());
 
     public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $locale, $filterProperty = null )

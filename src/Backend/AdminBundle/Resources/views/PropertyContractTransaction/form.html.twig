@@ -1,3 +1,5 @@
+<script src="{{ asset('bundles/backendadmin/js/backend.js')  }}"></script>
+
 <div class="container">
 
 
@@ -30,112 +32,146 @@
 	<div class="main-content no-bordertop">
 
 
-		<div class="form-inputs-g">
+		<form method="POST" id="paymentForm" name="paymentForm" action="{{ path('backend_admin_propertycontracttransaction_create') }}">
+			<div class="form-inputs-g">
 
-
-			<div class="row">
-				<div class="col-md-4">
-					<div class="col-md-3">
-						<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
-					</div>
-					<div class="col-md-9">
-						<select  class="form-control classic" id="exampleFormControlSelect1">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-						</select>
-					</div>
-
-				</div>
-
-				<div class="col-md-4">
-					<div class="col-md-5">
-						<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
-					</div>
-					<div class="col-md-7">
-						<select  class="form-control classic" id="exampleFormControlSelect1">
-							<option>4001</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-						</select>
-					</div>
-
-				</div>
-
-
-				<div class="col-md-4">
+				<div class="row">
 					<div class="col-md-4">
-						<p class="txt-blue-bold">{{ 'label_payment'|trans }}: </p>
+						<div class="col-md-3">
+							<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
+						</div>
+						<div class="col-md-9">
+							<select  class="form-control classic" id="sector_select" name="sector_select">
+								{% for sector in complexSector %}
+									<option value="{{ sector.id }}">{{ sector }}</option>
+								{% endfor %}
+							</select>
+						</div>
+
 					</div>
-					<div class="col-md-8">
-						<select  class="form-control classic" id="exampleFormControlSelect1">
-							<option>Maintaince</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-						</select>
+
+					<div class="col-md-4">
+						<div class="col-md-5">
+							<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
+						</div>
+						<div class="col-md-7">
+							<select  class="form-control classic" id="property_select" name="property_select">
+
+							</select>
+						</div>
+
+					</div>
+
+
+					<div class="col-md-4">
+						<div class="col-md-4">
+							<p class="txt-blue-bold">{{ 'label_type'|trans }}: </p>
+						</div>
+						<div class="col-md-8">
+							<select  class="form-control classic" id="type_select" name="type_select">
+								{% for pt in paymentType %}
+									<option value="{{ pt.id }}">{{ pt }}</option>
+								{% endfor %}
+							</select>
+						</div>
+
 					</div>
 
 				</div>
 
-			</div>
+				<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
-			<br/>
-			<!-- adress -->
+				<div class="row">
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
+					</div>
+					<br/>
+					<div class="col-md-11">
+						<textarea class="form-control rounded-0" id="description" name="description" rows="5"></textarea>
 
-			<div class="row">
-				<div class="col-md-1">
-					<p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
+					</div>
 				</div>
 				<br/>
-				<div class="col-md-11">
-					<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+				<div class="row">
 
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_due_date'|trans }}: </p>
+					</div>
+					<div class="col-md-5 text-left">
+						<input class="form-control" type="date" id="due_date" name="due_date" >
+					</div>
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_amount'|trans }}: </p>
+					</div>
+					<div class="col-md-5">
+						<input type="text" class="form-control" placeholder="$40.00" id="amount" name="amount" >
+					</div>
 				</div>
-			</div>
-			<br/>
-			<div class="row">
 
-				<div class="col-md-1">
-					<p class="txt-blue-bold">{{ 'label_due_date'|trans }}: </p>
+				<div class="row">
+					<div class="col-md-1">
+						<p class="txt-blue-bold">{{ 'label_comment'|trans }}: </p>
+					</div>
+					<br/>
+					<div class="col-md-11">
+						<textarea class="form-control rounded-0" id="comment" name="comment" rows="5"></textarea>
+					</div>
 				</div>
-				<div class="col-md-5 text-left">
-					<input type="text" class="form-control" placeholder="$40.00">
-				</div>
-				<div class="col-md-1">
-					<p class="txt-blue-bold">{{ 'label_amount'|trans }}: </p>
-				</div>
-				<div class="col-md-5">
-					<input type="text" class="form-control" placeholder="$40.00">
-				</div>
-			</div>
 
-			<div class="row">
-				<div class="col-md-1">
-					<p class="txt-blue-bold">{{ 'label_comment'|trans }}: </p>
-				</div>
 				<br/>
-				<div class="col-md-11">
-					<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="5"></textarea>
+				<div class="row">
+					<div class="col-md-9">
+					</div>
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+					</div>
 				</div>
+
 			</div>
-
-			<br/>
-			<div class="row">
-				<div class="col-md-9">
-				</div>
-				<div class="col-md-3">
-					<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-				</div>
-			</div>
-
-
-		</div>
-
+		</form>
 	</div>
 </div>
+
+<script type="text/javascript" language="JavaScript">
+
+	$( document ).ready(function() {
+
+
+		$("#sector_select").change(function () {
+			changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val() );
+		});
+
+		changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val() );
+
+
+		$("#paymentForm").validate();
+
+
+		$("#sector_select").rules("add", {required:true});
+		$("#property_select").rules("add", {required:true});
+		$("#type_select").rules("add", {required:true});
+		$("#description").rules("add", {required:true, maxlength: 160});
+		$("#comment").rules("add", {required:false, maxlength: 160});
+		$("#amount").rules("add", {required:true, number:true});
+		$("#due_date").rules("add", {required:true});
+
+
+	});
+
+
+	$('[name="paymentForm"]').on("submit", function(){
+		//Code: Action (like ajax...)
+
+		if($("[name='paymentForm']").valid()){
+			$('#pizote_spinner').show();
+			return true;
+		}
+		else{
+			return false;
+		}
+
+	});
+
+
+
+</script>

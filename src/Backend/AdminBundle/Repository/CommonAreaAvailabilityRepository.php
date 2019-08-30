@@ -17,9 +17,13 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
 
     public function  clearSchedule($commonAreaID){
 
+        //var_dump($commonAreaID);die;
+
         $sql = "	DELETE
-					FROM 	common_area_availability;
+					FROM 	common_area_availability
                     WHERE 	common_area_id = {$commonAreaID}";
+
+        //var_dump($sql);die;
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
@@ -126,6 +130,91 @@ class CommonAreaAvailabilityRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('a.createdAt', 'ASC');
 
         return $qb->getQuery()->getResult();
+    }
+
+
+
+
+    public function getCommonAreaAvailability($commonAreaID, $date){
+
+        //$filterDay = $singleDay != null ? " AND weekday_single = {$singleDay}" : "";
+        //Convert the date string into a unix timestamp.
+        $unixTimestamp = strtotime($date);
+
+        //Get the day of the week using PHP's date function.
+        $dayOfWeek = date("N", $unixTimestamp);
+        //var_dump($dayOfWeek);die;
+        $myDay = intval($dayOfWeek)-1;
+
+
+        $sql = "	SELECT  *
+					FROM 	common_area_availability
+                    WHERE 	common_area_id = {$commonAreaID}
+                    AND     weekday_single = {$myDay}";
+
+        //var_dump($sql);die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        $arrAvailability = array();
+        $index = 0;
+        foreach ($execute as $key => $value){
+            //var_dump($value);die;
+
+            $arrAvailability[$index] = array();
+            $arrAvailability[$index]["hour_from"] = $value["hour_from"];
+            $arrAvailability[$index]["hour_to"] = $value["hour_to"];
+            $index++;
+        }
+
+
+
+        $sqlReservation = "	SELECT  *
+                            FROM 	common_area_reservation
+                            WHERE 	common_area_id = {$commonAreaID}
+                            AND     common_area_reservation_status_id != 3
+                            AND     enabled = 1
+                            AND     DATE(reservation_date_to) <= '{$date}' AND  DATE(reservation_date_from) >= '{$date}' ";
+
+        //var_dump($sqlReservation);die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sqlReservation);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        $arrReservation = array();
+        $arrSchedule = array();
+        $index = 0;
+        foreach ($execute as $key => $value){
+            //var_dump($value);die;
+
+            $arrReservation[$index] = array();
+            $arrReservation[$index]["hour_from"] = $hourFrom = substr($value["reservation_date_from"], 11, 5);
+            $arrReservation[$index]["hour_to"] = $hourTo = substr($value["reservation_date_to"], 11, 5);
+
+            foreach ($arrAvailability as $key => $availability){
+                //var_dump($availability);
+
+                if($hourFrom == $availability["hour_from"] && $hourTo == $availability["hour_to"] ){
+                    //$arrSchedule[$index]["hour_from"] = $availability["hour_from"];
+                    //$arrSchedule[$index]["hour_to"] = $availability["hour_to"];
+                    unset($arrAvailability[$key]);
+                }
+
+            }
+
+
+            $index++;
+        }
+
+        //print "<pre>";
+        //var_dump($arrAvailability);die;
+        return $arrAvailability;
+
     }
 
 }

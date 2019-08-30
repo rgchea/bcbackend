@@ -3525,6 +3525,10 @@ i {
 
 /**** CONDO ADD PROPERTY ****/
 
+.fulltable{
+    width: 100% !important;
+}
+
 
 .btn-primary-blue{
     background-color:#03304a;

@@ -33,6 +33,7 @@ use Backend\AdminBundle\Entity\TicketStatusLog;
 use Backend\AdminBundle\Entity\TicketType;
 use Backend\AdminBundle\Entity\User;
 use Backend\AdminBundle\Entity\UserNotification;
+use Backend\AdminBundle\Entity\BookingComment;
 use Backend\AdminBundle\Repository\CommonAreaPhotoRepository;
 use Backend\AdminBundle\Repository\CommonAreaRepository;
 use Backend\AdminBundle\Repository\ComplexFaqRepository;
@@ -1390,14 +1391,15 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="role", type="string", description="Ticket's creator role", example="Admin" ),
      *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
-     *                  @SWG\Property( property="common_area", type="object",
+     *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
+     *                  @SWG\Property( property="reservation", type="object",
      *                      @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
-     *                      @SWG\Property( property="name", type="string", description="Common area name", example="Common area" ),
+     *                      @SWG\Property( property="common_area", type="string", description="Common area name", example="Common area" ),
      *                      @SWG\Property( property="reservation_status", type="string", description="Common area reservation status", example="" ),
      *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="1272509157" ),
      *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="1272519157" ),
      *                  ),
-     *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
+
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
@@ -1445,6 +1447,10 @@ class RestController extends FOSRestController
                 $followers[$follower['id']] = $follower['count'];
             }
 
+
+            ////
+
+
             /** @var Ticket $ticket */
             foreach ($tickets as $ticket) {
                 $type = $ticket->getTicketType();
@@ -1488,11 +1494,12 @@ class RestController extends FOSRestController
                     $commonAreaData = array();
                 } else {
                     $commonAreaData = array(
-                        "id" => $commonArea->getId(),
-                        "name" => $commonArea->getName(),
+                        "id" => $reservation->getId(),
+                        "common_area" => $commonArea->getName(),
                         "status" => (($lang == 'en') ? $reservationStatus->getNameEN() : $reservationStatus->getNameES()),
                         "reservation_from" => $reservation->getReservationDateFrom()->getTimestamp(),
                         "reservation_to" => $reservation->getReservationDateTo()->getTimestamp(),
+                        "comments_quantity" => $this->em->getRepository("BackendAdminBundle:BookingComment")->getCommentsQuantity($ticket->getCommonAreaReservation()->getId())
                     );
                 }
 
@@ -1524,8 +1531,8 @@ class RestController extends FOSRestController
                     'role' => $role,
                     'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
-                    'common_area' => $commonAreaData,
                     'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
+                    'reservation' => $commonAreaData,
                 );
             }
 
@@ -2121,6 +2128,266 @@ class RestController extends FOSRestController
                     'avatar_url' => $commentUser->getAvatarPath(),
                 )
             ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+
+    /**
+     * Creates a reservation comment.
+     *
+     * Creates a comment for a reservation.
+     *
+     * @Rest\Post("/v1/reservationComment", name="commentReservation")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="reservation_id", in="body", required=true, type="integer", description="The ticket ID.", schema={} )
+     * @SWG\Parameter( name="comment", in="body", required=true, type="string", description="Comment.", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Posts a comment into an existin booking.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Common Area")
+     */
+
+    public function postReservationCommentAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $bookingId = trim($request->get('reservation_id'));
+            $comment = trim($request->get('comment'));
+
+            // Required parameter
+            /** @var Reservation $booking */
+            $booking = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->findOneBy(array('enabled' => true, 'id' => $bookingId));
+            if ($booking == null) {
+                throw new \Exception("Invalid booking ID.");
+            }
+
+            $bookingComment = new BookingComment();
+            $bookingComment->setCommonAreaReservation($booking);
+            $bookingComment->setCommentDescription($comment);
+            $bookingComment->setEnabled(true);
+            $this->get("services")->blameOnMe($bookingComment, "create");
+            $this->get("services")->blameOnMe($bookingComment, "update");
+
+            $this->em->persist($bookingComment);
+
+            $this->em->flush();
+
+            $commentUser = $bookingComment->getCreatedBy();
+            $likeUser = $bookingComment->getLikedBy();
+
+            if ($likeUser == null) {
+                $likeUser = new User();
+            }
+
+
+            return new JsonResponse(array(
+                'comment' => array(
+                    'username' => $commentUser->getUsername(),
+                    'user_fullname' => $commentUser->getName(),
+                    'timestamp' => $bookingComment->getCreatedAt()->getTimestamp(),
+                    'like' => $likeUser->getUsername(),
+                    'comment' => $bookingComment->getCommentDescription(),
+                    'avatar_url' => $commentUser->getAvatarPath(),
+                )
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+    /**
+     * Gets a reservation and all its information.
+     *
+     * Returns the ticket information including comments
+     *
+     * @Rest\Get("/v1/reservation/{reservation_id}", name="singleReservation")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="ticket_id", in="path", required=true, type="string", description="The ID of the ticket." )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the ticket alongside comments, followers and reservations (if its the case).",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *
+     *
+     *                  @SWG\Property( property="name", type="string", description="Name of the common area", example="Common area" ),
+     *                  @SWG\Property( property="description", type="string", description="Description of the common area", example="Description" ),
+     *                  @SWG\Property( property="regulation", type="string", description="Regulation of the common area", example="Regulation" ),
+     *                  @SWG\Property( property="term_condition", type="string", description="Terms and conditions of the common area", example="Terms and conditions" ),
+     *                  @SWG\Property( property="price", type="float", description="Price of the common area", example="100" ),
+     *                  @SWG\Property( property="reservation_hour_period", type="integer", description="The reservation hour period of the common area", example="" ),
+     *                  @SWG\Property( property="required_payment", type="boolean", description="The required payment for the reservation of the common area", example="true" ),
+     *                  @SWG\Property( property="has_equipment", type="boolean", description="If the common area is equiped", example="true" ),
+     *                  @SWG\Property( property="equipment_description", type="string", description="Description of the equipement of the common area", example="" ),
+     *                  @SWG\Property( property="photos", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="url", type="string", description="URL of property photo", example="/photo.jpg" ),
+     *                      )
+     *                  ),
+     *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
+     *                  @SWG\Property( property="comments", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="username", type="string", description="Comments's creator username", example="2" ),
+     *                          @SWG\Property( property="timestamp", type="string", description="Comment's creation time", example="1272509157" ),
+     *                          @SWG\Property( property="like", type="string", description="User that liked the comment", example="user2" ),
+     *                          @SWG\Property( property="comment", type="string", description="Comment content", example="Comment" ),
+     *                          @SWG\Property( property="avatar_url", type="string", description="URL for the avatar", example="/avatars/1.jpg" ),
+     *                      )
+     *                  ),
+     *                  @SWG\Property( property="reservation", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="status", type="string", description="status", example="pending, approved, rejected" ),
+     *                          @SWG\Property( property="date_from", type="string", description="reservation from time", example="1272509157" ),
+     *                          @SWG\Property( property="date_to", type="string", description="reservation to time", example="1272509157" ),
+     *                          @SWG\Property( property="updated by", type="string", description="user name", example="Roberto H" ),
+     *                          @SWG\Property( property="updated_at", type="string", description="updated time", example="1272509157" ),
+     *                      )
+     *                  ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Common Area")
+     */
+    public function getReservationAction(Request $request, $reservation_id)
+    {
+        try {
+            $this->initialise();
+
+            $lang = strtolower(trim($request->get('language')));
+
+            $this->translator->setLocale($lang);
+
+            $reservation = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->find($reservation_id);
+            if ($reservation == null) {
+                throw new \Exception("Invalid reservation ID.");
+            }
+
+            $commonArea = $reservation->getCommonArea();
+
+            $myPhotoPath = self::IMAGES_PATH."common_area/";
+
+            $commonAreaPhotos = array();
+
+            $myPhotos = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->findBy(array('commonArea' => $commonArea->getId(), "enabled" => 1));
+
+            if($myPhotos){
+                foreach ($myPhotos as $photo){
+                    $commonAreaPhotos[] = array('url' => $myPhotoPath.$photo->getPhotoPath());
+                }
+            }
+
+            $data = array(
+                'name' => $commonArea->getName(),
+                'description' => $commonArea->getDescription(),
+                'regulation' => $commonArea->getRegulation(),
+                'term_condition' => $commonArea->getTermCondition(),
+                'price' => $commonArea->getPrice(),
+                'reservation_hour_period' => $commonArea->getReservationHourPeriod(),
+                'required_payment' => $commonArea->getRequiredPayment(),
+                'has_equipment' => $commonArea->getHasEquipment(),
+                'equipment_description' => $commonArea->getEquipmentDescription(),
+                'photos' => $commonAreaPhotos,
+            );
+
+
+            ///reservation
+            $status = $lang == "en" ? $reservation->getCommonAreaReservationStatus()->getNameEN() : $reservation->getCommonAreaReservationStatus()->getNameES();
+            $data['reservation'] = array(
+
+                'status' => $status,
+                'date_from' => $reservation->getReservationDateFrom()->getTimestamp(),
+                'date_to' => $reservation->getReservationDateTo()->getTimestamp(),
+                'updated_by' => $reservation->getUpdatedBy()->getName(),
+
+
+            );
+
+
+            // Fetching the booking comments
+            $comments = $this->em->getRepository('BackendAdminBundle:BookingComment')->findBy(array("commonAreaReservation" => $reservation_id, "enabled" => 1), array("createdAt" => "DESC") );
+
+            $data['comments'] = array();
+            /** @var BookingComment $comment */
+            foreach ($comments as $comment) {
+                $commentUser = $comment->getCreatedBy();
+                if ($commentUser == null) {
+                    $commentUser = new User();
+                }
+                $likeUser = $comment->getLikedBy();
+                if ($likeUser == null) {
+                    $likeUser = new User();
+                }
+
+                $data['comments'][] = array(
+                    'username' => $commentUser->getUsername(),
+                    'user_fullname' => $commentUser->getName(),
+                    'timestamp' => $comment->getCreatedAt()->getTimestamp(),
+                    'like' => $likeUser->getUsername(),
+                    'comment' => $comment->getCommentDescription(),
+                    'avatar_url' => $commentUser->getAvatarPath(),
+                );
+            }
+
+            return new JsonResponse(array(
+                'message' => "",
+                'data' => $data
+            ));
+
+
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -3164,7 +3431,7 @@ class RestController extends FOSRestController
      *
      * Returns a list of reservations and availability for a given common area.
      *
-     * @Rest\Get("/v1/commonAreaAvailability/{common_area_id}", name="commonAreaAvailability")
+     * @Rest\Get("/v1/commonAreaAvailability/{common_area_id}/{date}", name="commonAreaAvailability")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
@@ -3213,15 +3480,17 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Common Area")
      */
-    public function getCommonAreaAvailabilityAction(Request $request, $common_area_id)
+    public function getCommonAreaAvailabilityAction(Request $request, $common_area_id, $date)
     {
         try {
             $this->initialise();
             $lang = strtolower(trim($request->get('language')));
+
+
             $data = array('reservations' => array(), 'availabilities' => array());
 
-            $availabilities = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getApiCommonAreaAvailability($common_area_id);
-            $reservations = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getApiCommonAreaAvailability($common_area_id);
+            $availabilities = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getCommonAreaAvailability($common_area_id, $date);
+            $reservations = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getApiCommonAreaAvailability($common_area_id, $date);
 
             /** @var CommonAreaReservation $reservation */
             foreach ($reservations as $reservation) {
@@ -3232,21 +3501,14 @@ class RestController extends FOSRestController
 
                 $data['reservations'][] = array(
                     'status' => ($lang == 'en') ? $status->getNameEN() : $status->getNameES(),
-                    'date_from' => $reservation->getReservationDateFrom()->getTimestamp(),
-                    'date_to' => $reservation->getReservationDateTo()->getTimestamp(),
+                    //'date_from' => $reservation->getReservationDateFrom()->getTimestamp(),
+                    //'date_to' => $reservation->getReservationDateTo()->getTimestamp(),
+                    'date_from' => $reservation->getReservationDateFrom()->format("H:i"),
+                    'date_to' => $reservation->getReservationDateTo()->format("H:i"),
                 );
             }
 
-            /** @var CommonAreaAvailability $availability */
-            foreach ($availabilities as $availability) {
-                $data['availabilities'][] = array(
-                    'week_day_range_start' => $availability->getWeekDayRangeStart(),
-                    'week_day_range_finish' => $availability->getWeekDayRangeFinish(),
-                    'week_day' => $availability->getWeekdaySingle(),
-                    'hour_from' => $availability->getHourFrom(),
-                    'hour_to' => $availability->getHourTo(),
-                );
-            }
+            $data['availabilities'] = $availabilities;
 
             return new JsonResponse(array(
                 'message' => "",
@@ -3356,6 +3618,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="common_area_id", in="body", required=true, type="integer", description="The common area ID for the reservation.", schema={} )
+     * @SWG\Parameter( name="property_id", in="body", required=true, type="integer", description="The property ID booking the common area.", schema={} )
      * @SWG\Parameter( name="reservation_date_from", in="body", required=true, type="integer", description="The start date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
      * @SWG\Parameter( name="reservation_date_to", in="body", required=true, type="integer", description="The end date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
      *
@@ -3391,6 +3654,7 @@ class RestController extends FOSRestController
             }
 
             $commonAreaId = $request->get('common_area_id');
+            $propertyID = $request->get('property_id');
             $reservationDateFromSecs = trim($request->get('reservation_date_from'));
             $reservationDateToSecs = trim($request->get('reservation_date_to'));
 
@@ -3398,6 +3662,12 @@ class RestController extends FOSRestController
             if ($commonArea == null) {
                 throw new \Exception("Invalid common area ID.");
             }
+
+            $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => $propertyID));
+            if ($property == null) {
+                throw new \Exception("Invalid property ID.");
+            }
+
 
             $status = $this->em->getRepository('BackendAdminBundle:CommonAreaReservationStatus')->findOneBy(array('enabled' => true, 'id' => $this::COMMON_AREA_RESERVATION_STATUS_ID));
             if ($status == null) {
@@ -3408,6 +3678,7 @@ class RestController extends FOSRestController
             $endDate = new \DateTime("@$reservationDateToSecs");
 
             $reservation = new CommonAreaReservation();
+            $reservation->setProperty($property);
             $reservation->setCommonArea($commonArea);
             $reservation->setReservationDateFrom($startDate);
             $reservation->setReservationDateTo($endDate);
@@ -3552,17 +3823,18 @@ class RestController extends FOSRestController
 
 
     /**
-     * List the payments of the specified user by month and year.
+     * List the payments of the specified property by month and year.
      *
      * This calls the Bettercondos.info API to get a list of payments for the specified month and year. [Right now it does nothing].
      *
-     * @Rest\Get("/v1/payments/{month}/{year}", name="listPayments", )
+     * @Rest\Get("/v1/payments/{property_id}/{month}/{year}", name="listPayments", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="month", in="path", required=true, type="string", description="The month of the requested payments." )
-     * @SWG\Parameter( name="year", in="path", required=true, type="string", description="The year of the requested payments." )
+     * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The property ID" )
+     * @SWG\Parameter( name="month", in="path", required=true, type="string", description="example 09 - The month of the requested payments." )
+     * @SWG\Parameter( name="year", in="path", required=true, type="string", description="example 2019 - The year of the requested payments." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -3576,10 +3848,12 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="string", description="ID of the payment", example="46" ),
      *                  @SWG\Property( property="description", type="string", description="Description of the payment", example="Description" ),
-     *                  @SWG\Property( property="date", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
-     *                  @SWG\Property( property="status", type="string", description="Status of the payment", example="Paid" ),
-     *                  @SWG\Property( property="amount", type="string", description="Amount of the payment", example="4500" ),
+     *                  @SWG\Property( property="created_at", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="due_date", type="string", description="Timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="status", type="string", description="Status of the payment", example="0 = pending, 1 = paid" ),
+     *                  @SWG\Property( property="amount", type="string", description="Amount of the payment", example="4500.00" ),
      *              ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" )
@@ -3596,13 +3870,34 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Finances")
      */
-    public function getPaymentsAction()
+    public function getPaymentsAction(Request $request)
     {
         try {
             $this->initialise();
             $data = array();
 
-            // ToDo: pending definition from other service which is not gamification.
+            $lang = strtolower(trim($request->get('language')));
+
+
+            $propertyID = intval($request->get('property_id'));
+            $month = trim($request->get('month'));
+            $year = trim($request->get('year'));
+
+            $payments = $this->em->getRepository('BackendAdminBundle:PropertyContractTransaction')->getApiPayments($propertyID, $month, $year);
+
+            foreach ($payments as $payment){
+
+                $data[] = array(
+                    "description" => $payment->getDescription(),
+                    "created_at" => $payment->getCreatedAt()->getTimestamp(),
+                    "due_date" => $payment->getDueDate() != null ? $payment->getDueDate()->getTimestamp() : "",
+                    "amount" => number_format(floatval($payment->getPaymentAmount()), 2, '.', ''),
+                    "status" => $payment->getStatus(),
+                    "type" =>  $lang == "en" ? $payment->getPropertyTransactionType()->getNameEN() : $payment->getPropertyTransactionType()->getNameES()
+                );
+
+            }
+
 
             return new JsonResponse(array(
                 'message' => "listPayments",

@@ -550,4 +550,62 @@ class PropertyContractTransaction
     {
         return $this->complex;
     }
+    /**
+     * @var float
+     */
+    private $discount = 0.0;
+
+    /**
+     * @var float
+     */
+    private $paidAmount = 0.0;
+
+
+    /**
+     * Set discount.
+     *
+     * @param float $discount
+     *
+     * @return PropertyContractTransaction
+     */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
+
+        return $this;
+    }
+
+    /**
+     * Get discount.
+     *
+     * @return float
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * Set paidAmount.
+     *
+     * @param float $paidAmount
+     *
+     * @return PropertyContractTransaction
+     */
+    public function setPaidAmount($paidAmount)
+    {
+        $this->paidAmount = $paidAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get paidAmount.
+     *
+     * @return float
+     */
+    public function getPaidAmount()
+    {
+        return $this->paidAmount;
+    }
 }

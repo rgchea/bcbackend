@@ -182,7 +182,7 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
     public function loadTicketCategories($complex){
 
 
-        //OJO DEBE DE SER SEGUN EL IDIOMA DEL SU COMPLEX/BUSINESS
+        //OJO DEBE DE SER SEGUN EL IDIOMA DE SU COMPLEX/BUSINESS
         //general fixes
         //security
         //Billing

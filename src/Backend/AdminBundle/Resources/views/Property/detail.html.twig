@@ -11,15 +11,9 @@
     {{ parent() }}
 
 
-    {% set myLocale = app.request.getLocale() %};
+    {% set myLocale = app.request.getLocale() %}
 
 
-
-    <style>
-        .fulltable{
-            width: 100% !important;
-        }
-    </style>
         <div class="header">
             <div class="container">
                 <div class="row">
@@ -601,7 +595,7 @@
                     "info" : true,
                     "searching": true,
                     "pageLength": 10,
-                    "order": [[7, 'asc']],/*ACTIONS*/
+                    "order": [[6, 'asc']],/*EVENT DATE*/
                     {% if myLocale == 'es' %}
                     "language": {
                         "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
@@ -723,7 +717,7 @@
                     "info" : true,
                     "searching": true,
                     "pageLength": 10,
-                    "order": [[1, 'asc']],
+                    "order": [[0, 'desc']],
                     {% if myLocale == 'es' %}
                     "language": {
                         "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"

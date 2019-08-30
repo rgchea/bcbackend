@@ -58,6 +58,23 @@ Backend\AdminBundle\Entity\PropertyContractTransaction:
             options:
                 default: 0.00
             column: payment_amount
+        discount:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            options:
+                default: 0.00
+            column: discount
+        paidAmount:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 2
+            options:
+                default: 0.00
+            column: paid_amount
+
         status:
             type: boolean
             nullable: false

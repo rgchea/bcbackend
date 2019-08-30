@@ -342,6 +342,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                                 INNER JOIN ticket_status ts ON (ts.id = tlog.ticket_status_id)
                                 INNER JOIN user u ON (tlog.created_by = u.id)
                             WHERE  p.id = {$propertyID}
+                            AND    t.ticket_type_id = 1
                             ORDER BY tlog.created_at DESC
                             LIMIT 100     
                             ";
