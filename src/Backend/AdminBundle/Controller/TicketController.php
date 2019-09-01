@@ -360,7 +360,6 @@ class TicketController extends Controller
         $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);//OPEN
 
 
-
         $ticket = new Ticket();
         $ticket->setTicketType($objTicketType);
         $ticket->setTitle($title);

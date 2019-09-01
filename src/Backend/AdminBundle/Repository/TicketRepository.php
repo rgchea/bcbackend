@@ -159,6 +159,14 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $query->join('e.ticketStatus', 'ts');
         $countQuery->join('e.ticketStatus', 'ts');
 
+        //tenantContract
+        $query->join('e.tenantContract', 'tenantc');
+        $countQuery->join('e.tenantContract', 'tenantc');
+
+        //propertyContract
+        $query->join('tenantc.propertyContract', 'pc');
+        $countQuery->join('tenantc.propertyContract', 'pc');
+
 
 
         if ($filterComplex != null) {
@@ -193,6 +201,12 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                     case 'title':
                         {
                             $searchQuery = 'e.title LIKE \'%' . $searchItem . '%\'';
+                            break;
+                        }
+
+                    case 'contract':
+                        {
+                            $searchQuery = 'pc.id LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
 
@@ -259,6 +273,12 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                     case 'elapsed':
                         {
                             $orderColumn = 'e.title';
+                            break;
+                        }
+
+                    case 'contract':
+                        {
+                            $orderColumn = 'pc.id';
                             break;
                         }
 

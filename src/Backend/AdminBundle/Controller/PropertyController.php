@@ -1334,6 +1334,14 @@ class PropertyController extends Controller
                             break;
                         }
 
+
+                    case 'contract':
+                        {
+                            $responseTemp = $entity->getTenantContract()->getPropertyContract()->getId();
+                            break;
+
+                        }
+
                     case 'title':
                         {
                             $responseTemp = $entity->getTitle();
