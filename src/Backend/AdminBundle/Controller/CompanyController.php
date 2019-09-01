@@ -43,8 +43,24 @@ class CompanyController extends Controller
 
         //print $this->translator->trans('label_ticket_solved');die;
 
-        $tmp = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getCommonAreaAvailability(5, '2019-08-26');
+        //$tmp = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getCommonAreaAvailability(5, '2019-08-26');
+        //die;
+
+
+        $ts1 = strtotime("2019-01-01");
+        $ts2 = strtotime("2019-08-01");
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+
+        var_dump($diff);
         die;
+
 
 
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();

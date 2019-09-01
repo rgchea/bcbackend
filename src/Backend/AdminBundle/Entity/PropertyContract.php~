@@ -516,4 +516,33 @@ class PropertyContract
     {
         return $this->whoPaysMaintenance;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\TenantContract
+     */
+    private $mainTenantContract;
+
+
+    /**
+     * Set mainTenantContract.
+     *
+     * @param \Backend\AdminBundle\Entity\TenantContract|null $mainTenantContract
+     *
+     * @return PropertyContract
+     */
+    public function setMainTenantContract(\Backend\AdminBundle\Entity\TenantContract $mainTenantContract = null)
+    {
+        $this->mainTenantContract = $mainTenantContract;
+
+        return $this;
+    }
+
+    /**
+     * Get mainTenantContract.
+     *
+     * @return \Backend\AdminBundle\Entity\TenantContract|null
+     */
+    public function getMainTenantContract()
+    {
+        return $this->mainTenantContract;
+    }
 }

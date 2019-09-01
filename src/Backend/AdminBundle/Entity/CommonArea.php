@@ -37,10 +37,6 @@ class CommonArea
      */
     private $price = '0.00';
 
-    /**
-     * @var int
-     */
-    private $reservationHourPeriod;
 
     /**
      * @var bool
@@ -223,29 +219,6 @@ class CommonArea
         return $this->price;
     }
 
-    /**
-     * Set reservationHourPeriod.
-     *
-     * @param int $reservationHourPeriod
-     *
-     * @return CommonArea
-     */
-    public function setReservationHourPeriod($reservationHourPeriod)
-    {
-        $this->reservationHourPeriod = $reservationHourPeriod;
-
-        return $this;
-    }
-
-    /**
-     * Get reservationHourPeriod.
-     *
-     * @return int
-     */
-    public function getReservationHourPeriod()
-    {
-        return $this->reservationHourPeriod;
-    }
 
     /**
      * Set requiredPayment.

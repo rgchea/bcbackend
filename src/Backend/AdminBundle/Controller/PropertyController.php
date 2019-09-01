@@ -2,6 +2,7 @@
 
 namespace Backend\AdminBundle\Controller;
 
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -16,6 +17,7 @@ use Backend\AdminBundle\Entity\PropertyPhoto;
 use Backend\AdminBundle\Form\PropertyType;
 use Backend\AdminBundle\Entity\PropertyContract;
 use Backend\AdminBundle\Entity\TenantContract;
+use Backend\AdminBundle\Entity\PropertyContractTransaction;
 
 /**
  * Property controller.
@@ -327,7 +329,7 @@ class PropertyController extends Controller
         $tenantContract =  null;
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $entity->getId(), 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
         if($propertyContract) {
-            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
+            $tenantContract = $propertyContract->getMainTenantContract();
         }
 
 
@@ -473,26 +475,6 @@ class PropertyController extends Controller
             $this->em->persist($entity);
             $this->em->flush();
 
-            $token = $this->get('services')->getBCToken();
-            ///CREATE PROPERTY TEAM
-            $body = array();
-            $body['name'] = $entity->getName();
-            $body['description'] = $entity->getName();
-            $body['teamType'] = 5;//Property
-            $body["parent"] = $entity->getComplexSector()->getTeamCorrelative();//sector team correlative
-            //
-
-
-            $createTeamProperty = $this->get('services')->callBCSpace("POST", "teams", $body);
-            $teamIDProperty = 0;
-            if($createTeamProperty){
-                $teamIDProperty = $createTeamProperty["id"];
-                $entity->setTeamCorrelative($teamIDProperty);
-                $this->em->persist($entity);
-                $this->em->flush();
-
-            }
-
 
             //si viene el tenant email
             //se guardan datos de la propiedad
@@ -506,111 +488,28 @@ class PropertyController extends Controller
 
             $tenantEmail = trim($_REQUEST["agreement"]["tenant_email"]);
             $ownerEmail = trim($_REQUEST["agreement"]["owner_email"]);
-
+            $maintenancePrice = $_REQUEST["agreement"]["maintenance"];
+            $whopaysmaintenance = $_REQUEST["agreement"]["whopaysmaintenance"];
+            $startDate =  $_REQUEST["agreement"]["start"];
+            $endDate = $_REQUEST["agreement"]["end"];
 
             ////CREATE PROPERTY CONTRACT
-            $propertyContract = new PropertyContract();
-
-            $propertyContract->setProperty($entity);
-            $propertyTransactionTye = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(3);//renta
-            $propertyContract->setPropertyTransactionType($propertyTransactionTye);
-
-            $startDate = trim($_REQUEST["agreement"]["start"]);
-            $startDate = new \DateTime($startDate);
-            $propertyContract->setStartDate($startDate);
-
-            $endDate = trim($_REQUEST["agreement"]["end"]);
-            $endDate = new \DateTime($endDate);
-            $propertyContract->setEndDate($endDate);
-
-            $propertyContract->setIsActive(1);
-            $propertyContract->setDuePaymentDay(15);
-            $propertyContract->setRentalPrice(0.00);
-            $maintenancePrice = floatval($_REQUEST["agreement"]["maintenance"]);
-            $propertyContract->setMaintenancePrice($maintenancePrice);
-            $entity->setMaintenancePrice($maintenancePrice);
-
-            $propertyContract->setWhoPaysMaintenance($_REQUEST["agreement"]["whopaysmaintenance"]);
-            $propertyContract->setTotalVisibleAmount(1);
-            $propertyContract->setEnabled(1);
-
-
-            //BLAME ME propertyContract
-            $this->get("services")->blameOnMe($propertyContract, "create");
-
-            $this->em->persist($propertyContract);
-            $this->em->flush();
+            ///
+            $propertyContract = $this->createPropertyContract($entity->getId(), $startDate, $endDate, $maintenancePrice, $whopaysmaintenance);
 
             //DISABLE OLD CONTRACTS
-            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableContracts($propertyContract->getId(), $entity->getId());
+            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableOldContracts($propertyContract->getId(), $entity->getId());
+
+            ///CREATE PROPERTY TEAM
+            $teamIDProperty = $this->createPropertyTeam($entity->getId());
 
 
             ///CREATE TENANT CONTRACT
-            $tenantContract = new TenantContract();
+            $tenantContract = $this->createTenantContract($tenantEmail, $ownerEmail, $propertyContract->getId(), $teamIDProperty);
 
-            //search user
-            $user = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($tenantEmail);
-            if($user){
-                //print "entra";die;
-               $tenantContract->setUser($user);
-               $entity->setMainTenant($user);
+            ///CREATE CONTRACT PAYMENTS
+            $this->createPayments($propertyContract->getId(), $maintenancePrice, $startDate, $endDate);
 
-                //add player gamification
-                $body = array();
-                $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$teamIDProperty}", $body);
-                //print "<pre>";
-                //var_dump($userTeam);die;
-                if($userTeam){
-                    $tenantContract->setPlayerId($userTeam["id"]);
-                }
-
-
-            }
-            else{
-                //print "entra2";die;
-                //enviar invitación al correo
-                //invitation_user_email
-                //revisar template sengrid
-
-                $myJson = '"complex_name": "'.$objComplex->getName().'"';
-                $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
-
-                //test
-                //$to = "cheametal@gmail.com";
-                //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
-
-                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
-
-                //invitation_user_email
-                $tenantContract->setInvitationUserEmail($tenantEmail);
-
-            }
-
-
-            $owner = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($ownerEmail);
-            if($owner){
-                $tenantContract->setOwner($owner);
-            }
-
-            $tenantContract->setOwnerEmail($ownerEmail);
-            $entity->setOwnerEmail($ownerEmail);
-            $tenantContract->setPropertyContract($propertyContract);
-            $tenantContract->setEnabled(1);
-            $tenantContract->setMainTenant(1);
-
-            $code = $this->get("services")->getToken(6);
-            $tenantContract->setPropertyCode($code);
-
-
-            //BLAME ME tenantContract
-            $this->get("services")->blameOnMe($tenantContract, "create");
-
-
-            $this->em->persist($entity);
-            $this->em->persist($tenantContract);
-
-
-            $this->em->flush();
 
             //si no viene el tenant email
             // se guardan datos de la propiedad
@@ -780,8 +679,8 @@ class PropertyController extends Controller
             }
             */
 
-            $code = $this->get("services")->getToken(6);
-            $entity->setCode($code);
+            //$code = $this->get("services")->getToken(6);
+            //$entity->setCode($code);
 
 
             //BLAME ME
@@ -800,115 +699,29 @@ class PropertyController extends Controller
             //se crea property contract y tenant_contract
             //cuando el usuario se registre, se debe de actualizar en tenant_contract el user_id
 
-
             $tenantEmail = trim($_REQUEST["agreement"]["tenant_email"]);
             $ownerEmail = trim($_REQUEST["agreement"]["owner_email"]);
+            $maintenancePrice = $_REQUEST["agreement"]["maintenance"];
+            $whopaysmaintenance = $_REQUEST["agreement"]["whopaysmaintenance"];
+            $startDate =  $_REQUEST["agreement"]["start"];
+            $endDate = $_REQUEST["agreement"]["end"];
 
-            if($_REQUEST["propertyContract"] != 0){
-                $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find(intval($_REQUEST["propertyContract"]));
-            }
-            else{
-                $propertyContract = New PropertyContract();
-            }
-
-
-            $propertyContract->setProperty($entity);
-            $propertyTransactionTye = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(3);//renta
-            $propertyContract->setPropertyTransactionType($propertyTransactionTye);
-
-            $startDate = trim($_REQUEST["agreement"]["start"]);
-            $startDate = new \DateTime($startDate);
-            $propertyContract->setStartDate($startDate);
-
-            $endDate = trim($_REQUEST["agreement"]["end"]);
-            $endDate = new \DateTime($endDate);
-            $propertyContract->setEndDate($endDate);
-
-            $propertyContract->setIsActive(1);
-            $propertyContract->setDuePaymentDay(15);
-            $propertyContract->setRentalPrice(0.00);
-            $maintenancePrice = floatval($_REQUEST["agreement"]["maintenance"]);
-            $propertyContract->setMaintenancePrice($maintenancePrice);
-            $entity->setMaintenancePrice($maintenancePrice);
-
-            $propertyContract->setWhoPaysMaintenance($_REQUEST["agreement"]["whopaysmaintenance"]);
-            $propertyContract->setTotalVisibleAmount(1);
-            $propertyContract->setEnabled(1);
-
-
-            //BLAME ME propertyContract
-            $this->get("services")->blameOnMe($propertyContract, "create");
-
-            $this->em->persist($propertyContract);
-            $this->em->flush();
+            ////CREATE PROPERTY CONTRACT
+            ///
+            $propertyContract = $this->createPropertyContract($entity->getId(), $startDate, $endDate, $maintenancePrice, $whopaysmaintenance);
 
             //DISABLE OLD CONTRACTS
-            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableContracts($propertyContract->getId(), $entity->getId());
+            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableOldContracts($propertyContract->getId(), $entity->getId());
+
+            ///CREATE PROPERTY TEAM
+            $teamIDProperty = $this->createPropertyTeam($entity->getId());
 
 
-            ///SET TENANT CONTRACT
-            if($_REQUEST["tenantContract"] != 0){
-                $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->find(intval($_REQUEST["tenantContract"]));
-            }
-            else{
-                $tenantContract = New TenantContract();
-                $code = $this->get("services")->getToken(6);
-                $tenantContract->setPropertyCode($code);
+            ///CREATE TENANT CONTRACT
+            $tenantContract = $this->createTenantContract($tenantEmail, $ownerEmail, $propertyContract->getId(), $teamIDProperty);
 
-            }
-
-
-            //search user
-            $user = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($tenantEmail);
-            if($user){
-                $tenantContract->setUser($user);
-                $entity->setMainTenant($user);
-            }
-            else{
-                //enviar invitación al correo
-                //invitation_user_email
-                //revisar template sengrid
-
-                $myJson = '"complex_name": "'.$entity->getComplex()->getName().'"';
-                $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
-
-                //test
-                $to = "cheametal@gmail.com";
-                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
-
-                //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
-
-                //invitation_user_email
-                $tenantContract->setInvitationUserEmail($tenantEmail);
-
-            }
-
-
-            //add player gamification
-            $owner = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($ownerEmail);
-            if($owner){
-                $tenantContract->setOwner($owner);
-            }
-
-            $tenantContract->setOwnerEmail($ownerEmail);
-            $entity->setOwnerEmail($ownerEmail);
-            $tenantContract->setPropertyContract($propertyContract);
-            $tenantContract->setEnabled(1);
-            $tenantContract->setMainTenant(1);
-
-            //BLAME ME tenantContract
-            $this->get("services")->blameOnMe($tenantContract, "create");
-
-
-            $entity->setIsAvailable(0);
-            $this->em->persist($entity);
-
-            $this->em->persist($tenantContract);
-            $this->em->flush();
-
-            //si no viene el tenant email
-            // se guardan datos de la propiedad
-            // is available 1
+            ///CREATE CONTRACT PAYMENTS
+            $this->createPayments($propertyContract->getId(), $maintenancePrice, $startDate, $endDate);
 
 
 
@@ -1175,110 +988,28 @@ class PropertyController extends Controller
 
             $tenantEmail = trim($_REQUEST["agreement"]["tenant_email"]);
             $ownerEmail = trim($_REQUEST["agreement"]["owner_email"]);
-
+            $maintenancePrice = $_REQUEST["agreement"]["maintenance"];
+            $whopaysmaintenance = $_REQUEST["agreement"]["whopaysmaintenance"];
+            $startDate =  $_REQUEST["agreement"]["start"];
+            $endDate = $_REQUEST["agreement"]["end"];
 
             ////CREATE PROPERTY CONTRACT
-            $propertyContract = new PropertyContract();
-
-            $propertyContract->setProperty($entity);
-            $propertyTransactionTye = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(3);//renta
-            $propertyContract->setPropertyTransactionType($propertyTransactionTye);
-
-            $startDate = trim($_REQUEST["agreement"]["start"]);
-            $startDate = new \DateTime($startDate);
-            $propertyContract->setStartDate($startDate);
-
-            $endDate = trim($_REQUEST["agreement"]["end"]);
-            $endDate = new \DateTime($endDate);
-            $propertyContract->setEndDate($endDate);
-
-            $propertyContract->setIsActive(1);
-            $propertyContract->setDuePaymentDay(15);
-            $propertyContract->setRentalPrice(0.00);
-            $maintenancePrice = floatval($_REQUEST["agreement"]["maintenance"]);
-            $propertyContract->setMaintenancePrice($maintenancePrice);
-            $entity->setMaintenancePrice($maintenancePrice);
-            $propertyContract->setWhoPaysMaintenance($_REQUEST["agreement"]["whopaysmaintenance"]);
-            $propertyContract->setTotalVisibleAmount(1);
-            $propertyContract->setEnabled(1);
-
-            //BLAME ME propertyContract
-            $this->get("services")->blameOnMe($propertyContract, "create");
-
-            $this->em->persist($propertyContract);
-            $this->em->flush();
+            ///
+            $propertyContract = $this->createPropertyContract($entity->getId(), $startDate, $endDate, $maintenancePrice, $whopaysmaintenance);
 
             //DISABLE OLD CONTRACTS
-            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableContracts($propertyContract->getId(), $entity->getId());
+            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableOldContracts($propertyContract->getId(), $entity->getId());
 
+            ///CREATE PROPERTY TEAM
+            $teamIDProperty = $this->createPropertyTeam($entity->getId());
 
 
             ///CREATE TENANT CONTRACT
-            $tenantContract = new TenantContract();
+            $tenantContract = $this->createTenantContract($tenantEmail, $ownerEmail, $propertyContract->getId(), $teamIDProperty);
 
-            //search user
-            $user = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($tenantEmail);
-            if($user){
-                //print "entra";die;
-                $tenantContract->setUser($user);
-                $entity->setMainTenant($user);
+            ///CREATE CONTRACT PAYMENTS
+            $this->createPayments($propertyContract->getId(), $maintenancePrice, $startDate, $endDate);
 
-                //add player gamification
-                $body = array();
-                $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$entity->getTeamCorrelative()}", $body);
-                //print "<pre>";
-                //var_dump($userTeam);die;
-                if($userTeam){
-                    $tenantContract->setPlayerId($userTeam["id"]);
-                }
-
-
-            }
-            else{
-                //print "entra2";die;
-                //enviar invitación al correo
-                //invitation_user_email
-                //revisar template sengrid
-
-                $myJson = '"complex_name": "'.$entity->getComplex()->getName().'"';
-                $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
-
-                //test
-                //$to = "cheametal@gmail.com";
-                //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
-
-                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
-
-                //invitation_user_email
-                $tenantContract->setInvitationUserEmail($tenantEmail);
-
-            }
-
-
-            $owner = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($ownerEmail);
-            if($owner){
-                $tenantContract->setOwner($owner);
-            }
-
-            $tenantContract->setOwnerEmail($ownerEmail);
-            $entity->setOwnerEmail($ownerEmail);
-            $tenantContract->setPropertyContract($propertyContract);
-            $tenantContract->setEnabled(1);
-            $tenantContract->setMainTenant(1);
-
-            $code = $this->get("services")->getToken(6);
-            $tenantContract->setPropertyCode($code);
-
-
-            //BLAME ME tenantContract
-            $this->get("services")->blameOnMe($tenantContract, "create");
-
-
-            $this->em->persist($entity);
-            $this->em->persist($tenantContract);
-
-
-            $this->em->flush();
 
             //si no viene el tenant email
             // se guardan datos de la propiedad
@@ -1324,7 +1055,7 @@ class PropertyController extends Controller
 
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
-        $mainContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
+        $mainContract = $propertyContract->getMainTenantContract();
         $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
 
 
@@ -1408,7 +1139,7 @@ class PropertyController extends Controller
 
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
-        $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
+        $tenantContract = $propertyContract->getMainTenantContract();
 
         if(isset($_REQUEST["submit"])){
 
@@ -1475,7 +1206,7 @@ class PropertyController extends Controller
 
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
-        $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
+        $tenantContract = $propertyContract->getMainTenantContract();
 
         if(isset($_REQUEST["submit"])){
 
@@ -2024,11 +1755,14 @@ class PropertyController extends Controller
         $this->get("services")->setVars('property');
         $this->initialise();
 
+        $complex = $this->get("services")->getSessionComplex();
+
+
 
         return $this->render('BackendAdminBundle:Property:invitations.html.twig', array(
 
             'myPath' => 'backend_admin_property_invitations',
-            'new' => true
+            'new' => true,
 
             //'form' => $form->createView(),
 
@@ -2036,6 +1770,87 @@ class PropertyController extends Controller
         ));
     }
 
+    public function invitationsExportAction(Request $request){
+
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $complex = $this->get("services")->getSessionComplex();
+        $templateProperties = $this->em->getRepository('BackendAdminBundle:PropertyContract')->getPropertiesToInvite($complex);
+        //print "<pre>";
+        //var_dump($templateProperties);die;
+
+        $arrTemplate = array();
+
+        $myDateFormat = "Y-m-d";
+        $myDate = gmdate($myDateFormat);
+
+        if($this->translator->getLocale() == "en"){
+            foreach ($templateProperties as $key => $val){
+
+                $arrTemplate[] = array(
+                    "id" => $val["id"],
+                    "property_number" => $val["property_number"],
+                    "maintenance_price" => $val["maintenance_price"] == NULL ? "0.00" : floatval($val["maintenance_price"]),
+                    "who_pays_maintenance" => "tenant",
+                    "start_date_{$myDateFormat}" => $myDate,
+                    "end_date_{$myDateFormat}" => $myDate,
+                    'tenant_email' => "",
+                    'owner_email' => "",
+                );
+            }
+        }
+        else{
+            foreach ($templateProperties as $key => $val){
+
+                $arrTemplate[] = array(
+                    "id" => $val["id"],
+                    "numero_propiedad" => $val["property_number"],
+                    "precio_mantenimiento" => $val["maintenance_price"] == NULL ? "0.00" : floatval($val["maintenance_price"]),
+                    "quien_paga_mantenimiento" => "inquilino",
+                    "fecha_inicio_{$myDateFormat}" => $myDate,
+                    "fecha_fin_{$myDateFormat}" => $myDate,
+                    'correo_inquilino' => "",
+                    'correo_propietario' => "",
+
+                );
+            }
+        }
+
+
+
+        $this->array_csv_download($arrTemplate, $myDate."_export.csv");
+        die;
+
+    }
+
+    public function array_csv_download( $array, $filename = "export.csv", $delimiter="," )
+    {
+        header( 'Content-Type: application/csv' );
+        header( 'Content-Disposition: attachment; filename="' . $filename . '";' );
+
+        // clean output buffer
+        ob_start(); //start output buffering
+        ob_end_clean();
+
+        $handle = fopen( 'php://output', 'w' );
+
+        // use keys as column titles
+        fputcsv( $handle, array_keys( $array[0] ) );
+
+        foreach ( $array as $value ) {
+            fputcsv( $handle, $value , $delimiter );
+        }
+
+        fclose( $handle );
+
+        // flush buffer
+        if( ob_get_level() > 0 ) ob_flush();
+
+        // use exit to get rid of unexpected output afterward
+        exit();
+    }
 
 
 
@@ -2046,13 +1861,409 @@ class PropertyController extends Controller
         $this->initialise();
 
 
-        return $this->render('BackendAdminBundle:Property:invitationsImport.html.twig', array(
 
-            'myPath' => 'backend_admin_property_invitations_import',
+        if(isset($_REQUEST["loadSubmit"])){
 
-            //'form' => $form->createView(),
+            $arrReturn = array();
 
-        ));
+            set_time_limit(1200);
+
+            $errors = array();
+
+
+            $csvData = array();
+            $tmpName = $_FILES['file']['tmp_name'];
+            //$csvAsArray = array_map('str_getcsv', file($tmpName));
+
+
+            $file_handle = fopen($tmpName, 'r');
+            while (!feof($file_handle) ) {
+                $line_of_text[] = fgetcsv($file_handle, 1024);
+            }
+            fclose($file_handle);
+
+            /*
+            print "<pre>";
+            var_dump($line_of_text) ;die;
+             * */
+
+            foreach ($line_of_text as $key => $value) {
+
+
+                //print "<pre>";
+                //var_dump($value);
+                //die;
+
+
+                if($key != 0){
+
+                    if(!is_array($value)){
+                        break;
+                    }
+
+                    if(count($value) != 8){
+                        $errors[] = "Invalid file format";
+                        break;
+                    }
+                    //**buscarlo en base de datos y sustituir con ID
+
+                    //0 - property_id
+                    //1 - property_number// **
+                    //2 - maintenance_price// **
+                    //3 - who_pays_maintenance// **
+                    //4 - start_date// **
+                    //5 - end_date
+                    //6 - tenant_email
+                    //7 - owner_email
+
+                    $propertyID = intval($value[0]);
+                    $propertyNumber = $this->get("services")->cleanString($value[1]);
+                    $maintenancePrice = floatval($value[2]);
+                    $whoPaysMaintenance =  $this->get("services")->cleanString($value[3]);
+                    $tenantEmail = $this->get("services")->cleanString($value[6]);
+                    $ownerEmail = $this->get("services")->cleanString($value[7]);
+
+                    if($whoPaysMaintenance == "inquilino"){$whoPaysMaintenance = "tenant";}
+                    if($whoPaysMaintenance == "propietario"){$whoPaysMaintenance = "owner";}
+
+
+                    $startDate = new \Datetime(trim($value[4]));
+                    $endDate = new \Datetime(trim($value[5]));
+
+                    $objProperty =  $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+
+                    if($objProperty == null){
+                        $errors[] = "Invalid property_id {$propertyID}";
+                        break;
+
+                    }
+
+                    ////CREATE PROPERTY CONTRACT
+                    ///
+                    $propertyContract = $this->createPropertyContract($objProperty->getId(), $startDate, $endDate, $maintenancePrice, $whoPaysMaintenance );
+
+                    //DISABLE OLD CONTRACTS
+                    $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableOldContracts($propertyContract->getId(), $objProperty->getId());
+
+                    ///CREATE PROPERTY TEAM
+                    $teamIDProperty = $this->createPropertyTeam($objProperty->getId());
+
+
+                    ///CREATE TENANT CONTRACT
+                    $tenantContract = $this->createTenantContract($tenantEmail, $ownerEmail, $propertyContract->getId(), $teamIDProperty, true);
+
+                    ///CREATE CONTRACT PAYMENTS
+                    $this->createPayments($propertyContract->getId(), $maintenancePrice,  trim($value[4]), trim($value[5]));
+
+
+                }
+            }
+
+            $countErrors = count($errors);
+            if($countErrors > 0){
+                $request->getSession()->getFlashBag()->add('warning',$countErrors . "ERROR, invalid format" );
+                foreach ($errors as $error){
+                    $request->getSession()->getFlashBag()->add('warning', $error );
+                }
+
+            }else{
+                $this->em->flush();
+                $this->get('services')->flashSuccess($request);
+            }
+
+            $newContracts = array();
+            foreach ($arrReturn as $propertyContractID){
+                $newContracts[] = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($propertyContractID);
+            }
+
+            return $this->render('BackendAdminBundle:Property:invitations.html.twig', array(
+
+                'myPath' => 'backend_admin_property_invitations',
+                'new' => true,
+                'newContracts' => $newContracts
+
+                //'form' => $form->createView(),
+
+
+            ));
+
+        }
+        else{
+
+            return $this->render('BackendAdminBundle:Property:invitationsImport.html.twig', array(
+
+                'myPath' => 'backend_admin_property_invitations_import',
+                'new' => true
+
+                //'form' => $form->createView(),
+
+
+            ));
+
+        }
+
+
+    }
+
+
+    public function createPayments($propertyContractID, $amount, $startDate, $endDate){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $objPropertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($propertyContractID);
+        $transactionType = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(5);//maintenance
+
+        //iterate through start and end dates
+
+        $bdate = strtotime($startDate);
+        $edate = strtotime($endDate);
+
+        //$year1 = date('Y', $ts1);
+        //$year2 = date('Y', $ts2);
+
+        //$month1 = date('m', $ts1);
+        //$month2 = date('m', $ts2);
+
+        //$diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $months = 0;
+
+        if($edate < $bdate) {
+            //prenatal
+            $months = -1;
+            return false;
+
+        } else {
+            //count months.
+            while($bdate < $edate) {
+
+                $months++;
+                $bdate = strtotime('+1 MONTH', $bdate);
+                if ($bdate > $edate) {
+                    $months--;
+                    break;
+                }
+
+
+                $payment = new PropertyContractTransaction();
+                $payment->setEnabled(1);
+                $payment->setComplex($objPropertyContract->getProperty()->getComplex());
+                $payment->setPropertyContract($objPropertyContract);
+                $payment->setPropertyTransactionType($transactionType);
+                //$payment->setCommonAreaReservation($entity);
+                $description = $this->translator->trans('label_monthly_maintenance');
+                $payment->setDescription($description);
+                $payment->setPaymentAmount($amount);
+                //$payment->setPaidAmount($amountPaid);
+                $payment->setDiscount(floatval(0));
+                $payment->setDueDate(new \DateTime(date("Y-m-15 h:i:s",$bdate)));
+
+                /*
+                ///paid & paid date
+                $payment->setPaidBy($propertyContract->getProperty()->getMainTenant());
+                $gtmNow = gmdate("Y-m-d H:i:s");
+                $payment->setPaidDate(new \DateTime($gtmNow));
+                */
+                //status
+                $payment->setStatus(0);//PENDING PAYMENT
+
+                //BLAME ME
+                $this->get("services")->blameOnMe($payment, "create");
+                $this->get("services")->blameOnMe($payment, "update");
+
+
+                $this->em->persist($payment);
+
+
+            }
+
+
+        }
+
+        $this->em->flush();
+
+        return true;
+
+    }
+
+
+    public function createPropertyContract($propertyID, $startDate, $endDate, $maintenancePrice, $whopaysmaintenance ){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+
+        ////CREATE PROPERTY CONTRACT
+        $propertyContract = new PropertyContract();
+
+        $propertyContract->setProperty($objProperty);
+        $propertyTransactionTye = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(3);//renta
+        $propertyContract->setPropertyTransactionType($propertyTransactionTye);
+
+        $startDate = trim($startDate);
+        $startDate = new \DateTime($startDate);
+        $propertyContract->setStartDate($startDate);
+
+        $endDate = trim($endDate);
+        $endDate = new \DateTime($endDate);
+        $propertyContract->setEndDate($endDate);
+
+        $propertyContract->setIsActive(1);
+        $propertyContract->setDuePaymentDay(15);
+        $propertyContract->setRentalPrice(0.00);
+        $maintenancePrice = floatval($maintenancePrice);
+        $propertyContract->setMaintenancePrice($maintenancePrice);
+        $objProperty->setMaintenancePrice($maintenancePrice);
+
+        $propertyContract->setWhoPaysMaintenance($whopaysmaintenance);
+        $propertyContract->setTotalVisibleAmount(1);
+        $propertyContract->setEnabled(1);
+
+
+        //BLAME ME propertyContract
+        $this->get("services")->blameOnMe($propertyContract, "create");
+        $this->get("services")->blameOnMe($propertyContract, "update");
+
+
+        $this->em->persist($objProperty);
+        $this->em->persist($propertyContract);
+        $this->em->flush();
+
+        return $propertyContract;
+
+    }
+
+
+
+
+    public function createTenantContract($tenantEmail, $ownerEmail, $propertyContractID, $teamIDProperty){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($propertyContractID);
+        $property = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyContract->getProperty()->getId());
+
+        $user = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($tenantEmail);
+
+        $tenantContract = new TenantContract();
+
+        //search user
+        $user = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($tenantEmail);
+        if($user){
+            //print "entra";die;
+            $tenantContract->setUser($user);
+            $property->setMainTenant($user);
+
+
+            //add player gamification
+            $body = array();
+            $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$teamIDProperty}", $body);
+            //print "<pre>";
+            //var_dump($userTeam);die;
+            if($userTeam){
+                $tenantContract->setPlayerId($userTeam["id"]);
+            }
+
+
+
+
+        }
+        else{
+            //print "entra2";die;
+            //enviar invitación al correo
+            //invitation_user_email
+            //revisar template sengrid
+
+            $myJson = '"complex_name": "'.$property->getComplex()->getName().'"';
+            $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
+
+            //test
+            //$to = "cheametal@gmail.com";
+            //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
+
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
+
+            //invitation_user_email
+            $tenantContract->setInvitationUserEmail($tenantEmail);
+
+        }
+
+
+        $owner = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($ownerEmail);
+        if($owner){
+            $tenantContract->setOwner($owner);
+        }
+
+        $tenantContract->setOwnerEmail($ownerEmail);
+        $property->setOwnerEmail($ownerEmail);
+        $tenantContract->setPropertyContract($propertyContract);
+        $tenantContract->setEnabled(1);
+        $tenantContract->setMainTenant(1);
+
+        $code = $this->get("services")->getToken(6);
+        $tenantContract->setPropertyCode($code);
+
+
+        //BLAME ME tenantContract
+        $this->get("services")->blameOnMe($tenantContract, "create");
+        $this->get("services")->blameOnMe($tenantContract, "update");
+
+
+        $this->em->persist($property);
+        $this->em->persist($tenantContract);
+
+        $this->em->flush();
+
+
+        //update propertyContract mainTenantContract
+        $propertyContract->setMainTenantContract($tenantContract);
+
+        $this->em->persist($propertyContract);
+
+        $this->em->flush();
+
+        return $tenantContract;
+
+
+
+    }
+
+
+    public function createPropertyTeam($propertyID){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+
+        $property = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+
+
+        $token = $this->get('services')->getBCToken();
+        ///CREATE PROPERTY TEAM
+        $body = array();
+        $body['name'] = $property->getName();
+        $body['description'] = $property->getName();
+        $body['teamType'] = 5;//Property
+        $body["parent"] = $property->getComplexSector()->getTeamCorrelative();//sector team correlative
+        //
+
+
+        $createTeamProperty = $this->get('services')->callBCSpace("POST", "teams", $body);
+        $teamIDProperty = 0;
+        if($createTeamProperty){
+            $teamIDProperty = $createTeamProperty["id"];
+            $property->setTeamCorrelative($teamIDProperty);
+            $this->em->persist($property);
+            $this->em->flush();
+
+        }
+
+
+        return $teamIDProperty;
+
     }
 
 
