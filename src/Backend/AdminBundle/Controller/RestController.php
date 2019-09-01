@@ -2244,7 +2244,7 @@ class RestController extends FOSRestController
     /**
      * Gets a reservation and all its information.
      *
-     * Returns the ticket information including comments
+     * Returns the reservation information including comments
      *
      * @Rest\Get("/v1/reservation/{reservation_id}", name="singleReservation")
      *
@@ -2292,12 +2292,20 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="reservation", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="status", type="string", description="status", example="pending, approved, rejected" ),
-     *                          @SWG\Property( property="category", type="string", description="category name", example="Common Area" ),
      *                          @SWG\Property( property="date_from", type="string", description="reservation from time", example="1272509157" ),
      *                          @SWG\Property( property="date_to", type="string", description="reservation to time", example="1272509157" ),
      *                          @SWG\Property( property="updated by", type="string", description="user name", example="Roberto H" ),
      *                          @SWG\Property( property="updated_at", type="string", description="updated time", example="1272509157" ),
      *                      )
+     *                  ),
+     *                  @SWG\Property( property="category", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="category_id", type="string", description="Category ID", example="1" ),
+     *                          @SWG\Property( property="category_name", type="string", description="Category area name", example="Fixes" ),
+     *                          @SWG\Property( property="icon_class", type="string", description="icon class", example="fas fa-pencil" ),
+     *                          @SWG\Property( property="color", type="string", description="hexa color code", example="#ffffff" ),
+     *                      )
+     *
      *                  ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" )
@@ -2364,7 +2372,6 @@ class RestController extends FOSRestController
             $data['reservation'] = array(
 
                 'status' => $status,
-                'category' => $ticket->getTicketCategory()->getName(),
                 'date_from' => $reservation->getReservationDateFrom()->getTimestamp(),
                 'date_to' => $reservation->getReservationDateTo()->getTimestamp(),
                 'updated_by' => $reservation->getUpdatedBy()->getName(),
@@ -2372,6 +2379,13 @@ class RestController extends FOSRestController
 
             );
 
+
+            $iconClass = ($ticket->getTicketCategory()->getIcon() != null) ? $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
+            ///category
+            $data['category'] = array("category_id" => $ticket->getTicketCategory()->getId(),
+                        "category_name" => $ticket->getTicketCategory()->getName(),
+                        "icon_class" => $iconClass,
+                        "color" => $ticket->getTicketCategory()->getColor()),
 
             // Fetching the booking comments
             $comments = $this->em->getRepository('BackendAdminBundle:BookingComment')->findBy(array("commonAreaReservation" => $reservation_id, "enabled" => 1), array("createdAt" => "DESC") );
