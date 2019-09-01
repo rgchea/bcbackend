@@ -3275,17 +3275,16 @@ class RestController extends FOSRestController
             /** @var UserRepository $userRepo */
             $userRepo = $this->em->getRepository('BackendAdminBundle:User');
 
-            $businessArr = $propertyRepo->getApiPostFaq($propertyId);
-            $businessId = 0;
-            if (array_key_exists('id', $businessArr)) {
-                $businessId = $businessArr['id'];
-            }
 
-            /** @var User $admin */
-            $admin = $userRepo->getApiPostFaq($businessId);
+            $objProperty = $propertyRepo->find($propertyId);
+
+            $admin = $userRepo->findOneBy(array("role" => 1, "business" => $objProperty->getComplex()->getBusiness(), "enabled" => 1));
+
+
             if ($admin == null) {
                 throw new \Exception("No admin user found for this property.");
             }
+
             $adminEmail = $admin->getEmail();
             $now = new \DateTime();
 
@@ -3733,6 +3732,7 @@ class RestController extends FOSRestController
                 $payment->setCommonAreaReservation($reservation);
                 $payment->setDescription($reservation->getCommonArea()->getName()." ". number_format($cost, 2, ".", "") );
                 $payment->setPaymentAmount($cost);
+
                 //$payment->setPaidAmount($amountPaid);
                 //$payment->setDiscount($discount);
 
