@@ -2385,7 +2385,7 @@ class RestController extends FOSRestController
             $data['category'] = array("category_id" => $ticket->getTicketCategory()->getId(),
                         "category_name" => $ticket->getTicketCategory()->getName(),
                         "icon_class" => $iconClass,
-                        "color" => $ticket->getTicketCategory()->getColor()),
+                        "color" => $ticket->getTicketCategory()->getColor());
 
             // Fetching the booking comments
             $comments = $this->em->getRepository('BackendAdminBundle:BookingComment')->findBy(array("commonAreaReservation" => $reservation_id, "enabled" => 1), array("createdAt" => "DESC") );
