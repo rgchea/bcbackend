@@ -2251,7 +2251,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="ticket_id", in="path", required=true, type="string", description="The ID of the ticket." )
+     * @SWG\Parameter( name="reservation_id", in="path", required=true, type="string", description="The ID of the reservation." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -2292,6 +2292,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="reservation", type="array",
      *                      @SWG\Items(
      *                          @SWG\Property( property="status", type="string", description="status", example="pending, approved, rejected" ),
+     *                          @SWG\Property( property="category", type="string", description="category name", example="Common Area" ),
      *                          @SWG\Property( property="date_from", type="string", description="reservation from time", example="1272509157" ),
      *                          @SWG\Property( property="date_to", type="string", description="reservation to time", example="1272509157" ),
      *                          @SWG\Property( property="updated by", type="string", description="user name", example="Roberto H" ),
@@ -2327,6 +2328,10 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid reservation ID.");
             }
 
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findByCommonAreaReservation($reservation_id);
+            if ($ticket == null) {
+                throw new \Exception("Invalid ticket.");
+            }
             $commonArea = $reservation->getCommonArea();
 
             $myPhotoPath = self::IMAGES_PATH."common_area/";
@@ -2347,7 +2352,6 @@ class RestController extends FOSRestController
                 'regulation' => $commonArea->getRegulation(),
                 'term_condition' => $commonArea->getTermCondition(),
                 'price' => $commonArea->getPrice(),
-                //'reservation_hour_period' => $commonArea->getReservationHourPeriod(),
                 'required_payment' => $commonArea->getRequiredPayment(),
                 'has_equipment' => $commonArea->getHasEquipment(),
                 'equipment_description' => $commonArea->getEquipmentDescription(),
@@ -2360,6 +2364,7 @@ class RestController extends FOSRestController
             $data['reservation'] = array(
 
                 'status' => $status,
+                'category' => $ticket->getTicketCategory()->getName(),
                 'date_from' => $reservation->getReservationDateFrom()->getTimestamp(),
                 'date_to' => $reservation->getReservationDateTo()->getTimestamp(),
                 'updated_by' => $reservation->getUpdatedBy()->getName(),
