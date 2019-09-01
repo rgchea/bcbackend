@@ -2328,7 +2328,7 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid reservation ID.");
             }
 
-            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findByCommonAreaReservation($reservation_id);
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneByCommonAreaReservation($reservation_id);
             if ($ticket == null) {
                 throw new \Exception("Invalid ticket.");
             }
