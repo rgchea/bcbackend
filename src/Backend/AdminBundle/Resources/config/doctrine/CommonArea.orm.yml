@@ -59,12 +59,12 @@ Backend\AdminBundle\Entity\CommonArea:
             scale: 2
             options:
                 default: '0.00'
-        reservationHourPeriod:
-            type: integer
-            nullable: false
-            options:
-                unsigned: false
-            column: reservation_hour_period
+#        reservationHourPeriod:
+#            type: integer
+#            nullable: false
+#            options:
+#                unsigned: false
+#            column: reservation_hour_period
         requiredPayment:
             type: boolean
             nullable: false

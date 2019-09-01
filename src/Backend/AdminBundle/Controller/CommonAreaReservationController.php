@@ -740,7 +740,7 @@ class CommonAreaReservationController extends Controller
         $tenantContract =  null;
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $objProperty->getId(), 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
         if($propertyContract) {
-            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "mainTenant" => 1, "enabled" => 1), array("id" => "DESC"));
+            $tenantContract = $propertyContract->getMainTenantContract();
         }
 
         $ticket->setTenantContract($tenantContract);

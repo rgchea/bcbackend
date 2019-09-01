@@ -139,12 +139,15 @@
 							) }}
 						</div>
 						<div class="clearfix"></div>
+						{#
 						<div class="form-group col-md-4">
 							{{ form_label(form.reservationHourPeriod) }}
 							{{ form_errors(form.reservationHourPeriod) }}
 							{{ form_widget(form.reservationHourPeriod, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
+
+						#}
 
 						{#<div class="col-md-2">
 							<label>&nbsp;</label>
@@ -234,7 +237,7 @@
 
 		//validate
 		$("[name='common_area']").validate();
-		$("#common_area_reservationHourPeriod").rules("add", {required:true, digits:true, min: 1});
+		//$("#common_area_reservationHourPeriod").rules("add", {required:true, digits:true, min: 1});
 
 
 		//$("#common_area_zipCode").rules("add", {required:true, minlength: 4, digits:true});

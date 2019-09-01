@@ -216,7 +216,7 @@ class PropertyContractRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    public function disableContracts($activeContractID, $propertyID){
+    public function disableOldContracts($activeContractID, $propertyID){
 
         $sql = "	UPDATE  property_contract
 					SET	    is_active = 0
@@ -227,6 +227,29 @@ class PropertyContractRepository extends \Doctrine\ORM\EntityRepository
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
+
+    }
+
+
+    public function getPropertiesToInvite($complexID){
+
+        $sql = "    SELECT  DISTINCT(p.id), p.property_number, p.maintenance_price
+        	        FROM    property p
+        	        WHERE   p.id NOT IN (	SELECT 	DISTINCT(pc.property_id) 
+        	        						FROM 	property_contract pc 
+        	        							INNER JOIN property ON (property.id = pc.property_id)
+        	        						WHERE 	pc.is_active
+        	        						AND 	property.complex_id = {$complexID})
+        	        AND		p.complex_id = {$complexID}
+        	        ORDER BY   p.id";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        return $execute;
+
 
     }
 

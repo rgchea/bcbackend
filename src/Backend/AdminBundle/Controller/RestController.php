@@ -2,6 +2,7 @@
 
 namespace Backend\AdminBundle\Controller;
 
+use Backend\AdminBundle\Entity\BookingLog;
 use Backend\AdminBundle\Entity\CommonArea;
 use Backend\AdminBundle\Entity\CommonAreaAvailability;
 use Backend\AdminBundle\Entity\CommonAreaPhoto;
@@ -20,6 +21,7 @@ use Backend\AdminBundle\Entity\PollQuestionOption;
 use Backend\AdminBundle\Entity\PollTenantAnswer;
 use Backend\AdminBundle\Entity\Property;
 use Backend\AdminBundle\Entity\PropertyContract;
+use Backend\AdminBundle\Entity\PropertyContractTransaction;
 use Backend\AdminBundle\Entity\PropertyPhoto;
 use Backend\AdminBundle\Entity\PropertyType;
 use Backend\AdminBundle\Entity\TenantContract;
@@ -1578,7 +1580,15 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="solved_at", type="string", description="Unix timestamp", example="1566232199" ),
      *                  @SWG\Property( property="solved_by", type="string", description="User name", example="Rolegio Rodas" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
-     *                  @SWG\Property( property="category", type="array", description="category info", example="array(category_id, category_name, , icon_class, color)" ),
+     *                  @SWG\Property( property="category", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="category_id", type="string", description="Category ID", example="1" ),
+     *                          @SWG\Property( property="category_name", type="string", description="Category area name", example="Fixes" ),
+     *                          @SWG\Property( property="icon_class", type="string", description="icon class", example="fas fa-pencil" ),
+     *                          @SWG\Property( property="color", type="string", description="hexa color code", example="#ffffff" ),
+     *                      )
+     *
+     *                  ),
      *                  @SWG\Property( property="title", type="string", description="Ticket title", example="TicketTile" ),
      *                  @SWG\Property( property="description", type="string", description="Ticket description", example="Lorem ipsum." ),
      *                  @SWG\Property( property="is_public", type="boolean", description="Is ticket public?", example="true" ),
@@ -1593,15 +1603,17 @@ class RestController extends FOSRestController
      *                          @SWG\Property( property="timestamp", type="string", description="Comment's creation time", example="1272509157" ),
      *                          @SWG\Property( property="like", type="string", description="User that liked the comment", example="user2" ),
      *                          @SWG\Property( property="comment", type="string", description="Comment content", example="Comment" ),
-     *                          @SWG\Property( property="avatar_url", type="string", description="URL for the avatar", example="/avatars/1.jpg" ),
+     *                          @SWG\Property( property="avatar_url", type="string", description="URL for the avatar", example="/avatars/1.jpg" )
      *                      )
      *                  ),
-     *                  @SWG\Property( property="common_area", type="object",
-     *                      @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
-     *                      @SWG\Property( property="name", type="string", description="Common area name", example="Common area" ),
-     *                      @SWG\Property( property="reservation_status", type="string", description="Common area reservation status", example="" ),
-     *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="1272509157" ),
-     *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="1272519157" ),
+     *                  @SWG\Property( property="common_area", type="array",
+     *                      @SWG\Items(
+     *                          @SWG\Property( property="id", type="string", description="Common area ID", example="1" ),
+     *                          @SWG\Property( property="name", type="string", description="Common area name", example="Common area" ),
+     *                          @SWG\Property( property="reservation_status", type="string", description="Common area reservation status", example="" ),
+     *                          @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="1272509157" ),
+     *                          @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="1272519157" ),
+     *                      )
      *                  ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" )
@@ -2259,7 +2271,6 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="regulation", type="string", description="Regulation of the common area", example="Regulation" ),
      *                  @SWG\Property( property="term_condition", type="string", description="Terms and conditions of the common area", example="Terms and conditions" ),
      *                  @SWG\Property( property="price", type="float", description="Price of the common area", example="100" ),
-     *                  @SWG\Property( property="reservation_hour_period", type="integer", description="The reservation hour period of the common area", example="" ),
      *                  @SWG\Property( property="required_payment", type="boolean", description="The required payment for the reservation of the common area", example="true" ),
      *                  @SWG\Property( property="has_equipment", type="boolean", description="If the common area is equiped", example="true" ),
      *                  @SWG\Property( property="equipment_description", type="string", description="Description of the equipement of the common area", example="" ),
@@ -2336,7 +2347,7 @@ class RestController extends FOSRestController
                 'regulation' => $commonArea->getRegulation(),
                 'term_condition' => $commonArea->getTermCondition(),
                 'price' => $commonArea->getPrice(),
-                'reservation_hour_period' => $commonArea->getReservationHourPeriod(),
+                //'reservation_hour_period' => $commonArea->getReservationHourPeriod(),
                 'required_payment' => $commonArea->getRequiredPayment(),
                 'has_equipment' => $commonArea->getHasEquipment(),
                 'equipment_description' => $commonArea->getEquipmentDescription(),
@@ -3442,6 +3453,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
      * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
      * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     * @SWG\Parameter( name="date", in="query", type="string", description="Y-m-d" )
      *
      * @SWG\Response(
      *     response=200,
@@ -3619,8 +3631,9 @@ class RestController extends FOSRestController
      *
      * @SWG\Parameter( name="common_area_id", in="body", required=true, type="integer", description="The common area ID for the reservation.", schema={} )
      * @SWG\Parameter( name="property_id", in="body", required=true, type="integer", description="The property ID booking the common area.", schema={} )
-     * @SWG\Parameter( name="reservation_date_from", in="body", required=true, type="integer", description="The start date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
-     * @SWG\Parameter( name="reservation_date_to", in="body", required=true, type="integer", description="The end date of the reservation. This value should be sent in GTM timezone, and in the Linux Date Format (seconds since 1970-01-01 00:00:00 UTC).", schema={} )
+     * @SWG\Parameter( name="event_date", in="body", required=true, type="string", description="date in string format Y-m-d", schema={} )
+     * @SWG\Parameter( name="hour_from", in="body", required=true, type="string", description="09:00", schema={} )
+     * @SWG\Parameter( name="hour_to", in="body", required=true, type="string", description="10:00", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -3655,8 +3668,9 @@ class RestController extends FOSRestController
 
             $commonAreaId = $request->get('common_area_id');
             $propertyID = $request->get('property_id');
-            $reservationDateFromSecs = trim($request->get('reservation_date_from'));
-            $reservationDateToSecs = trim($request->get('reservation_date_to'));
+            $eventDate = trim($request->get('event_date'));
+            $hourFrom = trim($request->get('hour_from'));
+            $hourTo = trim($request->get('hour_to'));
 
             $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findOneBy(array('enabled' => true, 'id' => $commonAreaId));
             if ($commonArea == null) {
@@ -3674,8 +3688,12 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid status ID.");
             }
 
-            $startDate = new \DateTime("@$reservationDateFromSecs");
-            $endDate = new \DateTime("@$reservationDateToSecs");
+            $dateFrom = $eventDate." ".trim($hourFrom);
+            $dateTo = $eventDate." ".trim($hourTo);
+
+
+            $startDate = new \DateTime($dateFrom);
+            $endDate = new \DateTime($dateTo);
 
             $reservation = new CommonAreaReservation();
             $reservation->setProperty($property);
@@ -3691,7 +3709,128 @@ class RestController extends FOSRestController
 
             $this->em->persist($reservation);
 
+            //$this->em->flush();
+
+
+            ///generar un pago si montos son diferentes a 0
+            ///
+            if($commonArea->getRequiredPayment()){
+                $cost = floatval($commonArea->getPrice()) ;
+            }
+            else{
+                $cost = 0;
+            }
+
+
+            if($cost > 0){
+                $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $property->getId(), 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+                $transactionType = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(4);//reservacion
+
+                $payment = new PropertyContractTransaction();
+                $payment->setEnabled(1);
+                $payment->setComplex($property->getComplex());
+                $payment->setPropertyContract($propertyContract);
+                $payment->setPropertyTransactionType($transactionType);
+                $payment->setCommonAreaReservation($reservation);
+                $payment->setDescription($reservation->getCommonArea()->getName()." ". number_format($cost, 2, ".", "") );
+                $payment->setPaymentAmount($cost);
+                //$payment->setPaidAmount($amountPaid);
+                //$payment->setDiscount($discount);
+
+                /*
+                ///paid & paid date
+                $payment->setPaidBy($propertyContract->getProperty()->getMainTenant());
+                $gtmNow = gmdate("Y-m-d H:i:s");
+                $payment->setPaidDate(new \DateTime($gtmNow));
+                */
+
+                //status
+                $payment->setStatus(0);
+
+                //BLAME ME
+                $this->get("services")->blameOnMe($payment, "create");
+                $this->get("services")->blameOnMe($payment, "update");
+
+                $this->em->persist($payment);
+
+            }
+
+            ///registro a log de reservaciones
+            $bookingLog = new BookingLog();
+            $bookingLog->setCommonAreaReservation($reservation);
+            $bookingLog->setStatus("label_pending");
+
+            //BLAME ME
+            $this->get("services")->blameOnMe($bookingLog, "create");
+            $this->get("services")->blameOnMe($bookingLog, "update");
+
+            $bookingLog->setCreatedBy($reservation->getReservedBy());
+
+            $this->em->persist($bookingLog);
+
+            /////CREATE TICKET
+            $objTicketType = $this->em->getRepository('BackendAdminBundle:TicketType')->find(3);//RESERVATION
+            $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(3);//SOLVED
+            $objComplex = $property->getComplex();
+
+            $ticket = new Ticket();
+            $ticket->setCommonAreaReservation($reservation);
+            $ticket->setTicketType($objTicketType);
+            $title = $reservation->getCommonArea()->getName();
+            $ticket->setTitle($title);
+            $ticket->setDescription($this->translator->trans('label_reservation')." ". $reservation->getId());
+            $ticket->setPossibleSolution("");
+            $ticket->setIsPublic(false);
+
+            $myLocale = $objComplex->getGeoState()->getGeoCountry()->getLocale();
+            $name = $myLocale == "en" ? "Common Area" : "Área común";
+
+            $ticketCategory = $this->em->getRepository('BackendAdminBundle:TicketCategory')->findOneBy(array("complex" => $objComplex->getId(), 'name' => $name, "enabled" => 1));
+            if(!$ticketCategory){
+                $ticketCategory = $this->em->getRepository('BackendAdminBundle:TicketCategory')->findOneBy(array("iconUnicode" => "f78c", 'name' => $name, "enabled" => 1));
+            }
+
+            $ticket->setTicketCategory($ticketCategory);
+            $ticket->setComplexSector($property->getComplexSector());
+
+            $ticket->setComplex($objComplex);
+            $ticket->setProperty($property);
+            //$ticket->setCommonAreaReservation($commonAreaReservation);
+
+            $tenantContract =  null;
+            $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $property->getId(), 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+            if($propertyContract) {
+                $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1, "user" => $this->getUser()->getId()), array("id"=> "DESC"));
+            }
+
+            $ticket->setTenantContract($tenantContract);
+            $ticket->setTicketStatus($status);
+            $ticket->setEnabled(true);
+
+
+            //setAssignedTo
+            //$timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $timezone = str_replace("GMT", '', $objComplex->getBusiness()->getGeoState()->getTimezoneOffset());
+            $userToAssign = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, $objComplex->getId());
+
+
+            $ticket->setAssignedTo($userToAssign);
+
+            $this->get("services")->blameOnMe($ticket, "create");
+            $this->get("services")->blameOnMe($ticket, "update");
+
+            $ticket->setCreatedBy($this->getUser());
+
+            $this->em->persist($ticket);
+
+            ////USER NOTIFICATION
+            /// toDo
+
+
+
             $this->em->flush();
+
+
 
             return new JsonResponse(array(
                 'message' => "",
