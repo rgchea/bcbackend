@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 
 use Backend\AdminBundle\Entity\PropertyContract;
@@ -646,6 +647,74 @@ class PropertyContractController extends Controller
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    public function infoAction(Request $request){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+        $propertyContractID  = $_REQUEST["id"];
+        $entity = $this->repository->find($propertyContractID);
+
+        if($entity){
+
+            $response["id"] = $entity->getId();
+            $response["start"] = $entity->getStartDate()->format("m/d/Y");
+            $response["end"] = $entity->getEndDate()->format("m/d/Y");
+            $response["whopaysmaintenance"] = $entity->getWhoPaysMaintenance() == "tenant" ? $this->translator->trans("label_tenant") : $this->translator->trans("label_owner");
+            $response["maintenance"] = number_format(floatval($entity->getMaintenancePrice()), 2, ".", "" );
+            $response["tenant"] = "";
+            $response["tenantMail"] = "";
+            $response["tenantPhone"] = "";
+
+            if($entity->getMainTenantContract()){
+                $tenant = $entity->getMainTenantContract()->getUser();
+
+                if($tenant){
+                    $response["tenant"] = $entity->getMainTenantContract()->getUser()->getName();
+                    $response["tenantMail"] = $entity->getMainTenantContract()->getUser()->getEmail();
+                    $response["tenantPhone"] = $entity->getMainTenantContract()->getUser()->getMobilePhone();
+
+                }
+
+
+            }
+
+
+
+            //owner
+
+
+            /*
+             * $owner = $entity->getMainTenantContract()->geOwner();
+
+            if($owner != null){
+                $response["owner"] = $owner->getName();
+                $response["owner_mail"] = $owner->getEmail();
+                $response["owner_phone"] = $owner->getMobilePhone();
+
+            }
+            else{
+                $response["owner"] = $entity->getMainTenantContract()->getOwnerEmail();
+                $response["owner_mail"] = $entity->getMainTenantContract()->getOwnerEmail();
+                $response["owner_phone"] = "";
+
+            }
+            */
+
+            $returnResponse = new JsonResponse();
+            $returnResponse->setJson(json_encode($response));
+
+            return $returnResponse;
+
+        }
+        else{
+            throw new \Exception("Invalid contract ID.");
+        }
+
+
+
     }
 
 
