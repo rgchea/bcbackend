@@ -707,21 +707,11 @@ class PropertyController extends Controller
             $endDate = $_REQUEST["agreement"]["end"];
 
             ////CREATE PROPERTY CONTRACT
-            ///
-            $propertyContract = $this->createPropertyContract($entity->getId(), $startDate, $endDate, $maintenancePrice, $whopaysmaintenance);
-
             //DISABLE OLD CONTRACTS
-            $this->em->getRepository('BackendAdminBundle:PropertyContract')->disableOldContracts($propertyContract->getId(), $entity->getId());
-
             ///CREATE PROPERTY TEAM
-            $teamIDProperty = $this->createPropertyTeam($entity->getId());
-
-
             ///CREATE TENANT CONTRACT
-            $tenantContract = $this->createTenantContract($tenantEmail, $ownerEmail, $propertyContract->getId(), $teamIDProperty);
-
             ///CREATE CONTRACT PAYMENTS
-            $this->createPayments($propertyContract->getId(), $maintenancePrice, $startDate, $endDate);
+
 
 
 
