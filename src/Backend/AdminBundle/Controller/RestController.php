@@ -2528,12 +2528,14 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="name", type="string", description="Name of the poll", example="Poll" ),
      *                  @SWG\Property( property="questions", type="array",
      *                      @SWG\Items(
+     *                          @SWG\Property( property="question_id", type="string", description="Poll question ID", example="1" ),
      *                          @SWG\Property( property="question", type="string", description="Poll question", example="Question" ),
      *                          @SWG\Property( property="file_photo", type="string", description="Poll file photo", example="/photo.jpg" ),
      *                          @SWG\Property( property="type", type="string", description="Poll question type", example="Type" ),
      *                          @SWG\Property( property="options", type="array",
      *                              @SWG\Items(
-     *                              @SWG\Property( property="option", type="string", description="Question's option", example="Option" ),
+     *                                  @SWG\Property( property="option_id", type="string", description="Question's option ID", example="600" ),
+     *                                  @SWG\Property( property="option", type="string", description="Question's option", example="Option" ),
      *                              )
      *                          ),
      *                      )
@@ -2596,10 +2598,11 @@ class RestController extends FOSRestController
 
                 $options = array();
                 foreach ($rawAnswers as $answer) {
-                    $options[] = array('option' => $answer->getQuestionOption());
+                    $options[] = array('option_id' => $answer->getId(),'option' => $answer->getQuestionOption());
                 }
 
                 $data['questions'][] = array(
+                    'question_id' => $question->getQuestion()->getId(),
                     'question' => $question->getQuestion(),
                     'file_photo' => $question->getPollFilePhoto(),
                     'type' => $question->getPollQuestionType()->getNameEN(),
