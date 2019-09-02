@@ -291,6 +291,24 @@
                             <!-- end widget content -->
 
                         </div>
+
+
+                        <div id="modal-backdrop" class="modal-backdrop-transparent modal-transition"></div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="orange-modal" tabindex="-1" role="dialog" aria-labelledby="orange-modal-label" data-color="orange">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="modal-title" id="orange-modal-title">{{ 'label_term_condition'|trans }}</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                         <div id="tabs-payments">
 
 
@@ -475,12 +493,13 @@
 
                         // These are the column name variables that will be sent to the server
                         { "name": "id",   "targets": 0 },
-                        { "name": "title",   "targets": 1 },
-                        { "name": "type",   "targets": 2 },
-                        { "name": "category",   "targets": 3 },
-                        { "name": "status",   "targets": 4 },
-                        { "name": "elapsed",   "targets": 5 },
-                        { "name": "actions",  "targets": 6 },
+                        { "name": "contract",   "targets": 1 },
+                        { "name": "title",   "targets": 2 },
+                        { "name": "type",   "targets": 3 },
+                        { "name": "category",   "targets": 4 },
+                        { "name": "status",   "targets": 5 },
+                        { "name": "elapsed",   "targets": 6 },
+                        { "name": "actions",  "targets": 7 },
 
                     ],
                     // Server-side parameters
@@ -519,7 +538,7 @@
             var pos = 1;
             $('#ticket_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos == 1 || pos == 2 || pos == 4 ){//columna Actions
+                if(pos == 2 || pos == 3 || pos == 5 ){//columna Actions
                     $(this).html( "<input id='ticket_input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:50%'/>" );
                 }
                 pos ++;
