@@ -1900,6 +1900,8 @@ class RestController extends FOSRestController
                 //var_dump($photo);die;
 
                 $photo = str_replace('data:image/png;base64,', '', $photo);
+                $photo = str_replace('data:image/jpg;base64,', '', $photo);
+                $photo = str_replace('data:image/jpeg;base64,', '', $photo);
                 $photo = str_replace(' ', '+', $photo);
                 $decodedPhoto = base64_decode($photo);
 
