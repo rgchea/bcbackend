@@ -2602,7 +2602,7 @@ class RestController extends FOSRestController
                 $data['questions'][] = array(
                     'question' => $question->getQuestion(),
                     'file_photo' => $question->getPollFilePhoto(),
-                    'type' => $question->getPollQuestionType()->getName(),
+                    'type' => $question->getPollQuestionType()->getNameEN(),
                     'options' => $options,
                 );
             }
