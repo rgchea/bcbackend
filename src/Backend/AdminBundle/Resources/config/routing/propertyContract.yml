@@ -38,3 +38,8 @@ backend_admin_property_contract_delete:
     defaults: { _controller: "BackendAdminBundle:PropertyContract:delete" }
     #methods:  DELETE
 
+backend_admin_property_contract_info:
+    path:     /propertycontractInfo
+    defaults: { _controller: "BackendAdminBundle:PropertyContract:info" }
+
+

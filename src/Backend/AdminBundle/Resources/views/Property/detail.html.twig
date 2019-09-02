@@ -300,9 +300,9 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                        <h4 class="modal-title" id="orange-modal-title">{{ 'label_term_condition'|trans }}</h4>
+                                        <h4 class="modal-title" id="orange-modal-title">{{ 'label_property_contract'|trans }}</h4>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body" id="modal_body">
 
                                     </div>
 
@@ -803,6 +803,47 @@
 
         $("#log_table_filter").show();
 
+
+
+    </script>
+
+    <script type="text/javascript" language="JavaScript">
+
+
+        function selectPropertyContract(id){
+
+            //ajax
+            //
+
+            $("pizote_spinner").show();
+            $.ajax({
+                type:"POST",
+                dataType:"json",
+                url:"{{ path('backend_admin_property_contract_info') }}",
+                data: { 'id': id },
+                success:function(data){
+                    console.log(data);
+                    $("#orange-modal-title").html("{{ 'label_property_contract'|trans }}"+" #"+data.id);
+
+
+                    $("#modal_body").html("<br/><span><b>{{ 'label_tenant'|trans }}<b/></span>");
+                    $("#modal_body").append("<br/><span>{{ 'label_tenant'|trans }}: "+data.tenant+"</span>");
+                    $("#modal_body").append("<br/><span>{{ 'label_email'|trans }}: "+data.tenantMail+"</span>");
+                    $("#modal_body").append("<br/><span>{{ 'label_phone'|trans }}: "+data.tenantPhone+"</span>");
+
+                    $("#modal_body").append("<br/><br/><span>{{ 'label_start'|trans }}: "+data.start+"</span>");
+                    $("#modal_body").append("<br/><span>{{ 'label_end'|trans }}: "+data.end+"</span>");
+                    $("#modal_body").append("<br/><span>{{ 'label_who_pays_maintenance'|trans }}: "+data.whopaysmaintenance+"</span>");
+                    $("#modal_body").append("<br/><span>{{ 'label_maintenance'|trans }} $: "+data.maintenance+"</span>");
+
+
+                    $("pizote_spinner").hide();
+
+                }
+            });
+
+
+        }
     </script>
 
 

@@ -1056,7 +1056,7 @@ class PropertyController extends Controller
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
         $mainContract = $propertyContract->getMainTenantContract();
-        //$tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
+        $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
 
 
         $nowtime = strtotime("now");
@@ -1073,7 +1073,7 @@ class PropertyController extends Controller
             'edit' => $entity->getId(),
             'propertyContract' => $propertyContract,
             'mainContract' => $mainContract,
-            //'tenantContracts' => $tenantContracts,
+            'tenantContracts' => $tenantContracts,
             'remainingTime' => $remainingTime,
             'log' => $log
 
@@ -1338,7 +1338,7 @@ class PropertyController extends Controller
                     case 'contract':
                         {
                             $contractID = $entity->getTenantContract()->getPropertyContract()->getId();
-                            $responseTemp = "<a data-toggle='modal' id='orange-button' data-target='#orange-modal' data-color='orange' href='#'>".$contractID."</a>";
+                            $responseTemp = "<a data-toggle='modal' id='orange-button' data-target='#orange-modal' data-color='orange' href='#' onclick='selectPropertyContract(".$contractID.")'>".$contractID."</a>";
 
                             break;
 

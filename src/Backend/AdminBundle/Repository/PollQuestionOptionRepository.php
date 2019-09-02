@@ -13,17 +13,19 @@ use Doctrine\ORM\Query\Expr\Join;
 class PollQuestionOptionRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiPoll($ids)
+    public function getApiPoll($id)
     {
         $qb = $this->createQueryBuilder('a');
 
-        $qb->select('a, p')
-            ->innerJoin('a.poll', 'p')
-            ->where('a.enabled = 1');
+        $qb->select('a, pq')
+            ->innerJoin('a.pollQuestion', 'pq')
+            ->where('a.enabled = 1')
+            ->andWhere('pq.id = '.$id);
 
-        if (count($ids) > 0) {
-            $qb->andWhere($qb->expr()->in('t.id', $ids));
-        }
+
+        //if (count($ids) > 0) {
+//            $qb->andWhere($qb->expr()->in('pq.id', $ids));
+//        }
 
         return $qb->getQuery()->getResult();
     }

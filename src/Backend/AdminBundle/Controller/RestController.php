@@ -2565,17 +2565,13 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
-            $poll = $this->em->getRepository('BackendAdminBundle:Poll')->findById($poll_id);
+            $poll = $this->em->getRepository('BackendAdminBundle:Poll')->find($poll_id);
             $questions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiPoll($poll_id);
 
-            $qids = $this->getArrayOfIds($questions);
 
-            $rawAnswers = $this->em->getRepository('BackendAdminBundle:PollQuestionOption')->getApiPoll($qids);
-            $answers = array();
-            /** @var PollQuestionOption $answer */
-            foreach ($rawAnswers as $answer) {
-                $answers[$answer->getPollQuestion()->getId()] = $answer;
-            }
+            //$qids = $this->getArrayOfIds($questions);
+            //var_dump($qids);die;
+
 
             $data = array(
                 'id' => $poll->getId(),
@@ -2587,8 +2583,19 @@ class RestController extends FOSRestController
             /** @var PollQuestion $question */
             foreach ($questions as $question) {
 
+                $rawAnswers = $this->em->getRepository('BackendAdminBundle:PollQuestionOption')->getApiPoll($question->getId());
+
+                //$answers = array();
+                /** @var PollQuestionOption $answer */
+                /*
+                foreach ($rawAnswers as $answer) {
+                    //var_dump($answer);die;
+                    $answers[$answer->getPollQuestion()->getId()] = $answer;
+                }
+                */
+
                 $options = array();
-                foreach ($answers[$question->getId()] as $answer) {
+                foreach ($rawAnswers as $answer) {
                     $options[] = array('option' => $answer->getQuestionOption());
                 }
 
