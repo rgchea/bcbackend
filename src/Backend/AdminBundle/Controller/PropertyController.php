@@ -1051,7 +1051,7 @@ class PropertyController extends Controller
         $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
 
 
-        $nowtime = strtotime("now");
+        $nowtime = strtotime(date("Y-m-d"));
         $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
         $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
 
