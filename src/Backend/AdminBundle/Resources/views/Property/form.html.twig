@@ -214,7 +214,7 @@
 												{% set tenantEmail = '' %}
 											{% endif %}
 
-											<input type="text" class="form-control" value="{{ tenantEmail }}" name="agreement[tenant_email]" id="agreement_tenant_email">
+											<input readonly type="text" class="form-control" value="{{ tenantEmail }}" name="agreement[tenant_email]" id="agreement_tenant_email">
 										{% else %}
 											<input type="text" class="form-control" placeholder="example@example.com" name="agreement[tenant_email]" id="agreement_tenant_email">
 										{% endif %}
@@ -230,7 +230,7 @@
 									</div>
 									<div class="col-md-9">
 										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
-											<input type="text" class="form-control" value="{{ tenantContract.ownerEmail }}" name="agreement[owner_email]" id="agreement_owner_email">
+											<input readonly type="text" class="form-control" value="{{ tenantContract.ownerEmail }}" name="agreement[owner_email]" id="agreement_owner_email">
 										{% else %}
 											<input type="text" class="form-control" placeholder="example@example.com" name="agreement[owner_email]" id="agreement_owner_email">
 										{% endif %}
@@ -246,7 +246,7 @@
 									</div>
 									<div class="col-md-7">
 										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
-											<input type="text" class="form-control" value="{{ propertyContract.maintenancePrice|number_format(2, '.', '')  }}" id="agreement_maintenance" name="agreement[maintenance]">
+											<input readonly type="text" class="form-control" value="{{ propertyContract.maintenancePrice|number_format(2, '.', '')  }}" id="agreement_maintenance" name="agreement[maintenance]">
 										{% else %}
 											<input type="text" class="form-control" placeholder="$ 540.00" id="agreement_maintenance" name="agreement[maintenance]">
 										{% endif %}
@@ -260,9 +260,7 @@
 									<div class="col-md-7 text-right">
 										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
 
-											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" {{ propertyContract.whoPaysMaintenance == 'owner' ? 'checked' }} value="owner">Owner</label>
-											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" {{ propertyContract.whoPaysMaintenance == 'tenant' ? 'checked' }} value="tenant">Tenant</label>
-
+											{{ propertyContract.whoPaysMaintenance == 'owner' ? 'label_owner'|trans : 'label_tenant'|trans }}
 										{% else %}
 											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" value="owner">Owner</label>
 											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" checked value="tenant">Tenant</label>
@@ -280,7 +278,7 @@
 									<div class="col-md-9">
 										{% if edit is defined and propertyContract is not null and tenantContract is not null %}
 
-											<input id="agreement_start_date" name="agreement[start]" type="date" class="form-control" value="{{propertyContract.startDate|date('Y-m-d')}}" />
+											<input readonly id="agreement_start_date" name="agreement[start]" type="date" class="form-control" value="{{propertyContract.startDate|date('Y-m-d')}}" />
 											{#value="{{entity.birthdate|date('Y-m-d')}}"#}
 										{% else %}
 											<input id="agreement_start_date" name="agreement[start]" type="date" class="form-control"/>
@@ -294,7 +292,7 @@
 									<div class="col-md-9">
 										{% if edit is defined and propertyContract is not null and tenantContract is not null%}
 
-											<input id="agreement_end_date" name="agreement[end]" type="date" class="form-control" value="{{propertyContract.endDate|date('Y-m-d')}}"  />
+											<input readonly id="agreement_end_date" name="agreement[end]" type="date" class="form-control" value="{{propertyContract.endDate|date('Y-m-d')}}"  />
 											{#value="{{entity.birthdate|date('Y-m-d')}}"#}
 										{% else %}
 											<input id="agreement_end_date" name="agreement[end]" type="date" class="form-control"/>
@@ -348,11 +346,16 @@
 
 		});
 
+
+
 		$("#agreement_tenant_email").rules("add", {required: true, email:true});
 		$("#agreement_owner_email").rules("add", {required: true, email:true});
 		$("#agreement_maintenance").rules("add", {required: true, number:true});
 		$("#agreement_start_date").rules("add", {required: true});
 		$("#agreement_end_date").rules("add", {required: true});
+
+
+
 
 		//
 		$("#property_complexSector").rules("add", {required: true});

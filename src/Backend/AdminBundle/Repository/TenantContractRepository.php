@@ -82,7 +82,8 @@ class TenantContractRepository extends \Doctrine\ORM\EntityRepository
 
             ->innerJoin('tc.propertyContract', 'pc', Join::WITH, $qb->expr()->andX(
                 $qb->expr()->eq('pc', 'tc.propertyContract'),
-                $qb->expr()->eq('pc.enabled', '1')
+                $qb->expr()->eq('pc.enabled', '1'),
+                $qb->expr()->eq('pc.isActive', '1')
             ))
 
             ->leftJoin('pc.property', 'p', Join::WITH, $qb->expr()->andX(
