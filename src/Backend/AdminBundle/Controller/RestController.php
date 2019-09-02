@@ -852,6 +852,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="complex", type="integer", description="Complex Name", example="complex 1" ),
      *                  @SWG\Property( property="complex_id", type="integer", description="Complex ID", example="1" ),
      *                  @SWG\Property( property="sector_id", type="integer", description="Sector ID", example="1" ),
+     *                  @SWG\Property( property="tenant_contract_id", type="integer", description="Tenant contract ID", example="1" ),
      *              )
      *          ),
      *          @SWG\Property( property="message", type="string", example="" ),
