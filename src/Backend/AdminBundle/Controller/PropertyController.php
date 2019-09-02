@@ -699,12 +699,14 @@ class PropertyController extends Controller
             //se crea property contract y tenant_contract
             //cuando el usuario se registre, se debe de actualizar en tenant_contract el user_id
 
+            /*
             $tenantEmail = trim($_REQUEST["agreement"]["tenant_email"]);
             $ownerEmail = trim($_REQUEST["agreement"]["owner_email"]);
             $maintenancePrice = $_REQUEST["agreement"]["maintenance"];
             $whopaysmaintenance = $_REQUEST["agreement"]["whopaysmaintenance"];
             $startDate =  $_REQUEST["agreement"]["start"];
             $endDate = $_REQUEST["agreement"]["end"];
+            */
 
             ////CREATE PROPERTY CONTRACT
             //DISABLE OLD CONTRACTS
