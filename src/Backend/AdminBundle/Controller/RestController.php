@@ -85,7 +85,7 @@ class RestController extends FOSRestController
     const QUESTION_TYPE_MULTIPLE_ID = 2;
     //const QUESTION_TYPE_TRUEFALSE_ID = 3;
     const QUESTION_TYPE_ONEOPTION_ID = 3;
-    const QUESTION_TYPE_RATING_ID = 5;
+    const QUESTION_TYPE_RATING_ID = 4;
 
     //const IMAGES_PATH = "https://bettercondos.space/uploads/images/";
     const IMAGES_PATH = "/uploads/images/";
