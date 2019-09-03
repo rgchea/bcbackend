@@ -44,7 +44,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    /*
+
 
     public function getGenericApiProperty()
     {
@@ -64,7 +64,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb;
     }
-    */
+
 
     public function getApiProperty($code)
     {
