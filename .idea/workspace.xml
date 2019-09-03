@@ -304,7 +304,7 @@
         <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="194">
-              <caret line="86" column="41" selection-start-line="86" selection-start-column="41" selection-end-line="86" selection-end-column="41" />
+              <caret line="2723" column="59" selection-start-line="2723" selection-start-column="59" selection-end-line="2723" selection-end-column="59" />
               <folding>
                 <element signature="e#50#92#0#PHP" expanded="true" />
               </folding>
@@ -370,9 +370,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>maintenance</find>
-      <find>modal</find>
-      <find>email</find>
       <find>/poll/{poll_id}</find>
       <find>getArrayOfIds</find>
       <find>getApiPoll</find>
@@ -400,6 +397,9 @@
       <find>QUESTION_TYPE_TRUEFALSE</find>
       <find>rating</find>
       <find>QUESTION_TYPE_RATING_ID</find>
+      <find>QUESTION_TYPE_ONEOPTION_ID</find>
+      <find>$pollQuestionOptionIds</find>
+      <find>poll_question_option_ids can only contain one element</find>
     </findStrings>
     <replaceStrings>
       <replace>text-left</replace>
@@ -816,12 +816,12 @@
       <workItem from="1566403700232" duration="48836000" />
       <workItem from="1566832683403" duration="18417000" />
       <workItem from="1566953080469" duration="53118000" />
-      <workItem from="1567298490989" duration="32383000" />
+      <workItem from="1567298490989" duration="32653000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1209865000" />
+    <option name="totallyTimeSpent" value="1210135000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="733" extended-state="6" />
@@ -1230,7 +1230,7 @@
     <entry file="file://$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
-          <caret line="86" column="41" selection-start-line="86" selection-start-column="41" selection-end-line="86" selection-end-column="41" />
+          <caret line="2723" column="59" selection-start-line="2723" selection-start-column="59" selection-end-line="2723" selection-end-column="59" />
           <folding>
             <element signature="e#50#92#0#PHP" expanded="true" />
           </folding>
