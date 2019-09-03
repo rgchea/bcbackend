@@ -22,8 +22,9 @@ class PollQuestionRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('pqt.enabled', '1')
             ))
             ->where('a.enabled = 1')
-            ->andWhere('a.id = :poll_question_id')
-            ->setParameter('poll_question_id', $pollQuestionId)
+            //->andWhere('a.id = :poll_question_id')
+            //->setParameter('poll_question_id', $pollQuestionId)
+            ->andWhere($qb->expr()->in('a.id', $pollQuestionId));
         ;
 
         return $qb->getQuery()->getOneOrNullResult();
