@@ -12,6 +12,12 @@ Backend\AdminBundle\Entity\PollTenantAnswer:
         poll_question_option_id:
             columns:
                 - poll_question_option_id
+        updated_by:
+            columns:
+                - updated_by
+        created_by:
+            columns:
+                - created_by
     id:
         id:
             type: integer
@@ -34,17 +40,21 @@ Backend\AdminBundle\Entity\PollTenantAnswer:
             nullable: true
             options:
                 unsigned: false
-                default: '1'
+                default: 1
             column: answer_rating
         createdAt:
             type: datetime
             nullable: false
             column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
         enabled:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         user:
             targetEntity: User
@@ -76,4 +86,25 @@ Backend\AdminBundle\Entity\PollTenantAnswer:
                 poll_question_option_id:
                     referencedColumnName: id
             orphanRemoval: false
+        createdBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                created_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+        updatedBy:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                updated_by:
+                    referencedColumnName: id
+            orphanRemoval: false
+
     lifecycleCallbacks: {  }
