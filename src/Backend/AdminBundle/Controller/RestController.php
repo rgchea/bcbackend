@@ -2721,7 +2721,7 @@ class RestController extends FOSRestController
                     }
 
                     if ( $questionTypeId == self::QUESTION_TYPE_ONEOPTION_ID) {
-                        if (count($pollQuestionOptionIds) == 1) {
+                        if (count($pollQuestionOptionIds) > 1) {
                             throw new \Exception("poll_question_option_ids can only contain one element.");
                         }
                     }
