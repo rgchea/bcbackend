@@ -2727,9 +2727,9 @@ class RestController extends FOSRestController
                     }
 
                     // Required parameter
-                    $pollQuestionOptions = $this->em->getRepository('BackendAdminBundle:PollQuestion')->getApiAnswer($pollQuestionOptionIds);
+                    $pollQuestionOptions = $this->em->getRepository('BackendAdminBundle:PollQuestionOption')->getApiAnswer($pollQuestionOptionIds);
                     if ($pollQuestionOptions == null) {
-                        throw new \Exception("Invalid Poll Question ID.");
+                        throw new \Exception("Invalid Poll Question Option ID.");
                     }
 
                     if (count($pollQuestionOptionIds) != count($pollQuestionOptions)) {

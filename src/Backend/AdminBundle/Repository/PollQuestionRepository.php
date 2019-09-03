@@ -25,16 +25,10 @@ class PollQuestionRepository extends \Doctrine\ORM\EntityRepository
 
         ;
 
-        if(is_array($pollQuestionId)){
-            $qb->andWhere($qb->expr()->in('a.id', implode(",",$pollQuestionId)));
-        }
-        else{
-            $qb->andWhere('a.id = :poll_question_id')
-            ->setParameter('poll_question_id', $pollQuestionId)
-            ;
 
-        }
-
+        $qb->andWhere('a.id = :poll_question_id')
+        ->setParameter('poll_question_id', $pollQuestionId)
+        ;
 
         return $qb->getQuery()->getOneOrNullResult();
     }

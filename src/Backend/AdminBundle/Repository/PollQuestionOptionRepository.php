@@ -37,7 +37,7 @@ class PollQuestionOptionRepository extends \Doctrine\ORM\EntityRepository
             ->where('a.enabled = 1');
 
         if (count($ids) > 0) {
-            $qb->andWhere($qb->expr()->in('t.id', $ids));
+            $qb->andWhere($qb->expr()->in('a.id', $ids));
         }
 
         return $qb->getQuery()->getResult();
