@@ -80,9 +80,9 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->getGenericApiProperty();
 
-        $qb->andWhere('a.owner = :user')
-            ->andWhere('a.id = :pid')
-            ->setParameter('user', $user)
+        //$qb->andWhere('a.owner = :user')
+        $qb->andWhere('a.id = :pid')
+            //->setParameter('user', $user)
             ->setParameter('pid', $id);
 
         return $qb->getQuery()->getOneOrNullResult();
