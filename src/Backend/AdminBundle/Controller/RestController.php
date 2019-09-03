@@ -83,8 +83,8 @@ class RestController extends FOSRestController
 
     const QUESTION_TYPE_OPEN_ID = 1;
     const QUESTION_TYPE_MULTIPLE_ID = 2;
-    const QUESTION_TYPE_TRUEFALSE_ID = 3;
-    const QUESTION_TYPE_ONEOPTION_ID = 4;
+    //const QUESTION_TYPE_TRUEFALSE_ID = 3;
+    const QUESTION_TYPE_ONEOPTION_ID = 3;
     const QUESTION_TYPE_RATING_ID = 5;
 
     //const IMAGES_PATH = "https://bettercondos.space/uploads/images/";
@@ -2714,13 +2714,13 @@ class RestController extends FOSRestController
                     break;
 
                 case self::QUESTION_TYPE_MULTIPLE_ID:
-                case self::QUESTION_TYPE_TRUEFALSE_ID:
+                //case self::QUESTION_TYPE_TRUEFALSE_ID:
                 case self::QUESTION_TYPE_ONEOPTION_ID:
                     if (count($pollQuestionOptionIds) == 0) {
                         throw new \Exception("poll_question_option_ids is empty.");
                     }
 
-                    if ($questionTypeId == self::QUESTION_TYPE_TRUEFALSE_ID || $questionTypeId == self::QUESTION_TYPE_ONEOPTION_ID) {
+                    if ( $questionTypeId == self::QUESTION_TYPE_ONEOPTION_ID) {
                         if (count($pollQuestionOptionIds) == 1) {
                             throw new \Exception("poll_question_option_ids can only contain one element.");
                         }
