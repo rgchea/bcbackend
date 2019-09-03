@@ -46,6 +46,7 @@ class PropertyController extends Controller
         $this->renderer = $this->get('templating');
         $this->userLogged = $this->session->get('userLogged');
         $this->role = $this->session->get('userLogged')->getRole()->getName();
+        $this->nowtime = strtotime(date("Y-m-d"));
 
     }
 
@@ -1051,9 +1052,8 @@ class PropertyController extends Controller
         $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
 
 
-        $nowtime = strtotime(date("Y-m-d"));
         $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
 
         //print "<pre>";
         //var_dump($this->em->getRepository('BackendAdminBundle:Property')->getPropertyLog($id, $this->translator->getLocale()));die;
@@ -1110,9 +1110,9 @@ class PropertyController extends Controller
 
         }
 
-        $nowtime = strtotime("now");
+
         $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
 
 
         return $this->render('BackendAdminBundle:Property:updateMaintenance.html.twig', array(
@@ -1176,9 +1176,9 @@ class PropertyController extends Controller
 
         }
 
-        $nowtime = strtotime("now");
+
         $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
 
 
         return $this->render('BackendAdminBundle:Property:contractCancel.html.twig', array(
@@ -1255,9 +1255,9 @@ class PropertyController extends Controller
 
         }
 
-        $nowtime = strtotime("now");
+
         $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$nowtime);
+        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
 
 
         return $this->render('BackendAdminBundle:Property:contractExtend.html.twig', array(
