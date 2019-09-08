@@ -758,6 +758,7 @@ class RestController extends FOSRestController
             $password = $request->get('password');
 
             $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
 
             // Some Validation
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -806,18 +807,20 @@ class RestController extends FOSRestController
             $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
             $tenantContracts = $tenantRepo->getApiRegister($email);
 
+            $description = $this->translator("label_invite_accepted_notification");
+
             foreach ($tenantContracts as $tenantContract) {
                 $tenantContract->setUser($user);
                 $this->get("services")->blameOnMe($tenantContract, "update");
 
                 if($tenantContract->getMainTenant()){
-                    $objProperty = $tenantContract->getProperty();
-                    $objProperty->setMainTenant($user);
-                    $this->em->persist($objProperty);
+                    //$objProperty = $tenantContract->getProperty();
+                    //$objProperty->setMainTenant($user);
+                    //$this->em->persist($objProperty);
 
                 }
 
-                $notification = $this->createInviteUserNotification($tenantContract, $tenantContract->getCreatedBy(), $user);
+                $notification = $this->createInviteUserNotification($tenantContract, $user,  $tenantContract->getCreatedBy(), $description);
                 $this->em->persist($tenantContract);
                 $this->em->persist($notification);
             }
@@ -3291,6 +3294,7 @@ class RestController extends FOSRestController
             }
 
             $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
 
             $message = "Invitation";
             $email = trim($request->get('email'));
@@ -3335,8 +3339,10 @@ class RestController extends FOSRestController
                 /** @var User $user */
                 $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
                 if ($user != null) {
+
+                    $description = $this->translator("label_invite_notification");
                     $tenantContract->setUser($user);
-                    $notification = $this->createInviteUserNotification($tenantContract, $this->getUser(), $user);
+                    $notification = $this->createInviteUserNotification($tenantContract, $this->getUser(), $user, $description);
                     $this->em->persist($notification);
                 }
 
@@ -3368,7 +3374,7 @@ class RestController extends FOSRestController
         }
     }
 
-    private function createInviteUserNotification($tenantContract, $from, $to)
+    private function createInviteUserNotification($tenantContract, $from, $to, $description = "")
     {
         /** @var NotificationTypeRepository $notificationRepo */
         $notificationRepo = $this->em->getRepository('BackendAdminBundle:NotificationType');
@@ -3376,6 +3382,9 @@ class RestController extends FOSRestController
 
         $notification = new UserNotification();
         $notification->setEnabled(true);
+
+        $notification->setDescription($description);
+        $notification->setTenantContract($tenantContract);
         $notification->setTenantContract($tenantContract);
         $notification->setNotificationType($notificationType);
 
