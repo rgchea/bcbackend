@@ -3146,10 +3146,11 @@ class RestController extends FOSRestController
                 )
             );
 
-
+            /*
             if ($violations->count() > 0) {
                 throw new \Exception("Invalid image.");
             }
+            */
 
 
             $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
