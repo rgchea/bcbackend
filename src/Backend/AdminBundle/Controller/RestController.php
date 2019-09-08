@@ -3350,7 +3350,7 @@ class RestController extends FOSRestController
             $this->translator->setLocale($lang);
             $now = new \DateTime();
             $subject = $this->translator->trans('mail.invite_subject');
-            $bodyHtml = $this->getUser()->getName(). " ". sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_body'));
+            $bodyHtml = $this->getUser()->getName(). " ". sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_property_body'));
             //$bodyHtml .= sprintf("<p>%s</p><br/>", $message);
             $bodyHtml .= sprintf("<b>%s:</b> %s<br/>", $this->translator->trans('label_property'),  $propertyName);
             $bodyHtml .= sprintf("<b>%s:</b> %s<br/>", $this->translator->trans('label_code'),  $tenantContract->getPropertyCode());

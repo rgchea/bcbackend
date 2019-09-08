@@ -344,5 +344,6 @@ mail:
     register_body: 'Now you are part of Better Condos. Start adding properties and enjoy the experience.'
     invite_subject: 'You have an invitation to a property in Better Condos'
     invite_body: 'has invited you to join a property.'
+    invite_property_body: 'has invited you to join a property.'
 sms:
     code: 'Better Condos, the code to validate your property is: %code%.'
