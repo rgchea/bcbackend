@@ -837,7 +837,8 @@ class RestController extends FOSRestController
 
 
             $token = $this->get('services')->getBCToken();
-            $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
+            //toDo
+            //$gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
             //var_dump($gamificationResponse);die;
 
