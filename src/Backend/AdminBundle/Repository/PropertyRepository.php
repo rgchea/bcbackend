@@ -61,7 +61,7 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
             ))
             ->where('a.enabled = 1')
 
-            //->orderBy('a.createdAt', 'ASC');
+            ->orderBy('a.createdAt', 'ASC')
             ;
         return $qb;
     }

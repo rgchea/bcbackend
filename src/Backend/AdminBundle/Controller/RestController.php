@@ -304,6 +304,248 @@ class RestController extends FOSRestController
     }
 
 
+
+    /**
+     * Gets information about a the user .
+     *
+     * Returns information about the logged user.
+     *
+     * @Rest\Get("/v1/profile", name="profileDetail")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the information of a user.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="object",
+     *              @SWG\Property( property="id", type="integer", description="ID", example="1" ),
+     *              @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
+     *              @SWG\Property( property="email", type="string", description="email", example="w@w.com" ),
+     *              @SWG\Property( property="phone", type="string", description="phone", example="56565656" ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function getProfileAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Authorization')) {
+                throw new \Exception("Missing Authorization header.");
+            }
+
+            $objUser = $this->getUser();
+
+            $data = array(
+                'id' => $objUser->getId(),
+                'name' => $objUser->getName(),
+                'email' => $objUser->getEmail(),
+                'phone' => $objUser->getMobilePhone()
+            );
+
+            return new JsonResponse(array('message' => "", 'data' => $data));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+    /**
+     * Updates a user info.
+     *
+     * UPDATES a user.
+     *
+     * @Rest\Put("/v1/profile", name="profileUpdate")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="name", in="body", type="string", required=true, description="Renato Chea", schema={} )
+     * @SWG\Parameter( name="email", in="body", type="string", required=true, description="w@w.com", schema={} )
+     * @SWG\Parameter( name="phone", in="body", type="string", required=true, description="454545455454", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="updates user info.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=409,
+     *     description="email already exists",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="error" )
+     *      )
+     * )     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function putProfileAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Authorization')) {
+                throw new \Exception("Missing Authorization header.");
+            }
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $name = trim($request->get('name'));
+            $email = trim($request->get('email'));
+            $phone = trim($request->get('phone'));
+
+            $objUser = $this->getUser();
+
+            $checkExistence = $this->get('services')->checkExistence($email, $objUser->getId());
+
+            if($checkExistence != ""){
+                return new JsonResponse(array('message' => $checkExistence), JsonResponse::HTTP_CONFLICT);//409
+            }
+
+            $objUser->setName($name);
+            $objUser->setEmail($email);
+            $objUser->setUsername($email);
+            $objUser->setMobilePhone($phone);
+
+            $this->get("services")->blameOnMe($objUser, "update");
+
+            $this->em->persist($objUser);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+    /**
+     * Updates a user password.
+     *
+     * UPDATES a user.
+     *
+     * @Rest\Put("/v1/changePassword", name="changePassword")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="old_password", in="body", type="string", required=true, description="123456", schema={} )
+     * @SWG\Parameter( name="new_password", in="body", type="string", required=true, description="123456", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="updates user password.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function putChangePasswordAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Authorization')) {
+                throw new \Exception("Missing Authorization header.");
+            }
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $oldPassword = trim($request->get('old_password'));
+            $newPassword = trim($request->get('new_password'));
+
+
+            $objUser = $this->getUser();
+
+            $encoder = $this->get('security.password_encoder');
+            $match = $encoder->isPasswordValid($objUser, $oldPassword);
+
+            if(!$match){
+                return new JsonResponse(array('message' => "Invalid current password"));
+                //return new JsonResponse(array('message' => "Invalid current password"), JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            else{
+                $objUser->setPlainPassword($newPassword);
+                //$objUser->setPassword($encoder->encodePassword($objUser, $newPassword));
+            }
+
+            $this->get("services")->blameOnMe($objUser, "update");
+
+            $this->em->persist($objUser);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     /**
      * Gets the terms and conditions.
      *
@@ -1035,11 +1277,6 @@ class RestController extends FOSRestController
      *              @SWG\Property( property="address", type="string", description="Address", example="1 Avenue des Champs-Elysees" ),
      *              @SWG\Property( property="type_id", type="integer", description="Property Type ID", example="1" ),
      *              @SWG\Property( property="is_owner", type="boolean", description="If it is owner", example="true" ),
-     *              @SWG\Property( property="photos", type="array",
-     *                  @SWG\Items(
-     *                      @SWG\Property( property="url", type="string", description="URL of property photo", example="/photo.jpg" ),
-     *                  )
-     *              ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
@@ -1067,46 +1304,52 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid property code.");
             }
 
-            $contracts = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findBy(
-                array('enabled' => true, 'property' => $property, 'isActive' => true),
-                array('createdAt', 'DESC')
+
+            $contract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(
+                array('enabled' => true, 'property' => $property, 'isActive' => true)
+                //array('id', 'DESC')
             );
 
-            if (count($contracts) < 1) {
+
+            if (!$contract) {
                 throw new \Exception("No available contracts for this property.");
             }
             /** @var PropertyContract $contract */
-            $contract = $contracts[0];
+            //$contract = $contracts[0];
 
             $type = $property->getPropertyType();
             if ($type == null) {
                 $type = new PropertyType();
             }
 
-            $owner = $property->getOwner();
+            $owner = $contract->getMainTenantContract()->getOwner();
             if ($owner == null) {
                 $owner = new User();
             }
 
+            /*
             $photosFull = $this->em->getRepository('BackendAdminBundle:PropertyPhoto')->findBy(
                 array('enabled' => true, 'property' => $property)
             );
 
             $photos = array();
-            /** @var PropertyPhoto $photo */
+
             foreach ($photosFull as $photo) {
                 $photos[] = $photo->getPhotoPath();
             }
+            */
 
-            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneBy(array("propertyContract" => $contract->getId(), "mainTenant" => 1, "enabled" => 1));
+            $tenantContract = $contract->getMainTenantContract();
 
             $data = array(
                 'id' => $property->getId(),
-                'code' => $property->getCode(), 'name' => $property->getName(),
-                'address' => $property->getAddress(), 'type_id' => $type->getId(),
+                'code' => $tenantContract->getPropertyCode(),
+                'name' => $property->getName(),
+                'address' => $property->getAddress(),
+                'type_id' => $type->getId(),
                 'is_owner' => $tenantContract->getOwnerEmail() == $this->getUser()->getEmail(),
                 'property_contract_id' => $contract->getId(),
-                'photos' => $photos,
+                //'photos' => $photos,
             );
 
             return new JsonResponse(array('message' => "", 'data' => $data));
@@ -2806,6 +3049,10 @@ class RestController extends FOSRestController
             }
 
             $photo = $request->get('photo');
+            $photo = str_replace('data:image/png;base64,', '', $photo);
+            $photo = str_replace('data:image/jpg;base64,', '', $photo);
+            $photo = str_replace('data:image/jpeg;base64,', '', $photo);
+            $photo = str_replace(' ', '+', $photo);
 
             $decodedPhoto = base64_decode($photo);
 
