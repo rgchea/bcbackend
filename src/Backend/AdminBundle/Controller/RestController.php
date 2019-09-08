@@ -2203,7 +2203,6 @@ class RestController extends FOSRestController
 
             $ticket->setAssignedTo($userToAssign);
 
-
             $this->get("services")->blameOnMe($ticket, "create");
             $this->get("services")->blameOnMe($ticket, "update");
 
@@ -3120,48 +3119,45 @@ class RestController extends FOSRestController
             }
 
             $myPhotoPath = self::IMAGES_PATH.self::AVATAR_UPLOADS_FOLDER;
-
             $photo = $request->get('photo');
+
+            /** @var User $user */
+            $user = $this->getUser();
 
             /** @var ValidatorInterface $validator */
             $validator = $this->get('validator');
 
 
-            $photo = str_replace('data:image/png;base64,', '', $photo);
-            $photo = str_replace('data:image/jpg;base64,', '', $photo);
-            $photo = str_replace('data:image/jpeg;base64,', '', $photo);
-            $photo = str_replace(' ', '+', $photo);
-            $decodedPhoto = base64_decode($photo);
+                $photo = str_replace('data:image/png;base64,', '', $photo);
+                $photo = str_replace('data:image/jpg;base64,', '', $photo);
+                $photo = str_replace('data:image/jpeg;base64,', '', $photo);
+                $photo = str_replace(' ', '+', $photo);
+                $decodedPhoto = base64_decode($photo);
 
-            $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
-            file_put_contents($tmpPath, $decodedPhoto);
-            $uploadedFile = new FileObject($tmpPath);
+                $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
+                file_put_contents($tmpPath, $decodedPhoto);
+                $uploadedFile = new FileObject($tmpPath);
 //                $originalFilename = $uploadedFile->getFilename();
 
-            $violations = $validator->validate(
-                $uploadedFile,
-                array(
-                    new File(array(
-                        //'maxSize' => '5M',
-                        'mimeTypes' => ['image/png', 'image/jpg','image/jpeg']
-                    ))
-                )
-            );
+                $violations = $validator->validate(
+                    $uploadedFile,
+                    array(
+                        new File(array(
+                            //'maxSize' => '5M',
+                            'mimeTypes' => ['image/png', 'image/jpg','image/jpeg']
+                        ))
+                    )
+                );
 
-            $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
+                $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
-            try {
-                $uploadPath = $this->getParameter('uploads_directory') . self::AVATAR_UPLOADS_FOLDER;
-                $uploadedFile->move($uploadPath, $fileName);
-            } catch (FileException $e) {
-                throw new \Exception("Could not upload photo.");
-            }
+                try {
+                    $uploadPath = $this->getParameter('uploads_directory') . self::AVATAR_UPLOADS_FOLDER;
+                    $uploadedFile->move($uploadPath, $fileName);
+                } catch (FileException $e) {
+                    throw new \Exception("Could not upload photo.");
+                }
 
-
-
-
-            /** @var User $user */
-            $user = $this->getUser();
 
             $user->setAvatarPath($myPhotoPath.$fileName);
             $this->get("services")->blameOnMe($user, "update");
