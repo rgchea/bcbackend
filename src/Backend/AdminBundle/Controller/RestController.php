@@ -807,7 +807,7 @@ class RestController extends FOSRestController
             $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
             $tenantContracts = $tenantRepo->getApiRegister($email);
 
-            $description = $this->translator("label_invite_accepted_notification");
+            $description = $this->translator->trans("label_invite_accepted_notification");
 
             foreach ($tenantContracts as $tenantContract) {
                 $tenantContract->setUser($user);
@@ -3340,7 +3340,7 @@ class RestController extends FOSRestController
                 $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
                 if ($user != null) {
 
-                    $description = $this->translator("label_invite_notification");
+                    $description = $this->translator->trans("label_invite_notification");
                     $tenantContract->setUser($user);
                     $notification = $this->createInviteUserNotification($tenantContract, $this->getUser(), $user, $description);
                     $this->em->persist($notification);
