@@ -213,7 +213,7 @@ class User extends BaseUser
     #* @Assert\NotBlank(message="Please, upload the photo.")#
 
     /**
-     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg", "image/jpg" })
      */
     private $avatarPath;
 

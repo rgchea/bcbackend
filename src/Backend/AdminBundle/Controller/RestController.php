@@ -1549,16 +1549,20 @@ class RestController extends FOSRestController
                     $commonAreaReservationId = $notification->getCommonAreaReservation()->getId();
                 }
                 $tenantContractId = 0;
+                $propertyID = 0;
                 if ($notification->getTenantContract() != null) {
                     $tenantContractId = $notification->getTenantContract()->getId();
+                    $propertyID = $notification->getTenantContract()->getPropertyContract()->getProperty()->getId();
                 }
 
                 $createdAt =  strtotime($user->getCreatedAt()->format("Y-m-d H:i:s"));
+
 
                 $data[] = array(
                     'ticket_id' => $ticketId,
                     'common_area_reservation_id' => $commonAreaReservationId,
                     'tenant_contract_id' => $tenantContractId,
+                    'property_id' => $propertyID,
                     'user' => array(
                         'avatar_path' => $user->getAvatarPath(),
                         'username' => $user->getUsername(),
@@ -3121,6 +3125,9 @@ class RestController extends FOSRestController
             $myPhotoPath = self::IMAGES_PATH.self::AVATAR_UPLOADS_FOLDER;
             $photo = $request->get('photo');
 
+            $pos  = strpos($photo, ';');
+            $type = explode('/', substr($photo, 0, $pos))[1];
+
             /** @var User $user */
             $user = $this->getUser();
 
@@ -3134,10 +3141,11 @@ class RestController extends FOSRestController
                 $photo = str_replace(' ', '+', $photo);
                 $decodedPhoto = base64_decode($photo);
 
-                $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid().".png";
+                $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
                 file_put_contents($tmpPath, $decodedPhoto);
                 $uploadedFile = new FileObject($tmpPath);
-//                $originalFilename = $uploadedFile->getFilename();
+                $originalFilename = $uploadedFile->getFilename();
+                var_dump($originalFilename);die;
 
                 $violations = $validator->validate(
                     $uploadedFile,
