@@ -1277,8 +1277,31 @@ class RestController extends FOSRestController
      *              @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
      *              @SWG\Property( property="address", type="string", description="Address", example="1 Avenue des Champs-Elysees" ),
      *              @SWG\Property( property="type", type="string", description="Property Type ", example="Apartment, warehouse" ),
-     *              @SWG\Property( property="is_owner", type="boolean", description="If it is owner", example="true" ),
+     *              @SWG\Property( property="is_main_account", type="boolean", description="If it is the main tenant", example="true" ),
+     *              @SWG\Property(
+     *                  property="main_account", type="array",
+     *                  @SWG\Items(
+     *                      @SWG\Property( property="name", type="string", description="name", example="Arturo C" ),
+     *                      @SWG\Property( property="email", type="string", description="email", example="a@a.com" ),
+     *                      @SWG\Property( property="phone_code", type="string", description="country code", example="502" ),
+     *                      @SWG\Property( property="phone", type="string", description="phone", example="565788484" ),
+     *                      @SWG\Property( property="avatar_url", type="string", description="url", example="" ),
+     *                  )
+     *              ),
+     *
+     *              @SWG\Property(
+     *                  property="invitees", type="array",
+     *                  @SWG\Items(
+     *                      @SWG\Property( property="name", type="string", description="name", example="Arturo C" ),
+     *                      @SWG\Property( property="email", type="string", description="email", example="a@a.com" ),
+     *                      @SWG\Property( property="phone_code", type="string", description="country code", example="502" ),
+     *                      @SWG\Property( property="phone", type="string", description="country code", example="2434534534" ),
+     *                      @SWG\Property( property="avatar_url", type="string", description="url", example="" ),
+     *                      @SWG\Property( property="invitation_accepted", type="boolean", description="", example="" ),
+     *                  )
+     *              ),
      *          ),
+     *
      *          @SWG\Property( property="message", type="string", example="" )
      *      )
      * )
@@ -1329,6 +1352,8 @@ class RestController extends FOSRestController
                 $owner = new User();
             }
 
+
+
             /*
             $photosFull = $this->em->getRepository('BackendAdminBundle:PropertyPhoto')->findBy(
                 array('enabled' => true, 'property' => $property)
@@ -1343,6 +1368,7 @@ class RestController extends FOSRestController
             $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $contract, "mainTenant" => 0, "enabled" => true), array("id" => "DESC"));
             $mainAccount = $contract->getMainTenantContract();
 
+            $isMainAccount = $this->getUser()->getId() == $mainAccount->getUser()->getId() ? true : false;
 
             $data = array(
                 'id' => $property->getId(),
@@ -1351,13 +1377,14 @@ class RestController extends FOSRestController
                 'name' => $property->getName(),
                 'address' => $property->getAddress(),
                 'type' => ($lang == 'en') ? $type->getNameEN() : $type->getNameES(),
-                'is_owner' => $mainAccount->getOwnerEmail() == $this->getUser()->getEmail(),
+                'is_main_account' => $isMainAccount,
                 'property_contract_id' => $contract->getId(),
                 //'photos' => $photos,
                 'main_account' => array('name' => $mainAccount->getUser()->getName(),
                                         'email' => $mainAccount->getUser()->getEmail(),
                                         'phone_code' => $mainAccount->getUser()->getGeoCountry()->getCode(),
-                                        'phone' => $mainAccount->getUser()->getMobilePhone()
+                                        'phone' => $mainAccount->getUser()->getMobilePhone(),
+                                        'avatar_url' => $mainAccount->getUser()->getAvatarPath()
                                     )
             );
 
@@ -1368,11 +1395,12 @@ class RestController extends FOSRestController
             foreach ($tenantContracts as $contract) {
                 $data["invitees"][] = array(
                     'tenant_contract_id' => $contract->getId(),
-                    'invited' => ($contract->getUser() != null) ? $contract->getUser()->getName() : "",
-                    'phone' => ($contract->getUser() != null) ? $contract->getUser()->getMobilePhone() : "",
+                    'name' => ($contract->getUser() != null) ? $contract->getUser()->getName() : "",
                     'email' => ($contract->getUser() != null) ? $contract->getUser()->getEmail() : $contract->getInvitationUserEmail(),
+                    'phone_code' => $mainAccount->getUser()->getGeoCountry()->getCode(),
+                    'phone' => ($contract->getUser() != null) ? $contract->getUser()->getMobilePhone() : "",
                     'avatar_url' => ($contract->getUser() != null) ?  $contract->getUser()->getAvatarPath(): "",
-                    'invitationAccepted' => $contract->getInvitationAccepted(),
+                    'invitation_accepted' => $contract->getInvitationAccepted(),
 
                 );
             }
