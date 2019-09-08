@@ -3313,6 +3313,7 @@ class RestController extends FOSRestController
                 //throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
 
                 $tenantContract = $conflicTenantContracts;
+                $tenantContract->setEnabled(true);
                 $this->get("services")->blameOnMe($tenantContract, "update");
                 $this->em->persist($tenantContract);
                 $this->em->flush();
@@ -3391,16 +3392,17 @@ class RestController extends FOSRestController
 
 
     /**
-     * Accepts an invitation.
+     * Updates an invitation.
      *
-     * Accepts an invitation by setting the proper values in the tenant contract and the notification.
+     * Updates an invitation by setting the proper values in the tenant contract and the notification.
      *
-     * @Rest\Put("/v1/invitation", name="acceptInvitation")
+     * @Rest\Put("/v1/invitation", name="updateInvitation")
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="tenant_contract_id", in="body", required=true, type="integer", description="The id of the tenant contract.", schema={} )
+     * @SWG\Parameter( name="action", in="body", required=true, type="inteter", description="1 is accept and 0 is delete", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -3425,7 +3427,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Property Invites")
      */
 
-    public function postAcceptInvitationAction(Request $request)
+    public function putUpdateInvitationAction(Request $request)
     {
         try {
             $this->initialise();
@@ -3435,6 +3437,7 @@ class RestController extends FOSRestController
             }
 
             $tenantContractId = trim($request->get('tenant_contract_id'));
+            $action = intval($request->get('action'));
 
             /** @var TenantContractRepository $tenantRepo */
             $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
@@ -3457,7 +3460,13 @@ class RestController extends FOSRestController
                 $this->em->persist($userNotification);
             }
 
-            $tenantContract->setInvitationAccepted(true);
+            if($action){//ACCEPT
+                $tenantContract->setInvitationAccepted(true);
+            }
+            else{//DELETE
+                $tenantContract->setEnabled(false);
+            }
+
             $this->get("services")->blameOnMe($tenantContract, "update");
 
             $this->em->persist($tenantContract);
