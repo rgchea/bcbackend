@@ -3319,6 +3319,9 @@ class RestController extends FOSRestController
             $tenantContract->setEnabled(true);
             $tenantContract->setInvitationUserEmail($email);
             $tenantContract->setInvitationAccepted(false);
+            $code = $this->get("services")->getToken(6);
+            $tenantContract->setPropertyCode($code);
+
             $this->get("services")->blameOnMe($tenantContract, "create");
             $this->get("services")->blameOnMe($tenantContract, "update");
 
