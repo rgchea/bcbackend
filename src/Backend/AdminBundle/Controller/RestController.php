@@ -807,7 +807,8 @@ class RestController extends FOSRestController
             $tenantRepo = $this->em->getRepository('BackendAdminBundle:TenantContract');
             $tenantContracts = $tenantRepo->getApiRegister($email);
 
-            $description = $this->translator->trans("label_invite_accepted_notification");
+            //$this->translator->setLocale($lang);
+            //$description = $this->translator->trans("label_invite_accepted_notification");
 
             foreach ($tenantContracts as $tenantContract) {
                 $tenantContract->setUser($user);
@@ -820,9 +821,7 @@ class RestController extends FOSRestController
 
                 }
 
-                $notification = $this->createInviteUserNotification($tenantContract, $user,  $tenantContract->getCreatedBy(), $description);
                 $this->em->persist($tenantContract);
-                $this->em->persist($notification);
             }
 
             // Gamification
@@ -975,6 +974,8 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
+            $lang = strtolower(trim($request->get('language')));
+
             if (!$request->headers->has('Content-Type')) {
                 throw new \Exception("Missing Content-Type header.");
             }
@@ -982,12 +983,14 @@ class RestController extends FOSRestController
             $propertyCode = strtolower(trim($request->get('property_code')));
             $user = $this->getUser();
 
-            /** @var Property $property */
-            $property = $this->em->getRepository('BackendAdminBundle:Property')->getApiProperty($propertyCode);
-            if ($property == null) {
+
+            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneByPropertyCode($propertyCode);
+            if ($tenantContract == null) {
                 throw new \Exception("Invalid property code.");
             }
 
+            $property = $tenantContract->getPropertyContract()->getProperty();
+            $propertyContract = $tenantContract->getPropertyContract();
             $type = $property->getPropertyType();
             $typeId = 0;
             if ($type != null) {
@@ -1001,11 +1004,10 @@ class RestController extends FOSRestController
 
 
             // From validate SMS ...
-
+            /*
             $contracts = $this->em->getRepository('BackendAdminBundle:PropertyContract')->getApiWelcomePrivateKey($property);
 
             if (count($contracts) <= 0) {
-
                 //throw new \Exception("No available contracts.");
                 $response = [
                     'code' => 401,
@@ -1028,32 +1030,42 @@ class RestController extends FOSRestController
             }
 
             $tenant = new TenantContract();
+            */
 
             $role = $this->em->getRepository('BackendAdminBundle:Role')->findOneById(self::TENANT_ROLE_ID);
 
-            $tenant->setUser($this->getUser());
-            $tenant->setRole($role);
-            $tenant->setPropertyContract($contract);
-            //rchea comment
+            $tenantContract->setUser($this->getUser());
+            //$tenant->setRole($role);
+            //$tenant->setPropertyContract($contract);
             //$tenant->setIsOwner(false);
-            $tenant->setEnabled(true);
+            $tenantContract->setEnabled(true);
+            $tenantContract->setInvitationAccepted(true);
 
             ////rchea comment
             //$property->setOwner($this->getUser());
 
-            $this->get("services")->blameOnMe($property, "update");
-            $this->get("services")->blameOnMe($tenant, "create");
-            $this->get("services")->blameOnMe($tenant, "update");
+            //$this->get("services")->blameOnMe($property, "update");
+            //$this->get("services")->blameOnMe($tenant, "create");
+            $this->get("services")->blameOnMe($tenantContract, "update");
 
-            $this->em->persist($tenant);
-            $this->em->persist($property);
+            $this->em->persist($tenantContract);
+
+            $this->translator->setLocale($lang);
+            $description = $this->translator->trans("label_invite_accepted_notification");
+
+            $notification = $this->createInviteUserNotification($tenantContract, $user,  $tenantContract->getCreatedBy(), $description);
+            $this->em->persist($tenantContract);
+            $this->em->persist($notification);
+
+
+            //$this->em->persist($property);
             $this->em->flush();
 
 
             $data = array(
                 'id' => $property->getId(),
-                'tenant_id' => $tenant->getId(),
-                'code' => $property->getCode(), 'name' => $property->getName(),
+                'tenant_id' => $tenantContract->getId(),
+                'code' => $tenantContract->getPropertyCode(), 'name' => $property->getName(),
                 'address' => $property->getAddress(), 'type_id' => $typeId,
                 'sector_id' => $complexSectorId, 'teamCorrelative' => $property->getTeamCorrelative(),
                 'complex' => $property->getComplex()->getName(),
@@ -2230,9 +2242,6 @@ class RestController extends FOSRestController
                     )
                 );
 
-
-
-
                 $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
                 try {
@@ -3102,7 +3111,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="User")
      */
 
-    public function putAvatarAction(Request $request, ValidatorInterface $validator)
+    public function putAvatarAction(Request $request)
     {
         try {
             $this->initialise();
@@ -3124,19 +3133,24 @@ class RestController extends FOSRestController
             $uploadedFile = new FileObject($tmpPath);
             $originalFilename = $uploadedFile->getFilename();
 
+            /** @var ValidatorInterface $validator */
+            $validator = $this->get('validator');
+
             $violations = $validator->validate(
                 $uploadedFile,
                 array(
                     new File(array(
-                        'maxSize' => '5M',
+                        //'maxSize' => '5M',
                         'mimeTypes' => array('image/*')
                     ))
                 )
             );
 
+
             if ($violations->count() > 0) {
                 throw new \Exception("Invalid image.");
             }
+
 
             $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
