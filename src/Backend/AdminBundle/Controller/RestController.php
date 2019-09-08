@@ -362,7 +362,8 @@ class RestController extends FOSRestController
                 'id' => $objUser->getId(),
                 'name' => $objUser->getName(),
                 'email' => $objUser->getEmail(),
-                'phone' => $objUser->getMobilePhone()
+                'phone' => $objUser->getMobilePhone(),
+                'avatar_url' => $objUser->getAvatarPath(),
             );
 
             return new JsonResponse(array('message' => "", 'data' => $data));
@@ -1272,10 +1273,10 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="object",
      *              @SWG\Property( property="id", type="integer", description="ID", example="1" ),
-     *              @SWG\Property( property="code", type="string", description="Code", example="101" ),
+     *              @SWG\Property( property="property_number", type="string", description="property number", example="101" ),
      *              @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
      *              @SWG\Property( property="address", type="string", description="Address", example="1 Avenue des Champs-Elysees" ),
-     *              @SWG\Property( property="type_id", type="integer", description="Property Type ID", example="1" ),
+     *              @SWG\Property( property="type", type="string", description="Property Type ", example="Apartment, warehouse" ),
      *              @SWG\Property( property="is_owner", type="boolean", description="If it is owner", example="true" ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" )
@@ -1293,10 +1294,12 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Property")
      */
 
-    public function getPropertyDetailAction($id)
+    public function getPropertyDetailAction(Request $request, $id)
     {
         try {
             $this->initialise();
+
+            $lang = strtolower(trim($request->get('language')));
 
             /** @var Property $property */
             $property = $this->em->getRepository('BackendAdminBundle:Property')->getApiPropertyDetail($id, $this->getUser());
@@ -1337,19 +1340,42 @@ class RestController extends FOSRestController
                 $photos[] = $photo->getPhotoPath();
             }
             */
+            $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $contract, "mainTenant" => 0, "enabled" => true), array("id" => "DESC"));
+            $mainAccount = $contract->getMainTenantContract();
 
-            $tenantContract = $contract->getMainTenantContract();
 
             $data = array(
                 'id' => $property->getId(),
-                'code' => $tenantContract->getPropertyCode(),
+                'property_number' => $property->getPropertyNumber(),
+                //'code' => $tenantContract->getPropertyCode(),
                 'name' => $property->getName(),
                 'address' => $property->getAddress(),
-                'type_id' => $type->getId(),
-                'is_owner' => $tenantContract->getOwnerEmail() == $this->getUser()->getEmail(),
+                'type' => ($lang == 'en') ? $type->getNameEN() : $type->getNameES(),
+                'is_owner' => $mainAccount->getOwnerEmail() == $this->getUser()->getEmail(),
                 'property_contract_id' => $contract->getId(),
                 //'photos' => $photos,
+                'main_account' => array('name' => $mainAccount->getUser()->getName(),
+                                        'email' => $mainAccount->getUser()->getEmail(),
+                                        'phone_code' => $mainAccount->getUser()->getGeoCountry()->getCode(),
+                                        'phone' => $mainAccount->getUser()->getMobilePhone()
+                                    )
             );
+
+
+            //GET INVITEES
+            $data["invitees"] = array();
+            /** @var TenantContract $contract */
+            foreach ($tenantContracts as $contract) {
+                $data["invitees"][] = array(
+                    'tenant_contract_id' => $contract->getId(),
+                    'invited' => ($contract->getUser() != null) ? $contract->getUser()->getName() : "",
+                    'phone' => ($contract->getUser() != null) ? $contract->getUser()->getMobilePhone() : "",
+                    'email' => ($contract->getUser() != null) ? $contract->getUser()->getEmail() : $contract->getInvitationUserEmail(),
+                    'avatar_url' => ($contract->getUser() != null) ?  $contract->getUser()->getAvatarPath(): "",
+                    'invitationAccepted' => $contract->getInvitationAccepted(),
+
+                );
+            }
 
             return new JsonResponse(array('message' => "", 'data' => $data));
         } catch (Exception $ex) {
