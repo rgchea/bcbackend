@@ -333,8 +333,9 @@ mail:
     label_property_id: 'ID de la Propiedad: '
     label_message: 'Mensaje: '
     label_password: 'Contraseña: '
-    register_body: 'Ahora eres parte de BetterCondos. Empieza agregando propiedas y disfrutando de la experiencia.'
-    invite_subject: 'Tienes una invitacion a una propiedad en BetterCondos'
-    invite_body: 'Estas siendo invitado a unirte a la propiedad de %user_email%. El siguiente mensaje ha sido adjunto:'
+    register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'
+    invite_subject: 'Tienes una invitación a una propiedad en Better Condos'
+    invite_body: 'te ha invitado a unirte a una propiedad'
+    invite_property_body: 'te ha invitado a unirte a una propiedad.'
 sms:
     code: 'BetterCondos, el código para validar tu propiedad es: %code%.'
