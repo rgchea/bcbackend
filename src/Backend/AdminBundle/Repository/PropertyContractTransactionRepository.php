@@ -38,8 +38,7 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
         $query->andWhere('p.id = :prop_id')
         ->setParameter('prop_id', $propertyID)
 
-
-        ->andWhere('e.createdAt >= :myDateStart AND e.createdAt <= :myDateEnd')
+        ->andWhere('e.dueDate >= :myDateStart AND e.dueDate <= :myDateEnd')
         ->setParameter('myDateStart', date("Y-m-d H:i:s", strtotime($dateStart)))
         ->setParameter('myDateEnd', date("Y-m-d H:i:s", strtotime($dateEnd)));
 
