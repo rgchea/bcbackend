@@ -1272,6 +1272,7 @@ class RestController extends FOSRestController
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="object",
+     *              @SWG\Property( property="property_contract_id", type="integer", description="property contract ID", example="1" ),
      *              @SWG\Property( property="id", type="integer", description="ID", example="1" ),
      *              @SWG\Property( property="property_number", type="string", description="property number", example="101" ),
      *              @SWG\Property( property="name", type="string", description="Name", example="Casa Modelo" ),
@@ -1371,6 +1372,7 @@ class RestController extends FOSRestController
             $isMainAccount = $this->getUser()->getId() == $mainAccount->getUser()->getId() ? true : false;
 
             $data = array(
+                'property_contract_id' => $contract->getId(),
                 'id' => $property->getId(),
                 'property_number' => $property->getPropertyNumber(),
                 //'code' => $tenantContract->getPropertyCode(),
@@ -3253,7 +3255,6 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="message", in="body", required=true, type="string", description="Message.", schema={} )
      * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the invited user.", schema={} )
      * @SWG\Parameter( name="property_contract_id", in="body", required=true, type="integer", description="The id of the property contract.", schema={} )
      *
@@ -3291,7 +3292,7 @@ class RestController extends FOSRestController
 
             $lang = strtolower(trim($request->get('language')));
 
-            $message = trim($request->get('message'));
+            $message = "Invitation";
             $email = trim($request->get('email'));
             $propertyContractId = trim($request->get('property_contract_id'));
 
