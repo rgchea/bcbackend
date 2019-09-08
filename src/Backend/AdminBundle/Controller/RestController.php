@@ -3134,7 +3134,7 @@ class RestController extends FOSRestController
                 $photo = str_replace(' ', '+', $photo);
                 $decodedPhoto = base64_decode($photo);
 
-                $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
+                $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid().".png";
                 file_put_contents($tmpPath, $decodedPhoto);
                 $uploadedFile = new FileObject($tmpPath);
 //                $originalFilename = $uploadedFile->getFilename();
