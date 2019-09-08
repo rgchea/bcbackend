@@ -3308,33 +3308,39 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid property contract.");
             }
 
-            $conflicTenantContracts = $tenantRepo->findBy(array('enabled' => true, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
+            $conflicTenantContracts = $tenantRepo->findOneBy(array('enabled' => true, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
             if (count($conflicTenantContracts) > 0) {
-                throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
+                //throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
+
+                $tenantContract = $conflicTenantContracts;
+            }
+            else{
+
+                $tenantContract = new TenantContract();
+                $tenantContract->setPropertyContract($propertyContract);
+                //$tenantContract->setIsOwner(false);
+                $tenantContract->setEnabled(true);
+                $tenantContract->setInvitationUserEmail($email);
+                $tenantContract->setInvitationAccepted(false);
+                $code = $this->get("services")->getToken(6);
+                $tenantContract->setPropertyCode($code);
+
+                $this->get("services")->blameOnMe($tenantContract, "create");
+                $this->get("services")->blameOnMe($tenantContract, "update");
+
+                /** @var User $user */
+                $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
+                if ($user != null) {
+                    $tenantContract->setUser($user);
+                    $notification = $this->createInviteUserNotification($tenantContract, $this->getUser(), $user);
+                    $this->em->persist($notification);
+                }
+
+                $this->em->persist($tenantContract);
+                $this->em->flush();
+
             }
 
-            $tenantContract = new TenantContract();
-            $tenantContract->setPropertyContract($propertyContract);
-            //$tenantContract->setIsOwner(false);
-            $tenantContract->setEnabled(true);
-            $tenantContract->setInvitationUserEmail($email);
-            $tenantContract->setInvitationAccepted(false);
-            $code = $this->get("services")->getToken(6);
-            $tenantContract->setPropertyCode($code);
-
-            $this->get("services")->blameOnMe($tenantContract, "create");
-            $this->get("services")->blameOnMe($tenantContract, "update");
-
-            /** @var User $user */
-            $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
-            if ($user != null) {
-                $tenantContract->setUser($user);
-                $notification = $this->createInviteUserNotification($tenantContract, $this->getUser(), $user);
-                $this->em->persist($notification);
-            }
-
-            $this->em->persist($tenantContract);
-            $this->em->flush();
 
             $this->translator->setLocale($lang);
             $now = new \DateTime();
