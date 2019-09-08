@@ -1501,8 +1501,12 @@ class RestController extends FOSRestController
             $ticketIds = array();
             /** @var UserNotification $notification */
             foreach ($notifications as $notification) {
-                $id = $notification->getTicket()->getId();
-                $ticketIds[] = $id;
+
+                if ($notification->getTicket() != null) {
+                    $id = $notification->getTicket()->getId();
+                    $ticketIds[] = $id;
+
+                }
             }
             $ticketIds = array_unique($ticketIds);
 
