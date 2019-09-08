@@ -46,6 +46,8 @@ class CompanyController extends Controller
         //$tmp = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getCommonAreaAvailability(5, '2019-08-26');
         //die;
 
+        return $this->render('BackendAdminBundle:Company:index.html.twig');
+
 
         $ts1 = strtotime("2019-01-01");
         $ts2 = strtotime("2019-08-01");

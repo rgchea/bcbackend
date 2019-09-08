@@ -13,5 +13,17 @@
 
 
     </form>
+    <script type="text/javascript" language="JavaScript">
+
+
+        alert(calculateWeight(300, 100, 100, 6));
+        
+        function calculateWeight(long, width, height, kg) {
+            //el largo, por el ancho y el alto (en cm) y el cubicaje (kilos entre metros cúbicos), y dividirlo entre 1 millón.
+            weight = (parseFloat(long) *  parseFloat(width) * parseFloat(height) * parseFloat(kg) ) / 1000000;
+            return Math.ceil(2.205*weight);
+        }
+        
+    </script>
 
 {% endblock %}
