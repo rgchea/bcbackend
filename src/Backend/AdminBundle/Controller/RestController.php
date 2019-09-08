@@ -1304,7 +1304,6 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid property code.");
             }
 
-
             $contract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(
                 array('enabled' => true, 'property' => $property, 'isActive' => true)
                 //array('id', 'DESC')
@@ -4295,7 +4294,6 @@ class RestController extends FOSRestController
             $data = array();
 
             $lang = strtolower(trim($request->get('language')));
-
 
             $propertyID = intval($request->get('property_id'));
             $month = trim($request->get('month'));
