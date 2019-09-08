@@ -3384,6 +3384,7 @@ class RestController extends FOSRestController
         $notification->setEnabled(true);
 
         $notification->setDescription($description);
+        $notification->setNotice("");
         $notification->setTenantContract($tenantContract);
         $notification->setTenantContract($tenantContract);
         $notification->setNotificationType($notificationType);
