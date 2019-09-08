@@ -3313,6 +3313,9 @@ class RestController extends FOSRestController
                 //throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
 
                 $tenantContract = $conflicTenantContracts;
+                $this->get("services")->blameOnMe($tenantContract, "update");
+                $this->em->persist($tenantContract);
+                $this->em->flush();
             }
             else{
 
@@ -3342,11 +3345,15 @@ class RestController extends FOSRestController
             }
 
 
+            $propertyName = $tenantContract->getPropertyContract()->getProperty()->getPropertyType() . " ". $tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
+
             $this->translator->setLocale($lang);
             $now = new \DateTime();
             $subject = $this->translator->trans('mail.invite_subject');
-            $bodyHtml = sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_body'));
-            $bodyHtml .= sprintf("<p>%s</p><br/>", $message);
+            $bodyHtml = $this->getUser()->getName(). " ". sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_body'));
+            //$bodyHtml .= sprintf("<p>%s</p><br/>", $message);
+            $bodyHtml .= sprintf("<b>%s:</b> %s<br/>", $this->translator->trans('label_property'),  $propertyName);
+            $bodyHtml .= sprintf("<b>%s:</b> %s<br/>", $this->translator->trans('label_code'),  $tenantContract->getPropertyCode());
             $bodyHtml .= sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_time'), $now->format('Y-m-d H:i'));
             $bodyHtml .= "<br/>";
 
