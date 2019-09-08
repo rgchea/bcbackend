@@ -2129,6 +2129,7 @@ class RestController extends FOSRestController
 
         $myPhotoPath = self::IMAGES_PATH.self::TICKET_UPLOADS_FOLDER;
 
+
         try {
             $this->initialise();
 
@@ -2224,8 +2225,6 @@ class RestController extends FOSRestController
                 $photo = str_replace('data:image/jpeg;base64,', '', $photo);
                 $photo = str_replace(' ', '+', $photo);
                 $decodedPhoto = base64_decode($photo);
-
-
 
                 $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
                 file_put_contents($tmpPath, $decodedPhoto);
@@ -3120,38 +3119,34 @@ class RestController extends FOSRestController
                 throw new \Exception("Missing Content-Type header.");
             }
 
+            $myPhotoPath = self::IMAGES_PATH.self::AVATAR_UPLOADS_FOLDER;
+
             $photo = $request->get('photo');
+
+            /** @var ValidatorInterface $validator */
+            $validator = $this->get('validator');
+
+
             $photo = str_replace('data:image/png;base64,', '', $photo);
             $photo = str_replace('data:image/jpg;base64,', '', $photo);
             $photo = str_replace('data:image/jpeg;base64,', '', $photo);
             $photo = str_replace(' ', '+', $photo);
-
             $decodedPhoto = base64_decode($photo);
 
             $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
             file_put_contents($tmpPath, $decodedPhoto);
             $uploadedFile = new FileObject($tmpPath);
-            $originalFilename = $uploadedFile->getFilename();
-
-            /** @var ValidatorInterface $validator */
-            $validator = $this->get('validator');
+//                $originalFilename = $uploadedFile->getFilename();
 
             $violations = $validator->validate(
                 $uploadedFile,
                 array(
                     new File(array(
                         //'maxSize' => '5M',
-                        'mimeTypes' => array('image/*')
+                        'mimeTypes' => ['image/png', 'image/jpg','image/jpeg']
                     ))
                 )
             );
-
-            /*
-            if ($violations->count() > 0) {
-                throw new \Exception("Invalid image.");
-            }
-            */
-
 
             $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 
@@ -3163,10 +3158,12 @@ class RestController extends FOSRestController
             }
 
 
+
+
             /** @var User $user */
             $user = $this->getUser();
 
-            $user->setAvatarPath($uploadedFile->getPath());
+            $user->setAvatarPath($myPhotoPath.$fileName);
             $this->get("services")->blameOnMe($user, "update");
             $this->em->persist($user);
 
