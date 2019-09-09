@@ -3124,6 +3124,7 @@ class RestController extends FOSRestController
 
             $myPhotoPath = self::IMAGES_PATH.self::AVATAR_UPLOADS_FOLDER;
             $photo = $request->get('photo');
+            $photo = $photo[0];
 
             $pos  = strpos($photo, ';');
             $type = explode('/', substr($photo, 0, $pos))[1];
@@ -3133,8 +3134,7 @@ class RestController extends FOSRestController
 
             /** @var ValidatorInterface $validator */
             $validator = $this->get('validator');
-
-
+            
                 $photo = str_replace('data:image/png;base64,', '', $photo);
                 $photo = str_replace('data:image/jpg;base64,', '', $photo);
                 $photo = str_replace('data:image/jpeg;base64,', '', $photo);
@@ -3145,7 +3145,7 @@ class RestController extends FOSRestController
                 file_put_contents($tmpPath, $decodedPhoto);
                 $uploadedFile = new FileObject($tmpPath);
                 $originalFilename = $uploadedFile->getFilename();
-                var_dump($originalFilename);die;
+                //var_dump($originalFilename);die;
 
                 $violations = $validator->validate(
                     $uploadedFile,
@@ -3158,6 +3158,7 @@ class RestController extends FOSRestController
                 );
 
                 $fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
+                //var_dump($fileName);die;
 
                 try {
                     $uploadPath = $this->getParameter('uploads_directory') . self::AVATAR_UPLOADS_FOLDER;
