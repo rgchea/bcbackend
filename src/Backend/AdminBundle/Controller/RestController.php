@@ -3482,15 +3482,17 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid tenant contract.");
             }
 
+            /*
             $userNotifications = $notificationRepo->findBy(array('enabled' => true, 'user' => $this->getUser(), 'tenantContract' => $tenantContract));
 
-            /** @var UserNotification $userNotification */
+
             foreach ($userNotifications as $userNotification) {
                 $userNotification->setIsRead(true);
                 $this->get("services")->blameOnMe($userNotification, "update");
 
                 $this->em->persist($userNotification);
             }
+            */
 
             if($action){//ACCEPT
                 $tenantContract->setInvitationAccepted(true);
