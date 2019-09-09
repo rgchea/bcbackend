@@ -3134,7 +3134,7 @@ class RestController extends FOSRestController
 
             /** @var ValidatorInterface $validator */
             $validator = $this->get('validator');
-            
+
                 $photo = str_replace('data:image/png;base64,', '', $photo);
                 $photo = str_replace('data:image/jpg;base64,', '', $photo);
                 $photo = str_replace('data:image/jpeg;base64,', '', $photo);
@@ -3468,7 +3468,7 @@ class RestController extends FOSRestController
                 throw new \Exception("Missing Content-Type header.");
             }
 
-            $tenantContractId = trim($request->get('tenant_contract_id'));
+            $tenantContractId = intval($request->get('tenant_contract_id'));
             $action = intval($request->get('action'));
 
             /** @var TenantContractRepository $tenantRepo */
@@ -3477,7 +3477,7 @@ class RestController extends FOSRestController
             $notificationRepo = $this->em->getRepository('BackendAdminBundle:UserNotification');
 
             /** @var TenantContract $tenantContract */
-            $tenantContract = $tenantRepo->findOneBy(array('enabled' => true, 'user' => $this->getUser(), 'id' => $tenantContractId));
+            $tenantContract = $tenantRepo->findOneById($tenantContractId);
             if ($tenantContract == null) {
                 throw new \Exception("Invalid tenant contract.");
             }
