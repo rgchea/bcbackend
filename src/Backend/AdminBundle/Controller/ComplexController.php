@@ -460,8 +460,6 @@ class ComplexController extends Controller
                 $entity->setPhoneCountry($objCountry);
 
 
-
-
                 //CREATE SECTORS and PROPERTIES
                 $sectorQuantity = $_REQUEST["complex"]["sectionsQuantity"];
                 $mySectorType = intval($_REQUEST["extra"]["sectorType"]);
@@ -590,8 +588,12 @@ class ComplexController extends Controller
                     $entity->setTeamCorrelative($teamIDComplex);
                     $this->em->persist($entity);
 
-                    //CREATE TEAMS -> ADMINS / TENANT
+                    ///CREATE DEFAULT REWARDS
+                    $token = $this->get('services')->getBCToken();
+                    $arrRewards = $this->callGamificationService( "POST", "teams/".$teamIDComplex."/rewards", array() );
+                    
 
+                    //CREATE TEAMS -> ADMINS / TENANT
 
                     //TENANTS
                     $body = array();
@@ -732,7 +734,6 @@ class ComplexController extends Controller
 
                 //$this->em->persist($entity);
                 $this->em->flush();
-
 
                 $this->get('services')->flashSuccess($request);
                 return $this->redirect($this->generateUrl('backend_admin_complex_index'));

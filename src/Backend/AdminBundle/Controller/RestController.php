@@ -30,6 +30,7 @@ use Backend\AdminBundle\Entity\Ticket;
 use Backend\AdminBundle\Entity\TicketCategory;
 use Backend\AdminBundle\Entity\TicketComment;
 use Backend\AdminBundle\Entity\TicketFilePhoto;
+use Backend\AdminBundle\Entity\TicketFollower;
 use Backend\AdminBundle\Entity\TicketStatus;
 use Backend\AdminBundle\Entity\TicketStatusLog;
 use Backend\AdminBundle\Entity\TicketType;
@@ -1079,6 +1080,169 @@ class RestController extends FOSRestController
     }
 
 
+
+
+    /**
+     *  READ Updates a user notification.
+     *
+     * UPDATES a user.
+     *
+     * @Rest\Put("/v1/readNotification", name="readNotification")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="id", in="body", type="integer", required=true, description="user notification ID", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="updates user notification.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=409,
+     *     description="email already exists",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="error" )
+     *      )
+     * )     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="User")
+     */
+
+    public function putReadNotificationAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Authorization')) {
+                throw new \Exception("Missing Authorization header.");
+            }
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $id = intval($request->get('id'));
+
+            $notification = $this->em->getRepository('BackendAdminBundle:UserNotification')->findOneById($id);
+
+            if ($notification == null) {
+                throw new \Exception("Invalid notification.");
+            }
+
+            $notification->setIsRead(1);
+            $this->get("services")->blameOnMe($notification, "update");
+
+            $this->em->persist($notification);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "ok",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     *  LIKE Updates a user ticket comment.
+     *
+     * UPDATES a ticket comment.
+     *
+     * @Rest\Put("/v1/likeTicketComment", name="likeTicketComment")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="ticket_comment_id", in="body", type="integer", required=true, description="ticket comment ID", schema={} )
+     * @SWG\Parameter( name="like", in="body", type="integer", required=true, description="1 is like 0 is unlike", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="updates ticket comment.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+
+    public function putLikeTicketCommentAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Authorization')) {
+                throw new \Exception("Missing Authorization header.");
+            }
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $ticketCommentID = intval($request->get('ticket_comment_id'));
+            $like = intval($request->get('like'));
+
+
+            $ticketComment = $this->em->getRepository('BackendAdminBundle:TicketComment')->findOneById($ticketCommentID);
+
+            if ($ticketComment == null) {
+                throw new \Exception("Invalid ticket comment ID.");
+            }
+
+            if($like){
+                $ticketComment->setLikedBy($this->getUser());
+            }
+            else{//unlike
+                $ticketComment->setLikedBy(NULL);
+            }
+
+            $this->get("services")->blameOnMe($ticketComment, "update");
+
+            $this->em->persist($ticketComment);
+            $this->em->flush();
+
+            return new JsonResponse(array(
+                'message' => "ok",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
     /**
      * Gets the properties of the user.
      *
@@ -1454,6 +1618,7 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
+     *                  @SWG\Property( property="id", type="integer", description="notification ID", example="1" ),
      *                  @SWG\Property( property="ticket_id", type="integer", description="Ticket ID if any", example="1" ),
      *                  @SWG\Property( property="common_area_reservation_id", type="integer", description="Common Area Reservation ID if any", example="1" ),
      *                  @SWG\Property( property="tenant_contract_id", type="integer", description="Tenant Contract ID if any", example="1" ),
@@ -1555,10 +1720,13 @@ class RestController extends FOSRestController
                     $propertyID = $notification->getTenantContract()->getPropertyContract()->getProperty()->getId();
                 }
 
+
+
                 $createdAt =  strtotime($user->getCreatedAt()->format("Y-m-d H:i:s"));
 
 
                 $data[] = array(
+                    'id' => $notification->getId(),
                     'ticket_id' => $ticketId,
                     'common_area_reservation_id' => $commonAreaReservationId,
                     'tenant_contract_id' => $tenantContractId,
@@ -1923,6 +2091,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *                  @SWG\Property( property="comments", type="array",
      *                      @SWG\Items(
+     *                          @SWG\Property( property="id", type="integer", description="Comment ID", example="2" ),
      *                          @SWG\Property( property="username", type="string", description="Comments's creator username", example="2" ),
      *                          @SWG\Property( property="timestamp", type="string", description="Comment's creation time", example="1272509157" ),
      *                          @SWG\Property( property="like", type="string", description="User that liked the comment", example="user2" ),
@@ -2041,6 +2210,7 @@ class RestController extends FOSRestController
                 }
 
                 $data['comments'][] = array(
+                    'id' => $comment->getId(),
                     'username' => $commentUser->getUsername(),
                     'user_fullname' => $commentUser->getName(),
                     'timestamp' => $comment->getCreatedAt()->getTimestamp(),
@@ -2372,8 +2542,87 @@ class RestController extends FOSRestController
         }
     }
 
+    /**
+     * Creates a like on a ticket.
+     *
+     * It receives all the necessary information to create a ticket.
+     *
+     * @Rest\Post("/v1/ticketLike", name="ticketLike")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="ticket_id", in="body", required=true, type="integer", description="The id of the ticket.", schema={} )
+     * @SWG\Parameter( name="like", in="body", required=true, type="integer", description="1 is like 0 is unlike", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a successfull Ticket like.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Ticket")
+     */
+
+    public function postTicketLikeAction(Request $request)
+    {
+
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $ticketID = trim($request->get('ticket_id'));
+            $like = intval($request->get('like'));
+
+            // Required parameter
+            $ticket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array('enabled' => true, 'id' => $ticketID));
+            if ($ticket == null) {
+                throw new \Exception("Invalid ticket ID.");
+            }
+
+            if($like){
+                $ticketFollower = new TicketFollower();
+                $ticketFollower->setUser($this->getUser());
+                $ticketFollower->setTicket($ticket);
+                $ticketFollower->setEnabled(true);
+            }
+            else{//unlike
+                $ticketFollower = $this->em->getRepository('BackendAdminBundle:TicketFollower')->findOneBy(array('enabled' => true, 'ticket' => $ticket->getId(), 'user' => $this->getUser()->getId()));
+                $ticketFollower->setEnabled(false);
+            }
 
 
+            $this->em->persist($ticketFollower);
+            $this->em->flush();
+
+            $response = array('message' => $ticketFollower->getId());
+            if ($this->container->getParameter('kernel.environment') == 'dev') {
+                $response['debug'] = $ticketFollower->getId();
+            }
+            return new JsonResponse($response);
+
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
     /**
@@ -3495,6 +3744,7 @@ class RestController extends FOSRestController
             */
 
             if($action){//ACCEPT
+                $tenantContract->setUser($this->getUser());
                 $tenantContract->setInvitationAccepted(true);
             }
             else{//DELETE
@@ -3513,6 +3763,12 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
+
+
+
 
     /**
      * Gets the FAQs.
@@ -4488,10 +4744,38 @@ class RestController extends FOSRestController
             $data = array();
 
             // ToDo: pending definition.
+            $token = $this->get('services')->getBCToken();
+
+            $username = $this->getUser()->getUsername();
+            $arrResponse = $this->callGamificationService( "GET", "me?_switch_user=".$username."&complete=true", array() );
+            var_dump($arrResponse);die;
+
+            //$nextLevelPoints = $arrResponse["next_level_points"];
+            $nextLevelPoints = 700;
+            //$availablePoints = intval($arrResponse["available_points"]);
+            $availablePoints = 400;
+            $exchangedPoints = intval($arrResponse["exchanged_points"]);
+            $exchangedPoints = 200;
+            //$totalPoints = intval($arrResponse["earned_points"]);
+            $totalPoints = 600;
+            $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
+
+            $data = array(
+                "name" => $this->getUser()->getName(),
+                "level" => intval($arrResponse["current_level"]),
+                "earned_points" => $totalPoints,
+                "available_points" => $availablePoints,
+                "exchanged_points" => $exchangedPoints,
+                "percentage" => $percentage,
+                );
+
+
+
 
             return new JsonResponse(array(
                 'message' => "listPayments",
                 'data' => $data
+
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -4499,14 +4783,18 @@ class RestController extends FOSRestController
     }
 
     /**
-     * List the rewards of the specified user.
+     * List the rewards of the specified team.
      *
      * This calls the Bettercondos.info API to get a list of rewards for the user. [Right now it does nothing].
      *
-     * @Rest\Get("/v1/rewards", name="listRewards", )
+     * @Rest\Get("/v1/rewards/{property_id}/{page_id}", name="listRewards")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="property_id", in="path", type="integer", description="property ID." )
+     * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
+     *
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -4520,13 +4808,23 @@ class RestController extends FOSRestController
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
+     *                  @SWG\Property( property="photoURL", type="string", description="photo url", example="//dummyimage.com/150x150/000/fff&text=AmazonGift" ),
      *                  @SWG\Property( property="id", type="integer", description="Reward ID", example="1" ),
      *                  @SWG\Property( property="name", type="string", description="Name of the reward", example="Reward" ),
-     *                  @SWG\Property( property="description", type="string", description="Description of the reward", example="Reward Description" ),
-     *                  @SWG\Property( property="points_to_exchange", type="integer", description="Points to exchange", example="4500" ),
+     *                  @SWG\Property( property="description", type="string HTML", description="Description of the reward", example="<p>Reward Description</p>" ),
+     *                  @SWG\Property( property="points", type="integer", description="Points to exchange", example="4500" ),
+     *                  @SWG\Property( property="start_at", type="string", description="GMT datetime", example="2019-09-03T00:00:00+0000" ),
+     *                  @SWG\Property( property="finish_at", type="string", description="GMT datetime", example="2019-09-03T00:00:00+0000" ),
      *              ),
      *          ),
-     *          @SWG\Property( property="message", type="string", example="" )
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *          @SWG\Property(
+     *              property="metadata", type="object",
+     *                  @SWG\Property( property="my_page", type="string", description="Current page in the list of items", example="4" ),
+     *                  @SWG\Property( property="prev_page", type="string", description="Previous page in the list of items", example="3" ),
+     *                  @SWG\Property( property="next_page", type="string", description="Next page in the list of items", example="5" ),
+     *                  @SWG\Property( property="last_page", type="string", description="Last page in the list of items", example="8" ),
+     *          )
      *      )
      * )
      *
@@ -4540,17 +4838,33 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Gamification")
      */
-    public function getRewardsAction()
+    public function getRewardsAction(Request $request)
     {
         try {
             $this->initialise();
             $data = array();
 
-            // ToDo: pending definition.
+            $pageID = trim($request->get('page_id'));
+            $propertyID = trim($request->get('property_id'));
+
+            $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => $propertyID));
+            $complexTeamID = intval($objProperty->getComplex()->getTeamCorrelative()) ;
+
+            $token = $this->get('services')->getBCToken();
+            $arrRewards = $this->callGamificationService( "GET", "teams/".$complexTeamID."/rewards?page=".$pageID, array() );
+
+
+            if(isset($arrRewards["recordset"])){
+
+                foreach ($arrRewards["recordset"] as $reward ){
+                    $data[] = $reward;
+                }
+            }
 
             return new JsonResponse(array(
                 'message' => "listRewards",
-                'data' => $data
+                'data' => $data,
+                'metadata' => isset($arrRewards["metadata"]) ? $arrRewards["metadata"] : array()
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -4645,6 +4959,9 @@ class RestController extends FOSRestController
     }
 
     private function callGamificationService( $method, $service, $options) {
+
+
+
         $success = false;
         $attemps = 0;
 

@@ -61,6 +61,8 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
@@ -512,7 +514,8 @@
       <workItem from="1567298490989" duration="39961000" />
       <workItem from="1567621725502" duration="13000" />
       <workItem from="1567621744759" duration="9968000" />
-      <workItem from="1567718188733" duration="21146000" />
+      <workItem from="1567718188733" duration="21405000" />
+      <workItem from="1568061096871" duration="13171000" />
     </task>
     <servers />
   </component>

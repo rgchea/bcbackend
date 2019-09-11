@@ -2170,8 +2170,6 @@ class PropertyController extends Controller
             }
 
 
-
-
         }
         else{
             //print "entra2";die;
