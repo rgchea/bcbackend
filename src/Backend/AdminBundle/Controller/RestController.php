@@ -2003,7 +2003,13 @@ class RestController extends FOSRestController
 
                 $iconClass = ($ticket->getTicketCategory()->getIcon() != null) ? $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
 
-                $like = $ticketFollower = $this->em->getRepository('BackendAdminBundle:TicketFollower')->findOneBy(array('enabled' => true, 'ticket' => $ticket->getId(), 'user' => $this->getUser()->getId()));
+                $like = $this->em->getRepository('BackendAdminBundle:TicketFollower')->findOneBy(array('enabled' => true, 'ticket' => $ticket->getId(), 'user' => $this->getUser()->getId()));
+                if($like != NULL){
+                    $like = 1;
+                }
+                else{
+                    $like = 0;
+                }
 
                 $data[] = array(
                     'id' => $ticket->getId(),
