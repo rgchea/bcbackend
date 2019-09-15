@@ -590,7 +590,7 @@ class ComplexController extends Controller
 
                     ///CREATE DEFAULT REWARDS
                     $token = $this->get('services')->getBCToken();
-                    $arrRewards = $this->callGamificationService( "POST", "teams/".$teamIDComplex."/rewards", array() );
+                    $arrRewards = $this->get('services')->callBCSpace( "POST", "teams/".$teamIDComplex."/rewards", array() );
                     
 
                     //CREATE TEAMS -> ADMINS / TENANT
