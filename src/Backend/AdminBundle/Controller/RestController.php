@@ -837,7 +837,6 @@ class RestController extends FOSRestController
 
 
             $token = $this->get('services')->getBCToken();
-            //toDo
             $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
             //var_dump($gamificationResponse);die;
@@ -4894,17 +4893,89 @@ class RestController extends FOSRestController
         }
     }
 
+
+
     /**
-     * Exchanges a rewards of the specified user.
+     * List the reward detail.
      *
-     * This calls the Bettercondos.info API to get a exchange a reward for the user. [Right now it does nothing].
+     * This calls the Bettercondos.info API to get a list of rewards for the user. [Right now it does nothing].
      *
-     * @Rest\Post("/v1/reward", name="exchangeReward", )
+     * @Rest\Get("/v1/reward/{reward_id}", name="rewardDetail")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="reward_id", in="path", type="integer", description="reward ID." )
+     *
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the list of points for the user.",
+     *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="data", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="photoURL", type="string", description="photo url", example="//dummyimage.com/150x150/000/fff&text=AmazonGift" ),
+     *                  @SWG\Property( property="id", type="integer", description="Reward ID", example="1" ),
+     *                  @SWG\Property( property="name", type="string", description="Name of the reward", example="Reward" ),
+     *                  @SWG\Property( property="description", type="string HTML", description="Description of the reward", example="<p>Reward Description</p>" ),
+     *                  @SWG\Property( property="points", type="integer", description="Points to exchange", example="4500" ),
+     *                  @SWG\Property( property="start_at", type="string", description="GMT datetime", example="2019-09-03T00:00:00+0000" ),
+     *                  @SWG\Property( property="finish_at", type="string", description="GMT datetime", example="2019-09-03T00:00:00+0000" ),
+     *              ),
+     *          ),
+     *          @SWG\Property( property="message", type="string", example="" ),
+     *      )
+     * )
+     *
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Gamification")
+     */
+    public function getRewardDetailAction(Request $request)
+    {
+        try {
+            $this->initialise();
+            $data = array();
+
+            $rewardID = intval($request->get('reward_id'));
+
+            $token = $this->get('services')->getBCToken();
+            $arrReward = $this->callGamificationService( "GET", "rewards/".$rewardID, array() );
+
+            return new JsonResponse(array(
+                'message' => "rewardDetail",
+                'data' => $arrReward,
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * Exchanges a rewards of the specified player.
+     *
+     * This calls the Bettercondos.info API to get a exchange a reward for the user.
+     *
+     * @Rest\Post("/v1/reward/{reward_id}/{player_id}", name="exchangeReward", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="id", in="body", required=true, type="integer", description="The reward ID to exchange.", schema={} )
+     * @SWG\Parameter( name="reward_id", in="path", required=true, type="integer", description="The reward ID to exchange.", schema={} )
+     * @SWG\Parameter( name="player_id", in="path", required=true, type="integer", description="The player ID.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -4929,15 +5000,26 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Gamification")
      */
-    public function getExchangeRewardAction()
+    public function postExchangeRewardAction(Request $request)
     {
         try {
             $this->initialise();
 
-            // ToDo: pending definition.
+            $rewardID = intval($request->get('reward_id'));
+            $playerID = intval($request->get('player_id'));
+
+            $token = $this->get('services')->getBCToken();
+
+            $body = [
+                'player_id' => $playerID,
+                'note' => ""
+            ];
+
+            $gamificationResponse = $this->callGamificationService( "POST", "rewards/".$rewardID, $body );
+            var_dump($gamificationResponse);die;
 
             return new JsonResponse(array(
-                'message' => "exchangeReward"
+                "data" => $gamificationResponse
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -4983,8 +5065,6 @@ class RestController extends FOSRestController
 
     private function callGamificationService( $method, $service, $options) {
 
-
-
         $success = false;
         $attemps = 0;
 
@@ -4997,9 +5077,9 @@ class RestController extends FOSRestController
                 //printf(" ------------------ This never happens ------------------ ");
                 $success = true;
             } catch (\GuzzleHttp\Exception\ClientException $ex) {
-                printf(" ---= Error %s  =--- ", $ex->getMessage());
+                //printf(" ---= Error %s  =--- ", $ex->getMessage());
                 $token = $this->get('services')->getBCToken();
-                printf("Generating new token with response %s \n", ($token)?"true":"false");
+                //printf("Generating new token with response %s \n", ($token)?"true":"false");
             }
         }
 

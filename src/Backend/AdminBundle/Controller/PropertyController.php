@@ -504,7 +504,6 @@ class PropertyController extends Controller
             ///CREATE PROPERTY TEAM
             $teamIDProperty = $this->createPropertyTeam($entity->getId());
 
-
             ///CREATE TENANT CONTRACT
             $tenantContract = $this->createTenantContract($tenantEmail, $ownerEmail, $propertyContract->getId(), $teamIDProperty);
 
@@ -2159,16 +2158,6 @@ class PropertyController extends Controller
             $tenantContract->setUser($user);
             $property->setMainTenant($user);
 
-            //add player gamification
-            $body = array();
-            $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$teamIDProperty}", $body);
-            //print "<pre>";
-            //var_dump($userTeam);die;
-            if($userTeam){
-                $tenantContract->setPlayerId($userTeam["id"]);
-            }
-
-
         }
         else{
             //print "entra2";die;
@@ -2179,6 +2168,15 @@ class PropertyController extends Controller
             //invitation_user_email
             $tenantContract->setInvitationUserEmail($tenantEmail);
 
+        }
+
+        //add player gamification
+        $body = array();
+        $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$teamIDProperty}", $body);
+        //print "<pre>";
+        //var_dump($userTeam);die;
+        if($userTeam){
+            $tenantContract->setPlayerId($userTeam["id"]);
         }
 
 
