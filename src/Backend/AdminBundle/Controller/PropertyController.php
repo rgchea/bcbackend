@@ -2159,7 +2159,6 @@ class PropertyController extends Controller
             $tenantContract->setUser($user);
             $property->setMainTenant($user);
 
-
             //add player gamification
             $body = array();
             $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$teamIDProperty}", $body);
@@ -2176,15 +2175,6 @@ class PropertyController extends Controller
             //enviar invitación al correo
             //invitation_user_email
             //revisar template sengrid
-
-            $myJson = '"complex_name": "'.$property->getComplex()->getName().'"';
-            $templateID = "d-8c65067739ed4fd3bf79ab31650b47f8";
-
-            //test
-            //$to = "cheametal@gmail.com";
-            //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
-
-            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
 
             //invitation_user_email
             $tenantContract->setInvitationUserEmail($tenantEmail);
@@ -2215,8 +2205,8 @@ class PropertyController extends Controller
         $this->em->persist($property);
         $this->em->persist($tenantContract);
 
-        $this->em->flush();
 
+        $this->em->flush();
 
         //update propertyContract mainTenantContract
         $propertyContract->setMainTenantContract($tenantContract);
@@ -2224,6 +2214,13 @@ class PropertyController extends Controller
         $this->em->persist($propertyContract);
 
         $this->em->flush();
+
+
+        //email invitation
+        $myJson = '"complex_name": "'.$property->getComplex()->getName().'", "property_key": "'.$tenantContract->getPropertyCode().'"';
+        $templateID = $this->translator->getLocale() == "en" ? "d-8c65067739ed4fd3bf79ab31650b47f8" : "d-2461cbbce3e64bb2a81c90d440809352";
+        $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
+
 
         return $tenantContract;
 
