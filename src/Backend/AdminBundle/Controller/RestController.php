@@ -2446,6 +2446,10 @@ class RestController extends FOSRestController
             $this->em->persist($statusLog);
 
 
+            ///ADD POINTS
+            $playerID = $tenantContract->getPlayerId();
+            $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelativeTenant();
+            $arrResponse = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00002", array() );
 
             $this->em->flush();
 
@@ -4763,6 +4767,7 @@ class RestController extends FOSRestController
 
             $username = $this->getUser()->getUsername();
             $arrResponse = $this->callGamificationService( "GET", "account-status/".$playerID."?month=".$month."&year=".$year, array() );
+
             //var_dump($arrResponse);die;
 
             //$nextLevelPoints = $arrResponse["next_level_points"];
