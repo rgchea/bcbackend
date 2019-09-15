@@ -27,5 +27,6 @@
     <orderEntry type="module" module-name="classManager" />
     <orderEntry type="module" module-name="chicken_house" />
     <orderEntry type="module" module-name="work_process_new" />
+    <orderEntry type="module" module-name="appv1" />
   </component>
 </module>

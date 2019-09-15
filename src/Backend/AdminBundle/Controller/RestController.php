@@ -838,7 +838,7 @@ class RestController extends FOSRestController
 
             $token = $this->get('services')->getBCToken();
             //toDo
-            //$gamificationResponse = $this->callGamificationService( "POST", "users", $body );
+            $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
             //var_dump($gamificationResponse);die;
 
@@ -1943,8 +1943,6 @@ class RestController extends FOSRestController
 
 
             ////
-
-
             /** @var Ticket $ticket */
             foreach ($tickets as $ticket) {
                 $type = $ticket->getTicketType();
@@ -2005,6 +2003,8 @@ class RestController extends FOSRestController
 
                 $iconClass = ($ticket->getTicketCategory()->getIcon() != null) ? $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
 
+                $like = $ticketFollower = $this->em->getRepository('BackendAdminBundle:TicketFollower')->findOneBy(array('enabled' => true, 'ticket' => $ticket->getId(), 'user' => $this->getUser()->getId()));
+
                 $data[] = array(
                     'id' => $ticket->getId(),
                     'type_id' => $type->getId(),
@@ -2025,6 +2025,7 @@ class RestController extends FOSRestController
                     'role' => $role,
                     'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
+                    'like' => $like,
                     'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
                     'reservation' => $commonAreaData,
                 );
@@ -4699,10 +4700,14 @@ class RestController extends FOSRestController
      *
      * This calls the Bettercondos.info API to get a list of points for the user. [Right now it does nothing].
      *
-     * @Rest\Get("/v1/points", name="listPoints", )
+     * @Rest\Get("/v1/points/{player_id}", name="listPoints", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="player_id", in="path", required=true, type="integer", description="Player ID" )
+     * @SWG\Parameter( name="month", in="path", required=true, type="string", description="01-12" )
+     * @SWG\Parameter( name="year", in="path", required=true, type="string", description="4 digit format 2019" )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -4737,39 +4742,45 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Gamification")
      */
-    public function getPointsAction()
+    public function getPointsAction(Request $request)
     {
         try {
             $this->initialise();
             $data = array();
 
+            $playerID = intval($request->get('player_id'));
+            $month = trim($request->get('month'));
+            $year = intval($request->get('year'));
+
             // ToDo: pending definition.
             $token = $this->get('services')->getBCToken();
 
             $username = $this->getUser()->getUsername();
-            $arrResponse = $this->callGamificationService( "GET", "me?_switch_user=".$username."&complete=true", array() );
-            var_dump($arrResponse);die;
+            $arrResponse = $this->callGamificationService( "GET", "account-status/".$playerID."?month=".$month."&year=".$year, array() );
+            //var_dump($arrResponse);die;
 
             //$nextLevelPoints = $arrResponse["next_level_points"];
             $nextLevelPoints = 700;
             //$availablePoints = intval($arrResponse["available_points"]);
             $availablePoints = 400;
-            $exchangedPoints = intval($arrResponse["exchanged_points"]);
+            //$exchangedPoints = intval($arrResponse["exchanged_points"]);
             $exchangedPoints = 200;
             //$totalPoints = intval($arrResponse["earned_points"]);
             $totalPoints = 600;
             $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
+            //
+            //$currentLevel = intval($arrResponse["current_level"]);
+            $currentLevel = 1;
 
             $data = array(
                 "name" => $this->getUser()->getName(),
-                "level" => intval($arrResponse["current_level"]),
+                "level" => $currentLevel,
                 "earned_points" => $totalPoints,
                 "available_points" => $availablePoints,
                 "exchanged_points" => $exchangedPoints,
                 "percentage" => $percentage,
+                "log" => $arrResponse["recordset"]
                 );
-
-
 
 
             return new JsonResponse(array(

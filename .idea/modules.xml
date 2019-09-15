@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../mayaexpress/appv1/.idea/appv1.iml" filepath="$PROJECT_DIR$/../../mayaexpress/appv1/.idea/appv1.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../cmi/chicken_house/.idea/chicken_house.iml" filepath="$PROJECT_DIR$/../../cmi/chicken_house/.idea/chicken_house.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../santillana/classManager/.idea/classManager.iml" filepath="$PROJECT_DIR$/../../santillana/classManager/.idea/classManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/sf_better_condos.iml" filepath="$PROJECT_DIR$/.idea/sf_better_condos.iml" />
