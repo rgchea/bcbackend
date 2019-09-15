@@ -2448,7 +2448,7 @@ class RestController extends FOSRestController
 
             ///ADD POINTS
             $playerID = $tenantContract->getPlayerId();
-            $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelativeTenant();
+            $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
             $arrResponse = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00002", array() );
 
             $this->em->flush();
