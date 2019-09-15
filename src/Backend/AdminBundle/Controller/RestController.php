@@ -3648,6 +3648,26 @@ class RestController extends FOSRestController
 
             $messageEmail = $this->get('services')->generalTemplateMail($subject, $email, $bodyHtml);
 
+            ///herechea
+
+            //new message from sendgrid
+            if($this->translator->getLocale() == "en"){
+                $templateID = "d-6f2dbc6839e244758156ef7555ba8d8e";
+            }
+            else{
+                $templateID = "d-744e784eebb643ffa5c4a45c6143a6fc";
+            }
+
+            //tenant_name
+            //property_address
+            //complex_name
+            $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
+            $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
+            $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'",';
+
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
+
+
             return new JsonResponse(array(
                 'message' => "sendInvitation",
             ));
@@ -4564,61 +4584,6 @@ class RestController extends FOSRestController
     }
 
 
-    /**
-     * Adds points to a user based on a play.
-     *
-     * This calls the Bettercondos.info API to add points to a user based on a play. [Right now it does nothing].
-     *
-     * @Rest\Post("/v1/points", name="addPoints", )
-     *
-     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
-     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
-     *
-     * @SWG\Parameter( name="player_id", in="body", required=true, type="integer", description="The player ID.", schema={} )
-     * @SWG\Parameter( name="play_id", in="body", required=true, type="integer", description="The play ID.", schema={} )
-     *
-     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
-     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
-     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
-     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Returns the list of plays.",
-     *     @SWG\Schema (
-     *          @SWG\Property( property="message", type="string", example="" )
-     *      )
-     * )
-     *
-     * @SWG\Response(
-     *     response=500, description="Internal error.",
-     *     @SWG\Schema (
-     *          @SWG\Property( property="data", type="string", example="" ),
-     *          @SWG\Property( property="message", type="string", example="Internal error." )
-     *     )
-     * )
-     *
-     * @SWG\Tag(name="Gamification")
-     */
-    public function getAddPointsAction()
-    {
-        try {
-            $this->initialise();
-
-            // ToDo: pending definition.
-
-            // Por cada movida q sea de agregar puntos, hay q hacerlo con el team_correlative en property_contract y tambien en complex
-            // porque ellos lo quieren asi, pero para canjear puntos solo se hace del team_correlative de property_contract.
-            // Para obtener el segundo property_contract hay q jalar de property -> complex.team_correlative.
-
-            return new JsonResponse(array(
-                'message' => "listPayments"
-            ));
-        } catch (Exception $ex) {
-            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
 
     /**
      * List the payments of the specified property by month and year.
@@ -4710,7 +4675,7 @@ class RestController extends FOSRestController
      *
      * This calls the Bettercondos.info API to get a list of points for the user. [Right now it does nothing].
      *
-     * @Rest\Get("/v1/points/{player_id}", name="listPoints", )
+     * @Rest\Get("/v1/points/{player_id}/{month}/{year}", name="listPoints", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
