@@ -1065,13 +1065,9 @@ class RestController extends FOSRestController
             $this->em->flush();
 
             ///ADD POINTS TO PLAYER
-            $token = $this->get('services')->getBCToken();
-            $teamID = $property->getComplex()->getTeamCorrelative();
-            $playerID = $tenantContract->getPlayerId();
-
-            $body = array();
-            $body['name'] = $this->translator->trans('label_new')." ".$this->translator->trans("label_property"). " ".$property->getPropertyNumber() ;
-            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00001", $body );
+            $message = $this->translator->trans('label_new')." ".$this->translator->trans("label_property"). " ".$property->getPropertyNumber() ;
+            $playKey = "BC-T-00001";//registering your property
+            $this->addPoints($tenantContract, $message, $playKey);
 
 
             $data = array(
@@ -1090,6 +1086,21 @@ class RestController extends FOSRestController
         }
     }
 
+    public function addPoints($tenantContract, $message, $playKey){
+
+        ///ADD POINTS TO PLAYER
+        $token = $this->get('services')->getBCToken();
+        $teamID = $tenantContract->getPropertyContract()->getProperty()->getTeamCorrelative();
+        $walletID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
+        $playerID = $tenantContract->getPlayerId();
+
+        $body = array();
+        $body['name'] = trim($message);
+        $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/".$playKey."?wallet_id=".$walletID, $body);
+
+        return $pawnandplay;
+
+    }
 
 
 
@@ -2463,13 +2474,9 @@ class RestController extends FOSRestController
             $this->em->flush();
 
             ///ADD POINTS
-            $token = $this->get('services')->getBCToken();
-            $playerID = $tenantContract->getPlayerId();
-            $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
-
-            $body = array();
-            $body['name'] = $this->translator->trans('label_new'). " Ticket {$ticket->getId()}";
-            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00002", $body );
+            $message = $this->translator->trans('label_new'). " Ticket {$ticket->getId()}";
+            $playKey = "BC-T-00002";//ticket creation
+            $this->addPoints($tenantContract, $message, $playKey);
 
 
             $response = array('message' => $ticket->getId());
@@ -2570,13 +2577,9 @@ class RestController extends FOSRestController
 
             ///ADD POINTS
             $tenantContract = $ticket->getTenantContract();
-            $token = $this->get('services')->getBCToken();
-            $playerID = $tenantContract->getPlayerId();
-            $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
-
-            $body = array();
-            $body['name'] = $this->translator->trans('label_close'). " Ticket {$ticket->getId()}";
-            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00003", $body );
+            $message = $this->translator->trans('label_close'). " Ticket {$ticket->getId()}";
+            $playKey = "BC-T-00003";//closing ticket
+            $this->addPoints($tenantContract, $message, $playKey);
 
 
             return new JsonResponse(array(
@@ -3371,13 +3374,11 @@ class RestController extends FOSRestController
 
                 $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->find($tenantContractID);
                 ///ADD POINTS TO PLAYER
-                $token = $this->get('services')->getBCToken();
-                $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
-                $playerID = $tenantContract->getPlayerId();
 
-                $body = array();
-                $body['name'] = $this->translator->trans('label_answer')." ".$pollQuestion->getPoll()->getName() ;
-                $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00004", $body );
+                ///ADD POINTS
+                $message = $this->translator->trans('label_answer')." ".$pollQuestion->getPoll()->getName();
+                $playKey = "BC-T-00004";//feedback poll
+                $this->addPoints($tenantContract, $message, $playKey);
 
             }
 
@@ -3727,13 +3728,10 @@ class RestController extends FOSRestController
 
 
             ///ADD POINTS TO PLAYER
-            $token = $this->get('services')->getBCToken();
-            $teamID = $objProperty->getComplex()->getTeamCorrelative();
-            $playerID = $tenantContract->getPlayerId();
+            $message = $this->translator->trans('label_invitation_join').". ".$email;
+            $playKey = "BC-T-00005";//feedback poll
+            $this->addPoints($tenantContract, $message, $playKey);
 
-            $body = array();
-            $body['name'] = $this->translator->trans('label_invitation_join').". ".$email;
-            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00005", $body );
 
             return new JsonResponse(array(
                 'message' => "sendInvitation",
@@ -5045,16 +5043,16 @@ class RestController extends FOSRestController
 
             $body = [
                 'player_id' => $playerID,
-                'note' => ""
+                'note' => "note"
             ];
 
             //$gamificationResponse = $this->callGamificationService( "POST", "rewards/".$rewardID, $body );
 
             $response = $this->get('services')->callBCSpace("POST", "rewards/".$rewardID, $body );
-            var_dump($response);die;
+
 
             return new JsonResponse(array(
-                "data" => $gamificationResponse
+                "data" => $response
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
