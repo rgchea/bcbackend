@@ -2168,6 +2168,17 @@ class PropertyController extends Controller
             $tenantContract->setUser($user);
             $property->setMainTenant($user);
 
+            //add player gamification
+            /*
+            $body = array();
+            $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$teamIDProperty}", $body);
+            //print "<pre>";
+            //var_dump($userTeam);die;
+            if($userTeam){
+                $tenantContract->setPlayerId($userTeam["id"]);
+            }
+            */
+
         }
         else{
             //print "entra2";die;
@@ -2180,14 +2191,7 @@ class PropertyController extends Controller
 
         }
 
-        //add player gamification
-        $body = array();
-        $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$teamIDProperty}", $body);
-        //print "<pre>";
-        //var_dump($userTeam);die;
-        if($userTeam){
-            $tenantContract->setPlayerId($userTeam["id"]);
-        }
+
 
 
         $owner = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($ownerEmail);
@@ -2231,7 +2235,6 @@ class PropertyController extends Controller
 
 
         return $tenantContract;
-
 
 
     }

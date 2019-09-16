@@ -1064,6 +1064,20 @@ class RestController extends FOSRestController
             //$this->em->persist($property);
             $this->em->flush();
 
+            //add player gamification
+            $propertyTeamID = $tenantContract->getPropertyContract()->getProperty()->getTeamCorrelative();
+            $tenantEmail = $tenantContract->getUser()->getEmail();
+            $body = array();
+            $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$propertyTeamID}", $body);
+            //print "<pre>";
+            //var_dump($userTeam);die;
+            if($userTeam){
+                $tenantContract->setPlayerId($userTeam["id"]);
+            }
+            $this->em->persist($tenantContract);
+            $this->em->flush();
+
+
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_new')." ".$this->translator->trans("label_property"). " ".$property->getPropertyNumber() ;
             $playKey = "BC-T-00001";//registering your property
@@ -3680,6 +3694,8 @@ class RestController extends FOSRestController
                 $this->em->persist($tenantContract);
                 $this->em->flush();
 
+
+
             }
 
             $objProperty = $tenantContract->getPropertyContract()->getProperty();
@@ -3722,7 +3738,7 @@ class RestController extends FOSRestController
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_invitation_join').". ".$email;
             $playKey = "BC-T-00005";//invite tenant
-            $this->get("services")->addPoints($tenantContract, $message, $playKey);
+            $this->get("services")->addPoints($propertyContract->getMainTenantContract(), $message, $playKey);
 
 
             return new JsonResponse(array(
