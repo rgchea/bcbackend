@@ -3377,7 +3377,7 @@ class RestController extends FOSRestController
 
                 $body = array();
                 $body['name'] = $this->translator->trans('label_answer')." ".$pollQuestion->getPoll()->getName() ;
-                $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00001", $body );
+                $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00004", $body );
 
             }
 
@@ -3725,6 +3725,15 @@ class RestController extends FOSRestController
 
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
 
+
+            ///ADD POINTS TO PLAYER
+            $token = $this->get('services')->getBCToken();
+            $teamID = $objProperty->getComplex()->getTeamCorrelative();
+            $playerID = $tenantContract->getPlayerId();
+
+            $body = array();
+            $body['name'] = $this->translator->trans('label_invitation_join').". ".$email;
+            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00005", $body );
 
             return new JsonResponse(array(
                 'message' => "sendInvitation",
