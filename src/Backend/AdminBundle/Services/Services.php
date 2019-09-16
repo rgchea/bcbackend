@@ -666,7 +666,7 @@ class Services extends Controller
 
         ///ADD POINTS TO PLAYER ADMIN
         $token = $this->getBCToken();
-        $teamID = $complex->getTeamCorrelative();
+        $teamID = $complex->getTeamCorrelativeAdmin();
         $walletID = $teamID;
         $playerID = $this->getUser()->getPlayerId();
 
