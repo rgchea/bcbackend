@@ -1565,7 +1565,7 @@ class RestController extends FOSRestController
                 $photos[] = $photo->getPhotoPath();
             }
             */
-            $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $contract, "mainTenant" => 0, "enabled" => true), array("id" => "DESC"));
+            $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $contract, "mainTenant" => 0), array("id" => "DESC"));
             $mainAccount = $contract->getMainTenantContract();
 
             $isMainAccount = $this->getUser()->getId() == $mainAccount->getUser()->getId() ? true : false;
