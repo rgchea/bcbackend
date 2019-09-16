@@ -13,32 +13,42 @@ use Doctrine\ORM\Query\Expr\Join;
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiFeed($propertyId, $categoryId, $user, $pageId = 1, $limit = 10)
+    public function getApiFeed($complexID, $propertyId, $categoryId, $user, $pageId = 1, $limit = 10)
     {
-        $qb = $this->queryBuilderForApiFeed($propertyId, $categoryId, $user);
+        $qb = $this->queryBuilderForApiFeed($complexID, $propertyId, $categoryId, $user);
 
         $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
             ->setFirstResult(($pageId - 1) * $limit)// Offset
             ->setMaxResults($limit)// Limit
             ->orderBy('a.createdAt', 'DESC');
 
+        //$query=$qb->getQuery();
+        // SHOW SQL:
+        //echo $query->getSQL();
+        // Show Parameters:
+        //echo $query->getParameters();die;
+
         return $qb->getQuery()->getResult();
     }
 
-    public function countApiFeed($propertyId, $categoryId, $user)
+    public function countApiFeed($complexID, $propertyId, $categoryId, $user)
     {
-        $qb = $this->queryBuilderForApiFeed($propertyId, $categoryId, $user);
+        $qb = $this->queryBuilderForApiFeed($complexID, $propertyId, $categoryId, $user);
         $qb->select('count(a.id)');
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    private function queryBuilderForApiFeed($propertyId, $categoryId, $user)
+    private function queryBuilderForApiFeed($complexID,$propertyId, $categoryId, $user)
     {
          $qb = $this->genericTicketQueryBuilder()
             ->andWhere('p.id = :prop_id')
             ->setParameter('prop_id', $propertyId)
-            ->andWhere('a.createdBy = :user')
-            ->setParameter('user', $user);
+            //->andWhere('a.createdBy = :user')
+            //->setParameter('user', $user)
+            ->orWhere("a.ticketType = :share AND a.complex = :complex")
+             ->setParameter('share', 2)
+             ->setParameter('complex', $complexID)
+            ;
 
             if(intval($categoryId) != 0){
                 $qb->andWhere('tc.id = :cat_id');
@@ -64,7 +74,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('a');
 
          $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
-            ->innerJoin('a.ticketCategory', 'tc', Join::WITH, $qb->expr()->andX(
+            ->leftJoin('a.ticketCategory', 'tc', Join::WITH, $qb->expr()->andX(
                 $qb->expr()->eq('tc', 'a.ticketCategory'),
                 $qb->expr()->eq('tc.enabled', '1')
             ))

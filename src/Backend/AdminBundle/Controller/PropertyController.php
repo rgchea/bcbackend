@@ -174,8 +174,19 @@ class PropertyController extends Controller
                     case 'number':
                         {
 
-                            $urlDetail = $this->generateUrl('backend_admin_property_detail', array('id' => $entity->getId()));
-                            $property = "<a href='".$urlDetail."'>".$entity->getPropertyNumber()."</a>";
+                            $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $entity->getId(), 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+
+                            if($propertyContract){
+
+                                //$mainContract = $propertyContract->getMainTenantContract();
+                                $urlDetail = $this->generateUrl('backend_admin_property_detail', array('id' => $entity->getId()));
+                                $property = "<a href='".$urlDetail."'>".$entity->getPropertyNumber()."</a>";
+
+                            }
+                            else{
+                                $property = $entity->getPropertyNumber();
+                            }
+
 
                             $responseTemp = $property;
                             break;
@@ -910,7 +921,6 @@ class PropertyController extends Controller
         $entity->setTitle("Share property ".$propertyID);
         $entity->setDescription("Share property ".$propertyID);
         $entity->setIsPublic(1);
-
 
         $this->get("services")->blameOnMe($entity, "create");
         $this->get("services")->blameOnMe($entity, "update");

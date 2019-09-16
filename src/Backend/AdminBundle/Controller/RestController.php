@@ -1067,7 +1067,7 @@ class RestController extends FOSRestController
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_new')." ".$this->translator->trans("label_property"). " ".$property->getPropertyNumber() ;
             $playKey = "BC-T-00001";//registering your property
-            $this->addPoints($tenantContract, $message, $playKey);
+            $this->get("services")->addPoints($tenantContract, $message, $playKey);
 
 
             $data = array(
@@ -1085,23 +1085,6 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-    public function addPoints($tenantContract, $message, $playKey){
-
-        ///ADD POINTS TO PLAYER
-        $token = $this->get('services')->getBCToken();
-        $teamID = $tenantContract->getPropertyContract()->getProperty()->getTeamCorrelative();
-        $walletID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
-        $playerID = $tenantContract->getPlayerId();
-
-        $body = array();
-        $body['name'] = trim($message);
-        $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/".$playKey."?wallet_id=".$walletID, $body);
-
-        return $pawnandplay;
-
-    }
-
 
 
     /**
@@ -1946,8 +1929,10 @@ class RestController extends FOSRestController
             $data = array();
             $lang = strtolower(trim($request->get('language')));
 
-            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($property_id, $filter_category_id, $this->getUser(), $page_id);
-            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($property_id, $filter_category_id, $this->getUser());
+            $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($property_id);
+
+            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($objProperty->getComplex()->getId(), $property_id, $filter_category_id, $this->getUser(), $page_id);
+            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($objProperty->getComplex()->getId(), $property_id, $filter_category_id, $this->getUser());
 
             $ticketIds = $this->getArrayOfIds($tickets);
 
@@ -2033,17 +2018,24 @@ class RestController extends FOSRestController
                     $like = 0;
                 }
 
+                if($ticket->getTicketCategory()){
+                    $myCategory = array("category_id" => $ticket->getTicketCategory()->getId(),
+                        "category_name" => $ticket->getTicketCategory()->getName(),
+                        "icon_class" => $iconClass,
+                        "color" => $ticket->getTicketCategory()->getColor());
+                }
+                else{
+                    $myCategory = array();
+
+                }
+
                 $data[] = array(
                     'id' => $ticket->getId(),
                     'type_id' => $type->getId(),
                     'type_name' => $type->getName(),
                     //'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
                     'status' => $status->getId(),
-                    'category' =>
-                        array("category_id" => $ticket->getTicketCategory()->getId(),
-                                "category_name" => $ticket->getTicketCategory()->getName(),
-                                "icon_class" => $iconClass,
-                                "color" => $ticket->getTicketCategory()->getColor()),
+                    'category' => $myCategory,
                     'title' => $ticket->getTitle(),
                     'description' => $ticket->getDescription(),
                     'is_public' => $ticket->getIsPublic(),
@@ -2478,7 +2470,7 @@ class RestController extends FOSRestController
             ///ADD POINTS
             $message = $this->translator->trans('label_new'). " Ticket {$ticket->getId()}";
             $playKey = "BC-T-00002";//ticket creation
-            $this->addPoints($tenantContract, $message, $playKey);
+            $this->get("services")->addPoints($tenantContract, $message, $playKey);
 
 
             $response = array('message' => $ticket->getId());
@@ -2581,7 +2573,7 @@ class RestController extends FOSRestController
             $tenantContract = $ticket->getTenantContract();
             $message = $this->translator->trans('label_close'). " Ticket {$ticket->getId()}";
             $playKey = "BC-T-00003";//closing ticket
-            $this->addPoints($tenantContract, $message, $playKey);
+            $this->get("services")->addPoints($tenantContract, $message, $playKey);
 
 
             return new JsonResponse(array(
@@ -3380,7 +3372,7 @@ class RestController extends FOSRestController
                 ///ADD POINTS
                 $message = $this->translator->trans('label_answer')." ".$pollQuestion->getPoll()->getName();
                 $playKey = "BC-T-00004";//feedback poll
-                $this->addPoints($tenantContract, $message, $playKey);
+                $this->get("services")->addPoints($tenantContract, $message, $playKey);
 
             }
 
@@ -3586,6 +3578,7 @@ class RestController extends FOSRestController
         }
     }
 
+
     /**
      * Posts an invitation.
      *
@@ -3665,7 +3658,7 @@ class RestController extends FOSRestController
                 $tenantContract = new TenantContract();
                 $tenantContract->setPropertyContract($propertyContract);
                 //$tenantContract->setIsOwner(false);
-                $tenantContract->setEnabled(true);
+                $tenantContract->setEnabled(false);
                 $tenantContract->setInvitationUserEmail($email);
                 $tenantContract->setInvitationAccepted(false);
                 $code = $this->get("services")->getToken(6);
@@ -3692,8 +3685,6 @@ class RestController extends FOSRestController
             $objProperty = $tenantContract->getPropertyContract()->getProperty();
             $propertyName = $objProperty->getPropertyType() . " ". $objProperty->getPropertyNumber();
 
-            $this->translator->setLocale($lang);
-
             /*
             $now = new \DateTime();
             $subject = $this->translator->trans('mail.invite_subject');
@@ -3709,7 +3700,7 @@ class RestController extends FOSRestController
 
 
             //new message from sendgrid
-            if($this->translator->getLocale() == "en"){
+            if($lang == "en"){
                 $templateID = "d-a2eda7d6832448c484be6ae550126187";
             }
             else{
@@ -3730,8 +3721,8 @@ class RestController extends FOSRestController
 
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_invitation_join').". ".$email;
-            $playKey = "BC-T-00005";//feedback poll
-            $this->addPoints($tenantContract, $message, $playKey);
+            $playKey = "BC-T-00005";//invite tenant
+            $this->get("services")->addPoints($tenantContract, $message, $playKey);
 
 
             return new JsonResponse(array(

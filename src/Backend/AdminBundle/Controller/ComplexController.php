@@ -735,6 +735,14 @@ class ComplexController extends Controller
                 //$this->em->persist($entity);
                 $this->em->flush();
 
+
+                //ADD POINTS
+                $message = $this->translator->trans("label_register_create_complex"). ' '. $entity->getName();
+                $playKey = "BC-A-00003";//create complex
+                $this->get("services")->addPointsAdmin($entity, $message, $playKey);
+
+
+
                 $this->get('services')->flashSuccess($request);
                 return $this->redirect($this->generateUrl('backend_admin_complex_index'));
 

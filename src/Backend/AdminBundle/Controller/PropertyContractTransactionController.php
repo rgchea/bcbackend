@@ -369,7 +369,8 @@ class PropertyContractTransactionController extends Controller
 
         $payment = new PropertyContractTransaction();
         $payment->setEnabled(1);
-        $payment->setComplex($objProperty->getComplex());
+        $complex = $objProperty->getComplex();
+        $payment->setComplex($complex);
         $payment->setPropertyContract($propertyContract);
         $payment->setPropertyTransactionType($transactionType);
         //$payment->setCommonAreaReservation($entity);
@@ -387,8 +388,12 @@ class PropertyContractTransactionController extends Controller
 
         $this->em->persist($payment);
 
-
         $this->em->flush();
+
+        //ADD POINTS
+        $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_payment"). " ". $payment->getId();
+        $playKey = "BC-A-00004";//Register payment
+        $this->get("services")->addPointsAdmin($complex, $message, $playKey);
 
 
         $this->get('services')->flashSuccess($request);

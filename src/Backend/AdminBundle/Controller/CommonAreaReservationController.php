@@ -279,7 +279,6 @@ class CommonAreaReservationController extends Controller
         var_dump(json_decode($_REQUEST["my_schedule"], true));
         die;
         */
-
         $this->get("services")->setVars('commonAreaReservation');
         $this->initialise();
 
@@ -332,8 +331,13 @@ class CommonAreaReservationController extends Controller
 
         $this->em->persist($bookingLog);
 
-
         $this->em->flush();
+
+        //ADD POINTS
+        $message = $description;
+        $playKey = "BC-A-00006";//approve booking
+        $this->get("services")->addPointsAdmin($entity->getCommonArea()->getComplex(), $message, $playKey);
+
 
         $this->get('services')->flashSuccess($request);
         return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index'));
@@ -652,6 +656,12 @@ class CommonAreaReservationController extends Controller
         $this->get("services")->blameOnMe($entity, "update");
 
         $this->em->persist($entity);
+
+        //ADD POINTS
+        $description = $this->translator->trans("label_new")." ".$this->translator->trans("label_booking"). " #".$entity->getId();
+        $message = $description;
+        $playKey = "BC-A-00007";//add booking
+        $this->get("services")->addPointsAdmin($entity->getCommonArea()->getComplex(), $message, $playKey);
 
         ///PAYMENT
         $cost = floatval($_REQUEST["cost"]);

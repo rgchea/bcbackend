@@ -407,6 +407,12 @@ class TicketController extends Controller
 
         $this->em->flush();
 
+        //ADD POINTS
+        $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_ticket"). " ". $ticket->getId();
+        $playKey = "BC-A-00005";//Register ticket
+        $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
+
+
 
         $this->get('services')->flashSuccess($request);
         return $this->redirect($this->generateUrl('backend_admin_ticket_index'));

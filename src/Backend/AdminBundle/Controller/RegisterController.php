@@ -219,7 +219,6 @@ class RegisterController extends Controller
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
 
-
                 //var_dump($message);die;
 
                 //return $this->redirectToRoute('backend_admin_business_new', array('userID' => $entity->getId()));

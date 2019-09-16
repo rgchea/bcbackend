@@ -644,6 +644,40 @@ class Services extends Controller
         return 1;
     }
 
+
+    public function addPoints($tenantContract, $message, $playKey){
+
+        ///ADD POINTS TO PLAYER
+        $token = $this->getBCToken();
+        $teamID = $tenantContract->getPropertyContract()->getProperty()->getTeamCorrelative();
+        $walletID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
+        $playerID = $tenantContract->getPlayerId();
+
+        $body = array();
+        $body['name'] = trim($message);
+        $pawnandplay = $this->callBCSpace( "POST", "teams/".$teamID."/players/".$playerID."/pwn/".$playKey."?wallet_id=".$walletID, $body);
+
+        return $pawnandplay;
+
+    }
+
+
+    public function addPointsAdmin($complex, $message, $playKey){
+
+        ///ADD POINTS TO PLAYER ADMIN
+        $token = $this->getBCToken();
+        $teamID = $complex->getTeamCorrelative();
+        $walletID = $teamID;
+        $playerID = $this->getUser()->getPlayerId();
+
+        $body = array();
+        $body['name'] = trim($message);
+        $pawnandplay = $this->callBCSpace( "POST", "teams/".$teamID."/players/".$playerID."/pwn/".$playKey."?wallet_id=".$walletID, $body);
+
+        return $pawnandplay;
+
+    }
+
     public function callBCSpace($method, $service, $body = null){
 
         //$token = "ZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQ";
