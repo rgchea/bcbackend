@@ -102,6 +102,8 @@ class RestController extends FOSRestController
         $this->em = $this->getDoctrine()->getManager();
         $this->translator = $this->get('translator');
         $this->serializer = $this->get('jms_serializer');
+
+
     }
 
 
@@ -975,6 +977,7 @@ class RestController extends FOSRestController
             $this->initialise();
 
             $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
 
             if (!$request->headers->has('Content-Type')) {
                 throw new \Exception("Missing Content-Type header.");
@@ -1050,7 +1053,7 @@ class RestController extends FOSRestController
 
             $this->em->persist($tenantContract);
 
-            $this->translator->setLocale($lang);
+
             $description = $this->translator->trans("label_invite_accepted_notification");
 
             $notification = $this->createInviteUserNotification($tenantContract, $user,  $tenantContract->getCreatedBy(), $description);
@@ -1060,6 +1063,15 @@ class RestController extends FOSRestController
 
             //$this->em->persist($property);
             $this->em->flush();
+
+            ///ADD POINTS TO PLAYER
+            $token = $this->get('services')->getBCToken();
+            $teamID = $property->getComplex()->getTeamCorrelative();
+            $playerID = $tenantContract->getPlayerId();
+
+            $body = array();
+            $body['name'] = $this->translator->trans('label_new')." ".$this->translator->trans("label_property"). " ".$property->getPropertyNumber() ;
+            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00001", $body );
 
 
             $data = array(
@@ -2313,6 +2325,10 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
+            $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
+
+
             if (!$request->headers->has('Content-Type')) {
                 throw new \Exception("Missing Content-Type header.");
             }
@@ -2444,6 +2460,7 @@ class RestController extends FOSRestController
             $this->em->persist($ticket);
             $this->em->persist($statusLog);
 
+            $this->em->flush();
 
             ///ADD POINTS
             $token = $this->get('services')->getBCToken();
@@ -2451,10 +2468,9 @@ class RestController extends FOSRestController
             $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
 
             $body = array();
-            $body['name'] = "Ticket {$ticket->getId()}";
-            $arrResponse = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00002", array() );
+            $body['name'] = $this->translator->trans('label_new'). " Ticket {$ticket->getId()}";
+            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00002", $body );
 
-            $this->em->flush();
 
             $response = array('message' => $ticket->getId());
             if ($this->container->getParameter('kernel.environment') == 'dev') {
@@ -2514,6 +2530,10 @@ class RestController extends FOSRestController
                 throw new \Exception("Missing Content-Type header.");
             }
 
+            $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
+
+
             $ticketId = trim($request->get('ticket_id'));
             $rating = trim($request->get('rating'));
 
@@ -2547,6 +2567,17 @@ class RestController extends FOSRestController
             $this->em->persist($statusLog);
 
             $this->em->flush();
+
+            ///ADD POINTS
+            $tenantContract = $ticket->getTenantContract();
+            $token = $this->get('services')->getBCToken();
+            $playerID = $tenantContract->getPlayerId();
+            $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
+
+            $body = array();
+            $body['name'] = $this->translator->trans('label_close'). " Ticket {$ticket->getId()}";
+            $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00003", $body );
+
 
             return new JsonResponse(array(
                 'message' => "",
@@ -3215,6 +3246,8 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="answer_text", in="body", type="string", description="The answer text. It is required although it could be empty.", schema={} )
      * @SWG\Parameter( name="answer_rating", in="body", type="integer", description="The answer rating.", schema={} )
      * @SWG\Parameter( name="poll_question_option_ids", in="body", type="array", description="Array of integers of poll question option ids. Must have at least 1 element.", schema={} )
+     * @SWG\Parameter( name="tenant_contract_id", in="body", required=true, type="integer", description="tenant contract ID", schema={} )
+     * @SWG\Parameter( name="end_poll", in="body", required=true, type="integer", description="1 end of the poll - 0", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -3253,6 +3286,8 @@ class RestController extends FOSRestController
             $answerText = trim($request->get('answer_text'));
             $answerRating = $request->get('answer_rating');
             $pollQuestionOptionIds = $request->get('poll_question_option_ids');
+            $endPoll = intval($request->get('end_poll'));
+            $tenantContractID = intval($request->get('tenant_contract_id'));
 
             // Required parameter
             /** @var PollQuestion $pollQuestion */
@@ -3330,6 +3365,21 @@ class RestController extends FOSRestController
             }
 
             $this->em->flush();
+
+
+            if($endPoll){
+
+                $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->find($tenantContractID);
+                ///ADD POINTS TO PLAYER
+                $token = $this->get('services')->getBCToken();
+                $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
+                $playerID = $tenantContract->getPlayerId();
+
+                $body = array();
+                $body['name'] = $this->translator->trans('label_answer')." ".$pollQuestion->getPoll()->getName() ;
+                $pawnandplay = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00001", $body );
+
+            }
 
             return new JsonResponse(array(
                 'message' => "tenantAnswer",
@@ -4989,8 +5039,10 @@ class RestController extends FOSRestController
                 'note' => ""
             ];
 
-            $gamificationResponse = $this->callGamificationService( "POST", "rewards/".$rewardID, $body );
-            var_dump($gamificationResponse);die;
+            //$gamificationResponse = $this->callGamificationService( "POST", "rewards/".$rewardID, $body );
+
+            $response = $this->get('services')->callBCSpace("POST", "rewards/".$rewardID, $body );
+            var_dump($response);die;
 
             return new JsonResponse(array(
                 "data" => $gamificationResponse
