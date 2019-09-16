@@ -79,6 +79,7 @@ label_agreement_start_date: 'Fecha inicio del contrato'
 label_agreement_end_date: 'Fecha finalización de contrato'
 label_current_complex: 'Complejo actual'
 label_invitations: Invitaciones
+label_invitation_join: 'Invitación a un inquilino'
 label_title: Título
 label_category: Categoría
 label_time_elapsed: 'Tiempo transcurrido'

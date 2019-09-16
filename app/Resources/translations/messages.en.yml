@@ -79,6 +79,7 @@ label_agreement_start_date: 'Agreement Start Date'
 label_agreement_end_date: 'Agreement Finish Date'
 label_current_complex: 'Current Complex'
 label_invitations: Invitations
+label_invitation_join: 'Invitation to tenant'
 label_title: Title
 label_category: Category
 label_time_elapsed: 'Time Elapsed'
