@@ -50,7 +50,7 @@ Backend\AdminBundle\Entity\Ticket:
         title:
             type: string
             nullable: false
-            length: 32
+            length: 256
             options:
                 fixed: false
                 default: ''

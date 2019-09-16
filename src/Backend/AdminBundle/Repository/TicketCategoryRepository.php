@@ -46,7 +46,7 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('i.enabled', '1')
             ))
             ->where('a.enabled = 1')
-            ->andWhere('a.isGeneral = 1')
+            //->andWhere('a.isGeneral = 1')
             ->andWhere('c.id = :com_id')
             ->setParameter('com_id', $complexId);
     }
@@ -209,7 +209,7 @@ class TicketCategoryRepository extends \Doctrine\ORM\EntityRepository
 
         $arrDefault = array(
             
-                    array("f7d9" => array("en" => "General fixes", "es" => "Reparaciones generales", "hexa" => "#ff0044")),
+                    array("f7d9" => array("en" => "Fixes", "es" => "Reparaciones", "hexa" => "#ff0044")),
                     array("f3ed" => array("en" => "Security", "es" => "Seguridad","hexa" => "#68386c")) ,
                     array("f552" =>array("en" => "Utilities", "es" => "Servicios","hexa" => "#a22532")) ,
                     array("f51a" => array("en" => "Cleaning", "es" => "Limpieza","hexa" => "#8b9bb4")),
