@@ -4675,12 +4675,12 @@ class RestController extends FOSRestController
      *
      * This calls the Bettercondos.info API to get a list of points for the user. [Right now it does nothing].
      *
-     * @Rest\Get("/v1/points/{player_id}/{month}/{year}", name="listPoints", )
+     * @Rest\Get("/v1/points/{player_id}/{month}/{year}", name="getPoints", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="player_id", in="path", required=true, type="integer", description="Player ID" )
+     * @SWG\Parameter( name="player_id", in="path", required=true, type="string", description="Player ID" )
      * @SWG\Parameter( name="month", in="path", required=true, type="string", description="01-12" )
      * @SWG\Parameter( name="year", in="path", required=true, type="string", description="4 digit format 2019" )
      *
@@ -4717,21 +4717,21 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Gamification")
      */
-    public function getPointsAction(Request $request)
+    public function getPointsAction($player_id, $month, $year)
     {
         try {
             $this->initialise();
             $data = array();
 
-            $playerID = intval($request->get('player_id'));
-            $month = trim($request->get('month'));
-            $year = intval($request->get('year'));
+            //$playerID = intval($request->get('player_id'));
+            //$month = trim($request->get('month'));
+            //$year = intval($request->get('year'));
 
             // ToDo: pending definition.
             $token = $this->get('services')->getBCToken();
 
             $username = $this->getUser()->getUsername();
-            $arrResponse = $this->callGamificationService( "GET", "account-status/".$playerID."?month=".$month."&year=".$year, array() );
+            $arrResponse = $this->callGamificationService( "GET", "account-status/".$player_id."?month=".$month."&year=".$year, array() );
 
             //var_dump($arrResponse);die;
 
