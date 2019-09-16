@@ -3724,10 +3724,9 @@ class RestController extends FOSRestController
             $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
             $myJson .= '"complex_city": "'.$objProperty->getComplex()->getGeoState().'",';
             $myJson .= '"complex_state": "'.$objProperty->getComplex()->getGeoState()->getGeoCountry().'",';
-            $myJson .= '"property_key": "'.$tenantContract->getPropertyCode().'",';
+            $myJson .= '"property_key": "'.$tenantContract->getPropertyCode().'"';
 
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
-
 
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_invitation_join').". ".$email;
