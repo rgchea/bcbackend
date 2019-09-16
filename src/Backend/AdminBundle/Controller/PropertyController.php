@@ -2198,7 +2198,7 @@ class PropertyController extends Controller
         $tenantContract->setOwnerEmail($ownerEmail);
         $property->setOwnerEmail($ownerEmail);
         $tenantContract->setPropertyContract($propertyContract);
-        $tenantContract->setEnabled(1);
+        $tenantContract->setEnabled(0);
         $tenantContract->setMainTenant(1);
 
         $code = $this->get("services")->getToken(6);
