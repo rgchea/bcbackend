@@ -2100,6 +2100,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="type_name", type="string", description="Ticket type name", example="TicketTypeName" ),
      *                  @SWG\Property( property="solved_at", type="string", description="Unix timestamp", example="1566232199" ),
      *                  @SWG\Property( property="solved_by", type="string", description="User name", example="Rolegio Rodas" ),
+     *                  @SWG\Property( property="solved_by_avatar_url", type="string", description="url", example="" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
      *                  @SWG\Property( property="category", type="array",
      *                      @SWG\Items(
@@ -2199,6 +2200,7 @@ class RestController extends FOSRestController
                 'status' => $status->getId(),
                 'solved_at' => $ticket->getUpdatedAt()->getTimestamp(),
                 'solved_by' => $ticket->getUpdatedBy()->getName(),
+                'solved_by_avatar_url' => $ticket->getUpdatedBy()->getAvatarPath(),
                 'category' =>
                     array("category_id" => $ticket->getTicketCategory()->getId(),
                         "category_name" => $ticket->getTicketCategory()->getName(),
