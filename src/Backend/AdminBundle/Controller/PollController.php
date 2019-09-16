@@ -85,9 +85,23 @@ class PollController extends Controller
         else // If the request is not a POST one, die hard
             die;
 
+
+        ///FILTER BY ROLE
+        $filters = null;
+        if($this->role != "SUPER ADMIN"){
+
+
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $filters[$v] = $v;//the complex id
+            }
+
+        }
+
+
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns);
+        $results = $this->em->getRepository('BackendAdminBundle:ComplexPoll')->getRequiredDTData($start, $length, $orders, $search, $columns, $filters);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -96,6 +110,8 @@ class PollController extends Controller
 
         foreach ($objects as $key => $entity)
         {
+
+            //var_dump($entity);die;
             $response .= '["';
 
             $j = 0;
@@ -109,28 +125,28 @@ class PollController extends Controller
                 {
                     case 'id':
                         {
-                            $responseTemp = $entity->getId();
+                            $responseTemp = $entity["id"];
 
                             break;
                         }
                     case 'name':
                         {
-                            $responseTemp = $entity->getName();
+                            $responseTemp = $entity["name"];
                             break;
                         }
                     case 'enabled':
                         {
-                            $responseTemp = $entity->getEnabled() ? $this->translator->trans('label_yes') : $this->translator->trans('label_no');
+                            $responseTemp = $entity["enabled"] ? $this->translator->trans('label_yes') : $this->translator->trans('label_no');
                             break;
                         }
 
 
                     case 'actions':
                         {
-                            $urlEdit = $this->generateUrl('backend_admin_poll_edit', array('id' => $entity->getId()));
+                            $urlEdit = $this->generateUrl('backend_admin_poll_edit', array('id' => $entity["id"]));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
-                            $urlDelete = $this->generateUrl('backend_admin_poll_delete', array('id' => $entity->getId()));
+                            $urlDelete = $this->generateUrl('backend_admin_poll_delete', array('id' => $entity["id"]));
                             $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $edit.$delete;
