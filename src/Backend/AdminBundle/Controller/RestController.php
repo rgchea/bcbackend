@@ -2449,6 +2449,9 @@ class RestController extends FOSRestController
             $token = $this->get('services')->getBCToken();
             $playerID = $tenantContract->getPlayerId();
             $teamID = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getTeamCorrelative();
+
+            $body = array();
+            $body['name'] = "Ticket {$ticket->getId()}";
             $arrResponse = $this->callGamificationService( "POST", "teams/".$teamID."/players/".$playerID."/pwn/BC-T-00002", array() );
 
             $this->em->flush();
@@ -3633,10 +3636,12 @@ class RestController extends FOSRestController
 
             }
 
-
-            $propertyName = $tenantContract->getPropertyContract()->getProperty()->getPropertyType() . " ". $tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
+            $objProperty = $tenantContract->getPropertyContract()->getProperty();
+            $propertyName = $objProperty->getPropertyType() . " ". $objProperty->getPropertyNumber();
 
             $this->translator->setLocale($lang);
+
+            /*
             $now = new \DateTime();
             $subject = $this->translator->trans('mail.invite_subject');
             $bodyHtml = $this->getUser()->getName(). " ". sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_property_body'));
@@ -3647,25 +3652,28 @@ class RestController extends FOSRestController
             $bodyHtml .= "<br/>";
 
             $messageEmail = $this->get('services')->generalTemplateMail($subject, $email, $bodyHtml);
+            */
 
-            ///herechea
 
             //new message from sendgrid
             if($this->translator->getLocale() == "en"){
-                $templateID = "d-6f2dbc6839e244758156ef7555ba8d8e";
+                $templateID = "d-a2eda7d6832448c484be6ae550126187";
             }
             else{
-                $templateID = "d-744e784eebb643ffa5c4a45c6143a6fc";
+                $templateID = "d-010af6bef81a446b9c7be592b4b579db";
             }
 
             //tenant_name
             //property_address
             //complex_name
-            $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
-            $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
-            $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'",';
+            $myJson = '"property_number": "'.$propertyName.'",';
+            $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress.'",';
+            $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
+            $myJson .= '"complex_city": "'.$objProperty->getComplex()->getGeoState().'",';
+            $myJson .= '"complex_state": "'.$objProperty->getComplex()->getGeoState()->getGeoCountry().'",';
+            $myJson .= '"property_key": "'.$tenantContract->getPropertyCode().'",';
 
-            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
 
 
             return new JsonResponse(array(
@@ -4750,6 +4758,7 @@ class RestController extends FOSRestController
 
             $data = array(
                 "name" => $this->getUser()->getName(),
+                'avatar_url' => $this->getUser()->getAvatarPath(),
                 "level" => $currentLevel,
                 "earned_points" => $totalPoints,
                 "available_points" => $availablePoints,
