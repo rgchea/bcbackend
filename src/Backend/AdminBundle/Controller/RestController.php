@@ -1893,6 +1893,7 @@ class RestController extends FOSRestController
      *              property="data", type="array",
      *              @SWG\Items(
      *                  @SWG\Property( property="id", type="string", description="Ticket ID", example="1" ),
+     *                  @SWG\Property( property="property_did", type="string", description="property ID", example="1" ),
      *                  @SWG\Property( property="type_id", type="string", description="Ticket type ID", example="1" ),
      *                  @SWG\Property( property="type_name", type="string", description="Ticket type name", example="TicketTypeName" ),
      *                  @SWG\Property( property="status", type="string", description="Ticket status", example="Status" ),
@@ -2051,6 +2052,7 @@ class RestController extends FOSRestController
 
                 $data[] = array(
                     'id' => $ticket->getId(),
+                    'property_id' => $ticket->getProperty()-getId(),
                     'type_id' => $type->getId(),
                     'type_name' => $type->getName(),
                     //'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
