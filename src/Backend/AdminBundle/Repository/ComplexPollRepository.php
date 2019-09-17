@@ -188,4 +188,46 @@ class ComplexPollRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
+
+    public function getApiPolls($complex_id, $pageId = 1, $limit = 10)
+    {
+        $qb = $this->queryBuilderForApiPolls($complex_id);
+
+        $qb->setFirstResult(($pageId - 1) * $limit)// Offset
+        ->setMaxResults($limit)// Limit
+
+        ->orderBy('p.id', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countApiPolls($complex_id)
+    {
+        $qb = $this->queryBuilderForApiPolls($complex_id);
+        $qb->select('count(p.id)')
+            //->groupBy('p.id')
+            ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function queryBuilderForApiPolls($complex_id)
+    {
+        $today = new \DateTime();
+
+        return $this->createQueryBuilder('a')
+            ->select('DISTINCT(p.id) as id, p.name')
+            ->innerJoin('a.complex', 'c' )
+            ->innerJoin('a.poll', 'p' )
+            ->andWhere('p.enabled = 1')
+            ->andWhere('c.id = :complex')
+            ->setParameter('complex', $complex_id)
+
+            //->groupBy('p.id')
+            //->andWhere('a.activeFrom <= :today')
+            //->andWhere('a.activeTo >= :today')
+            //->setParameter('today', $today)
+            ;
+    }
+
+
 }

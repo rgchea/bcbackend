@@ -3060,11 +3060,12 @@ class RestController extends FOSRestController
      *
      * Returns a list of active polls.
      *
-     * @Rest\Get("/v1/polls/{page_id}", name="listPolls")
+     * @Rest\Get("/v1/polls/{complex_id}/{page_id}", name="listPolls")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
+     * @SWG\Parameter( name="complex_id", in="path", type="string", description="complex ID" )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
@@ -3104,20 +3105,23 @@ class RestController extends FOSRestController
      *
      * @SWG\Tag(name="Poll")
      */
-    public function getPollsAction($page_id = 1)
+    public function getPollsAction($complex_id, $page_id = 1)
     {
         try {
             $this->initialise();
             $data = array();
 
-            $polls = $this->em->getRepository('BackendAdminBundle:Poll')->getApiPolls($page_id);
-            $total = $this->em->getRepository('BackendAdminBundle:Poll')->countApiPolls();
+            $polls = $this->em->getRepository('BackendAdminBundle:ComplexPoll')->getApiPolls($complex_id, $page_id);
+            //die;
+            $total = $this->em->getRepository('BackendAdminBundle:ComplexPoll')->countApiPolls($complex_id);
 
             /** @var Poll $poll */
             foreach ($polls as $poll) {
+                //var_dump($poll);die;
+
                 $data[] = array(
-                    'id' => $poll->getId(),
-                    'name' => $poll->getName(),
+                    'id' => $poll["id"],
+                    'name' => $poll['name'],
                 );
             }
 
