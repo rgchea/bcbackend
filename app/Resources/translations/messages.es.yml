@@ -254,6 +254,7 @@ label_total_visible_amount: 'Montos visibles $'
 label_active: Activo
 label_property_contract: 'Contrato de propiedad'
 label_property_share_ad: 'Crear anuncio de renta sobre propiedad'
+label_property_share: 'Compartir propiedad'
 label_property_delete_ad: 'Remover anuncio de renta sobre propiedad'
 label_property_share_ad_msg: 'Un anuncio de renta ha sido publicado. Este expirará en  '
 label_select: Selecccionar

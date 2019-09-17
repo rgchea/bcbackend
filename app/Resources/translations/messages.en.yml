@@ -254,6 +254,7 @@ label_total_visible_amount: 'Visible amounts $'
 label_active: Active
 label_property_contract: 'Property contract'
 label_property_share_ad: 'Create property rental ad'
+label_property_share: 'Property share'
 label_property_delete_ad: 'Remove property rental ad'
 label_property_share_ad_msg: 'A rental ad is published. It will expire in '
 label_select: Select

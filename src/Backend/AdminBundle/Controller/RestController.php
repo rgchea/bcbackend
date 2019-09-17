@@ -3737,7 +3737,7 @@ class RestController extends FOSRestController
             //property_address
             //complex_name
             $myJson = '"property_number": "'.$propertyName.'",';
-            $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress.'",';
+            $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress().'",';
             $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
             $myJson .= '"complex_city": "'.$objProperty->getComplex()->getGeoState().'",';
             $myJson .= '"complex_state": "'.$objProperty->getComplex()->getGeoState()->getGeoCountry().'",';
@@ -3749,6 +3749,105 @@ class RestController extends FOSRestController
             $message = $this->translator->trans('label_invitation_join').". ".$email;
             $playKey = "BC-T-00005";//invite tenant
             $this->get("services")->addPoints($propertyContract->getMainTenantContract(), $message, $playKey);
+
+
+            return new JsonResponse(array(
+                'message' => "sendInvitation",
+            ));
+        } catch (Exception $ex) {
+            return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+    /**
+     * shares an invitation to a property.
+     *
+     * send and email to the specified user
+     *
+     * @Rest\Post("/v1/shareProperty", name="shareProperty")
+     *
+     * @SWG\Parameter( name="Content-Type", in="header", required=true, type="string", default="application/json" )
+     * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
+     * @SWG\Parameter( name="email", in="body", required=true, type="string", description="The email of the invited user.", schema={} )
+     * @SWG\Parameter( name="tenant_contract_id", in="body", required=true, type="integer", description="The tenant contract id of the user that is sharing the property.", schema={} )
+     * @SWG\Parameter( name="property_id", in="body", required=true, type="integer", description="The id of the property that is being shared", schema={} )
+     *
+     * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
+     * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
+     * @SWG\Parameter( name="language", in="query", required=true, type="string", description="The language being used (either en or es)." )
+     * @SWG\Parameter( name="time_offset", in="query", type="string", description="Time difference with respect to GMT time." )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates an invitation for a user to a property.",
+     *     @SWG\Schema (
+     *          @SWG\Property( property="message", type="string", example="" )
+     *      )
+     * )
+     * @SWG\Response(
+     *     response=500, description="Internal error.",
+     *     @SWG\Schema (
+     *          @SWG\Property(property="data", type="string", example="" ),
+     *          @SWG\Property( property="message", type="string", example="Internal error." )
+     *     )
+     * )
+     *
+     * @SWG\Tag(name="Property Invites")
+     */
+
+    public function postSharePropertyAction(Request $request)
+    {
+        try {
+            $this->initialise();
+
+            if (!$request->headers->has('Content-Type')) {
+                throw new \Exception("Missing Content-Type header.");
+            }
+
+            $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
+
+            $message = "Invitation";
+            $email = trim($request->get('email'));
+            $propertyID = trim($request->get('property_id'));
+            $tenantContractID = trim($request->get('tenant_contract_id'));
+
+            $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+            if ($objProperty == null) {
+                throw new \Exception("Invalid property.");
+            }
+
+
+            $objTenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->find($tenantContractID);
+            if ($objTenantContract == null) {
+                throw new \Exception("Invalid tenant contract.");
+            }
+
+            //new message from sendgrid
+            if($lang == "en"){
+                $templateID = "d-79945b73f1724912ba952365257653cd";
+            }
+            else{
+                $templateID = "d-306f5c62e0354b92b9ce58431ba76d45";
+            }
+
+            //tenant_name
+            //property_address
+            //complex_name
+            $myJson = '"property_number": "'.$objProperty->getPropertyNumber().'",';
+            $myJson .= '"complex_email": "'.$objProperty->getComplex()->getEmail().'",';
+            $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
+
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
+
+            ///ADD POINTS TO PLAYER
+            $message = $this->translator->trans('label_property_share')." ".$objProperty->getPropertyNumber()." >".$email;
+            $playKey = "BC-T-00006";//share property
+            $this->get("services")->addPoints($objTenantContract, $message, $playKey);
 
 
             return new JsonResponse(array(
