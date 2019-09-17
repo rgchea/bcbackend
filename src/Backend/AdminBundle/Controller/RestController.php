@@ -1904,6 +1904,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="user_fullname", type="string", description="Ticket's creator name", example="Firstname Lastname" ),
      *                  @SWG\Property( property="role", type="string", description="Ticket's creator role", example="Admin" ),
      *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="notification_datetime", type="string", description="date time of the notification", example="m/d/Y H:i:s" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),
      *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *                  @SWG\Property( property="reservation", type="object",
@@ -2052,6 +2053,7 @@ class RestController extends FOSRestController
                 }
 
                 $propertyID = $ticket->getProperty() ? $ticket->getProperty()->getId() : null;
+                $notificationDatetime = $ticket->getNotificationDateTime() ? $ticket->getNotificationDateTime()->format("m/d/Y H:i:s") : null;
 
                 $data[] = array(
                     'id' => $ticket->getId(),
@@ -2069,6 +2071,7 @@ class RestController extends FOSRestController
                     'photo' => $photo,
                     'role' => $role,
                     'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
+                    'notification_datetime' => $notificationDatetime,
                     'followers_quantity' => (array_key_exists($ticket->getId(), $followers)) ? $followers[$ticket->getId()] : 0,
                     'like' => $like,
                     'comments_quantity' => (array_key_exists($ticket->getId(), $comments)) ? $comments[$ticket->getId()] : 0,
@@ -2134,6 +2137,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="username", type="string", description="Ticket's creator username", example="admin" ),
      *                  @SWG\Property( property="user_fullname", type="string", description="Ticket's creator name", example="Firstname Lastname" ),
      *                  @SWG\Property( property="timestamp", type="string", description="Ticket created timestamp GMT formatted with Unix Time (https://en.wikipedia.org/wiki/Unix_time)", example="1272509157" ),
+     *                  @SWG\Property( property="notification_datetime", type="string", description="date time of the notification", example="m/d/Y H:i:s" ),
      *                  @SWG\Property( property="followers_quantity", type="string", description="Amount of followers for the ticket", example="2" ),*
      *                  @SWG\Property( property="comments_quantity", type="string", description="Ammount of comments for the ticket", example="3" ),
      *                  @SWG\Property( property="comments", type="array",
@@ -2209,6 +2213,7 @@ class RestController extends FOSRestController
 
 
             $iconClass = ( $ticket->getTicketCategory()->getIcon() != null) ?  $ticket->getTicketCategory()->getIcon()->getIconClass() : "";
+            $notificationDatetime = $ticket->getNotificationDateTime() ? $ticket->getNotificationDateTime()->format("m/d/Y H:i:s") : null;
 
             $data = array(
                 'id' => $ticket->getId(),
@@ -2229,6 +2234,7 @@ class RestController extends FOSRestController
                 'username' => $ticketUser->getUsername(),
                 'user_fullname' => $ticketUser->getName(),
                 'timestamp' => $ticket->getCreatedAt()->getTimestamp(),
+                'notification_datetime' => $notificationDatetime,
                 'followers_quantity' => (array_key_exists($ticket->getId(), $followersCount)) ? $followersCount[$ticket->getId()] : 0,
                 'comments_quantity' => (array_key_exists($ticket->getId(), $commentsCount)) ? $commentsCount[$ticket->getId()] : 0,
 
