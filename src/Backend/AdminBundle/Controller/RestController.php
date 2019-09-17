@@ -3813,8 +3813,8 @@ class RestController extends FOSRestController
 
             $message = "Invitation";
             $email = trim($request->get('email'));
-            $propertyID = trim($request->get('property_id'));
-            $tenantContractID = trim($request->get('tenant_contract_id'));
+            $propertyID = intval($request->get('property_id'));
+            $tenantContractID = intval($request->get('tenant_contract_id'));
 
             $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
             if ($objProperty == null) {
@@ -3840,7 +3840,7 @@ class RestController extends FOSRestController
             //complex_name
             $myJson = '"property_number": "'.$objProperty->getPropertyNumber().'",';
             $myJson .= '"complex_email": "'.$objProperty->getComplex()->getEmail().'",';
-            $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
+            $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'"';
 
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
 
