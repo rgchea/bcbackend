@@ -13,9 +13,13 @@ use Doctrine\ORM\Query\Expr\Join;
 class TicketRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function getApiFeed($complexID, $propertyId, $categoryId, $user, $pageId = 1, $limit = 10)
+    public function getApiFeed($objProperty, $categoryId, $user, $pageId = 1, $limit = 10)
     {
-        $qb = $this->queryBuilderForApiFeed($complexID, $propertyId, $categoryId, $user);
+        $complexID = $objProperty->getComplex()->getId();
+        $sectorID = $objProperty->getComplexSector()->getId();
+        $propertyID = $objProperty->getId();
+
+        $qb = $this->queryBuilderForApiFeed($complexID, $sectorID, $propertyID, $categoryId, $user);
 
         $qb->select('a, tc, tt, ts, u, car, cars, ca, p')
             ->setFirstResult(($pageId - 1) * $limit)// Offset
@@ -31,23 +35,37 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function countApiFeed($complexID, $propertyId, $categoryId, $user)
+    public function countApiFeed($objProperty, $categoryId, $user)
     {
-        $qb = $this->queryBuilderForApiFeed($complexID, $propertyId, $categoryId, $user);
+
+        $complexID = $objProperty->getComplex()->getId();
+        $sectorID = $objProperty->getComplexSector()->getId();
+        $propertyID = $objProperty->getId();
+
+        $qb = $this->queryBuilderForApiFeed($complexID, $sectorID, $propertyID, $categoryId, $user);
         $qb->select('count(a.id)');
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    private function queryBuilderForApiFeed($complexID,$propertyId, $categoryId, $user)
+    private function queryBuilderForApiFeed($complexID, $sectorID, $propertyID, $categoryId, $user)
     {
+
          $qb = $this->genericTicketQueryBuilder()
-            ->andWhere('p.id = :prop_id')
-            ->setParameter('prop_id', $propertyId)
+            ->andWhere('p.id = :property')
+             ->setParameter('property', $propertyID)
             //->andWhere('a.createdBy = :user')
             //->setParameter('user', $user)
+                ///share
             ->orWhere("a.ticketType = :share AND a.complex = :complex")
              ->setParameter('share', 2)
+
+             ///notifications to a sector
+             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector")
+
+             ->setParameter('notification', 4)
              ->setParameter('complex', $complexID)
+             ->setParameter('sector', $sectorID)
+
             ;
 
             if(intval($categoryId) != 0){
@@ -193,6 +211,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
         //EXCLUDE FROM LIST THE RESERVATION AND SHARE
         $query->andWhere('e.ticketType = :ttype')->setParameter('ttype', 1);
+        $countQuery->andWhere('e.ticketType = :ttype')->setParameter('ttype', 1);
 
 
         // Fields Search
@@ -291,6 +310,151 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'pc.id';
                             break;
                         }
+
+                }
+
+                if ($orderColumn !== null) {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+
+
+        $results = $query->getQuery()->getResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+
+        return array(
+            "results" => $results,
+            "countResult" => $countResult
+        );
+    }
+
+
+
+    public function getNotificationsDTData($start, $length, $orders, $search, $columns, $filterComplex)
+    {
+        //print "entra";die;
+        // Create Main Query
+        $query = $this->createQueryBuilder('e');
+
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('e');
+        $countQuery->select('COUNT(e)');
+
+        //ENABLED
+        $query->andWhere("e.enabled = 1");
+        $countQuery->andWhere("e.enabled = 1");
+
+
+        // Create inner joins
+
+        //complex
+        $query->join('e.complex', 'c');
+        $countQuery->join('e.complex', 'c');
+
+        //property
+        $query->leftJoin('e.property', 'p');
+        $countQuery->leftJoin('e.property', 'p');
+
+
+        //ticket category
+        $query->join('e.ticketCategory', 'tc');
+        $countQuery->join('e.ticketCategory', 'tc');
+
+
+        if ($filterComplex != null) {
+            $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
+            $countQuery->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
+        }
+
+
+        //JUST THE NOTIFICATIONS
+        $query->andWhere('e.ticketType = :ttype')->setParameter('ttype', 4);
+        $countQuery->andWhere('e.ticketType = :ttype')->setParameter('ttype', 4);
+
+
+        // Fields Search
+        foreach ($columns as $key => $column) {
+            if ($column['search']['value'] != '') {
+                // $searchItem is what we are looking for
+                $searchItem = $column['search']['value'];
+                $searchQuery = null;
+
+                switch ($column['name']) {
+                    case 'id':
+                    {
+                        $searchQuery = 'e.id =' . $searchItem;
+                        break;
+                    }
+                    case 'title':
+                    {
+                        $searchQuery = 'e.title LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
+                    case 'property':
+                    {
+                        $searchQuery = 'p.propertyNumber LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
+                    case 'category':
+                    {
+                        $searchQuery = 'tc.name LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
+
+                }
+
+
+                if ($searchQuery !== null) {
+                    $query->andWhere($searchQuery);
+                    $countQuery->andWhere($searchQuery);
+                }
+            }
+        }
+
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+
+        // Order
+        // Orders
+        foreach ($orders as $key => $order) {
+            // Orders does not contain the name of the column, but its number,
+            // so add the name so we can handle it just like the $columns array
+            $orders[$key]['name'] = $columns[$order['column']]['name'];
+        }
+
+        foreach ($orders as $key => $order) {
+
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '') {
+                $orderColumn = null;
+
+                switch ($order['name']) {
+                    case 'id':
+                    {
+                        $orderColumn = 'e.id';
+                        break;
+                    }
+                    case 'title':
+                    {
+                        $orderColumn = 'e.title';
+                        break;
+                    }
+
+                    case 'category':
+                    {
+                        $orderColumn = 'tc.name';
+                        break;
+                    }
+                    case 'property':
+                    {
+                        $orderColumn = 'p.propertyNumber';
+                        break;
+                    }
+
 
                 }
 

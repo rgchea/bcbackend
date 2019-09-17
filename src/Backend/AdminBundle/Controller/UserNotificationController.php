@@ -79,7 +79,9 @@ class UserNotificationController extends Controller
 
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null);
+        $filterComplex = $this->get("services")->getSessionComplex();
+
+        $results = $this->em->getRepository('BackendAdminBundle:Ticket')->getNotificationsDTData($start, $length, $orders, $search, $columns, $filterComplex);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -110,28 +112,24 @@ class UserNotificationController extends Controller
                             $responseTemp = $entity->getTitle();
                             break;
                         }
+
+                    case 'property':
+                    {
+                        $responseTemp = $entity->getProperty() ? $entity->getProperty()->getPropertyNumber() : "--";
+                        break;
+                    }
                     case 'category':
                         {
-                            $responseTemp = $entity->getName();
+                            $responseTemp = $entity->getTicketCategory()->getName();
                             break;
                         }
 
                     case 'sent':
                         {
-                            $responseTemp = $entity->getScheduledTime();
+                            $responseTemp = $entity->getCreatedAt()->format("m/d/Y H:m");
                             break;
                         }
-                    case 'actions':
-                        {
-                            $urlEdit = $this->generateUrl('backend_admin_usernotification_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
-                            $urlDelete = $this->generateUrl('backend_admin_usernotification_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
-
-                            $responseTemp = $edit.$delete;
-                            break;
-                        }
 
                 }
 
@@ -167,15 +165,23 @@ class UserNotificationController extends Controller
     public function newAction(Request $request)
     {
         $this->get("services")->setVars('userNotification');
-
-        $entity = new UserNotification();
+        $this->initialise();
+        //$entity = new UserNotification();
         //$form   = $this->createCreateForm($entity);
+
+        $myComplexID = $this->get("services")->getSessionComplex();
+
+        $ticketCategory = $this->em->getRepository("BackendAdminBundle:TicketCategory")->findBy(array('complex'=> $myComplexID, 'enabled' => 1));
+        $complexSector = $this->em->getRepository("BackendAdminBundle:ComplexSector")->findBy(array('complex'=> $myComplexID, 'enabled' => 1));
 
 
         return $this->render('BackendAdminBundle:UserNotification:new.html.twig', array(
-            'entity' => $entity,
-            'myPath' => 'backend_admin_usernotification_new'
-            //'form' => $form->createView(),
+            //'entity' => $entity,
+            'myPath' => 'backend_admin_usernotification_new',
+            'new' => true,
+            'ticketCategory' => $ticketCategory,
+            'complexSector' => $complexSector
+
         ));
     }
 

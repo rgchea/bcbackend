@@ -1946,8 +1946,9 @@ class RestController extends FOSRestController
 
             $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($property_id);
 
-            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed($objProperty->getComplex()->getId(), $property_id, $filter_category_id, $this->getUser(), $page_id);
-            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($objProperty->getComplex()->getId(), $property_id, $filter_category_id, $this->getUser());
+            $tickets = $this->em->getRepository('BackendAdminBundle:Ticket')->getApiFeed( $objProperty, $filter_category_id, $this->getUser(), $page_id);
+
+            $total = $this->em->getRepository('BackendAdminBundle:Ticket')->countApiFeed($objProperty, $filter_category_id, $this->getUser());
 
             $ticketIds = $this->getArrayOfIds($tickets);
 
@@ -2050,9 +2051,11 @@ class RestController extends FOSRestController
 
                 }
 
+                $propertyID = $ticket->getProperty() ? $ticket->getProperty()->getId() : null;
+
                 $data[] = array(
                     'id' => $ticket->getId(),
-                    'property_id' => $ticket->getProperty()->getId(),
+                    'property_id' => $propertyID,
                     'type_id' => $type->getId(),
                     'type_name' => $type->getName(),
                     //'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
@@ -4710,15 +4713,18 @@ class RestController extends FOSRestController
     // -----------------------------------------------------------------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------
 
+
+
     /**
-     * List the available plays.
+     * List the gamification plays
      *
-     * This calls the Bettercondos.info API to get a list of available plays. [Right now it does nothing].
+     * This calls the Bettercondos.info API to get a list plays
      *
-     * @Rest\Get("/v1/plays", name="listPlays", )
+     * @Rest\Get("/v1/plays", name="getPlays", )
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
+     *
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -4727,13 +4733,16 @@ class RestController extends FOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the list of plays.",
+     *     description="Returns the list of plays",
      *     @SWG\Schema (
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
-     *                  @SWG\Property( property="id", type="integer", description="Play ID", example="1" ),
-     *                  @SWG\Property( property="name", type="string", description="Name of the play", example="Play" ),
+     *                  @SWG\Property( property="id", type="integer", description="play ID", example="1" ),
+     *                  @SWG\Property( property="key", type="string", description="play key", example="BC-T-00001" ),
+     *                  @SWG\Property( property="name", type="string", description="name", example="Tenant - Close Ticket" ),
+     *                  @SWG\Property( property="description", type="string", description="description", example="sample text" ),
+     *                  @SWG\Property( property="points", type="integer", description="Points of the play", example="4500" ),
      *              ),
      *          ),
      *          @SWG\Property( property="message", type="string", example="" )
@@ -4756,17 +4765,17 @@ class RestController extends FOSRestController
             $this->initialise();
             $data = array();
 
-            // ToDo: pending definition.
+            $token = $this->get('services')->getBCToken();
+            $arrResponse = $this->callGamificationService( "GET", "plays", array() );
 
             return new JsonResponse(array(
-                'message' => "listPayments",
-                'data' => $data
+                'message' => "listPlays",
+                'data' => $arrResponse["recordset"]
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
 
 
     /**
@@ -4857,7 +4866,7 @@ class RestController extends FOSRestController
     /**
      * List the points of the specified user.
      *
-     * This calls the Bettercondos.info API to get a list of points for the user. [Right now it does nothing].
+     * This calls the Bettercondos.info API to get a list of points for the user.
      *
      * @Rest\Get("/v1/points/{player_id}/{month}/{year}", name="getPoints", )
      *
@@ -4953,6 +4962,9 @@ class RestController extends FOSRestController
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
 
     /**
      * List the rewards of the specified team.

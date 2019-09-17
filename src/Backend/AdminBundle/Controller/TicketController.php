@@ -347,18 +347,22 @@ class TicketController extends Controller
         $categoryID = intval($_REQUEST["category_select"]);
         $title = trim($_REQUEST["title"]);
         $description = trim($_REQUEST["description"]);
-        $solution = trim($_REQUEST["solution"]);
+        $solution = isset($_REQUEST["solution"]) ? trim($_REQUEST["solution"]) : "";
         $isPublic = isset($_REQUEST["is_public"]) ? 1 : 0;
-
-
 
         $objComplex = $this->em->getRepository('BackendAdminBundle:Complex')->find($complexID);
         $objComplexSector = $this->em->getRepository('BackendAdminBundle:ComplexSector')->find($sectorID);
         $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
         $objCategory = $this->em->getRepository('BackendAdminBundle:TicketCategory')->find($categoryID);
-        $objTicketType = $this->em->getRepository('BackendAdminBundle:TicketType')->find(1);
-        $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);//OPEN
 
+        if(isset($_REQUEST["notification"])){
+            $objTicketType = $this->em->getRepository('BackendAdminBundle:TicketType')->find(4);//notification
+        }
+        else{//standard ticket
+            $objTicketType = $this->em->getRepository('BackendAdminBundle:TicketType')->find(1);
+        }
+
+        $status = $this->em->getRepository('BackendAdminBundle:TicketStatus')->findOneById(1);//OPEN
 
         $ticket = new Ticket();
         $ticket->setTicketType($objTicketType);
@@ -372,50 +376,72 @@ class TicketController extends Controller
         $ticket->setProperty($objProperty);
         //$ticket->setCommonAreaReservation($commonAreaReservation);
 
-        $tenantContract =  null;
-        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $propertyID, 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
-        if($propertyContract) {
-            $tenantContract = $propertyContract->getMainTenantContract();
+        if(!isset($_REQUEST["notification"])){//if it is not a notification
+
+            $tenantContract =  null;
+            $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $propertyID, 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+            if($propertyContract) {
+                $tenantContract = $propertyContract->getMainTenantContract();
+            }
+
+            $ticket->setTenantContract($tenantContract);
+            $ticket->setTicketStatus($status);
+            $ticket->setEnabled(true);
+
+            //setAssignedTo
+            //$timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
+            $timezone = str_replace("GMT", '', $objComplex->getBusiness()->getGeoState()->getTimezoneOffset());
+            $userToAssign = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, $complexID);
+
+            $ticket->setAssignedTo($userToAssign);
+        }
+        else{
+            //save date
+            //save time
+            $myDateTime = $_REQUEST["myDate"]." ".$_REQUEST["time"].":00";
+            $ticket->setNotificationDateTime(new \DateTime($myDateTime));
+            $ticket->setIsPublic(true);
+
         }
 
-        $ticket->setTenantContract($tenantContract);
-        $ticket->setTicketStatus($status);
-        $ticket->setEnabled(true);
-
-
-        //setAssignedTo
-        //$timezone  = -5; //(GMT -5:00) EST (U.S. & Canada)
-        $timezone = str_replace("GMT", '', $objComplex->getBusiness()->getGeoState()->getTimezoneOffset());
-        $userToAssign = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, $complexID);
-
-
-        $ticket->setAssignedTo($userToAssign);
 
         $this->get("services")->blameOnMe($ticket, "create");
         $this->get("services")->blameOnMe($ticket, "update");
-
-
-        $statusLog = new TicketStatusLog();
-        $statusLog->setTicketStatus($status);
-        $statusLog->setTicket($ticket);
-        $this->get("services")->blameOnMe($statusLog, "create");
-        $this->get("services")->blameOnMe($statusLog, "update");
-
-        $ticket->setCreatedBy($tenantContract->getUser());
         $this->em->persist($ticket);
-        $this->em->persist($statusLog);
+
+        if(!isset($_REQUEST["notification"])) {//if it is not a notification
+
+            $statusLog = new TicketStatusLog();
+            $statusLog->setTicketStatus($status);
+            $statusLog->setTicket($ticket);
+            $this->get("services")->blameOnMe($statusLog, "create");
+            $this->get("services")->blameOnMe($statusLog, "update");
+
+            $ticket->setCreatedBy($tenantContract->getUser());
+            $this->em->persist($ticket);
+            $this->em->persist($statusLog);
+
+            $this->em->flush();
+
+            //ADD POINTS
+            $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_ticket"). " ". $ticket->getId();
+            $playKey = "BC-A-00005";//Register ticket
+            $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
+
+
+        }
 
         $this->em->flush();
 
-        //ADD POINTS
-        $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_ticket"). " ". $ticket->getId();
-        $playKey = "BC-A-00005";//Register ticket
-        $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
-
-
-
         $this->get('services')->flashSuccess($request);
-        return $this->redirect($this->generateUrl('backend_admin_ticket_index'));
+
+        if(!isset($_REQUEST["notification"])) {//if it is not a notification
+            return $this->redirect($this->generateUrl('backend_admin_ticket_index'));
+        }
+        else{
+            return $this->redirect($this->generateUrl('backend_admin_usernotification_index'));
+        }
+
 
     }
 

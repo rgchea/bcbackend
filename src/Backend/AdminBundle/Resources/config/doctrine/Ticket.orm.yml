@@ -86,6 +86,10 @@ Backend\AdminBundle\Entity\Ticket:
                 unsigned: false
                 comment: 'el rating que se le dio al inquilino'
             column: rating_to_tenant
+        notificationDateTime:
+            type: datetime
+            nullable: true
+            column: notification_datetime
         createdAt:
             type: datetime
             nullable: false
