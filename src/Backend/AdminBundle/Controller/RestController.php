@@ -2052,7 +2052,7 @@ class RestController extends FOSRestController
 
                 $data[] = array(
                     'id' => $ticket->getId(),
-                    'property_id' => $ticket->getProperty()-getId(),
+                    'property_id' => $ticket->getProperty()->getId(),
                     'type_id' => $type->getId(),
                     'type_name' => $type->getName(),
                     //'status' => (($lang == 'en') ? $status->getNameEN() : $status->getNameES()),
