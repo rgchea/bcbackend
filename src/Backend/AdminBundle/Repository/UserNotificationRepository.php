@@ -34,6 +34,16 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function countApiInboxUnread($user)
+    {
+        $qb = $this->queryBuilderForApiInbox($user);
+        $qb->andWhere("a.isRead = 0");
+
+        $qb->select('count(a.id)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     private function queryBuilderForApiInbox($user)
     {
         $qb = $this->createQueryBuilder('a');

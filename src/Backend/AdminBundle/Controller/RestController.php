@@ -1638,6 +1638,7 @@ class RestController extends FOSRestController
      *              property="data", type="array",
      *              @SWG\Items(
      *                  @SWG\Property( property="id", type="integer", description="notification ID", example="1" ),
+     *                  @SWG\Property( property="is_read", type="integer", description="is read 0/1", example="1" ),
      *                  @SWG\Property( property="ticket_id", type="integer", description="Ticket ID if any", example="1" ),
      *                  @SWG\Property( property="common_area_reservation_id", type="integer", description="Common Area Reservation ID if any", example="1" ),
      *                  @SWG\Property( property="tenant_contract_id", type="integer", description="Tenant Contract ID if any", example="1" ),
@@ -1740,12 +1741,11 @@ class RestController extends FOSRestController
                 }
 
 
-
                 $createdAt =  strtotime($user->getCreatedAt()->format("Y-m-d H:i:s"));
-
 
                 $data[] = array(
                     'id' => $notification->getId(),
+                    'is_read' => $notification->getIsRead(),
                     'ticket_id' => $ticketId,
                     'common_area_reservation_id' => $commonAreaReservationId,
                     'tenant_contract_id' => $tenantContractId,
@@ -1914,9 +1914,15 @@ class RestController extends FOSRestController
      *                      @SWG\Property( property="reservation_from", type="string", description="Common area reservation from date", example="1272509157" ),
      *                      @SWG\Property( property="reservation_to", type="string", description="Common area reservation to date", example="1272519157" ),
      *                  ),
-
      *              )
      *          ),
+     *          @SWG\Property(
+     *              property="headerdata", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="post_public_ticket", type="integer", description="0 cannot post public tickets, 1", example="1" ),
+     *                  @SWG\Property( property="count_inbox", type="integer", description="count unread messages", example="1" ),
+     *              )
+     *           ),
      *          @SWG\Property( property="message", type="string", example="" ),
      *          @SWG\Property(
      *              property="metadata", type="object",
@@ -2081,12 +2087,15 @@ class RestController extends FOSRestController
 
             $headerData = array();
 
+            $countInbox = $this->em->getRepository('BackendAdminBundle:UserNotification')->countApiInboxUnread($this->getUser());
+
             $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $property_id, 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
             if ($propertyContract == null) {
                 throw new \Exception("Invalid contract.");
             }
 
             $headerData["post_public_ticket"] =  $propertyContract->getPostPublicTicket();
+            $headerData["count_inbox"] =  $countInbox;
 
 
             return new JsonResponse(array(
