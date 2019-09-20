@@ -111,3 +111,7 @@ backend_admin_property_invitations_import:
 backend_admin_property_invitations_export:
     path:     /invitationsexport/
     defaults: { _controller: "BackendAdminBundle:Property:invitationsExport" }
+
+backend_admin_property_set_post_pubic_ticket:
+    path:     /{pcontract}/{value}/postPublicTicket/
+    defaults: { _controller: "BackendAdminBundle:Property:postPublicTicket" }

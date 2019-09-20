@@ -55,7 +55,9 @@ class TicketCategoryController extends Controller
         //print $this->translator->getLocale();die;
 
 
-        return $this->render('BackendAdminBundle:TicketCategory:index.html.twig');
+        return $this->render('BackendAdminBundle:TicketCategory:index.html.twig', array(
+            'myPath' => 'backend_admin_ticket_category_index',
+        ));
 
 
     }
@@ -84,24 +86,12 @@ class TicketCategoryController extends Controller
         else // If the request is not a POST one, die hard
             die;
 
-
-        ///FILTER BY ROLE
-        $filters = null;
-        if($this->role != "SUPER ADMIN"){
-
-            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-            foreach ($arrComplex as $k =>$v) {
-                $filters[$v] = $v;//the complex id
-            }
-            //add the GENERAL CATEGORIES BY adding the 0 complex
-            $filters[0] = 0;
-
-
-        }
-
         // Process Parameters
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null, $filters);
+        $filterComplex = $this->get("services")->getSessionComplex();
+
+
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $dateRange =  null, $filterComplex);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 

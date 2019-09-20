@@ -193,7 +193,9 @@ class PollController extends Controller
         $form   = $this->createCreateForm($entity);
 
         $businessID = $this->userLogged->getBusiness()->getId();
+        //var_dump($businessID);die;
         $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
+        //var_dump($arrComplex);die;
 
 
         return $this->render('BackendAdminBundle:Poll:new.html.twig', array(
@@ -383,7 +385,7 @@ class PollController extends Controller
 
 
             $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_poll_index'));
+            return $this->redirect($this->generateUrl('backend_admin_poll_edit', array("id"=> $entity->getId())));
 
         }
         /*

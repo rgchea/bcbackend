@@ -2079,9 +2079,19 @@ class RestController extends FOSRestController
                 );
             }
 
+            $headerData = array();
+
+            $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $property_id, 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+            if ($propertyContract == null) {
+                throw new \Exception("Invalid contract.");
+            }
+
+            $headerData["post_public_ticket"] =  $propertyContract->getPostPublicTicket();
+
+
             return new JsonResponse(array(
                 'message' => "",
-                'message' => "",
+                'headerdata' => $headerData,
                 'metadata' => $this->calculatePagesMetadata($page_id, $total),
                 'data' => $data
             ));

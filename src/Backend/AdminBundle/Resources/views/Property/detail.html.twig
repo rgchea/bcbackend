@@ -10,6 +10,11 @@
 {% block body -%}
     {{ parent() }}
 
+    <style>
+        .radio + .radio, .checkbox + .checkbox  {
+            margin-top: 0px !important;
+        }
+    </style>
 
     {% set myLocale = app.request.getLocale() %}
 
@@ -233,6 +238,22 @@
                                 <a href="{{ path('backend_admin_property_contract_extend', {id: entity.id}) }}" ><button type="button"  class="btn_update btn-primary">{{ 'label_extend'|trans }} </button></a>&nbsp;&nbsp;<a href="{{ path('backend_admin_property_contract_cancel', {id: entity.id}) }}"  ><button type="submit"  class="btn_cancel btn-primary">{{ 'label_cancel'|trans }}</button></a>
                             </div>
                         </div>
+                        <div class="clearfix"></div>
+
+                    </div>
+                    <div class="row color1">
+                        <div class="col-md-6">
+                            <div class="col-md-5">
+                                <p class="txt-blue-bold text-left">{{ 'label_post_public_ticket'|trans }} : </p>
+                            </div>
+                            <div class="col-md-7">
+                                <a href="{{ path('backend_admin_property_set_post_pubic_ticket', {pcontract: propertyContract.id, value: 1} ) }}"><input style="position: absolute; margin-left: -19px"  type="radio" name="post_public_ticket" value="1" {{ propertyContract.postPublicTicket ? 'checked="checked"' : '' }} />{{ 'label_yes'|trans }}</a>
+                                <a href="{{ path('backend_admin_property_set_post_pubic_ticket', {pcontract: propertyContract.id, value: 0} ) }}"><input style="position: absolute; margin-left: -19px"  type="radio" name="post_public_ticket" value="0" {{ propertyContract.postPublicTicket ? '' : 'checked="checked"' }} />{{ 'label_no'|trans }}</a>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
                     </div>
                     <br>
 

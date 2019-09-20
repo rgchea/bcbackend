@@ -22,8 +22,7 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
 
         $query = $this->createQueryBuilder('e');
 
-        //ENABLED
-        $query->andWhere("e.enabled = 1");
+
 
         // Create inner joins
         //complex
@@ -42,6 +41,11 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
         ->setParameter('myDateStart', date("Y-m-d H:i:s", strtotime($dateStart)))
         ->setParameter('myDateEnd', date("Y-m-d H:i:s", strtotime($dateEnd)));
 
+        //ENABLED
+        $query->andWhere("e.enabled = 1");
+        //filter just active contracts
+        $query->andWhere("pc.isActive = 1");
+        $query->andWhere("pc.enabled = 1");
 
         $query->orderBy('e.createdAt', 'DESC');
 
@@ -144,6 +148,11 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
                             break;
                         }
 
+                    case 'duedate':
+                    {
+                        $searchQuery = 'e.dueDate LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
                     case 'paid':
                         {
                             $searchQuery = 'e.paidDate LIKE \'%' . $searchItem . '%\'';
@@ -209,6 +218,11 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
                             $orderColumn = 'e.createdAt';
                             break;
                         }
+                    case 'duedate':
+                    {
+                        $orderColumn = 'e.dueDate';
+                        break;
+                    }
                     case 'paid':
                         {
                             $orderColumn = 'e.paidDate';

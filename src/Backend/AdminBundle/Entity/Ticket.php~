@@ -631,4 +631,33 @@ class Ticket
     {
         return $this->ratingToTenant;
     }
+    /**
+     * @var \DateTime|null
+     */
+    private $notificationDateTime;
+
+
+    /**
+     * Set notificationDateTime.
+     *
+     * @param \DateTime|null $notificationDateTime
+     *
+     * @return Ticket
+     */
+    public function setNotificationDateTime($notificationDateTime = null)
+    {
+        $this->notificationDateTime = $notificationDateTime;
+
+        return $this;
+    }
+
+    /**
+     * Get notificationDateTime.
+     *
+     * @return \DateTime|null
+     */
+    public function getNotificationDateTime()
+    {
+        return $this->notificationDateTime;
+    }
 }

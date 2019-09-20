@@ -149,6 +149,11 @@ class PropertyContractTransactionController extends Controller
                             break;
                         }
 
+                    case 'duedate':
+                    {
+                        $responseTemp = $entity->getDueDate()->format("m/d/y");
+                        break;
+                    }
                     case 'paid':
                         {
                             if($entity->getPaidDate() != NULL){

@@ -49,6 +49,12 @@ Backend\AdminBundle\Entity\PropertyContract:
             options:
                 default: '1'
             column: is_active
+        postPublicTicket:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+            column: post_public_ticket
         duePaymentDay:
             type: integer
             nullable: true

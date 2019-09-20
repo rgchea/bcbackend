@@ -84,6 +84,7 @@
                                 <th>{{ 'label_type'|trans }}</th>
                                 <th>{{ 'label_status'|trans }}</th>
                                 <th>{{ 'label_issued'|trans }}</th>
+                                <th>{{ 'label_due_date'|trans }}</th>
                                 <th>{{ 'label_paid'|trans }}</th>
                                 <th>&nbsp;</th>
 
@@ -98,6 +99,7 @@
                                 <th>{{ 'label_type'|trans }}</th>
                                 <th>{{ 'label_status'|trans }}</th>
                                 <th>{{ 'label_issued'|trans }}</th>
+                                <th>{{ 'label_due_date'|trans }}</th>
                                 <th>{{ 'label_paid'|trans }}</th>
                                 <th>{{ 'label_actions'|trans }}</th>
                             </tr>
@@ -132,8 +134,9 @@
                     { "name": "type",   "targets": 3 },
                     { "name": "status",  "targets": 4 },
                     { "name": "createdat",  "targets": 5 },
-                    { "name": "paid",  "targets": 6 },
-                    { "name": "actions",  "targets": 7 },
+                    { "name": "duedate",  "targets": 6 },
+                    { "name": "paid",  "targets": 7 },
+                    { "name": "actions",  "targets": 8 },
 
                 ],
                 // Server-side parameters
@@ -167,7 +170,6 @@
         }
 
         $(document).ready(function(){
-
 
 
             // Add a text input to each footer cell

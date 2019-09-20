@@ -3212,7 +3212,7 @@ body.register{
 }
 
 .form-inputs-g .form-control{
-    text-align: center;
+    text-align: left;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;

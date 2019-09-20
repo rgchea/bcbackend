@@ -18,22 +18,53 @@
 {% block body -%}
     {{ parent() }}
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 
-        </div>
-        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-            <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_ticket_category_new') }}">
-                {{ 'label_create_new'|trans }} {{ 'label_ticket_category'|trans }}
-            </a>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">&nbsp;</div>
+
+                <div class="col-md-2 text-right">
+
+                </div>
+                <div class="col-md-2">
+                    <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_ticket_category_new') }}">
+                        {{ 'label_create_new'|trans }} {{ 'label_ticket_category'|trans }}
+                    </a>
+                </div>
+
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="header-title">{{ 'label_menu.ticket_category'|trans }}</h3>
+                </div>
+
+                {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+            </div>
+            {#
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+                        <div class="col-md-11">
+                            <p> {{ 'label_notification_system_advice'|trans }}  </p>
+                        </div>
+                        <div class="col-md-1 text-right">
+                            <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+            #}
+
         </div>
     </div>
 
+    <div class="container">
+
+    <br/>
     <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
-        <header>
-            <h2> {{ 'label_menu.ticket_category'|trans }}</h2>
-        </header>
+
 
         <!-- widget div-->
         <div>

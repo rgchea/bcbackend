@@ -111,7 +111,7 @@
                                         <p class="txt-blue-bold">{{ 'label_event_date'|trans }}: </p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{{ entity.reservationDateFrom|date("m/d/Y") }}</p>
+                                        <p>{{ entity.reservationDateFrom|date("m/d/Y h:i") }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -119,7 +119,7 @@
 
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{{ entity.reservationDateTo|date("m/d/Y") }}</p>
+                                        <p>{{ entity.reservationDateTo|date("m/d/Y h:i") }}</p>
                                     </div>
                                 </div>
                                 <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>

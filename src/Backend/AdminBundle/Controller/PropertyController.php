@@ -726,9 +726,6 @@ class PropertyController extends Controller
             ///CREATE CONTRACT PAYMENTS
 
 
-
-
-
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_property_index'));
 
@@ -2271,6 +2268,24 @@ class PropertyController extends Controller
 
 
         return $teamIDProperty;
+
+    }
+
+
+    public function postPublicTicketAction(Request $request, $pcontract, $value){
+
+        $this->get("services")->setVars('property');
+        $this->initialise();
+
+
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($pcontract);
+        $propertyContract->setPostPublicTicket($value);
+
+        $this->em->persist($propertyContract);
+        $this->em->flush();
+
+        $this->get('services')->flashSuccess($request);
+        return $this->redirectToRoute('backend_admin_property_detail', array('id' => $propertyContract->getProperty()->getId()));
 
     }
 
