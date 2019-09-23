@@ -1068,7 +1068,7 @@ class Services extends Controller
 
             if(strtolower($device->getPlatform) == "android" ){
 
-                print "entra $device_token";
+                //print "entra $device_token";
 
                 $arrayToSend = array(
                     'to' => $device_token,
