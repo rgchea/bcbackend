@@ -63,7 +63,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Device.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Device.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
@@ -530,7 +530,7 @@
       <workItem from="1568735865281" duration="11818000" />
       <workItem from="1568757038179" duration="3815000" />
       <workItem from="1568825018237" duration="28571000" />
-      <workItem from="1569259181178" duration="7545000" />
+      <workItem from="1569259181178" duration="8812000" />
     </task>
     <servers />
   </component>

@@ -5214,6 +5214,10 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
+            $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
+
+
             $rewardID = intval($request->get('reward_id'));
             $playerID = intval($request->get('player_id'));
 
@@ -5228,6 +5232,29 @@ class RestController extends FOSRestController
 
             $response = $this->get('services')->callBCSpace("POST", "rewards/".$rewardID, $body );
 
+            //toDo reward exchange mail
+
+            //new message from sendgrid
+            if($lang == "en"){
+                $templateID = "d-347c981cdea04fe4984cdd2ed52b8fc9";
+            }
+            else{
+                $templateID = "d-77a48e6dd87740c59c78b76d4c3bec85";
+            }
+
+            //tenant_name
+            //property_address
+            //complex_name
+            /*
+            $myJson = '"property_number": "'.$propertyName.'",';
+            $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress().'",';
+            $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
+            $myJson .= '"complex_city": "'.$objProperty->getComplex()->getGeoState().'",';
+            $myJson .= '"complex_state": "'.$objProperty->getComplex()->getGeoState()->getGeoCountry().'",';
+            $myJson .= '"property_key": "'.$tenantContract->getPropertyCode().'"';
+            */
+
+            //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
 
             return new JsonResponse(array(
                 "data" => $response

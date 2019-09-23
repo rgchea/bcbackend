@@ -545,4 +545,33 @@ class PropertyContract
     {
         return $this->mainTenantContract;
     }
+    /**
+     * @var bool
+     */
+    private $postPublicTicket = false;
+
+
+    /**
+     * Set postPublicTicket.
+     *
+     * @param bool $postPublicTicket
+     *
+     * @return PropertyContract
+     */
+    public function setPostPublicTicket($postPublicTicket)
+    {
+        $this->postPublicTicket = $postPublicTicket;
+
+        return $this;
+    }
+
+    /**
+     * Get postPublicTicket.
+     *
+     * @return bool
+     */
+    public function getPostPublicTicket()
+    {
+        return $this->postPublicTicket;
+    }
 }

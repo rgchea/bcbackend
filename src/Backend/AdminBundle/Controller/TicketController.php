@@ -844,22 +844,19 @@ class TicketController extends Controller
         $objUserNotification->setNotice($this->translator->trans('label_ticket_close_72'));
         $objUserNotification->setSentTo($entity->getCreatedBy());
 
-
         $this->get("services")->blameOnMe($statusLog, "create");
         $this->get("services")->blameOnMe($statusLog, "update");
         $this->get("services")->blameOnMe($entity, "update");
         $this->get("services")->blameOnMe($objUserNotification, "create");
         $this->get("services")->blameOnMe($objUserNotification, "update");
 
-
         $this->em->persist($entity);
         $this->em->persist($statusLog);
         $this->em->persist($objUserNotification);
 
-
         $this->em->flush();
 
-        $this->get("services")->sendPushNotification($entity->getCreatedBy(), "TITLE TICKET SOLVED", "DESCRIPTION TICKET SOLVED");
+        $this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
 
 
         $this->get('services')->flashSuccess($request);

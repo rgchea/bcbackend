@@ -44,11 +44,11 @@ Backend\AdminBundle\Entity\Device:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
         tokenPush:
             type: string
             nullable: true
-            length: 128
+            length: 256
             options:
                 fixed: false
             column: token_push
