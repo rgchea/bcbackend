@@ -134,11 +134,11 @@ class RestController extends FOSRestController
     /*DEVICE FUNCTIONS*/
 
     /**
-     * @Rest\Post("/app/deviceSetToken", name="device_set_token")
+     * @Rest\Post("/v1/setDeviceToken", name="setDeviceToken")
      *
      * @SWG\Parameter( name="token", in="body", type="string", description="the token to be saved", schema={} )
-     * @SWG\Parameter( name="phone_id", in="body", type="string", description="apple uses UDID, Android uses UUID", schema={} )
-     * @SWG\Parameter( name="platform", in="body", type="string", description="Specifies the platform iOS or Android", schema={} )
+     * @SWG\Parameter( name="phone_id", in="body", type="string", description="apple uses UDID, android uses UUID", schema={} )
+     * @SWG\Parameter( name="platform", in="body", type="string", description="Specifies the platform ios or android", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -164,7 +164,7 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="App")
      */
 
-    public function postDeviceSetTokenAction(Request $request)
+    public function postSetDeviceTokenAction(Request $request)
     {
         try {
             $this->initialise();
@@ -184,29 +184,28 @@ class RestController extends FOSRestController
 
             if ($device) {
                 ///IS AN UPDATE
-
                 $device->setTokenPush($token);
-                $device->setTokenUpdatedAt(new \DateTime($gtmNow));
-                $device->setUpdatedAt(new \DateTime($gtmNow));
-
+                //$device->setTokenUpdatedAt(new \DateTime($gtmNow));
+                //$device->setUpdatedAt(new \DateTime($gtmNow));
 
             } else {
                 ///CREATE
                 $device = new Device();
 
+                $device->setUser($this->getUser());
                 $device->setPhoneId($phoneID);
-                $device->setCreatedAt(new \DateTime($gtmNow));
-                $device->setUpdatedAt(new \DateTime($gtmNow));
+                //$device->setCreatedAt(new \DateTime($gtmNow));
+                //$device->setUpdatedAt(new \DateTime($gtmNow));
                 $device->setEnabled(1);
                 $device->setTokenPush($token);
-                $device->setTokenUpdatedAt(new \DateTime($gtmNow));
+                //$device->setTokenUpdatedAt(new \DateTime($gtmNow));
                 $device->setPlatform($platform);
-
                 $this->get("services")->blameOnMe($device, "create");
-                $this->get("services")->blameOnMe($device, "update");
+
 
 
             }
+            $this->get("services")->blameOnMe($device, "update");
 
             $this->em->persist($device);
             $this->em->flush();
@@ -4965,6 +4964,7 @@ class RestController extends FOSRestController
             //
             //$currentLevel = intval($arrResponse["current_level"]);
             $currentLevel = 1;
+            //toDo new space //
 
             $data = array(
                 "name" => $this->getUser()->getName(),
@@ -5072,6 +5072,7 @@ class RestController extends FOSRestController
 
             return new JsonResponse(array(
                 'message' => "listRewards",
+                //headerdata //toDo
                 'data' => $data,
                 'metadata' => isset($arrRewards["metadata"]) ? $arrRewards["metadata"] : array()
             ));
