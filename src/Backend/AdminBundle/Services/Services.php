@@ -1043,7 +1043,10 @@ class Services extends Controller
 
         ////ANDROID CONFIG
         $url = "https://fcm.googleapis.com/fcm/send";
-        $serverKey = 'AIzaSyCdP1eqEmwTVgbgcu52TzNEfh8KbZcqUT4';
+        $serverKey = 'AAAA4OAl7oY:APA91bF3oKkPzUemIdyDqbCFF73z5h4LfzUJH6KEtuEi5Roj2L51RbjOs4MwRD4cPsPMtNcwEn2iQexli-OarI-cnqh-FlV26hS-xD2KCbjeDUtuHSfm9CiavNTniGJzddJMIn8io1io';
+
+        //AIzaSyCdP1eqEmwTVgbgcu52TzNEfh8KbZcqUT4
+        //AIzaSyCP2T6UjBAWuOxKu7qAEqXL3QtBGXVW6YM
         ////ANDROID CONFIG END
         ///
         /// IOS CONFIG
@@ -1064,6 +1067,8 @@ class Services extends Controller
             $device_token = $device->getTokenPush();
 
             if(strtolower($device->getPlatform) == "android" ){
+
+                print "entra $device_token";
 
                 $arrayToSend = array(
                     'to' => $device_token,
