@@ -813,7 +813,7 @@ class TicketController extends Controller
     }
 
 
-    public function closeAction(Request $request, $id)
+    public function closeAction(Request $request, $id)//when a manager closes a ticket
     {
 
         $this->get("services")->setVars('ticket');
@@ -858,6 +858,8 @@ class TicketController extends Controller
 
 
         $this->em->flush();
+
+        $this->get("services")->sendPushNotification($entity->getCreatedBy(), "TITLE TICKET SOLVED", "DESCRIPTION TICKET SOLVED");
 
 
         $this->get('services')->flashSuccess($request);

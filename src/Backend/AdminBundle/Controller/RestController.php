@@ -4944,27 +4944,31 @@ class RestController extends FOSRestController
             //$month = trim($request->get('month'));
             //$year = intval($request->get('year'));
 
-            // ToDo: pending definition.
+
             $token = $this->get('services')->getBCToken();
 
             $username = $this->getUser()->getUsername();
+            $stats =  $this->callGamificationService( "GET", "players/".$player_id."/stats", array() );
             $arrResponse = $this->callGamificationService( "GET", "account-status/".$player_id."?month=".$month."&year=".$year, array() );
 
             //var_dump($arrResponse);die;
+            $currentLevel = intval($stats["current_level"]);
+            //$currentLevel = 1;
 
-            //$nextLevelPoints = $arrResponse["next_level_points"];
-            $nextLevelPoints = 700;
-            //$availablePoints = intval($arrResponse["available_points"]);
-            $availablePoints = 400;
-            //$exchangedPoints = intval($arrResponse["exchanged_points"]);
-            $exchangedPoints = 200;
-            //$totalPoints = intval($arrResponse["earned_points"]);
-            $totalPoints = 600;
-            $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
-            //
-            //$currentLevel = intval($arrResponse["current_level"]);
-            $currentLevel = 1;
-            //toDo new space //
+            $nextLevelPoints = intval($stats["next_level_points"]);
+            //$nextLevelPoints = 700;
+            $availablePoints = intval($stats["available_points"]);
+            //$availablePoints = 400;
+            $exchangedPoints = intval($stats["exchanged_points"]);
+            //$exchangedPoints = 200;
+            $totalPoints = intval($stats["earned_points"]);
+            //$totalPoints = 600;
+            if($nextLevelPoints > 0){
+                $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
+            }
+            else{
+                $percentage = 0;
+            }
 
             $data = array(
                 "name" => $this->getUser()->getName(),
@@ -4996,12 +5000,12 @@ class RestController extends FOSRestController
      *
      * This calls the Bettercondos.info API to get a list of rewards for the user. [Right now it does nothing].
      *
-     * @Rest\Get("/v1/rewards/{property_id}/{page_id}", name="listRewards")
+     * @Rest\Get("/v1/rewards/{player_id}/{page_id}", name="listRewards")
      *
      * @SWG\Parameter( name="Content-Type", in="header", type="string", default="application/json" )
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
-     * @SWG\Parameter( name="property_id", in="path", type="integer", description="property ID." )
+     * @SWG\Parameter( name="player_id", in="path", type="integer", description="player ID." )
      * @SWG\Parameter( name="page_id", in="path", type="string", description="The requested pagination page." )
      *
      *
@@ -5014,6 +5018,13 @@ class RestController extends FOSRestController
      *     response=200,
      *     description="Returns the list of points for the user.",
      *     @SWG\Schema (
+     *          @SWG\Property(
+     *              property="headerdata", type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property( property="available_points", type="integer", description="available points", example="100" ),
+     *              )
+     *           ),
+
      *          @SWG\Property(
      *              property="data", type="array",
      *              @SWG\Items(
@@ -5054,9 +5065,14 @@ class RestController extends FOSRestController
             $data = array();
 
             $pageID = trim($request->get('page_id'));
-            $propertyID = trim($request->get('property_id'));
+            $playerID = trim($request->get('player_id'));
 
-            $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => $propertyID));
+            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneByPlayerId($playerID);
+            if ($tenantContract == null) {
+                throw new \Exception("Invalid contract.");
+            }
+
+            $objProperty = $tenantContract->getPropertyContract()->getProperty();
             $complexTeamID = intval($objProperty->getComplex()->getTeamCorrelative()) ;
 
             $token = $this->get('services')->getBCToken();
@@ -5070,9 +5086,14 @@ class RestController extends FOSRestController
                 }
             }
 
+            $stats =  $this->callGamificationService( "GET", "players/".$playerID."/stats", array() );
+            $availablePoints = intval($stats["available_points"]);
+            $headerData = array();
+            $headerData["available_points"] = $availablePoints;
+
             return new JsonResponse(array(
                 'message' => "listRewards",
-                //headerdata //toDo
+                'headerdata' => $headerData,
                 'data' => $data,
                 'metadata' => isset($arrRewards["metadata"]) ? $arrRewards["metadata"] : array()
             ));

@@ -1038,4 +1038,104 @@ class Services extends Controller
 
 
 
+    public function sendPushNotification($user, $title, $body){
+
+
+        ////ANDROID CONFIG
+        $url = "https://fcm.googleapis.com/fcm/send";
+        $serverKey = 'AIzaSyCdP1eqEmwTVgbgcu52TzNEfh8KbZcqUT4';
+        ////ANDROID CONFIG END
+        ///
+        /// IOS CONFIG
+        $ctx = stream_context_create();
+        stream_context_set_option($ctx, 'ssl', 'local_cert', __DIR__.'/../apn/push20192.pem');
+        stream_context_set_option($ctx, 'ssl', 'passphrase', "nana*2019");
+        /// IOS CONFIG
+
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: key=' . $serverKey;
+
+        $em = $this->getDoctrine()->getManager();
+        $devices = $em->getRepository('BackendAdminBundle:User')->findByUser($user);
+
+        foreach ($devices as $device){
+
+            $device_token = $device->getTokenPush();
+
+            if(strtolower($device->getPlatform) == "android" ){
+
+                $arrayToSend = array(
+                    'to' => $device_token,
+                    'notification' => array(
+                        'title' => $title,
+                        'body' => $body,
+                        'sound' => 'default',
+                        'badge' => '1'
+                    ),
+                    'priority' => 'high'
+                );
+                $json = json_encode($arrayToSend);
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                print($json);
+                //Send the request
+                $response = curl_exec($ch);
+                //Close request
+                if (!$response ) {
+                    print('<br>failed:<br>');
+                    print(curl_error($ch));
+                    //        die('FCM Send Error: ' . curl_error($ch));
+                }
+                curl_close($ch);
+
+            }
+            else{
+
+                $fp = stream_socket_client(
+                    //'ssl://gateway.push.apple.com:2195',
+                'ssl://gateway.sandbox.push.apple.com:2195',
+                    $err,
+                    $errstr,
+                    60,
+                    STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT,
+                    $ctx
+                );
+                $body = array(
+                    'aps' => array(
+                        'badge' => 1,
+                        'alert' => array(
+                            "title" => $title,
+                            "body" => $body,
+                        ),
+                        'sound' => 'default'
+                    )
+
+                );
+
+                print('<br>sending to: ' . $device_token);
+                $payload = json_encode($body);
+                $apns_message = chr(0) . pack('n', 32) . pack('H*', $device_token) . pack('n', strlen($payload)) . $payload;
+                $resultado = fwrite($fp, $apns_message);
+                if (!$resultado) {
+                    print("<br>mensaje no fue enviado");
+                } else {
+                    print('<br>enviado...');
+                }
+
+                // Close the connection to the server
+                fclose($fp);
+                print("<br>-------------<br>");
+
+
+            }
+        }
+    }
+
+
+
 }
