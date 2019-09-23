@@ -1057,7 +1057,7 @@ class Services extends Controller
         $headers[] = 'Authorization: key=' . $serverKey;
 
         $em = $this->getDoctrine()->getManager();
-        $devices = $em->getRepository('BackendAdminBundle:User')->findByUser($user);
+        $devices = $em->getRepository('BackendAdminBundle:Device')->findByUser($user);
 
         foreach ($devices as $device){
 
