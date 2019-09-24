@@ -3755,11 +3755,11 @@ class RestController extends FOSRestController
 
 
             //new message from sendgrid
-            if($lang == "en"){
-                $templateID = "d-a2eda7d6832448c484be6ae550126187";
+            if($lang == "es"){
+                $templateID = "d-010af6bef81a446b9c7be592b4b579db";
             }
             else{
-                $templateID = "d-010af6bef81a446b9c7be592b4b579db";
+                $templateID = "d-a2eda7d6832448c484be6ae550126187";
             }
 
             //tenant_name
@@ -3857,11 +3857,12 @@ class RestController extends FOSRestController
             }
 
             //new message from sendgrid
-            if($lang == "en"){
-                $templateID = "d-79945b73f1724912ba952365257653cd";
+            if($lang == "es"){
+                $templateID = "d-306f5c62e0354b92b9ce58431ba76d45";
             }
             else{
-                $templateID = "d-306f5c62e0354b92b9ce58431ba76d45";
+                $templateID = "d-79945b73f1724912ba952365257653cd";
+
             }
 
             //tenant_name
@@ -5221,6 +5222,12 @@ class RestController extends FOSRestController
             $rewardID = intval($request->get('reward_id'));
             $playerID = intval($request->get('player_id'));
 
+            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneByPlayerId($playerID);
+            if ($tenantContract == null) {
+                throw new \Exception("Invalid contract.");
+            }
+
+
             $token = $this->get('services')->getBCToken();
 
             $body = [
@@ -5235,26 +5242,38 @@ class RestController extends FOSRestController
             //toDo reward exchange mail
 
             //new message from sendgrid
-            if($lang == "en"){
-                $templateID = "d-347c981cdea04fe4984cdd2ed52b8fc9";
+            if($lang == "es"){
+                $templateID = "d-77a48e6dd87740c59c78b76d4c3bec85";
             }
             else{
-                $templateID = "d-77a48e6dd87740c59c78b76d4c3bec85";
+                $templateID = "d-347c981cdea04fe4984cdd2ed52b8fc9";
             }
 
             //tenant_name
-            //property_address
+            //reward_name
             //complex_name
-            /*
-            $myJson = '"property_number": "'.$propertyName.'",';
-            $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress().'",';
-            $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
-            $myJson .= '"complex_city": "'.$objProperty->getComplex()->getGeoState().'",';
-            $myJson .= '"complex_state": "'.$objProperty->getComplex()->getGeoState()->getGeoCountry().'",';
-            $myJson .= '"property_key": "'.$tenantContract->getPropertyCode().'"';
-            */
+            //reward_details
+            //exchange_date
+            //points_exchanged
 
-            //$sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
+            $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
+            $myJson .= '"reward_name": "'.$response["name"].'",';
+            $myJson .= '"reward_details": "'.$response["plain_description"].'",';
+            $myJson .= '"exchange_date": "'.date("m/d/Y").'",';
+            $myJson .= '"points_exchanged": "'.$response["points"].'",';
+            $myJson .= '"complex_name": "'.$tenantContract->getPropertyCode().'"';
+
+            //$objBusiness = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getBusiness();
+            $superAdmins = $this->em->getRepository('BackendAdminBundle:User')->findBy(array("role" => 5), array("id" => "DESC"));
+
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
+
+            if($superAdmins){
+                foreach ($superAdmins as $sa){
+                    $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $sa->getEmail());
+                }
+            }
+
 
             return new JsonResponse(array(
                 "data" => $response

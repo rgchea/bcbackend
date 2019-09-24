@@ -372,7 +372,7 @@ class TicketController extends Controller
         $ticket->setIsPublic($isPublic);
         $ticket->setTicketCategory($objCategory);
         $ticket->setComplexSector($objComplexSector);
-        $ticket->setComplex($objComplexSector->getComplex());
+        $ticket->setComplex($objComplex);
         $ticket->setProperty($objProperty);
         //$ticket->setCommonAreaReservation($commonAreaReservation);
 

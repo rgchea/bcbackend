@@ -113,6 +113,12 @@ class UserNotificationController extends Controller
                             break;
                         }
 
+                    case 'sector':
+                    {
+                        $responseTemp = $entity->getComplexSector() ? $entity->getComplexSector()->getName() : "--";
+                        break;
+                    }
+
                     case 'property':
                     {
                         $responseTemp = $entity->getProperty() ? $entity->getProperty()->getPropertyNumber() : "--";

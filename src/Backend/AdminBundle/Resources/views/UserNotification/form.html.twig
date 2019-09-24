@@ -46,6 +46,7 @@
 							</div>
 							<div class="col-md-9">
 								<select  class="form-control classic" id="sector_select" name="sector_select">
+									<option value="0">--</option>
 									{% for sector in complexSector %}
 										<option value="{{ sector.id }}">{{ sector }}</option>
 									{% endfor %}

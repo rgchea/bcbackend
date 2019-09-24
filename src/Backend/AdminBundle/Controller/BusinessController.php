@@ -491,11 +491,11 @@ class BusinessController extends Controller
                 //new message from sendgrid
 
                 $to = $entity->getEmail();
-                if($this->translator->getLocale() == "en"){
-                    $templateID = "d-1ff29228de0441c195dab8549491a948";
+                if($this->translator->getLocale() == "es"){
+                    $templateID = "d-1605156206fc49038df495802135b426";
                 }
                 else{
-                    $templateID = "d-1605156206fc49038df495802135b426";
+                    $templateID = "d-1ff29228de0441c195dab8549491a948";
                 }
 
                 //client_login_url = https://www.bettercondos.info/?ng=client”

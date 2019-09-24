@@ -207,11 +207,11 @@ class RegisterController extends Controller
 
 
                 //new message from sendgrid
-                if($this->translator->getLocale() == "en"){
-                    $templateID = "d-e67d965d6e6743edbf1e1fbf62a290ac";
+                if($this->translator->getLocale() == "es"){
+                    $templateID = "d-e2461e26f08b435cbe57a2abfb10caf2";
                 }
                 else{
-                    $templateID = "d-e2461e26f08b435cbe57a2abfb10caf2";
+                    $templateID = "d-e67d965d6e6743edbf1e1fbf62a290ac";
                 }
 
                 $myToken = $this->translator->getLocale().'/business/new/?regtoken='.$regToken;

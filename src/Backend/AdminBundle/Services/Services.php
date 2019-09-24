@@ -1038,6 +1038,9 @@ class Services extends Controller
 
 
 
+
+
+
     public function sendPushNotification($user, $title, $body){
 
 
@@ -1045,9 +1048,12 @@ class Services extends Controller
         $url = "https://fcm.googleapis.com/fcm/send";
         $serverKey = 'AAAA4OAl7oY:APA91bF3oKkPzUemIdyDqbCFF73z5h4LfzUJH6KEtuEi5Roj2L51RbjOs4MwRD4cPsPMtNcwEn2iQexli-OarI-cnqh-FlV26hS-xD2KCbjeDUtuHSfm9CiavNTniGJzddJMIn8io1io';
 
-        //AIzaSyCdP1eqEmwTVgbgcu52TzNEfh8KbZcqUT4
-        //AIzaSyCP2T6UjBAWuOxKu7qAEqXL3QtBGXVW6YM
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: key=' . $serverKey;
         ////ANDROID CONFIG END
+        ///
+        ///
         ///
         /// IOS CONFIG
         $ctx = stream_context_create();
@@ -1055,9 +1061,6 @@ class Services extends Controller
         stream_context_set_option($ctx, 'ssl', 'passphrase', "nana*2019");
         /// IOS CONFIG
 
-        $headers = array();
-        $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Authorization: key=' . $serverKey;
 
         $em = $this->getDoctrine()->getManager();
         $devices = $em->getRepository('BackendAdminBundle:Device')->findByUser($user);
@@ -1080,7 +1083,9 @@ class Services extends Controller
                     ),
                     'priority' => 'high'
                 );
+
                 $json = json_encode($arrayToSend);
+
 
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
@@ -1088,14 +1093,14 @@ class Services extends Controller
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
                 print($json);
-                //Send the request
                 $response = curl_exec($ch);
-                //Close request
-                if (!$response ) {
+                if (!$response)
+                {
                     print('<br>failed:<br>');
                     print(curl_error($ch));
-                    //        die('FCM Send Error: ' . curl_error($ch));
+                //        die('FCM Send Error: ' . curl_error($ch));
                 }
+
                 curl_close($ch);
 
             }
@@ -1140,7 +1145,6 @@ class Services extends Controller
             }
         }
     }
-
 
 
 }

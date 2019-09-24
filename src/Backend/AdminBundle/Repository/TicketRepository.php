@@ -52,7 +52,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
          $qb = $this->genericTicketQueryBuilder()
             ->andWhere('p.id = :property')
-             ->setParameter('property', $propertyID)
+
             //->andWhere('a.createdBy = :user')
             //->setParameter('user', $user)
                 ///share
@@ -60,11 +60,14 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
              ->setParameter('share', 2)
 
              ///notifications to a sector
-             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector")
+             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector AND a.property = :property")
+             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector AND a.property IS NULL")
+             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector IS NULL AND a.property IS NULL")
 
              ->setParameter('notification', 4)
              ->setParameter('complex', $complexID)
              ->setParameter('sector', $sectorID)
+             ->setParameter('property', $propertyID)
 
             ;
 
@@ -352,6 +355,11 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $query->join('e.complex', 'c');
         $countQuery->join('e.complex', 'c');
 
+        //complex
+        $query->leftJoin('e.complexSector', 's');
+        $countQuery->leftJoin('e.complexSector', 's');
+
+
         //property
         $query->leftJoin('e.property', 'p');
         $countQuery->leftJoin('e.property', 'p');
@@ -391,6 +399,13 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                         $searchQuery = 'e.title LIKE \'%' . $searchItem . '%\'';
                         break;
                     }
+
+                    case 'sector':
+                    {
+                        $searchQuery = 's.name LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
 
                     case 'property':
                     {
@@ -449,6 +464,13 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                         $orderColumn = 'tc.name';
                         break;
                     }
+
+                    case 'sector':
+                    {
+                        $orderColumn = 's.name';
+                        break;
+                    }
+
                     case 'property':
                     {
                         $orderColumn = 'p.propertyNumber';

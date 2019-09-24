@@ -92,6 +92,7 @@
                                 <th>ID</th>
                                 <th>{{ 'label_title'|trans }}</th>
                                 <th>{{ 'label_category'|trans }}</th>
+                                <th>{{ 'label_complex_sector'|trans }}</th>
                                 <th>{{ 'label_property'|trans }}</th>
                                 <th style="width:200px">{{ 'label_sent'|trans }}</th>
 
@@ -104,6 +105,7 @@
                                 <th>ID</th>
                                 <th>{{ 'label_title'|trans }}</th>
                                 <th>{{ 'label_category'|trans }}</th>
+                                <th>{{ 'label_complex_sector'|trans }}</th>
                                 <th>{{ 'label_property'|trans }}</th>
                                 <th>{{ 'label_sent'|trans }}</th>
 
@@ -136,8 +138,9 @@
                     { "name": "id",   "targets": 0 },
                     { "name": "title",   "targets": 1 },
                     { "name": "category",   "targets": 2 },
-                    { "name": "property",   "targets": 3 },
-                    { "name": "sent",  "targets": 4 },
+                    { "name": "sector",   "targets": 3 },
+                    { "name": "property",   "targets": 4 },
+                    { "name": "sent",  "targets": 5 },
 
 
                 ],
@@ -178,7 +181,7 @@
             var pos = 1;
             $('#dt_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos != 5){//columna Actions
+                if(pos != 6){//columna Actions
                     $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
                 }
 

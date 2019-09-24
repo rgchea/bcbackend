@@ -1154,11 +1154,11 @@ class PropertyController extends Controller
             if(isset($_REQUEST["notifyOwner"])){
 
                 //new message from sendgrid
-                if($this->translator->getLocale() == "en"){
-                    $templateID = "d-6f2dbc6839e244758156ef7555ba8d8e";
+                if($this->translator->getLocale() == "es"){
+                    $templateID = "d-744e784eebb643ffa5c4a45c6143a6fc";
                 }
                 else{
-                    $templateID = "d-744e784eebb643ffa5c4a45c6143a6fc";
+                    $templateID = "d-6f2dbc6839e244758156ef7555ba8d8e";
                 }
 
                 //tenant_name
@@ -1231,11 +1231,12 @@ class PropertyController extends Controller
             if(isset($_REQUEST["notifyOwner"])){
 
                 //new message from sendgrid
-                if($this->translator->getLocale() == "en"){
-                    $templateID = "d-c3de70b4c3e546e1bbbdc4926ec58c87";
+                if($this->translator->getLocale() == "es"){
+                    $templateID = "d-888fa43845274964b59a6fdff7872c04";
                 }
                 else{
-                    $templateID = "d-888fa43845274964b59a6fdff7872c04";
+                    $templateID = "d-c3de70b4c3e546e1bbbdc4926ec58c87";
+
                 }
 
                 //tenant_name
@@ -2227,7 +2228,7 @@ class PropertyController extends Controller
 
         //email invitation
         $myJson = '"complex_name": "'.$property->getComplex()->getName().'", "property_key": "'.$tenantContract->getPropertyCode().'"';
-        $templateID = $this->translator->getLocale() == "en" ? "d-8c65067739ed4fd3bf79ab31650b47f8" : "d-2461cbbce3e64bb2a81c90d440809352";
+        $templateID = $this->translator->getLocale() == "es" ? "d-2461cbbce3e64bb2a81c90d440809352" : "d-8c65067739ed4fd3bf79ab31650b47f8";
         $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
 
 
