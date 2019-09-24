@@ -46,7 +46,14 @@ class CompanyController extends Controller
         //$tmp = $this->em->getRepository('BackendAdminBundle:CommonAreaAvailability')->getCommonAreaAvailability(5, '2019-08-26');
         //die;
 
-        return $this->render('BackendAdminBundle:Company:index.html.twig');
+        //return $this->render('BackendAdminBundle:Company:index.html.twig');
+
+        //TESTING PUSH NOTIFICATIONS
+        $myUser = $this->em->getRepository("BackendAdminBundle:User")->find(34);
+        //var_dump($myUser->getName());die;
+
+        $this->get("services")->sendPushNotification($myUser, "test", "test");
+        die;
 
 
         $ts1 = strtotime("2019-01-01");

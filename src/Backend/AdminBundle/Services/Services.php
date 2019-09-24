@@ -1063,13 +1063,13 @@ class Services extends Controller
 
 
         $em = $this->getDoctrine()->getManager();
-        $devices = $em->getRepository('BackendAdminBundle:Device')->findByUser($user);
+        $devices = $em->getRepository('BackendAdminBundle:Device')->findByUser($user->getId());
 
         foreach ($devices as $device){
 
             $device_token = $device->getTokenPush();
 
-            if(strtolower($device->getPlatform) == "android" ){
+            if(strtolower($device->getPlatform()) == "android" ){
 
                 //print "entra $device_token";
 
