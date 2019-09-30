@@ -264,7 +264,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         $countMembers = "    SELECT  COUNT(u.id) quantity
                             FROM 	user u
                                 INNER JOIN complex c ON (c.id = {$complexID})
-                                INNER JOIN business b ON (b.id = c.business_id)
+                                INNER JOIN business b ON (b.id = c.business_id AND b.id = u.business_id )
                             WHERE   u.enabled = 1
                             AND     u.role_id IN(1,2,3)
                             ";
@@ -279,7 +279,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         $countManagers = "    SELECT  COUNT(u.id) quantity
                                 FROM 	user u
                                     INNER JOIN complex c ON (c.id = {$complexID})
-                                    INNER JOIN business b ON (b.id = c.business_id)
+                                    INNER JOIN business b ON (b.id = c.business_id AND b.id = u.business_id )
                                 WHERE   u.enabled = 1
                                 AND     u.role_id IN(1,2)
                                 ";
