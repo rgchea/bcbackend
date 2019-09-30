@@ -8,6 +8,12 @@ ticket_list_datatables:
   defaults:
     _controller: BackendAdminBundle:Ticket:listDatatables
 
+dashboard_ticket_list_datatables:
+  path: /dashboard/ticket/list/datatables
+  defaults:
+    _controller: BackendAdminBundle:Default:listTickettables
+
+
 backend_admin_ticket_new:
   path:     /new/
   defaults: { _controller: "BackendAdminBundle:Ticket:new" }

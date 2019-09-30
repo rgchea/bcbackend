@@ -211,5 +211,91 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+
+
+
+    public function getStats($complexID){
+
+        $arrReturn = array();
+
+        //total
+        $countUsers = "    SELECT  COUNT(tc.id) quantity
+                            FROM 	user u
+                                INNER JOIN tenant_contract tc ON (u.id = tc.user_id)
+                                INNER JOIN property_contract pc ON (pc.id = tc.property_contract_id)
+                                INNER JOIN property p ON (p.id = pc.property_id)
+                            WHERE   u.enabled = 1
+                            AND     p.complex_id = {$complexID}
+                            AND      pc.is_active = 1
+                            AND     tc.enabled = 1";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countUsers);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["total"] = $execute[0]["quantity"];
+        $arrReturn["tenants"] = $execute[0]["quantity"];
+
+        //owner
+        $countOwners = "    SELECT  COUNT(tc.id) quantity
+                            FROM 	user u
+                                INNER JOIN tenant_contract tc ON (u.id = tc.user_id)
+                                INNER JOIN property_contract pc ON (pc.id = tc.property_contract_id)
+                                INNER JOIN property p ON (p.id = pc.property_id)
+                            WHERE   u.enabled = 1
+                            AND     p.complex_id = {$complexID}
+                            AND      pc.is_active = 1
+                            AND     tc.main_tenant = 1
+                            AND     tc.enabled = 1
+                            AND     tc.owner_id IS NOT NULL";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countOwners);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["owners"] = $execute[0]["quantity"];
+
+
+        //TEAM MEMBERS
+
+        //total
+        $countMembers = "    SELECT  COUNT(u.id) quantity
+                            FROM 	user u
+                                INNER JOIN complex c ON (c.id = {$complexID})
+                                INNER JOIN business b ON (b.id = c.business_id)
+                            WHERE   u.enabled = 1
+                            AND     u.role_id IN(1,2,3)
+                            ";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countMembers);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["members"] = intval($execute[0]["quantity"]);
+
+        $countManagers = "    SELECT  COUNT(u.id) quantity
+                                FROM 	user u
+                                    INNER JOIN complex c ON (c.id = {$complexID})
+                                    INNER JOIN business b ON (b.id = c.business_id)
+                                WHERE   u.enabled = 1
+                                AND     u.role_id IN(1,2)
+                                ";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countManagers);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["managers"] = intval($execute[0]["quantity"]);
+        $arrReturn["superv"] = $arrReturn["members"] - $arrReturn["managers"];
+
+
+        return $arrReturn;
+
+    }
+
 		
 }

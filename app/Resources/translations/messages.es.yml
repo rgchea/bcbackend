@@ -16,6 +16,7 @@ label_notification_system_new_advice: 'Es muy importante que usted, como adminis
 label_wizard_1: '¡Bienvenido a BetterCondos! Tome los primeros pasos para hacer de sus complejos o edificios, un lugar mejor para vivir. Una vez que cree su cuenta, recibirá 2 correos electrónicos para dos plataformas diferentes, uno es el panel de control de nuestro administrador web, donde podrá administrar sus complejos. La otra  es su cuenta de información de facturación, aquí puede acceder para revisar su información de pago con nosotros, es por eso que agregar su información de facturación en este paso es muy importante, de esta manera podrá para recibir sus facturas más adelante. Recuerde también agregar toda la información de contacto de su empresa, no solo la información del administrador.'
 label_wizard_3: 'Recuerde que después de crear su complejo y sus propiedades, necesita invitar a sus residentes, este paso es muy importante, podrá actualizar e invitar a sus inquilinos y residentes al botón de enviar invitación, en la lista detallada de propiedades. También debe crear cuentas y turnos para sus supervisores y gerentes para que todos puedan comenzar a colaborar en la transformación de la comunidad al mejorar y centralizar la comunicación a través de un sistema de tickets. Puede agregar tantos complejos como desee y editar toda la información más adelante. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
 label_booking_approval_advice: 'Puede administrar sus áreas comunes desde el Administrador de la Web; una vez que llegue al panel de Reservas, podrá ver una lista de todo lo que sus inquilinos han reservado o reservado en los últimos días. Una vez que haga clic en la parte superior del icono de edición, podrá ver los detalles de esta reserva, aquí es donde puede aprobarla o rechazarla.'
+label_points: 'Puntos'
 label_post_public_ticket: 'Postea tickets públicos'
 label_invite_notification: 'Has sido invitado a  Better Condos para manejar una nueva propiedad.'
 label_invite_accepted_notification: 'Invitación aceptada'
@@ -344,3 +345,51 @@ mail:
     invite_property_body: 'te ha invitado a unirte a una propiedad.'
 sms:
     code: 'BetterCondos, el código para validar tu propiedad es: %code%.'
+push:
+    invitation_tenant: 'Su administrador lo invitó a unirse a la comunidad'
+    invitation_tenant2: 'Haga clic aquí para aceptar la invitación. Haga de su condominio un mejor lugar para vivir'
+    ticket_rating: 'ha cerrado y calificado su ticket #'
+    ticket_rating2: 'Recuerde que siempre puede volver a abrir el ticket y repasar sus respuestas.'
+    ticket_rating3: 'Calificación'
+    ticket_create: 'Un ticket ha sido creado por'
+    payment: 'Su pago ha sido recibido. Gracias por hacer de su condominio un mejor lugar para vivir. Transacción #'
+    payment_received: 'Pago recibido'
+    reservation_approved: 'Tu reservación ha sido aprobada. Por favor, háganos saber si tiene alguna pregunta.'
+    reservation_rejected: 'Tu reservación ha sido rechazada. Por favor, háganos saber si tiene alguna pregunta.'
+    invitation_to_tenant: 'Has sido invitado a unirte a una propiedad. Propiedad'
+    invitation_join_title: 'ha aceptado tu invitación para unirse a BetterCondos'
+    invitation_join_desc: 'ha aceptado tu invitación para unirse a la propiedad'
+    contract_extend_title: 'Tu acuerdo de propiedad ha sido extendido'
+    contract_extend_desc:   'Queremos informarle que el acuerdo de propiedad se ha extendido, caducará el'
+    contract_cancel_title: 'Your Property Agreement has been canceled'
+    contract_cancel_desc: 'We want to let you know that your property agreement has been canceled by your Administrator.  '
+dashboard:
+    tb_month_title: 'Desglose de tickets por mes'
+    tb_current_month_title: 'Desglose de tickets este mes'
+    tb_manager_title: 'Desglose de tickets por administrador (Top 10)'
+    tb_category_title: 'Desglose de tickets por categoría (Top 10)'
+    quantity: 'Cantidad'
+    ticket_open: 'Abierto'
+    ticket_solved: 'Solucionado'
+    ticket_closed: 'Cerrado'
+    properties: 'PROPIEDADES'
+    users: 'USUARIOS'
+    tickets: 'TICKETS'
+    reservations: 'RESERVACIONES'
+    members: 'MIEMBROS DE EQUIPO'
+    level: 'Nivel'
+    rented: 'Rentadas'
+    empty: 'Vacías'
+    owners: 'Dueños'
+    tenants: 'Inquilinos'
+    approved: 'Aprobadas'
+    rejected: 'Rechazadas'
+    managers: 'Adminstradores'
+    superv: 'Supervisores'
+
+
+
+
+
+
+

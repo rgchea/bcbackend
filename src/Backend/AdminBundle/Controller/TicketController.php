@@ -73,7 +73,6 @@ class TicketController extends Controller
         // Set up required variables
         $this->initialise();
 
-
         // Get the parameters from DataTable Ajax Call
         if ($request->getMethod() == 'POST')
         {
@@ -410,6 +409,11 @@ class TicketController extends Controller
         $this->em->persist($ticket);
 
         if(!isset($_REQUEST["notification"])) {//if it is not a notification
+
+
+            ///create push notification
+            $pushDescription = $this->translator->trans("push.ticket_create"). " ".$this->userLogged->getName().". " . $this->translator->trans("label_ticket")." #".$ticket->getId().", ". $ticket->getTicketCategory()->getName();
+            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $pushDescription);
 
             $statusLog = new TicketStatusLog();
             $statusLog->setTicketStatus($status);
@@ -887,6 +891,11 @@ class TicketController extends Controller
         $this->em->persist($comment);
         $this->em->flush();
 
+        $title = $this->translator->trans("label_new")." ".$this->translator->trans("label_comment");
+        $description = $this->translator->trans("label_ticket")." #". $entity->getId(). substr(trim($_REQUEST["comment"]),0,50);
+        $this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
+
+
         $this->get('services')->flashSuccess($request);
         return $this->redirectToRoute('backend_admin_ticket_index');
     }
@@ -907,6 +916,11 @@ class TicketController extends Controller
 
         $this->em->persist($entity);
         $this->em->flush();
+
+        $title = $this->userLogged->getName(). " ". $this->translator->trans("push.ticket_rating").$entity->getId().", ".$this->translator->trans("push.ticket_rating3"). ":".$rating ;
+        $description = $this->translator->trans("push.ticket_rating2");
+
+        $this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
 
         //$this->get('services')->flashSuccess($request);
 

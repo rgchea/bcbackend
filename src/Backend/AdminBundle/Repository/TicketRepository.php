@@ -155,8 +155,8 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
 
 
-
-    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $filterProperty = null)
+    //($start, $length, $orders, $search, $columns, $filterComplex, null, $filterDates);
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $filterProperty = null, $filterDates = null)
     {
         //print "entra";die;
         // Create Main Query
@@ -209,6 +209,16 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             $query->andWhere('p.id = :propertyID')->setParameter('propertyID', $filterProperty);
             $countQuery->andWhere('p.id = :propertyID')->setParameter('propertyID', $filterProperty);
 
+        }
+
+        if($filterDates != null){
+            $query->andWhere('e.createdAt >= :startDate AND e.createdAt <= :endDate')
+                ->setParameter('startDate', date("Y-m-d H:i:s", strtotime($filterDates["start"])) )
+                ->setParameter('endDate', date('Y-m-d H:i:s', strtotime($filterDates["end"] . ' +1 day')));
+            //$countQuery->where($otherConditions);
+            $countQuery->andWhere('e.createdAt >= :startDate AND e.createdAt <= :endDate')
+                ->setParameter('startDate', date("Y-m-d H:i:s", strtotime($filterDates["start"])) )
+                ->setParameter('endDate', date('Y-m-d H:i:s', strtotime($filterDates["end"] . ' +1 day')));
         }
 
 
@@ -495,6 +505,417 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             "countResult" => $countResult
         );
     }
+
+
+    public function getTicketByYear($complexID){
+
+        $currentYear = date("Y");
+        $start = $currentYear."-01-01";
+        $end = ($currentYear+1)."-01-01";
+
+        $sql = "    SELECT  COUNT(t.id) quantity, MONTH(t.created_at) myMonth, ts.name_en status 
+                    FROM    ticket t 
+                        INNER JOIN ticket_status ts ON (t.ticket_status_id = ts.id)
+                    WHERE   t.ticket_type_id = 1 
+                    AND     DATE(t.created_at) >= '{$start}' 
+                    AND     DATE(t.created_at) < '{$end}' 
+                    AND     t.complex_id = {$complexID}
+                    AND     t.enabled = 1
+                    AND     t.assigned_to IS NOT NULL
+                    GROUP BY MONTH(t.created_at), ts.name_en
+                    ORDER BY MONTH(t.created_at)";
+        //print $sql;die;
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        $arrStatus = array("Open", "Solved", "Closed");
+
+        $myArray = array();
+
+        foreach ($arrStatus as $status){
+
+            for ($i = 1 ; $i <= 12; $i++){
+                $myArray[$status][$i] = 0;
+            }
+
+        }
+
+        foreach ($execute as $row) {
+            $myArray[$row["status"]][intval($row["myMonth"])] = intval($row["quantity"]);
+        }
+
+
+        $myReturn = array();
+
+        $myReturn["Open"] = implode(",", $myArray["Open"]);
+        $myReturn["Solved"] = implode(",", $myArray["Solved"]);
+        $myReturn["Closed"] = implode(",", $myArray["Closed"]);
+
+        //print "<pre>";
+        //var_dump($myReturn);die;
+
+        return $myReturn;
+    }
+
+
+    public function getTicketByMonth($complexID){
+
+        $currentYearMonth = date("Y-m");
+        $start = $currentYearMonth."-01";
+        $end = $currentYearMonth."-31";
+
+
+
+        $sql = "    SELECT  ts.name_en status, COUNT(t.id) quantity
+                    FROM    ticket t 
+                        INNER JOIN ticket_status ts ON (t.ticket_status_id = ts.id)
+                    WHERE   t.ticket_type_id = 1 
+                    AND     DATE(t.created_at) >= '{$start}' 
+                    AND     DATE(t.created_at) <= '{$end}' 
+                    AND     t.complex_id = {$complexID}
+                    AND     t.enabled = 1
+                    AND     t.assigned_to IS NOT NULL
+                    GROUP BY ts.name_en";
+        //print $sql;die;
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        $arrStatus = array("Open", "Solved", "Closed");
+
+        $myReturn = array();
+
+        $myReturn["Open"] = 0;
+        $myReturn["Solved"] = 0;
+        $myReturn["Closed"] = 0;
+
+        $total = 0;
+
+        foreach ($execute as $row) {
+            $quantity = intval($row["quantity"]);
+            $total = $total + $quantity;
+        }
+
+        //var_dump($total);die;
+
+
+        if($total > 0){
+
+            foreach ($execute as $row) {
+                $quantity = intval($row["quantity"]);
+                $myReturn[$row["status"]] = number_format(($quantity*100)/$total, 2,".","");
+            }
+            return $myReturn;
+        }
+
+        //print "<pre>";
+        //var_dump($myReturn);die;
+
+        return $myReturn;
+    }
+    //
+
+    public function getTicketByManager($complexID){
+
+        $currentYearMonth = date("Y-m");
+        $start = $currentYearMonth."-01";
+        $end = $currentYearMonth."-31";
+
+        //$start = "2019-01-01";
+        //$end = "2019-12-01";
+
+
+        ////ORDER THE MANAGERS BY CLOSED TICKETS QUANTITY
+        $sqlManagers = "SELECT u.id, u.name, COUNT(t.id) quantity
+                        FROM 	ticket t
+                            INNER JOIN user u ON (t.assigned_to = u.id) 
+                            INNER JOIN ticket_status ts ON (t.ticket_status_id = ts.id)
+                        WHERE   u.enabled = 1
+                        AND     t.ticket_type_id = 1
+                        AND     t.enabled = 1
+                        AND     t.complex_id = {$complexID}
+                        AND     DATE(t.created_at) >= '{$start}' 
+                        AND     DATE(t.created_at) <= '{$end}' 
+                        AND     ts.name_en = 'Closed'
+                        GROUP BY u.id
+                        ORDER BY COUNT(t.id) DESC
+                        LIMIT 10";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sqlManagers);
+        $stmt->execute();
+
+
+        $execute = $stmt->fetchAll();
+
+        if(!empty($execute)){
+
+            $arrManagers = array();
+            $arrCategories = array();
+
+            foreach ($execute as $row){
+                $managerID = intval($row["id"]);
+
+                if(!isset($arrManagers[$managerID])){
+                    $arrManagers[$managerID] = array();
+                    $arrCategories[] = $row["name"];
+                    $arrManagers[$managerID]["Open"] = 0;
+                    $arrManagers[$managerID]["Solved"] = 0;
+                    $arrManagers[$managerID]["Closed"] = 0;
+                }
+
+                $sql = "    SELECT  u.id, u.name, ts.name_en status, COUNT(t.id) quantity
+                            FROM    ticket t 
+                                INNER JOIN ticket_status ts ON (t.ticket_status_id = ts.id)
+                                INNER JOIN user u ON (t.assigned_to = u.id)
+                            WHERE   t.ticket_type_id = 1
+                            AND     t.complex_id = {$complexID}
+                            AND     t.enabled = 1
+                            AND     u.id = '{$managerID}'                             
+                            AND     DATE(t.created_at) >= '{$start}' 
+                            AND     DATE(t.created_at) <= '{$end}' 
+                            GROUP BY u.id, ts.name_en";
+                //print $sql;die;
+                //AND     t.complex_id = {$complexID}
+
+                $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+                $stmt->execute();
+
+                $execute = $stmt->fetchAll();
+                foreach ($execute as $row){
+                    $arrManagers[$managerID][$row["status"]] = intval($row["quantity"]);
+                }
+
+
+            }
+
+            $strCategories = "";
+            foreach ($arrCategories as $category){
+                $strCategories .= $strCategories != "" ? ",'".$category."'": "'".$category."'";
+            }
+
+            $arrReturn = array();
+            $arrReturn["categories"] = $strCategories;
+
+            $arrSeries = array();
+            $arrSeries["Open"] = array();
+            $arrSeries["Solved"] = array();
+            $arrSeries["Closed"] = array();
+
+            foreach ($arrManagers as $manager){
+                $arrSeries["Open"][] = $manager["Open"];
+                $arrSeries["Solved"][] = $manager["Solved"];
+                $arrSeries["Closed"][] = $manager["Closed"];
+            }
+
+
+            $arrReturn["data"] = array();
+            $arrReturn["data"]["Open"] = implode(",", $arrSeries["Open"]);
+            $arrReturn["data"]["Solved"] = implode(",", $arrSeries["Solved"]);
+            $arrReturn["data"]["Closed"] = implode(",", $arrSeries["Closed"]);
+
+        }
+        else{
+
+            $arrReturn = array();
+            $arrReturn["categories"] = "";
+
+            $arrReturn["data"] = array();
+            $arrReturn["data"]["Open"] = "";
+            $arrReturn["data"]["Solved"] = "";
+            $arrReturn["data"]["Closed"] = "";
+
+
+        }
+
+        //print "<pre>";
+        //var_dump($arrReturn);die;
+
+        return $arrReturn;
+
+    }
+
+
+    public function getTicketByCategory($complexID){
+
+        $currentYearMonth = date("Y-m");
+        $start = $currentYearMonth."-01";
+        $end = $currentYearMonth."-31";
+
+        //$start = "2019-01-01";
+        //$end = "2019-12-01";
+
+
+        ////ORDER THE CATEGORIES BY CLOSED TICKETS QUANTITY
+        $sqlTCategories = "    SELECT c.id, c.name, COUNT(t.id) quantity
+                                FROM 	ticket t
+                                    INNER JOIN ticket_category c ON (t.ticket_category_id = c.id) 
+                                    INNER JOIN ticket_status ts ON (t.ticket_status_id = ts.id)
+                                WHERE   c.enabled = 1
+                                AND     t.ticket_type_id = 1
+                                AND     t.enabled = 1
+                                AND     t.complex_id = {$complexID}
+                                AND     c.complex_id = {$complexID}
+                                AND     DATE(t.created_at) >= '{$start}' 
+                                AND     DATE(t.created_at) <= '{$end}' 
+                                AND     ts.name_en = 'Closed'
+                                GROUP BY c.id
+                                ORDER BY COUNT(t.id) DESC
+                                LIMIT 10";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sqlTCategories);
+        $stmt->execute();
+
+
+        $execute = $stmt->fetchAll();
+
+        if(!empty($execute)){
+
+            $arrTCategories = array();
+            $arrCategories = array();
+
+            foreach ($execute as $row){
+                $tCategoryID = intval($row["id"]);
+
+                if(!isset($arrTCategories[$tCategoryID])){
+                    $arrTCategories[$tCategoryID] = array();
+                    $arrCategories[] = $row["name"];
+                    $arrTCategories[$tCategoryID]["Open"] = 0;
+                    $arrTCategories[$tCategoryID]["Solved"] = 0;
+                    $arrTCategories[$tCategoryID]["Closed"] = 0;
+                }
+
+                $sql = "    SELECT  c.id, c.name, ts.name_en status, COUNT(t.id) quantity
+                            FROM    ticket t 
+                                INNER JOIN ticket_status ts ON (t.ticket_status_id = ts.id)
+                                INNER JOIN ticket_category c ON (t.ticket_category_id = c.id)
+                            WHERE   t.ticket_type_id = 1
+                            AND     t.complex_id = {$complexID}
+                            AND     c.complex_id = {$complexID}
+                            AND     t.enabled = 1
+                            AND     c.id = '{$tCategoryID}'                             
+                            AND     DATE(t.created_at) >= '{$start}' 
+                            AND     DATE(t.created_at) <= '{$end}' 
+                            GROUP BY c.id, ts.name_en";
+                //print $sql;die;
+                //AND     t.complex_id = {$complexID}
+
+                $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+                $stmt->execute();
+
+                $execute = $stmt->fetchAll();
+                foreach ($execute as $row){
+                    $arrTCategories[$tCategoryID][$row["status"]] = intval($row["quantity"]);
+                }
+
+
+            }
+
+            $strCategories = "";
+            foreach ($arrCategories as $category){
+                $strCategories .= $strCategories != "" ? ",'".$category."'": "'".$category."'";
+            }
+
+            $arrReturn = array();
+            $arrReturn["categories"] = $strCategories;
+
+            $arrSeries = array();
+            $arrSeries["Open"] = array();
+            $arrSeries["Solved"] = array();
+            $arrSeries["Closed"] = array();
+
+            foreach ($arrTCategories as $ticketCategory){
+                $arrSeries["Open"][] = $ticketCategory["Open"];
+                $arrSeries["Solved"][] = $ticketCategory["Solved"];
+                $arrSeries["Closed"][] = $ticketCategory["Closed"];
+            }
+
+
+            $arrReturn["data"] = array();
+            $arrReturn["data"]["Open"] = implode(",", $arrSeries["Open"]);
+            $arrReturn["data"]["Solved"] = implode(",", $arrSeries["Solved"]);
+            $arrReturn["data"]["Closed"] = implode(",", $arrSeries["Closed"]);
+
+        }
+        else{
+
+            $arrReturn = array();
+            $arrReturn["categories"] = "";
+
+            $arrReturn["data"] = array();
+            $arrReturn["data"]["Open"] = "";
+            $arrReturn["data"]["Solved"] = "";
+            $arrReturn["data"]["Closed"] = "";
+
+
+        }
+
+        //print "<pre>";
+        //var_dump($arrReturn);die;
+
+        return $arrReturn;
+
+    }
+
+
+
+
+    public function getStats($complexID){
+
+        $arrReturn = array();
+
+        //total
+        $countTickets = "    SELECT  COUNT(t.id) quantity
+                            FROM 	ticket t
+                            WHERE   t.enabled = 1
+                            AND     t.complex_id = {$complexID}";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countTickets);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["total"] = $execute[0]["quantity"];
+
+        //open
+        $countOpen = "    SELECT  COUNT(t.id) quantity
+                            FROM 	ticket t
+                            WHERE   t.enabled = 1
+                            AND     t.complex_id = {$complexID}
+                            AND     t.ticket_status_id = 1";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countOpen);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["open"] = $execute[0]["quantity"];
+
+        //open
+        $countClosed = "    SELECT  COUNT(t.id) quantity
+                            FROM 	ticket t
+                            WHERE   t.enabled = 1
+                            AND     t.complex_id = {$complexID}
+                            AND     t.ticket_status_id = 2";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countOpen);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["closed"] = $execute[0]["quantity"];
+
+        return $arrReturn;
+
+    }
+
+
 
 
 }

@@ -16,6 +16,7 @@ label_notification_system_new_advice: 'It’s very important that you as an admi
 label_wizard_1: 'Welcome to BetterCondos! Take the first steps to make your complexes or buildings, a better place to live. Once you create your account you will receive 2 emails for two different platforms, one is our web administrator’s dashboard, where you will be able to manage your complexes. The other account is your billing information account, here you can access to follow your active amount of properties per month, and your payment information with us, this is why adding your billing information on this step is very important,  this way you will be able to receive your invoices later on. Remember to also add all contact information for your Company, not only the administrator’s information.'
 label_wizard_3: 'Remember that after creating your complex and your properties, you need to invite your residents, this step is very important, you will be able to update and invite your tenants and residents on the send invitation button, on the detail list of properties,  you also need to create accounts and shifts for your supervisors and managers so they can all start collaborating in transforming the community by improving and centralizing communication via a ticket system.  You can add as many complexes as you want and edit all the information later on. An important thing to note, is that thought our system all date will be handled month / day /year.'
 label_booking_approval_advice: 'You can manage your common areas from the Web Administrator, once you get to the Reservations dashboard, you will be able to see a list of everything your tenants have booked or reserved in the past few days. Once you click on top of edit icon, you will be able to see the details of this reservation, this is where you can approve or reject it.'
+label_points: 'Points'
 label_post_public_ticket: 'Post public ticket'
 label_invite_notification: 'You have been invited to Better Condos to manage a new property.'
 label_invite_accepted_notification: 'Invitation accepted'
@@ -345,3 +346,48 @@ mail:
 sms:
     code: 'BetterCondos, the code to validate your property is: %code%.'
 label_timezone: Timezone
+push:
+    invitation_tenant: Your administrator invited you to join the community
+    invitation_tenant2: Click here to accept the invitation. Make your condo a better place to live
+    ticket_rating: 'has closed and rated your solution, for ticket #'
+    ticket_rating2: 'Remember you can always re open the ticket and go over your responses.'
+    ticket_rating3: 'Rating'
+    ticket_create: 'A ticket has successfully been created by'
+    payment: 'Your payment has been received. Thank you for making your condo a betterplace to live. Transaction #'
+    payment_received: 'Payment received'
+    reservation_approved: 'Your reservation has been approved. Please let us know if you have any questions.'
+    reservation_rejected: 'Your reservation has been rejected. Please let us know if you have any questions.'
+    invitation_to_tenant: 'You have been invited to join a property. Property'
+    invitation_join_title: 'accepted your invitation to join BetterCondos'
+    invitation_join_desc: 'has accepted your invitation to join your property'
+    contract_extend_title: 'Your Property Agreement has been extended'
+    contract_extend_desc: 'We want to let you know the property agreement has been extended, it will expire on'
+    contract_cancel_title: 'Your Property Agreement has been canceled'
+    contract_cancel_desc: 'We want to let you know that your property agreement has been canceled by your Administrator.  '
+dashboard:
+    tb_month_title: 'Ticket breakdown by month'
+    tb_current_month_title: 'Ticket breakdown this month'
+    tb_manager_title: 'Ticket breakdown by manager (Top 10)'
+    tb_category_title: 'Ticket breakdown by category (Top 10)'
+    quantity: 'Quantity'
+    ticket_open: 'Open'
+    ticket_solved: 'Solved'
+    ticket_closed: 'Closed'
+    properties: 'PROPERTIES'
+    users: 'USERS'
+    tickets: 'TICKETS'
+    reservations: 'RESERVATIONS'
+    members: 'TEAM MEMBERS'
+    level: 'Level'
+    rented: 'Rented'
+    empty: 'Empty'
+    owners: 'Owners'
+    tenants: 'Tenants'
+    approved: 'Approved'
+    rejected: 'Rejected'
+    managers: 'Managers'
+    superv: 'Superv'
+
+
+
+

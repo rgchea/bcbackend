@@ -664,6 +664,8 @@ class Services extends Controller
 
     public function addPointsAdmin($complex, $message, $playKey){
 
+        //var_dump($complex->getId());die;
+
         ///ADD POINTS TO PLAYER ADMIN
         $token = $this->getBCToken();
         $teamID = $complex->getTeamCorrelativeAdmin();
@@ -1104,7 +1106,7 @@ class Services extends Controller
                 curl_close($ch);
 
             }
-            else{
+            else{//iOS
 
                 $fp = stream_socket_client(
                     //'ssl://gateway.push.apple.com:2195',

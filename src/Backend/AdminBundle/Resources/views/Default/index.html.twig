@@ -2,33 +2,574 @@
 
 
 {% block body %}
-  
-	<br><br>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <br><br>
-                <h1 class="text-red text-center text-welcome">{{ 'label_welcome'|trans }}</h1>
-                <br><br>
-            </div>
-        </div>
-    </div>
-  	{#
+
+
+
 	  <style>
-	     .imgHome {
-	      width: 100%;
-	     }
+          .minify{
+              font-size:10px; font-weight:normal
+          }
+
 	  </style>
 
 
-	<script>
-		$("#pizote_spinner").show();
-	</script>
+    {% if role == "ADMIN" %}
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <!--<script src="https://code.highcharts.com/modules/export-data.js"></script>-->
 
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-  	#}
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="header-title">{{ user.business.name }} <span class="minify">{{ user.business.geoState.name }}, {{ user.business.address }}</span> </h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" style="float: left;width: 666px;">
+                        {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+                    </div>
+
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3" style="top: -15px; left: -15px">
+
+                        <div class="cuadrito-dashboard">
+                            <div class="texto-d">
+                                {{ arrStats["gxp"]["points"] }}<span class="minify"><b>GXP</b> {{ 'label_points'|trans }}</span>
+                            </div>
+
+                            <div style="float:left; color:#ccc;">
+                                {{ 'dashboard.level'|trans }} {{ arrStats["gxp"]["level"] }}
+                            </div>
+                            <div style="float:right; color:#ccc">
+                                Rank XXX
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+
+                <!-- widget div-->
+                <div>
+
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+
+                    </div>
+
+                    <!-- end widget edit box -->
+
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+
+                        <div class="widget-body-toolbar">
+
+                        </div>
+
+
+                        {# ticket breakdown by month #}
+                        <div id="tb_month" style="width:60%; float:left; min-width: 310px; height: 400px; margin: 0 auto"></div>
+                        <div id="tb_current_month" style="width:40%; float:right; min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+                        <br/>
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="cuadrito-dashboards">
+                                    <div  class="texto-d">
+                                        {{ arrStats["properties"]["total"] }}
+                                    </div>
+                                    <div style="color:#ccc; text-align:center;">
+                                        {{ 'dashboard.properties'|trans }}
+                                    </div>
+                                    <div style="float:left; color:#ccc;">
+                                        {{ arrStats["properties"]["rented"] }} {{ 'dashboard.rented'|trans }}
+                                    </div>
+                                    <div style="float:right; color:#ccc">
+                                        {{ arrStats["properties"]["empty"] }} {{ 'dashboard.empty'|trans }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="cuadrito-dashboards">
+                                    <div  class="texto-d">
+                                        {{ arrStats["users"]["total"] }}
+                                    </div>
+                                    <div style="color:#ccc; text-align:center;">
+                                        {{ 'dashboard.users'|trans }}
+                                    </div>
+                                    <div style="float:left; color:#ccc;">
+                                        {{ arrStats["users"]["tenants"] }} {{ 'dashboard.tenants'|trans }}
+                                    </div>
+                                    <div style="float:right; color:#ccc">
+                                        {{ arrStats["users"]["owners"] }} {{ 'dashboard.owners'|trans }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="cuadrito-dashboards">
+                                    <div  class="texto-d">
+                                        {{ arrStats["tickets"]["total"] }}
+                                    </div>
+                                    <div style="color:#ccc; text-align:center;">
+                                        {{ 'dashboard.tickets'|trans }}
+                                    </div>
+                                    <div style="float:left; color:#ccc;">
+                                        {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_open'|trans }}
+                                    </div>
+                                    <div style="float:right; color:#ccc">
+                                        {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_closed'|trans }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="cuadrito-dashboards">
+                                    <div  class="texto-d">
+                                        {{ arrStats["reservations"]["total"] }}
+                                    </div>
+                                    <div style="color:#ccc; text-align:center;">
+                                        {{ 'dashboard.reservations'|trans }}
+                                    </div>
+                                    <div style="float:left; color:#ccc;">
+                                        {{ arrStats["reservations"]["approved"] }} {{ 'dashboard.approved'|trans }}
+                                    </div>
+                                    <div style="float:right; color:#ccc">
+                                        {{ arrStats["reservations"]["rejected"] }} {{ 'dashboard.rejected'|trans }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="cuadrito-dashboards">
+                                    <div sty class="texto-d">
+                                        {{ arrStats["users"]["members"] }}
+                                    </div>
+                                    <div style="color:#ccc; text-align:center;">
+                                        {{ 'dashboard.members'|trans }}
+                                    </div>
+                                    <div style="float:left; color:#ccc;">
+                                        {{ arrStats["users"]["managers"] }} {{ 'dashboard.managers'|trans }}
+                                    </div>
+                                    <div style="float:right; color:#ccc">
+                                        {{ arrStats["users"]["superv"] }} {{ 'dashboard.superv'|trans }}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br/>
+                        <div id="tb_manager" style="width:50%; float:left; min-width: 310px; height: 400px; margin: 0 auto"></div>
+                        <div id="tb_category" style="width:50%; float:right; min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+                        <br/>
+                        <br/>
+
+                        <table id="dt_table" class="table table-striped table-hover">
+                            <tfoot class="dt_tfoot">
+                            <tr>
+                                <th>&nbsp;</th>
+                                {#<th>{{ 'label_complex'|trans }}</th>#}
+                                <th>{{ 'label_title'|trans }}</th>
+                                <th>&nbsp;</th>
+                                <th>{{ 'label_category'|trans }}</th>
+                                <th>&nbsp;</th>
+                                <th class="pizote-actions">&nbsp;</th>
+
+                                <th class="pizote-actions">&nbsp;</th>
+
+                            </tr>
+                            </tfoot>
+                            <thead>
+                            <tr>
+                                {# sorting of properties based on query components #}
+                                <th>ID</th>
+                                {#<th>{{ 'label_complex'|trans }}</th>#}
+                                <th>{{ 'label_title'|trans }}</th>
+                                <th>{{ 'label_type'|trans }}</th>
+                                <th>{{ 'label_category'|trans }}</th>
+                                <th>{{ 'label_status'|trans }}</th>
+                                <th class="pizote-actions">{{ 'label_time_elapsed'|trans }}</th>
+
+
+                                <th class="pizote-actions">{{ 'label_actions'|trans }}</th>
+                            </tr>
+
+                            </thead>
+                            <tbody></tbody>
+
+                        </table>
+
+                    </div>
+                    <!-- end widget content -->
+
+
+                </div>
+                <!-- end widget div -->
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+
+            {% set colorNew = "#013C66" %}
+            {% set colorSolved = "#03D2FA" %}
+            {% set colorClosed = "#00070A5" %}
+
+            Highcharts.chart('tb_month', {
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '{{ "dashboard.tb_month_title"|trans }}'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        {% for month in arrMonths %}
+                            '{{ month }}',
+                        {% endfor %}
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    min: 0,
+                    title: {
+                        text: '{{ "dashboard.quantity"|trans }}'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: '{{ "dashboard.ticket_open"|trans }}',
+                    data: [{{ arrStats["tb_month"]["Open"] }}],
+                    color: '{{ colorNew }}'
+
+                }, {
+                    name: '{{ "dashboard.ticket_solved"|trans }}',
+                    data: [{{ arrStats["tb_month"]["Solved"] }}],
+                    color: '{{ colorSolved }}'
+
+                }, {
+                    name: '{{ "dashboard.ticket_closed"|trans }}',
+                    data: [{{ arrStats["tb_month"]["Closed"] }}],
+                    color: '{{ colorClosed }}'
+
+                }]
+            });
+
+
+            // Build the chart
+            Highcharts.chart('tb_current_month', {
+                credits: {
+                    enabled: false
+                },
+
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: '{{ "dashboard.tb_current_month_title"|trans }}'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: '{{ "label_status"|trans }}',
+                    colorByPoint: true,
+                    data: [{
+                        name: '{{ "dashboard.ticket_open"|trans }}',
+                        y: {{ arrStats["tb_current_month"]["Open"] }},
+                        color: '{{ colorNew }}'
+                    }, {
+                        name: '{{ "dashboard.ticket_solved"|trans }}',
+                        y: {{ arrStats["tb_current_month"]["Solved"] }},
+                        color: '{{ colorSolved }}'
+                    }, {
+                        name: '{{ "dashboard.ticket_closed"|trans }}',
+                        y: {{ arrStats["tb_current_month"]["Closed"] }},
+                        color: '{{ colorClosed }}'
+                    }]
+                }]
+            });
+
+
+            Highcharts.chart('tb_manager', {
+                credits: {
+                    enabled: false
+                },
+
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '{{ "dashboard.tb_manager_title"|trans }}'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [{{ arrStats["tb_manager"]["categories"]|raw }}],
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    allowDecimals: false,
+                    title: {
+                        text: '',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' tickets'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor:
+                        Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: '{{ "dashboard.ticket_open"|trans }}',
+                    data: [{{ arrStats["tb_manager"]["data"]["Open"]|raw}}],
+                    color: '{{ colorNew }}'
+                }, {
+                    name: '{{ "dashboard.ticket_solved"|trans }}',
+                    data: [{{ arrStats["tb_manager"]["data"]["Solved"]|raw }}],
+                    color: '{{ colorSolved }}'
+                }, {
+                    name: '{{ "dashboard.ticket_closed"|trans }}',
+                    data: [{{ arrStats["tb_manager"]["data"]["Closed"]|raw }}],
+                    color: '{{ colorClosed }}'
+                }, ]
+            });
+
+            Highcharts.chart('tb_category', {
+                credits: {
+                    enabled: false
+                },
+
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: '{{ "dashboard.tb_category_title"|trans }}'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [{{ arrStats["tb_category"]["categories"]|raw }}],
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    allowDecimals: false,
+                    title: {
+                        text: '',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' millions'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor:
+                        Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+                    shadow: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: '{{ "dashboard.ticket_open"|trans }}',
+                    data: [{{ arrStats["tb_category"]["data"]["Open"]|raw}}],
+                    color: '{{ colorNew }}'
+
+                }, {
+                    name: '{{ "dashboard.ticket_solved"|trans }}',
+                    data: [{{ arrStats["tb_category"]["data"]["Solved"]|raw}}],
+                    color: '{{ colorSolved }}'
+                }, {
+                    name: '{{ "dashboard.ticket_closed"|trans }}',
+                    data: [{{ arrStats["tb_category"]["data"]["Closed"]|raw}}],
+                    color: '{{ colorClosed }}'
+                }]
+            });
+
+
+            var table;
+            {% set myLocale = app.request.getLocale() %};
+
+            function fetchData(){
+
+                table  = $('#dt_table').DataTable({
+                    "columnDefs": [
+
+                        // These are the column name variables that will be sent to the server
+                        { "name": "id",   "targets": 0 },
+                        { "name": "title",   "targets": 1 },
+                        { "name": "type",   "targets": 2 },
+                        { "name": "category",   "targets": 3 },
+                        { "name": "status",   "targets": 4 },
+                        { "name": "elapsed",   "targets": 5 },
+                        { "name": "actions",  "targets": 6 },
+
+                    ],
+                    // Server-side parameters
+                    "processing": true,
+                    "serverSide": true,
+                    // Ajax call
+                    "ajax": {
+                        "url": "{{ path('dashboard_ticket_list_datatables') }}",
+                        "type": "POST",
+                        //dataType: "html"
+                    },
+                    // Classic DataTables parameters
+                    "paging" : true,
+                    "info" : true,
+                    "searching": true,
+                    "pageLength": 10,
+                    "order": [[0, 'desc']],
+                    {% if myLocale == 'es' %}
+                    "language": {
+                        "url": "{{ asset('bundles/pizotearkadmin/js/plugin/datatables/dataTables.spanish.lang') }}"
+                    }
+                    {% else %}
+                    "language": {
+                        "infoFiltered": ""
+                    }
+                    {% endif %}
+
+                });
+
+            }
+
+            $(document).ready(function(){
+
+                // Add a text input to each footer cell
+                var pos = 1;
+                $('#dt_table tfoot th').each( function () {
+                    var title = $(this).text();
+                    if(pos == 1 || pos == 2 || pos == 4 ){//columna Actions
+                        $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:50%'/>" );
+                    }
+
+                    pos ++;
+                });
+
+
+                fetchData();
+
+                // Apply the search
+                pos = 1;
+                table.columns().every( function () {
+                    var that = this;
+
+                    $("#input"+pos).on( 'keyup change', function () {
+                        if ( that.search() !== this.value )
+                        {
+                            that.search( this.value ).draw();
+                        }
+                    });
+                    pos++;
+                });
+
+
+            });
+
+
+        </script>
+
+
+
+
+
+    {% endif %}
+
+
 
 
 

@@ -478,4 +478,40 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+
+
+    public function getStats($complexID){
+
+        $arrReturn = array();
+
+        $countProperties = "    SELECT  COUNT(p.id) quantity
+                                FROM 	property p
+                                WHERE   p.enabled = 1
+                                AND     p.complex_id = {$complexID}";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countProperties);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["total"] = $execute[0]["quantity"];
+
+        $countPropertiesRented = "    SELECT  COUNT(p.id) quantity
+                                        FROM 	property p    
+                                        WHERE   p.enabled = 1
+                                        AND     p.complex_id = {$complexID}
+                                        AND     p.is_available = 0";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countPropertiesRented);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["rented"] = $execute[0]["quantity"];
+        $arrReturn["empty"] = $arrReturn["total"] - $arrReturn["rented"];
+
+        return $arrReturn;
+
+    }
+
 }

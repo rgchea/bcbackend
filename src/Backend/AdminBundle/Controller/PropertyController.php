@@ -1138,6 +1138,7 @@ class PropertyController extends Controller
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
         $tenantContract = $propertyContract->getMainTenantContract();
+        $property = $propertyContract->getProperty();
 
         if(isset($_REQUEST["submit"])){
 
@@ -1147,8 +1148,10 @@ class PropertyController extends Controller
             $propertyContract->setIsActive(0);
             //$propertyContract->setEnabled(0);
             $this->em->persist($propertyContract);
-            //$this->em->persist($entity);
 
+
+            $property->setIsAvailable(1);
+            $this->em->persist($property);
 
             ///SEND MAIL NOTIFY THE OWNER
             if(isset($_REQUEST["notifyOwner"])){
@@ -1175,6 +1178,11 @@ class PropertyController extends Controller
             $this->get("services")->blameOnMe($propertyContract, 'update');
 
             $this->em->flush();
+
+            $title = $this->translator->trans("push.contract_cancel_title");
+            $description = $this->translator->trans("label_property")." ".$entity->getPropertyNumber().": ". $this->translator->trans("push.contract_cancel_desc");
+            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
+
 
             $this->get('services')->flashSuccess($request);
             return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
@@ -1255,6 +1263,11 @@ class PropertyController extends Controller
 
             $this->get("services")->blameOnMe($propertyContract, 'update');
             $this->em->flush();
+
+            $title = $this->translator->trans("push.contract_extend_title");
+            $description = $this->translator->trans("label_property")." ". $entity->getPropertyNumber().": ". $this->translator->trans("push.contract_extend_desc"). $propertyContract->getEndDate()->format("m/d/Y");
+            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
+
 
             $this->get('services')->flashSuccess($request);
             return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
@@ -2165,6 +2178,11 @@ class PropertyController extends Controller
             //print "entra";die;
             $tenantContract->setUser($user);
             $property->setMainTenant($user);
+
+            $title = $this->translator->trans("push.invitation_tenant"). $property->getComplex()->getName();
+            $description = $this->translator->trans("push.invitation_tenant2");
+
+            $this->get("services")->sendPushNotification($user, $title, $description);
 
             //add player gamification
             /*

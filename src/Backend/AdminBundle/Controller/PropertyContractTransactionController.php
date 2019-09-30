@@ -470,7 +470,8 @@ class PropertyContractTransactionController extends Controller
 
 
         ///paid & paid date
-        $payment->setPaidBy($payment->getPropertyContract()->getProperty()->getMainTenant());
+        $mainTenant = $payment->getPropertyContract()->getProperty()->getMainTenant();
+        $payment->setPaidBy($mainTenant);
         $gtmNow = gmdate("Y-m-d H:i:s");
         $payment->setPaidDate(new \DateTime($gtmNow));
         //status
@@ -483,6 +484,10 @@ class PropertyContractTransactionController extends Controller
         $this->em->persist($payment);
 
         $this->em->flush();
+
+        $title = $this->translator->trans("push.payment_received");
+        $description = $this->translator->trans("push.payment").trim($_REQUEST["transaction_number"]);
+        $this->get("services")->sendPushNotification($mainTenant, $title, $description);
 
         $this->get('services')->flashSuccess($request);
         return $this->redirect($this->generateUrl('backend_admin_propertycontracttransaction_index', array('id' => $id)));

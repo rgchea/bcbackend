@@ -338,6 +338,11 @@ class CommonAreaReservationController extends Controller
         $playKey = "BC-A-00006";//approve booking
         $this->get("services")->addPointsAdmin($entity->getCommonArea()->getComplex(), $message, $playKey);
 
+        $title = $this->translator->trans("label_booking")." #".$entity->getId();
+        $description = $entity->getCommonArea()->getName().": ". $this->translator->trans("push.reservation_approved");
+        $this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
+
+
 
         $this->get('services')->flashSuccess($request);
         return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index'));
@@ -399,8 +404,11 @@ class CommonAreaReservationController extends Controller
 
         $this->em->persist($bookingLog);
 
-
         $this->em->flush();
+
+        $title = $this->translator->trans("label_booking")." #".$entity->getId();
+        $description = $entity->getCommonArea()->getName().": ". $this->translator->trans("push.reservation_rejected");
+        $this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
 
 
         $this->get('services')->flashSuccess($request);

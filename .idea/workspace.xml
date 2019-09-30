@@ -61,8 +61,24 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CompanyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CommonAreaReservationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/CommonAreaReservationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractTransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyContractTransactionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaReservationRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/CommonAreaReservationRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/PropertyRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TicketRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/TicketRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/ticket.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/routing/ticket.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/CommonAreaReservation/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Default/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
@@ -76,6 +92,7 @@
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Rate/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Rate/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Pizote/ArkAdminBundle/Resources/public/js/plugin/datatables/dataTables.spanish.lang" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Pizote/ArkAdminBundle/Resources/public/js/plugin/datatables/dataTables.spanish.lang" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/animate.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/animate.css" afterDir="false" />
@@ -410,26 +427,26 @@
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Pizote/ArkAdminBundle/Resources/public/js/plugin/datatables" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Pizote/ArkAdminBundle/Resources/public/js/plugin/datatables" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Rate" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/img" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/build/intermediates/assets/release/www/img" />
       <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/js" />
       <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css" />
       <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/img/favicon" />
       <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/views" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Rate" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/img" />
-      <recent name="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -529,7 +546,8 @@
       <workItem from="1568735865281" duration="11818000" />
       <workItem from="1568757038179" duration="3815000" />
       <workItem from="1568825018237" duration="28571000" />
-      <workItem from="1569259181178" duration="15255000" />
+      <workItem from="1569259181178" duration="22785000" />
+      <workItem from="1569425919181" duration="41903000" />
     </task>
     <servers />
   </component>

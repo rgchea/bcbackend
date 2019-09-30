@@ -1063,6 +1063,12 @@ class RestController extends FOSRestController
             //$this->em->persist($property);
             $this->em->flush();
 
+            //push notification invitation accepted
+            $title = $this->getUser()->getName()." ". $this->translator->trans("push.invitation_join_title");
+            $description = $this->getUser()->getName()." ".$this->translator->trans("push.invitation_join_desc"). " ". $tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
+            $this->get("services")->sendPushNotification($tenantContract->getCreatedBy(), $title, $description);
+
+
             //add player gamification
             $propertyTeamID = $tenantContract->getPropertyContract()->getProperty()->getTeamCorrelative();
             $tenantEmail = $tenantContract->getUser()->getEmail();
@@ -3705,6 +3711,7 @@ class RestController extends FOSRestController
                 $this->get("services")->blameOnMe($tenantContract, "update");
                 $this->em->persist($tenantContract);
                 $this->em->flush();
+
             }
             else{
 
@@ -3733,12 +3740,14 @@ class RestController extends FOSRestController
                 $this->em->persist($tenantContract);
                 $this->em->flush();
 
-
-
             }
+
+
 
             $objProperty = $tenantContract->getPropertyContract()->getProperty();
             $propertyName = $objProperty->getPropertyType() . " ". $objProperty->getPropertyNumber();
+
+
 
             /*
             $now = new \DateTime();
@@ -3778,6 +3787,10 @@ class RestController extends FOSRestController
             $message = $this->translator->trans('label_invitation_join').". ".$email;
             $playKey = "BC-T-00005";//invite tenant
             $this->get("services")->addPoints($propertyContract->getMainTenantContract(), $message, $playKey);
+
+            $title = $this->translator->trans("label_invitation_join");
+            $description = $this->translator->trans("push.invitation_to_tenant"). " ".$tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
+            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
 
 
             return new JsonResponse(array(
@@ -3989,6 +4002,10 @@ class RestController extends FOSRestController
             if($action){//ACCEPT
                 $tenantContract->setUser($this->getUser());
                 $tenantContract->setInvitationAccepted(true);
+
+                $title = $this->getUser()->getName()." ". $this->translator->trans("push.invitation_join_title");
+                $description = $this->getUser()->getName()." ".$this->translator->trans("push.invitation_join_desc"). " ". $tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
+                $this->get("services")->sendPushNotification($tenantContract->getCreatedBy(), $title, $description);
             }
             else{//DELETE
                 $tenantContract->setEnabled(false);
@@ -5330,7 +5347,7 @@ class RestController extends FOSRestController
         while ( !$success && $attemps < 2 ) {
             $attemps++;
             try {
-                $response = $this->get('services')->callBCSpace($method, $service, $options);
+                    $response = $this->get('services')->callBCSpace($method, $service, $options);
                 //printf(" ------------------ This never happens ------------------ ");
                 $success = true;
             } catch (\GuzzleHttp\Exception\ClientException $ex) {

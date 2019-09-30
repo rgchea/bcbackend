@@ -582,4 +582,56 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
     //getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, null, $this->translator->getLocale());
 
 
+
+    public function getStats($complexID){
+
+        $arrReturn = array();
+
+        //total
+        $countTotal = "     SELECT  COUNT(r.id) quantity
+                            FROM 	common_area_reservation r 
+                                INNER JOIN common_area a ON (r.common_area_id = a.id)
+                            WHERE   r.enabled = 1
+                            AND     a.complex_id = {$complexID}";
+        //AND     t.complex_id = {$complexID}
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countTotal);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["total"] = $execute[0]["quantity"];
+
+        //approved
+        $countApproved = "     SELECT  COUNT(r.id) quantity
+                            FROM 	common_area_reservation r 
+                                INNER JOIN common_area a ON (r.common_area_id = a.id)
+                            WHERE   r.enabled = 1
+                            AND     a.complex_id = {$complexID}
+                            AND      r.common_area_reservation_status_id = 2";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countApproved);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["approved"] = $execute[0]["quantity"];
+
+        //rejected
+        $countApproved = "     SELECT  COUNT(r.id) quantity
+                            FROM 	common_area_reservation r 
+                                INNER JOIN common_area a ON (r.common_area_id = a.id)
+                            WHERE   r.enabled = 1
+                            AND     a.complex_id = {$complexID}
+                            AND      r.common_area_reservation_status_id = 3";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($countApproved);
+        $stmt->execute();
+        $execute = $stmt->fetchAll();
+
+        $arrReturn["rejected"] = $execute[0]["quantity"];
+
+        return $arrReturn;
+
+    }
+
+
 }
