@@ -45,6 +45,26 @@
 
                     <fieldset>
 
+                        {% if entity.avatarPath is null %}
+
+                        {% else %}
+                            {% set avatar =  url('backend_admin_homepage')~entity.avatarPath %}
+                            {% set avatar = avatar|replace({'app_dev.php/': ''}) %}
+                            {% set avatar = avatar|replace({'/en/': '/'}) %}
+                            {% set avatar = avatar|replace({'/es/': '/'}) %}
+
+                            <img src="{{ avatar }}" alt="" class="pizote-thumbnail" />
+                        {% endif %}
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                {{ form_label(form.avatarPath) }}
+                                {{ form_errors(form.avatarPath) }}
+                                {{ form_widget(form.avatarPath, { 'attr': {'class' : 'form-control' } }
+                                ) }}
+
+                            </div>
+
+                        </div>
 
                         <div class="form-group col-md-6">
                             {{ form_label(form.name) }}
