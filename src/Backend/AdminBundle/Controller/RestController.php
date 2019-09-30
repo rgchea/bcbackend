@@ -5256,7 +5256,8 @@ class RestController extends FOSRestController
 
             $response = $this->get('services')->callBCSpace("POST", "rewards/".$rewardID, $body );
 
-            //toDo reward exchange mail
+            $arrReward = $this->callGamificationService( "GET", "rewards/".$rewardID, array() );
+
 
             //new message from sendgrid
             if($lang == "es"){
@@ -5274,10 +5275,10 @@ class RestController extends FOSRestController
             //points_exchanged
 
             $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
-            $myJson .= '"reward_name": "'.$response["name"].'",';
-            $myJson .= '"reward_details": "'.$response["plain_description"].'",';
+            $myJson .= '"reward_name": "'.$arrReward["name"].'",';
+            $myJson .= '"reward_details": "'.$arrReward["plain_description"].'",';
             $myJson .= '"exchange_date": "'.date("m/d/Y").'",';
-            $myJson .= '"points_exchanged": "'.$response["points"].'",';
+            $myJson .= '"points_exchanged": "'.$arrReward["points"].'",';
             $myJson .= '"complex_name": "'.$tenantContract->getPropertyCode().'"';
 
             //$objBusiness = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getBusiness();
