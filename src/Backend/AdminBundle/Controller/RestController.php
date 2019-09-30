@@ -1353,6 +1353,7 @@ class RestController extends FOSRestController
                         'player_id' => $contract->getPlayerId(),
                         'complex' => $contract->getPropertyContract()->getProperty()->getComplex()->getName(),
                         'complex_id' => $contract->getPropertyContract()->getProperty()->getComplex()->getId(),
+                        'complex_avatar' => $contract->getPropertyContract()->getProperty()->getComplex()->getAvatarPath(),
                         'sector_id' => $complexSector->getId(),
                         'tenant_contract_id' => $contract->getId()
                         );
@@ -3888,7 +3889,7 @@ class RestController extends FOSRestController
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
 
             ///ADD POINTS TO PLAYER
-            $message = $this->translator->trans('label_property_share')." ".$objProperty->getPropertyNumber()." >".$email;
+            $message = $this->translator->trans('label_property_share')." ".$objProperty->getPropertyNumber()." ".$email;
             $playKey = "BC-T-00006";//share property
             $this->get("services")->addPoints($objTenantContract, $message, $playKey);
 

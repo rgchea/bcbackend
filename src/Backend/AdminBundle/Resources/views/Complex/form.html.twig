@@ -37,6 +37,21 @@
 		{{ form_errors(form) }}
 
 		<div class="row">
+			<div class="form-group col-md-6">
+				{{ form_label(form.avatarPath) }}
+				{{ form_errors(form.avatarPath) }}
+				{{ form_widget(form.avatarPath, { 'attr': {'class' : 'form-control' } }
+				) }}
+
+			</div>
+
+		</div>
+
+
+		<div class="clearfix"></div>
+
+
+		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group ">
 					{{ form_label(form.name) }}
@@ -194,7 +209,7 @@
 					<i style="color:#fff; font-size:120px" class="fa fa-home"></i>
 				</div>
 				<div class="col-md-9">
-					<p class="generateText" >{{ 'label_register_generate'|trans }}
+					<p class="generateText" style="color:#ffffff !important;" >{{ 'label_register_generate'|trans }}
 						<br/>
 						<span class="propertie-number" id="generate_number">0</span>
 						<br/>

@@ -96,7 +96,7 @@ Backend\AdminBundle\Entity\User:
         avatarPath:
             type: string
             nullable: true
-            length: 256
+            length: 512
             options:
                 fixed: false
             column: avatar_path

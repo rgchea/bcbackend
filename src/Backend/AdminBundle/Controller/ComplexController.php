@@ -8,6 +8,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+
 
 
 use Backend\AdminBundle\Entity\Complex;
@@ -446,6 +449,18 @@ class ComplexController extends Controller
                 //var_dump($myRequest);die;
                 //var_dump($request->get('complex');die;
 
+
+                //AVATAR UPLOAD
+                $myFile = $request->files->get("complex")["avatarPath"];
+                if($myFile != NULL){
+
+                    $file = $entity->getAvatarPath();
+                    $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                    $file->move($this->getParameter('complex_avatars_directory'), $fileName);
+                    $entity->setAvatarPath($entity->getAvatarUploadDir().$fileName);
+
+                }
+
                 $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
                 $entity->setGeoState($geoState);
 
@@ -843,8 +858,23 @@ class ComplexController extends Controller
         $token = $this->get('services')->getBCToken();
         if($token){
 
+            $myPath = $entity->getAvatarPath();
+
             if ($editForm->isValid()) {
                 $myRequest = $request->request->get('complex');
+
+
+                $myFile = $request->files->get("complex")["avatarPath"];
+                if($myFile != NULL){
+                    $fileName = md5(uniqid()).'.'.$myFile->guessExtension();
+                    $myFile->move($this->getParameter('complex_avatars_directory'), $fileName);
+                    $entity->setAvatarPath($entity->getAvatarUploadDir().$fileName);
+
+                }
+                else{
+                    $fileName = $myPath;
+                    $entity->setAvatarPath($fileName);
+                }
 
                 ///code + phone
                 $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);

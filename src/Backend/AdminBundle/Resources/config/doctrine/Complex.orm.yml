@@ -32,6 +32,14 @@ Backend\AdminBundle\Entity\Complex:
             generator:
                 strategy: IDENTITY
     fields:
+
+        avatarPath:
+            type: string
+            nullable: true
+            length: 512
+            options:
+                fixed: false
+            column: avatar_path
         teamCorrelative:
             type: integer
             nullable: true

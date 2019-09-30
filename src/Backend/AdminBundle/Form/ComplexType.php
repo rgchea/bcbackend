@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class ComplexType extends AbstractType
 {
@@ -40,6 +42,26 @@ class ComplexType extends AbstractType
             ->add('zipCode',  null, array('label'=>"label_zip_code", 'required'=>true))
             ->add('phoneNumber',  null, array('label'=>"label_phone", 'required'=>true))
             ->add('email',  null, array('label'=>"label_email", 'required'=>true))
+            ->add('avatarPath', FileType::class,
+                array(
+                    'data_class' => null,
+                    'required' => false,
+                    'label' => "Avatar",
+                    'attr' => array(
+                        'accept' => "image/jpeg, image/png"
+                    ),
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1M',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                            ],
+                            'mimeTypesMessage' => 'JPG/PNG',
+                        ])
+                    ]
+                )
+            )
 
             //EXTRA FIELDS
             //->add('propertyIdentifiers', ChoiceType::class, ['choices' => $propertyIdentifiers, 'required'=>true, 'mapped' => false ])
