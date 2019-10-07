@@ -925,7 +925,11 @@ class Services extends Controller
     }
 
 
-    function time_elapsed_A($datetime1, $datetime2){
+    function time_elapsed_A($datetime1, $datetime2 = null){
+
+        if($datetime2 == null){
+            $datetime2 = gmdate("Y-m-d");
+        }
 
         $datetime1 = new \DateTime($datetime1);
         $datetime2 = new \DateTime($datetime2);
