@@ -2113,6 +2113,7 @@ class RestController extends FOSRestController
             else{
                 $headerData["can_exchange_rewards"] = 0;
             }
+            $headerData["can_exchange_rewards"] = 0;
 
             return new JsonResponse(array(
                 'message' => "",

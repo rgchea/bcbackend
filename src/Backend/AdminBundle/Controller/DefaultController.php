@@ -222,10 +222,10 @@ class DefaultController extends Controller
                     case 'elapsed':
                     {
 
-                        $nowtime = date("Y-m-d");
+                        //$nowtime = date("Y-m-d");
                         $oldtime = $entity->getCreatedAt()->format('Y-m-d');
                         //$secs = $nowtime - $oldtime;
-                        $elapsed = $this->get('services')->time_elapsed_A($oldtime, $nowtime);
+                        $elapsed = $this->get('services')->time_elapsed_A($oldtime);
                         $responseTemp = $elapsed;
                         break;
                     }
