@@ -2105,7 +2105,7 @@ class RestController extends FOSRestController
             $headerData["post_public_ticket"] =  $propertyContract->getPostPublicTicket();
             $headerData["count_inbox"] =  $countInbox;
 
-            $properties = intval($this->em->getRepository('BackendAdminBundle:PropertyContract')->getPropertiesQuantityByComplex($objProperty->getComplex()->getId()));
+            $properties = intval($this->em->getRepository('BackendAdminBundle:Complex')->getPropertiesQuantityByComplex($objProperty->getComplex()->getId()));
             $myFee = $this->getComplexFee($properties);
             if(intval($myFee) > 0){
                 $headerData["can_exchange_rewards"] = 1;
