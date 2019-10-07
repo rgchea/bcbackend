@@ -1111,6 +1111,8 @@ class Services extends Controller
             }
             else{//iOS
 
+                /*
+
                 ini_set('display_errors', 1);
                 ini_set('display_startup_errors', 1);
                 error_reporting(E_ALL);
@@ -1167,7 +1169,7 @@ class Services extends Controller
                 fclose($fp);
                 print_t("<br>-------------<br>");
 
-
+                */
             }
         }
     }
