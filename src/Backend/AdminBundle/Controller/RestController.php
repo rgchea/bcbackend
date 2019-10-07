@@ -2106,7 +2106,7 @@ class RestController extends FOSRestController
             $headerData["count_inbox"] =  $countInbox;
 
             $properties = intval($this->em->getRepository('BackendAdminBundle:Complex')->getPropertiesQuantityByComplex($objProperty->getComplex()->getId()));
-            $myFee = $this->getComplexFee($properties);
+            $myFee = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexFee($properties);
             if(intval($myFee) > 0){
                 $headerData["can_exchange_rewards"] = 1;
             }
