@@ -169,9 +169,10 @@ class TicketController extends Controller
                     case 'elapsed':
                         {
 
-                            $nowtime = strtotime("now");
-                            $oldtime = strtotime($entity->getCreatedAt()->format('Y-m-d'));
-                            $elapsed = $this->get('services')->time_elapsed_A($nowtime-$oldtime);
+                            $nowtime = date("Y-m-d");
+                            $oldtime = $entity->getCreatedAt()->format('Y-m-d');
+                            //$secs = $nowtime - $oldtime;
+                            $elapsed = $this->get('services')->time_elapsed_A($oldtime , $nowtime);
                             $responseTemp = $elapsed;
                             break;
                         }
@@ -189,7 +190,7 @@ class TicketController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -868,7 +869,6 @@ class TicketController extends Controller
 
 
     }
-
 
 
 

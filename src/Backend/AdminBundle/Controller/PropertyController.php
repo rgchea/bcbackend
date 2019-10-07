@@ -46,7 +46,8 @@ class PropertyController extends Controller
         $this->renderer = $this->get('templating');
         $this->userLogged = $this->session->get('userLogged');
         $this->role = $this->session->get('userLogged')->getRole()->getName();
-        $this->nowtime = strtotime(date("Y-m-d"));
+        //$this->nowtime = strtotime(date("Y-m-d"));
+        $this->nowtime = date("Y-m-d");
 
     }
 
@@ -231,7 +232,7 @@ class PropertyController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -319,25 +320,6 @@ class PropertyController extends Controller
         }
 
 
-        //get shared ad ticket
-        $isAdShared = $em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array("ticketType" => 2, "property" => $id));
-        if($isAdShared){
-
-            $createdAt = $isAdShared->getCreatedAt()->format('Y-m-d');
-
-            $now = time(); // or your date as well
-            $your_date = strtotime($createdAt);
-            $datediff = $now - $your_date;
-            $days =  round($datediff / (60 * 60 * 24));
-            $isAdSharedDays = 30-$days;
-
-            $isAdShared = $isAdShared->getId();
-        }
-        else{
-            $isAdShared = 0;
-            $isAdSharedDays = 0;
-        }
-
         $tenantContract =  null;
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $entity->getId(), 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
         if($propertyContract) {
@@ -351,8 +333,6 @@ class PropertyController extends Controller
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'edit' => $entity->getId(),
-            'isAdShared' => $isAdShared,
-            'isAdSharedDays' => $isAdSharedDays,
             'propertyContract' => $propertyContract,
             'tenantContract' => $tenantContract
         ));
@@ -924,7 +904,7 @@ class PropertyController extends Controller
         $this->em->persist($entity);
         $this->em->flush();
 
-        return $this->redirectToRoute('backend_admin_property_edit', array('id' => $propertyID));
+        return $this->redirectToRoute('backend_admin_property_detail', array('id' => $propertyID));
     }
 
 
@@ -1030,7 +1010,6 @@ class PropertyController extends Controller
                 'entity' => $entity,
                 'myPath' => 'backend_admin_property_new_agreement',
                 'new' => true
-
                 //'form' => $form->createView(),
 
 
@@ -1058,13 +1037,38 @@ class PropertyController extends Controller
         $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
 
 
-        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
+        $futuretime = $propertyContract->getEndDate()->format('Y-m-d');
+        //var_dump($futuretime);die;
+        //var_dump($this->nowtime);die;
+
+
+        $remainingTime = $this->get('services')->time_elapsed_A($this->nowtime, $futuretime);
+        //var_dump($futuretime - $this->nowtime);die;
+
 
         //print "<pre>";
         //var_dump($this->em->getRepository('BackendAdminBundle:Property')->getPropertyLog($id, $this->translator->getLocale()));die;
         $log = $this->em->getRepository('BackendAdminBundle:Property')->getPropertyLog($id, $this->translator->getLocale());
 
+
+        //get shared ad ticket
+        $isAdShared = $em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array("ticketType" => 2, "property" => $id));
+        if($isAdShared){
+
+            $createdAt = $isAdShared->getCreatedAt()->format('Y-m-d');
+
+            $now = time(); // or your date as well
+            $your_date = strtotime($createdAt);
+            $datediff = $now - $your_date;
+            $days =  round($datediff / (60 * 60 * 24));
+            $isAdSharedDays = 30-$days;
+
+            $isAdShared = $isAdShared->getId();
+        }
+        else{
+            $isAdShared = 0;
+            $isAdSharedDays = 0;
+        }
 
         return $this->render('BackendAdminBundle:Property:detail.html.twig', array(
             'entity' => $entity,
@@ -1073,7 +1077,10 @@ class PropertyController extends Controller
             'mainContract' => $mainContract,
             'tenantContracts' => $tenantContracts,
             'remainingTime' => $remainingTime,
-            'log' => $log
+            'log' => $log,
+            'isAdShared' => $isAdShared,
+            'isAdSharedDays' => $isAdSharedDays,
+
 
         ));
     }
@@ -1117,8 +1124,9 @@ class PropertyController extends Controller
         }
 
 
-        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
+        $futuretime = $propertyContract->getEndDate()->format('Y-m-d');
+        //$secs = $futuretime - $this->nowtime;
+        $remainingTime = $this->get('services')->time_elapsed_A($this->nowtime, $futuretime);
 
 
         return $this->render('BackendAdminBundle:Property:updateMaintenance.html.twig', array(
@@ -1191,8 +1199,9 @@ class PropertyController extends Controller
         }
 
 
-        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
+        $futuretime = $propertyContract->getEndDate()->format('Y-m-d');
+        //$secs = $futuretime - $this->nowtime;
+        $remainingTime = $this->get('services')->time_elapsed_A($this->nowtime, $futuretime);
 
 
         return $this->render('BackendAdminBundle:Property:contractCancel.html.twig', array(
@@ -1209,16 +1218,17 @@ class PropertyController extends Controller
         $this->get("services")->setVars('property');
         $this->initialise();
 
-
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+        //var_dump($propertyContract->getId());die;
         $tenantContract = $propertyContract->getMainTenantContract();
+
+        $oldEndDate = $propertyContract->getEndDate()->format("Y-m-d");
 
         if(isset($_REQUEST["submit"])){
 
             //print "<pre>";
             //var_dump($_REQUEST);die;
-
 
             $propertyContract->setWhoPaysMaintenance($_REQUEST["whopaysmaintenance"]);
 
@@ -1229,7 +1239,6 @@ class PropertyController extends Controller
             $endDate = trim($_REQUEST["endDate"]);
             $endDate = new \DateTime($endDate);
             $propertyContract->setEndDate($endDate);
-
 
             $this->em->persist($propertyContract);
             //$this->em->persist($entity);
@@ -1268,6 +1277,9 @@ class PropertyController extends Controller
             $description = $this->translator->trans("label_property")." ". $entity->getPropertyNumber().": ". $this->translator->trans("push.contract_extend_desc"). $propertyContract->getEndDate()->format("m/d/Y");
             $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
 
+            //EXTEND PAYMENTS
+            $this->createPayments($propertyContract->getId(), $propertyContract->getMaintenancePrice(), $oldEndDate, $propertyContract->getEndDate()->format("Y-m-d"));
+
 
             $this->get('services')->flashSuccess($request);
             return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
@@ -1276,8 +1288,9 @@ class PropertyController extends Controller
         }
 
 
-        $futuretime = strtotime($propertyContract->getEndDate()->format('Y-m-d'));
-        $remainingTime = $this->get('services')->time_elapsed_A($futuretime-$this->nowtime);
+        $futuretime = $propertyContract->getEndDate()->format('Y-m-d');
+        //$secs = $futuretime - $this->nowtime;
+        $remainingTime = $this->get('services')->time_elapsed_A($this->nowtime, $futuretime);
 
 
         return $this->render('BackendAdminBundle:Property:contractExtend.html.twig', array(
@@ -1420,7 +1433,7 @@ class PropertyController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -1603,7 +1616,7 @@ class PropertyController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -1743,7 +1756,7 @@ class PropertyController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -1881,7 +1894,6 @@ class PropertyController extends Controller
     {
         $this->get("services")->setVars('property');
         $this->initialise();
-
 
 
         if(isset($_REQUEST["loadSubmit"])){
@@ -2057,7 +2069,7 @@ class PropertyController extends Controller
 
         } else {
             //count months.
-            while($bdate < $edate) {
+            while($bdate <= $edate) {
 
                 $months++;
                 $bdate = strtotime('+1 MONTH', $bdate);

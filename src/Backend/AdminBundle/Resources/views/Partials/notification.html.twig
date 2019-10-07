@@ -25,11 +25,10 @@
 
 <li class="dropdown notification">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <span class="label label-danger arrowed arrow-left-in pull-right" id="notificationCount">0</span>
+        <span class="label label-primary arrowed arrow-left-in pull-right" id="notificationCount">0</span>
         <i class="fa fa-bell"></i>
     </a>
     <ul class="dropdown-menu pull-right" id="">
-
         <li class="open-section">
             <a href="{{ path('notification_mark_all_read') }}">{{ 'label_mark_all_read'|trans }}</a>
         </li>
@@ -58,15 +57,15 @@
 
 <script type="text/javascript">
 
-        var reservationPath = "{{ path('backend_admin_common_area_reservation_notification_read') }}";
+        var notificationPath = "{{ path('backend_admin_usernotification_notification_read') }}";
 
         var now = new Date();
 
-		var ajax_call = function() {
+		var notifications = function() {
             $.ajax({
                 type:"POST",
                 dataType:"json",
-                url:"{{ path('backend_admin_common_area_reservation_notification') }}",
+                url:"{{ path('backend_admin_usernotification_notification') }}",
                 //data:
                 success:function(data){
                     //console.log(data.result);
@@ -102,14 +101,16 @@
                             //console.log(diff);
 
                             $("#notificationList").append('        <li>' +
-                                '            <a href="'+reservationPath+'?notificationID='+notification+'" href="#">' +
+                                '            <a href="'+notificationPath+'?notificationID='+notification+'">' +
                                 '                <i class="fa fa-bell pull-left"></i>' +
-                                '                <span class="time">'+hoursAgo+'</span>' +
+                                '                <p class="txt-blue-bold">'+myResult[notification].title+'</p>' +
                                 '                <p>'+myResult[notification].description+'</p>' +
+                                '                <span class="time">'+hoursAgo+'</span>' +
                                 '            </a>' +
                                 '        </li>');
 
                             notificationCount++;
+                            //console.log(notificationCount);
                         }
 
                     }
@@ -117,17 +118,15 @@
                     $("#notificationCount").html(notificationCount);
 
 
-
                 }
             });
   		
 		};
 
-
 		var interval = 30000;//1000 = 1 second
 
-        setTimeout(ajax_call, 1000);//one time
-		setInterval(ajax_call, interval);
+        setTimeout(notifications, 100);//one time
+		setInterval(notifications, interval);
 
 	
 </script>	

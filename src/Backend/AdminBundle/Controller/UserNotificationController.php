@@ -25,15 +25,23 @@ class UserNotificationController extends Controller
     protected $translator;
     protected $repository;
     private  $renderer;
+    private $userLogged;
+    private $role;
+    private $session;
+
 
 
     // Set up all necessary variable
     protected function initialise()
     {
+        $this->session = new Session();
         $this->em = $this->getDoctrine()->getManager();
         $this->repository = $this->em->getRepository('BackendAdminBundle:UserNotification');
         $this->translator = $this->get('translator');
         $this->renderer = $this->get('templating');
+        $this->userLogged = $this->session->get('userLogged');
+        $this->role = $this->session->get('userLogged')->getRole()->getName();
+
 
     }
 
@@ -140,7 +148,7 @@ class UserNotificationController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -447,6 +455,103 @@ class UserNotificationController extends Controller
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+
+
+    public function notificationAction(Request $request){
+
+        $this->get("services")->setVars('dashboard');
+        $this->initialise();
+
+        if($this->role == "SUPER ADMIN"){
+
+            return new JsonResponse(array("result" => 0));
+        }
+
+        ///FILTER BY ROLE
+        /*
+        $complexFilters = null;
+        if($this->role != "SUPER ADMIN"){
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $complexFilters[$v] = $v;//the complex id
+            }
+        }
+        */
+
+
+        $filterComplex = $this->get("services")->getSessionComplex();
+        $complexFilters[$filterComplex] = $filterComplex;
+        //var_dump($complexFilters);die;
+
+        $notifications = $this->repository->getNotification($this->userLogged->getId(), $complexFilters);
+        $arrReturn = array();
+        if(!empty($notifications)){
+            foreach ($notifications as $key => $notification) {
+
+                //var_dump($key);die;
+                $arrReturn[$key] = $notification;
+            }
+        }
+
+        return new JsonResponse(array("result" => $arrReturn));
+
+    }
+
+
+
+    public function notificationReadAction(Request $request){
+
+        $this->get("services")->setVars('dashboard');
+        $this->initialise();
+
+        //var_dump($_REQUEST);DIE;
+        $notificationID = intval($_REQUEST["notificationID"]);
+
+        $objNotification = $this->repository->find($notificationID);
+        $objNotification->setIsRead(1);
+
+        $this->em->persist($objNotification);
+        $this->em->flush();
+
+
+        $notificationType = $objNotification->getNotificationType()->getId();
+
+        if($notificationType == 1){
+            return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_edit', array("id" => $objNotification->getCommonAreaReservation()->getId())));
+        }
+
+        if($notificationType == 2){
+            return $this->redirect($this->generateUrl('backend_admin_ticket_edit', array("id" => $objNotification->getTicket()->getId())));
+        }
+
+
+    }
+
+
+    public function notificationMarkAllReadAction(Request $request){
+
+        $this->get("services")->setVars('dashboard');
+        $this->initialise();
+
+        ///FILTER BY ROLE
+        /*
+        $complexFilters = null;
+        if($this->role != "SUPER ADMIN"){
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $complexFilters[$v] = $v;//the complex id
+            }
+        }*/
+
+        $filterComplex = $this->get("services")->getSessionComplex();
+        $complexFilters[$filterComplex] = $filterComplex;
+
+        $notifications = $this->repository->markAllNotificationRead($this->userLogged->getId(), $complexFilters);
+
+        return $this->redirect($this->generateUrl('backend_admin_homepage'));
+
     }
 
 

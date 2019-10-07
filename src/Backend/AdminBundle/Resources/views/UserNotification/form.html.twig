@@ -46,7 +46,7 @@
 							</div>
 							<div class="col-md-9">
 								<select  class="form-control classic" id="sector_select" name="sector_select">
-									<option value="0">--</option>
+									<option value="0">{{ 'label_all'|trans }}</option>
 									{% for sector in complexSector %}
 										<option value="{{ sector.id }}">{{ sector }}</option>
 									{% endfor %}
@@ -176,10 +176,15 @@
 
 						</div>
 						#}
-						<div class="col-md-10">
-						</div>
-						<div class="col-md-2">
-							<button type="submit" class="btn btn-primary">{{ 'label_send_notification'|trans }}</button>
+						<div class="row">
+							<div class="col-md-8">
+							</div>
+							<div class="col-md-2">
+								<button type="submit" class="btn btn-primary">{{ 'label_send_notification'|trans }}</button>
+							</div>
+							<div class="col-md-2">
+								<a  href="{{ path('backend_admin_usernotification_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
+							</div>
 						</div>
 					</div>
 
@@ -195,15 +200,18 @@
 </div>
 <script type="text/javascript" language="JavaScript">
 
+	var labelAll = "{{ 'label_all'|trans }}";
+
+
 	$( document ).ready(function() {
 
 		$("#sector_select").change(function () {
-			changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val(), true);
+			changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val(), labelAll);
 
 
 		});
 
-		changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val(), true);
+		changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val(), labelAll);
 
 
 		$("[name='ticketForm']").validate();

@@ -196,4 +196,108 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
         );
     }
 
+
+    public function getNotification($userID, $complexFilters){
+
+        $arrReturn = array();
+        $strFilter = "";
+        $in = "";
+        if(!empty($complexFilters)){
+            foreach ($complexFilters as $key => $value) {
+                $in .= $in == "" ? $value : ",".$value;
+            }
+
+        }
+        $strFilter = " AND ca.complex_id IN({$in}) ";
+        //var_dump($in);die;
+
+
+        $sql = "	SELECT 	n.id, n.created_at, n.title, n.description, n.notification_type_id, 
+	                        car.id reservation_id, t.id ticket_id
+                    FROM 	user_notification n
+                        LEFT JOIN common_area_reservation car ON (n.common_area_reservation_id = car.id)
+                        LEFT JOIN common_area ca ON (car.common_area_id = ca.id {$strFilter})
+                        LEFT JOIN ticket t ON (n.ticket_id = t.id)
+                    
+                    WHERE   n.notification_type_id IN(1,2)
+                    AND     n.is_read = 0
+                    AND     n.sent_to = {$userID}
+                    
+                    ORDER BY n.id";
+        //AND     n.sent_to = {$userID}
+
+        //var_dump($sql);die;
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        foreach ($execute as $row) {
+            $arrReturn[$row["id"]] = array();
+            $arrReturn[$row["id"]]["title"] = $row["title"];
+            $arrReturn[$row["id"]]["description"] = $row["description"];
+            $arrReturn[$row["id"]]["created_at"] = $row["created_at"];
+            $arrReturn[$row["id"]]["reservation_id"] = $row["reservation_id"];
+            $arrReturn[$row["id"]]["ticket_id"] = $row["ticket_id"];
+            $arrReturn[$row["id"]]["type"] = $row["notification_type_id"];
+        }
+
+        return $arrReturn;
+
+    }
+
+    //markAllNotificationRead
+
+    public function markAllNotificationRead($userID, $complexFilters){
+
+        $arrReturn = array();
+        $strFilter = "";
+        $in = "";
+        if(!empty($complexFilters)){
+            foreach ($complexFilters as $key => $value) {
+                $in .= $in == "" ? $value : ",".$value;
+            }
+
+        }
+        $strFilter = " AND ca.complex_id IN({$in}) ";
+
+        //COMMON AREA RESERVATION
+        $sql = "	SELECT 	n.id
+                    FROM 	user_notification n
+                        LEFT JOIN common_area_reservation car ON (n.common_area_reservation_id = car.id)
+                        LEFT JOIN common_area ca ON (car.common_area_id = ca.id)
+                        LEFT JOIN ticket ON (n.ticket_id = t.id)
+                    WHERE n.notification_type_id IN(1,2)
+                    AND n.is_read = 0
+                    $strFilter
+                    ORDER BY n.id";
+
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        foreach ($execute as $row) {
+
+            $tempID = intval($row["id"]);
+            $sqlUpdate = "  UPDATE  user_notification
+                            SET     is_read = 1
+                            WHERE   id = {$tempID}";
+
+            $stmt = $this->getEntityManager()->getConnection()->prepare($sqlUpdate);
+            $stmt->execute();
+
+        }
+
+
+
+
+        return true;
+
+    }
+
+
 }

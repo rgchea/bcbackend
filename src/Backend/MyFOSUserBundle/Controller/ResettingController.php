@@ -34,6 +34,7 @@ class ResettingController extends Controller
      */
     public function requestAction()
     {
+        //print "aca";die;
         return $this->render('BackendMyFOSUserBundle:Resetting:request.html.twig');
     }
 
@@ -43,6 +44,8 @@ class ResettingController extends Controller
     public function sendEmailAction(Request $request)
     {
         $username = $request->request->get('username');
+
+        //print "send email to =>". $username;
 
         /** @var $user UserInterface */
         $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
@@ -63,9 +66,21 @@ class ResettingController extends Controller
             /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
             $tokenGenerator = $this->get('fos_user.util.token_generator');
             $user->setConfirmationToken($tokenGenerator->generateToken());
+
         }
 
-        $this->get('fos_user.mailer')->sendResettingEmailMessage($user);
+        ///sendgrid mail
+        $myToken = $user->getConfirmationToken();
+        $myLocale = $this->get('translator')->getLocale();
+        //var_dump($myTranslator->getLocale());die;
+        $templateID = $myLocale == "es" ? "d-4294dc5610f64645ae699f4cadb55e03" : "d-e7152a1582e94bca86f165fc2bd00d28";
+
+        $myToken = $myLocale."/resetting/reset/".$myToken;
+        $myJson = '"token": "'.$myToken.'"';
+
+        $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $username);
+
+        //$this->get('fos_user.mailer')->sendResettingEmailMessage($user);
         $user->setPasswordRequestedAt(new \DateTime());
         $this->get('fos_user.user_manager')->updateUser($user);
 

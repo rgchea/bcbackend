@@ -108,12 +108,16 @@
 
 						</fieldset>
 
-						<div class="form-actions">
-
-							<button type="submit" class="btn btn-primary">
-								<i class="fa fa-save"></i>
-								{{ 'label_save'|trans  }}
-							</button>
+						<br/>
+						<div class="row">
+							<div class="col-md-8">
+							</div>
+							<div class="col-md-2">
+								<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+							</div>
+							<div class="col-md-2">
+								<a  href="{{ path('backend_admin_ticket_category_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
+							</div>
 						</div>
 
 					<!--</form>-->

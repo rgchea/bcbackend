@@ -23,22 +23,6 @@ backend_admin_common_area_reservation_calendar:
     path: /commonAreaReservationCalendar
     defaults:
         _controller: BackendAdminBundle:CommonAreaReservation:calendar
-
-backend_admin_common_area_reservation_notification:
-    path: /commonAreaReservationNotification
-    defaults:
-        _controller: BackendAdminBundle:CommonAreaReservation:notification
-
-backend_admin_common_area_reservation_notification_read:
-    path: /commonAreaReservationNotificationRead
-    defaults:
-        _controller: BackendAdminBundle:CommonAreaReservation:notificationRead
-
-
-notification_mark_all_read:
-    path: /notificationMarkAllRead
-    defaults:
-        _controller: BackendAdminBundle:CommonAreaReservation:notificationMarkAllRead
         
 backend_admin_common_area_reservation_new:
     path:     /new/

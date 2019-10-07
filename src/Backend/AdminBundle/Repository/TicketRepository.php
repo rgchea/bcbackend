@@ -138,7 +138,8 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
         $sql = "	SELECT 	id
                     FROM 	ticket
-                    WHERE   DATEDIFF(CURDATE(),STR_TO_DATE(created_at, '%Y-%m-%d')) > 30";
+                    WHERE   DATEDIFF(CURDATE(),STR_TO_DATE(created_at, '%Y-%m-%d')) > 30
+                    AND     ticket_type_id = 2";//SHARE PROPERTY
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
@@ -914,6 +915,9 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         return $arrReturn;
 
     }
+
+
+
 
 
 

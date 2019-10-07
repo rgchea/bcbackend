@@ -32,3 +32,20 @@ backend_admin_usernotification_delete:
     defaults: { _controller: "BackendAdminBundle:UserNotification:delete" }
 
     #methods:  DELETE
+    
+    
+backend_admin_usernotification_notification:
+    path: /notification
+    defaults:
+        _controller: BackendAdminBundle:UserNotification:notification
+
+backend_admin_usernotification_notification_read:
+    path: /notificationRead
+    defaults:
+        _controller: BackendAdminBundle:UserNotification:notificationRead
+
+
+notification_mark_all_read:
+    path: /notificationMarkAllRead
+    defaults:
+        _controller: BackendAdminBundle:UserNotification:notificationMarkAllRead

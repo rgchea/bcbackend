@@ -220,11 +220,16 @@
 		<div class="row">
 
 			{% if edit is defined %}
-				<div class="form-actions">
-					<button class="btn btn-primary" type="submit">
-						<i class="fa fa-save"></i>
-						{{ 'label_save'|trans  }}
-					</button>
+				<br/>
+				<div class="row">
+					<div class="col-md-8">
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+					</div>
+					<div class="col-md-2">
+						<a  href="{{ path('backend_admin_homepage') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
+					</div>
 				</div>
 			{% else %}
 				<div class="form-group col-md-4">

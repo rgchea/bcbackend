@@ -14,7 +14,7 @@ parameters:
     complex_avatars_directory: '%kernel.root_dir%/../web/uploads/images/complex/'
     polls_directory: '%kernel.root_dir%/../web/uploads/images/poll_questions/'
     uploads_directory: '%kernel.root_dir%/../web/uploads/images/'
-    ios_cert:       '%kernel.project_dir%/app/config/ios/push.pem' # required for ios push notifications
+    ios_cert:       '%kernel.project_dir%/app/config/ios/pushdev.pem' # required for ios push notifications
     mailer_port: 587
 
 framework:

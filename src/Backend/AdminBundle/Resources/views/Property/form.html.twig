@@ -13,42 +13,6 @@
 
 
 					{% if edit is defined %}
-
-						{% if isAdShared != 0 %}
-							<div class="col-md-7">&nbsp;</div>
-							<div class="col-md-5 text-right">
-								<label class="pull-right" >{{ 'label_property_share_ad_msg'|trans }}{{ isAdSharedDays }}&nbsp;{{ 'label_days'|trans }}</label>
-							</div>
-							<div class="clearfix"></div>
-							<div class="col-md-8">&nbsp;</div>
-							<div class="col-md-2 text-right"></div>
-
-							<div class="col-md-2">
-								<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
-									{{ 'label_property_delete_ad'|trans }}
-								</a>
-							</div>
-
-
-						{% else %}
-							{% if app.user.role.name == "ADMIN" %}{#EVALUAR QUE ROLES TENDRAN ACCESO A CREAR PROPIEDADES#}
-
-								<div class="col-md-8">&nbsp;</div>
-								<div class="col-md-2 text-right"></div>
-								<div class="col-md-2 text-right">
-									<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
-										{{ 'label_property_share_ad'|trans }}
-									</a>
-								</div>
-							{% endif %}
-
-						{% endif %}
-
-					{% endif %}
-
-
-
-					{% if edit is defined %}
 						<div class="col-md-6">
 							<h3 class="header-title">{{ 'label_edit'|trans }} {{ 'label_property'|trans }}</h3>
 						</div>
@@ -265,18 +229,16 @@
 								</div>
 							{% endif %}
 
+							<br/>
 							<div class="row">
-								<div class="col-md-9">
+								<div class="col-md-8">
 								</div>
-
-								<div class="col-md-3">
-									<button class="btn btn-primary" type="submit">
-										<i class="fa fa-save"></i>
-										{{ 'label_save'|trans }}
-									</button>
-
+								<div class="col-md-2">
+									<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
 								</div>
-
+								<div class="col-md-2">
+									<a  href="{{ path('backend_admin_property_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
+								</div>
 							</div>
 
 						</div>

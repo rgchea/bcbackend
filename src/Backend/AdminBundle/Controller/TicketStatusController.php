@@ -155,7 +155,7 @@ class TicketStatusController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';

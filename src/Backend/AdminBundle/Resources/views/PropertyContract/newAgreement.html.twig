@@ -112,7 +112,7 @@
                                 <p class="txt-blue-bold text-leftt">{{ 'label_agreement_start_date'|trans }}: </p>
                             </div>
                             <div class="col-md-9">
-                                <input id="endDate" name="agreement[start]" type="date" class="form-control"/>
+                                <input id="startDate" name="agreement[start]" type="date" class="form-control" value="{{ 'now'|date("Y-m-d") }}"/>
                             </div>
                         </div>
 
@@ -121,7 +121,7 @@
                                 <p class="txt-blue-bold text-leftt">{{ 'label_agreement_end_date'|trans }}:</p>
                             </div>
                             <div class="col-md-9">
-                                <input id="endDate" name="agreement[end]" type="date" class="form-control"/>
+                                <input id="endDate" name="agreement[end]" type="date" class="form-control" value="{{ 'now'|date_modify('+365 day')|date("Y-m-d") }}"/>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                             <button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
                         </div>
                         <div class="col-md-2">
-                            <button style="background-color:black; color:#FFF;" type="submit" class="btn btn-primary">{{ 'label_cancel'|trans }}</button>
+                            <a  href="{{ path('backend_admin_property_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
                         </div>
                     </div>
 

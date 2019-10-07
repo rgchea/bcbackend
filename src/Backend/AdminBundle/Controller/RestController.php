@@ -1298,6 +1298,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="player_id", type="integer", description="Team player ID", example="1" ),
      *                  @SWG\Property( property="complex", type="integer", description="Complex Name", example="complex 1" ),
      *                  @SWG\Property( property="complex_id", type="integer", description="Complex ID", example="1" ),
+     *                  @SWG\Property( property="complex_avatar", type="string", description="Complex avatar", example="url" ),
      *                  @SWG\Property( property="sector_id", type="integer", description="Sector ID", example="1" ),
      *                  @SWG\Property( property="tenant_contract_id", type="integer", description="Tenant contract ID", example="1" ),
      *              )
@@ -1927,6 +1928,7 @@ class RestController extends FOSRestController
      *              @SWG\Items(
      *                  @SWG\Property( property="post_public_ticket", type="integer", description="0 cannot post public tickets, 1", example="1" ),
      *                  @SWG\Property( property="count_inbox", type="integer", description="count unread messages", example="1" ),
+     *                  @SWG\Property( property="can_exchange_rewards", type="integer", description="0 cannot exchange rewards, 1 can exchange", example="1" ),
      *              )
      *           ),
      *          @SWG\Property( property="message", type="string", example="" ),
@@ -2103,6 +2105,14 @@ class RestController extends FOSRestController
             $headerData["post_public_ticket"] =  $propertyContract->getPostPublicTicket();
             $headerData["count_inbox"] =  $countInbox;
 
+            $properties = intval($this->em->getRepository('BackendAdminBundle:PropertyContract')->getPropertiesQuantityByComplex($objProperty->getComplex()->getId()));
+            $myFee = $this->getComplexFee($properties);
+            if(intval($myFee) > 0){
+                $headerData["can_exchange_rewards"] = 1;
+            }
+            else{
+                $headerData["can_exchange_rewards"] = 0;
+            }
 
             return new JsonResponse(array(
                 'message' => "",
@@ -2518,6 +2528,25 @@ class RestController extends FOSRestController
                 $this->em->persist($ticketPhoto);
             }
 
+
+            ////CREATE USER NOTIFICATION
+            $objUserNotification = New UserNotification();
+            $objUserNotification->setTicket($ticket);
+            $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(2);//TYPE=TICKET
+            $objUserNotification->setNotificationType($type);
+            $objUserNotification->setIsRead(0);
+            $objUserNotification->setEnabled(1);
+            $title = $this->getUser()->getName();
+            $objUserNotification->setTitle($title);
+            $description = "Ticket #".$ticket->getId();
+            $objUserNotification->setDescription($description);
+            $objUserNotification->setNotice("");
+            $objUserNotification->setSentTo($userToAssign);
+
+            $this->get("services")->blameOnMe($objUserNotification, "create");
+            $this->get("services")->blameOnMe($objUserNotification, "update");
+            $this->em->persist($objUserNotification);
+
             $this->em->persist($ticket);
             $this->em->persist($statusLog);
 
@@ -2765,6 +2794,10 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
+            $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
+
+
             if (!$request->headers->has('Content-Type')) {
                 throw new \Exception("Missing Content-Type header.");
             }
@@ -2787,6 +2820,24 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($ticketComment, "update");
 
             $this->em->persist($ticketComment);
+
+            ////CREATE USER NOTIFICATION
+            $objUserNotification = New UserNotification();
+            $objUserNotification->setTicket($ticket);
+            $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(2);//TYPE=TICKET
+            $objUserNotification->setNotificationType($type);
+            $objUserNotification->setIsRead(0);
+            $objUserNotification->setEnabled(1);
+            $title = $this->getUser()->getName();
+            $objUserNotification->setTitle($title);
+            $description = $this->translator->trans('label_new')." ".$this->translator->trans('label_comment').", Ticket #".$ticket->getId();
+            $objUserNotification->setDescription($description);
+            $objUserNotification->setNotice("");
+            $objUserNotification->setSentTo($ticket->getAssignedTo());
+
+            $this->get("services")->blameOnMe($objUserNotification, "create");
+            $this->get("services")->blameOnMe($objUserNotification, "update");
+            $this->em->persist($objUserNotification);
 
             $this->em->flush();
 
@@ -2859,6 +2910,10 @@ class RestController extends FOSRestController
         try {
             $this->initialise();
 
+            $lang = strtolower(trim($request->get('language')));
+            $this->translator->setLocale($lang);
+
+
             if (!$request->headers->has('Content-Type')) {
                 throw new \Exception("Missing Content-Type header.");
             }
@@ -2881,6 +2936,29 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($bookingComment, "update");
 
             $this->em->persist($bookingComment);
+
+            ////CREATE USER NOTIFICATION
+            ///
+            $bookingTicket = $this->em->getRepository('BackendAdminBundle:Ticket')->findOneByCommonAreaReservation($bookingId);//TYPE=TICKET
+
+            if($bookingTicket){
+                $objUserNotification = New UserNotification();
+                $objUserNotification->setCommonAreaReservation($booking);
+                $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(2);//TYPE=TICKET
+                $objUserNotification->setNotificationType($type);
+                $objUserNotification->setIsRead(0);
+                $objUserNotification->setEnabled(1);
+                $title = $this->getUser()->getName();
+                $objUserNotification->setTitle($title);
+                $description = $this->translator->trans('label_new')." ".$this->translator->trans('label_comment').", ".$this->translator->trans('label_booking') ." #".$booking->getId();
+                $objUserNotification->setDescription($description);
+                $objUserNotification->setNotice("");
+                $objUserNotification->setSentTo($bookingTicket->getAssignedTo());
+
+                $this->get("services")->blameOnMe($objUserNotification, "create");
+                $this->get("services")->blameOnMe($objUserNotification, "update");
+                $this->em->persist($objUserNotification);
+            }
 
             $this->em->flush();
 
@@ -3888,6 +3966,15 @@ class RestController extends FOSRestController
 
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
 
+            //enviar copia al admin
+            $admin = $this->em->getRepository('BackendAdminBundle:User')->findOneBy(array("role" => 1, "business" => $objProperty->getComplex()->getBusiness(), "enabled" => 1));
+            if ($admin == null) {
+                throw new \Exception("No admin user found for this property.");
+            }
+
+            $adminEmail = $admin->getEmail();
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $adminEmail);
+
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_property_share')." ".$objProperty->getPropertyNumber()." ".$email;
             $playKey = "BC-T-00006";//share property
@@ -4732,13 +4819,26 @@ class RestController extends FOSRestController
 
             $this->em->persist($ticket);
 
-            ////USER NOTIFICATION
-            /// toDo
 
+            ////CREATE USER NOTIFICATION
+            $objUserNotification = New UserNotification();
+            $objUserNotification->setCommonAreaReservation($reservation);
+            $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(1);//TYPE=RESERVATION
+            $objUserNotification->setNotificationType($type);
+            $objUserNotification->setIsRead(0);
+            $objUserNotification->setEnabled(1);
+            $title = $this->getUser()->getName();
+            $objUserNotification->setTitle($title);
+            $description = $this->translator->trans('label_booking')." #".$reservation->getId();
+            $objUserNotification->setDescription($description);
+            $objUserNotification->setNotice("");
+            $objUserNotification->setSentTo($userToAssign);
 
+            $this->get("services")->blameOnMe($objUserNotification, "create");
+            $this->get("services")->blameOnMe($objUserNotification, "update");
+            $this->em->persist($objUserNotification);
 
             $this->em->flush();
-
 
 
             return new JsonResponse(array(

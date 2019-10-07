@@ -53,75 +53,78 @@ class SendInvoiceCommand extends ContainerAwareCommand
 
                 $myFee = floatval($complex["fee"]);
 
-                $body = array(
-                    array('name' => 'cid', 'contents' => $complex["customer_id"]),
-                    //array('name' => 'cid', 'contents' => 295),//CUSTOMER ID
-                    array('name' => 'admin_id', 'contents' => 0),
-                    array('name' => 'status', 'contents' => 'Published'),
-                    array('name' => 'currency', 'contents' => 'USD'),
-                    array('name' => 'invoicdnum', 'contents' => 'INV#'),
-                    array('name' => 'show_quantity_as', 'contents' => 'Qty'),
-                    array('name' => 'cn', 'contents' => ''),
+                //if($myFee > 0){
 
-                    /* Possible values for due date
-                    due_on_receipt : Due On Receipt
-                    days3 : +3 days
-                    days5 : + 5 days
-                    days7 : + 7 days
-                    days10 : + 10 days
-                    days15 : + 15 days
-                    days30 : + 30 days
-                    days45 : + 45 days
-                    days60 : + 50 days
-                    */
-                    array('name' => 'duedate', 'contents' => 'due_on_receipt'),
-                    array('name' => 'repeat', 'contents' => 0),
-                    array('name' => 'discount_type', 'contents' => 'p'),
-                    array('name' => 'discount_amount', 'contents' => '0'),
-                    array('name' => 'notes', 'contents' => ''),
+                    $body = array(
+                        array('name' => 'cid', 'contents' => $complex["customer_id"]),
+                        //array('name' => 'cid', 'contents' => 295),//CUSTOMER ID
+                        array('name' => 'admin_id', 'contents' => 0),
+                        array('name' => 'status', 'contents' => 'Published'),
+                        array('name' => 'currency', 'contents' => 'USD'),
+                        array('name' => 'invoicdnum', 'contents' => 'INV#'),
+                        array('name' => 'show_quantity_as', 'contents' => 'Qty'),
+                        array('name' => 'cn', 'contents' => ''),
 
-                    array('name' => 'items[0][description]', 'contents' => $complex["complex_name"]),///detalle
-                    array('name' => 'items[0][item_code]', 'contents' => ''),
-                    array('name' => 'items[0][qty]', 'contents' => 1),
-                    array('name' => 'items[0][amount]', 'contents' => $myFee),
-                    array('name' => 'items[0][taxed]', 'contents' => 0),
+                        /* Possible values for due date
+                        due_on_receipt : Due On Receipt
+                        days3 : +3 days
+                        days5 : + 5 days
+                        days7 : + 7 days
+                        days10 : + 10 days
+                        days15 : + 15 days
+                        days30 : + 30 days
+                        days45 : + 45 days
+                        days60 : + 50 days
+                        */
+                        array('name' => 'duedate', 'contents' => 'due_on_receipt'),
+                        array('name' => 'repeat', 'contents' => 0),
+                        array('name' => 'discount_type', 'contents' => 'p'),
+                        array('name' => 'discount_amount', 'contents' => '0'),
+                        array('name' => 'notes', 'contents' => ''),
 
-
-                    array('name' => 'idate', 'contents' => gmdate('Y-m-d')),
-
-                )
-                ;
-                //print "<pre>";
-                //var_dump($body);die;
+                        array('name' => 'items[0][description]', 'contents' => $complex["complex_name"]),///detalle
+                        array('name' => 'items[0][item_code]', 'contents' => ''),
+                        array('name' => 'items[0][qty]', 'contents' => 1),
+                        array('name' => 'items[0][amount]', 'contents' => $myFee),
+                        array('name' => 'items[0][taxed]', 'contents' => 0),
 
 
-                $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo("POST", "invoice", $body);
-                //var_dump($response);die;
+                        array('name' => 'idate', 'contents' => gmdate('Y-m-d')),
+
+                    )
+                    ;
+                    //print "<pre>";
+                    //var_dump($body);die;
+
+
+                    $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo("POST", "invoice", $body);
+                    //var_dump($response);die;
 
 
 
-                $business = $em->getRepository('BackendAdminBundle:Business')->findBycustomerId($complex["customer_id"]);
-                if($business){
-                    $business = $business[0];
+                    $business = $em->getRepository('BackendAdminBundle:Business')->findBycustomerId($complex["customer_id"]);
+                    if($business){
+                        $business = $business[0];
 
-                    $invoice = new Invoice();
-                    $invoice->setBusiness($business);
-                    $invoice->setDescription($complex["complex_name"]);
-                    $invoice->setCreatedAt(new \DateTime(gmdate('Y-m-d h:i:s')));
-                    $invoice->setUpdatedAt(new \DateTime(gmdate('Y-m-d h:i:s    ')));
-                    $invoice->setSent(0);
-                    $invoice->setAmount($myFee);
-                }
+                        $invoice = new Invoice();
+                        $invoice->setBusiness($business);
+                        $invoice->setDescription($complex["complex_name"]);
+                        $invoice->setCreatedAt(new \DateTime(gmdate('Y-m-d h:i:s')));
+                        $invoice->setUpdatedAt(new \DateTime(gmdate('Y-m-d h:i:s    ')));
+                        $invoice->setSent(0);
+                        $invoice->setAmount($myFee);
+                    }
 
 
-                if($response["error"] == false){//CODE 200 ok and Error false
-                    ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
-                    $invoice->setSent(1);
+                    if($response["error"] == false){//CODE 200 ok and Error false
+                        ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
+                        $invoice->setSent(1);
 
-                }
+                    }
 
-                $em->persist($invoice);
-                $em->flush();
+                    $em->persist($invoice);
+                    $em->flush();
+
 
 
 

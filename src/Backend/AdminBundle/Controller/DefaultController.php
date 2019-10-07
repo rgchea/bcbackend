@@ -45,6 +45,13 @@ class DefaultController extends Controller
 
         $arrStats = array();
 
+        if($this->translator->getLocale() == "es"){
+            $arrMonths = array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", 'Nov', "Dic");
+        }
+        else{
+            $arrMonths = array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 'Nov', "Dec");
+        }
+
         if($this->role == "ADMIN"){
 
             $complexID = $this->get("services")->getSessionComplex();
@@ -55,38 +62,30 @@ class DefaultController extends Controller
             $arrStats["tb_manager"] = $this->em->getRepository("BackendAdminBundle:Ticket")->getTicketByManager($complexID);
             $arrStats["tb_category"] = $this->em->getRepository("BackendAdminBundle:Ticket")->getTicketByCategory($complexID);
 
+
+            ///get points
+            $player_id = $this->userLogged->getPlayerId();
+            $token = $this->get('services')->getBCToken();
+
+            $year = date("Y");
+            $month = date("m");
+
+            $stats =  $this->get('services')->callBCSpace( "GET", "players/".$player_id."/stats", array() );
+
+            $currentLevel = intval($stats["current_level"]);
+            $availablePoints = intval($stats["available_points"]);
+
+
+            $arrStats["gxp"] = array();
+            $arrStats["gxp"]["level"] = $currentLevel;
+            $arrStats["gxp"]["points"] = $availablePoints;
+
+            $arrStats["properties"] = $this->em->getRepository("BackendAdminBundle:Property")->getStats($complexID);
+            $arrStats["users"] = $this->em->getRepository("BackendAdminBundle:User")->getStats($complexID);
+            $arrStats["tickets"] = $this->em->getRepository("BackendAdminBundle:Ticket")->getStats($complexID);
+            $arrStats["reservations"] = $this->em->getRepository("BackendAdminBundle:CommonAreaReservation")->getStats($complexID);
+
         }
-
-
-        if($this->translator->getLocale() == "es"){
-            $arrMonths = array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", 'Nov', "Dic");
-        }
-        else{
-            $arrMonths = array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 'Nov', "Dec");
-        }
-
-
-        ///get points
-        $player_id = $this->userLogged->getPlayerId();
-        $token = $this->get('services')->getBCToken();
-
-        $year = date("Y");
-        $month = date("m");
-
-        $stats =  $this->get('services')->callBCSpace( "GET", "players/".$player_id."/stats", array() );
-
-        $currentLevel = intval($stats["current_level"]);
-        $availablePoints = intval($stats["available_points"]);
-
-
-        $arrStats["gxp"] = array();
-        $arrStats["gxp"]["level"] = $currentLevel;
-        $arrStats["gxp"]["points"] = $availablePoints;
-
-        $arrStats["properties"] = $this->em->getRepository("BackendAdminBundle:Property")->getStats($complexID);
-        $arrStats["users"] = $this->em->getRepository("BackendAdminBundle:User")->getStats($complexID);
-        $arrStats["tickets"] = $this->em->getRepository("BackendAdminBundle:Ticket")->getStats($complexID);
-        $arrStats["reservations"] = $this->em->getRepository("BackendAdminBundle:CommonAreaReservation")->getStats($complexID);
 
 
         return $this->render('BackendAdminBundle:Default:index.html.twig', array(
@@ -223,9 +222,10 @@ class DefaultController extends Controller
                     case 'elapsed':
                     {
 
-                        $nowtime = strtotime("now");
-                        $oldtime = strtotime($entity->getCreatedAt()->format('Y-m-d'));
-                        $elapsed = $this->get('services')->time_elapsed_A($nowtime-$oldtime);
+                        $nowtime = date("Y-m-d");
+                        $oldtime = $entity->getCreatedAt()->format('Y-m-d');
+                        //$secs = $nowtime - $oldtime;
+                        $elapsed = $this->get('services')->time_elapsed_A($oldtime, $nowtime);
                         $responseTemp = $elapsed;
                         break;
                     }
@@ -243,7 +243,7 @@ class DefaultController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';

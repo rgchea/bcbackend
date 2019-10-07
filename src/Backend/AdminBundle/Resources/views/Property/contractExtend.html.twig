@@ -115,7 +115,7 @@
                                         <p class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </p>
                                     </div>
                                     <div class="col-md-4 text-left">
-                                        <input id="startDate" name="startDate" type="date" class="form-control" value="{{ propertyContract.startDate|date("Y-m-d") }}"/>
+                                        <input id="startDate" name="startDate" type="date"  class="form-control" value="{{ propertyContract.startDate|date("Y-m-d") }}"/>
 
                                     </div>
                                     <div class="col-md-2">
@@ -135,8 +135,7 @@
                                         <p class="txt-blue-bold">{{ 'label_agreement_end_date'|trans }}: </p>
                                     </div>
                                     <div class="col-md-4 text-left ">
-                                        <input id="endDate" name="endDate" type="date" class="form-control" value="{{ propertyContract.endDate|date("Y-m-d") }}"/>
-
+                                        <input id="endDate" name="endDate" type="date" min="{{ propertyContract.endDate|date("Y-m-d") }}" class="form-control" value="{{ propertyContract.endDate|date("Y-m-d") }}"/>
                                     </div>
                                     <div class="col-md-2">
 
@@ -187,14 +186,12 @@
                                     <div class="col-md-3">
                                     </div>
                                     <div class="col-md-6 text-center">
-                                        <div class="custom-control custom-checkbox">
-                                            <br/>
-                                            <input type="checkbox" class="custom-control-input" id="notifyOwner" name="notifyOwner">
-                                            <label class="custom-control-label" for="defaultUnchecked">{{ 'label_notify_owner'|trans }}</label>
-                                            <br/>
-                                            <br/>
-
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="notifyOwner" name="notifyOwner">&nbsp;<a data-toggle="modal" id="orange-button" data-target="#orange-modal" data-color="orange" href="#">{{ 'label_notify_owner'|trans }}</a>
+                                            </label>
                                         </div>
+
                                     </div>
                                     <div class="col-md-3">
 

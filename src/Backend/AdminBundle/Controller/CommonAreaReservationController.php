@@ -249,7 +249,7 @@ class CommonAreaReservationController extends Controller
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -450,84 +450,6 @@ class CommonAreaReservationController extends Controller
         return $this->render('BackendAdminBundle:CommonAreaReservation:calendar.html.twig', ['now' => date("Y-m-d"), 'schedule' => $schedule]);
 
     }
-
-
-    public function notificationAction(Request $request){
-
-        $this->get("services")->setVars('dashboard');
-        $this->initialise();
-
-        if($this->role == "SUPER ADMIN"){
-
-            return new JsonResponse(array("result" => 0));
-        }
-        ///FILTER BY ROLE
-        $complexFilters = null;
-        if($this->role != "SUPER ADMIN"){
-            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-            foreach ($arrComplex as $k =>$v) {
-                $complexFilters[$v] = $v;//the complex id
-            }
-        }
-
-
-
-        $notifications = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getNotification($this->userLogged->getId(), $complexFilters);
-        $arrReturn = array();
-        if(!empty($notifications)){
-            foreach ($notifications as $key => $notification) {
-
-                //var_dump($key);die;
-                $arrReturn[$key] = $notification;
-            }
-        }
-
-        return new JsonResponse(array("result" => $arrReturn));
-
-    }
-
-
-
-    public function notificationReadAction(Request $request){
-
-        $this->get("services")->setVars('dashboard');
-        $this->initialise();
-
-        //var_dump($_REQUEST);DIE;
-        $notificationID = intval($_REQUEST["notificationID"]);
-
-        $objNotification = $this->em->getRepository('BackendAdminBundle:UserNotification')->find($notificationID);
-        $objNotification->setIsRead(1);
-
-        $this->em->persist($objNotification);
-        $this->em->flush();
-
-        return $this->redirect($this->generateUrl('backend_admin_common_area_reservation_index'));
-
-    }
-
-
-    public function notificationMarkAllReadAction(Request $request){
-
-        $this->get("services")->setVars('dashboard');
-        $this->initialise();
-
-        ///FILTER BY ROLE
-        $complexFilters = null;
-        if($this->role != "SUPER ADMIN"){
-            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-            foreach ($arrComplex as $k =>$v) {
-                $complexFilters[$v] = $v;//the complex id
-            }
-        }
-
-
-        $notifications = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->markAllNotificationRead($this->userLogged->getId(), $complexFilters);
-
-        return $this->redirect($this->generateUrl('backend_admin_homepage'));
-
-    }
-
 
 
     public function editAction(Request $request, $id)
@@ -777,11 +699,28 @@ class CommonAreaReservationController extends Controller
         $this->get("services")->blameOnMe($ticket, "create");
         $this->get("services")->blameOnMe($ticket, "update");
 
-        $ticket->setCreatedBy($objProperty->getMainTenant());
+        $myMainTenant = $objProperty->getMainTenant();
+        $ticket->setCreatedBy();
 
         $this->em->persist($ticket);
 
-        ////USER NOTIFICATION
+        ////CREATE USER NOTIFICATION
+        $objUserNotification = New UserNotification();
+        $objUserNotification->setCommonAreaReservation($entity);
+        $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(1);//TYPE=RESERVATION
+        $objUserNotification->setNotificationType($type);
+        $objUserNotification->setIsRead(0);
+        $objUserNotification->setEnabled(1);
+        $title = $myMainTenant->getName();
+        $objUserNotification->setTitle($title);
+        $description = $this->translator->trans('label_booking')." #".$entity->getId();
+        $objUserNotification->setDescription($description);
+        $objUserNotification->setNotice("");
+        $objUserNotification->setSentTo($userToAssign);
+
+        $this->get("services")->blameOnMe($objUserNotification, "create");
+        $this->get("services")->blameOnMe($objUserNotification, "update");
+        $this->em->persist($objUserNotification);
 
         $this->em->flush();
 

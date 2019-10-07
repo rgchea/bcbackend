@@ -925,24 +925,28 @@ class Services extends Controller
     }
 
 
-    function time_elapsed_A($secs){
+    function time_elapsed_A($datetime1, $datetime2){
 
-        //$date = new DateTime('now', new DateTimeZone('Asia/Kolkata'));
-        //echo $date->format('d-m-Y H:i:s');
+        $datetime1 = new \DateTime($datetime1);
+        $datetime2 = new \DateTime($datetime2);
 
-        $bit = array(
-            'y' => $secs / 31556926 % 12,
-            'w' => $secs / 604800 % 52,
-            'd' => $secs / 86400 % 7,
-            'h' => $secs / 3600 % 24,
-            'm' => $secs / 60 % 60,
-            's' => $secs % 60
-        );
+        $difference = $datetime1->diff($datetime2);
 
-        foreach($bit as $k => $v)
-            if($v > 0)$ret[] = $v . $k;
+        if($this->translator->getLocale() == "es"){
+            $remainingTime = $difference->y.' años, '
+                .$difference->m.' meses, '
+                .$difference->d.' días';
 
-        return join(' ', $ret);
+        }
+        else{
+            $remainingTime = $difference->y.' years, '
+                .$difference->m.' months, '
+                .$difference->d.' days';
+
+        }
+
+
+        return $remainingTime;
     }
 
 
@@ -1057,11 +1061,6 @@ class Services extends Controller
         ///
         ///
         ///
-        /// IOS CONFIG
-        $ctx = stream_context_create();
-        stream_context_set_option($ctx, 'ssl', 'local_cert', __DIR__.'/../apn/push20192.pem');
-        stream_context_set_option($ctx, 'ssl', 'passphrase', "nana*2019");
-        /// IOS CONFIG
 
 
         $em = $this->getDoctrine()->getManager();
@@ -1108,15 +1107,35 @@ class Services extends Controller
             }
             else{//iOS
 
+                ini_set('display_errors', 1);
+                ini_set('display_startup_errors', 1);
+                error_reporting(E_ALL);
+
+                print_t($this->getParameter('ios_cert'));
+
+                $ctx = stream_context_create();
+                stream_context_set_option($ctx, 'ssl', 'local_cert', $this->getParameter('ios_cert'));
+                stream_context_set_option($ctx, 'ssl', 'passphrase', "bc*2019!");
+
+
                 $fp = stream_socket_client(
-                    //'ssl://gateway.push.apple.com:2195',
-                'ssl://gateway.sandbox.push.apple.com:2195',
+                //'ssl://gateway.push.apple.com:2195',
+                    'ssl://gateway.sandbox.push.apple.com:2195',
                     $err,
                     $errstr,
                     60,
                     STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT,
                     $ctx
                 );
+
+                if(!$fp){
+                    print_t("NO se hizo la conexion");
+                    print_t($err);
+                    print_t($errstr);
+                    exit;
+                }
+
+
                 $body = array(
                     'aps' => array(
                         'badge' => 1,
@@ -1129,23 +1148,41 @@ class Services extends Controller
 
                 );
 
-                print('<br>sending to: ' . $device_token);
+                print_t('<br>sending to: ' . $device_token);
                 $payload = json_encode($body);
                 $apns_message = chr(0) . pack('n', 32) . pack('H*', $device_token) . pack('n', strlen($payload)) . $payload;
                 $resultado = fwrite($fp, $apns_message);
                 if (!$resultado) {
-                    print("<br>mensaje no fue enviado");
+                    print_t("<br>mensaje no fue enviado");
                 } else {
-                    print('<br>enviado...');
+                    print_t('<br>enviado...');
                 }
+                print_t($resultado);
 
                 // Close the connection to the server
                 fclose($fp);
-                print("<br>-------------<br>");
+                print_t("<br>-------------<br>");
 
 
             }
         }
+    }
+
+    function print_t($t){
+        echo "<pre>";
+        print_r($t);
+        echo "</pre>";
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    function escapeJsonString($value) { # list from www.json.org: (\b backspace, \f formfeed)
+        $escapers = array("\\", "/", "\"", "\n", "\r", "\t", "\x08", "\x0c");
+        $replacements = array("\\\\", "\\/", "\\\"", "\\n", "\\r", "\\t", "\\f", "\\b");
+        $result = str_replace($escapers, $replacements, $value);
+        return $result;
     }
 
 

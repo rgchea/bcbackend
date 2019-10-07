@@ -91,9 +91,9 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'u.id ='. $searchItem;
                             break;
                         }
-                    case 'email':
+                    case 'username':
                         {
-                            $searchQuery = 'u.email LIKE \'%'.$searchItem.'%\'';
+                            $searchQuery = 'u.username LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
 

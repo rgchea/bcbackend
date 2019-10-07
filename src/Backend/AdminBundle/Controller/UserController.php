@@ -151,27 +151,36 @@ class UserController extends Controller
                             break;
                         }
 
-                    case 'email':
+                    case 'username':
                         {
-                            $responseTemp = $entity->getEmail();
+                            $responseTemp = $entity->getUsername();
                             break;
                         }
                     case 'actions':
                         {
+
+                            if($this->role == "SUPER ADMIN"){
+                                $urlImpersonate = $this->generateUrl('backend_admin_homepage')."?_switch_user=".$entity->getUsername();
+                                $impersonate = "<a title='".$this->translator->trans("label_impersonate")."' href='".$urlImpersonate."'><i class='fa fa-user'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            }
+                            else{
+                                $impersonate = "";
+                            }
+
                             $urlEdit = $this->generateUrl('backend_admin_user_edit', array('id' => $entity->getId()));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_user_delete', array('id' => $entity->getId()));
                             $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $edit.$delete;
+                            $responseTemp = $impersonate.$edit.$delete;
                             break;
                         }
 
                 }
 
                 // Add the found data to the json
-                $response .= $responseTemp;
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
 
                 if(++$j !== $nbColumn)
                     $response .='","';
@@ -429,6 +438,7 @@ class UserController extends Controller
             $objRole = $this->em->getRepository('BackendAdminBundle:Role')->find($roleID);
             $role = $objRole->getName(); //GETS THE NAME IN ENGLISH
             $entity->setRole($objRole);
+            $entity->setEnabled(1);
 
             if(isset($_REQUEST["user"]["birthdate"])){
                 $reqBirthdate = $_REQUEST["user"]["birthdate"];
@@ -461,6 +471,7 @@ class UserController extends Controller
 
             $betterCondos = '<a href="'.$baseurl.'">BetterCondos</a>';
 
+            /*
             $bodyHtml =  $this->userLogged->getEmail()."&nbsp;".$this->translator->trans('label_register_invite_msg')."&nbsp;".$betterCondos."<br/>";
             $bodyHtml .= "<b>Email:&nbsp;</b>".$entity->getEmail()."<br/>";
             $bodyHtml .= "<b>Password:&nbsp;</b>".$plainPassword."<br/><br/>";
@@ -474,7 +485,7 @@ class UserController extends Controller
             $to = $entity->getEmail();
             //($subject, $to, $bodyHtml, $from = null){
             $message = $this->get('services')->generalTemplateMail($this->translator->trans('label_welcome'), $to, $bodyHtml);
-
+            */
 
 
             $this->get("services")->blameOnMe($entity, "create");
@@ -485,6 +496,8 @@ class UserController extends Controller
 
             //COMPLEX ASSIGNMENT
             if(isset($_REQUEST["complex"])){
+
+                $complexName =  null;
 
                 foreach ($_REQUEST["complex"] as $key => $cValue){
 
@@ -497,7 +510,21 @@ class UserController extends Controller
                     $this->get("services")->blameOnMe($userComplex, "create");
                     $this->em->persist($userComplex);
 
+                    $complexName = $objComplex->getName();
+
                 }
+
+                $newUserMail = $entity->getEmail();
+
+                $myJson = '"business_name": "'.$this->userLogged->getBusiness()->getName().'",';
+                $myJson .= '"complex_name": "'.$complexName.'",';
+                $myJson .= '"email": "'.$newUserMail.'",';
+                $myJson .= '"password": "'.$plainPassword.'"';
+
+                $templateID = $this->translator->getLocale() == "es" ? "d-8986745bcf034893b52ec147606149a1" : "d-a9b3757abd64430c86a56f24bfdf3481";
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $newUserMail);
+
+
             }
             $this->em->flush();
 

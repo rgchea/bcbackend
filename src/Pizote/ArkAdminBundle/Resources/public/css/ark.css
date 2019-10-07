@@ -3451,7 +3451,7 @@ i {
 }
 
 .color1{
-    background-color:#ccc;
+    background-color:#EEE;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -3770,4 +3770,9 @@ i {
     border: solid 1px #428bca;
     padding: 2px;
     width: 256px;
+}
+
+.button-cancel{
+    background-color:#2E2E2E !important;
+    color:#FFF !important;
 }

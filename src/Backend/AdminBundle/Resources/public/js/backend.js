@@ -1,6 +1,6 @@
 
 
-	function changeProperties(myUrl, loadItemsObjectID, sectorID, selectAll = false){
+	function changeProperties(myUrl, loadItemsObjectID, sectorID, selectAll = ""){
 
 		$("#pizote_spinner").show();
 
@@ -14,8 +14,8 @@
 				console.log(data);
                 var items = [];
 
-                if(selectAll){
-					items.push( "<option value='0'>--</li>" );
+                if(selectAll != ""){
+					items.push( "<option value='0'>"+selectAll+"</li>" );
 				}
 
                 $.each( data, function( key, val ) {

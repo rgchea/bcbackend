@@ -209,11 +209,12 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
         $sql = "	SELECT  c.id, c.created_at, c.name complex_name, c.due_payment_day,
 	                        b.customer_id
                     FROM    complex c
-                   	INNER JOIN business b ON (b.id = c.business_id)
+                   	    INNER JOIN business b ON (b.id = c.business_id)
                     WHERE   c.enabled = 1
-                    AND     DATE_ADD(DATE(c.created_at), INTERVAL 2 MONTH) <= DATE(NOW());
+                    
                     ";
         //el date add +2 es para un mes de prueba gratis
+        //AND     DATE_ADD(DATE(c.created_at), INTERVAL 2 MONTH) <= DATE(NOW())
 
         //print $sql;die;
 
@@ -238,7 +239,6 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
 
             if($createdDay == $today){
                 //PRINT "entraa".$createdDay."==".$today;
-
 
                 $complexID = $c["id"];
                 //var_dump($complexID);die;
@@ -371,9 +371,10 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                     FROM    user_complex uc
                    	    INNER JOIN user u ON (uc.user_id = u.id)
                     WHERE     uc.complex_id = {$complexID}
-                    AND     u.role_id = 2
+                    AND     u.role_id IN (1,2)
                     ";
         //ROLE ID = 2 COMPLEX ADMINISTRATOR
+        //ROLE ID = 1 BUSINESS ADMINISTRATOR
 
         //print $sql;die;
 
