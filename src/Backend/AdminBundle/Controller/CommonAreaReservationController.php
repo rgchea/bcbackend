@@ -431,23 +431,31 @@ class CommonAreaReservationController extends Controller
 
 
         ///FILTER BY ROLE
-        $filters = null;
+        ///
+        $filters = array();
+        /*
         if($this->role != "SUPER ADMIN"){
             $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
             foreach ($arrComplex as $k =>$v) {
                 $filters[$v] = $v;//the complex id
             }
         }
+        */
+        $myComplex = intval($this->get("services")->getSessionComplex());
+        $filters[$myComplex] = $myComplex;
 
 
         $schedule = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->getSchedule($filters);
-        /*
-        print "<pre>";
-        var_dump($schedule);die;
-        */
+
+        //print "<pre>";
+        //var_dump($schedule);die;
 
 
-        return $this->render('BackendAdminBundle:CommonAreaReservation:calendar.html.twig', ['now' => date("Y-m-d"), 'schedule' => $schedule]);
+
+        return $this->render('BackendAdminBundle:CommonAreaReservation:calendar.html.twig',
+            ['now' => date("Y-m-d"),
+                'schedule' => $schedule,
+                'myPath' => 'backend_admin_common_area_reservation_calendar',]);
 
     }
 

@@ -47,6 +47,13 @@ Backend\AdminBundle\Entity\GeoCountry:
             length: 8
             options:
                 fixed: false
+        ibillingToken:
+            type: string
+            nullable: true
+            length: 128
+            options:
+                fixed: false
+            column: ibilling_token
         createdAt:
             type: datetime
             nullable: false

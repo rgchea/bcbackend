@@ -369,9 +369,10 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 					    INNER JOIN common_area ca ON (r.common_area_id = ca.id)
 					    INNER JOIN complex c ON (ca.complex_id = c.id)
 					    INNER JOIN user u ON (u.id = r.reserved_by)
-                    WHERE 	common_area_reservation_status_id = 2 /*APPROVED*/
+                    WHERE   ca.enabled = 1
                     {$strFilter}
                     ORDER BY r.id";
+                    //AND 	common_area_reservation_status_id = 2 /*APPROVED*/
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
@@ -397,10 +398,9 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
 
 
         foreach ($execute as $row) {
-            $strTemp = "{ title: '".$row["complex"]."/ ".$row["common_area"]."/ ".$row["username"]."',";
+            $strTemp = "{ title: '#".$row["id"]." - ".$row["common_area"]."/ ".$row["username"]."',";
             $strTemp .= "start: '".$row["reservation_date_from"]."',";
             $strTemp .= "end: '".$row["reservation_date_to"]."'},";
-
 
             $strReturn .= $strTemp;
         }

@@ -97,7 +97,7 @@ class SendInvoiceCommand extends ContainerAwareCommand
                     //var_dump($body);die;
 
 
-                    $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo("POST", "invoice", $body);
+                    $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($complex["ibilling_token"],"POST", "invoice", $body);
                     //var_dump($response);die;
 
 

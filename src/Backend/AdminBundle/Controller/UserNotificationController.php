@@ -144,6 +144,16 @@ class UserNotificationController extends Controller
                             break;
                         }
 
+                    case 'actions':
+                    {
+
+                        $urlDelete = $this->generateUrl('backend_admin_usernotification_delete', array('id' => $entity->getId()));
+                        $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
+
+                        $responseTemp = $delete;
+                        break;
+                    }
+
 
                 }
 
@@ -256,7 +266,7 @@ class UserNotificationController extends Controller
         $this->get("services")->setVars('userNotification');
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BackendAdminBundle:UserNotification')->find($id);
+        $entity = $em->getRepository('BackendAdminBundle:Ticket')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find UserNotification entity.');

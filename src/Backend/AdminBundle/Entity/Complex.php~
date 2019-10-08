@@ -1,6 +1,11 @@
 <?php
 
+
 namespace Backend\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Complex
@@ -812,5 +817,42 @@ class Complex
     public function getTeamCorrelative()
     {
         return $this->teamCorrelative;
+    }
+    /**
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg", "image/jpg" })
+     */
+    private $avatarPath;
+
+
+    /**
+     * Set avatarPath.
+     *
+     * @param string|null $avatarPath
+     *
+     * @return Complex
+     */
+    public function setAvatarPath($avatarPath = null)
+    {
+        $this->avatarPath = $avatarPath;
+
+        return $this;
+    }
+
+    /**
+     * Get avatarPath.
+     *
+     * @return string|null
+     */
+    public function getAvatarPath()
+    {
+        return $this->avatarPath;
+    }
+
+
+    public function getAvatarUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/images/complex/';
     }
 }

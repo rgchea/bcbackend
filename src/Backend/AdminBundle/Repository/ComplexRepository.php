@@ -207,9 +207,12 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
 
 
         $sql = "	SELECT  c.id, c.created_at, c.name complex_name, c.due_payment_day,
-	                        b.customer_id
+	                        b.customer_id,
+	                        country.ibilling_token
                     FROM    complex c
                    	    INNER JOIN business b ON (b.id = c.business_id)
+                   	    INNER JOIN geo_state s ON (b.geo_state_id = s.id)
+                   	    INNER JOIN geo_country country ON (s.geo_country_id = country.id)
                     WHERE   c.enabled = 1
                     
                     ";
@@ -249,6 +252,7 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                 if(intval($myFee) > 0){
 
                     $arrReturn[$complexID] = array();
+                    $arrReturn[$complexID]["ibilling_token"] = trim($c["ibilling_token"]);
                     $arrReturn[$complexID]["fee"] = $myFee;
                     $arrReturn[$complexID]["customer_id"] = $c["customer_id"];
                     $arrReturn[$complexID]["complex_name"] = $c["complex_name"];

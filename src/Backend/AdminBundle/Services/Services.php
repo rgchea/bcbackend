@@ -805,12 +805,11 @@ class Services extends Controller
 
     }
 
-
-    public function callBCInfo($method, $service, $body = null){
+    //iBilling
+    public function callBCInfo($token, $method, $service, $body = null){
 
         //var_dump($body);die;
-        $token = "sr4ibginrtzlbvpqftsqx2phqimkw8jy4wx1iyvj";
-
+        //$token = trim($objCountry->getIbillingToken());
 
         if($body != null){
             $params =   [

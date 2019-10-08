@@ -17,12 +17,18 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
     public function getApiPayments($propertyID, $month, $year)
     {
 
-        $dateStart = $year."-".$month."-"."01 00:00:00";
-        $dateEnd = $year."-".$month."-"."31 23:59:59";
+        if($month == "00"){
+            $dateStart = $year."-01-"."01 00:00:00";
+            $dateEnd = $year."-12-"."31 23:59:59";
+
+        }
+        else{
+            $dateStart = $year."-".$month."-"."01 00:00:00";
+            $dateEnd = $year."-".$month."-"."31 23:59:59";
+
+        }
 
         $query = $this->createQueryBuilder('e');
-
-
 
         // Create inner joins
         //complex

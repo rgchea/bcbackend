@@ -58,7 +58,15 @@
                                 {{ form_widget(form.shortName, { 'attr': {'class' : 'form-control' } }
                                 ) }}
                         </div>
-							<div class="hide">
+							<div class="clearfix"></div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.ibillingToken) }}
+								{{ form_errors(form.ibillingToken) }}
+								{{ form_widget(form.ibillingToken, { 'attr': {'class' : 'form-control' } }
+								) }}
+							</div>
+
+						<div class="hide">
                             {{ form_rest(form) }}
                         </div>
 

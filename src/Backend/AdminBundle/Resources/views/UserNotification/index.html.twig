@@ -95,6 +95,7 @@
                                 <th>{{ 'label_complex_sector'|trans }}</th>
                                 <th>{{ 'label_property'|trans }}</th>
                                 <th style="width:200px"></th>
+                                <th></th>
 
 
                             </tr>
@@ -108,6 +109,7 @@
                                 <th>{{ 'label_complex_sector'|trans }}</th>
                                 <th>{{ 'label_property'|trans }}</th>
                                 <th>{{ 'label_sent'|trans }}</th>
+                                <th>{{ 'label_actions'|trans }}</th>
 
                             </tr>
 
@@ -141,6 +143,7 @@
                     { "name": "sector",   "targets": 3 },
                     { "name": "property",   "targets": 4 },
                     { "name": "sent",  "targets": 5 },
+                    { "name": "actions",  "targets": 6 },
 
 
                 ],
@@ -181,9 +184,9 @@
             var pos = 1;
             $('#dt_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos != 6){//columna Actions
+                //if(pos != 6){//columna Actions
                     $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
-                }
+                //}
 
                 pos ++;
             });
@@ -205,6 +208,9 @@
                 pos++;
             });
 
+            //
+            $("#input6").remove();
+            $("#input7").remove();
 
         });
 

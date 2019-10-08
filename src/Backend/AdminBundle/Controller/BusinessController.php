@@ -448,8 +448,8 @@ class BusinessController extends Controller
                 )
                 ;
 
-
-                $createCustomer = $this->get('services')->callBCInfo("POST", "customer", $body);
+                $ibillingToken = $entity->getGeoState()->getGeoCountry()->getIbillingToken();
+                $createCustomer = $this->get('services')->callBCInfo($ibillingToken, "POST", "customer", $body);
 
                 //var_dump($createCustomer);die;
                 ///VALIDA DEL LADO DEL CLIENTE QUE EL NOMBRE DEL NEGOCIO NO EXISTA EL EMAIL Y PHONE NUMBER

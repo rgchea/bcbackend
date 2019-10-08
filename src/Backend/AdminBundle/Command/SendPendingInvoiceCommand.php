@@ -87,7 +87,9 @@ class SendPendingInvoiceCommand extends ContainerAwareCommand
                 )
                 ;
 
-                $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo("POST", "invoice", $body);
+                $ibillingToken = trim($invoice->getBusiness()->getGeoState()->getGeoCountry()->getIbillingToken());
+
+                $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($ibillingToken, "POST", "invoice", $body);
 
 
                 if($response["error"] == false){//CODE 200 ok and Error false

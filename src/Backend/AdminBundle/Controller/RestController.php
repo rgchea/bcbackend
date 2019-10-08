@@ -4937,7 +4937,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="Authorization", in="header", required=true, type="string", default="Bearer TOKEN", description="Authorization" )
      *
      * @SWG\Parameter( name="property_id", in="path", required=true, type="string", description="The property ID" )
-     * @SWG\Parameter( name="month", in="path", required=true, type="string", description="example 09 - The month of the requested payments." )
+     * @SWG\Parameter( name="month", in="path", required=true, type="string", description="example 09 - The month of the requested payments. If month is equal to 00 the filter is bypassed" )
      * @SWG\Parameter( name="year", in="path", required=true, type="string", description="example 2019 - The year of the requested payments." )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )

@@ -77,7 +77,7 @@
                                         <p class="txt-blue-bold">{{ 'label_event_date'|trans }}: </p>
                                     </div>
                                     <div class="col-md-7">
-                                        <input name="event_date" id="event_date" type="date" class="form-control">
+                                        <input name="event_date" id="event_date" type="date" class="form-control" min="{{ 'now'|date("Y-m-d") }}">
                                     </div>
                                 </div>
 

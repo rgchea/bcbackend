@@ -43,6 +43,22 @@
 
 {% block body -%}
     {{ parent() }}
+
+<div class="header">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="header-title">{{ 'label_common_area_reservation'|trans }}</h3>
+            </div>
+
+            {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
+        </div>
+
+    </div>
+</div>
+    <br/><br/>
+
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
@@ -51,9 +67,6 @@
     </div>
 
     <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
-        <header>
-            <h2> {{ 'label_common_area_reservation'|trans }}</h2>
-        </header>
 
         <!-- widget div-->
         <div>
@@ -98,8 +111,20 @@
                 businessHours: true, // display business hours
                 editable: false,
                 eventLimit: true, // allow "more" link when too many events
-                events: [{{ schedule|raw }}
-                ]
+                events: [{{ schedule|raw }}],
+                eventClick: function(info) {
+                    title = info.event.title;
+                    myID = parseInt(title.substring(1,title.indexOf(" -")));
+                    //alert(myID);
+                    info.el.style.borderColor = 'red';
+                    tmpPath = '{{ url("backend_admin_common_area_reservation_edit",{"id": 0} ) }}';
+                    tmpPath = tmpPath.substring(0, tmpPath.lastIndexOf("commonAreaReservation/"));
+                    tmpPath = tmpPath + "commonAreaReservation/"
+                    //alert(tmpPath);
+                    location.href = tmpPath+myID+"/edit";
+                    // change the border color just for fun
+
+                }
             });
 
             calendar.render();

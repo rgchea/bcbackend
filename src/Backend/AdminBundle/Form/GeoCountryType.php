@@ -19,6 +19,7 @@ class GeoCountryType extends AbstractType
             ->add('name',  null, array('label'=>"label_name", 'required'=>true))
             ->add('code',  null, array('label'=>"label_code", 'required'=>false))
             ->add('shortName',  null, array('label'=>"label_short_name", 'required'=>true))
+            ->add('ibillingToken',  null, array('label'=>"iBilling Token", 'required'=>true))
             
         ;
     }
