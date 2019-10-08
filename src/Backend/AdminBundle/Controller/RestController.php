@@ -2533,6 +2533,7 @@ class RestController extends FOSRestController
 
             $this->em->persist($ticket);
             $this->em->persist($statusLog);
+            $this->em->flush();
 
             ////CREATE USER NOTIFICATION
             $objUserNotification = New UserNotification();
@@ -2543,7 +2544,7 @@ class RestController extends FOSRestController
             $objUserNotification->setEnabled(1);
             $title = $this->getUser()->getName();
             $objUserNotification->setTitle($title);
-            $description = "Ticket #".$ticket->getId();
+            $description = $this->translator->trans("label_new")." Ticket #".$ticket->getId();
             $objUserNotification->setDescription($description);
             $objUserNotification->setNotice("");
             $objUserNotification->setSentTo($userToAssign);
@@ -2822,6 +2823,7 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($ticketComment, "update");
 
             $this->em->persist($ticketComment);
+            $this->em->flush();
 
             ////CREATE USER NOTIFICATION
             $objUserNotification = New UserNotification();
@@ -4820,6 +4822,7 @@ class RestController extends FOSRestController
             $ticket->setCreatedBy($this->getUser());
 
             $this->em->persist($ticket);
+            $this->em->flush();
 
 
             ////CREATE USER NOTIFICATION
