@@ -5,6 +5,7 @@ namespace Backend\AdminBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -409,6 +410,8 @@ class TicketController extends Controller
         $this->get("services")->blameOnMe($ticket, "update");
         $this->em->persist($ticket);
 
+        $this->em->flush();
+
         if(!isset($_REQUEST["notification"])) {//if it is not a notification
 
 
@@ -436,7 +439,7 @@ class TicketController extends Controller
 
         }
 
-        $this->em->flush();
+        //$this->em->flush();
 
         $this->get('services')->flashSuccess($request);
 

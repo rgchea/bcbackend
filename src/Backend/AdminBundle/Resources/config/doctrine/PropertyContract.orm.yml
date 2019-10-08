@@ -47,7 +47,7 @@ Backend\AdminBundle\Entity\PropertyContract:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
             column: is_active
         postPublicTicket:
             type: boolean

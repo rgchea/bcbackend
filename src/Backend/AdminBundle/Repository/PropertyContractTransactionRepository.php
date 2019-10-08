@@ -106,7 +106,12 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
             $query->andWhere('p.id = :propertyID')->setParameter('propertyID', $filterProperty);
             $countQuery->andWhere('p.id = :propertyID')->setParameter('propertyID', $filterProperty);
         }
+        else{
+            //EXCLUDE TICKETS FROM DISABLED CONTRACTS
+            $query->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
+            $countQuery->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
 
+        }
 
 
         // Fields Search
@@ -147,7 +152,7 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
                             break;
                         }
 
-
+                    /*
                     case 'createdat':
                         {
                             $searchQuery = 'e.createdAt LIKE \'%' . $searchItem . '%\'';
@@ -164,6 +169,13 @@ class PropertyContractTransactionRepository extends \Doctrine\ORM\EntityReposito
                             $searchQuery = 'e.paidDate LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
+                    */
+                    case 'contract':
+                    {
+                        $searchQuery = 'pc.id LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
 
                 }
 

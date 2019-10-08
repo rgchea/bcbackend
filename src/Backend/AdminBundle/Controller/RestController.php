@@ -4633,6 +4633,7 @@ class RestController extends FOSRestController
      * @SWG\Parameter( name="event_date", in="body", required=true, type="string", description="date in string format Y-m-d", schema={} )
      * @SWG\Parameter( name="hour_from", in="body", required=true, type="string", description="09:00", schema={} )
      * @SWG\Parameter( name="hour_to", in="body", required=true, type="string", description="10:00", schema={} )
+     * @SWG\Parameter( name="tenant_contract_id", in="body", type="integer", description="The tenant contract ID.", schema={} )
      *
      * @SWG\Parameter( name="app_version", in="query", required=true, type="string", description="The version of the app." )
      * @SWG\Parameter( name="code_version", in="query", required=true, type="string", description="The version of the code." )
@@ -4670,6 +4671,7 @@ class RestController extends FOSRestController
             $eventDate = trim($request->get('event_date'));
             $hourFrom = trim($request->get('hour_from'));
             $hourTo = trim($request->get('hour_to'));
+            $tenantContractID = $request->get('tenant_contract_id');
 
             $commonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->findOneBy(array('enabled' => true, 'id' => $commonAreaId));
             if ($commonArea == null) {
@@ -4678,6 +4680,11 @@ class RestController extends FOSRestController
 
             $property = $this->em->getRepository('BackendAdminBundle:Property')->findOneBy(array('enabled' => true, 'id' => $propertyID));
             if ($property == null) {
+                throw new \Exception("Invalid property ID.");
+            }
+
+            $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->find($tenantContractID);
+            if ($tenantContract == null) {
                 throw new \Exception("Invalid property ID.");
             }
 
@@ -4702,6 +4709,7 @@ class RestController extends FOSRestController
             $reservation->setReservedBy($this->getUser());
             $reservation->setEnabled(true);
             $reservation->setCommonAreaReservationStatus($status);
+            $reservation->setTenantContract($tenantContract);
 
             $this->get("services")->blameOnMe($reservation, "create");
             $this->get("services")->blameOnMe($reservation, "update");

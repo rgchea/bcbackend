@@ -313,9 +313,10 @@ class PropertyRepository extends \Doctrine\ORM\EntityRepository
                     WHERE 	p.complex_sector_id = {$sectorID}
                     AND     pc.enabled = 1
                     AND     pc.is_active = 1
-                    AND     tc.enabled = 1
-                    ORDER BY id DESC
+                    
+                    ORDER BY p.property_number ASC
                     ";
+                    //AND     tc.enabled = 1
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();

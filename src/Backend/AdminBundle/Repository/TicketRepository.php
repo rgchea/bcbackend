@@ -211,6 +211,12 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             $countQuery->andWhere('p.id = :propertyID')->setParameter('propertyID', $filterProperty);
 
         }
+        else{
+            //EXCLUDE TICKETS FROM DISABLED CONTRACTS
+            $query->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
+            $countQuery->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
+
+        }
 
         if($filterDates != null){
             $query->andWhere('e.createdAt >= :startDate AND e.createdAt <= :endDate')
@@ -226,6 +232,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         //EXCLUDE FROM LIST THE RESERVATION AND SHARE
         $query->andWhere('e.ticketType = :ttype')->setParameter('ttype', 1);
         $countQuery->andWhere('e.ticketType = :ttype')->setParameter('ttype', 1);
+
 
 
         // Fields Search

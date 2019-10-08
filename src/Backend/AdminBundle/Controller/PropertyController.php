@@ -6,6 +6,7 @@ namespace Backend\AdminBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\ProviderNotFoundException;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -1032,7 +1033,13 @@ class PropertyController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
-        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1, "isActive" => 1), array("id"=> "DESC"));
+        //$propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $entity->getId(), 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+
+        if(!$propertyContract){
+            throw $this->createNotFoundException('Unable to find Contract entity.');
+        }
+
         $mainContract = $propertyContract->getMainTenantContract();
         $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $propertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
 
@@ -1193,7 +1200,8 @@ class PropertyController extends Controller
 
 
             $this->get('services')->flashSuccess($request);
-            return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
+            //return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
+            return $this->redirectToRoute('backend_admin_property_index');
 
 
         }
@@ -1534,6 +1542,21 @@ class PropertyController extends Controller
 
                             break;
                         }
+                    case 'contract':
+                    {
+                        if($entity->getTenantContract()){
+                            $contractID = $entity->getTenantContract()->getPropertyContract()->getId();
+                            $responseTemp = "<a data-toggle='modal' id='orange-button' data-target='#orange-modal' data-color='orange' href='#' onclick='selectPropertyContract(".$contractID.")'>".$contractID."</a>";
+
+                        }
+                        else{
+                            $responseTemp = "";
+                        }
+
+                        break;
+
+                    }
+
 
                     case 'user':
                         {
@@ -1693,6 +1716,21 @@ class PropertyController extends Controller
 
                             break;
                         }
+
+                    case 'contract':
+                        {
+                            if($entity->getPropertyContract()){
+                                $contractID = $entity->getPropertyContract()->getId();
+                                $responseTemp = "<a data-toggle='modal' id='orange-button' data-target='#orange-modal' data-color='orange' href='#' onclick='selectPropertyContract(".$contractID.")'>".$contractID."</a>";
+
+                            }
+                            else{
+                                $responseTemp = "";
+                            }
+
+                            break;
+                        }
+
                     case 'description':
                         {
                             $responseTemp = $entity->getDescription();
@@ -2143,7 +2181,7 @@ class PropertyController extends Controller
         $endDate = new \DateTime($endDate);
         $propertyContract->setEndDate($endDate);
 
-        $propertyContract->setIsActive(1);
+        $propertyContract->setIsActive(true);
         $propertyContract->setDuePaymentDay(15);
         $propertyContract->setRentalPrice(0.00);
         $maintenancePrice = floatval($maintenancePrice);

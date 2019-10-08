@@ -588,6 +588,10 @@ class CommonAreaReservationController extends Controller
         $entity->setReservationDateTo(new \DateTime($dateTo));
         $entity->setEnabled(1);
 
+        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $objProperty->getId(), 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+        $objTenantContract = $propertyContract->getMainTenantContract();
+        $entity->setTenantContract($objTenantContract);
+
 
         //BLAME ME
         $this->get("services")->blameOnMe($entity, "create");
@@ -610,7 +614,7 @@ class CommonAreaReservationController extends Controller
         ///
 
         if($cost > 0){
-            $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $objProperty->getId(), 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+
             $transactionType = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(4);//reservacion
 
             $payment = new PropertyContractTransaction();

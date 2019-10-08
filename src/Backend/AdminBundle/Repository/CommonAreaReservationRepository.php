@@ -79,7 +79,6 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         $query->join('e.commonAreaReservationStatus', 's');
         $countQuery->join('e.commonAreaReservationStatus', 's');
 
-
         //complex
         $query->join('ca.complex', 'c');
         $countQuery->join('ca.complex', 'c');
@@ -87,6 +86,16 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
         //property
         $query->join('e.property', 'p');
         $countQuery->join('e.property', 'p');
+
+
+        //tenantContract
+        $query->join('e.tenantContract', 'tenantc');
+        $countQuery->join('e.tenantContract', 'tenantc');
+
+        //propertyContract
+        $query->join('tenantc.propertyContract', 'pc');
+        $countQuery->join('tenantc.propertyContract', 'pc');
+
 
         if($filterComplex != null){
             $query->andWhere('c.id IN (:arrComplexID)')->setParameter('arrComplexID', $filterComplex);
@@ -97,7 +106,12 @@ class CommonAreaReservationRepository extends \Doctrine\ORM\EntityRepository
             $query->andWhere('p.id = :propertyID')->setParameter('propertyID', intval($property));
             $countQuery->andWhere('p.id = :propertyID')->setParameter('propertyID', intval($property));
         }
+        else{
+            //EXCLUDE TICKETS FROM DISABLED CONTRACTS
+            $query->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
+            $countQuery->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
 
+        }
 
         // Other conditions than the ones sent by the Ajax call ?
         if ($dateConditions === null)

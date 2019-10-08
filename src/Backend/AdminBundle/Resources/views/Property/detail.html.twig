@@ -371,13 +371,14 @@
                                 <table id="payment_table" class="table table-striped  table-hover fulltable">
                                     <tfoot class="dt_tfoot">
                                         <tr>
-                                            <th>ID</th>
+                                            <th class="pizoteTableID">ID</th>
+                                            <th>{{ 'label_property_contract'|trans }}</th>
                                             <th>{{ 'label_description'|trans }}</th>
                                             <th>{{ 'label_property'|trans }}</th>
                                             <th>{{ 'label_type'|trans }}</th>
                                             <th>{{ 'label_status'|trans }}</th>
                                             <th>{{ 'label_issued'|trans }}</th>
-                                            <th>{{ 'label_paid'|trans }}</th>
+                                            <th></th>
                                             <th>&nbsp;</th>
 
                                         </tr>
@@ -385,7 +386,8 @@
                                     <thead>
                                     <tr>
                                         {# sorting of properties based on query components #}
-                                        <th>ID</th>
+                                        <th class="pizoteTableID">ID</th>
+                                        <th>{{ 'label_property_contract'|trans }}</th>
                                         <th>{{ 'label_description'|trans }}</th>
                                         <th>{{ 'label_property'|trans }}</th>
                                         <th>{{ 'label_type'|trans }}</th>
@@ -436,7 +438,8 @@
                                 <table  style="width: 100%;" id="booking_table" class="table table-striped table-hover fulltable">
                                     <tfoot class="dt_tfoot">
                                     <tr>
-                                        <th>ID</th>
+                                        <th class="pizoteTableID">ID</th>
+                                        <th>{{ 'label_property_contract'|trans }}</th>
                                         <th>{{ 'label_common_area'|trans }}</th>
                                         <th>{{ 'label_property'|trans }}</th>
                                         <th>{{ 'label_login_user'|trans }}</th>
@@ -456,7 +459,8 @@
                                     <thead>
                                     <tr>
                                         {# sorting of properties based on query components #}
-                                        <th>ID</th>
+                                        <th class="pizoteTableID">ID</th>
+                                        <th>{{ 'label_property_contract'|trans }}</th>
                                         <th>{{ 'label_common_area'|trans }}</th>
                                         <th>{{ 'label_property'|trans }}</th>
                                         <th>{{ 'label_login_user'|trans }}</th>
@@ -587,8 +591,8 @@
             var pos = 1;
             $('#ticket_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos == 2 || pos == 3 || pos == 5 ){//columna Actions
-                    $(this).html( "<input id='ticket_input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:50%'/>" );
+                if(pos == 1 || pos == 2 || pos == 3 || pos == 5 ){//columna Actions
+                    $(this).html( "<input id='ticket_input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
                 }
                 pos ++;
             });
@@ -631,14 +635,15 @@
 
                         // These are the column name variables that will be sent to the server
                         { "name": "id",   "targets": 0 },
-                        { "name": "commonArea",  "targets": 1 },
-                        { "name": "property",   "targets": 2 },
-                        { "name": "user",  "targets": 3 },
-                        { "name": "status",  "targets": 4 },
-                        { "name": "eventDate",  "targets": 5 },
-                        { "name": "requested",  "targets": 6 },
-                        { "name": "approved",  "targets": 7 },
-                        { "name": "actions",  "targets": 8 }
+                        { "name": "contract",   "targets": 1 },
+                        { "name": "commonArea",  "targets": 2 },
+                        { "name": "property",   "targets": 3 },
+                        { "name": "user",  "targets": 4 },
+                        { "name": "status",  "targets": 5 },
+                        { "name": "eventDate",  "targets": 6 },
+                        { "name": "requested",  "targets": 7 },
+                        { "name": "approved",  "targets": 8 },
+                        { "name": "actions",  "targets": 9 }
 
 
                     ],
@@ -681,9 +686,9 @@
             var pos = 1;
             $('#booking_table tfoot th').each( function () {
                 var title = $(this).text();
-                if( pos != 9){//columna fecha y actions
+                //if( pos != 9){//columna fecha y actions
                     $(this).html( "<input id='booking_input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
-                }
+                //}
 
                 pos ++;
             });
@@ -737,7 +742,11 @@
                 }
             });
 
-
+            $("#booking_input6").remove();
+            $("#booking_input7").remove();
+            $("#booking_input8").remove();
+            $("#booking_input9").remove();
+            $("#booking_input10").remove();
 
         });
 
@@ -761,13 +770,14 @@
 
                         // These are the column name variables that will be sent to the server
                         { "name": "id",   "targets": 0 },
-                        { "name": "description",   "targets": 1 },
-                        { "name": "property",   "targets": 2 },
-                        { "name": "type",   "targets": 3 },
-                        { "name": "status",  "targets": 4 },
-                        { "name": "createdat",  "targets": 5 },
-                        { "name": "paid",  "targets": 6 },
-                        { "name": "actions",  "targets": 7 },
+                        { "name": "contract",   "targets": 1 },
+                        { "name": "description",   "targets": 2 },
+                        { "name": "property",   "targets": 3 },
+                        { "name": "type",   "targets": 4 },
+                        { "name": "status",  "targets": 5 },
+                        { "name": "createdat",  "targets": 6 },
+                        { "name": "paid",  "targets": 7 },
+                        { "name": "actions",  "targets": 8 },
 
                     ],
                     // Server-side parameters
@@ -828,7 +838,11 @@
                 pos++;
             });
 
-            $("#payment_input5").remove();
+            $("#payment_input6").remove();
+            $("#payment_input7").remove();
+            $("#payment_input8").remove();
+            $("#payment_input9").remove();
+
         });
 
 

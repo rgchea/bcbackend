@@ -21,6 +21,10 @@ Backend\AdminBundle\Entity\CommonAreaReservation:
         property_id:
             columns:
                 - property_id
+        tenant_contract_id:
+            columns:
+                - tenant_contract_id
+
 
     id:
         id:
@@ -59,6 +63,16 @@ Backend\AdminBundle\Entity\CommonAreaReservation:
             options:
                 default: true
     manyToOne:
+        tenantContract:
+            targetEntity: TenantContract
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                tenant_contract_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         commonArea:
             targetEntity: CommonArea
             cascade: {  }
