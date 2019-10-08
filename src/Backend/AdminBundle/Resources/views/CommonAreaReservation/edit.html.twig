@@ -87,9 +87,6 @@
 
                 </div>
 
-
-
-
                 <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
 
@@ -189,7 +186,7 @@
 
                     </div>
                 </div>
-                <br>
+                <br/>
 
                 <div id="tabs">
                     <ul>
@@ -262,7 +259,7 @@
 
                     </div>
                     <div id="tabs-log">
-                        <br/>
+
 
                         <table id="log_table" class="table table-striped  table-hover fulltable">
                             <tfoot class="dt_tfoot">
@@ -298,22 +295,25 @@
     <!-- END: CONTENT -->
 
     <script type="text/javascript">
+        //alert("test");
+
 
         $(document).ready(function() {
 
 
+            $("#tabs").tabs();
 
-            $(function () {
-                $("#tabs").tabs();
-            });
-
-
-            $("#paymentform").validate();
+            {% if payment is not null %}
+                $("#paymentform").validate();
 
 
-            $("#cost").rules("add", {required:true, number: true});
-            $("#discount").rules("add", {required:true, number: true});
-            $("#amount_paid").rules("add", {required:true, number: true});
+                $("#cost").rules("add", {required:true, number: true});
+                $("#discount").rules("add", {required:true, number: true});
+                $("#amount_paid").rules("add", {required:true, number: true});
+
+            {% endif %}
+
+
 
 
 
@@ -396,32 +396,37 @@
             $("#log_input4").remove();
 
 
+
+
+
         });
 
 
+        {% if payment is not null %}
+            $('[name="paymentForm"]').on("submit", function(){
+                //Code: Action (like ajax...)
+                total = parseFloat($("#cost").val()) - ( parseFloat($("#discount").val()) + parseFloat($("#amount_paid").val()) );
+
+                if(total > 0 ){
+                    alert("{{ 'label_cancel_total'|trans }}");
+                    $("#amount_paid").focus();
+                    return false;
+
+                }
 
 
-        $('[name="paymentForm"]').on("submit", function(){
-            //Code: Action (like ajax...)
-            total = parseFloat($("#cost").val()) - ( parseFloat($("#discount").val()) + parseFloat($("#amount_paid").val()) );
+                if($("[name='paymentForm']").valid()){
+                    $('#pizote_spinner').show();
+                    return true;
+                }
+                else{
+                    return false;
+                }
 
-            if(total > 0 ){
-                alert("{{ 'label_cancel_total'|trans }}");
-                $("#amount_paid").focus();
-                return false;
-
-            }
+            });
+        {% endif %}
 
 
-            if($("[name='paymentForm']").valid()){
-                $('#pizote_spinner').show();
-                return true;
-            }
-            else{
-                return false;
-            }
-
-        });
 
     </script>
 

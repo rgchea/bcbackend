@@ -28,26 +28,21 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6" style="float: left;width: 666px;">
+                    <div class="col-md-10" style="float: left;">
                         {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
                     </div>
 
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3" style="top: -15px; left: -15px">
+                    <div class="col-md-2" style="margin-top:-15px;float: right;" >
 
                         <div class="cuadrito-dashboard">
                             <div class="texto-d">
                                 {{ arrStats["gxp"]["points"] }}<span class="minify"><b>GXP</b> {{ 'label_points'|trans }}</span>
                             </div>
 
-                            <div style="float:left; color:#ccc;">
+                            <div style="text-align: center; color:#ccc;">
                                 {{ 'dashboard.level'|trans }} {{ arrStats["gxp"]["level"] }}
                             </div>
-                            <div style="float:right; color:#ccc">
-                                Rank XXX
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -77,8 +72,16 @@
 
 
                         {# ticket breakdown by month #}
-                        <div id="tb_month" style="width:60%; float:left; min-width: 310px; height: 400px; margin: 0 auto"></div>
-                        <div id="tb_current_month" style="width:40%; float:right; min-width: 310px; height: 400px; margin: 0 auto"></div>
+                        <div class="row">
+                            <div class="col-md-8" >
+                                <div id="tb_month" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                            </div>
+                            <div class="col-md-4" >
+                                <div id="tb_current_month" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                            </div>
+                        </div>
+
+
 
                         <br/>
                         <div class="row">
@@ -170,8 +173,15 @@
 
                         </div>
                         <br/>
-                        <div id="tb_manager" style="width:50%; float:left; min-width: 310px; height: 400px; margin: 0 auto"></div>
-                        <div id="tb_category" style="width:50%; float:right; min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div id="tb_manager" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="tb_category" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                            </div>
+                        </div>
 
                         <br/>
                         <br/>
@@ -179,7 +189,7 @@
                         <table id="dt_table" class="table table-striped table-hover">
                             <tfoot class="dt_tfoot">
                             <tr>
-                                <th>&nbsp;</th>
+                                <th class="pizoteTableID">&nbsp;</th>
                                 {#<th>{{ 'label_complex'|trans }}</th>#}
                                 <th>{{ 'label_title'|trans }}</th>
                                 <th>&nbsp;</th>
@@ -194,7 +204,7 @@
                             <thead>
                             <tr>
                                 {# sorting of properties based on query components #}
-                                <th>ID</th>
+                                <th class="pizoteTableID">ID</th>
                                 {#<th>{{ 'label_complex'|trans }}</th>#}
                                 <th>{{ 'label_title'|trans }}</th>
                                 <th>{{ 'label_type'|trans }}</th>
