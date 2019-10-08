@@ -1062,9 +1062,7 @@ class Services extends Controller
         $headers[] = 'Content-Type: application/json';
         $headers[] = 'Authorization: key=' . $serverKey;
         ////ANDROID CONFIG END
-        ///
-        ///
-        ///
+
 
 
         $em = $this->getDoctrine()->getManager();

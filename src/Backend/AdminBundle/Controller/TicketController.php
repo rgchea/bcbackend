@@ -920,7 +920,7 @@ class TicketController extends Controller
         $title = $this->userLogged->getName(). " ". $this->translator->trans("push.ticket_rating").$entity->getId().", ".$this->translator->trans("push.ticket_rating3"). ":".$rating ;
         $description = $this->translator->trans("push.ticket_rating2");
 
-        $this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
+        //$this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
 
         //$this->get('services')->flashSuccess($request);
 
