@@ -2531,6 +2531,9 @@ class RestController extends FOSRestController
             }
 
 
+            $this->em->persist($ticket);
+            $this->em->persist($statusLog);
+
             ////CREATE USER NOTIFICATION
             $objUserNotification = New UserNotification();
             $objUserNotification->setTicket($ticket);
@@ -2548,9 +2551,6 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($objUserNotification, "create");
             $this->get("services")->blameOnMe($objUserNotification, "update");
             $this->em->persist($objUserNotification);
-
-            $this->em->persist($ticket);
-            $this->em->persist($statusLog);
 
             $this->em->flush();
 
