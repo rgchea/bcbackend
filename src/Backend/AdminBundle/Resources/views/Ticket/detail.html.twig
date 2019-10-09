@@ -1,5 +1,17 @@
+{# DROPZONE FILE UPLOADER#}
+<script src="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.css') }}">
+
+{#RATING#}
 <script src="{{ asset('bundles/pizotearkadmin/js/starrr-gh-pages/dist/starrr.js')  }}"></script>
 <link href="{{ asset('bundles/pizotearkadmin/js/starrr-gh-pages/dist/starrr.css')  }}" rel="stylesheet" />
+
+<style>
+    .dz-error-message{
+    margin-top: 20px !important;
+    }
+</style>
+
 <section class="content">
     <div class="header">
         <div class="container">
@@ -130,6 +142,28 @@
 
                     </div>
 
+                    <div class="clearfix"></div>
+                    <br/>
+
+                    <form id="ticket" name="ticket" action="{{ path('backend_admin_ticket_update', {'id': entity.id}) }}">
+                        <h3>{{ 'label_photo'|trans }} </h3>
+                        <h2>{{ 'label_max_files'|trans }} </h2>
+                        <div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('ticket_ajax_snippet_image_send')}}">
+
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-8">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" id="mySubmit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+                            </div>
+                            <div class="col-md-2">
+                                <a  href="{{ path('backend_admin_ticket_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
+                            </div>
+                        </div>
+                    </form>
+
 
 
                     <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
@@ -208,6 +242,163 @@
 <script type="text/javascript" language="Javascript">
 
     $( document ).ready(function() {
+
+        {% set myPath =  url('backend_admin_homepage')~"/uploads/images/tickets/" %}
+        {% set myPath = myPath|replace({'app_dev.php': ''}) %}
+        {% set myPath = myPath|replace({'/en/': ''}) %}
+        {% set myPath = myPath|replace({'/es/': ''}) %}
+        
+        {% set myToken = entity.token %}
+
+        ////DROPZONE
+        var countFiles = 0;
+        var uploadedFiles = 0;
+
+        var _actionToDropZone = $("#form_snippet_image").attr('action');
+        Dropzone.autoDiscover = false;
+        //$(".dz-hidden-input").prop("disabled",false);
+
+        var myDropzone = new Dropzone("#form_snippet_image", {
+            url: _actionToDropZone,
+            params: {
+                ticket: '{{ myToken }}'
+            },
+            maxFilesize: 5, // MB
+            maxFiles: 5,
+            addRemoveLinks: true,
+            createImageThumbnails: true,
+            acceptedFiles: ".png,.jpg,.jpeg",
+            thumbnailWidth: 250,
+            thumbnailHeight: 250,
+            autoProcessQueue: false,
+            parallelUploads: 5,
+            uploadMultiple: false,
+            success: function(file, response){
+                //console.log(response.success);
+                file.id = response.success;
+                //return true;
+                //alert("finish");
+
+            },
+
+
+            init: function() {
+                thisDropzone = this;
+
+                // First change the button to actually tell Dropzone to process the queue.
+                document.getElementById("mySubmit").addEventListener("click", function(e) {
+                    // Make sure that the form isn't actually being sent.
+                    e.preventDefault();
+                    e.stopPropagation();
+                    thisDropzone.processQueue();
+                });
+
+
+
+                $.get("{{path('ticket_ajax_snippet_image_get')}}",{ticket: '{{ entity.id }}' }, function(data) {
+
+                    $.each(data, function(key,value){
+
+                        //var mockFile = { name: value.name, size: value.size };
+                        var mockFile = { name: value.name, size: "", id: value.id };
+
+                        thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+                        thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '{{ myPath }}'+value.name);
+
+                        //console.log('{{ myPath }}'+value.name);
+                        thisDropzone.emit("complete", mockFile);
+
+                        //on click opens a new tab with the image
+                        var src = '{{ myPath }}'+value.name;
+                        mockFile.previewElement.addEventListener("click", function() {
+                            var win = window.open(src, '_blank');
+                            win.focus();
+                        });
+
+                        countFiles++;
+                        if(countFiles >= 5){
+                            myDropzone.disable();
+                        }
+
+                    });
+
+                    //$(".dz-hidden-input").prop("disabled",true);
+
+                });
+
+                {#
+                this.on("maxfilesexceeded", function(file){
+                    alert("{{ 'label_no_more_files'|trans }}");
+                    //this.removeFile(file);
+                    //countFiles--;
+                    myDropzone.disable();
+
+
+                });
+
+                #}
+
+                this.on('removedfile', function (file) {
+
+                    //console.log(file);
+                    //$('#pizote_spinner').show();
+                    countFiles--;
+                    uploadedFiles--;
+                    {% if edit is defined %}
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{path('ticket_ajax_snippet_image_remove')}}",
+                        //data: {id: file.name, _token: $('#csrf-token').val()},
+                        data: {id: file.id, name: file.name},
+                        dataType: 'html',
+                        success: function (data) {
+                            var rep = JSON.parse(data);
+
+                            if(countFiles < 5){
+                                myDropzone.enable();
+                            }
+                            //$('#pizote_spinner').hide();
+                        }
+
+                    })
+                    {% else %}
+
+                    if(countFiles < 5){
+                        myDropzone.enable();
+                    }
+                    {% endif %}
+
+                });
+
+                this.on("addedfile", function(file) {
+                    countFiles++;
+
+                    if(countFiles > 5){
+
+                        alert("{{ 'label_no_more_files'|trans }}");
+                        myDropzone.disable();
+
+                        $("[name='ticket']").submit(function(e){
+                            //e.preventDefault();
+                            $('#pizote_spinner').hide();
+                        });
+                    }
+                });
+
+                this.on("totaluploadprogress", function(totalPercentage, totalBytesSent){
+
+                    if(totalPercentage >= 100 && totalBytesSent) {
+
+                        $('#pizote_spinner').show();
+                        $("[name='ticket']").submit();
+
+                    }
+                });
+
+            }
+
+        });        
+
 
         myUrl = "{{ path('backend_admin_ticket_rating_tenant', {id: entity.id}) }}";
 

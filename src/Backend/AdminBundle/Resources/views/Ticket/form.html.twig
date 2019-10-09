@@ -1,5 +1,14 @@
+{# DROPZONE FILE UPLOADER#}
+<script src="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('bundles/pizotearkadmin/js/dropzone/dropzone.css') }}">
 
 <script src="{{ asset('bundles/backendadmin/js/backend.js')  }}"></script>
+
+<style>
+	.dz-error-message{
+		margin-top: 20px !important;
+	}
+</style>
 
 <section class="content">
 
@@ -86,6 +95,10 @@
 
 					<br/>
 
+					{% set myToken = token %}
+
+
+					<input type="hidden" name="ticket[token]" value="{{ myToken }}">
 
 					<div class="row">
 						<div class="col-md-1">
@@ -103,7 +116,7 @@
 						</div>
 						<br/>
 						<div class="col-md-11">
-							<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7" name="description" id="description"></textarea>
+							<textarea required class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7" name="description" id="description"></textarea>
 
 						</div>
 					</div>
@@ -136,13 +149,22 @@
 						</div>
 					</div>
 
+					<div class="clearfix"></div>
+					<br/>
 
+
+					<h3>{{ 'label_photo'|trans }} </h3>
+					<h2>{{ 'label_max_files'|trans }} </h2>
+					<div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('ticket_ajax_snippet_image_send')}}">
+
+					</div>
+					<br/>
 					<br/>
 					<div class="row">
 						<div class="col-md-8">
 						</div>
 						<div class="col-md-2">
-							<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+							<button type="submit" id="mySubmit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
 						</div>
 						<div class="col-md-2">
 							<a  href="{{ path('backend_admin_ticket_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
@@ -163,11 +185,7 @@
 	$( document ).ready(function() {
 
 
-		{% set myPath =  url('backend_admin_homepage')~"/uploads/images/tickets/" %}
-		{% set myPath = myPath|replace({'app_dev.php': ''}) %}
-		{% set myPath = myPath|replace({'/en/': ''}) %}
-		{% set myPath = myPath|replace({'/es/': ''}) %}
-		
+
 		$("#sector_select").change(function () {
 			changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val() );
 		});
@@ -175,14 +193,14 @@
 		changeProperties("{{ path('backend_admin_complex_sector_list_properties') }}", "property_select", $("#sector_select").val() );
 
 
-		$("[name='ticketForm']").validate();
+		$("#ticketForm").validate();
 
 
 		$("#sector_select").rules("add", {required:true});
 		$("#property_select").rules("add", {required:true});
 		$("#category_select").rules("add", {required:true});
-		$("#title").rules("add", {required:true, maxlength: 32});
-		$("#description").rules("add", {required:true, maxlength: 256});
+		$("#title").rules("add", {required:true});
+		//$("#description").rules("add", {required:true});
 
 		$('[name="ticketForm"]').on("submit", function(){
 			//Code: Action (like ajax...)
@@ -200,6 +218,8 @@
 
 		////DROPZONE
 		var countFiles = 0;
+		var uploadedFiles = 0;
+
 		var _actionToDropZone = $("#form_snippet_image").attr('action');
 		Dropzone.autoDiscover = false;
 		//$(".dz-hidden-input").prop("disabled",false);
@@ -207,35 +227,93 @@
 		var myDropzone = new Dropzone("#form_snippet_image", {
 			url: _actionToDropZone,
 			params: {
-				complex_id: 4
+				ticket: '{{ myToken }}'
 			},
-			maxFilesize: 1, // MB
+			maxFilesize: 5, // MB
 			maxFiles: 5,
 			addRemoveLinks: true,
 			createImageThumbnails: true,
 			acceptedFiles: ".png,.jpg,.jpeg",
 			thumbnailWidth: 250,
 			thumbnailHeight: 250,
-			autoProcessQueue: true,
-			parallelUploads: 1,
+			autoProcessQueue: false,
+			parallelUploads: 5,
 			uploadMultiple: false,
 			success: function(file, response){
 				//console.log(response.success);
 				file.id = response.success;
-
-			},
-			error: function(file, response){
-				//console.log(response.success);
-				file.id = response.success;
-				if(countFiles > 5){
-					myDropzone.disable();
-				}
+				//return true;
+				//alert("finish");
 
 			},
 
 
+			init: function() {
+				thisDropzone = this;
+
+				// First change the button to actually tell Dropzone to process the queue.
+				document.getElementById("mySubmit").addEventListener("click", function(e) {
+					// Make sure that the form isn't actually being sent.
+					e.preventDefault();
+					e.stopPropagation();
+					thisDropzone.processQueue();
+				});
+
+				{#
+                this.on("maxfilesexceeded", function(file){
+                    alert("{{ 'label_no_more_files'|trans }}");
+                    //this.removeFile(file);
+                    //countFiles--;
+                    myDropzone.disable();
+
+
+                });
+
+                #}
+
+				this.on('removedfile', function (file) {
+
+					//console.log(file);
+					//$('#pizote_spinner').show();
+					countFiles--;
+					uploadedFiles--;
+
+					if(countFiles < 5){
+						myDropzone.enable();
+					}
+
+				});
+
+				this.on("addedfile", function(file) {
+					countFiles++;
+
+					if(countFiles > 5){
+
+						alert("{{ 'label_no_more_files'|trans }}");
+						myDropzone.disable();
+
+						$("[name='ticketForm']").submit(function(e){
+							//e.preventDefault();
+							$('#pizote_spinner').hide();
+						});
+					}
+				});
+
+				this.on("totaluploadprogress", function(totalPercentage, totalBytesSent){
+
+					if(totalPercentage >= 100 && totalBytesSent) {
+
+						$('#pizote_spinner').show();
+						$("[name='ticketForm']").submit();
+
+					}
+				});
+
+			}
 
 		});
+
+
 
 	});
 

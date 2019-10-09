@@ -53,3 +53,17 @@ backend_admin_ticket_rating_tenant:
   path:     /{id}/ratingtenant
   defaults: { _controller: "BackendAdminBundle:Ticket:ratingTenant" }
   methods:  POST
+
+ticket_ajax_snippet_image_send:
+  path:     /imagesend
+  defaults: { _controller: "BackendAdminBundle:Ticket:imageSend" }
+
+
+ticket_ajax_snippet_image_get:
+  path:     /imageget
+  defaults: { _controller: "BackendAdminBundle:Ticket:imageGet" }
+
+ticket_ajax_snippet_image_remove:
+  path:     /imageremove
+  defaults: { _controller: "BackendAdminBundle:Ticket:imageRemove" }
+

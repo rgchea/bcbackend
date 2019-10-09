@@ -56,7 +56,7 @@ Backend\AdminBundle\Entity\UserNotification:
         title:
             type: text
             nullable: true
-            length: 160
+            length: 256
             options:
                 fixed: false
         description:

@@ -334,4 +334,33 @@ class CommonAreaPhoto
     {
         return $this->updatedBy;
     }
+    /**
+     * @var string
+     */
+    private $token = '';
+
+
+    /**
+     * Set token.
+     *
+     * @param string $token
+     *
+     * @return CommonAreaPhoto
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
 }

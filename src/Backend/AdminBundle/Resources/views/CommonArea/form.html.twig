@@ -16,6 +16,10 @@
 		z-index: 0;
 	}
 
+	.dz-error-message{
+		margin-top: 20px !important;
+	}
+
 
 
 </style>
@@ -50,7 +54,13 @@
 					{{ form_errors(form) }}
 
 					<fieldset>
+						{% if edit is defined %}
+							{% set myToken = entity.token %}
+						{% else %}
+							{% set myToken = token %}
+						{% endif %}
 
+						<input type="hidden" name="common_area[token]" value="{{ myToken }}">
 
 						<div class="form-group col-md-4">
 							{{ form_label(form.name) }}
@@ -179,20 +189,21 @@
 					<div class="clearfix"></div>
 					<br/>
 
-						{% if edit is defined %}
+
 							<h3>{{ 'label_photo'|trans }} </h3>
 							<h2>{{ 'label_max_files'|trans }} </h2>
-							<div class="dropzone my-dropzone" id="form_snippet_image" action="{{path('common_area_ajax_snippet_image_send')}}">
+							<div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('common_area_ajax_snippet_image_send')}}">
+
 							</div>
 							<br/>
-						{% endif %}
+
 
 
 						<div class="row">
 							<div class="col-md-8">
 							</div>
 							<div class="col-md-2">
-								<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
+								<button type="submit" id="mySubmit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
 							</div>
 							<div class="col-md-2">
 								<a  href="{{ path('backend_admin_common_area_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
@@ -247,12 +258,13 @@
 		//$("#common_area_zipCode").rules("add", {required:true, minlength: 4, digits:true});
 
 
-		$('[name="common_area"]').on("submit", function(){
+		$('[name="common_area"]').on("submit", function(e){
 			//Code: Action (like ajax...)
 			if($("[name='common_area']").valid()){
 
-				$("#my_schedule").val($('#schedule').jqs("export"));
 				$('#pizote_spinner').show();
+				$("#my_schedule").val($('#schedule').jqs("export"));
+
 				return true;
 
 			}
@@ -306,6 +318,7 @@
 
 		});
 
+
 		{% if edit is defined %}
 
 			{% set myPath =  url('backend_admin_homepage')~"/uploads/images/common_area/" %}
@@ -317,9 +330,12 @@
 			{#SCHEDULE IMPORT #}
 			$('#schedule').jqs('import', {{ availability|raw }});
 
+		{% endif %}
 
 			////DROPZONE
 			var countFiles = 0;
+			var uploadedFiles = 0;
+
 			var _actionToDropZone = $("#form_snippet_image").attr('action');
 			Dropzone.autoDiscover = false;
 			//$(".dz-hidden-input").prop("disabled",false);
@@ -327,104 +343,148 @@
 			var myDropzone = new Dropzone("#form_snippet_image", {
 				url: _actionToDropZone,
 				params: {
-					common_area: {{ entity.id }}
+					{#common_area: {{ entity.id }}#}
+					common_area: '{{ myToken }}'
 				},
-				maxFilesize: 1, // MB
+				maxFilesize: 5, // MB
 				maxFiles: 5,
 				addRemoveLinks: true,
 				createImageThumbnails: true,
 				acceptedFiles: ".png,.jpg,.jpeg",
 				thumbnailWidth: 250,
 				thumbnailHeight: 250,
-				autoProcessQueue: true,
-				parallelUploads: 1,
+				autoProcessQueue: false,
+				parallelUploads: 5,
 				uploadMultiple: false,
 				success: function(file, response){
 					//console.log(response.success);
 					file.id = response.success;
-
-				},
-				error: function(file, response){
-					//console.log(response.success);
-					file.id = response.success;
-					if(countFiles > 5){
-						myDropzone.disable();
-					}
-
+					//return true;
+					//alert("finish");
 
 				},
 
-				init: function() {
-					thisDropzone = this;
 
-					$.get("{{path('common_area_ajax_snippet_image_get')}}",{common_area: '{{ entity.id }}' }, function(data) {
+					init: function() {
+						thisDropzone = this;
 
+						// First change the button to actually tell Dropzone to process the queue.
+						document.getElementById("mySubmit").addEventListener("click", function(e) {
+							// Make sure that the form isn't actually being sent.
+							e.preventDefault();
+							e.stopPropagation();
+							thisDropzone.processQueue();
+						});
 
-						$.each(data, function(key,value){
+						{% if edit is defined %}
 
-							//var mockFile = { name: value.name, size: value.size };
-							var mockFile = { name: value.name, size: "", id: value.id };
+							$.get("{{path('common_area_ajax_snippet_image_get')}}",{common_area: '{{ entity.id }}' }, function(data) {
 
-							thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-							thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '{{ myPath }}'+value.name);
+								$.each(data, function(key,value){
 
-							//console.log('{{ myPath }}'+value.name);
-							thisDropzone.emit("complete", mockFile);
-							countFiles++;
-							if(countFiles >= 5){
-								myDropzone.disable();
-							}
+									//var mockFile = { name: value.name, size: value.size };
+									var mockFile = { name: value.name, size: "", id: value.id };
+
+									thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+									thisDropzone.options.thumbnail.call(thisDropzone, mockFile, '{{ myPath }}'+value.name);
+
+									//console.log('{{ myPath }}'+value.name);
+									thisDropzone.emit("complete", mockFile);
+
+									//on click opens a new tab with the image
+									var src = '{{ myPath }}'+value.name;
+									mockFile.previewElement.addEventListener("click", function() {
+										var win = window.open(src, '_blank');
+										win.focus();
+									});
+
+									countFiles++;
+									if(countFiles >= 5){
+										myDropzone.disable();
+									}
+
+								});
+
+								//$(".dz-hidden-input").prop("disabled",true);
+
+							});
+						{% endif %}
+						{#
+						this.on("maxfilesexceeded", function(file){
+							alert("{{ 'label_no_more_files'|trans }}");
+							//this.removeFile(file);
+							//countFiles--;
+							myDropzone.disable();
+
 
 						});
 
-						//$(".dz-hidden-input").prop("disabled",true);
+						#}
 
+						this.on('removedfile', function (file) {
 
-					});
+							//console.log(file);
+							//$('#pizote_spinner').show();
+							countFiles--;
+							uploadedFiles--;
+							{% if edit is defined %}
+								$.ajax({
+									type: 'POST',
+									url: "{{path('common_area_ajax_snippet_image_remove')}}",
+									//data: {id: file.name, _token: $('#csrf-token').val()},
+									data: {id: file.id, name: file.name},
+									dataType: 'html',
+									success: function (data) {
+										var rep = JSON.parse(data);
 
-					this.on("maxfilesexceeded", function(file){
-						alert("{{ 'label_no_more_files'|trans }}");
-						this.removeFile(file);
-						countFiles--;
-						//myDropzone.disable();
-					});
+										if(countFiles < 5){
+											myDropzone.enable();
+										}
+										//$('#pizote_spinner').hide();
+									}
 
-					this.on('removedfile', function (file) {
+								})
+							{% else %}
 
-						//console.log(file);
-
-						$.ajax({
-							type: 'POST',
-							url: "{{path('common_area_ajax_snippet_image_remove')}}",
-							//data: {id: file.name, _token: $('#csrf-token').val()},
-							data: {id: file.id, name: file.name},
-							dataType: 'html',
-							success: function (data) {
-								var rep = JSON.parse(data);
-								countFiles--;
 								if(countFiles < 5){
 									myDropzone.enable();
 								}
+							{% endif %}
+
+						});
+
+						this.on("addedfile", function(file) {
+							countFiles++;
+
+							if(countFiles > 5){
+
+								alert("{{ 'label_no_more_files'|trans }}");
+								myDropzone.disable();
+
+								$("[name='common_area']").submit(function(e){
+									//e.preventDefault();
+									$('#pizote_spinner').hide();
+								});
+							}
+						});
+
+						this.on("totaluploadprogress", function(totalPercentage, totalBytesSent){
+
+
+							if(totalPercentage >= 100 && totalBytesSent) {
+
+								$('#pizote_spinner').show();
+								$("[name='common_area']").submit();
 
 							}
-						})
+						});
 
-
-					});
-
-					this.on("addedfile", function(file) {
-						countFiles++;
-						if(countFiles > 5){
-							this.removeFile(file);
-							countFiles--;
-							myDropzone.disable();
-						}
-					});
-
-
-				}
+					}
 
 			});
+
+
+
 
 
 			/*
@@ -432,10 +492,9 @@
 				alert('nouveau fichier reçu');
 			});
 			*/
-
-			$("#common_area_complex").val({{ entity.complex.id }});
-
-		{% endif %}
+			{% if edit is defined %}
+				$("#common_area_complex").val({{ entity.complex.id }});
+			{% endif %}
 
 
 

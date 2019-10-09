@@ -660,4 +660,33 @@ class Ticket
     {
         return $this->notificationDateTime;
     }
+    /**
+     * @var string|null
+     */
+    private $token = '';
+
+
+    /**
+     * Set token.
+     *
+     * @param string|null $token
+     *
+     * @return Ticket
+     */
+    public function setToken($token = null)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token.
+     *
+     * @return string|null
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
 }

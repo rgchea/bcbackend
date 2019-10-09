@@ -147,7 +147,7 @@
 						</div>
 						<br/>
 						<div class="col-md-11">
-							<textarea class="form-control rounded-0" id="description" name="description" rows="7"></textarea>
+							<textarea required class="form-control rounded-0" id="description" name="description" rows="7"></textarea>
 						</div>
 					</div>
 
@@ -220,8 +220,8 @@
 		$("#sector_select").rules("add", {required: true});
 		$("#property_select").rules("add", {required: true});
 		$("#category_select").rules("add", {required: true});
-		$("#title").rules("add", {required: true, maxlength: 32});
-		$("#description").rules("add", {required: true, maxlength: 256});
+		$("#title").rules("add", {required: true, maxlength: 256});
+		//$("#description").rules("add", {required: true, maxlength: 256});
 		$("#myDate").rules("add", {required: true});
 
 		$('[name="ticketForm"]').on("submit", function () {

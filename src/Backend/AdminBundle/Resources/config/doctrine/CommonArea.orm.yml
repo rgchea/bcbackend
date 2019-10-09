@@ -32,6 +32,14 @@ Backend\AdminBundle\Entity\CommonArea:
             options:
                 fixed: false
                 default: ''
+        token:
+            type: string
+            nullable: false
+            length: 512
+            options:
+                fixed: false
+                default: ''
+
         description:
             type: text
             nullable: false
@@ -46,7 +54,7 @@ Backend\AdminBundle\Entity\CommonArea:
                 fixed: false
         termCondition:
             type: text
-            nullable: false
+            nullable: true
             length: 65535
             options:
                 fixed: false

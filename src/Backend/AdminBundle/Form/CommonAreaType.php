@@ -67,6 +67,7 @@ class CommonAreaType extends AbstractType
             'role' => null,
             'repository' => null,
             'userID' => null,
+            'allow_extra_fields' => true
         ));
     }
 }

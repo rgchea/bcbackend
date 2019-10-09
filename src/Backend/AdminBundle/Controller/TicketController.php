@@ -2,6 +2,7 @@
 
 namespace Backend\AdminBundle\Controller;
 
+use Backend\AdminBundle\Entity\TicketFilePhoto;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -239,7 +240,8 @@ class TicketController extends Controller
             'myPath' => 'backend_admin_ticket_new',
             'new' => true,
             'ticketCategory' => $ticketCategory,
-            'complexSector' => $complexSector
+            'complexSector' => $complexSector,
+            'token' => md5(uniqid())
 
         ));
     }
@@ -377,6 +379,7 @@ class TicketController extends Controller
         $ticket->setProperty($objProperty);
         //$ticket->setCommonAreaReservation($commonAreaReservation);
 
+
         if(!isset($_REQUEST["notification"])){//if it is not a notification
 
             $tenantContract =  null;
@@ -384,6 +387,8 @@ class TicketController extends Controller
             if($propertyContract) {
                 $tenantContract = $propertyContract->getMainTenantContract();
             }
+
+            //var_dump($tenantContract->getId());die;
 
             $ticket->setTenantContract($tenantContract);
             $ticket->setTicketStatus($status);
@@ -395,6 +400,10 @@ class TicketController extends Controller
             $userToAssign = $this->em->getRepository('BackendAdminBundle:Shift')->getUsertoAssignTicket($timezone, $complexID);
 
             $ticket->setAssignedTo($userToAssign);
+
+            $token = trim($_REQUEST["ticket"]["token"]);
+            $ticket->setToken($token);
+
         }
         else{
             //save date
@@ -436,6 +445,14 @@ class TicketController extends Controller
             $playKey = "BC-A-00005";//Register ticket
             $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
 
+            ///get all photos by token and update the commonArea
+            $token = trim($_REQUEST["ticket"]["token"]);
+            $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByToken($token);
+            foreach ($photos as $photo){
+                $photo->setTicket($ticket);
+                $this->em->persist($photo);
+            }
+            $this->em->flush();
 
         }
 
@@ -527,57 +544,40 @@ class TicketController extends Controller
     public function updateAction(Request $request, $id)
     {
         $this->get("services")->setVars('ticket');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Ticket')->find($id);
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Ticket')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Ticket entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($entity);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $myRequest = $request->request->get('ticket');
-
-            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["property"]["complex"]));
-
-            //$businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
-            $sectorID = $_REQUEST["property"]["complexSector"];
-            $objComplexSector = $this->em->getRepository('BackendAdminBundle:ComplexSector')->find($sectorID);
-            $business = $objComplexSector->getComplex()->getBusiness();
-            $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
-
-            $myTicketType = intval($_REQUEST["property"]["propertyType"]);
-            $propertyType = $this->em->getRepository('BackendAdminBundle:TicketType')->find($myTicketType);
-
-            if($myTicketType == 0){ //OTHER
-                $propertyTypeName = trim($_REQUEST["extra"]["propertyTypeName"]);
-            }
-            else{
-                $propertyTypeName = $businessLocale == "en" ? $propertyType->getNameEN() : $propertyType->getNameES();
-            }
-
             //BLAME ME
-            $this->get("services")->blameOnMe($entity, "create");
+            $this->get("services")->blameOnMe($entity, "update");
             $this->em->persist($entity);
+            $this->em->flush();
+
+            ///get all photos by token and update the commonArea
+            $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByToken($entity->getToken());
+            foreach ($photos as $photo){
+                $photo->setTicket($entity);
+                $this->em->persist($photo);
+            }
             $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_ticket_index', array('id' => $id)));
 
-        }
-
         //$countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
-
+        /*
         return $this->render('BackendAdminBundle:Ticket:edit.html.twig', array(
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             //'countries' => $countries
         ));
+        */
     }
 
 
@@ -611,96 +611,6 @@ class TicketController extends Controller
 
 
 
-
-    public function imageSendAction(Request $request){
-
-        $this->get("services")->setVars('ticket');
-        $this->initialise();
-
-
-        $entityID = intval($_REQUEST["property"]);
-        $obj = $this->em->getRepository('BackendAdminBundle:Ticket')->find($entityID);
-
-        $document = new TicketPhoto();
-        $media = $request->files->get('file');
-
-        $fileName = md5(uniqid()).'.'.$media->guessExtension();
-
-        $document->setFile($media);
-        $document->setPhotoPath($fileName);
-        //$document->setName($media->getClientOriginalName());
-        $document->setTicket($obj);
-        $document->upload($fileName);
-
-        $this->get("services")->blameOnMe($document, "create");
-        $this->get("services")->blameOnMe($document, "update");
-
-        $this->em->persist($document);
-        $this->em->flush();
-
-        //infos sur le document envoyé
-        //var_dump($request->files->get('file'));die;
-        return new JsonResponse(array('success' => $document->getId()));
-
-    }
-
-
-
-    public function imageGetAction(Request $request){
-
-        $this->get("services")->setVars('ticket');
-        $this->initialise();
-
-
-
-        $entityID = intval($_REQUEST["property"]);
-        $images = $this->em->getRepository('BackendAdminBundle:TicketPhoto')->findByTicket($entityID);
-
-        $result  = array();
-        $storeFolder = __DIR__.'/../../../../web/uploads/images/property/';
-
-        $files = scandir($storeFolder);                 //1
-
-        //var_dump($files);die;
-
-        if ( false!==$files ) {
-            foreach ( $images as $file ) {
-
-                $obj['id'] = $file->getId();
-                $obj['name'] = $file->getPhotoPath();
-                $obj['size'] = 0;
-                $result[] = $obj;
-            }
-        }
-
-        header('Content-type: text/json');              //3
-        header('Content-type: application/json');
-        echo json_encode($result);die;
-
-    }
-
-
-
-
-    public function imageRemoveAction(Request $request){
-
-
-        $this->get("services")->setVars('ticket');
-        $this->initialise();
-
-
-        $img = $this->em->getRepository('BackendAdminBundle:TicketPhoto')->find(intval($_REQUEST["id"]));
-        $imgName =  $img->getPhotoPath();
-        $this->em->remove($img);
-        $this->em->flush();
-
-        $storeFolder = __DIR__.'/../../../../web/uploads/images/property/';
-
-        unlink($storeFolder.$imgName);
-
-        return new JsonResponse(array('success' => true));
-
-    }
 
     public function changeSectionAction(Request $request){
 
@@ -932,6 +842,119 @@ class TicketController extends Controller
 
 
 
+    public function imageSendAction(Request $request){
+
+        $this->get("services")->setVars('ticket');
+        $this->initialise();
+        //var_dump($_REQUEST);die;
+
+        //AVATAR UPLOAD
+        /*
+        if($myFile != NULL){
+
+            $file = $entity->getAvatarPath();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('avatars_directory'), $fileName);
+            $entity->setAvatarPath($entity->getAvatarUploadDir().$fileName);
+
+        }
+        */
+
+
+        $ticketID = trim($_REQUEST["ticket"]);//TOKEN
+        //$objCommonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->find($commonAreaID);
+
+        $document = new TicketFilePhoto();
+        $media = $request->files->get('file');
+
+        $fileName = md5(uniqid()).'.'.$media->guessExtension();
+
+        $document->setFile($media);
+        $document->setPhotoPath($fileName);
+        //$document->setName($media->getClientOriginalName());
+        //$document->setCommonArea($objCommonArea);
+        $document->setToken($ticketID);
+        $document->upload($fileName);
+
+        $this->get("services")->blameOnMe($document, "create");
+        $this->get("services")->blameOnMe($document, "update");
+
+        $this->em->persist($document);
+        $this->em->flush();
+
+        //infos sur le document envoyé
+        //var_dump($request->files->get('file'));die;
+        return new JsonResponse(array('success' => $document->getId()));
+
+    }
+
+
+
+    public function imageGetAction(Request $request){
+
+
+
+        $this->get("services")->setVars('ticket');
+        $this->initialise();
+
+
+
+        $ticketID = intval($_REQUEST["ticket"]);
+        $images = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByTicket($ticketID);
+
+        $result  = array();
+        $storeFolder = __DIR__.'/../../../../web/uploads/images/tickets/';
+
+        $files = scandir($storeFolder);                 //1
+
+        //var_dump($files);die;
+
+        if ( false!==$files ) {
+            foreach ( $images as $file ) {
+
+                $obj['id'] = $file->getId();
+                $obj['name'] = $file->getPhotoPath();
+                $obj['size'] = 0;
+                $result[] = $obj;
+            }
+        }
+
+        header('Content-type: text/json');              //3
+        header('Content-type: application/json');
+        echo json_encode($result);die;
+
+    }
+
+
+
+
+    public function imageRemoveAction(Request $request){
+
+
+        $this->get("services")->setVars('ticket');
+        $this->initialise();
+        if(isset($_REQUEST["id"])){
+
+            $img = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->find(intval($_REQUEST["id"]));
+            if($img){
+                $imgName =  $img->getPhotoPath();
+                $this->em->remove($img);
+                $this->em->flush();
+
+                $storeFolder = __DIR__.'/../../../../web/uploads/images/tickets/';
+
+                unlink($storeFolder.$imgName);
+
+            }
+            else{
+
+            }
+
+        }
+
+        return new JsonResponse(array('success' => true));
+
+    }
 
 
 }

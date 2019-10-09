@@ -430,4 +430,33 @@ class CommonAreaReservation
     {
         return $this->property;
     }
+    /**
+     * @var \Backend\AdminBundle\Entity\TenantContract
+     */
+    private $tenantContract;
+
+
+    /**
+     * Set tenantContract.
+     *
+     * @param \Backend\AdminBundle\Entity\TenantContract|null $tenantContract
+     *
+     * @return CommonAreaReservation
+     */
+    public function setTenantContract(\Backend\AdminBundle\Entity\TenantContract $tenantContract = null)
+    {
+        $this->tenantContract = $tenantContract;
+
+        return $this;
+    }
+
+    /**
+     * Get tenantContract.
+     *
+     * @return \Backend\AdminBundle\Entity\TenantContract|null
+     */
+    public function getTenantContract()
+    {
+        return $this->tenantContract;
+    }
 }

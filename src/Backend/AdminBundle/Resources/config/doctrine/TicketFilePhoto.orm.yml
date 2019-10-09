@@ -22,6 +22,14 @@ Backend\AdminBundle\Entity\TicketFilePhoto:
             generator:
                 strategy: IDENTITY
     fields:
+        token:
+            type: string
+            nullable: true
+            length: 512
+            options:
+                fixed: false
+                default: ''
+
         photoPath:
             type: string
             nullable: false

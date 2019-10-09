@@ -190,6 +190,7 @@ class CommonAreaController extends Controller
         return $this->render('BackendAdminBundle:CommonArea:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
+            'token' => md5(uniqid())
 
 
 
@@ -318,14 +319,24 @@ class CommonAreaController extends Controller
 
         if ($form->isValid()) {
 
-            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["common_area"]["complex"]));
 
+            $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["common_area"]["complex"]));
+            $token = trim($_REQUEST["common_area"]["token"]);
+            $entity->setToken($token);
             $this->get("services")->blameOnMe($entity, "create");
 
 
             $this->em->persist($entity);
             $this->em->flush();
 
+
+            ///get all photos by token and update the commonArea
+            $photos = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->findByToken($token);
+            foreach ($photos as $photo){
+                $photo->setCommonArea($entity);
+                $this->em->persist($photo);
+            }
+            $this->em->flush();
 
             /*SET THE WEEK SCHEDULE*/
             $mySchedule = json_decode($_REQUEST["my_schedule"], true);
@@ -362,11 +373,11 @@ class CommonAreaController extends Controller
             return $this->redirectToRoute('backend_admin_common_area_edit', array('id' => $entity->getId()));
 
         }
-        /*
+
         else{
             print "FORMULARIO NO VALIDO";DIE;
         }
-         * */
+
 
         return $this->render('BackendAdminBundle:CommonArea:new.html.twig', array(
             'entity' => $entity,
@@ -468,7 +479,15 @@ class CommonAreaController extends Controller
 
             $entity->setComplex($this->em->getRepository('BackendAdminBundle:Complex')->find($_REQUEST["common_area"]["complex"]));
 
-            $this->get("services")->blameOnMe($entity, "create");
+            $this->get("services")->blameOnMe($entity, "update");
+            $this->em->flush();
+
+            ///get all photos by token and update the commonArea
+            $photos = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->findByToken($entity->getToken());
+            foreach ($photos as $photo){
+                $photo->setCommonArea($entity);
+                $this->em->persist($photo);
+            }
             $this->em->flush();
 
 
@@ -543,8 +562,8 @@ class CommonAreaController extends Controller
         */
 
 
-        $commonAreaID = intval($_REQUEST["common_area"]);
-        $objCommonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->find($commonAreaID);
+        $commonAreaID = trim($_REQUEST["common_area"]);//TOKEN
+        //$objCommonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->find($commonAreaID);
 
         $document = new CommonAreaPhoto();
         $media = $request->files->get('file');
@@ -554,7 +573,8 @@ class CommonAreaController extends Controller
         $document->setFile($media);
         $document->setPhotoPath($fileName);
         //$document->setName($media->getClientOriginalName());
-        $document->setCommonArea($objCommonArea);
+        //$document->setCommonArea($objCommonArea);
+        $document->setToken($commonAreaID);
         $document->upload($fileName);
 
         $this->get("services")->blameOnMe($document, "create");
@@ -614,16 +634,25 @@ class CommonAreaController extends Controller
 
         $this->get("services")->setVars('commonArea');
         $this->initialise();
+        if(isset($_REQUEST["id"])){
 
+            $img = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->find(intval($_REQUEST["id"]));
+            if($img){
+                $imgName =  $img->getPhotoPath();
+                $this->em->remove($img);
+                $this->em->flush();
 
-        $img = $this->em->getRepository('BackendAdminBundle:CommonAreaPhoto')->find(intval($_REQUEST["id"]));
-        $imgName =  $img->getPhotoPath();
-        $this->em->remove($img);
-        $this->em->flush();
+                $storeFolder = __DIR__.'/../../../../web/uploads/images/common_area/';
 
-        $storeFolder = __DIR__.'/../../../../web/uploads/images/common_area/';
+                unlink($storeFolder.$imgName);
 
-        unlink($storeFolder.$imgName);
+            }
+            else{
+
+            }
+
+        }
+
 
         return new JsonResponse(array('success' => true));
 
