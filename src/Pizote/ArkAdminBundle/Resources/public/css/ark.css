@@ -1566,7 +1566,7 @@ body.fixed_header.fixed_menu .wrapper {
     .sidebar {
         display: block !important;
         height: auto !important;
-        width: 190px;
+        width: 255px;
         float: left;
     }
 }
@@ -1673,10 +1673,20 @@ body.fixed_header.fixed_menu .wrapper {
 .sidebar .nav .menu .submenu > .active > a,
 .sidebar .nav .menu .submenu > .active > a:hover,
 .sidebar .nav .menu .submenu > .active > a:focus {
+    /*
     background-color: #f7f7f7;
     padding-left: 17px;
     border-left: solid 3px #03304a;
     color: #03304a;
+
+     */
+    background-color: #020d13;
+    padding-left: 17px;
+    border-left: solid 3px #fbc210;
+    color: #fff;
+    height: 35px;
+    padding-top: 8px;
+    font-size: 14px;
 }
 .sidebar .nav .menu.active .submenu,
 .sidebar .nav .menu.open .submenu {
@@ -2984,8 +2994,12 @@ body.cover {
     /*background: transparent url('../../img/login/background.jpg') 0 0;
     background-size: cover;
     background-attachment: fixed;
+
+    background-color: #F0F0F6;
   */
+
     background-color: #03304a;
+
 }
 
 

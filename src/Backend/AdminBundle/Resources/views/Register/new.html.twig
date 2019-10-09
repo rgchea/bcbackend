@@ -30,11 +30,11 @@
 
                     <input type="hidden" name="submit" />
                     <div class="form-group text-center">
-                        <input type="text" id="fos_user_registration_form_name" name="register[name]" required="required" maxlength="32" class="form-control" placeholder="{{ 'label_name'|trans }}">
+                        <input value="" autocomplete="off" type="text" id="fos_user_registration_form_name" name="register[name]" required="required" maxlength="32" class="form-control" placeholder="{{ 'label_name'|trans }}">
                     </div>
 
                     <div class="form-group text-center">
-                        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'label_email'|trans  }}) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'autocomplete': 'off' ,'placeholder': 'label_email'|trans  }}) }}
                     </div>
 
                     <div class="form-group text-center">
@@ -45,7 +45,7 @@
                                 <div class="flagstrap" data-input-name="register[country]" data-selected-country="US"></div>
                             </div>
                             <div class="col-lg-6 noPad" style="float: right">
-                                <input type="text" id="fos_user_registration_form_phone" name="register[phone]" required="required" maxlength="32" class="form-control" placeholder="{{ 'label_phone'|trans }}">
+                                <input value="" autocomplete="off" type="text" id="fos_user_registration_form_phone" name="register[phone]" required="required" maxlength="32" class="form-control" placeholder="{{ 'label_phone'|trans }}">
                             </div>
 
                         </div>
@@ -66,10 +66,10 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': 'label_login_password'|trans  }}) }}
+                        {{ form_widget(form.password, {'attr': {'class': 'form-control', 'autocomplete':'off', 'placeholder': 'label_login_password'|trans  }}) }}
                     </div>
                     <div class="form-group">
-                        <input  type="password" id="register_password_retype" name="register[password_retype]" class="form-control" placeholder="{{ 'label_login_password_retype'|trans }}">
+                        <input value="" autocomplete="off"  type="password" id="register_password_retype" name="register[password_retype]" class="form-control" placeholder="{{ 'label_login_password_retype'|trans }}">
                     </div>
 
                     <div class="clearfix"></div>
