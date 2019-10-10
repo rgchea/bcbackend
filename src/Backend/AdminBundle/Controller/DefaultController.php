@@ -97,7 +97,20 @@ class DefaultController extends Controller
 
         ));
     }
-	
+
+
+    public function languageAction(Request $request)
+    {
+
+
+        //$this->get("services")->setVars('dashboard');
+        //$this->initialise();
+        //print "entraaaa selector";die;
+
+        return $this->render('BackendAdminBundle:Default:language.html.twig');
+    }
+
+
     public function menuAction(){
     	$session = new Session();
     	$item    = $session->get('item');

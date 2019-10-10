@@ -1,0 +1,72 @@
+{% extends "PizoteArkAdminBundle::security.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+    Login
+{% endblock %}
+
+{% block fos_user_content %}
+
+    <style>
+        div{
+            text-align: center;
+        }
+        .login-wrap {
+            margin: 0 auto;
+            padding-top: 70px;
+            width: 400px !important;
+            color: #fff;
+        }
+    </style>
+
+    <div class="container">
+
+        <div class="row">
+            <div style="font-size: 40px" class="col-md-12"><b>WELCOME!</b></div>
+        </div>
+        <div class="row">
+            <div style="font-size: 20px" class="col-md-12">Choose your language</div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-6 pull-right">
+                <a href="{{ path('backend_admin_homepage', {'_locale': 'es'}) }}">
+                    <img style="float: right" src="{{ asset('bundles/pizotearkadmin/img/flags/guatemala.png') }}">
+                </a>
+
+            </div>
+            <div class="col-md-6 pull-left">
+                <a href="{{ path('backend_admin_homepage', {'_locale': 'en'}) }}">
+                    <img style="float: left" src="{{ asset('bundles/pizotearkadmin/img/flags/us.png') }}">
+                </a>
+
+
+            </div>
+
+        </div>
+        <br/>
+        <div class="row">
+
+            <div style="font-size: 15px; text-align: left; margin-left: 15px" class="col-md-6 pull-left">
+                <b>English</b>
+            </div>
+            <div style="font-size: 15px;" class="col-md-3">
+            </div>
+            <div style="font-size: 15px;" class="col-md-3 pull-right">
+                <b>Español</b>
+
+            </div>
+
+        </div>
+        <br/><br/>
+
+        <div class="row">
+            <div style="font-size: 12px; line-height: 20px" class="col-md-8">All rights reserved BetterCondos.tech 2019</div>
+            <div style="font-size: 12px; line-height: 20px" class="col-md-4"><a href="www.bettercondos.tech">www.bettercondos.tech</a></div>
+        </div>
+
+    </div>
+
+
+
+{% endblock fos_user_content %}

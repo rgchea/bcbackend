@@ -1,0 +1,4 @@
+select_language:
+    path:     /
+    defaults: { _controller: BackendAdminBundle:Default:language }
+

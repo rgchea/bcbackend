@@ -1,3 +1,7 @@
+backend:
+    resource: "@BackendAdminBundle/Resources/config/lang.yml"
+    prefix:   /
+    methods:  [GET, POST]
 backend_admin:
     resource: "@BackendAdminBundle/Resources/config/routing.yml"
     prefix:   /{_locale}
