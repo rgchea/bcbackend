@@ -49,20 +49,6 @@ class CompanyController extends Controller
         //return $this->render('BackendAdminBundle:Company:index.html.twig');
 
         ////QR CODE
-        $options = array(
-            'code'   => 'QKK9443',
-            'type'   => 'qrcode',
-            'format' => 'png',
-            'width'  => 10,
-            'height' => 10,
-            //'color'  => [0,0,0],
-        );
-
-        $qrcode = $this->get('skies_barcode.generator')->generate($options);
-        //var_dump($qrcode);die;
-        //var_dump(htmlspecialchars($qrcode));die;
-        //$qrcode = base64_encode($qrcode) ;
-        //var_dump($qrcode);die;
 
         //tenant_name
         //property_address
@@ -72,8 +58,8 @@ class CompanyController extends Controller
         $myJson .= '"complex_name": "commpmlex name",';
         $myJson .= '"complex_city": "GUATEMALA",';
         $myJson .= '"complex_state": "guatemala",';
-        $myJson .= '"property_key": "6969kK",';
-        $myJson .= '"qrcode": "'.$qrcode.'"';
+        $myJson .= '"property_key": "6969kK"';
+
 
         $sendgridResponse = $this->get('services')->callSendgrid($myJson, "d-010af6bef81a446b9c7be592b4b579db", "cheametal@gmail.com");
         var_dump($sendgridResponse);
