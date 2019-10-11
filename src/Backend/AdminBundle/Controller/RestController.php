@@ -4144,12 +4144,13 @@ class RestController extends FOSRestController
                 $this->get("services")->sendPushNotification($tenantContract->getCreatedBy(), $title, $description);
             }
             else{//DELETE
-                $tenantContract->setEnabled(false);
+                //$tenantContract->setEnabled(false);
+                $tenantContract->remove();
             }
 
-            $this->get("services")->blameOnMe($tenantContract, "update");
+            //$this->get("services")->blameOnMe($tenantContract, "update");
 
-            $this->em->persist($tenantContract);
+            //$this->em->persist($tenantContract);
             $this->em->flush();
 
             return new JsonResponse(array(
