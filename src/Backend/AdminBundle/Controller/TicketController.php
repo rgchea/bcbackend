@@ -559,12 +559,15 @@ class TicketController extends Controller
             $this->em->flush();
 
             ///get all photos by token and update the commonArea
-            $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByToken($entity->getToken());
-            foreach ($photos as $photo){
-                $photo->setTicket($entity);
-                $this->em->persist($photo);
+            if($entity->getToken() != ""){
+                $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByToken($entity->getToken());
+                foreach ($photos as $photo){
+                    $photo->setTicket($entity);
+                    $this->em->persist($photo);
+                }
+                $this->em->flush();
+
             }
-            $this->em->flush();
 
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_ticket_index', array('id' => $id)));

@@ -2464,6 +2464,10 @@ class RestController extends FOSRestController
             $ticket->setTicketStatus($status);
             $ticket->setEnabled(true);
 
+            $token = md5(uniqid());
+            $ticket->setToken($token);
+
+
 
             //setAssignedTo
             $timezone  = intval($request->get('time_offset')); //(GMT -5:00) EST (U.S. & Canada)
