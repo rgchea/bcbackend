@@ -3862,12 +3862,47 @@ class RestController extends FOSRestController
             //tenant_name
             //property_address
             //complex_name
+            $propertyKey = $tenantContract->getPropertyCode();
+
+            $options = array(
+                'code'   => $propertyKey,
+                'type'   => 'qrcode',
+                'format' => 'png',
+                'width'  => 10,
+                'height' => 10,
+                'color'  => array(0, 0, 0),
+            );
+
+            $barcode = $this->get('skies_barcode.generator')->generate($options);
+            //var_dump($barcode);die;
+
+            $photo = str_replace(' ', '+', $barcode);
+            $decodedPhoto = base64_decode($photo);
+
+            $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
+            file_put_contents($tmpPath, $decodedPhoto);
+            $uploadedFile = new FileObject($tmpPath);
+            //$originalFilename = $uploadedFile->getFilename();
+            //$uploadedFile->guessExtension()
+            $fileName = $propertyKey. '.png';
+
+            try {
+                $uploadPath = $this->getParameter('uploads_directory') . "qrcodes/";
+                $uploadedFile->move($uploadPath, $fileName);
+            } catch (FileException $e) {
+                throw new \Exception("Could not upload photo.");
+            }
+
+            $qrLink = "https://bettercondos.space/uploads/images/qrcodes/".$fileName;
+
+
             $myJson = '"property_number": "'.$propertyName.'",';
             $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress().'",';
             $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'",';
             $myJson .= '"complex_city": "'.$objProperty->getComplex()->getGeoState().'",';
             $myJson .= '"complex_state": "'.$objProperty->getComplex()->getGeoState()->getGeoCountry().'",';
-            $myJson .= '"property_key": "'.$tenantContract->getPropertyCode().'"';
+            $myJson .= '"property_key": "'.$propertyKey.'",';
+            $myJson .= '"qrcode_link": "'.$qrLink.'"';
 
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
 

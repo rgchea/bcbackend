@@ -20,6 +20,11 @@ use Backend\AdminBundle\Entity\PropertyContract;
 use Backend\AdminBundle\Entity\TenantContract;
 use Backend\AdminBundle\Entity\PropertyContractTransaction;
 
+use Symfony\Component\HttpFoundation\File\File as FileObject;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+
 /**
  * Property controller.
  *
@@ -2302,11 +2307,51 @@ class PropertyController extends Controller
         $this->em->flush();
 
 
+        $propertyKey = $tenantContract->getPropertyCode();
+
+        $options = array(
+            'code'   => $propertyKey,
+            'type'   => 'qrcode',
+            'format' => 'png',
+            'width'  => 10,
+            'height' => 10,
+            'color'  => array(0, 0, 0),
+        );
+
+        $barcode = $this->get('skies_barcode.generator')->generate($options);
+        //var_dump($barcode);die;
+
+        $photo = str_replace(' ', '+', $barcode);
+        $decodedPhoto = base64_decode($photo);
+
+        $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
+        file_put_contents($tmpPath, $decodedPhoto);
+        $uploadedFile = new FileObject($tmpPath);
+        //$originalFilename = $uploadedFile->getFilename();
+        //$uploadedFile->guessExtension()
+        $fileName = $propertyKey. '.png';
+
+        try {
+            $uploadPath = $this->getParameter('uploads_directory') . "qrcodes/";
+            $uploadedFile->move($uploadPath, $fileName);
+        } catch (FileException $e) {
+            throw new \Exception("Could not upload photo.");
+        }
+
+        $qrLink = "https://bettercondos.space/uploads/images/qrcodes/".$fileName;
+
+        $objProperty = $property;
+        $propertyName = $objProperty->getPropertyType() . " ". $objProperty->getPropertyNumber();
+
         //email invitation
-        $myJson = '"complex_name": "'.$property->getComplex()->getName().'", "property_key": "'.$tenantContract->getPropertyCode().'"';
+        $myJson = '"complex_name": "'.$property->getComplex()->getName().'", "property_key": "'.$propertyKey.'",';
+        $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress().'",';
+        $myJson .= '"complex_city": "'.$objProperty->getComplex()->getGeoState().'",';
+        $myJson .= '"complex_state": "'.$objProperty->getComplex()->getGeoState()->getGeoCountry().'",';
+        $myJson .= '"property_number": "'.$propertyName.'",';
+        $myJson .= '"qrcode_link": "'.$qrLink.'"';
         $templateID = $this->translator->getLocale() == "es" ? "d-2461cbbce3e64bb2a81c90d440809352" : "d-8c65067739ed4fd3bf79ab31650b47f8";
         $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantEmail);
-
 
         return $tenantContract;
 

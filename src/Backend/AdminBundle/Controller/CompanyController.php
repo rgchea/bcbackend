@@ -54,7 +54,7 @@ class CompanyController extends Controller
         //return $this->render('BackendAdminBundle:Company:index.html.twig');
 
         ////QR CODE
-        $stringToEncode = "6Kq09E";
+        $stringToEncode = "6969kK";
         $options = array(
             'code'   => $stringToEncode,
             'type'   => 'qrcode',
