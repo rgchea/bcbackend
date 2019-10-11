@@ -3913,7 +3913,11 @@ class RestController extends FOSRestController
 
             $title = $this->translator->trans("label_invitation_join");
             $description = $this->translator->trans("push.invitation_to_tenant"). " ".$tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
-            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
+
+            if($tenantContract->getUser() != null){
+                $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
+            }
+
 
 
             return new JsonResponse(array(

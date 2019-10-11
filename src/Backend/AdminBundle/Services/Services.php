@@ -1071,7 +1071,6 @@ class Services extends Controller
 
             $device_token = $device->getTokenPush();
 
-            if(strtolower($device->getPlatform()) == "android" ){
 
                 //print "entra $device_token";
 
@@ -1105,69 +1104,7 @@ class Services extends Controller
 
                 curl_close($ch);
 
-            }
-            else{//iOS
 
-                /*
-
-                ini_set('display_errors', 1);
-                ini_set('display_startup_errors', 1);
-                error_reporting(E_ALL);
-
-                print_t($this->getParameter('ios_cert'));
-
-                $ctx = stream_context_create();
-                stream_context_set_option($ctx, 'ssl', 'local_cert', $this->getParameter('ios_cert'));
-                stream_context_set_option($ctx, 'ssl', 'passphrase', "bc*2019!");
-
-
-                $fp = stream_socket_client(
-                //'ssl://gateway.push.apple.com:2195',
-                    'ssl://gateway.sandbox.push.apple.com:2195',
-                    $err,
-                    $errstr,
-                    60,
-                    STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT,
-                    $ctx
-                );
-
-                if(!$fp){
-                    print_t("NO se hizo la conexion");
-                    print_t($err);
-                    print_t($errstr);
-                    exit;
-                }
-
-
-                $body = array(
-                    'aps' => array(
-                        'badge' => 1,
-                        'alert' => array(
-                            "title" => $title,
-                            "body" => $body,
-                        ),
-                        'sound' => 'default'
-                    )
-
-                );
-
-                print_t('<br>sending to: ' . $device_token);
-                $payload = json_encode($body);
-                $apns_message = chr(0) . pack('n', 32) . pack('H*', $device_token) . pack('n', strlen($payload)) . $payload;
-                $resultado = fwrite($fp, $apns_message);
-                if (!$resultado) {
-                    print_t("<br>mensaje no fue enviado");
-                } else {
-                    print_t('<br>enviado...');
-                }
-                print_t($resultado);
-
-                // Close the connection to the server
-                fclose($fp);
-                print_t("<br>-------------<br>");
-
-                */
-            }
         }
     }
 
