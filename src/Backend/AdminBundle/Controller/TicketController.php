@@ -443,7 +443,8 @@ class TicketController extends Controller
             //ADD POINTS
             $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_ticket"). " ". $ticket->getId();
             $playKey = "BC-A-00005";//Register ticket
-            $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
+            //$this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
+            //todo acá chea descomentarear addPoints
 
             ///get all photos by token and update the commonArea
             $token = trim($_REQUEST["ticket"]["token"]);
@@ -559,8 +560,9 @@ class TicketController extends Controller
             $this->em->flush();
 
             ///get all photos by token and update the commonArea
-            if($entity->getToken() != ""){
-                $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByToken($entity->getToken());
+            $ticketToken = trim($entity->getToken());
+            if($ticketToken != ""){
+                $photos = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByToken($ticketToken);
                 foreach ($photos as $photo){
                     $photo->setTicket($entity);
                     $this->em->persist($photo);
@@ -871,9 +873,10 @@ class TicketController extends Controller
         $media = $request->files->get('file');
 
         $fileName = md5(uniqid()).'.'.$media->guessExtension();
+        $prefix =  "/uploads/images/tickets/";
 
         $document->setFile($media);
-        $document->setPhotoPath($fileName);
+        $document->setPhotoPath($prefix.$fileName);
         //$document->setName($media->getClientOriginalName());
         //$document->setCommonArea($objCommonArea);
         $document->setToken($ticketID);
@@ -906,7 +909,7 @@ class TicketController extends Controller
         $images = $this->em->getRepository('BackendAdminBundle:TicketFilePhoto')->findByTicket($ticketID);
 
         $result  = array();
-        $storeFolder = __DIR__.'/../../../../web/uploads/images/tickets/';
+        $storeFolder = __DIR__.'/../../../../web';
 
         $files = scandir($storeFolder);                 //1
 

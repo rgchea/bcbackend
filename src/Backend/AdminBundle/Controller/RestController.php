@@ -2525,6 +2525,7 @@ class RestController extends FOSRestController
                 $ticketPhoto = new TicketFilePhoto();
                 $ticketPhoto->setPhotoPath($myPhotoPath.$fileName);
                 $ticketPhoto->setTicket($ticket);
+                $ticketPhoto->setToken($token);
                 //$ticketPhoto->setFilename($fileName);
                 //$ticketPhoto->setOriginalFilename(($originalFilename!=null)?$originalFilename:$fileName);
                 //$ticketPhoto->setMimeType($uploadedFile->getMimeType());
