@@ -4145,7 +4145,7 @@ class RestController extends FOSRestController
             }
             else{//DELETE
                 //$tenantContract->setEnabled(false);
-                $tenantContract->remove();
+                $this->em->remove($tenantContract);
             }
 
             //$this->get("services")->blameOnMe($tenantContract, "update");
