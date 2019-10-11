@@ -632,6 +632,7 @@ class CommonAreaReservationController extends Controller
             $payment->setPaidBy($propertyContract->getProperty()->getMainTenant());
             $gtmNow = gmdate("Y-m-d H:i:s");
             $payment->setPaidDate(new \DateTime($gtmNow));
+            $payment->setDueDate(new \DateTime($gtmNow));
             //status
             $payment->setStatus(1);
 

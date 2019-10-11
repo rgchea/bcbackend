@@ -277,7 +277,8 @@ class TicketController extends Controller
 
         return $this->render('BackendAdminBundle:Ticket:edit.html.twig', array(
             'entity' => $entity,
-            'ticketComments' => $ticketComments
+            'ticketComments' => $ticketComments,
+            'edit' => true
         ));
     }
 

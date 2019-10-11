@@ -16,9 +16,9 @@ label_notification_system_new_advice: 'Es muy importante que usted, como adminis
 label_wizard_1: '¡Bienvenido a BetterCondos! Tome los primeros pasos para hacer de sus complejos o edificios, un lugar mejor para vivir. Una vez que cree su cuenta, recibirá 2 correos electrónicos para dos plataformas diferentes, uno es el panel de control de nuestro administrador web, donde podrá administrar sus complejos. La otra  es su cuenta de información de facturación, aquí puede acceder para revisar su información de pago con nosotros, es por eso que agregar su información de facturación en este paso es muy importante, de esta manera podrá para recibir sus facturas más adelante. Recuerde también agregar toda la información de contacto de su empresa, no solo la información del administrador.'
 label_wizard_3: 'Recuerde que después de crear su complejo y sus propiedades, necesita invitar a sus residentes, este paso es muy importante, podrá actualizar e invitar a sus inquilinos y residentes al botón de enviar invitación, en la lista detallada de propiedades. También debe crear cuentas y turnos para sus supervisores y gerentes para que todos puedan comenzar a colaborar en la transformación de la comunidad al mejorar y centralizar la comunicación a través de un sistema de tickets. Puede agregar tantos complejos como desee y editar toda la información más adelante. Una cosa importante para tener en cuenta es que dentro de nuestro sistema toda fecha se manejará: mes / día / año.'
 label_booking_approval_advice: 'Puede administrar sus áreas comunes desde el Administrador de la Web; una vez que llegue al panel de Reservas, podrá ver una lista de todo lo que sus inquilinos han reservado o reservado en los últimos días. Una vez que haga clic en la parte superior del icono de edición, podrá ver los detalles de esta reserva, aquí es donde puede aprobarla o rechazarla.'
-label_user_id: Usuario ID
-label_question_id: Pregunta ID
-label_anwser_id: Respuesta ID
+label_user_id: 'Usuario ID'
+label_question_id: 'Pregunta ID'
+label_anwser_id: 'Respuesta ID'
 label_anwser: Respuesta
 label_answers: Respuestas
 label_export_excel: 'Exportar a Excel'
@@ -95,7 +95,7 @@ label_title: Título
 label_category: Categoría
 label_time_elapsed: 'Tiempo transcurrido'
 label_welcome: Bienvenidos
-label_create_new: Agregar
+label_create_new: Crear
 label_new: Nuevo
 label_edit: Editar
 label_list: Listado
@@ -117,7 +117,7 @@ label_no: 'No'
 label_ok: Ok
 label_are_you_sure: 'Está seguro?'
 label_no_more_files: 'No es posible subir más archivos'
-label_max_files: '5 archivos máximo'
+label_max_files: 'archivos máximo'
 label_photo: Fotos
 label_send: RECUPERAR
 label_flash_save_success_msg: 'Cambios guardados'
@@ -160,7 +160,7 @@ label_register_create_account: 'Crear cuenta'
 label_register: Registrarse
 label_register_start: 'EMPEZAR AHORA!'
 label_register_complete: Bienvenido
-label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos estrucutrales'
+label_register_invite_msg: 'Te ha invitado a unirte a la mejor plataforma para gestionar complejos habitacionales y comerciales.'
 label_register_complete_msg: 'Ahora eres parte de la mejor plataforma para gestionar complejos estructurales www.bettercondos.tech/admin'
 label_register_bc_info: 'Puedes accesar a tu portal de cobros por medio de'
 label_register_contact: 'info@bettercondos.com / +502 41568954'
@@ -288,7 +288,7 @@ label_menu:
     permissions: Permisos
     users: Usuarios
     roles: Roles
-    admin: Administración
+    admin: Admin
     profile: Perfil
     logout: Salir
     ticket: Tickets
@@ -348,12 +348,12 @@ mail:
     label_property_id: 'ID de la Propiedad: '
     label_message: 'Mensaje: '
     label_password: 'Contraseña: '
-    register_body: 'Ahora eres parte de Better Condos. Empieza agregando propiedas y disfrutando de la experiencia.'
-    invite_subject: 'Tienes una invitacion a una propiedad en Better Condos'
+    register_body: 'Ahora eres parte de BetterCondos. Empieza agregando propiedas y disfrutando de la experiencia.'
+    invite_subject: 'Tienes una invitacion a una propiedad en BetterCondos'
     invite_body: 'Estas siendo invitado a unirte a la propiedad de %user_email%. El siguiente mensaje ha sido adjunto:'
     invite_property_body: 'te ha invitado a unirte a una propiedad.'
 sms:
-    code: 'Better Condos, el código para validar tu propiedad es: %code%.'
+    code: 'BetterCondos, el código para validar tu propiedad es: %code%.'
 push:
     invitation_tenant: 'Su administrador lo invitó a unirse a la comunidad'
     invitation_tenant2: 'Haga clic aquí para aceptar la invitación. Haga de su condominio un mejor lugar para vivir'

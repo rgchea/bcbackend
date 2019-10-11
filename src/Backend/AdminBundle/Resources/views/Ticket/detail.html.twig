@@ -147,7 +147,7 @@
 
                     <form id="ticket" name="ticket" action="{{ path('backend_admin_ticket_update', {'id': entity.id}) }}">
                         <h3>{{ 'label_photo'|trans }} </h3>
-                        <h2>{{ 'label_max_files'|trans }} </h2>
+                        <h2>1 {{ 'label_max_files'|trans }} </h2>
                         <div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('ticket_ajax_snippet_image_send')}}">
 
                         </div>
@@ -264,14 +264,14 @@
                 ticket: '{{ myToken }}'
             },
             maxFilesize: 5, // MB
-            maxFiles: 5,
+            maxFiles: 1,
             addRemoveLinks: true,
             createImageThumbnails: true,
             acceptedFiles: ".png,.jpg,.jpeg",
             thumbnailWidth: 250,
             thumbnailHeight: 250,
             autoProcessQueue: false,
-            parallelUploads: 5,
+            parallelUploads: 1,
             uploadMultiple: false,
             success: function(file, response){
                 //console.log(response.success);
@@ -316,7 +316,7 @@
                         });
 
                         countFiles++;
-                        if(countFiles >= 5){
+                        if(countFiles >= 1){
                             myDropzone.disable();
                         }
 
@@ -354,7 +354,7 @@
                         success: function (data) {
                             var rep = JSON.parse(data);
 
-                            if(countFiles < 5){
+                            if(countFiles < 1){
                                 myDropzone.enable();
                             }
                             //$('#pizote_spinner').hide();
@@ -363,7 +363,7 @@
                     })
                     {% else %}
 
-                    if(countFiles < 5){
+                    if(countFiles < 1){
                         myDropzone.enable();
                     }
                     {% endif %}
@@ -373,7 +373,7 @@
                 this.on("addedfile", function(file) {
                     countFiles++;
 
-                    if(countFiles > 5){
+                    if(countFiles > 1){
 
                         alert("{{ 'label_no_more_files'|trans }}");
                         myDropzone.disable();

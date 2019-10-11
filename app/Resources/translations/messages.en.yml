@@ -15,10 +15,10 @@ label_notification_system_advice: 'On this section you can see all the notificat
 label_notification_system_new_advice: 'It’s very important that you as an administrator can communicate with all your tenants and resident, this is where the notification section comes in, you are able to create a new notification, whenever you need to. You can add a specific category to the notification, depending on your need, announcement, communication, event, etc. Add the title, content, and the date and time of the event or announcement. You can also add a reminder, that will be sent out when you select it, 24h, 8h, before the event.'
 label_wizard_1: 'Welcome to BetterCondos! Take the first steps to make your complexes or buildings, a better place to live. Once you create your account you will receive 2 emails for two different platforms, one is our web administrator’s dashboard, where you will be able to manage your complexes. The other account is your billing information account, here you can access to follow your active amount of properties per month, and your payment information with us, this is why adding your billing information on this step is very important,  this way you will be able to receive your invoices later on. Remember to also add all contact information for your Company, not only the administrator’s information.'
 label_wizard_3: 'Remember that after creating your complex and your properties, you need to invite your residents, this step is very important, you will be able to update and invite your tenants and residents on the send invitation button, on the detail list of properties,  you also need to create accounts and shifts for your supervisors and managers so they can all start collaborating in transforming the community by improving and centralizing communication via a ticket system.  You can add as many complexes as you want and edit all the information later on. An important thing to note, is that thought our system all date will be handled month / day /year.'
-label_booking_approval_advice: 'You can manage your common areas from the Web Administrator, once you get to the bookings dashboard, you will be able to see a list of everything your tenants have booked or reserved in the past few days. Once you click on top of edit icon, you will be able to see the details of this booking, this is where you can approve or reject it.'
-label_user_id: User ID
-label_question_id: Question ID
-label_anwser_id: Answer ID
+label_booking_approval_advice: 'You can manage your common areas from the Web Administrator, once you get to the Reservations dashboard, you will be able to see a list of everything your tenants have booked or reserved in the past few days. Once you click on top of edit icon, you will be able to see the details of this reservation, this is where you can approve or reject it.'
+label_user_id: 'User ID'
+label_question_id: 'Question ID'
+label_anwser_id: 'Answer ID'
 label_anwser: Answer
 label_answers: Answers
 label_export_excel: 'Export to Excel'
@@ -95,7 +95,7 @@ label_title: Title
 label_category: Category
 label_time_elapsed: 'Time Elapsed'
 label_welcome: Welcome
-label_create_new: Add
+label_create_new: 'Create new'
 label_new: New
 label_edit: Edit
 label_list: List
@@ -117,7 +117,7 @@ label_yes: 'Yes'
 label_no: 'No'
 label_ok: Ok
 label_no_more_files: 'Cannot upload more files'
-label_max_files: '5 files max'
+label_max_files: 'files max'
 label_photo: Photos
 label_send: RECOVER
 label_flash_save_success_msg: 'Changes were saved'
@@ -128,7 +128,7 @@ label_flash_danger: Danger
 label_flash_save_warning_msg: 'Changes were not saved, try again'
 label_flash_delete_msg: 'Cannot delete'
 label_mail_taken: 'Mail is already taken by other user'
-label_username_taken: 'Username is already taken by other user'
+label_username_taken: 'Username already exists'
 label_name: Name
 label_code: Code
 label_owner: Owner
@@ -215,7 +215,7 @@ label_common_area_type: 'Common Area Type'
 label_complex_faq: 'Complex FAQ'
 label_property_transaction_type: 'Property Transaction Type'
 label_common_area_reservation: Bookings
-label_common_area_reservation_status: 'Bookings Status'
+label_common_area_reservation_status: 'Booking Status'
 label_ticket_status: 'Ticket Status'
 label_shift: Shift
 label_roles: Roles
@@ -253,7 +253,7 @@ label_cost: Cost
 label_days: days
 label_maintenance: Maintenance
 label_who_pays_maintenance: 'Who Pays Maintenance'
-label_reservation_hour_period: 'Booking Hour Period (every 1hr, every 2hrs, every 3hrs...)'
+label_reservation_hour_period: 'Booking Period (every 1hr, every 2hrs, every 3hrs...)'
 label_required_payment: 'Required Payment'
 label_has_equipment: 'Has Equipment'
 label_equipment_description: 'Equipment Description'
@@ -289,7 +289,7 @@ label_menu:
     permissions: Permissions
     users: Users
     roles: Roles
-    admin: Management
+    admin: Admin
     profile: Profile
     logout: Logout
     ticket: Tickets
@@ -349,12 +349,12 @@ mail:
     label_property_id: 'Property ID: '
     label_message: 'Message: '
     label_password: 'Password: '
-    register_body: 'Now you are part of Better Condos. Start adding properties and enjoy the experience.'
-    invite_subject: 'You have an invitation to a property in Better Condos'
-    invite_body: 'You are being invited by %user_email% to join his property. The following message has been added for you:'
+    register_body: 'Now you are part of BetterCondos. Start adding properties and enjoy the experience.'
+    invite_subject: 'You have an invitation to a property in BetterCondos'
+    invite_body: 'You are being invited by %user_email% to join their property. The following message has been added for you:'
     invite_property_body: 'has invited you to join a property.'
 sms:
-    code: 'Better Condos, the code to validate your property is: %code%.'
+    code: 'BetterCondos, the code to validate your property is: %code%.'
 push:
     invitation_tenant: 'Your administrator invited you to join the community'
     invitation_tenant2: 'Click here to accept the invitation. Make your condo a better place to live'
