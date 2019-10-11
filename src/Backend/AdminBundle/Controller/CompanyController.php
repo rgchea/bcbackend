@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Translator;
 use GuzzleHttp\Client;
 
+use Symfony\Component\HttpFoundation\File\File as FileObject;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+
 
 
 class CompanyController extends Controller
@@ -49,6 +54,38 @@ class CompanyController extends Controller
         //return $this->render('BackendAdminBundle:Company:index.html.twig');
 
         ////QR CODE
+        $stringToEncode = "6Kq09E";
+        $options = array(
+            'code'   => $stringToEncode,
+            'type'   => 'qrcode',
+            'format' => 'png',
+            'width'  => 10,
+            'height' => 10,
+            'color'  => array(0, 0, 0),
+        );
+
+        $barcode = $this->get('skies_barcode.generator')->generate($options);
+        //var_dump($barcode);die;
+
+        $photo = str_replace(' ', '+', $barcode);
+        $decodedPhoto = base64_decode($photo);
+
+        $tmpPath = sys_get_temp_dir() . '/sf_upload' . uniqid();
+        file_put_contents($tmpPath, $decodedPhoto);
+        $uploadedFile = new FileObject($tmpPath);
+//                $originalFilename = $uploadedFile->getFilename();
+
+        //$uploadedFile->guessExtension()
+        $fileName = $stringToEncode. '.png';
+
+        try {
+            $uploadPath = $this->getParameter('uploads_directory') . "qrcodes/";
+            $uploadedFile->move($uploadPath, $fileName);
+        } catch (FileException $e) {
+            throw new \Exception("Could not upload photo.");
+        }
+
+        $qrLink = "https://bettercondos.space/uploads/images/qrcodes/".$fileName;
 
         //tenant_name
         //property_address
@@ -58,7 +95,8 @@ class CompanyController extends Controller
         $myJson .= '"complex_name": "commpmlex name",';
         $myJson .= '"complex_city": "GUATEMALA",';
         $myJson .= '"complex_state": "guatemala",';
-        $myJson .= '"property_key": "6969kK"';
+        $myJson .= '"property_key": "6969kK",';
+        $myJson .= '"qrcode_link": "'.$qrLink.'"';
 
 
         $sendgridResponse = $this->get('services')->callSendgrid($myJson, "d-010af6bef81a446b9c7be592b4b579db", "cheametal@gmail.com");
