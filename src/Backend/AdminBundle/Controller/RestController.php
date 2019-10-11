@@ -3788,7 +3788,7 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid property contract.");
             }
 
-            $conflicTenantContracts = $tenantRepo->findOneBy(array('enabled' => true, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
+            $conflicTenantContracts = $tenantRepo->findOneBy(array('enabled' => 0, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
             if (count($conflicTenantContracts) > 0) {
                 //throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
 
