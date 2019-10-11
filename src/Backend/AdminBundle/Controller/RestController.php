@@ -1074,6 +1074,7 @@ class RestController extends FOSRestController
             //var_dump($propertyTeamID);die;
             $tenantEmail = $tenantContract->getUser()->getEmail();
             $body = array();
+            $token = $this->get('services')->getBCToken();
             $userTeam = $this->get('services')->callBCSpace("POST", "users/".$tenantEmail."/teams/".$propertyTeamID, $body);
             //print "<pre>";
             //var_dump($userTeam);die;
