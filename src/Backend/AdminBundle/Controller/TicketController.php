@@ -913,7 +913,7 @@ class TicketController extends Controller
             foreach ( $images as $file ) {
 
                 $obj['id'] = $file->getId();
-                $obj['name'] = $file->getPhotoPath();
+                $obj['name'] = str_replace("/uploads/images/tickets/","",$file->getPhotoPath());
                 $obj['size'] = 0;
                 $result[] = $obj;
             }
