@@ -1071,6 +1071,7 @@ class RestController extends FOSRestController
 
             //add player gamification
             $propertyTeamID = $tenantContract->getPropertyContract()->getProperty()->getTeamCorrelative();
+            var_dump($propertyTeamID);die;
             $tenantEmail = $tenantContract->getUser()->getEmail();
             $body = array();
             $userTeam = $this->get('services')->callBCSpace("POST", "users/{$tenantEmail}/teams/{$propertyTeamID}", $body);

@@ -444,7 +444,7 @@ class TicketController extends Controller
             //ADD POINTS
             $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_ticket"). " ". $ticket->getId();
             $playKey = "BC-A-00005";//Register ticket
-            $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
+            //$this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
             //todo acá chea descomentarear addPoints
 
             ///get all photos by token and update the commonArea
@@ -948,7 +948,8 @@ class TicketController extends Controller
                 $this->em->remove($img);
                 $this->em->flush();
 
-                $storeFolder = __DIR__.'/../../../../web/uploads/images/tickets/';
+                //$storeFolder = __DIR__.'/../../../../web/uploads/images/tickets/';
+                $storeFolder = __DIR__.'/../../../../web';
 
                 unlink($storeFolder.$imgName);
 

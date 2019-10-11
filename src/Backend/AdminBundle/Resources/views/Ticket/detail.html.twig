@@ -270,8 +270,8 @@
             acceptedFiles: ".png,.jpg,.jpeg",
             thumbnailWidth: 250,
             thumbnailHeight: 250,
-            autoProcessQueue: false,
-            parallelUploads: 1,
+            //autoProcessQueue: false,
+            parallelUploads: 5,
             uploadMultiple: false,
             success: function(file, response){
                 //console.log(response.success);
@@ -286,12 +286,15 @@
                 thisDropzone = this;
 
                 // First change the button to actually tell Dropzone to process the queue.
+                {#
                 document.getElementById("mySubmit").addEventListener("click", function(e) {
                     // Make sure that the form isn't actually being sent.
                     e.preventDefault();
                     e.stopPropagation();
                     thisDropzone.processQueue();
                 });
+
+                #}
 
 
 
@@ -389,8 +392,8 @@
 
                     if(totalPercentage >= 100 && totalBytesSent) {
 
-                        $('#pizote_spinner').show();
-                        $("[name='ticket']").submit();
+                        //$('#pizote_spinner').show();
+                        //$("[name='ticket']").submit();
 
                     }
                 });
