@@ -57,15 +57,17 @@ class ExpireContractCommand extends ContainerAwareCommand
                     $templateID = "d-9f23bf6df1214e3e88fe5300922427ca";
                 }
 
+                //var_dump($templateID);die;
+
                 //tenant_name
                 //property_address
                 //complex_name
                 $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
                 $myJson .= '"property_address": "'.$property->getPropertyNumber().' '.$property->getAddress().'",';
-                $myJson .= '"complex_name": "'.$property->getComplex()->getName().'",';
+                $myJson .= '"complex_name": "'.$property->getComplex()->getName().'"';
 
                 $mail = $tenantContract->getUser()->getEmail();
-                $mail = "renatochea@gmail.com";
+                //$mail = "cheametal@gmail.com";
                 //var_dump($templateID);die;
 
                 $sendgridResponse = $myServices->callSendgrid($myJson, $templateID, $mail);
@@ -74,7 +76,7 @@ class ExpireContractCommand extends ContainerAwareCommand
                 $myServices->blameOnMe($propertyContract, 'update');
 
                 $em->flush();
-                die;
+                //die;
 
                 $title = $myTranslator->trans("push.contract_cancel_title");
                 $description = $myTranslator->trans("label_property")." ".$property->getPropertyNumber().": ". $myTranslator->trans("push.contract_cancel_desc");
