@@ -45,3 +45,13 @@ backend_admin_poll_question_save:
 backend_admin_poll_add_question:
     path:     /addquestion/
     defaults: { _controller: "BackendAdminBundle:Poll:addQuestion" }
+
+backend_admin_poll_view_answers:
+    path:     /{poll}/viewanswers/
+    defaults: { _controller: "BackendAdminBundle:Poll:viewAnswers" }
+    methods:  [GET, POST]
+
+backend_admin_poll_view_answers_list_datatables:
+    path: /{poll}/viewanswers/list/datatables
+    defaults:
+        _controller: BackendAdminBundle:Poll:listAnswers

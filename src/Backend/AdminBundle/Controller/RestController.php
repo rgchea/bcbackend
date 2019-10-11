@@ -3436,6 +3436,7 @@ class RestController extends FOSRestController
             }
 
             $questionTypeId = $pollQuestion->getPollQuestionType()->getId();
+            $answer = null;
             switch ($questionTypeId) {
                 case self::QUESTION_TYPE_OPEN_ID:
                     if (empty($answerText)) {
@@ -3502,6 +3503,8 @@ class RestController extends FOSRestController
                     }
                     break;
             }
+
+            $answer->setUser($this->getUser());
 
             $this->em->flush();
 
@@ -3853,6 +3856,8 @@ class RestController extends FOSRestController
             else{
                 $templateID = "d-a2eda7d6832448c484be6ae550126187";
             }
+
+            
 
             //tenant_name
             //property_address

@@ -143,13 +143,26 @@ class PollController extends Controller
 
                     case 'actions':
                         {
+                            //fa-file-text
+
+                            $hasAnswers = $this->em->getRepository("BackendAdminBundle:Poll")->hasAnswers(intval($entity["id"]));
+
+                            if($hasAnswers > 0){
+                                $urlAnswers = $this->generateUrl('backend_admin_poll_view_answers', array('poll' => intval($entity["id"])));
+                                $answers = "<a href='".$urlAnswers."'><i class='fa fa-file-text'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
+                            }
+                            else{
+                                $urlAnswers = "";
+                            }
+
                             $urlEdit = $this->generateUrl('backend_admin_poll_edit', array('id' => $entity["id"]));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_poll_delete', array('id' => $entity["id"]));
                             $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $edit.$delete;
+                            $responseTemp = $answers.$edit.$delete;
                             break;
                         }
 
@@ -177,7 +190,125 @@ class PollController extends Controller
 
     }
 
+    public function viewAnswersAction(Request $request, $poll){
 
+        $this->get("services")->setVars('poll');
+        $this->initialise();
+
+
+
+        return $this->render('BackendAdminBundle:Poll:viewAnswers.html.twig', ['poll' => $poll]);
+
+    }
+
+
+    public function listAnswersAction(Request $request, $poll)
+    {
+
+        $this->get("services")->setVars('poll');
+
+        // Set up required variables
+        $this->initialise();
+
+        // Get the parameters from DataTable Ajax Call
+        if ($request->getMethod() == 'POST')
+        {
+            $draw = intval($request->request->get('draw'));
+            $start = $request->request->get('start');
+            $length = $request->request->get('length');
+            $search = $request->request->get('search');
+            $orders = $request->request->get('order');
+            $columns = $request->request->get('columns');
+
+        }
+        else // If the request is not a POST one, die hard
+            die;
+
+        $pollID = intval($poll);
+
+
+
+        $results = $this->em->getRepository("BackendAdminBundle:PollTenantAnswer")->getRequiredDTData($start, $length, $orders, $search, $columns, $pollID);
+        $objects = $results["results"];
+        $selected_objects_count = count($objects);
+
+        $i = 0;
+        $response = "";
+
+        foreach ($objects as $key => $entity)
+        {
+            $response .= '["';
+
+            $j = 0;
+            $nbColumn = count($columns);
+            foreach ($columns as $key => $column)
+            {
+                // In all cases where something does not exist or went wrong, return -
+                $responseTemp = "-";
+
+                switch($column['name'])
+                {
+                    case 'user_id':
+                    {
+                        $responseTemp = $entity->getUser()->getId();
+
+                        break;
+                    }
+
+                    case 'user':
+                    {
+                        $responseTemp = $entity->getUser()->getName();
+                        break;
+                    }
+                    case 'question_id':
+                    {
+                        $responseTemp = $entity->getPollQuestion()->getId();
+
+                        break;
+                    }
+
+                    case 'question':
+                    {
+                        $responseTemp = $entity->getPollQuestion()->getQuestion();
+                        break;
+                    }
+                    case 'answer_id':
+                    {
+
+                        $responseTemp = $entity->getId();
+                        break;
+                    }
+
+                    case 'answer':
+                    {
+
+                        $responseTemp = "esta vaina";
+                        break;
+                    }
+
+                }
+
+                // Add the found data to the json
+                $response .= $this->get("services")->escapeJsonString($responseTemp);
+
+                if(++$j !== $nbColumn)
+                    $response .='","';
+            }
+
+            $response .= '"]';
+
+            // Not on the last item
+            if(++$i !== $selected_objects_count)
+                $response .= ',';
+        }
+        $myItems = $response;
+        //($request, $repository, $results, $myItems){
+        $return = $this->get("services")->serviceDataTable($request, $this->repository, $results, $myItems);
+
+        return $return;
+
+
+    }
 
 
     /**

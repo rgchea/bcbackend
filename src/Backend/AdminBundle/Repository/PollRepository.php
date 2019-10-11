@@ -12,4 +12,27 @@ class PollRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
+
+
+    public function hasAnswers($pollID)
+    {
+        $sql = "	SELECT  COUNT(qanswer.id) myCount
+					FROM    poll p    
+					    INNER JOIN poll_question question ON(question.poll_id = p.id)
+					    INNER JOIN poll_tenant_answer qanswer ON (question.id = qanswer.poll_question_id)
+					WHERE   p.id = {$pollID}";
+        //AND     u.role_id != 1 // EXCLUDE ADMIN FOR THE SUPERVISORS
+
+        //print $sql;die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        return intval($execute[0]["myCount"]) ;
+
+    }
+
+
 }

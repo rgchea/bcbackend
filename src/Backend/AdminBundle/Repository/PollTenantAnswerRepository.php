@@ -10,4 +10,152 @@ namespace Backend\AdminBundle\Repository;
  */
 class PollTenantAnswerRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $pollID)
+    {
+        //print "entra";die;
+        // Create Main Query
+        $query = $this->createQueryBuilder('e');
+
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('e');
+        $countQuery->select('COUNT(e)');
+
+        //ENABLED
+        $query->andWhere("e.enabled = 1");
+        $countQuery->andWhere("e.enabled = 1");
+
+        // Create inner joins
+
+        //user
+        $query->join('e.user', 'u');
+        $countQuery->join('e.user', 'u');
+
+        //question
+        $query->join('e.pollQuestion', 'q');
+        $countQuery->join('e.pollQuestion', 'q');
+
+        //poll
+        $query->join('q.poll', 'p');
+        $countQuery->join('q.poll', 'p');
+
+
+        $query->andWhere('p.id = :pollID')->setParameter('pollID', $pollID);
+        $countQuery->andWhere('p.id = :pollID')->setParameter('pollID', $pollID);
+
+
+        // Fields Search
+        foreach ($columns as $key => $column) {
+            if ($column['search']['value'] != '') {
+                // $searchItem is what we are looking for
+                $searchItem = $column['search']['value'];
+                $searchQuery = null;
+
+                switch ($column['name']) {
+                    case 'user_id':
+                    {
+                        $searchQuery = 'u.id =' . $searchItem;
+                        break;
+                    }
+                    case 'user':
+                    {
+                        $searchQuery = 'u.name LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
+                    case 'question_id':
+                    {
+                        $searchQuery = 'q.id LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
+                    case 'question':
+                    {
+                        $searchQuery = 'q.question LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
+                    case 'answer_id':
+                        {
+                            $searchQuery = 'e.id LIKE \'%' . $searchItem . '%\'';
+                            break;
+                        }
+
+
+
+                }
+
+
+                if ($searchQuery !== null) {
+                    $query->andWhere($searchQuery);
+                    $countQuery->andWhere($searchQuery);
+                }
+            }
+        }
+
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+
+        // Order
+        // Orders
+        foreach ($orders as $key => $order) {
+            // Orders does not contain the name of the column, but its number,
+            // so add the name so we can handle it just like the $columns array
+            $orders[$key]['name'] = $columns[$order['column']]['name'];
+        }
+
+        foreach ($orders as $key => $order) {
+
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '') {
+                $orderColumn = null;
+
+                switch ($order['name']) {
+                    case 'user_id':
+                    {
+                        $orderColumn = 'u.id';
+                        break;
+                    }
+                    case 'user':
+                    {
+                        $orderColumn = 'u.name';
+                        break;
+                    }
+                    case 'question_id':
+                    {
+                        $orderColumn = 'q.id';
+                        break;
+                    }
+                    case 'question':
+                    {
+                        $orderColumn = 'q.question';
+                        break;
+                    }
+                    case 'answer_id':
+                    {
+                        $orderColumn = 'e.id';
+                        break;
+                    }
+
+                }
+
+                if ($orderColumn !== null) {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+
+
+        $results = $query->getQuery()->getResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+
+        return array(
+            "results" => $results,
+            "countResult" => $countResult
+        );
+    }
+
+
 }

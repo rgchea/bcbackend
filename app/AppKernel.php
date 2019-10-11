@@ -34,6 +34,7 @@ class AppKernel extends Kernel
 
             //QR code
             new Skies\QRcodeBundle\SkiesQRcodeBundle(),
+            //new Endroid\Bundle\QrCodeBundle\EndroidQrCodeBundle(),
 
 
 

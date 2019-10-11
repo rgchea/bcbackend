@@ -1149,7 +1149,6 @@ class PropertyController extends Controller
         $this->get("services")->setVars('property');
         $this->initialise();
 
-
         $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
         $tenantContract = $propertyContract->getMainTenantContract();
@@ -1307,6 +1306,15 @@ class PropertyController extends Controller
             'tenantContract' => $tenantContract,
             'remainingTime' => $remainingTime
         ));
+    }
+
+    public function generateqrcodeAction(Request $request, $mycode){
+
+        return $this->render('BackendAdminBundle:Property:generateqrcode.html.twig', array(
+            'mycode' => $mycode,
+        ));
+
+
     }
 
 

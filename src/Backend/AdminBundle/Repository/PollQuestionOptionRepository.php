@@ -43,6 +43,9 @@ class PollQuestionOptionRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+
+
+
     public function getPollQuestions($pollID)
     {
         $sql = "	SELECT  question.id questionID, question.question, question.poll_file_photo photo,  

@@ -115,3 +115,8 @@ backend_admin_property_invitations_export:
 backend_admin_property_set_post_pubic_ticket:
     path:     /{pcontract}/{value}/postPublicTicket/
     defaults: { _controller: "BackendAdminBundle:Property:postPublicTicket" }
+
+backend_admin_property_generateqrcode:
+    path:     /{mycode}/generateqrcode
+    defaults: { _controller: "BackendAdminBundle:Property:generateqrcode" }
+    #methods:  POST

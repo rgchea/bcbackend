@@ -254,4 +254,24 @@ class PropertyContractRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
+    public function checkExpiration(){
+
+        $today = date("Y-m-d");
+        $sql = "    SELECT  p.id property_id, 
+                            pc.id
+        	        FROM  property_contract pc      
+        	            INNER JOIN property p ON (pc.property_id = p.id) 
+        	        WHERE   DATE(pc.end_date) = '{$today}' 
+        	        AND     is_active = 1";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+        return $execute;
+
+    }
+
+
 }
