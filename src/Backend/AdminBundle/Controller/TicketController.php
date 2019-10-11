@@ -444,7 +444,7 @@ class TicketController extends Controller
             //ADD POINTS
             $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_ticket"). " ". $ticket->getId();
             $playKey = "BC-A-00005";//Register ticket
-            //$this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
+            $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
             //todo acá chea descomentarear addPoints
 
             ///get all photos by token and update the commonArea
