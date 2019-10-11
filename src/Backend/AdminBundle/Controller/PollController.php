@@ -234,9 +234,12 @@ class PollController extends Controller
 
         $i = 0;
         $response = "";
+        $myLocale =  $this->translator->getLocale();
 
         foreach ($objects as $key => $entity)
         {
+
+            //var_dump($entity);die;
             $response .= '["';
 
             $j = 0;
@@ -282,7 +285,26 @@ class PollController extends Controller
                     case 'answer':
                     {
 
-                        $responseTemp = "esta vaina";
+                        $type = $entity->getPollQuestion()->getPollQuestionType()->getNameEN();
+
+                        if($type == "Open"){
+                            $responseTemp = trim($entity->getAnswerText());
+                        }
+                        elseif($type == "Select one option" || $type == "Multiple option"){
+                            $responseTemp = trim($entity->getPollQuestionOption()->getQuestionOption());
+                        }
+                        elseif($type == "Rating"){
+                            if($myLocale == "es"){
+                                $responseTemp = "Calificación:". trim($entity->getAnswerRating());
+                            }
+                            else{
+                                $responseTemp = "Rating:". trim($entity->getAnswerRating());
+                            }
+
+                        }
+
+
+
                         break;
                     }
 

@@ -99,4 +99,25 @@ class PollQuestionOptionRepository extends \Doctrine\ORM\EntityRepository
         return $arrReturn;
     }
 
+
+
+    public function getAnswers($pollQuestionID, $userID){
+
+        $sql = "	SELECT  o.question_option
+                    FROM    poll_tenant_answer a
+                        INNER JOIN poll_question_option o ON (a.poll_question_option_id = o.id)
+                         
+                    WHERE   o.poll_question_id = {$pollQuestionID}
+                    AND     a.user_id = {$userID}  ";
+        //AND     u.role_id != 1 // EXCLUDE ADMIN FOR THE SUPERVISORS
+
+        print $sql;die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+
+    }
+
 }
