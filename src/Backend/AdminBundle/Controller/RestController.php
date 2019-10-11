@@ -3793,7 +3793,7 @@ class RestController extends FOSRestController
                 //throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
 
                 $tenantContract = $conflicTenantContracts;
-                $tenantContract->setEnabled(true);
+                //$tenantContract->setEnabled(true);
                 $this->get("services")->blameOnMe($tenantContract, "update");
                 $this->em->persist($tenantContract);
                 $this->em->flush();
