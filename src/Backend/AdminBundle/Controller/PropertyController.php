@@ -2266,11 +2266,11 @@ class PropertyController extends Controller
             //revisar template sengrid
 
             //invitation_user_email
-            $tenantContract->setInvitationUserEmail($tenantEmail);
+            //$tenantContract->setInvitationUserEmail($tenantEmail);
 
-        }
+        }//
 
-
+        $tenantContract->setInvitationUserEmail($tenantEmail);
 
 
         $owner = $this->em->getRepository('BackendAdminBundle:User')->findOneByEmail($ownerEmail);

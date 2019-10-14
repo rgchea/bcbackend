@@ -988,7 +988,14 @@ class RestController extends FOSRestController
 
             $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneByPropertyCode($propertyCode);
             if ($tenantContract == null) {
-                throw new \Exception("Invalid property code.");
+                //throw new \Exception("Invalid property code.");
+                return new JsonResponse(array('message' => "Invalid code", JsonResponse::HTTP_FORBIDDEN);
+            }
+
+            $userEmail = trim($user->getEmail());
+            if(trim($tenantContract->getInvitationUserEmail()) != $userEmail){
+                return new JsonResponse(array('message' => "Invalid code"), JsonResponse::HTTP_FORBIDDEN);
+
             }
 
             $property = $tenantContract->getPropertyContract()->getProperty();
@@ -2562,9 +2569,18 @@ class RestController extends FOSRestController
 
             $this->em->flush();
 
-            ///ADD POINTS
-            $message = $this->translator->trans('label_new'). " Ticket {$ticket->getId()}";
-            $playKey = "BC-T-00002";//ticket creation
+
+            if($ticket->getIsPublic() == 1){
+                ///ADD POINTS
+                $message = $this->translator->trans('label_new'). " Ticket {$ticket->getId()}";
+                $playKey = "BC-T-00002";//ticket creation
+            }
+            else{
+                ///ADD POINTS
+                $message = $this->translator->trans('label_new'). " Ticket {$ticket->getId()}";
+                $playKey = "BC-T-00007";//ticket creation
+            }
+
             $this->get("services")->addPoints($tenantContract, $message, $playKey);
 
 

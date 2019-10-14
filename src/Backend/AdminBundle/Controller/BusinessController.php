@@ -407,7 +407,7 @@ class BusinessController extends Controller
                 $body['name'] = $entity->getName();
                 $body['description'] = $entity->getPhoneCountry()->getCode()." ".$entity->getPhoneNumber()." ".$entity->getAddress();
                 $body['teamType'] = 2;//business
-                $body["parent"] = 27;//General
+                $body["parent"] = 4;//General
 
                 $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
                 if($createTeam){
@@ -621,7 +621,7 @@ class BusinessController extends Controller
             $body['name'] = $entity->getName();
             $body['description'] = $entity->getName();
             $body['teamType'] = 2;//business
-            $body["parent"] = 27;//General
+            $body["parent"] = 4;//General
 
             $updateTeamBusiness = $this->get('services')->callBCSpace("PUT", "teams/{$entity->getTeamCorrelative()}", $body);
 
