@@ -989,7 +989,7 @@ class RestController extends FOSRestController
             $tenantContract = $this->em->getRepository('BackendAdminBundle:TenantContract')->findOneByPropertyCode($propertyCode);
             if ($tenantContract == null) {
                 //throw new \Exception("Invalid property code.");
-                return new JsonResponse(array('message' => "Invalid code", JsonResponse::HTTP_FORBIDDEN);
+                return new JsonResponse(array('message' => "Invalid code"), JsonResponse::HTTP_FORBIDDEN);
             }
 
             $userEmail = trim($user->getEmail());
