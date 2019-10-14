@@ -163,7 +163,8 @@ class RegisterController extends Controller
                 $body['email'] = $entity->getEmail();
                 $body['username'] = $entity->getEmail();
                 $body['firstName'] = $entity->getName();
-                $body['lastName'] = $entity->getName();
+                //$body['lastName'] = $entity->getName();
+                $body['lastName'] = "BetterCondos";
                 $body['locale'] = $myLocale;
 
 
