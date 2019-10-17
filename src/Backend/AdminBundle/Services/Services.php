@@ -611,10 +611,17 @@ class Services extends Controller
 
         //https://gameboard.space/oauth/v2/token?client_id=8_3e1vtdyx3hkwoo88sgcsog8c8g8ws84o8soo4skockk40owkck&client_secret=46f4hlczw9gkokswc0go8w4wcc4gc0o44wsgw8cs44ck8kckoo&grant_type=client_credentials
 
+
+        $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
+
+        $clientID = trim($repo->getSpaceClientId());
+        $clientSecret = trim($repo->getSpaceClientSecret());
+
+
         $params = ['headers' => ['Content-Type' => 'application/json']];
 
         $client = new \GuzzleHttp\Client();
-        $response = $client->request("GET", 'https://gameboard.space/oauth/v2/token?client_id=9_3c4laqt7v90kw48gssk0wcgk080gg8w0cggcc4sos8kss0owog&client_secret=4tdo86owgl4wgsc84so4ocgwowwk4k8ck0c8kg00c0sckcw4ks&grant_type=client_credentials');
+        $response = $client->request("GET", 'https://gameboard.space/oauth/v2/token?client_id='.$clientID.'&client_secret='.$clientSecret.'&grant_type=client_credentials');
 
         //print "<pre>";
         //var_dump($response->getStatusCode()); # 200

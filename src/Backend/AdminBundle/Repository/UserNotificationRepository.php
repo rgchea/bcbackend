@@ -211,6 +211,9 @@ class UserNotificationRepository extends \Doctrine\ORM\EntityRepository
         $strFilter = " AND ca.complex_id IN({$in}) ";
         //var_dump($in);die;
 
+        if($in == ""){
+            return $arrReturn;
+        }
 
         $sql = "	SELECT 	n.id, n.created_at, n.title, n.description, n.notification_type_id, 
 	                        car.id reservation_id, t.id ticket_id

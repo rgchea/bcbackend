@@ -225,4 +225,62 @@ class AdminSetting
     {
         return $this->sendgridApiKey;
     }
+    /**
+     * @var string
+     */
+    private $spaceClientId = '';
+
+    /**
+     * @var string
+     */
+    private $spaceClientSecret = '';
+
+
+    /**
+     * Set spaceClientId.
+     *
+     * @param string $spaceClientId
+     *
+     * @return AdminSetting
+     */
+    public function setSpaceClientId($spaceClientId)
+    {
+        $this->spaceClientId = $spaceClientId;
+
+        return $this;
+    }
+
+    /**
+     * Get spaceClientId.
+     *
+     * @return string
+     */
+    public function getSpaceClientId()
+    {
+        return $this->spaceClientId;
+    }
+
+    /**
+     * Set spaceClientSecret.
+     *
+     * @param string $spaceClientSecret
+     *
+     * @return AdminSetting
+     */
+    public function setSpaceClientSecret($spaceClientSecret)
+    {
+        $this->spaceClientSecret = $spaceClientSecret;
+
+        return $this;
+    }
+
+    /**
+     * Get spaceClientSecret.
+     *
+     * @return string
+     */
+    public function getSpaceClientSecret()
+    {
+        return $this->spaceClientSecret;
+    }
 }

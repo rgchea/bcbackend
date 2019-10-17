@@ -4990,7 +4990,7 @@ class RestController extends FOSRestController
             $data = array();
 
             $token = $this->get('services')->getBCToken();
-            $arrResponse = $this->callGamificationService( "GET", "plays", array() );
+            $arrResponse = $this->callGamificationService( "GET", "plays?limit=1000", array() );
 
             return new JsonResponse(array(
                 'message' => "listPlays",

@@ -53,6 +53,17 @@ class CompanyController extends Controller
 
         //return $this->render('BackendAdminBundle:Company:index.html.twig');
 
+        ///TEST LANGUAGE ON ENTITY
+        $complexType = $this->em->getRepository('BackendAdminBundle:ComplexType')->findAll();
+
+        foreach ($complexType as $ct){
+            var_dump($ct->__toString());
+            die;
+        }
+        die;
+
+
+
         ////QR CODE
         $stringToEncode = "6969kK";
         $options = array(

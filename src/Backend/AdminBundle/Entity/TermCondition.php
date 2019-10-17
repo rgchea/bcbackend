@@ -230,6 +230,7 @@ class TermCondition
     public function __toString(){
 
         $locale = Locale::getDefault();
+        if(isset($GLOBALS['request']) && $GLOBALS['request']) {$locale = $GLOBALS['request']->getLocale();}
 
         return $locale == "en" ? $this->getDescriptionEN() : $this->getDescriptionES();
     }

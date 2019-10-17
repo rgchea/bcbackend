@@ -27,6 +27,22 @@ Backend\AdminBundle\Entity\AdminSetting:
                 fixed: false
                 default: ''
             column: space_api_token
+        spaceClientId:
+            type: string
+            nullable: false
+            length: 128
+            options:
+                fixed: false
+                default: ''
+            column: space_client_id
+        spaceClientSecret:
+            type: string
+            nullable: false
+            length: 128
+            options:
+                fixed: false
+                default: ''
+            column: space_client_secret
         sendgridApiKey:
             type: string
             nullable: true
