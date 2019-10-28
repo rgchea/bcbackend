@@ -62,10 +62,7 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoCountry.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/GeoCountry.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/GeoCountryType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/GeoCountryType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/GeoCountry.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/GeoCountry.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/GeoCountry/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/GeoCountry/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Ticket.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Ticket.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
@@ -539,7 +536,7 @@
       <workItem from="1570817708085" duration="8396000" />
       <workItem from="1571066817239" duration="10450000" />
       <workItem from="1571159132538" duration="13869000" />
-      <workItem from="1571762441255" duration="16444000" />
+      <workItem from="1571762441255" duration="16667000" />
     </task>
     <servers />
   </component>
