@@ -2418,7 +2418,7 @@ class RestController extends FOSRestController
             $description = trim($request->get('description'));
             $photos = $request->get('photos');
             $solution = trim($request->get('solution'));
-            $isPublic = boolval($request->get('is_public'));
+            $isPublic = $request->get('is_public') == "true" ? 1 : 0;
 
             $categoryId = intval($request->get('category_id'));
             $complexSectorId = intval($request->get('sector_id'));
