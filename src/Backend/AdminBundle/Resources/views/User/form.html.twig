@@ -56,17 +56,16 @@
 								) }}
 							</div>
 
-							{% if edit is defined and role == "ADMIN" %}
+
 								<div class="form-group col-md-6">
 									{{ form_label(form.password) }}
 									{{ form_errors(form.password) }}
-									{{ form_widget(form.password, { 'attr': {'class' : 'form-control classic' } }
+									{{ form_widget(form.password, { 'attr': {'class' : 'form-control classic', 'autocomplete':'off' } }
 									) }}
+									
 									<label>{{ 'label_set_password'|trans }}</label>
 								</div>
 
-
-							{% endif %}
 							<div class="clearfix"></div>
 
 							{% if edit is defined %}
