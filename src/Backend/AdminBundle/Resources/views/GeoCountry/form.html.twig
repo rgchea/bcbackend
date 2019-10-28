@@ -66,6 +66,20 @@
 								) }}
 							</div>
 
+							<div class="clearfix"></div>
+
+								<div class="col-md-12">
+										<div class="checkbox">
+										{{ form_label(form.enabled) }}
+											{{ form_errors(form.enabled) }}
+											{{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
+											) }}
+										</div>
+
+
+								</div>
+
+
 						<div class="hide">
                             {{ form_rest(form) }}
                         </div>

@@ -22,8 +22,8 @@ class GeoCountryRepository extends \Doctrine\ORM\EntityRepository
         $countQuery->select('COUNT(e)');
 
         //ENABLED
-        $query->andWhere("e.enabled = 1");
-        $countQuery->andWhere("e.enabled = 1");
+        //$query->andWhere("e.enabled = 1");
+        //$countQuery->andWhere("e.enabled = 1");
 
         // Fields Search
         foreach ($columns as $key => $column)
@@ -53,6 +53,13 @@ class GeoCountryRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.code LIKE \'%'.$searchItem.'%\'';
                             break;
                         }
+
+                    case 'enabled':
+                    {
+                        $searchQuery = 'e.enabled LIKE \'%'.$searchItem.'%\'';
+                        break;
+                    }
+
                     case 'shortName':
                         {
                             $searchQuery = 'e.shortName LIKE \'%'.$searchItem.'%\'';
@@ -108,6 +115,13 @@ class GeoCountryRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.code';
                             break;
                         }
+
+                    case 'enabled':
+                    {
+                        $orderColumn = 'e.enabled';
+                        break;
+                    }
+
                     case 'shortName':
                         {
                             $orderColumn = 'e.shortName';

@@ -123,6 +123,13 @@ class GeoCountryController extends Controller
                             break;
                         }
 
+                    case 'enabled':
+                    {
+                        $responseTemp = intval($entity->getEnabled());
+                        break;
+                    }
+
+
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_geo_country_edit', array('id' => $entity->getId()));
