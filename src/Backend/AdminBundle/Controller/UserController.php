@@ -260,7 +260,8 @@ class UserController extends Controller
 
         $arrComplexReturn = array();
         $userRole = $entity->getRole()->getName();
-        if($userRole != "SUPER ADMIN" || $userRole != "ADMIN"){
+        //var_dump($userRole);die;
+        if($userRole != "SUPER ADMIN" && $userRole != "ADMIN"){
             $businessID = $entity->getBusiness()->getId();
 
             $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->findBy(array("business" => $businessID), array("name" => "ASC"));
@@ -591,14 +592,14 @@ class UserController extends Controller
         $this->get("services")->setVars('user');
         $this->initialise();
 
-        //$business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
+        $business = $entity->getBusiness() != null ? $entity->getBusiness()->getId() : null;
 
         $form = $this->createForm(UserType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_user_update', array('id' => $entity->getId())),
             'role' => $this->role,
             'userID' => $this->userLogged->getId(),
             //'business' => $this->userLogged->getBusiness()->getId(),
-            'business' => $entity->getBusiness()->getId()
+            'business' =>  $business
         ));
 
 

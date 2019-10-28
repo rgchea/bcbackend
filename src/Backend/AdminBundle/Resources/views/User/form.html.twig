@@ -119,9 +119,6 @@
 							{% endif %}
 							#}
 
-
-
-
 							{% if edit is defined %}
 
 
@@ -157,15 +154,17 @@
 
 							{% endif %}
 
+							{% if role == "COMPLEX ADMIN" %}
+								<div class="clearfix"></div>
+								<div class="form-group col-md-6" id="supervisorSelect">
+									{{ form_label(form.supervisor) }}
+									{{ form_errors(form.supervisor) }}
+									{{ form_widget(form.supervisor, { 'attr': {'class' : 'form-control classic' } }
+									) }}
 
-							<div class="clearfix"></div>
-							<div class="form-group col-md-6" id="supervisorSelect">
-								{{ form_label(form.supervisor) }}
-								{{ form_errors(form.supervisor) }}
-								{{ form_widget(form.supervisor, { 'attr': {'class' : 'form-control classic' } }
-								) }}
+								</div>
 
-							</div>
+							{% endif %}
 							<div class="clearfix"></div>
 
 

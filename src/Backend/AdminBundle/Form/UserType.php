@@ -51,17 +51,22 @@ class UserType extends AbstractType
                 )
             ;
 
-            $builder->add('supervisor', null, array('label'=>"label_supervisor", 'required' => false,
-                'class' => 'Backend\AdminBundle\Entity\User',
-                'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
-                    return $er->createQueryBuilder('User')
-                        ->where('User.role = 3')///ROL SUPERVISOR
-                        ->andWhere('User.business = :param_type')
-                        ->setParameter('param_type', $options["business"])
-                        ->orderBy("User.name", "ASC")
-                        ;
-                }
-            ));
+            if($role == "COMPLEX ADMIN"){
+                $builder->add('supervisor', null, array('label'=>"label_supervisor", 'required' => false,
+                    'class' => 'Backend\AdminBundle\Entity\User',
+                    'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
+                        return $er->createQueryBuilder('User')
+                            ->where('User.role = 3')///ROL SUPERVISOR
+                            ->andWhere('User.business = :param_type')
+                            ->setParameter('param_type', $options["business"])
+                            ->orderBy("User.name", "ASC")
+                            ;
+                    }
+                ));
+
+            }
+
+
 
 
             //IF ROLE IS SUPER ADMIN VIEW ALL
