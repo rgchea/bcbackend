@@ -448,8 +448,9 @@ class BusinessController extends Controller
                 )
                 ;
 
-                $ibillingToken = $entity->getGeoState()->getGeoCountry()->getIbillingToken();
-                $createCustomer = $this->get('services')->callBCInfo($ibillingToken, "POST", "customer", $body);
+                //$ibillingToken = $entity->getGeoState()->getGeoCountry()->getIbillingToken();
+                $objCountry = $entity->getGeoState()->getGeoCountry();
+                $createCustomer = $this->get('services')->callBCInfo($objCountry, "POST", "customer", $body);
 
                 //var_dump($createCustomer);die;
                 ///VALIDA DEL LADO DEL CLIENTE QUE EL NOMBRE DEL NEGOCIO NO EXISTA EL EMAIL Y PHONE NUMBER
@@ -503,8 +504,11 @@ class BusinessController extends Controller
                 //password
                 //business_name
 
+                $domain = $entity->getBillingGeoState()->getGeoCountry()->getIbillingDomain();
+
+
                 $myJson = '"business_name": "'.$entity->getName().'",';
-                $myJson .= '"client_login_url": "https://www.bettercondos.info/?ng=client”",';
+                $myJson .= '"client_login_url": '.$domain.'"/?ng=client”",';
                 $myJson .= '"client_email": "'.$to.'",';
                 $myJson .= '"password": "'.$billingPassword.'"';
 

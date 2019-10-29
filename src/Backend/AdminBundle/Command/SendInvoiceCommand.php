@@ -96,11 +96,9 @@ class SendInvoiceCommand extends ContainerAwareCommand
                     //print "<pre>";
                     //var_dump($body);die;
 
-
-                    $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($complex["ibilling_token"],"POST", "invoice", $body);
+                    $objCountry = $em->getRepository('BackendAdminBundle:GeoCountry')->find(intval($complex["country_id"]));
+                    $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($objCountry,"POST", "invoice", $body);
                     //var_dump($response);die;
-
-
 
                     $business = $em->getRepository('BackendAdminBundle:Business')->findBycustomerId($complex["customer_id"]);
                     if($business){

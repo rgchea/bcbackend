@@ -813,10 +813,17 @@ class Services extends Controller
     }
 
     //iBilling
-    public function callBCInfo($token, $method, $service, $body = null){
+    public function callBCInfo($objCountry, $method, $service, $body = null){
 
         //var_dump($body);die;
         //$token = trim($objCountry->getIbillingToken());
+
+        $token = $objCountry->getIbillingToken();
+        $domain = $objCountry->getIbillingDomain();
+
+        //var_dump($token);
+        //var_dump($domain);
+        //die;
 
         if($body != null){
             $params =   [
@@ -829,12 +836,11 @@ class Services extends Controller
         }
         else{
             $params =   ['headers' => ['Authorization' => 'Bearer '.$token]];
-
         }
 
         $client = new \GuzzleHttp\Client(['verify' => false]);
 
-        $response = $client->request($method, 'https://bettercondos.info/?ng=api/v2/'.$service, $params);
+        $response = $client->request($method, $domain.'/?ng=api/v2/'.$service, $params);
         //var_dump($response);die;
 
         $code = $response->getStatusCode();

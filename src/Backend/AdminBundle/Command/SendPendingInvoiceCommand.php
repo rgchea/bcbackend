@@ -87,10 +87,8 @@ class SendPendingInvoiceCommand extends ContainerAwareCommand
                 )
                 ;
 
-                $ibillingToken = trim($invoice->getBusiness()->getGeoState()->getGeoCountry()->getIbillingToken());
-
-                $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($ibillingToken, "POST", "invoice", $body);
-
+                $objCountry = $invoice->getBusiness()->getGeoState()->getGeoCountry();
+                $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($objCountry, "POST", "invoice", $body);
 
                 if($response["error"] == false){//CODE 200 ok and Error false
                     ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?

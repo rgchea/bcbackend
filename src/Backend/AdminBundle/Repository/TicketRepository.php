@@ -53,6 +53,9 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
          $qb = $this->genericTicketQueryBuilder()
             ->andWhere('p.id = :property')
 
+             ///public tickets
+             ->orWhere("a.isPublic = 1 AND a.complex = :complex")
+
             //->andWhere('a.createdBy = :user')
             //->setParameter('user', $user)
                 ///share

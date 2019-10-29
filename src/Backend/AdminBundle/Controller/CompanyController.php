@@ -53,6 +53,13 @@ class CompanyController extends Controller
 
         //return $this->render('BackendAdminBundle:Company:index.html.twig');
 
+
+        ///test BASE URL
+        $URL = $this->container->get('router')->getContext()->getBaseUrl();
+        var_dump($URL);die;
+
+
+
         ///TEST LANGUAGE ON ENTITY
         $complexType = $this->em->getRepository('BackendAdminBundle:ComplexType')->findAll();
 
