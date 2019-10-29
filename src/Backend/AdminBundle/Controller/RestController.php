@@ -4215,6 +4215,7 @@ class RestController extends FOSRestController
      *              property="data", type="array",
      *              @SWG\Items(
      *                  @SWG\Property( property="id", type="integer", description="FAQ ID", example="1" ),
+     *                  @SWG\Property( property="business_avatar_path", type="string", description="url", example="" ),
      *                  @SWG\Property( property="business_name", type="string", description="Name of the business", example="Business" ),
      *                  @SWG\Property( property="business_address", type="string", description="Address of the business", example="4400 Rickenbacker Causeway, Miami, FL, 33149, EE. UU." ),
      *                  @SWG\Property( property="business_phone", type="string", description="Phone of the business", example="+306 5558 8999" ),
@@ -4263,6 +4264,7 @@ class RestController extends FOSRestController
 
             $data = array(
                 'business_name' => $complex->getBusiness()->getName(),
+                'business_avatar_path' => $complex->getAvatarPath(),
                 'business_address' => $complex->getBusiness()->getAddress(),
                 'business_phone' => $complex->getBusiness()->getPhoneNumber(),
             );
@@ -4819,6 +4821,11 @@ class RestController extends FOSRestController
                 $gtmNow = gmdate("Y-m-d H:i:s");
                 $payment->setPaidDate(new \DateTime($gtmNow));
                 */
+
+                $gtmNow = gmdate("Y-m-d H:i:s");
+                //$payment->setPaidDate(new \DateTime($gtmNow));
+                $payment->setDueDate(new \DateTime($gtmNow));
+
 
                 //status
                 $payment->setStatus(0);

@@ -185,6 +185,11 @@ class DefaultController extends Controller
                         break;
                     }
 
+                    case 'property':
+                    {
+                        $responseTemp = $entity->getProperty()->getPropertyNumber();
+                        break;
+                    }
                     case 'title':
                     {
                         $responseTemp = $entity->getTitle();

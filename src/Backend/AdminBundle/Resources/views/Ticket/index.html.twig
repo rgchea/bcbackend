@@ -21,13 +21,13 @@
     <div class="header">
         <div class="container">
             <div class="row">
-                {% if app.user.role.name == "ADMIN" %}
+                {#{% if app.user.role.name == "ADMIN" %}#}
 
                     <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_ticket_new') }}">
                         {{ 'label_create_new'|trans }} {{ 'label_ticket'|trans }}
                     </a>
 
-                {% endif %}
+                {#{% endif %}#}
             </div>
             <br/>
             <div class="row">
@@ -78,7 +78,7 @@
                         <tfoot class="dt_tfoot">
                         <tr>
                             <th class="pizoteTableID">&nbsp;</th>
-                            {#<th>{{ 'label_complex'|trans }}</th>#}
+                            <th>{{ 'label_property'|trans }}</th>
                             <th>{{ 'label_title'|trans }}</th>
                             <th>&nbsp;</th>
                             <th>{{ 'label_category'|trans }}</th>
@@ -93,7 +93,7 @@
                             <tr>
                                 {# sorting of properties based on query components #}
                                 <th class="pizoteTableID">ID</th>
-                                {#<th>{{ 'label_complex'|trans }}</th>#}
+                                <th>{{ 'label_property'|trans }}</th>
                                 <th>{{ 'label_title'|trans }}</th>
                                 <th>{{ 'label_type'|trans }}</th>
                                 <th>{{ 'label_category'|trans }}</th>
@@ -133,12 +133,13 @@
 
                     // These are the column name variables that will be sent to the server
                     { "name": "id",   "targets": 0 },
-                    { "name": "title",   "targets": 1 },
-                    { "name": "type",   "targets": 2 },
-                    { "name": "category",   "targets": 3 },
-                    { "name": "status",   "targets": 4 },
-                    { "name": "elapsed",   "targets": 5 },
-                    { "name": "actions",  "targets": 6 },
+                    { "name": "property",   "targets": 1 },
+                    { "name": "title",   "targets": 2 },
+                    { "name": "type",   "targets": 3 },
+                    { "name": "category",   "targets": 4 },
+                    { "name": "status",   "targets": 5 },
+                    { "name": "elapsed",   "targets": 6 },
+                    { "name": "actions",  "targets": 7 },
 
                 ],
                 // Server-side parameters
@@ -178,7 +179,7 @@
             var pos = 1;
             $('#dt_table tfoot th').each( function () {
                 var title = $(this).text();
-                if(pos == 1 || pos == 2 || pos == 4 ){//columna Actions
+                if(pos == 2 || pos == 3 || pos == 5 ){//columna Actions
                     $(this).html( "<input id='input" + pos + "' type='text' class='form-control' style='font-family:Arial, FontAwesome; width:100%'/>" );
                 }
 

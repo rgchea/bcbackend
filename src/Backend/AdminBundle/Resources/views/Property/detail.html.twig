@@ -113,6 +113,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            {#
                             <div class="col-md-3 text-right">
                                 <p class="txt-blue-bold">{{ 'label_address'|trans }}: </p>
                             </div>
@@ -122,6 +123,19 @@
                             <div class="col-md-8">
                                 <p>{{ entity.address }}</p>
                             </div>
+
+                            #}
+
+                            <div class="col-md-3 text-right">
+                                <p class="txt-blue-bold">{{ 'label_owner'|trans }} - {{ 'label_email'|trans }}:</p>
+                            </div>
+                            <div class="col-md-1">
+
+                            </div>
+                            <div class="col-md-8">
+                                <p>{{ mainContract.ownerEmail }}</p>
+                            </div>
+
                         </div>
                     </div>
 
@@ -140,14 +154,15 @@
                         </div>
                         <div class="col-md-6">
                             <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">{{ 'label_owner'|trans }} - {{ 'label_email'|trans }}:</p>
+                                <p class="txt-blue-bold">{{ 'label_owner'|trans }} - {{ 'label_phone'|trans }}:</p>
                             </div>
                             <div class="col-md-1">
 
                             </div>
                             <div class="col-md-8">
-                                <p>{{ mainContract.ownerEmail }}</p>
+                                <p>{{ mainContract.owner is not null ? mainContract.owner.mobilePhone : '' }}</p>
                             </div>
+
                         </div>
                     </div>
 
@@ -164,20 +179,13 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="col-md-3 text-right">
-                                <p class="txt-blue-bold">{{ 'label_owner'|trans }} - {{ 'label_phone'|trans }}:</p>
-                            </div>
-                            <div class="col-md-1">
 
-                            </div>
-                            <div class="col-md-8">
-                                <p>{{ mainContract.owner is not null ? mainContract.owner.mobilePhone : '' }}</p>
-                            </div>
                         </div>
                     </div>
 
                     <div class="row color2">
                         <div class="col-md-6">
+                            {#
                             <div class="col-md-3">
                                 <p class="txt-blue-bold">{{ 'label_emergency_call'|trans }}:</p>
                             </div>
@@ -187,9 +195,12 @@
                             <div class="col-md-8">
                                 <p>{{ mainContract.user.emergencyPhoneNumber }}</p>
                             </div>
+
+                            #}
                         </div>
 
                         <div class="col-md-6">
+                            {#
                             <div class="col-md-3 text-right">
                                 <p class="txt-blue-bold">{{ 'label_emergency_call'|trans }}:</p>
                             </div>
@@ -199,6 +210,7 @@
                             <div class="col-md-8">
                                 <p>{{ mainContract.owner is not null ? mainContract.owner.emergencyPhoneNumber : '' }} </p>
                             </div>
+                            #}
                         </div>
                     </div>
 
@@ -275,8 +287,8 @@
                                 <p class="txt-blue-bold text-left">{{ 'label_post_public_ticket'|trans }} : </p>
                             </div>
                             <div class="col-md-7">
-                                <a href="{{ path('backend_admin_property_set_post_pubic_ticket', {pcontract: propertyContract.id, value: 1} ) }}"><input style="position: absolute; margin-left: -19px"  type="radio" name="post_public_ticket" value="1" {{ propertyContract.postPublicTicket ? 'checked="checked"' : '' }} />{{ 'label_yes'|trans }}</a>
-                                <a href="{{ path('backend_admin_property_set_post_pubic_ticket', {pcontract: propertyContract.id, value: 0} ) }}"><input style="position: absolute; margin-left: -19px"  type="radio" name="post_public_ticket" value="0" {{ propertyContract.postPublicTicket ? '' : 'checked="checked"' }} />{{ 'label_no'|trans }}</a>
+                                <a href="{{ path('backend_admin_property_set_post_pubic_ticket', {pcontract: propertyContract.id, value: 1} ) }}"><input   type="radio" name="post_public_ticket" value="1" {{ propertyContract.postPublicTicket ? 'checked="checked"' : '' }} />{{ 'label_yes'|trans }}</a>
+                                <a href="{{ path('backend_admin_property_set_post_pubic_ticket', {pcontract: propertyContract.id, value: 0} ) }}"><input  type="radio" name="post_public_ticket" value="0" {{ propertyContract.postPublicTicket ? '' : 'checked="checked"' }} />{{ 'label_no'|trans }}</a>
 
                             </div>
                         </div>

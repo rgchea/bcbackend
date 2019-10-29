@@ -56,7 +56,9 @@ class ComplexSectorController extends Controller
         //print $this->translator->getLocale();die;
 
 
-        return $this->render('BackendAdminBundle:ComplexSector:index.html.twig');
+        return $this->render('BackendAdminBundle:ComplexSector:index.html.twig', array(
+            'myPath' => 'backend_admin_complex_sector_index',
+        ));
 
 
     }
@@ -88,6 +90,7 @@ class ComplexSectorController extends Controller
 
 
         ///FILTER BY ROLE
+        /*
         $filters = null;
         if($this->role != "SUPER ADMIN"){
 
@@ -97,13 +100,14 @@ class ComplexSectorController extends Controller
             }
 
         }
+        */
 
-
+        $filterComplex = $this->get("services")->getSessionComplex();
         // Process Parameters
         //$businessLocale = $this->userLogged->getBusiness()->getGeoState()->getGeoCountry()->getLocale();
         $businessLocale = $this->translator->getLocale();
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filters, $businessLocale);
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $businessLocale);
 
         $objects = $results["results"];
         $selected_objects_count = count($objects);

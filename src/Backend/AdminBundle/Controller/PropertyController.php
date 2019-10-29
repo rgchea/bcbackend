@@ -1399,11 +1399,11 @@ class PropertyController extends Controller
                         {
                             if($entity->getIsPublic()){
                                 $responseText  = $this->translator->getLocale() == "en" ? "Public" : "Público";
-                                $responseTemp = "<button type='button' class='btn btn-default btn-xs'>".$responseText."</button>";
+                                $responseTemp = "<span class='label label-primary'>".$responseText."</span>";
                             }
                             else{
                                 $responseText  = $this->translator->getLocale() == "en" ? "Private" : "Privado";
-                                $responseTemp = "<button type='button' class='btn btn-info btn-xs'>".$responseText."</button>";
+                                $responseTemp = "<span class='label label-info'>".$responseText."</span>";
                             }
 
 

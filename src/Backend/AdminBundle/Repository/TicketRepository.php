@@ -251,6 +251,13 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'e.id =' . $searchItem;
                             break;
                         }
+
+                    case 'property':
+                    {
+                        $searchQuery = 'p.propertyNumber LIKE \'%' . $searchItem . '%\'';
+                        break;
+                    }
+
                     case 'title':
                         {
                             $searchQuery = 'e.title LIKE \'%' . $searchItem . '%\'';
@@ -303,6 +310,12 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                             $orderColumn = 'e.id';
                             break;
                         }
+
+                    case 'property':
+                    {
+                        $orderColumn = 'p.propertyNumber';
+                        break;
+                    }
                     case 'title':
                         {
                             $orderColumn = 'e.title';

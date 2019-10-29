@@ -159,13 +159,16 @@ class UserController extends Controller
                     case 'actions':
                         {
 
+                            $impersonate = "";
                             if($this->role == "SUPER ADMIN"){
-                                $urlImpersonate = $this->generateUrl('backend_admin_homepage')."?_switch_user=".$entity->getUsername();
-                                $impersonate = "<a title='".$this->translator->trans("label_impersonate")."' href='".$urlImpersonate."'><i class='fa fa-user'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                                $endtype = $entity->getRole()->getEndType();
+
+                                if($endtype == "backend"){
+                                    $urlImpersonate = $this->generateUrl('backend_admin_homepage')."?_switch_user=".$entity->getUsername();
+                                    $impersonate = "<a title='".$this->translator->trans("label_impersonate")."' href='".$urlImpersonate."'><i class='fa fa-user'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                                }
                             }
-                            else{
-                                $impersonate = "";
-                            }
+
 
                             $urlEdit = $this->generateUrl('backend_admin_user_edit', array('id' => $entity->getId()));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";

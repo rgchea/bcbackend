@@ -176,6 +176,7 @@ label_tax_name: Nombre
 label_tax_id: NIT
 label_role: Rol
 label_ticket: Ticket
+label_lastest_tickets: 'Últimos tickets'
 label_ticket_type: 'Tipo de Ticket'
 label_ticket_category: 'Categoría de Ticket'
 label_user: Usuario

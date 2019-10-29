@@ -175,6 +175,7 @@ label_tax_name: 'Tax Name'
 label_tax_id: 'Tax ID'
 label_role: Role
 label_ticket: Ticket
+label_lastest_tickets: 'Lastest Tickets'
 label_ticket_type: 'Ticket Type'
 label_ticket_category: 'Ticket Category'
 label_agreement_plan: 'Agreement Plan'
