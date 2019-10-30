@@ -982,7 +982,7 @@ class RestController extends FOSRestController
                 throw new \Exception("Missing Content-Type header.");
             }
 
-            $propertyCode = strtolower(trim($request->get('property_code')));
+            $propertyCode = trim($request->get('property_code'));
             $user = $this->getUser();
 
 
