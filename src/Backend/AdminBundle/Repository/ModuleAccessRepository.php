@@ -44,8 +44,8 @@ class ModuleAccessRepository extends \Doctrine\ORM\EntityRepository
 						WHERE 	ma.role_id = '{$roleID}'
 						AND     r.enabled = 1
 						AND   m.visible = 1
-						ORDER BY m.name, m.id";
-			            //ORDER BY m.menu_order, m.id
+						ORDER BY m.menu_order, m.id";
+			            //ORDER BY m.name, m.id
 			
 		}
 		else{
