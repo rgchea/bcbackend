@@ -2556,9 +2556,9 @@ class RestController extends FOSRestController
             $objUserNotification->setNotificationType($type);
             $objUserNotification->setIsRead(0);
             $objUserNotification->setEnabled(1);
-            $title = $this->getUser()->getName();
+            $title = $ticket->getTitle();
             $objUserNotification->setTitle($title);
-            $description = $this->translator->trans("label_new")." Ticket #".$ticket->getId();
+            $description = $this->translator->trans("label_new")." Ticket #".$ticket->getId()." - ".$ticket->getTitle();
             $objUserNotification->setDescription($description);
             $objUserNotification->setNotice("");
             $objUserNotification->setSentTo($userToAssign);
@@ -4917,7 +4917,7 @@ class RestController extends FOSRestController
             $objUserNotification->setEnabled(1);
             $title = $this->getUser()->getName();
             $objUserNotification->setTitle($title);
-            $description = $this->translator->trans('label_booking')." #".$reservation->getId();
+            $description = $this->translator->trans('label_booking')." #".$reservation->getId()." - ".$objComplex->getName();
             $objUserNotification->setDescription($description);
             $objUserNotification->setNotice("");
             $objUserNotification->setSentTo($userToAssign);

@@ -449,8 +449,8 @@ class TicketController extends Controller
             //ADD POINTS
             $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_ticket"). " ". $ticket->getId();
             $playKey = "BC-A-00005";//Register ticket
-            //$this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
-            //todo acá chea descomentarear addPoints
+            $this->get("services")->addPointsAdmin($objComplex, $message, $playKey);
+
 
             ///get all photos by token and update the commonArea
             $token = trim($_REQUEST["ticket"]["token"]);
@@ -460,6 +460,28 @@ class TicketController extends Controller
                 $this->em->persist($photo);
             }
             $this->em->flush();
+            
+
+            ////CREATE USER NOTIFICATION
+            $objUserNotification = New UserNotification();
+            $objUserNotification->setTicket($ticket);
+            $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(2);//TYPE=TICKET
+            $objUserNotification->setNotificationType($type);
+            $objUserNotification->setIsRead(0);
+            $objUserNotification->setEnabled(1);
+            $title = $ticket->getTitle();
+            $objUserNotification->setTitle($title);
+            $description = $this->translator->trans("label_new")." Ticket #".$ticket->getId()." - ".$ticket->getTitle();
+            $objUserNotification->setDescription($description);
+            $objUserNotification->setNotice("");
+            $objUserNotification->setSentTo($userToAssign);
+
+            $this->get("services")->blameOnMe($objUserNotification, "create");
+            $this->get("services")->blameOnMe($objUserNotification, "update");
+            $this->em->persist($objUserNotification);
+
+            $this->em->flush();
+
 
         }
 
