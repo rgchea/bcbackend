@@ -276,7 +276,19 @@ class TicketController extends Controller
         $this->get("services")->setVars('ticket');
         $this->initialise();
 
+
+
         $entity = $this->em->getRepository('BackendAdminBundle:Ticket')->find($id);
+        $ticketComplex = $entity->getComplex()->getId();
+        if($this->role != "SUPER ADMIN"){
+            $arrComplexes = $this->em->getRepository("BackendAdminBundle:Complex")->getComplexByUser($this->userLogged->getId());
+
+            if (!in_array($ticketComplex, $arrComplexes)) {
+                throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+        }
+
+
 
         $ticketComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->findBy(array('ticket' => $id, 'enabled' => 1), array('id' => 'DESC'));
 

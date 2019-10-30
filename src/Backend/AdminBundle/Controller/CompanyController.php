@@ -53,7 +53,8 @@ class CompanyController extends Controller
 
         //return $this->render('BackendAdminBundle:Company:index.html.twig');
 
-
+        throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+        
         ///test BASE URL
         $URL = $this->container->get('router')->getContext()->getBaseUrl();
         var_dump($URL);die;
