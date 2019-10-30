@@ -176,10 +176,8 @@ class TicketController extends Controller
                     case 'elapsed':
                         {
 
-                            //$nowtime = date("Y-m-d");
-                            $oldtime = $entity->getCreatedAt()->format('Y-m-d');
-                            //$secs = $nowtime - $oldtime;
-                            $elapsed = $this->get('services')->time_elapsed_A($oldtime);
+                            $oldtime = $entity->getCreatedAt()->format('Y-m-d H:i:s');
+                            $elapsed = $this->get('services')->time_Ago(gmdate("Y-m-d H:i:s"), $oldtime);
                             $responseTemp = $elapsed;
                             break;
                         }
@@ -291,10 +289,18 @@ class TicketController extends Controller
 
 
         $ticketComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->findBy(array('ticket' => $id, 'enabled' => 1), array('id' => 'DESC'));
+        $ticketLikes =   $this->em->getRepository("BackendAdminBundle:TicketFollower")->getApiCountPerTickets(array($id));
+        if(count($ticketLikes) > 0){
+            $ticketLikes = $ticketLikes[0]["count"];
+        }
+        else{
+            $ticketLikes = 0;
+        }
 
         return $this->render('BackendAdminBundle:Ticket:edit.html.twig', array(
             'entity' => $entity,
             'ticketComments' => $ticketComments,
+            'ticketLikes' => $ticketLikes,
             'edit' => true
         ));
     }

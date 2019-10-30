@@ -1315,8 +1315,10 @@ class PropertyController extends Controller
 
     public function generateqrcodeAction(Request $request, $mycode){
 
+        $myHost = "https://".$_SERVER["HTTP_HOST"];
         return $this->render('BackendAdminBundle:Property:generateqrcode.html.twig', array(
             'mycode' => $mycode,
+            'myhost' => $myHost
         ));
 
 
@@ -1437,7 +1439,9 @@ class PropertyController extends Controller
 
                     case 'elapsed':
                         {
-                            $responseTemp = "--";
+                            $oldtime = $entity->getCreatedAt()->format('Y-m-d H:i:s');
+                            $elapsed = $this->get('services')->time_Ago(gmdate("Y-m-d H:i:s"), $oldtime);
+                            $responseTemp = $elapsed;
                             break;
                         }
 
@@ -2122,8 +2126,15 @@ class PropertyController extends Controller
             //count months.
             while($bdate <= $edate) {
 
+                if($months > 0){
+                    $bdate = strtotime('+1 MONTH', $bdate);
+                }
+                else{
+                    $bdate = strtotime('+0 MONTH', $bdate);
+                }
+
                 $months++;
-                $bdate = strtotime('+1 MONTH', $bdate);
+
                 if ($bdate > $edate) {
                     $months--;
                     break;
@@ -2338,7 +2349,9 @@ class PropertyController extends Controller
             throw new \Exception("Could not upload photo.");
         }
 
-        $qrLink = "https://bettercondos.space/uploads/images/qrcodes/".$fileName;
+
+        //bettercondos.space
+        $qrLink = "https://".$_SERVER["HTTP_HOST"]."/uploads/images/qrcodes/".$fileName;
 
         $objProperty = $property;
         $propertyName = $objProperty->getPropertyType() . " ". $objProperty->getPropertyNumber();

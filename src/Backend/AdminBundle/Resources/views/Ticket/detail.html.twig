@@ -62,7 +62,7 @@
                         </div>
 
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="col-md-7">
                                 <p class="txt-blue-bold">{{ 'label_is_public'|trans }}: </p>
                             </div>
@@ -76,12 +76,20 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="col-md-7">
                                 <p class="txt-blue-bold">{{ 'label_status'|trans }}: </p>
                             </div>
                             <div class="col-md-5 text-left">
                                 <span>{{ entity.ticketStatus }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="col-md-4">
+                                <p class="txt-blue-bold">{{ 'label_likes'|trans }}: </p>
+                            </div>
+                            <div class="col-md-8">
+                                <span>{{ ticketLikes }}</span>
                             </div>
                         </div>
 

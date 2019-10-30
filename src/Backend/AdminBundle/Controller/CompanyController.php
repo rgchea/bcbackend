@@ -55,6 +55,56 @@ class CompanyController extends Controller
 
         //throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
 
+
+        ///TEST PAYMENTS
+
+        $bdate = strtotime("2019-10-03");
+        $edate = strtotime("2020-10-15");
+
+        //$year1 = date('Y', $ts1);
+        //$year2 = date('Y', $ts2);
+
+        //$month1 = date('m', $ts1);
+        //$month2 = date('m', $ts2);
+
+        //$diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $months = 0;
+
+        $arrMonths = array();
+
+        if($edate < $bdate) {
+            //prenatal
+            $months = -1;
+            return false;
+
+        } else {
+            //count months.
+            while($bdate <= $edate) {
+
+                if($months > 0){
+                    $bdate = strtotime('+1 MONTH', $bdate);
+                }
+                else{
+                    $bdate = strtotime('+0 MONTH', $bdate);
+                }
+                $months++;
+
+                if ($bdate > $edate) {
+                    $months--;
+                    break;
+                }
+
+                $arrMonths[] = date("Y-m-15 h:i:s",$bdate);
+
+
+            }
+            print "<pre>";
+            var_dump($arrMonths);
+
+
+        }
+
+
         ///test BASE URL
         $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         var_dump($actual_link);

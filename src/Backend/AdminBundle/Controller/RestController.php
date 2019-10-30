@@ -3916,8 +3916,8 @@ class RestController extends FOSRestController
                 throw new \Exception("Could not upload photo.");
             }
 
-            $qrLink = "https://bettercondos.space/uploads/images/qrcodes/".$fileName;
-
+            //bettercondos.space
+            $qrLink = "https://".$_SERVER["HTTP_HOST"]."/uploads/images/qrcodes/".$fileName;
 
             $myJson = '"property_number": "'.$propertyName.'",';
             $myJson .= '"complex_address": "'.$objProperty->getComplex()->getAddress().'",';

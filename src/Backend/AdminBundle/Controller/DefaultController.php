@@ -239,11 +239,8 @@ class DefaultController extends Controller
 
                     case 'elapsed':
                     {
-
-                        //$nowtime = date("Y-m-d");
-                        $oldtime = $entity->getCreatedAt()->format('Y-m-d');
-                        //$secs = $nowtime - $oldtime;
-                        $elapsed = $this->get('services')->time_elapsed_A($oldtime);
+                        $oldtime = $entity->getCreatedAt()->format('Y-m-d H:i:s');
+                        $elapsed = $this->get('services')->time_Ago(gmdate("Y-m-d H:i:s"), $oldtime);
                         $responseTemp = $elapsed;
                         break;
                     }

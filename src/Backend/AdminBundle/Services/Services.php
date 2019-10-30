@@ -313,8 +313,7 @@ class Services extends Controller
 		//get permissions
 			
 	}
-	
-	
+
 	
 	
 	public function systemNotification($to, $name, $description, $type = null){
@@ -947,22 +946,122 @@ class Services extends Controller
         $datetime2 = new \DateTime($datetime2);
 
         $difference = $datetime1->diff($datetime2);
+        $remainingTime = "";
 
-        if($this->translator->getLocale() == "es"){
-            $remainingTime = $difference->y.' años, '
-                .$difference->m.' meses, '
-                .$difference->d.' días';
+        $years = intval($difference->y);
+        $months = intval($difference->m);
+        $days = intval($difference->d);
+        $hours = intval($difference->h);
+        //$minutes = intval($difference->i);
+        //var_dump($hours);die;
 
-        }
-        else{
-            $remainingTime = $difference->y.' years, '
-                .$difference->m.' months, '
-                .$difference->d.' days';
-
-        }
+        $remainingTime .= $years > 0 ? $years.' '.$this->translator->trans("label_years")." " : '' ;
+        $remainingTime .= $months > 0 ? $months.' '.$this->translator->trans("label_months")." " : '';
+        $remainingTime .= $days > 0 ? $days.' '.$this->translator->trans("label_days")." " : '';
+        $remainingTime .= $hours > 0 ? $hours .' '.$this->translator->trans("label_hours")." " : '';
 
 
         return $remainingTime;
+    }
+
+
+
+    function time_Ago($date1, $date2) {
+
+        // Calculate difference between current
+        // time and given timestamp in seconds
+        $diff     = strtotime($date1) - strtotime($date2);
+
+        // Time difference in seconds
+        $sec     = $diff;
+
+        // Convert time difference in minutes
+        $min     = round($diff / 60 );
+
+        // Convert time difference in hours
+        $hrs     = round($diff / 3600);
+
+        // Convert time difference in days
+        $days     = round($diff / 86400 );
+
+        // Convert time difference in weeks
+        $weeks     = round($diff / 604800);
+
+        // Convert time difference in months
+        $mnths     = round($diff / 2600640 );
+
+        // Convert time difference in years
+        $yrs     = round($diff / 31207680 );
+
+        $return = "";
+
+        // Check for seconds
+        if($sec <= 60) {
+            $return .= $sec.$this->translator->trans('seconds_ago');
+        }
+
+        // Check for minutes
+        else if($min <= 60) {
+            if($min==1) {
+                $return .= $this->translator->trans('one_minute_ago');
+            }
+            else {
+                $return .= $min.$this->translator->trans('minutes_ago');
+            }
+        }
+
+        // Check for hours
+        else if($hrs <= 24) {
+            if($hrs == 1) {
+                $return .= $this->translator->trans('an_hour_ago');;
+            }
+            else {
+                $return .= $hrs.$this->translator->trans('hours_ago');
+            }
+        }
+
+        // Check for days
+        else if($days <= 7) {
+            if($days == 1) {
+                $return .= $this->translator->trans('yesterday');
+            }
+            else {
+                $return .= $days. $this->translator->trans('days_ago');
+            }
+        }
+
+        // Check for weeks
+        else if($weeks <= 4.3) {
+            if($weeks == 1) {
+                $return .= $this->translator->trans('a_week_ago');
+            }
+            else {
+                $return .= $weeks.$this->translator->trans('weeks_ago');
+            }
+        }
+
+        // Check for months
+        else if($mnths <= 12) {
+            if($mnths == 1) {
+                $return .= $this->translator->trans('a_month_ago');
+            }
+            else {
+                $return .= $mnths. $this->translator->trans('months_ago');;
+            }
+        }
+
+        // Check for years
+        else {
+            if($yrs == 1) {
+                $return .= $this->translator->trans('one_year_ago');
+            }
+            else {
+                $return .= $yrs.$this->translator->trans('years_ago');
+            }
+        }
+
+
+        return $return;
     }
 
 
