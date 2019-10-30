@@ -992,8 +992,8 @@ class RestController extends FOSRestController
                 return new JsonResponse(array('message' => "Invalid code"), JsonResponse::HTTP_FORBIDDEN);
             }
 
-            $userEmail = trim($user->getEmail());
-            if(trim($tenantContract->getInvitationUserEmail()) != $userEmail){
+            $userEmail = strtolower(trim($user->getEmail()));
+            if(strtolower(trim($tenantContract->getInvitationUserEmail())) != $userEmail){
                 return new JsonResponse(array('message' => "Invalid code"), JsonResponse::HTTP_FORBIDDEN);
 
             }
@@ -3796,7 +3796,7 @@ class RestController extends FOSRestController
             $this->translator->setLocale($lang);
 
             $message = "Invitation";
-            $email = trim($request->get('email'));
+            $email = strtolower(trim($request->get('email'))) ;
             $propertyContractId = trim($request->get('property_contract_id'));
 
             /** @var PropertyContractRepository $propertyContractRepo */

@@ -460,7 +460,7 @@ class TicketController extends Controller
                 $this->em->persist($photo);
             }
             $this->em->flush();
-            
+
 
             ////CREATE USER NOTIFICATION
             $objUserNotification = New UserNotification();
