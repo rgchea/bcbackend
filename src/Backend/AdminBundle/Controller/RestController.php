@@ -994,7 +994,7 @@ class RestController extends FOSRestController
 
             $userEmail = strtolower(trim($user->getEmail()));
             if(strtolower(trim($tenantContract->getInvitationUserEmail())) != $userEmail){
-                return new JsonResponse(array('message' => "Invalid code"), JsonResponse::HTTP_FORBIDDEN);
+                return new JsonResponse(array('message' => "Invalid user"), JsonResponse::HTTP_FORBIDDEN);
 
             }
 

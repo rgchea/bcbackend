@@ -1174,8 +1174,6 @@ class Services extends Controller
         $headers[] = 'Authorization: key=' . $serverKey;
         ////ANDROID CONFIG END
 
-
-
         $em = $this->getDoctrine()->getManager();
         $devices = $em->getRepository('BackendAdminBundle:Device')->findByUser($user->getId());
 
