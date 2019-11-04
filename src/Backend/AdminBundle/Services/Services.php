@@ -1205,13 +1205,13 @@ class Services extends Controller
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                print($json);
+                //print($json);
                 $response = curl_exec($ch);
                 if (!$response)
                 {
-                    print('<br>failed:<br>');
-                    print(curl_error($ch));
-                //        die('FCM Send Error: ' . curl_error($ch));
+                    //print('<br>failed:<br>');
+                    //print(curl_error($ch));
+                    //        die('FCM Send Error: ' . curl_error($ch));
                 }
 
                 curl_close($ch);
