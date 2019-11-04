@@ -4168,6 +4168,16 @@ class RestController extends FOSRestController
             }
             else{//DELETE
                 //$tenantContract->setEnabled(false);
+
+                //delete user notification dependency
+                $userNotification = $this->em->getRepository('BackendAdminBundle:UserNotification')->findOneBy(
+                    array('tenantContract' => $tenantContractId, "notificationType" => 3)
+                );
+
+                if($userNotification != NULL){
+                    $this->em->remove($userNotification);
+                }
+
                 $this->em->remove($tenantContract);
             }
 
