@@ -3811,12 +3811,13 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid property contract.");
             }
 
-            $conflicTenantContracts = $tenantRepo->findOneBy(array('enabled' => 0, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
-            if($conflicTenantContracts != NULL){
-                if (count($conflicTenantContracts) > 0) {
+            $conflictTenantContracts = $tenantRepo->findOneBy(array('enabled' => 0, 'propertyContract' => $propertyContract, 'invitationUserEmail' => $email));
+
+                //if (count($conflictTenantContracts) > 0) {
+                if($conflictTenantContracts != NULL){
                     //throw new \Exception("There is at least one existing TenantContract with this email and property contract.");
 
-                    $tenantContract = $conflicTenantContracts;
+                    $tenantContract = $conflictTenantContracts;
                     //$tenantContract->setEnabled(true);
                     $this->get("services")->blameOnMe($tenantContract, "update");
                     $this->em->persist($tenantContract);
@@ -3851,28 +3852,13 @@ class RestController extends FOSRestController
                     $this->em->flush();
 
                 }
+            
 
 
-
-            }
-
-
-            $objProperty = $tenantContract->getPropertyContract()->getProperty();
+            $objProperty = $propertyContract->getProperty();
             $propertyName = $objProperty->getPropertyType() . " ". $objProperty->getPropertyNumber();
 
-            /*
-            $now = new \DateTime();
-            $subject = $this->translator->trans('mail.invite_subject');
-            $bodyHtml = $this->getUser()->getName(). " ". sprintf("<p>%s</p><br/>", $this->translator->trans('mail.invite_property_body'));
-            //$bodyHtml .= sprintf("<p>%s</p><br/>", $message);
-            $bodyHtml .= sprintf("<b>%s:</b> %s<br/>", $this->translator->trans('label_property'),  $propertyName);
-            $bodyHtml .= sprintf("<b>%s:</b> %s<br/>", $this->translator->trans('label_code'),  $tenantContract->getPropertyCode());
-            $bodyHtml .= sprintf("<b>%s</b> %s<br/>", $this->translator->trans('mail.label_time'), $now->format('Y-m-d H:i'));
-            $bodyHtml .= "<br/>";
-
-            $messageEmail = $this->get('services')->generalTemplateMail($subject, $email, $bodyHtml);
-            */
-
+   
 
             //new message from sendgrid
             if($lang == "es"){
