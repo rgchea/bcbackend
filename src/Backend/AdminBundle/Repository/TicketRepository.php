@@ -667,11 +667,11 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                         AND     t.complex_id = {$complexID}
                         AND     DATE(t.created_at) >= '{$start}' 
                         AND     DATE(t.created_at) <= '{$end}' 
-                        AND     ts.name_en = 'Closed'
+                        
                         GROUP BY u.id
                         ORDER BY COUNT(t.id) DESC
                         LIMIT 10";
-        //AND     t.complex_id = {$complexID}
+        //AND     ts.name_en = 'Closed'
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sqlManagers);
         $stmt->execute();
@@ -789,11 +789,11 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                                 AND     c.complex_id = {$complexID}
                                 AND     DATE(t.created_at) >= '{$start}' 
                                 AND     DATE(t.created_at) <= '{$end}' 
-                                AND     ts.name_en = 'Closed'
+                                
                                 GROUP BY c.id
                                 ORDER BY COUNT(t.id) DESC
                                 LIMIT 10";
-        //AND     t.complex_id = {$complexID}
+        //AND     ts.name_en = 'Closed'
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sqlTCategories);
         $stmt->execute();

@@ -11,7 +11,7 @@
                 {% for key, complex in app.session.get('myComplexes') %}
 
                     {% if complex ==  app.session.get('sessionComplex') %}
-                        {% set selected = 'selected="selected"' %}
+                        {% set selected = 'selected' %}
                     {% else %}
                         {% set selected = '' %}
                     {% endif %}
