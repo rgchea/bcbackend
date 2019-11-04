@@ -100,13 +100,8 @@ class SendPendingInvoiceCommand extends ContainerAwareCommand
                 $em->persist($invoice);
                 $em->flush();
 
-
             }
-
         }
-
-
-
 
 
     }

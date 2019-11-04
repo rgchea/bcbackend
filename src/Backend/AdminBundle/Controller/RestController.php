@@ -5168,7 +5168,7 @@ class RestController extends FOSRestController
                 $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
             }
             else{
-                $percentage = 0;
+                $percentage = 10;
             }
 
             $data = array(

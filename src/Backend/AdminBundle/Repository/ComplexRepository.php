@@ -205,7 +205,6 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
     public function getComplexForInvoice($duePaymentDay)
     {
 
-
         $sql = "	SELECT  c.id, c.created_at, c.name complex_name, c.due_payment_day,
 	                        b.customer_id,
 	                        country.id country_id
@@ -214,7 +213,7 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                    	    INNER JOIN geo_state s ON (b.geo_state_id = s.id)
                    	    INNER JOIN geo_country country ON (s.geo_country_id = country.id)
                     WHERE   c.enabled = 1
-                    
+                    AND     DATE_ADD(DATE(c.created_at), INTERVAL 15 DAY) <= DATE(NOW())
                     ";
         //el date add +2 es para un mes de prueba gratis
         //AND     DATE_ADD(DATE(c.created_at), INTERVAL 2 MONTH) <= DATE(NOW())
@@ -231,16 +230,15 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
         $arrReturn = array();
 
         foreach($execute as $c){
-            $date = strtotime($c["created_at"]);
-            $createdDay = $this->jjg_calculate_next_month($date);
+            //$date = strtotime($c["created_at"]);
+            //$createdDay = $this->jjg_calculate_next_month($date);
             //var_dump($createdDay);die;
 
             //if day is same day send invoice
-
-            $today = gmdate("d");
+            //$today = gmdate("d");
             //var_dump($today);die;
 
-            if($createdDay == $today){
+            //if($createdDay == $today){
                 //PRINT "entraa".$createdDay."==".$today;
 
                 $complexID = $c["id"];
@@ -250,7 +248,6 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                 ///get FEE for this complex on the agreement plan
                 $myFee = $this->getComplexFee($properties);
                 if(intval($myFee) > 0){
-
                     $arrReturn[$complexID] = array();
                     $arrReturn[$complexID]["country_id"] = intval($c["country_id"]);
                     $arrReturn[$complexID]["fee"] = $myFee;
@@ -258,9 +255,7 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                     $arrReturn[$complexID]["complex_name"] = $c["complex_name"];
 
                 }
-
-            }
-
+            //}
         }
 
         //var_dump($arrReturn);die;

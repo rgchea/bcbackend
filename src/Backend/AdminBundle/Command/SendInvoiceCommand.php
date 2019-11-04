@@ -30,7 +30,6 @@ class SendInvoiceCommand extends ContainerAwareCommand
         $setting = $em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
         $duePaymentDay = $setting->getDuePaymentDay();
 
-	  
 		$arrComplexFee = $em->getRepository('BackendAdminBundle:Complex')->getComplexForInvoice($duePaymentDay);
 		//die;
 		//var_dump($arrComplexFee);die;
@@ -124,11 +123,7 @@ class SendInvoiceCommand extends ContainerAwareCommand
                     $em->flush();
 
 
-
-
-
             }
-
         }
 
 				
