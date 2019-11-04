@@ -3911,10 +3911,8 @@ class RestController extends FOSRestController
             $myJson .= '"property_key": "'.$propertyKey.'",';
             $myJson .= '"qrcode_link": "'.$qrLink.'"';
 
-            print "huecostodos.net>";
 
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
-            print "huecostodos.info>";
 
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_invitation_join').". ".$email;
@@ -3923,8 +3921,6 @@ class RestController extends FOSRestController
 
             $title = $this->translator->trans("label_invitation_join");
             $description = $this->translator->trans("push.invitation_to_tenant"). " ".$tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
-
-            print "huecostodos.com>";
 
             if($tenantContract->getUser() != NULL){
                 $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);

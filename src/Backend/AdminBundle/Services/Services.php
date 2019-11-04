@@ -1203,6 +1203,10 @@ class Services extends Controller
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+                // Catch output (do NOT print!)
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_VERBOSE, false);
                 //print($json);
                 $response = curl_exec($ch);
                 if (!$response)
