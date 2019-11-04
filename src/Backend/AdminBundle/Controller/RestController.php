@@ -773,7 +773,8 @@ class RestController extends FOSRestController
 
             $country = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneBy(array('enabled' => true, 'code' => $countryCode));
             if ($country == null) {
-                throw new \Exception("Invalid country code.");
+                //throw new \Exception("Invalid country code.");
+                return new JsonResponse(array('message' => 'Invalid country code.'), JsonResponse::HTTP_OK);
             }
 
             // User existence
