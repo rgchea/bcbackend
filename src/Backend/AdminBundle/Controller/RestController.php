@@ -3840,7 +3840,7 @@ class RestController extends FOSRestController
 
                     /** @var User $user */
                     $user = $userRepo->findOneBy(array('enabled' => true, 'email' => $email));
-                    if ($user != null) {
+                    if ($user != NULL) {
 
                         $description = $this->translator->trans("label_invite_notification");
                         $tenantContract->setUser($user);
@@ -3852,13 +3852,9 @@ class RestController extends FOSRestController
                     $this->em->flush();
 
                 }
-            
-
 
             $objProperty = $propertyContract->getProperty();
             $propertyName = $objProperty->getPropertyType() . " ". $objProperty->getPropertyNumber();
-
-   
 
             //new message from sendgrid
             if($lang == "es"){
@@ -3915,7 +3911,10 @@ class RestController extends FOSRestController
             $myJson .= '"property_key": "'.$propertyKey.'",';
             $myJson .= '"qrcode_link": "'.$qrLink.'"';
 
+            print "huecostodos.net>";
+
             $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $email);
+            print "huecostodos.info>";
 
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_invitation_join').". ".$email;
@@ -3925,11 +3924,11 @@ class RestController extends FOSRestController
             $title = $this->translator->trans("label_invitation_join");
             $description = $this->translator->trans("push.invitation_to_tenant"). " ".$tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
 
+            print "huecostodos.com>";
+
             if($tenantContract->getUser() != NULL){
                 $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
             }
-
-
 
             return new JsonResponse(array(
                 'message' => "sendInvitation",
