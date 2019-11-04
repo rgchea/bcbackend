@@ -1073,7 +1073,7 @@ class RestController extends FOSRestController
             //push notification invitation accepted
             $title = $this->getUser()->getName()." ". $this->translator->trans("push.invitation_join_title");
             $description = $this->getUser()->getName()." ".$this->translator->trans("push.invitation_join_desc"). " ". $tenantContract->getPropertyContract()->getProperty()->getPropertyNumber();
-            $this->get("services")->sendPushNotification($tenantContract->getCreatedBy(), $title, $description);
+            //$this->get("services")->sendPushNotification($tenantContract->getCreatedBy(), $title, $description);
 
 
             //add player gamification
@@ -1108,7 +1108,7 @@ class RestController extends FOSRestController
                 'complex_id' => $property->getComplex()->getId()
                 );
 
-            return new JsonResponse(array('message' => "welcomePrivateKey", 'data' => $data,));
+            return new JsonResponse(array('message' => "welcomePrivateKey", 'data' => $data));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
