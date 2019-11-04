@@ -61,10 +61,6 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendPendingInvoiceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendPendingInvoiceCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ComplexRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/layout.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
@@ -541,7 +537,7 @@
       <workItem from="1571159132538" duration="13869000" />
       <workItem from="1571762441255" duration="36843000" />
       <workItem from="1572557406262" duration="6541000" />
-      <workItem from="1572881954969" duration="9349000" />
+      <workItem from="1572881954969" duration="9589000" />
     </task>
     <servers />
   </component>
