@@ -608,7 +608,7 @@ class RestController extends FOSRestController
     /**
      * Forgot Password mechanism for users.
      *
-     * Takes the username (email) and resets the password with a 32 chars lenght random password, which is sent by email to the user.
+     * Takes the username (email) and resets the password with a 32 chars length random password, which is sent by email to the user.
      *
      * @Rest\Post("/forgotPassword", name="forgotPassword", options={})
      *
@@ -669,7 +669,10 @@ class RestController extends FOSRestController
                 return new JsonResponse(array('message' => 'Invalid email.'), JsonResponse::HTTP_UNAUTHORIZED);
             }
 
-            $pass = $this->random_str(32);
+
+            //general template
+
+            $pass = $this->random_str(6);
 
             $this->translator->setLocale($lang);
             $subject = $this->translator->trans('mail.forgot_password_subject');
