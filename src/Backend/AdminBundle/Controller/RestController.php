@@ -1942,6 +1942,7 @@ class RestController extends FOSRestController
      *                  @SWG\Property( property="post_public_ticket", type="integer", description="0 cannot post public tickets, 1", example="1" ),
      *                  @SWG\Property( property="count_inbox", type="integer", description="count unread messages", example="1" ),
      *                  @SWG\Property( property="can_exchange_rewards", type="integer", description="0 cannot exchange rewards, 1 can exchange", example="1" ),
+     *                  @SWG\Property( property="late_payment", type="integer", description="0 is false, 1 is true", example="1" ),
      *              )
      *           ),
      *          @SWG\Property( property="message", type="string", example="" ),
@@ -2126,7 +2127,7 @@ class RestController extends FOSRestController
             else{
                 $headerData["can_exchange_rewards"] = 0;
             }
-            //$headerData["can_exchange_rewards"] = 0;
+            $headerData["late_payment"] = $objProperty->getComplex()->getLatePayment();
 
             return new JsonResponse(array(
                 'message' => "",

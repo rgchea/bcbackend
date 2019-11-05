@@ -346,4 +346,33 @@ class GeoCountry
     {
         return $this->ibillingToken;
     }
+    /**
+     * @var string|null
+     */
+    private $ibillingDomain;
+
+
+    /**
+     * Set ibillingDomain.
+     *
+     * @param string|null $ibillingDomain
+     *
+     * @return GeoCountry
+     */
+    public function setIbillingDomain($ibillingDomain = null)
+    {
+        $this->ibillingDomain = $ibillingDomain;
+
+        return $this;
+    }
+
+    /**
+     * Get ibillingDomain.
+     *
+     * @return string|null
+     */
+    public function getIbillingDomain()
+    {
+        return $this->ibillingDomain;
+    }
 }

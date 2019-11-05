@@ -35,6 +35,10 @@ class ComplexType extends AbstractType
 
 
         $builder
+
+            ->add('enabled',  null, array('label'=>"label_enabled", 'required'=>false))
+            ->add('latePayment',  null, array('label'=>"label_late_payment", 'required'=>false))
+
             ->add('name',  null, array('label'=>"label_name", 'required'=>true))
             ->add('complexType',  null, array('label'=>"label_complex_type", 'required'=>true))
             ->add('geoState',  null, array('label'=>"label_state", 'required'=>true))

@@ -50,7 +50,7 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $businessLocale)
+    public function getRequiredDTData($start, $length, $orders, $search, $columns, $filterComplex, $businessLocale, $role)
     {
         //print "entra";die;
         // Create Main Query
@@ -61,8 +61,11 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
         $countQuery->select('COUNT(e)');
 
         //ENABLED
-        $query->andWhere("e.enabled = 1");
-        $countQuery->andWhere("e.enabled = 1");
+        if($role != 'SUPER ADMIN'){
+            $query->andWhere("e.enabled = 1");
+            $countQuery->andWhere("e.enabled = 1");
+
+        }
 
 
         // Create inner joins

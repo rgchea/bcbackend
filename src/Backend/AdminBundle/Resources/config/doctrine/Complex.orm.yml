@@ -95,8 +95,15 @@ Backend\AdminBundle\Entity\Complex:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
             column: visible_balance
+        latePayment:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+            column: late_payment
+
         qrCodePath:
             type: string
             nullable: true
@@ -163,7 +170,7 @@ Backend\AdminBundle\Entity\Complex:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
 
         zipCode:
             type: string

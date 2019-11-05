@@ -135,6 +135,30 @@
                             </div>
 
                             <div class="clearfix"></div>
+                            {% if role == "SUPER ADMIN" %}
+                                <div class="form-group col-md-6">
+                                    <div class="checkbox">
+                                        {{ form_label(form.latePayment) }}
+                                        {{ form_errors(form.latePayment) }}
+                                        {{ form_widget(form.latePayment, { 'attr': {'class' : 'form-control' } }
+                                        ) }}
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <div class="checkbox">
+                                        {{ form_label(form.enabled) }}
+                                        {{ form_errors(form.enabled) }}
+                                        {{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
+                                        ) }}
+
+                                    </div>
+                                </div>
+                            {% else %}
+
+                            {% endif %}
 
 
                             <div class="hide">

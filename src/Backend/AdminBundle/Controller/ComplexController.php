@@ -113,7 +113,7 @@ class ComplexController extends Controller
 
 
 
-        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filters, $businessLocale);
+        $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $filters, $businessLocale, $this->role);
         $objects = $results["results"];
         $selected_objects_count = count($objects);
 
@@ -284,9 +284,10 @@ class ComplexController extends Controller
     public function editAction(Request $request, $id)
     {
         $this->get("services")->setVars('complex');
-        $em = $this->getDoctrine()->getManager();
+        $this->initialise();
 
-        $entity = $em->getRepository('BackendAdminBundle:Complex')->find($id);
+
+        $entity = $this->em->getRepository('BackendAdminBundle:Complex')->find($id);
 
         if(!$entity){
             throw $this->createNotFoundException('Not found.');
@@ -303,9 +304,9 @@ class ComplexController extends Controller
         $register =  isset($_REQUEST["register"]) ? 1 : 0;
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+
+            $this->em->persist($entity);
+            $this->em->flush();
 
             return $this->redirectToRoute('backend_admin_complex_edit', array('id' => $id));
         }
@@ -325,7 +326,8 @@ class ComplexController extends Controller
             'register' => $register,
             'complexAdmins' => $complexAdmins,
             'shiftSchedule' => $shiftSchedule,
-            'edit' => $id
+            'edit' => $id,
+            'role' => $this->role
         ));
     }
 
@@ -834,9 +836,12 @@ class ComplexController extends Controller
     public function updateAction(Request $request, $id)
     {
 
+
+        //print "<pre>";
+        //var_dump($_REQUEST);DIE;
         /*
-        print "<pre>";
         //var_dump($_REQUEST["my_schedule"]);die;
+
         var_dump(json_decode($_REQUEST["my_schedule"], true));
         die;
         */
@@ -883,6 +888,26 @@ class ComplexController extends Controller
 
                 $geoState = $this->em->getRepository('BackendAdminBundle:GeoState')->find(intval($_REQUEST["business"]["geoState"]));
                 $entity->setGeoState($geoState);
+
+
+                if($this->role == "SUPER ADMIN"){
+                    if(isset($_REQUEST["complex"]["enabled"])){
+                        $entity->setEnabled(true);
+                    }
+                    else{
+                        $entity->setEnabled(false);
+                    }
+
+
+                    if(isset($_REQUEST["complex"]["latePayment"])){
+                        $entity->setLatePayment(true);
+                    }
+                    else{
+                        $entity->setLatePayment(false);
+                    }
+
+
+                }
 
                 $this->em->persist($entity);
 
