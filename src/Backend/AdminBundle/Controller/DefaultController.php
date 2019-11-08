@@ -70,10 +70,19 @@ class DefaultController extends Controller
             $year = date("Y");
             $month = date("m");
 
+
             $stats =  $this->get('services')->callBCSpace( "GET", "players/".$player_id."/stats", array() );
 
-            $currentLevel = intval($stats["current_level"]);
-            $availablePoints = intval($stats["available_points"]);
+            if($stats != false){
+                $currentLevel = intval($stats["current_level"]);
+                $availablePoints = intval($stats["available_points"]);
+
+            }
+            else{
+                $currentLevel = 0;
+                $availablePoints = 0;
+
+            }
 
 
             $arrStats["gxp"] = array();

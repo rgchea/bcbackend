@@ -24,6 +24,7 @@ use Backend\AdminBundle\Entity\PropertyContract;
 use Backend\AdminBundle\Entity\PropertyContractTransaction;
 use Backend\AdminBundle\Entity\PropertyPhoto;
 use Backend\AdminBundle\Entity\PropertyType;
+use Backend\AdminBundle\Entity\SystemChangeLog;
 use Backend\AdminBundle\Entity\TenantContract;
 use Backend\AdminBundle\Entity\TermCondition;
 use Backend\AdminBundle\Entity\Ticket;
@@ -841,7 +842,6 @@ class RestController extends FOSRestController
             ];
 
 
-            $token = $this->get('services')->getBCToken();
             $gamificationResponse = $this->callGamificationService( "POST", "users", $body );
 
             //var_dump($gamificationResponse);die;
@@ -1085,16 +1085,15 @@ class RestController extends FOSRestController
             //var_dump($propertyTeamID);die;
             $tenantEmail = $tenantContract->getUser()->getEmail();
             $body = array();
-            $token = $this->get('services')->getBCToken();
-            $userTeam = $this->get('services')->callBCSpace("POST", "users/".$tenantEmail."/teams/".$propertyTeamID, $body);
+
+            $userTeam = $this->callGamificationService("POST", "users/".$tenantEmail."/teams/".$propertyTeamID, $body);
             //print "<pre>";
             //var_dump($userTeam);die;
-            if($userTeam){
+            if($userTeam != false){
                 $tenantContract->setPlayerId($userTeam["id"]);
             }
             $this->em->persist($tenantContract);
             $this->em->flush();
-
 
             ///ADD POINTS TO PLAYER
             $message = $this->translator->trans('label_new')." ".$this->translator->trans("label_property"). " ".$property->getPropertyNumber() ;
@@ -4992,10 +4991,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
-            $data = array();
 
-            $token = $this->get('services')->getBCToken();
             $arrResponse = $this->callGamificationService( "GET", "plays?limit=1000", array() );
+            if($arrResponse == false){
+                $arrResponse = array("recordset" => NULL);
+            }
 
             return new JsonResponse(array(
                 'message' => "listPlays",
@@ -5149,31 +5149,45 @@ class RestController extends FOSRestController
             //$month = trim($request->get('month'));
             //$year = intval($request->get('year'));
 
-
-            $token = $this->get('services')->getBCToken();
-
             $username = $this->getUser()->getUsername();
             $stats =  $this->callGamificationService( "GET", "players/".$player_id."/stats", array() );
             $arrResponse = $this->callGamificationService( "GET", "account-status/".$player_id."?month=".$month."&year=".$year, array() );
 
-            //var_dump($arrResponse);die;
-            $currentLevel = intval($stats["current_level"]);
-            //$currentLevel = 1;
+            if($arrResponse == false){
+                $arrResponse = array("recordset" => NULL);
+            }
 
-            $nextLevelPoints = intval($stats["next_level_points"]);
-            //$nextLevelPoints = 700;
-            $availablePoints = intval($stats["available_points"]);
-            //$availablePoints = 400;
-            $exchangedPoints = intval($stats["exchanged_points"]);
-            //$exchangedPoints = 200;
-            $totalPoints = intval($stats["earned_points"]);
-            //$totalPoints = 600;
-            if($nextLevelPoints > 0){
-                $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
+            if($stats != false){
+                //var_dump($arrResponse);die;
+                $currentLevel = intval($stats["current_level"]);
+                //$currentLevel = 1;
+
+                $nextLevelPoints = intval($stats["next_level_points"]);
+                //$nextLevelPoints = 700;
+                $availablePoints = intval($stats["available_points"]);
+                //$availablePoints = 400;
+                $exchangedPoints = intval($stats["exchanged_points"]);
+                //$exchangedPoints = 200;
+                $totalPoints = intval($stats["earned_points"]);
+                //$totalPoints = 600;
+                if($nextLevelPoints > 0){
+                    $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
+                }
+                else{
+                    $percentage = 10;
+                }
             }
             else{
+                //var_dump($arrResponse);die;
+                $currentLevel = 0;
+                $nextLevelPoints = 0;
+                $availablePoints = 0;
+                $exchangedPoints = 0;
+                $totalPoints = 0;
                 $percentage = 10;
+
             }
+
 
             $data = array(
                 "name" => $this->getUser()->getName(),
@@ -5280,21 +5294,36 @@ class RestController extends FOSRestController
             $objProperty = $tenantContract->getPropertyContract()->getProperty();
             $complexTeamID = intval($objProperty->getComplex()->getTeamCorrelative()) ;
 
-            $token = $this->get('services')->getBCToken();
             $arrRewards = $this->callGamificationService( "GET", "teams/".$complexTeamID."/rewards?page=".$pageID, array() );
 
+            if($arrRewards != false){
 
-            if(isset($arrRewards["recordset"])){
+                if(isset($arrRewards["recordset"])){
 
-                foreach ($arrRewards["recordset"] as $reward ){
-                    $data[] = $reward;
+                    foreach ($arrRewards["recordset"] as $reward ){
+                        $data[] = $reward;
+                    }
                 }
             }
+            else{
+                $data = array();
+            }
+
 
             $stats =  $this->callGamificationService( "GET", "players/".$playerID."/stats", array() );
-            $availablePoints = intval($stats["available_points"]);
-            $headerData = array();
-            $headerData["available_points"] = $availablePoints;
+
+            if($stats != false){
+                $availablePoints = intval($stats["available_points"]);
+                $headerData = array();
+                $headerData["available_points"] = $availablePoints;
+
+            }
+            else{
+                $availablePoints = 0;
+                $headerData = array();
+                $headerData["available_points"] = 0;
+
+            }
 
             return new JsonResponse(array(
                 'message' => "listRewards",
@@ -5365,8 +5394,10 @@ class RestController extends FOSRestController
 
             $rewardID = intval($request->get('reward_id'));
 
-            $token = $this->get('services')->getBCToken();
             $arrReward = $this->callGamificationService( "GET", "rewards/".$rewardID, array() );
+            if($arrReward == false){
+                $arrReward = array();
+            }
 
             return new JsonResponse(array(
                 'message' => "rewardDetail",
@@ -5431,53 +5462,56 @@ class RestController extends FOSRestController
                 throw new \Exception("Invalid contract.");
             }
 
-
-            $token = $this->get('services')->getBCToken();
-
             $body = [
                 'player_id' => $playerID,
                 'note' => "note"
             ];
 
-            //$gamificationResponse = $this->callGamificationService( "POST", "rewards/".$rewardID, $body );
 
-            $response = $this->get('services')->callBCSpace("POST", "rewards/".$rewardID, $body );
+            $response = $this->callGamificationService("POST", "rewards/".$rewardID, $body );
+            if($response == false){
+                $response = NULL;
+            }
 
             $arrReward = $this->callGamificationService( "GET", "rewards/".$rewardID, array() );
 
 
-            //new message from sendgrid
-            if($lang == "es"){
-                $templateID = "d-77a48e6dd87740c59c78b76d4c3bec85";
-            }
-            else{
-                $templateID = "d-347c981cdea04fe4984cdd2ed52b8fc9";
-            }
+            if($arrReward != false){
 
-            //tenant_name
-            //reward_name
-            //complex_name
-            //reward_details
-            //exchange_date
-            //points_exchanged
+                //new message from sendgrid
+                if($lang == "es"){
+                    $templateID = "d-77a48e6dd87740c59c78b76d4c3bec85";
+                }
+                else{
+                    $templateID = "d-347c981cdea04fe4984cdd2ed52b8fc9";
+                }
 
-            $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
-            $myJson .= '"reward_name": "'.$arrReward["name"].'",';
-            $myJson .= '"reward_details": "'.$arrReward["plain_description"].'",';
-            $myJson .= '"exchange_date": "'.date("m/d/Y").'",';
-            $myJson .= '"points_exchanged": "'.$arrReward["points"].'",';
-            $myJson .= '"complex_name": "'.$tenantContract->getPropertyCode().'"';
+                //tenant_name
+                //reward_name
+                //complex_name
+                //reward_details
+                //exchange_date
+                //points_exchanged
+                $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
+                $myJson .= '"reward_name": "'.$arrReward["name"].'",';
+                $myJson .= '"reward_details": "'.$arrReward["plain_description"].'",';
+                $myJson .= '"exchange_date": "'.date("m/d/Y").'",';
+                $myJson .= '"points_exchanged": "'.$arrReward["points"].'",';
+                $myJson .= '"complex_name": "'.$tenantContract->getPropertyCode().'"';
 
-            //$objBusiness = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getBusiness();
-            $superAdmins = $this->em->getRepository('BackendAdminBundle:User')->findBy(array("role" => 5), array("id" => "DESC"));
+                //$objBusiness = $tenantContract->getPropertyContract()->getProperty()->getComplex()->getBusiness();
+                $superAdmins = $this->em->getRepository('BackendAdminBundle:User')->findBy(array("role" => 5), array("id" => "DESC"));
 
-            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
 
-            if($superAdmins){
-                foreach ($superAdmins as $sa){
-                    $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $sa->getEmail());
+                if($superAdmins){
+                    foreach ($superAdmins as $sa){
+                        $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $sa->getEmail());
+                    }
                 }
             }
+
+
 
 
             return new JsonResponse(array(
@@ -5535,13 +5569,15 @@ class RestController extends FOSRestController
         while ( !$success && $attemps < 2 ) {
             $attemps++;
             try {
-                    $response = $this->get('services')->callBCSpace($method, $service, $options);
+                $token = $this->get('services')->getBCToken();
+                $response = $this->get('services')->callBCSpace($method, $service, $options);
                 //printf(" ------------------ This never happens ------------------ ");
                 $success = true;
             } catch (\GuzzleHttp\Exception\ClientException $ex) {
                 //printf(" ---= Error %s  =--- ", $ex->getMessage());
                 $token = $this->get('services')->getBCToken();
                 //printf("Generating new token with response %s \n", ($token)?"true":"false");
+                //
             }
         }
 

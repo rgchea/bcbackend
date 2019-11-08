@@ -118,128 +118,123 @@ class RegisterController extends Controller
         $checkExistence = $this->get('services')->checkExistence($email, 0);
 
         $token = $this->get('services')->getBCToken();
-        if($token){
-
-            if ($checkExistence == "") {
-
-                $entity->setPlainPassword($plainPassword);
-                //var_dump($entity);die;
-
-                $entity->setUsername($myRequest["username"]);
-                $entity->setEnabled(0);
-
-                $regToken = sha1(uniqid());
-                $entity->setRegisterToken($regToken);
-
-                $entity->setMobilePhone(trim($myRequest["phone"]));
-                $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findByShortName(trim($myRequest["country"]));
-                $objCountry = $objCountry[0];
-                $entity->setGeoCountry($objCountry);
-
-                $objRole = $this->em->getRepository('BackendAdminBundle:Role')->findByName("ADMIN");
-                $objRole = $objRole[0];
-                $role = $objRole->getName();
-                $entity->setRole($objRole);
-
-                /*
-                $newDate = $this->get('services')->dateUSAToMysql($myRequest["birthdate"]);
-                $birthdate = new \DateTime($newDate);
-                $entity->setBirthdate($birthdate);
-                */
-
-                //link to the business
-
-                //$entity->setBusiness();
 
 
-                $this->get("services")->blameOnMe($entity, "create");
-                $this->em->persist($entity);
-                $this->em->flush();
+        if ($checkExistence == "") {
 
-                $myLocale = $this->translator->getLocale();
+            $entity->setPlainPassword($plainPassword);
+            //var_dump($entity);die;
 
+            $entity->setUsername($myRequest["username"]);
+            $entity->setEnabled(0);
 
-                $body = array();
-                $body['email'] = $entity->getEmail();
-                $body['username'] = $entity->getEmail();
-                $body['firstName'] = $entity->getName();
-                //$body['lastName'] = $entity->getName();
-                $body['lastName'] = "BetterCondos";
-                $body['locale'] = $myLocale;
+            $regToken = sha1(uniqid());
+            $entity->setRegisterToken($regToken);
 
+            $entity->setMobilePhone(trim($myRequest["phone"]));
+            $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findByShortName(trim($myRequest["country"]));
+            $objCountry = $objCountry[0];
+            $entity->setGeoCountry($objCountry);
 
-                $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
-                if($createUser){
-                    //ok
-                    //TO DO: VALIDAR SI EL USUARIO YA EXISTE
-                }
+            $objRole = $this->em->getRepository('BackendAdminBundle:Role')->findByName("ADMIN");
+            $objRole = $objRole[0];
+            $role = $objRole->getName();
+            $entity->setRole($objRole);
 
+            /*
+            $newDate = $this->get('services')->dateUSAToMysql($myRequest["birthdate"]);
+            $birthdate = new \DateTime($newDate);
+            $entity->setBirthdate($birthdate);
+            */
 
+            //link to the business
 
-                $this->get('services')->flashSuccess($request);
-                //return $this->redirect($this->generateUrl(''));
-
-
-                /////SEND REGISTRATION MAIL
-                /// Usuario de acceso a Bettercondos.space
-                //Usuario de acceso a bettercondos.info
-                //Links
-                //Sitio web bettercondos.tech
-                //Sitio de soporte y documentación.
-                //Datos de contacto
-                ///
-
-                //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
-
-                //Admin
-                $bodyHtml = "<b>Email: </b>".$entity->getEmail()."<br/>";
-                $bodyHtml .= $this->translator->trans('mail.register_confirm_body')."&nbsp;";
+            //$entity->setBusiness();
 
 
-                $baseURL = str_replace($request->getPathInfo(), "", $request->getUri())."/".$myLocale ;
-                $href = $baseURL."/business/new/?regtoken=".$regToken;
-                $bodyHtml .= "<a href='".$href."'>".$this->translator->trans('mail.register_confirm_click')."</a>";
+            $this->get("services")->blameOnMe($entity, "create");
+            $this->em->persist($entity);
+            $this->em->flush();
 
-                //contact
-                $bodyHtml .= "<br/><br/>".$this->translator->trans('label_register_contact');
-
-                $to = $entity->getEmail();
-                //$message = $this->get('services')->generalTemplateMail($this->translator->trans('mail.register_confirm_subject'), $to, $bodyHtml);
+            $myLocale = $this->translator->getLocale();
 
 
-                //new message from sendgrid
-                if($this->translator->getLocale() == "es"){
-                    $templateID = "d-e2461e26f08b435cbe57a2abfb10caf2";
-                }
-                else{
-                    $templateID = "d-e67d965d6e6743edbf1e1fbf62a290ac";
-                }
-
-                $myToken = $this->translator->getLocale().'/business/new/?regtoken='.$regToken;
-                $myJson = '"token": "'.$myToken.'"';
-
-                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
-
-                //var_dump($message);die;
-
-                //return $this->redirectToRoute('backend_admin_business_new', array('userID' => $entity->getId()));
-
-                return $this->redirectToRoute('backend_admin_register_confirm', array('email' => $entity->getEmail(),));
+            $body = array();
+            $body['email'] = $entity->getEmail();
+            $body['username'] = $entity->getEmail();
+            $body['firstName'] = $entity->getName();
+            //$body['lastName'] = $entity->getName();
+            $body['lastName'] = "BetterCondos";
+            $body['locale'] = $myLocale;
 
 
+            $createUser = $this->get('services')->callBCSpace("POST", "users", $body);
+            if($createUser){
+                //ok
+                //TO DO: VALIDAR SI EL USUARIO YA EXISTE
+            }
+
+
+
+            $this->get('services')->flashSuccess($request);
+            //return $this->redirect($this->generateUrl(''));
+
+
+            /////SEND REGISTRATION MAIL
+            /// Usuario de acceso a Bettercondos.space
+            //Usuario de acceso a bettercondos.info
+            //Links
+            //Sitio web bettercondos.tech
+            //Sitio de soporte y documentación.
+            //Datos de contacto
+            ///
+
+            //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
+
+            //Admin
+            $bodyHtml = "<b>Email: </b>".$entity->getEmail()."<br/>";
+            $bodyHtml .= $this->translator->trans('mail.register_confirm_body')."&nbsp;";
+
+
+            $baseURL = str_replace($request->getPathInfo(), "", $request->getUri())."/".$myLocale ;
+            $href = $baseURL."/business/new/?regtoken=".$regToken;
+            $bodyHtml .= "<a href='".$href."'>".$this->translator->trans('mail.register_confirm_click')."</a>";
+
+            //contact
+            $bodyHtml .= "<br/><br/>".$this->translator->trans('label_register_contact');
+
+            $to = $entity->getEmail();
+            //$message = $this->get('services')->generalTemplateMail($this->translator->trans('mail.register_confirm_subject'), $to, $bodyHtml);
+
+
+            //new message from sendgrid
+            if($this->translator->getLocale() == "es"){
+                $templateID = "d-e2461e26f08b435cbe57a2abfb10caf2";
             }
             else{
-
-                $this->get('services')->flashCustom($request, $checkExistence);
-
-
+                $templateID = "d-e67d965d6e6743edbf1e1fbf62a290ac";
             }
+
+            $myToken = $this->translator->getLocale().'/business/new/?regtoken='.$regToken;
+            $myJson = '"token": "'.$myToken.'"';
+
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
+
+            //var_dump($message);die;
+
+            //return $this->redirectToRoute('backend_admin_business_new', array('userID' => $entity->getId()));
+
+            return $this->redirectToRoute('backend_admin_register_confirm', array('email' => $entity->getEmail(),));
+
 
         }
         else{
-            ///SYSTEM LOG GAMIFICATION
-            ///
+
+            $this->get('services')->flashCustom($request, $checkExistence);
+
+
         }
+
 
         $this->get('services')->flashWarning($request);
 

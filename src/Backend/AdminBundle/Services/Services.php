@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\Security;
 #use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Backend\AdminBundle\Entity\SystemChangeLog;
+
 use GuzzleHttp\Client;
 
 
@@ -620,7 +622,14 @@ class Services extends Controller
         $params = ['headers' => ['Content-Type' => 'application/json']];
 
         $client = new \GuzzleHttp\Client();
-        $response = $client->request("GET", 'https://gameboard.space/oauth/v2/token?client_id='.$clientID.'&client_secret='.$clientSecret.'&grant_type=client_credentials');
+
+        try{
+            $response = $client->request("GET", 'https://gameboard.space/oauth/v2/token?client_id='.$clientID.'&client_secret='.$clientSecret.'&grant_type=client_credentials');
+        } catch (\GuzzleHttp\Exception\ClientException $ex) {
+            return $this->systemLog($ex->getMessage(), "space");
+        }
+
+
 
         //print "<pre>";
         //var_dump($response->getStatusCode()); # 200
@@ -639,15 +648,13 @@ class Services extends Controller
 
         }
         else{
-            return false;
+
+            return $this->systemLog($response->getBody(), "space token");
+            
         }
 
         //return $arrResponse["access_token"]; # '{"id": 1420053, "name": "guzzle", ...}'
 
-    }
-
-    public function callBCSpace1($method, $service, $body = null){
-        return 1;
     }
 
 
@@ -698,7 +705,6 @@ class Services extends Controller
         $client = new \GuzzleHttp\Client();
         if($method == "GET"){
             $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json']];
-            $response = $client->request($method, sprintf($gameboardURL, $service), $params);
         }
         else{
             //$myfile = fopen("webdictionary.txt", "w") or die("Unable to open file!");
@@ -716,35 +722,36 @@ class Services extends Controller
 
 //            var_dump($params);
 
-            $response = $client->request($method, sprintf($gameboardURL, $service), $params);
-
-            //var_dump($response);
-
             //fclose($myfile);
             //var_dump($response->getBody()->getContents());
             //die;
 
-
-
-
-//            $params = ['headers' => ['Authorization' => 'Bearer '.$token, 'Accept' => 'application/json', 'Cache-Control' => 'no-cache', 'Content-Type' => 'application/json'],
-//                        'json' => $body];
-
-            //var_dump($params);die;
-
-//            $response = $client->post('https://gameboard.space/api/v1/'.$service, $params);
-
         }
+
+        try{
+            $response = $client->request($method, sprintf($gameboardURL, $service), $params);
+        } catch (\GuzzleHttp\Exception\ClientException $ex) {
+            return $this->systemLog($ex->getMessage(), "space");
+        }
+
+        //var_dump($response);
 
 
         //print "<pre>";
         //var_dump($response->getStatusCode()); # 200
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
         //die;
+        if($response->getStatusCode() == 200){
+            $arrResponse = json_decode($response->getBody(), true);
+            //$arrResponse =  $arrResponse["recordset"];
+            return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
 
-        $arrResponse = json_decode($response->getBody(), true);
-        //$arrResponse =  $arrResponse["recordset"];
-        return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
+        }
+        else{
+            return $this->systemLog($response->getBody(), "space");
+        }
+
+
 
 
     }
@@ -792,8 +799,12 @@ class Services extends Controller
 
         //var_dump($params);die;
 
-        $response = $client->post('https://api.sendgrid.com/v3/mail/send', $params);
-
+        try{
+            $response = $client->post('https://api.sendgrid.com/v3/mail/send', $params);
+        } catch (\GuzzleHttp\Exception\ClientException $ex) {
+            return $this->systemLog($ex->getMessage(), "sendgrid");
+        }
+        
         //var_dump($response->getBody()->getContents());
         //die;
 
@@ -809,6 +820,23 @@ class Services extends Controller
 
 
 
+    }
+    
+    
+    public function systemLog($error, $type){
+
+        ///system log //
+        $objLog = new SystemChangeLog();
+        $objLog->setDescription("---=".$error."=---");
+        $objLog->setAction($type." error");
+
+        //BLAME ME
+        $this->blameOnMe($objLog, "create");
+
+        $this->em->persist($objLog);
+        $this->em->flush();
+
+        return false;
     }
 
     //iBilling
@@ -849,10 +877,9 @@ class Services extends Controller
         }
         else{
             $arrResponse =  array("error" => true);
+            return $this->systemLog($response->getBody(), "ibilling");
         }
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
-
-
 
         //var_dump($arrResponse); # '{"id": 1420053, "name": "guzzle", ...}'
         //die;

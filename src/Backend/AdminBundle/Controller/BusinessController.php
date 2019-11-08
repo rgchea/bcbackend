@@ -410,14 +410,15 @@ class BusinessController extends Controller
                 $body["parent"] = 4;//General
 
                 $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
-                if($createTeam){
+                if($createTeam != false){
                     $teamID = $createTeam["id"];
-                    $entity->setTeamCorrelative($teamID);
-                    $this->em->persist($entity);
-                    $this->em->flush();
-
                 }
-
+                else{
+                    $teamID = 0;
+                }
+                $entity->setTeamCorrelative($teamID);
+                $this->em->persist($entity);
+                $this->em->flush();
 
                 //SET BUSINESS TO THE USER
                 $userID = intval($_REQUEST["userID"]);
@@ -650,12 +651,14 @@ class BusinessController extends Controller
         $this->get("services")->setVars('business');
         $this->initialise();
 
-        $countryShort = $_REQUEST["countryShort"];
+        $countryShort = trim($_REQUEST["countryShort"]);
         $billing = intval($_REQUEST["billing"]);
 
         //countryShort
-        $country = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findByShortName($countryShort);
-        $objCountry = $country[0];
+        $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($countryShort);
+        if($objCountry){
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
         $countryID = $objCountry->getId();
 
         $states = $this->em->getRepository('BackendAdminBundle:GeoState')->findBy(array("geoCountry" => $countryID, "enabled" => 1), array("name" => "ASC"));

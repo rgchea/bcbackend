@@ -56,6 +56,8 @@ class CompanyController extends Controller
         //throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
 
 
+
+
         ///TEST PAYMENTS
 
         $bdate = strtotime("2019-10-03");
