@@ -600,14 +600,10 @@ class ComplexController extends Controller
                 $body["parent"] = $entity->getBusiness()->getTeamCorrelative();//Business team correlative
                 //
                 $createTeamComplex = $this->get('services')->callBCSpace("POST", "teams", $body);
-                if($createTeamComplex != false) {
-                    $teamIDComplex = $createTeamComplex["id"];
-                }
-                else{
-                    $teamIDComplex = 0;
-                }
-                    $entity->setTeamCorrelative($teamIDComplex);
-                    $this->em->persist($entity);
+
+                $teamIDComplex = isset($createTeamComplex["id"]) ? intval($createTeamComplex["id"]) : 0;
+                $entity->setTeamCorrelative($teamIDComplex);
+                $this->em->persist($entity);
 
                     ///CREATE DEFAULT REWARDS
                     $token = $this->get('services')->getBCToken();
@@ -623,12 +619,8 @@ class ComplexController extends Controller
                     $body["parent"] = $teamIDComplex;//Complex team correlative
                     //
                     $createTeamComplexTenant = $this->get('services')->callBCSpace("POST", "teams", $body);
-                    if($createTeamComplexTenant != false){
-                        $teamIDComplexTenant = $createTeamComplexTenant["id"];
-                    }
-                    else{
-                        $teamIDComplexTenant = 0;
-                    }
+
+                    $teamIDComplexTenant = isset($createTeamComplexTenant["id"]) ? intval($createTeamComplexTenant["id"]) : 0;
                     $entity->setTeamCorrelativeTenant($teamIDComplexTenant);
                     $this->em->persist($entity);
 
@@ -641,12 +633,8 @@ class ComplexController extends Controller
                     $body["parent"] = $teamIDComplex;//Complex team correlative
                     //
                     $createTeamComplexAdmin = $this->get('services')->callBCSpace("POST", "teams", $body);
-                    if($createTeamComplexAdmin != false){
-                        $teamIDComplexAdmin = $createTeamComplexAdmin["id"];
-                    }
-                    else{
-                        $teamIDComplexAdmin = 0;
-                    }
+
+                    $teamIDComplexAdmin = isset($createTeamComplexAdmin["id"]) ? intval($createTeamComplexAdmin["id"]) : 0;
 
                     $entity->setTeamCorrelativeAdmin($teamIDComplexAdmin);
                     $this->em->persist($entity);
@@ -664,11 +652,11 @@ class ComplexController extends Controller
                     //Enroll user to the team admins
                     $body = array();
                     $userTeam = $this->get('services')->callBCSpace("POST", "users/{$this->userLogged->getEmail()}/teams/{$teamIDComplexAdmin}", $body);
-                    if($userTeam){
-                        $objUser = $this->em->getRepository('BackendAdminBundle:User')->find($this->userLogged->getId());
-                        $this->userLogged->setPlayerId($userTeam["id"]);
-                        $this->em->persist($objUser);
-                    }
+                    $myUserTeam = isset($userTeam["id"]) ? intval($userTeam["id"]) : 0;
+                    $objUser = $this->em->getRepository('BackendAdminBundle:User')->find($this->userLogged->getId());
+                    $this->userLogged->setPlayerId($myUserTeam);
+                    $this->em->persist($objUser);
+
 
                     $this->em->flush();
 
@@ -710,12 +698,8 @@ class ComplexController extends Controller
                     $body["parent"] = $teamIDComplexTenant;//Complex team correlative
                     //
                     $createTeamSector = $this->get('services')->callBCSpace("POST", "teams", $body);
-                    if($createTeamSector != false){
-                        $teamIDSector = $createTeamSector["id"];
-                    }
-                    else{
-                        $teamIDSector = 0;
-                    }
+
+                    $teamIDSector = isset($createTeamSector["id"])? intval($createTeamSector["id"]) : 0;
                     $newSector->setTeamCorrelative($teamIDSector);
                     $this->em->persist($newSector);
                     $this->em->flush();
@@ -750,12 +734,8 @@ class ComplexController extends Controller
                         $body["parent"] = $teamIDSector;//Sector team correlative
 
                         $createTeamProperty = $this->get('services')->callBCSpace("POST", "teams", $body);
-                        if($createTeamProperty != false){
-                            $teamIDProperty = $createTeamProperty["id"];
-                        }
-                        else{
-                            $teamIDProperty = 0;
-                        }
+
+                        $teamIDProperty = isset($createTeamProperty["id"])? intval($createTeamProperty["id"]) : 0;
                         $newProperty->setTeamCorrelative($teamIDProperty);
                         $this->em->persist($newProperty);
                         $this->em->flush();

@@ -73,16 +73,8 @@ class DefaultController extends Controller
 
             $stats =  $this->get('services')->callBCSpace( "GET", "players/".$player_id."/stats", array() );
 
-            if($stats != false){
-                $currentLevel = intval($stats["current_level"]);
-                $availablePoints = intval($stats["available_points"]);
-
-            }
-            else{
-                $currentLevel = 0;
-                $availablePoints = 0;
-
-            }
+            $currentLevel = isset($stats["current_level"])  ? intval($stats["current_level"]) : 0;
+            $availablePoints = isset($stats["available_points"]) ? intval($stats["available_points"]) : 0;
 
 
             $arrStats["gxp"] = array();

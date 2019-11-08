@@ -1089,9 +1089,8 @@ class RestController extends FOSRestController
             $userTeam = $this->callGamificationService("POST", "users/".$tenantEmail."/teams/".$propertyTeamID, $body);
             //print "<pre>";
             //var_dump($userTeam);die;
-            if($userTeam != false){
-                $tenantContract->setPlayerId($userTeam["id"]);
-            }
+            $myUserTeam = isset($userTeam["id"]) ? intval($userTeam["id"]) : 0;
+            $tenantContract->setPlayerId();
             $this->em->persist($tenantContract);
             $this->em->flush();
 
@@ -4991,15 +4990,11 @@ class RestController extends FOSRestController
     {
         try {
             $this->initialise();
-
             $arrResponse = $this->callGamificationService( "GET", "plays?limit=1000", array() );
-            if($arrResponse == false){
-                $arrResponse = array("recordset" => NULL);
-            }
 
             return new JsonResponse(array(
                 'message' => "listPlays",
-                'data' => $arrResponse["recordset"]
+                'data' => isset($arrResponse["recordset"]) ? $arrResponse["recordset"] : array()
             ));
         } catch (Exception $ex) {
             return new JsonResponse(array('message' => $ex->getMessage()), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -5153,41 +5148,19 @@ class RestController extends FOSRestController
             $stats =  $this->callGamificationService( "GET", "players/".$player_id."/stats", array() );
             $arrResponse = $this->callGamificationService( "GET", "account-status/".$player_id."?month=".$month."&year=".$year, array() );
 
-            if($arrResponse == false){
-                $arrResponse = array("recordset" => NULL);
-            }
+            //var_dump($arrResponse);die;
+            $currentLevel = isset($stats["current_level"]) ? intval($stats["current_level"]) : 0;
+            $nextLevelPoints = isset($stats["next_level_points"]) ? intval($stats["next_level_points"]) : 0;
+            $availablePoints = isset($stats["available_points"]) ? intval($stats["available_points"]) : 0;
+            $exchangedPoints = isset($stats["exchanged_points"]) ? intval($stats["exchanged_points"]) : 0;
+            $totalPoints = isset($stats["earned_points"]) ? intval($stats["earned_points"]) : 0;
 
-            if($stats != false){
-                //var_dump($arrResponse);die;
-                $currentLevel = intval($stats["current_level"]);
-                //$currentLevel = 1;
-
-                $nextLevelPoints = intval($stats["next_level_points"]);
-                //$nextLevelPoints = 700;
-                $availablePoints = intval($stats["available_points"]);
-                //$availablePoints = 400;
-                $exchangedPoints = intval($stats["exchanged_points"]);
-                //$exchangedPoints = 200;
-                $totalPoints = intval($stats["earned_points"]);
-                //$totalPoints = 600;
-                if($nextLevelPoints > 0){
-                    $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
-                }
-                else{
-                    $percentage = 10;
-                }
+            if($nextLevelPoints > 0){
+                $percentage = ($totalPoints * 100 ) / $nextLevelPoints;
             }
             else{
-                //var_dump($arrResponse);die;
-                $currentLevel = 0;
-                $nextLevelPoints = 0;
-                $availablePoints = 0;
-                $exchangedPoints = 0;
-                $totalPoints = 0;
                 $percentage = 10;
-
             }
-
 
             $data = array(
                 "name" => $this->getUser()->getName(),
@@ -5197,7 +5170,7 @@ class RestController extends FOSRestController
                 "available_points" => $availablePoints,
                 "exchanged_points" => $exchangedPoints,
                 "percentage" => $percentage,
-                "log" => $arrResponse["recordset"]
+                "log" => isset($arrResponse["recordset"]) ? $arrResponse["recordset"] : array()
                 );
 
 
@@ -5296,34 +5269,18 @@ class RestController extends FOSRestController
 
             $arrRewards = $this->callGamificationService( "GET", "teams/".$complexTeamID."/rewards?page=".$pageID, array() );
 
-            if($arrRewards != false){
+            if(isset($arrRewards["recordset"])){
 
-                if(isset($arrRewards["recordset"])){
-
-                    foreach ($arrRewards["recordset"] as $reward ){
-                        $data[] = $reward;
-                    }
+                foreach ($arrRewards["recordset"] as $reward ){
+                    $data[] = $reward;
                 }
             }
-            else{
-                $data = array();
-            }
-
 
             $stats =  $this->callGamificationService( "GET", "players/".$playerID."/stats", array() );
+            $availablePoints = isset($stats["available_points"]) ? intval($stats["available_points"]) : 0;
+            $headerData = array();
+            $headerData["available_points"] = $availablePoints;
 
-            if($stats != false){
-                $availablePoints = intval($stats["available_points"]);
-                $headerData = array();
-                $headerData["available_points"] = $availablePoints;
-
-            }
-            else{
-                $availablePoints = 0;
-                $headerData = array();
-                $headerData["available_points"] = 0;
-
-            }
 
             return new JsonResponse(array(
                 'message' => "listRewards",
@@ -5393,11 +5350,7 @@ class RestController extends FOSRestController
             $data = array();
 
             $rewardID = intval($request->get('reward_id'));
-
             $arrReward = $this->callGamificationService( "GET", "rewards/".$rewardID, array() );
-            if($arrReward == false){
-                $arrReward = array();
-            }
 
             return new JsonResponse(array(
                 'message' => "rewardDetail",
@@ -5469,29 +5422,24 @@ class RestController extends FOSRestController
 
 
             $response = $this->callGamificationService("POST", "rewards/".$rewardID, $body );
-            if($response == false){
-                $response = NULL;
-            }
-
             $arrReward = $this->callGamificationService( "GET", "rewards/".$rewardID, array() );
 
+            //new message from sendgrid
+            if($lang == "es"){
+                $templateID = "d-77a48e6dd87740c59c78b76d4c3bec85";
+            }
+            else{
+                $templateID = "d-347c981cdea04fe4984cdd2ed52b8fc9";
+            }
 
-            if($arrReward != false){
+            //tenant_name
+            //reward_name
+            //complex_name
+            //reward_details
+            //exchange_date
+            //points_exchanged
+            if(isset($arrReward["name"]) && isset($arrReward["plain_description"])  && isset($arrReward["points"])){
 
-                //new message from sendgrid
-                if($lang == "es"){
-                    $templateID = "d-77a48e6dd87740c59c78b76d4c3bec85";
-                }
-                else{
-                    $templateID = "d-347c981cdea04fe4984cdd2ed52b8fc9";
-                }
-
-                //tenant_name
-                //reward_name
-                //complex_name
-                //reward_details
-                //exchange_date
-                //points_exchanged
                 $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
                 $myJson .= '"reward_name": "'.$arrReward["name"].'",';
                 $myJson .= '"reward_details": "'.$arrReward["plain_description"].'",';
@@ -5510,8 +5458,6 @@ class RestController extends FOSRestController
                     }
                 }
             }
-
-
 
 
             return new JsonResponse(array(

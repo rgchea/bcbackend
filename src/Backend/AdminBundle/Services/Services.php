@@ -625,10 +625,8 @@ class Services extends Controller
         try{
             $response = $client->request("GET", 'https://'.$spaceUrl.'/oauth/v2/token?client_id='.$clientID.'&client_secret='.$clientSecret.'&grant_type=client_credentials');
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
-            return $this->systemLog($ex->getMessage(), "space");
+            $this->systemLog($ex->getMessage(), "space");
         }
-
-
 
         //print "<pre>";
         //var_dump($response->getStatusCode()); # 200
@@ -647,8 +645,7 @@ class Services extends Controller
 
         }
         else{
-
-            return $this->systemLog($response->getBody(), "space token");
+            $this->systemLog($response->getBody(), "space token");
             
         }
 
@@ -730,7 +727,7 @@ class Services extends Controller
         try{
             $response = $client->request($method, sprintf($gameboardURL, $service), $params);
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
-            return $this->systemLog($ex->getMessage(), "space");
+            $this->systemLog($ex->getMessage(), "space");
         }
 
         //var_dump($response);
@@ -747,7 +744,7 @@ class Services extends Controller
 
         }
         else{
-            return $this->systemLog($response->getBody(), "space");
+            $this->systemLog($response->getBody(), "space");
         }
 
 
@@ -801,7 +798,7 @@ class Services extends Controller
         try{
             $response = $client->post('https://api.sendgrid.com/v3/mail/send', $params);
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
-            return $this->systemLog($ex->getMessage(), "sendgrid");
+            $this->systemLog($ex->getMessage(), "sendgrid");
         }
         
         //var_dump($response->getBody()->getContents());
@@ -822,12 +819,12 @@ class Services extends Controller
     }
     
     
-    public function systemLog($error, $type){
+    public function systemLog($msg, $type){
 
         ///system log //
         $objLog = new SystemChangeLog();
-        $objLog->setDescription("---=".$error."=---");
-        $objLog->setAction($type." error");
+        $objLog->setDescription("---=".$msg."=---");
+        $objLog->setAction($type);
 
         //BLAME ME
         $this->blameOnMe($objLog, "create");
@@ -835,7 +832,6 @@ class Services extends Controller
         $this->em->persist($objLog);
         $this->em->flush();
 
-        return false;
     }
 
     //iBilling
@@ -876,14 +872,13 @@ class Services extends Controller
         }
         else{
             $arrResponse =  array("error" => true);
-            return $this->systemLog($response->getBody(), "ibilling");
+            $this->systemLog($response->getBody(), "ibilling");
         }
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
 
         //var_dump($arrResponse); # '{"id": 1420053, "name": "guzzle", ...}'
         //die;
         return $arrResponse;
-
 
     }
 

@@ -2392,13 +2392,8 @@ class PropertyController extends Controller
 
 
         $createTeamProperty = $this->get('services')->callBCSpace("POST", "teams", $body);
-        $teamIDProperty = 0;
-        if($createTeamProperty != false){
-            $teamIDProperty = $createTeamProperty["id"];
-        }
-        else{
-            $teamIDProperty = 0;
-        }
+        $teamIDProperty = isset($createTeamProperty["id"]) ? intval($createTeamProperty["id"]) : 0;
+
         $property->setTeamCorrelative($teamIDProperty);
         $this->em->persist($property);
         $this->em->flush();

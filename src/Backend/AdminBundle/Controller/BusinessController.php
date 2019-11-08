@@ -410,12 +410,8 @@ class BusinessController extends Controller
                 $body["parent"] = 4;//General
 
                 $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
-                if($createTeam != false){
-                    $teamID = $createTeam["id"];
-                }
-                else{
-                    $teamID = 0;
-                }
+
+                $teamID = isset($createTeam["id"]) ? intval($createTeam["id"]) : 0;
                 $entity->setTeamCorrelative($teamID);
                 $this->em->persist($entity);
                 $this->em->flush();
