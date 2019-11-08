@@ -611,9 +611,8 @@ class Services extends Controller
     public function getBCToken(){
 
         //https://gameboard.space/oauth/v2/token?client_id=8_3e1vtdyx3hkwoo88sgcsog8c8g8ws84o8soo4skockk40owkck&client_secret=46f4hlczw9gkokswc0go8w4wcc4gc0o44wsgw8cs44ck8kckoo&grant_type=client_credentials
-
-
         $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
+        $spaceUrl = trim($repo->getSpaceUrl());
 
         $clientID = trim($repo->getSpaceClientId());
         $clientSecret = trim($repo->getSpaceClientSecret());
@@ -624,7 +623,7 @@ class Services extends Controller
         $client = new \GuzzleHttp\Client();
 
         try{
-            $response = $client->request("GET", 'https://gameboard.space/oauth/v2/token?client_id='.$clientID.'&client_secret='.$clientSecret.'&grant_type=client_credentials');
+            $response = $client->request("GET", 'https://'.$spaceUrl.'/oauth/v2/token?client_id='.$clientID.'&client_secret='.$clientSecret.'&grant_type=client_credentials');
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
             return $this->systemLog($ex->getMessage(), "space");
         }
@@ -697,10 +696,10 @@ class Services extends Controller
 
         //$token = "ZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQZGE4ZmU1OWFhZTk0MjQzNTY5MzdmZjU0MmRiNmE2NGNiY2ZiMzcxY2MxYmE2OWUxNmFlZGUxZDRiZjMyOGU5ZQ";
         $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
-        $token = $repo->getSpaceApiToken();
+        $token = trim($repo->getSpaceApiToken());
+        $spaceUrl = trim($repo->getSpaceUrl());
 
-        $gameboardURL = "https://".$repo->getSpaceUrl()."/api/v1/%s";
-//        $gameboardURL = "https://gameboard.space/api/v1/%s.json";
+        $gameboardURL = "https://".$spaceUrl."/api/v1/%s";
 
         $client = new \GuzzleHttp\Client();
         if($method == "GET"){
