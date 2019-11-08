@@ -27,9 +27,9 @@ Backend\AdminBundle\Entity\SystemChangeLog:
                 fixed: false
                 default: ''
         description:
-            type: string
+            type: text
             nullable: false
-            length: 256
+            length: 65535
             options:
                 fixed: false
                 default: ''

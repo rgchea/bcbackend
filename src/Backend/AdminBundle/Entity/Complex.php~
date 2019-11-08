@@ -855,4 +855,33 @@ class Complex
         // when displaying uploaded doc/image in the view.
         return 'uploads/images/complex/';
     }
+    /**
+     * @var bool
+     */
+    private $latePayment = false;
+
+
+    /**
+     * Set latePayment.
+     *
+     * @param bool $latePayment
+     *
+     * @return Complex
+     */
+    public function setLatePayment($latePayment)
+    {
+        $this->latePayment = $latePayment;
+
+        return $this;
+    }
+
+    /**
+     * Get latePayment.
+     *
+     * @return bool
+     */
+    public function getLatePayment()
+    {
+        return $this->latePayment;
+    }
 }
