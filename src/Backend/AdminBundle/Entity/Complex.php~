@@ -100,7 +100,7 @@ class Complex
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = true;
 
     /**
      * @var \Backend\AdminBundle\Entity\Business

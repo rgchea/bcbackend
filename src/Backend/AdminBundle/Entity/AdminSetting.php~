@@ -283,4 +283,33 @@ class AdminSetting
     {
         return $this->spaceClientSecret;
     }
+    /**
+     * @var string
+     */
+    private $spaceUrl = '';
+
+
+    /**
+     * Set spaceUrl.
+     *
+     * @param string $spaceUrl
+     *
+     * @return AdminSetting
+     */
+    public function setSpaceUrl($spaceUrl)
+    {
+        $this->spaceUrl = $spaceUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get spaceUrl.
+     *
+     * @return string
+     */
+    public function getSpaceUrl()
+    {
+        return $this->spaceUrl;
+    }
 }
