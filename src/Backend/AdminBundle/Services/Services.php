@@ -699,7 +699,7 @@ class Services extends Controller
         $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
         $token = $repo->getSpaceApiToken();
 
-        $gameboardURL = "https://gameboard.space/api/v1/%s";
+        $gameboardURL = "https://".$repo->getSpaceUrl()."/api/v1/%s";
 //        $gameboardURL = "https://gameboard.space/api/v1/%s.json";
 
         $client = new \GuzzleHttp\Client();
