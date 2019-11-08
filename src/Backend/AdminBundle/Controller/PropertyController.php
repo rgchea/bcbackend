@@ -1188,7 +1188,7 @@ class PropertyController extends Controller
                 //complex_name
                 $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
                 $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
-                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'",';
+                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'"';
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
 
@@ -1275,7 +1275,7 @@ class PropertyController extends Controller
                 $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
                 $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
                 $myJson = '"expiration_date": "'.$propertyContract->getEndDate()->format("m/d/Y") .'",';
-                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'",';
+                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'"';
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
 

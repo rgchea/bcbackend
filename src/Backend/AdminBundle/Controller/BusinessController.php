@@ -452,8 +452,8 @@ class BusinessController extends Controller
                 //var_dump($createCustomer);die;
                 ///VALIDA DEL LADO DEL CLIENTE QUE EL NOMBRE DEL NEGOCIO NO EXISTA EL EMAIL Y PHONE NUMBER
                 //on response
-
-                $entity->setCustomerID($createCustomer["contact_id"]);
+                $contactID = isset($createCustomer["contact_id"]) ? intval($createCustomer["contact_id"]) : 0 ;
+                $entity->setCustomerID($contactID);
                 $this->em->persist($entity);
                 $this->em->flush();
 
@@ -511,7 +511,6 @@ class BusinessController extends Controller
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
 
-
                 $this->get('services')->flashSuccess($request);
                 return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 1)));
 
@@ -521,7 +520,6 @@ class BusinessController extends Controller
                 //print "FORMULARIO NO VALIDO";DIE;
                 //SYSTEM LOG
             }
-
 
         }
         else{
@@ -652,8 +650,8 @@ class BusinessController extends Controller
 
         //countryShort
         $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($countryShort);
-        if($objCountry){
-            throw $this->createNotFoundException('Unable to find User entity.');
+        if($objCountry == NULL){
+            throw $this->createNotFoundException('Unable to find GeoCountry entity.');
         }
         $countryID = $objCountry->getId();
 

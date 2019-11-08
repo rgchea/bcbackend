@@ -54,14 +54,14 @@ Backend\AdminBundle\Entity\Business:
         taxName:
             type: string
             nullable: true
-            length: 32
+            length: 256
             options:
                 fixed: false
             column: tax_name
         name:
             type: string
             nullable: false
-            length: 32
+            length: 256
             options:
                 fixed: false
                 default: ''

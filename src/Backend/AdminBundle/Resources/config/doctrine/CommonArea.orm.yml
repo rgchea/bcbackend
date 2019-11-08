@@ -28,7 +28,7 @@ Backend\AdminBundle\Entity\CommonArea:
         name:
             type: string
             nullable: false
-            length: 32
+            length: 256
             options:
                 fixed: false
                 default: ''

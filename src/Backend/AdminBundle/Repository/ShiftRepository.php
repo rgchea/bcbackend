@@ -273,6 +273,8 @@ class ShiftRepository extends \Doctrine\ORM\EntityRepository
 
         $em  = $this->getEntityManager();
 
+        $timezone =  intval($timezone);
+
         $myCreationTime = gmdate("Y-m-d H:i:s", time() + 3600*($timezone+date("I")));
         $myTime = gmdate("H:i", time() + 3600*($timezone+date("I")));
         $weekDay = date('w', strtotime($myCreationTime));

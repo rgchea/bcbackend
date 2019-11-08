@@ -624,6 +624,22 @@ class Services extends Controller
 
         try{
             $response = $client->request("GET", 'https://'.$spaceUrl.'/oauth/v2/token?client_id='.$clientID.'&client_secret='.$clientSecret.'&grant_type=client_credentials');
+            if($response->getStatusCode() == 200){
+                $arrResponse = json_decode($response->getBody(), true);
+
+                $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
+
+                $repo->setSpaceApiToken($arrResponse["access_token"]);
+                $this->em->persist($repo);
+                $this->em->flush();
+
+                return true;
+
+            }
+            else{
+                $this->systemLog($response->getBody(), "space token");
+
+            }
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
             $this->systemLog($ex->getMessage(), "space");
         }
@@ -632,22 +648,7 @@ class Services extends Controller
         //var_dump($response->getStatusCode()); # 200
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
 
-        if($response->getStatusCode() == 200){
-            $arrResponse = json_decode($response->getBody(), true);
 
-            $repo = $this->em->getRepository('BackendAdminBundle:AdminSetting')->find(1);
-
-            $repo->setSpaceApiToken($arrResponse["access_token"]);
-            $this->em->persist($repo);
-            $this->em->flush();
-
-            return true;
-
-        }
-        else{
-            $this->systemLog($response->getBody(), "space token");
-            
-        }
 
         //return $arrResponse["access_token"]; # '{"id": 1420053, "name": "guzzle", ...}'
 
@@ -726,6 +727,17 @@ class Services extends Controller
 
         try{
             $response = $client->request($method, sprintf($gameboardURL, $service), $params);
+
+            if($response->getStatusCode() == 200){
+                $arrResponse = json_decode($response->getBody(), true);
+                //$arrResponse =  $arrResponse["recordset"];
+                return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
+
+            }
+            else{
+                $this->systemLog($response->getBody(), "space");
+            }
+
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
             $this->systemLog($ex->getMessage(), "space");
         }
@@ -737,17 +749,6 @@ class Services extends Controller
         //var_dump($response->getStatusCode()); # 200
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
         //die;
-        if($response->getStatusCode() == 200){
-            $arrResponse = json_decode($response->getBody(), true);
-            //$arrResponse =  $arrResponse["recordset"];
-            return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
-
-        }
-        else{
-            $this->systemLog($response->getBody(), "space");
-        }
-
-
 
 
     }
@@ -797,6 +798,10 @@ class Services extends Controller
 
         try{
             $response = $client->post('https://api.sendgrid.com/v3/mail/send', $params);
+            $arrResponse = json_decode($response->getBody(), true);
+            //$arrResponse =  $arrResponse["recordset"];
+            return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
+
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
             $this->systemLog($ex->getMessage(), "sendgrid");
         }
@@ -810,9 +815,6 @@ class Services extends Controller
         //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
         //die;
 
-        $arrResponse = json_decode($response->getBody(), true);
-        //$arrResponse =  $arrResponse["recordset"];
-        return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
 
 
 
