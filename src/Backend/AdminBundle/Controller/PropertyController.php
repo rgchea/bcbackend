@@ -66,7 +66,19 @@ class PropertyController extends Controller
         $this->get("services")->setVars('property');
         $this->initialise();
 
-        //print $this->translator->getLocale();die;
+
+        ///FILTER BY ROLE
+        $filters = null;
+        if($this->role != "SUPER ADMIN"){
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $filters[$v] = $v;//the complex id
+            }
+        }
+
+        if($this->role != "SUPER ADMIN" && $filters == null){
+            return $this->redirectToRoute('backend_admin_complex_new');
+        }
 
         return $this->render('BackendAdminBundle:Property:index.html.twig', array('myPath' => 'backend_admin_property_index'));
 
@@ -95,7 +107,6 @@ class PropertyController extends Controller
 
             $complexID = $request->request->has("complexID") ? $request->request->get('complexID') : 0;
 
-
         }
         else // If the request is not a POST one, die hard
             die;
@@ -104,19 +115,13 @@ class PropertyController extends Controller
         ///FILTER BY ROLE
         $filters = null;
         if($this->role != "SUPER ADMIN"){
-
-            if($complexID != 0){
-                $filters[$complexID] = $complexID;
+            $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
+            foreach ($arrComplex as $k =>$v) {
+                $filters[$v] = $v;//the complex id
             }
-            else{
-                $arrComplex = $this->em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($this->userLogged->getId());
-                foreach ($arrComplex as $k =>$v) {
-                    $filters[$v] = $v;//the complex id
-                }
-
-            }
-
         }
+
+        //var_dump($filters);die;
 
         // Process Parameters
 

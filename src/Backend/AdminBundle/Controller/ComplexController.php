@@ -65,7 +65,6 @@ class ComplexController extends Controller
 
         return $this->render('BackendAdminBundle:Complex:index.html.twig');
 
-
     }
 
 

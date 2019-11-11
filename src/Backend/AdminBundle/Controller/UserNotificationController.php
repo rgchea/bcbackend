@@ -350,7 +350,10 @@ class UserNotificationController extends Controller
     public function createAction(Request $request)
     {
 
+        //print "<pre>";
+        //var_dump($_REQUEST);
         $this->get("services")->setVars('userNotification');
+        $this->initialise();
 
 
         $entity = new UserNotification();
@@ -362,13 +365,13 @@ class UserNotificationController extends Controller
 
         if ($form->isValid()) {
 
-
             //var_dump($myRequest);die;
             $em = $this->getDoctrine()->getManager();
             //var_dump($request->get('userNotification');die;
 
             $em->persist($entity);
             $em->flush();
+
 
 
             $this->get('services')->flashSuccess($request);

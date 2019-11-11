@@ -436,7 +436,7 @@ class RestController extends FOSRestController
             }
 
             $name = trim($request->get('name'));
-            $email = trim($request->get('email'));
+            $email = strtolower(trim($request->get('email')));
             $phone = trim($request->get('phone'));
 
             $objUser = $this->getUser();
@@ -808,6 +808,7 @@ class RestController extends FOSRestController
             $this->get("services")->blameOnMe($user, "update");
 
             $this->em->persist($user);
+            $this->em->flush();
 
             // Checking for Invite User Notifications for the registering email
             /** @var TenantContractRepository $tenantRepo */
@@ -821,15 +822,18 @@ class RestController extends FOSRestController
                 $tenantContract->setUser($user);
                 $this->get("services")->blameOnMe($tenantContract, "update");
 
-                if($tenantContract->getMainTenant()){
-                    //$objProperty = $tenantContract->getProperty();
-                    //$objProperty->setMainTenant($user);
-                    //$this->em->persist($objProperty);
+                if($tenantContract->getMainTenant() == 1){
+                    $objProperty = $tenantContract->getPropertyContract()->getProperty();
+                    $objProperty->setMainTenant($user);
+                    $this->em->persist($objProperty);
 
                 }
 
                 $this->em->persist($tenantContract);
             }
+
+            // Flushing to DB
+            $this->em->flush();
 
             // Gamification
 
@@ -846,8 +850,7 @@ class RestController extends FOSRestController
 
             //var_dump($gamificationResponse);die;
 
-            // Flushing to DB
-            $this->em->flush();
+
 
             // Sending Email
             $this->translator->setLocale($lang);

@@ -60,15 +60,16 @@
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sf_better_condos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sf_better_condos.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/BusinessController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Complex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Complex.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ShiftRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Repository/ShiftRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Business.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Business.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/CommonArea.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/CommonArea.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Complex.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Complex.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Property.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/config/doctrine/Property.orm.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/RestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/TicketController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserNotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/UserNotificationController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
@@ -227,18 +228,18 @@
       <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/promoters.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/promoters.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/promotersDistinct.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/promotersDistinct.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../santillana/classManager/web/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../santillana/classManager/web/robots.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/AppKernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/Resources/translations/FOSUserBundle.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/Resources/translations/FOSUserBundle.en.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/SymfonyRequirements.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/SymfonyRequirements.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/config/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/app/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/app/config/routing.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/donotreadme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/donotreadme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/error_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/web/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/web/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../solucel/sflow/web/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow/web/error_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/app/AppKernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/app/Resources/translations/FOSUserBundle.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/app/Resources/translations/FOSUserBundle.en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/app/SymfonyRequirements.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/app/SymfonyRequirements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/app/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/app/config/routing.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/donotreadme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/donotreadme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/error_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/web/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/web/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../solucel/sflow2.8/web/error_log" beforeDir="false" afterPath="$PROJECT_DIR$/../../solucel/sflow2.8/web/error_log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -545,7 +546,11 @@
       <workItem from="1571159132538" duration="13869000" />
       <workItem from="1571762441255" duration="36843000" />
       <workItem from="1572557406262" duration="6541000" />
-      <workItem from="1572881954969" duration="36795000" />
+      <workItem from="1572881954969" duration="37042000" />
+      <workItem from="1573236315270" duration="787000" />
+      <workItem from="1573251981607" duration="99000" />
+      <workItem from="1573252119508" duration="9559000" />
+      <workItem from="1573485928621" duration="8365000" />
     </task>
     <servers />
   </component>

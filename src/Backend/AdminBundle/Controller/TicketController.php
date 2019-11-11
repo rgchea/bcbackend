@@ -288,7 +288,7 @@ class TicketController extends Controller
 
 
 
-        $ticketComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->findBy(array('ticket' => $id, 'enabled' => 1), array('id' => 'DESC'));
+        $ticketComments = $this->em->getRepository('BackendAdminBundle:TicketComment')->findBy(array('ticket' => $id, 'enabled' => 1), array('id' => 'ASC'));
         $ticketLikes =   $this->em->getRepository("BackendAdminBundle:TicketFollower")->getApiCountPerTickets(array($id));
         if(count($ticketLikes) > 0){
             $ticketLikes = $ticketLikes[0]["count"];
@@ -430,12 +430,58 @@ class TicketController extends Controller
 
         }
         else{
+
+            //NOTIFICACIONES
+            //print "<pre>";
+            //var_dump($_REQUEST);die;
+
             //save date
             //save time
             $myDateTime = $_REQUEST["myDate"]." ".$_REQUEST["time"].":00";
             $ticket->setNotificationDateTime(new \DateTime($myDateTime));
             $ticket->setIsPublic(true);
 
+            ///broadcast push notification
+            $complexID = $this->get("services")->getSessionComplex();
+            $sectorID = intval($_REQUEST["sector_select"]);
+
+            if($sectorID == 0){
+                $sectors =  $this->em->getRepository('BackendAdminBundle:ComplexSector')->findBy(array("complex" => $complexID, "enabled" => 1));
+                foreach ($sectors  as $sector){
+                    $properties = $this->em->getRepository('BackendAdminBundle:Property')->findBy(array("complexSector" => $sector->getId(), "enabled" => 1));
+                    foreach($properties as $property){
+
+                        $myPropertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $property->getId(), "isActive" => 1, "enabled" => 1));
+                        if($myPropertyContract != NULL){
+                            $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $myPropertyContract->getId(), "enabled" => 1));
+
+                            foreach ($tenantContracts as $myTenantContract){
+                                if($myTenantContract->getUser() != NULL){
+                                    $this->get("services")->sendPushNotification($myTenantContract->getUser(), trim($_REQUEST["title"]), trim($_REQUEST["description"]));
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            else{
+
+                $properties = $this->em->getRepository('BackendAdminBundle:Property')->findBy(array("complexSector" => $sectorID, "enabled" => 1));
+                foreach($properties as $property){
+                    $myPropertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $property->getId(), "isActive" => 1, "enabled" => 1));
+                    if($myPropertyContract != NULL){
+                        $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $myPropertyContract->getId(), "enabled" => 1));
+
+                        foreach ($tenantContracts as $myTenantContract){
+                            if($myTenantContract->getUser() != NULL){
+                                $this->get("services")->sendPushNotification($myTenantContract->getUser(), trim($_REQUEST["title"]), trim($_REQUEST["description"]));
+                            }
+
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -502,6 +548,9 @@ class TicketController extends Controller
 
 
         }
+
+
+
 
         //$this->em->flush();
 
@@ -856,7 +905,7 @@ class TicketController extends Controller
         $this->em->flush();
 
         $title = $this->translator->trans("label_new")." ".$this->translator->trans("label_comment");
-        $description = $this->translator->trans("label_ticket")." #". $entity->getId(). substr(trim($_REQUEST["comment"]),0,50);
+        $description = $this->translator->trans("label_ticket")." #". $entity->getId()." ". substr(trim($_REQUEST["comment"]),0,50);
         $this->get("services")->sendPushNotification($entity->getCreatedBy(), $title, $description);
 
 

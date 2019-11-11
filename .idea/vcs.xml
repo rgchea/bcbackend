@@ -8,6 +8,6 @@
     <mapping directory="$PROJECT_DIR$/../../mayaexpress/work_process_new" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../robertohernandezchea" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../../santillana/classManager" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../../solucel/sflow" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../solucel/sflow2.8" vcs="Git" />
   </component>
 </project>
