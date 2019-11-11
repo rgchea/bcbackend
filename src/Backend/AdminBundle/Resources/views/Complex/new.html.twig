@@ -1,4 +1,4 @@
-{% if register == 1 %}
+{% if register is defined %}
     {% set myLayout = "layoutPlain.html.twig" %}
 {% else %}
     {% set myLayout = "layout.html.twig" %}
