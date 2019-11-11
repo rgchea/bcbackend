@@ -638,6 +638,7 @@ class Services extends Controller
             }
             else{
                 $this->systemLog($response->getBody(), "space token");
+                return false;
 
             }
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
@@ -726,17 +727,28 @@ class Services extends Controller
         }
 
         try{
-            $response = $client->request($method, sprintf($gameboardURL, $service), $params);
 
-            if($response->getStatusCode() == 200){
+            $response = $client->request($method, sprintf($gameboardURL, $service), $params);
+            //print "<pre>";
+            //var_dump($response);die;
+            //var_dump($response->getStatusCode());die;
+            $statusCode = $response->getStatusCode();
+            if($statusCode == 200 || $statusCode == 201 || $statusCode == 204 ){
+
                 $arrResponse = json_decode($response->getBody(), true);
+
+                //var_dump($arrResponse);die;
                 //$arrResponse =  $arrResponse["recordset"];
                 return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
 
+
             }
             else{
+                //print "entra2";die;
                 $this->systemLog($response->getBody(), "space");
+
             }
+
 
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
             $this->systemLog($ex->getMessage(), "space");
@@ -864,23 +876,36 @@ class Services extends Controller
 
         $client = new \GuzzleHttp\Client(['verify' => false]);
 
-        $response = $client->request($method, $domain.'/?ng=api/v2/'.$service, $params);
-        //var_dump($response);die;
+        try{
 
-        $code = $response->getStatusCode();
+            $response = $client->request($method, $domain.'/?ng=api/v2/'.$service, $params);
+            //print "<pre>";
+            //var_dump($response);die;
+            //var_dump($response->getStatusCode());die;
+            $statusCode = $response->getStatusCode();
+            if($statusCode == 200 || $statusCode == 201 || $statusCode == 204 ){
 
-        if($code == 200){
-            $arrResponse = json_decode($response->getBody(), true);
+                $arrResponse = json_decode($response->getBody(), true);
+
+                //var_dump($arrResponse);die;
+                //$arrResponse =  $arrResponse["recordset"];
+
+                return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
+
+
+            }
+            else{
+                //print "entra2";die;
+                $this->systemLog($response->getBody(), "space");
+
+            }
+
+
+        } catch (\GuzzleHttp\Exception\ClientException $ex) {
+            $this->systemLog($ex->getMessage(), "space");
         }
-        else{
-            $arrResponse =  array("error" => true);
-            $this->systemLog($response->getBody(), "ibilling");
-        }
-        //var_dump($response->getHeaderLine('content-type')); # 'application/json; charset=utf8'
 
-        //var_dump($arrResponse); # '{"id": 1420053, "name": "guzzle", ...}'
-        //die;
-        return $arrResponse;
+
 
     }
 

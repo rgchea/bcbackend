@@ -55,13 +55,29 @@ class CompanyController extends Controller
 
         //throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
 
+        $token = $this->get('services')->getBCToken();
+        var_dump($token);
 
+        //CREATE BUSINESS TEAM ON GAMIFICATION
+        $body = array();
+        $body['name'] = "my entity";
+        $body['description'] = "my entity address";
+        $body['teamType'] = 2;//business
+        $body["parent"] = 4;//General
+
+        $createTeam = $this->get('services')->callBCSpace("POST", "teams", $body);
+
+        //var_dump($createTeam);
+
+        $teamID = isset($createTeam["id"]) ? intval($createTeam["id"]) : 0;
+
+        //var_dump($teamID);die;
 
 
         ///TEST PAYMENTS
 
-        $bdate = strtotime("2019-10-03");
-        $edate = strtotime("2020-10-15");
+        //$bdate = strtotime("2019-10-03");
+        //$edate = strtotime("2020-10-15");
 
         //$year1 = date('Y', $ts1);
         //$year2 = date('Y', $ts2);
