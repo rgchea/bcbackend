@@ -389,7 +389,7 @@ class BusinessController extends Controller
 
         $token = $this->get('services')->getBCToken();
 
-        if($token){
+
             if ($form->isValid()) {
                 ///code + phone
                 $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
@@ -503,9 +503,8 @@ class BusinessController extends Controller
 
                 $domain = $entity->getBillingGeoState()->getGeoCountry()->getIbillingDomain();
 
-
                 $myJson = '"business_name": "'.$entity->getName().'",';
-                $myJson .= '"client_login_url": '.$domain.'"/?ng=client”",';
+                $myJson .= '"client_login_url": '.$domain.'"/?ng=client",';
                 $myJson .= '"client_email": "'.$to.'",';
                 $myJson .= '"password": "'.$billingPassword.'"';
 
@@ -521,11 +520,6 @@ class BusinessController extends Controller
                 //SYSTEM LOG
             }
 
-        }
-        else{
-            ///SYSTEM LOG GAMIFICATION
-            ///
-        }
 
         $this->get('services')->flashWarning($request);
 

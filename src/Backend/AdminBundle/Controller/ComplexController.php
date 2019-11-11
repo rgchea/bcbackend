@@ -229,8 +229,6 @@ class ComplexController extends Controller
     public function newAction(Request $request)
     {
 
-
-
         $this->get("services")->setVars('complex');
         $this->initialise();
 
@@ -246,7 +244,8 @@ class ComplexController extends Controller
         $propertyTypes = $this->em->getRepository('BackendAdminBundle:PropertyType')->findBy(array("enabled" => 1), array("id" => "DESC"));
 
         //redirected from REGISTER
-        $register =  isset($_REQUEST["register"]) ? $this->userLogged->getId() : 0;
+        //$register =  isset($_REQUEST["register"]) ? $this->userLogged->getId() : 0;
+        $register =  isset($_REQUEST["register"]) ? 1 : 0;
 
         return $this->render('BackendAdminBundle:Complex:new.html.twig', array(
             'entity' => $entity,
@@ -255,7 +254,6 @@ class ComplexController extends Controller
             'complexSectorTypes' => $complexSectorTypes,
             'propertyTypes' => $propertyTypes,
             'register' => $register
-
 
         ));
     }
