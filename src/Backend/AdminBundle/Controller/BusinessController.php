@@ -457,7 +457,6 @@ class BusinessController extends Controller
                 $this->em->persist($entity);
                 $this->em->flush();
 
-
                 /////SEND REGISTRATION SUCCESS MAIL
                 /// Usuario de acceso a Bettercondos.space
                 //Usuario de acceso a bettercondos.info
@@ -467,8 +466,6 @@ class BusinessController extends Controller
                 //Datos de contacto
                 ///
                 //generalTemplateMail($subject, $to, $bodyHtml, $bodyText = null,  $from = null){
-
-
 
                 //iBilling
                 /*
@@ -504,7 +501,7 @@ class BusinessController extends Controller
                 $domain = $entity->getBillingGeoState()->getGeoCountry()->getIbillingDomain();
 
                 $myJson = '"business_name": "'.$entity->getName().'",';
-                $myJson .= '"client_login_url": '.$domain.'"/?ng=client",';
+                $myJson .= '"client_login_url": "'.$domain.'/?ng=client",';
                 $myJson .= '"client_email": "'.$to.'",';
                 $myJson .= '"password": "'.$billingPassword.'"';
 
