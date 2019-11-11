@@ -851,7 +851,7 @@ class ComplexController extends Controller
 
 
         $token = $this->get('services')->getBCToken();
-        if($token){
+
 
             $myPath = $entity->getAvatarPath();
 
@@ -953,17 +953,12 @@ class ComplexController extends Controller
                     }
 
                 }
-
                 $this->get('services')->flashSuccess($request);
                 return $this->redirect($this->generateUrl('backend_admin_complex_index', array('id' => $id)));
 
             }
 
-        }
-        else{
-            ///SYSTEM LOG GAMIFICATION
-            ///
-        }
+
 
         $this->get('services')->flashWarning($request);
 
