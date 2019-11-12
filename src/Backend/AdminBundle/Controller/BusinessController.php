@@ -424,6 +424,11 @@ class BusinessController extends Controller
                 $this->em->persist($userObj);
                 $this->em->flush();
 
+                $email = strtolower(trim($entity->getEmail()));
+                $entity->setEmail($email);
+                $this->em->persist($entity);
+                $this->em->flush();
+
                 $countryCode = "+".$entity->getGeoState()->getGeoCountry()->getCode();
 
                 $phone = $countryCode.$entity->getPhoneNumber();
@@ -434,7 +439,7 @@ class BusinessController extends Controller
                 $body = array(
                     array('name' => 'account', 'contents' => $entity->getName()),
                     array('name' => 'phone', 'contents' => $phone),
-                    array('name' => 'email', 'contents' => $entity->getEmail()),
+                    array('name' => 'email', 'contents' => $email),
                     array('name' => 'password', 'contents' => $billingPassword),
                     array('name' => 'address', 'contents' => $entity->getAddress()),
                     array('name' => 'state', 'contents' => $entity->getGeoState()->getName()),
@@ -508,7 +513,7 @@ class BusinessController extends Controller
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $to);
 
                 $this->get('services')->flashSuccess($request);
-                return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 1)));
+                return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => $this->userLogged->getId())));
 
             }
 
@@ -525,7 +530,7 @@ class BusinessController extends Controller
         return $this->render('BackendAdminBundle:Business:new.html.twig', array(
             'entity' => $entity,
             'form' => $form->createView(),
-            'userID' => $this->userLogged->getID(),
+            'userID' => $this->userLogged->getId(),
             'countries' => $countries,
             'new' => 1
 

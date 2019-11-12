@@ -229,6 +229,7 @@ class ComplexController extends Controller
     public function newAction(Request $request)
     {
 
+        //var_dump($_REQUEST);DIE;
         $this->get("services")->setVars('complex');
         $this->initialise();
 
@@ -244,8 +245,8 @@ class ComplexController extends Controller
         $propertyTypes = $this->em->getRepository('BackendAdminBundle:PropertyType')->findBy(array("enabled" => 1), array("id" => "DESC"));
 
         //redirected from REGISTER
-        $register =  isset($_REQUEST["register"]) ? $this->userLogged->getId() : 0;
-        //$register =  isset($_REQUEST["register"]) ? 1 : 0;
+        $register =  isset($_REQUEST["register"]) && intval($_REQUEST["register"]) != 0 ? $this->userLogged->getId() : 0;
+        //var_dump($register);die;
 
         return $this->render('BackendAdminBundle:Complex:new.html.twig', array(
             'entity' => $entity,
@@ -424,7 +425,8 @@ class ComplexController extends Controller
     public function createAction(Request $request)
     {
 
-
+        //print "<pre>";
+        //var_dump($_REQUEST);die;
 
         $this->get("services")->setVars('complex');
 
@@ -468,11 +470,9 @@ class ComplexController extends Controller
                 $entity->setBusiness($business);
                 $businessLocale = $business->getGeoState()->getGeoCountry()->getLocale();
 
-
                 ///code + phone
-                $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName($_REQUEST["phone_code"]);
+                $objCountry = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findOneByShortName(trim($_REQUEST["phone_code"]));
                 $entity->setPhoneCountry($objCountry);
-
 
                 //CREATE SECTORS and PROPERTIES
                 $sectorQuantity = $_REQUEST["complex"]["sectionsQuantity"];
@@ -484,7 +484,6 @@ class ComplexController extends Controller
                 else{
                     $sectorTypeName = $businessLocale == "en" ? $sectorType->getNameEN() : $sectorType->getNameES();
                 }
-
 
                 //properties per section
                 $propertiesPerSection = intval($_REQUEST["complex"]["propertiesPerSection"]);
@@ -657,6 +656,11 @@ class ComplexController extends Controller
 
                     $this->em->flush();
 
+                    $emailComplex = strtolower(trim($entity->getEmail()));
+                    $entity->setEmail($emailComplex);
+                    $this->em->persist($entity);
+                    $this->em->flush();
+
 
 
 
@@ -749,7 +753,6 @@ class ComplexController extends Controller
                 $this->get("services")->addPointsAdmin($entity, $message, $playKey);
 
 
-
                 $this->get('services')->flashSuccess($request);
                 return $this->redirect($this->generateUrl('backend_admin_complex_index'));
 
@@ -762,13 +765,22 @@ class ComplexController extends Controller
 
 
 
-
         $this->get('services')->flashWarning($request);
 
+        if(isset($_REQUEST["register"])){
+            return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => $this->userLogged->getId())));
+        }
+        else{
+            return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 0)));
+        }
+
+
+        /*
         return $this->render('BackendAdminBundle:Complex:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+        */
     }
 
     /**

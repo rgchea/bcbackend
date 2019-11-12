@@ -228,7 +228,10 @@
 		</div>
 		<!--</form>-->
 		{% if register is defined %}
-			<input type="hidden" name="myUser" value="{{ register }}"
+			{% if register != 0 %}
+			<input type="hidden" name="myUser" value="{{ register }}">
+			<input type="hidden" name="register" value="{{ register }}"
+			{% endif %}
 		{% endif %}
 
 
@@ -357,8 +360,8 @@
 		});
 
 
-		$("#complex_sectionsQuantity").rules("add", {required:true, digits: true,  max: 200});
-		$("#complex_propertiesPerSection").rules("add", {required:true, digits: true, max: 99});
+		$("#complex_sectionsQuantity").rules("add", {required:true, digits: true,  max: 500});
+		$("#complex_propertiesPerSection").rules("add", {required:true, digits: true, max: 1000});
 
 		$("#complex_zipCode").rules("add", {required:true, minlength: 5, digits:true});
 		$("#complex_phoneNumber").rules("add", {required:true, minlength: 8, digits:true});
