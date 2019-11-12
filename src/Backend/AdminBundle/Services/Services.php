@@ -638,8 +638,6 @@ class Services extends Controller
             }
             else{
                 $this->systemLog($response->getBody(), "space token");
-                return false;
-
             }
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
             $this->systemLog($ex->getMessage(), "space");
@@ -740,8 +738,6 @@ class Services extends Controller
                 //var_dump($arrResponse);die;
                 //$arrResponse =  $arrResponse["recordset"];
                 return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
-
-
             }
             else{
                 //print "entra2";die;
