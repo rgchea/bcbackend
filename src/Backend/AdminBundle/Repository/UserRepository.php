@@ -183,8 +183,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             $strFilter = " AND uc.user_id = {$userID} ";
         }
 
-
-        $sql = "	SELECT  DISTINCT(uc.user_id) id
+        $sql = "	SELECT  DISTINCT(uc.user_id) id, u.name
 					FROM    business b    
 					    INNER JOIN complex c ON(c.business_id = b.id)
 					    INNER JOIN user_complex uc ON(uc.complex_id = c.id)
@@ -192,7 +191,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 					WHERE   b.id = {$businessID}
 					AND     u.role_id != 1
 					{$strFilter}
-					ORDER BY c.name";
+					ORDER BY u.name";
         //AND     u.role_id != 1 // EXCLUDE ADMIN FOR THE SUPERVISORS
 
         //print $sql;die;
@@ -208,6 +207,37 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return $arrReturn;
+
+    }
+
+
+    public function getUserByBusiness($businessID)
+    {
+
+
+        $sql = "	SELECT  DISTINCT(u.id) id, u.name
+					FROM    user u    
+					    INNER JOIN business b ON(b.id = u.business_id)
+					WHERE   b.id = {$businessID}
+					ORDER BY u.name";
+        //AND     u.role_id != 1 // EXCLUDE ADMIN FOR THE SUPERVISORS
+
+        //print $sql;die;
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        $execute = $stmt->fetchAll();
+        $arrReturn = array();
+
+        foreach ($execute as $row) {
+            $arrReturn[$row["id"]] = $row["id"];
+        }
+
+        //var_dump($arrReturn);die;
+        return $arrReturn;
+
+
 
     }
 

@@ -54,6 +54,12 @@ class ComplexSectorController extends Controller
         $this->initialise();
 
         //print $this->translator->getLocale();die;
+        if($this->role != "SUPER ADMIN"){
+            if(count($this->session->get("myComplexes")) == 0){
+                return $this->redirectToRoute('backend_admin_complex_new');
+                //throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+        }
 
 
         return $this->render('BackendAdminBundle:ComplexSector:index.html.twig', array(
@@ -237,6 +243,13 @@ class ComplexSectorController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendAdminBundle:ComplexSector')->find($id);
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //users cannot view private complexes
+        $this->get('services')->checkComplexAccess($entity->getComplex()->getId());
+
 
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);

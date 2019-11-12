@@ -56,6 +56,13 @@ class ComplexFaqController extends Controller
         $this->get("services")->setVars('complexFaq');
         $this->initialise();
 
+        if($this->role != "SUPER ADMIN"){
+            if(count($this->session->get("myComplexes")) == 0){
+                return $this->redirectToRoute('backend_admin_complex_new');
+                //throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+        }
+
         //print $this->translator->getLocale();die;
 
         return $this->render('BackendAdminBundle:ComplexFaq:index.html.twig');
@@ -217,7 +224,15 @@ class ComplexFaqController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        $id = intval($id);
         $entity = $em->getRepository('BackendAdminBundle:ComplexFaq')->find($id);
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //users cannot view private complexes
+        $this->get('services')->checkComplexAccess($entity->getComplex()->getId());
+
 
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);

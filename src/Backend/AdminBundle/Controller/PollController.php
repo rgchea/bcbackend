@@ -387,6 +387,35 @@ class PollController extends Controller
 
         $entity = $this->em->getRepository('BackendAdminBundle:Poll')->find($id);
 
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //var_dump($this->session->get("myComplexes"));die;
+        if($this->role != "SUPER ADMIN"){
+            $pollComplex = $this->em->getRepository('BackendAdminBundle:ComplexPoll')->findByPoll($id);
+            $access = false;
+            if($pollComplex != NULL){
+
+                foreach ($pollComplex as $pc){
+                    $myComplexID = $pc->getComplex()->getId();
+                    ///var_dump($myComplexID);
+                    $searchComplex = array_search($myComplexID, $this->session->get("myComplexes"));
+                    //var_dump($searchComplex);
+                    if($searchComplex != false){
+                        //print "entra";die;
+                        $access = true;
+                    }
+                }
+            }
+
+            if($access == false){
+                throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+        }
+
+
+
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);
 

@@ -13,8 +13,10 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Backend\AdminBundle\Entity\SystemChangeLog;
-
 use GuzzleHttp\Client;
+
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\RouterInterface;
 
 
 class Services extends Controller
@@ -24,12 +26,14 @@ class Services extends Controller
     protected $container;
     private $security;
     private $translator;
+    private $router;
 
-    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container, Security $security){
+    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container, Security $security, RouterInterface $router){
         $this->em = $entityManager;
         $this->container = $container;
         $this->security = $security;
         $this->translator = $this->get('translator');
+        $this->router = $router;
     }
     
     public function getRandomCode($length = 8, $entity = 'User', $min = false){
@@ -351,23 +355,15 @@ class Services extends Controller
 		if(!$auth){
 			throw new AccessDeniedException();//el usuario está loggeado
 		}
-			
-			
+
+
+
 		$user = $this->getUser();
 		$session->set('user_logged', $user);
 		//var_dump($user);die;
 		
 		//var_dump($user);die;
 
-		/*
-		if($user->getServiceCenter() == NULL){
-			$session->set('user_service_center', 0);	
-		}
-		else{
-			$session->set('user_service_center', $user->getServiceCenter()->getId());
-		}		
-		*/	
-		
 		
 						
 		$this->getUserAccess();
@@ -383,6 +379,7 @@ class Services extends Controller
 
 
 		//complex
+        //var_dump($user->getRole()->getName());die;
         if($user->getRole()->getName() == "SUPER ADMIN"){
             /*
             if (!$session->has("sessionComplex")) {
@@ -416,18 +413,45 @@ class Services extends Controller
                 }
             }
 
-
             //if (!$session->has("myComplexes")) {
-                $complexes = $em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($user->getId());
-                $session->set("myComplexes", $complexes);
+            $complexes = $em->getRepository('BackendAdminBundle:Complex')->getComplexByUser($user->getId());
+            //var_dump($complexes);die;
+
+            $session->set("myComplexes", $complexes);
 
             //}
+            //print "<pre>";
+            //var_dump($session->get("sessionComplex"));die;
+            //users cannot view private complexes
+            $searchComplex = array_search($session->get("sessionComplex"), $complexes);
+            //var_dump($searchComplex);die;
+            if($searchComplex == false){
+                //throw new AccessDeniedException();
+            }
+
+
         }
 
 
 
 
-    }	
+    }
+
+
+    function checkComplexAccess($complexID){
+        $session = new Session();
+
+        if($session->get("user_role") != "SUPER ADMIN"){
+            $searchComplex = array_search($complexID, $session->get("myComplexes"));
+            //var_dump($searchComplex);die;
+            if($searchComplex == false){
+                throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+
+        }
+
+
+    }
 	
 
 	function quitar_tildes($cadena) {

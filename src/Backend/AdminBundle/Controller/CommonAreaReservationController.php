@@ -466,6 +466,15 @@ class CommonAreaReservationController extends Controller
         $this->initialise();
 
         $entity = $this->em->getRepository('BackendAdminBundle:CommonAreaReservation')->find($id);
+
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //users cannot view private complexes
+        $this->get("services")->checkComplexAccess($entity->getCommonArea()->getComplex()->getId());
+
+
         $reservationID = $entity->getId();
         $payment = $this->em->getRepository('BackendAdminBundle:PropertyContractTransaction')->findOneByCommonAreaReservation($reservationID);
         $bookingComments = $this->em->getRepository('BackendAdminBundle:BookingComment')->findBy(array('commonAreaReservation' => $reservationID, 'enabled' => 1), array('id' => 'DESC'));

@@ -74,7 +74,6 @@ class UserController extends Controller
         // Set up required variables
         $this->initialise();
 
-
         // Get the parameters from DataTable Ajax Call
         if ($request->getMethod() == 'POST')
         {
@@ -91,32 +90,33 @@ class UserController extends Controller
 
         // Process Parameters
         $myArray = array();
+        $arrTMP = array();
 
 
         if($this->role == "ADMIN"){
-            $myArray["business"] = $this->userLogged->getBusiness()->getId();
+            //$myArray["business"] = $this->userLogged->getBusiness()->getId();
+            $arrTMP = $this->repository->getUserByBusiness($this->userLogged->getBusiness()->getId());
         }
         elseif ($this->role == "COMPLEX SUPERVISOR"){
-            $arrTMP = $this->repository->getUserByBusinessComplex(0, $this->userLogged->getBusiness()->getId());
-            $strIN = "";
-            foreach ($arrTMP as $key => $value){
-                $strIN .= $strIN == "" ? $key : ",".$key;
-            }
-
-            $myArray = $strIN;
-
+            $arrTMP = $this->repository->getUserByBusinessComplex($this->userLogged->getId(), $this->userLogged->getBusiness()->getId());
         }
         //COMPLEX ADMIN
         elseif ($this->role == "COMPLEX ADMIN"){
             $arrTMP = $this->repository->getUserByBusinessComplex($this->userLogged->getId(), $this->userLogged->getBusiness()->getId());
-            $strIN = "";
-            foreach ($arrTMP as $key => $value){
-                $strIN .= $strIN == "" ? $key : ",".$key;
-            }
-
-            $myArray = $strIN;
         }
 
+        $strIN = "";
+        foreach ($arrTMP as $key => $value){
+            $strIN .= $strIN == "" ? $key : ",".$key;
+        }
+
+        $myArray = $strIN;
+
+        if($this->role == "SUPER ADMIN"){
+            $myArray = "";
+        }
+
+        //var_dump($myArray);die;
 
         $results = $this->repository->getRequiredDTData($start, $length, $orders, $search, $columns, $myArray);
         $objects = $results["results"];
@@ -245,8 +245,31 @@ class UserController extends Controller
     	$this->get("services")->setVars('user');
     	$this->initialise();
 
-
+        $id = intval($id);
         $entity = $this->repository->find($id);
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        if($this->role != "SUPER ADMIN"){
+            $myBusinessID = intval($this->userLogged->getBusiness()->getId());
+            $userBusinessID = intval($entity->getBusiness()->getId());
+
+            if($myBusinessID != $userBusinessID){
+                throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+
+            //los supervisores y complex admin no pueden entrar a editar otros usuarios
+            if($this->role != "ADMIN"){
+                $myUserID = $this->userLogged->getId();
+
+                if($myUserID != $id){
+
+                    throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+                }
+            }
+        }
+
 				
         $deleteForm = $this->createDeleteForm($entity);
 		$editForm = $this->createEditForm($entity);

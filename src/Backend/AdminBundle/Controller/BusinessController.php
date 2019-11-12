@@ -282,7 +282,18 @@ class BusinessController extends Controller
         $this->get("services")->setVars('business');
         $this->initialise();
 
+        $id = intval($id);
+
         $entity = $this->repository->find($id);
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        $userBusiness = intval($this->userLogged->getBusiness()->getId());
+        if($userBusiness != $id){
+            throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+        }
+
 
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);

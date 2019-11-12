@@ -60,6 +60,16 @@ class ComplexController extends Controller
         //var_dump($this->translator->trans('label_welcome'));
         $this->get("services")->setVars('complex');
         $this->initialise();
+        //var_dump();die;
+        if($this->role != "SUPER ADMIN"){
+            if(count($this->session->get("myComplexes")) == 0){
+                return $this->redirectToRoute('backend_admin_complex_new');
+                //throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+
+        }
+
+
 
         //print $this->translator->getLocale();die;
 
@@ -290,6 +300,9 @@ class ComplexController extends Controller
         if(!$entity){
             throw $this->createNotFoundException('Not found.');
         }
+
+        //users cannot view private complexes
+        $this->get('services')->checkComplexAccess($id);
 
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);

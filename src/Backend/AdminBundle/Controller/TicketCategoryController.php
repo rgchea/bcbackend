@@ -53,6 +53,12 @@ class TicketCategoryController extends Controller
         $this->initialise();
 
         //print $this->translator->getLocale();die;
+        if($this->role != "SUPER ADMIN"){
+            if(count($this->session->get("myComplexes")) == 0){
+                return $this->redirectToRoute('backend_admin_complex_new');
+                //throw $this->createAccessDeniedException($this->translator->trans('label_access_denied'));
+            }
+        }
 
 
         return $this->render('BackendAdminBundle:TicketCategory:index.html.twig', array(
@@ -244,6 +250,14 @@ class TicketCategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BackendAdminBundle:TicketCategory')->find($id);
+
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //users cannot view private complexes
+        $this->get('services')->checkComplexAccess($entity->getComplex()->getId());
+
 
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);

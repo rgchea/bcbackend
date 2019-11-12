@@ -317,6 +317,13 @@ class PropertyController extends Controller
 
         $entity = $em->getRepository('BackendAdminBundle:Property')->find($id);
 
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //users cannot view private complexes
+        $this->get('services')->checkComplexAccess($entity->getComplex()->getId());
+
         $deleteForm = $this->createDeleteForm($entity);
         $editForm = $this->createEditForm($entity);
 

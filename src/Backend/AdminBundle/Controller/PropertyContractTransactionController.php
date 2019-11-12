@@ -267,6 +267,14 @@ class PropertyContractTransactionController extends Controller
 
         $entity = $em->getRepository('BackendAdminBundle:PropertyContractTransaction')->find($id);
 
+        if(!$entity){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //users cannot view private complexes
+        $this->get('services')->checkComplexAccess($entity->getPropertyContract()->getProperty()->getId());
+
+
         return $this->render('BackendAdminBundle:PropertyContractTransaction:edit.html.twig', array(
             'entity' => $entity,
             'edit' => $entity->getId()
