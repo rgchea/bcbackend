@@ -819,7 +819,7 @@ class Complex
         return $this->teamCorrelative;
     }
     /**
-     * @Assert\File(maxSize="6000000", mimeTypes={ "image/png", "image/jpeg", "image/jpg" })
+     * @Assert\File(maxSize="2M", mimeTypes={ "image/png", "image/jpeg", "image/jpg" })
      */
     private $avatarPath;
 
