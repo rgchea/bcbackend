@@ -875,11 +875,11 @@ class Services extends Controller
         try{
 
             $response = $client->request($method, $domain.'/?ng=api/v2/'.$service, $params);
-            print "<pre>";
-            var_dump($response);die;
+            //print "<pre>";
+            //var_dump($response);die;
             //var_dump($response->getStatusCode());die;
             $statusCode = $response->getStatusCode();
-            if($statusCode == 200 || $statusCode == 201 || $statusCode == 204 ){
+            //if($statusCode == 200 || $statusCode == 201 || $statusCode == 204 ){
 
                 $arrResponse = json_decode($response->getBody(), true);
 
@@ -888,13 +888,14 @@ class Services extends Controller
 
                 return $arrResponse; # '{"id": 1420053, "name": "guzzle", ...}'
 
-
+            /*
             }
             else{
                 //print "entra2";die;
                 $this->systemLog($response->getBody(), "space");
 
             }
+            */
 
 
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
