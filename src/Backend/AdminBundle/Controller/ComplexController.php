@@ -758,21 +758,19 @@ class ComplexController extends Controller
 
             }
 
-            else{
-                //print "FORMULARIO NO VALIDO";DIE;
-                //SYSTEM LOG ERROR ADMIN
-            }
-
 
 
         $this->get('services')->flashWarning($request);
 
         if(isset($_REQUEST["register"])){
-            return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => $this->userLogged->getId())));
+            if(intval($_REQUEST["register"]) != 0){
+                return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => $this->userLogged->getId())));
+            }
+            else{
+                return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 0)));
+            }
         }
-        else{
-            return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 0)));
-        }
+
 
 
         /*
