@@ -875,8 +875,8 @@ class Services extends Controller
         try{
 
             $response = $client->request($method, $domain.'/?ng=api/v2/'.$service, $params);
-            //print "<pre>";
-            //var_dump($response);die;
+            print "<pre>";
+            var_dump($response);die;
             //var_dump($response->getStatusCode());die;
             $statusCode = $response->getStatusCode();
             if($statusCode == 200 || $statusCode == 201 || $statusCode == 204 ){

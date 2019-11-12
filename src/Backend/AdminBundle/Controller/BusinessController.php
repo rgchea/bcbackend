@@ -606,7 +606,8 @@ class BusinessController extends Controller
             $this->em->flush();
 
             ///UPDATE BUSINESS TEAM ON GAMIFICATION
-            ///
+            $token = $this->get('services')->getBCToken();
+
             $body = array();
             $body['name'] = $entity->getName();
             $body['description'] = $entity->getName();

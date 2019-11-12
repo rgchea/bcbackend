@@ -440,7 +440,7 @@ class ComplexController extends Controller
          * */
 
         $token = $this->get('services')->getBCToken();
-        if($token){
+
 
             if ($form->isValid()) {
 
@@ -761,11 +761,7 @@ class ComplexController extends Controller
             }
 
 
-        }
-        else{
-            ///SYSTEM LOG GAMIFICATION
-            ///
-        }
+
 
         $this->get('services')->flashWarning($request);
 
