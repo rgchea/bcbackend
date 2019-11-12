@@ -761,6 +761,7 @@ class ComplexController extends Controller
 
 
         $this->get('services')->flashWarning($request);
+        //var_dump($_REQUEST["register"]);die;
 
         if(isset($_REQUEST["register"])){
             if(intval($_REQUEST["register"]) != 0){
@@ -769,6 +770,9 @@ class ComplexController extends Controller
             else{
                 return $this->redirect($this->generateUrl('backend_admin_complex_new', array("register" => 0)));
             }
+        }
+        else{
+            throw $this->createNotFoundException('Not found.');
         }
 
 
