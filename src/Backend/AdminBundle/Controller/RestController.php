@@ -1073,7 +1073,6 @@ class RestController extends FOSRestController
             $this->em->persist($tenantContract);
             $this->em->persist($notification);
 
-
             //$this->em->persist($property);
             $this->em->flush();
 
@@ -1093,7 +1092,7 @@ class RestController extends FOSRestController
             //print "<pre>";
             //var_dump($userTeam);die;
             $myUserTeam = isset($userTeam["id"]) ? intval($userTeam["id"]) : 0;
-            $tenantContract->setPlayerId();
+            $tenantContract->setPlayerId($myUserTeam);
             $this->em->persist($tenantContract);
             $this->em->flush();
 
