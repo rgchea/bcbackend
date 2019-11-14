@@ -260,7 +260,8 @@ class CommonAreaController extends Controller
             'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'edit' => $id,
-            'availability' => $availability
+            'availability' => $availability,
+            'token' => $entity->getToken()
         ));
     }
 
@@ -356,29 +357,37 @@ class CommonAreaController extends Controller
             /*SET THE WEEK SCHEDULE*/
             $mySchedule = json_decode($_REQUEST["my_schedule"], true);
 
-            foreach ($mySchedule as $key => $weekDay){
+            if(is_array($mySchedule)) {
+                if(count($mySchedule) > 0){
 
-                $day =  intval($weekDay["day"]);
-                $arrPeriods = $weekDay["periods"];
+                    foreach ($mySchedule as $key => $weekDay){
 
-                foreach ($arrPeriods as $pk => $period){
-                    $start = $period["start"];
-                    $end = $period["end"];
+                        $day =  intval($weekDay["day"]);
+                        $arrPeriods = $weekDay["periods"];
 
-                    $newAvailability = new CommonAreaAvailability();
-                    $newAvailability->setCommonArea($entity);
-                    $newAvailability->setWeekdaySingle($day);
-                    $newAvailability->setHourFrom($start);
-                    $newAvailability->setHourTo($end);
+                        foreach ($arrPeriods as $pk => $period){
+                            $start = $period["start"];
+                            $end = $period["end"];
 
-                    $this->get("services")->blameOnMe($newAvailability, "create");
+                            $newAvailability = new CommonAreaAvailability();
+                            $newAvailability->setCommonArea($entity);
+                            $newAvailability->setWeekdaySingle($day);
+                            $newAvailability->setHourFrom($start);
+                            $newAvailability->setHourTo($end);
 
-                    $this->em->persist($newAvailability);
-                    $this->em->flush();
+                            $this->get("services")->blameOnMe($newAvailability, "create");
+
+                            $this->em->persist($newAvailability);
+                            $this->em->flush();
+
+                        }
+
+                    }
+
 
                 }
-
             }
+
 
 
 
@@ -514,30 +523,38 @@ class CommonAreaController extends Controller
 
             $mySchedule = json_decode($_REQUEST["my_schedule"], true);
 
-            foreach ($mySchedule as $key => $weekDay){
+            if(is_array($mySchedule)){
+                if(count($mySchedule) > 0){
 
-                $day =  intval($weekDay["day"]);
-                $arrPeriods = $weekDay["periods"];
+                    foreach ($mySchedule as $key => $weekDay){
 
-                foreach ($arrPeriods as $pk => $period){
-                    $start = $period["start"];
-                    $end = $period["end"];
+                        $day =  intval($weekDay["day"]);
+                        $arrPeriods = $weekDay["periods"];
 
-                    $newAvailability = new CommonAreaAvailability();
-                    $newAvailability->setCommonArea($entity);
-                    $newAvailability->setWeekdaySingle($day);
-                    $newAvailability->setHourFrom($start);
-                    $newAvailability->setHourTo($end);
+                        foreach ($arrPeriods as $pk => $period){
+                            $start = $period["start"];
+                            $end = $period["end"];
 
-                    $this->get("services")->blameOnMe($newAvailability, "create");
-                    $this->get("services")->blameOnMe($newAvailability, "update");
+                            $newAvailability = new CommonAreaAvailability();
+                            $newAvailability->setCommonArea($entity);
+                            $newAvailability->setWeekdaySingle($day);
+                            $newAvailability->setHourFrom($start);
+                            $newAvailability->setHourTo($end);
 
-                    $this->em->persist($newAvailability);
-                    $this->em->flush();
+                            $this->get("services")->blameOnMe($newAvailability, "create");
+                            $this->get("services")->blameOnMe($newAvailability, "update");
+
+                            $this->em->persist($newAvailability);
+                            $this->em->flush();
+
+                        }
+
+                    }
 
                 }
-
             }
+
+
 
 
 
@@ -558,7 +575,9 @@ class CommonAreaController extends Controller
     }
 
 
-    public function imageSendAction(Request $request){
+    public function imageSendAction(Request $request, $token){
+
+        //var_dump($_REQUEST);die;//
 
         $this->get("services")->setVars('commonArea');
         $this->initialise();
@@ -577,7 +596,7 @@ class CommonAreaController extends Controller
         */
 
 
-        $commonAreaID = trim($_REQUEST["common_area"]);//TOKEN
+        //$commonAreaID = trim($_REQUEST["common_area"]);//TOKEN
         //$objCommonArea = $this->em->getRepository('BackendAdminBundle:CommonArea')->find($commonAreaID);
 
         $document = new CommonAreaPhoto();
@@ -589,7 +608,7 @@ class CommonAreaController extends Controller
         $document->setPhotoPath($fileName);
         //$document->setName($media->getClientOriginalName());
         //$document->setCommonArea($objCommonArea);
-        $document->setToken($commonAreaID);
+        $document->setToken($token);
         $document->upload($fileName);
 
         $this->get("services")->blameOnMe($document, "create");

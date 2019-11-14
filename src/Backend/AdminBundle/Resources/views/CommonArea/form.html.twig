@@ -192,7 +192,7 @@
 
 							<h3>{{ 'label_photo'|trans }} </h3>
 							<h2>5 {{ 'label_max_files'|trans }} </h2>
-							<div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('common_area_ajax_snippet_image_send')}}">
+							<div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('common_area_ajax_snippet_image_send', {token: token})}}">
 
 							</div>
 							<br/>
@@ -342,18 +342,14 @@
 
 			var myDropzone = new Dropzone("#form_snippet_image", {
 				url: _actionToDropZone,
-				params: {
-					{#common_area: {{ entity.id }}#}
-					common_area: '{{ myToken }}'
-				},
-				maxFilesize: 5, // MB
+				maxFilesize: 3, // MB
 				maxFiles: 5,
 				addRemoveLinks: true,
 				createImageThumbnails: true,
 				acceptedFiles: ".png,.jpg,.jpeg",
 				thumbnailWidth: 250,
 				thumbnailHeight: 250,
-				autoProcessQueue: false,
+				autoProcessQueue: true,
 				parallelUploads: 5,
 				uploadMultiple: false,
 				success: function(file, response){
@@ -369,12 +365,17 @@
 						thisDropzone = this;
 
 						// First change the button to actually tell Dropzone to process the queue.
+						/*
 						document.getElementById("mySubmit").addEventListener("click", function(e) {
 							// Make sure that the form isn't actually being sent.
 							e.preventDefault();
 							e.stopPropagation();
 							thisDropzone.processQueue();
 						});
+						*/
+
+
+
 
 						{% if edit is defined %}
 
@@ -468,6 +469,7 @@
 							}
 						});
 
+						/*
 						this.on("totaluploadprogress", function(totalPercentage, totalBytesSent){
 
 
@@ -478,12 +480,11 @@
 
 							}
 						});
+						*/
 
 					}
 
 			});
-
-
 
 
 

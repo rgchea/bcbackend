@@ -33,7 +33,7 @@ backend_admin_common_area_delete:
     #methods:  DELETE
 
 common_area_ajax_snippet_image_send:
-    path:     /imagesend
+    path:     /{token}/imagesend
     defaults: { _controller: "BackendAdminBundle:CommonArea:imageSend" }
 
 
