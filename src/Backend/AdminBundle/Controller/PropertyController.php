@@ -986,7 +986,7 @@ class PropertyController extends Controller
 
             $tenantEmail = strtolower(trim($_REQUEST["agreement"]["tenant_email"]));
             $ownerEmail = strtolower(trim($_REQUEST["agreement"]["owner_email"]));
-            $maintenancePrice = $_REQUEST["agreement"]["maintenance"];
+            $maintenancePrice = floatval($_REQUEST["agreement"]["maintenance"]);
             $whopaysmaintenance = $_REQUEST["agreement"]["whopaysmaintenance"];
             $startDate =  $_REQUEST["agreement"]["start"];
             $endDate = $_REQUEST["agreement"]["end"];
