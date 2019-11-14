@@ -272,7 +272,7 @@ class PropertyContractTransactionController extends Controller
         }
 
         //users cannot view private complexes
-        $this->get('services')->checkComplexAccess($entity->getPropertyContract()->getProperty()->getId());
+        $this->get('services')->checkComplexAccess($entity->getPropertyContract()->getProperty()->getComplex()->getId());
 
 
         return $this->render('BackendAdminBundle:PropertyContractTransaction:edit.html.twig', array(

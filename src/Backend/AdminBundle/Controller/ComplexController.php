@@ -294,7 +294,7 @@ class ComplexController extends Controller
         $this->get("services")->setVars('complex');
         $this->initialise();
 
-
+        $id = intval($id);
         $entity = $this->em->getRepository('BackendAdminBundle:Complex')->find($id);
 
         if(!$entity){
