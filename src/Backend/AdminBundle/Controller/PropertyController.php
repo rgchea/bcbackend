@@ -984,8 +984,8 @@ class PropertyController extends Controller
             //se crea property contract y tenant_contract
             //cuando el usuario se registre, se debe de actualizar en tenant_contract el user_id
 
-            $tenantEmail = trim($_REQUEST["agreement"]["tenant_email"]);
-            $ownerEmail = trim($_REQUEST["agreement"]["owner_email"]);
+            $tenantEmail = strtolower(trim($_REQUEST["agreement"]["tenant_email"]));
+            $ownerEmail = strtolower(trim($_REQUEST["agreement"]["owner_email"]));
             $maintenancePrice = $_REQUEST["agreement"]["maintenance"];
             $whopaysmaintenance = $_REQUEST["agreement"]["whopaysmaintenance"];
             $startDate =  $_REQUEST["agreement"]["start"];
@@ -1013,12 +1013,10 @@ class PropertyController extends Controller
             // se guardan datos de la propiedad
             // is available 1
 
-
             $this->get('services')->flashSuccess($request);
             return $this->redirect($this->generateUrl('backend_admin_property_index'));
 
             //////////////
-
 
         }
         else{
