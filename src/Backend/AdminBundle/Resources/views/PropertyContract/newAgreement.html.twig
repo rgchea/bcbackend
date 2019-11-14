@@ -71,7 +71,7 @@
                                 <p class="txt-blue-bold">{{ 'label_maintenance'|trans }}: </p>
                             </div>
                             <div class="col-md-7 text-right">
-                                <input type="text" class="form-control" value="{{ entity.maintenancePrice|number_format(2, '.', '') }}" name="agreement[maintenance]" >
+                                <input type="text" class="form-control" value="{{ entity.maintenancePrice|number_format(2, '.', '') }}" id="maintenance" name="agreement[maintenance]" >
 
                             </div>
 
@@ -90,7 +90,7 @@
                                 <p class="txt-blue-bold">{{ 'label_tenant'|trans }} {{ 'label_email'|trans }}: </p>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="example@example.com" name="agreement[tenant_email]" >
+                                <input type="text" class="form-control" placeholder="example@example.com" id="tenant_email" name="agreement[tenant_email]" >
                             </div>
 
                         </div>
@@ -134,7 +134,7 @@
                                 <p class="txt-blue-bold">{{ 'label_owner'|trans }} {{ 'label_email'|trans }}: </p>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" value="{{ entity.ownerEmail }}" name="agreement[owner_email]" >
+                                <input type="text" class="form-control" value="{{ entity.ownerEmail }}" id="owner_email" name="agreement[owner_email]" >
                             </div>
                         </div>
 
@@ -161,7 +161,26 @@
     </div>
     <!-- END: CONTENT -->
 
+    <script>
 
+        $( document ).ready(function() {
+            $("[name='agreement']").validate({
+                success: function(error){
+                    return true;
+                },
+
+            });
+
+            $("#tenant_email").rules("add", {required:true, email:true});
+            $("#owner_email").rules("add", {required:true, email:true});
+            $("#maintenance").rules("add", {required:true, number:true, min: 0});
+            $("#startDate").rules("add", {required:true});
+            $("#endDate").rules("add", {required:true});
+
+        });
+
+
+    </script>
 
 {% endblock %}
 
