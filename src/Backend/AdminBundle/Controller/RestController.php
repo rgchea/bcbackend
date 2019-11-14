@@ -4432,8 +4432,6 @@ class RestController extends FOSRestController
      * @SWG\Tag(name="Common Area")
      */
 
-
-
     public function getCommonAreasAction($complex_id, $page_id = 1)
     {
         try {

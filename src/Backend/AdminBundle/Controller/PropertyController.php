@@ -1160,29 +1160,54 @@ class PropertyController extends Controller
         ));
     }
 
-    public function contractCancelAction(Request $request, $id)
+    public function contractCancelAction(Request $request, $propertycontract)
     {
 
         $this->get("services")->setVars('property');
         $this->initialise();
 
-        $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
-        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
-        $tenantContract = $propertyContract->getMainTenantContract();
-        $property = $propertyContract->getProperty();
+        //$entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
+
+        $objPropertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find(intval($propertycontract));
+        if(!$objPropertyContract){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+
+        $tenantContract = $objPropertyContract->getMainTenantContract();
+        $property = $objPropertyContract->getProperty();
 
         if(isset($_REQUEST["submit"])){
 
             //print "<pre>";
             //var_dump($_REQUEST);die;
 
-            $propertyContract->setIsActive(0);
+            $objPropertyContract->setIsActive(0);
             //$propertyContract->setEnabled(0);
-            $this->em->persist($propertyContract);
+            $this->em->persist($objPropertyContract);
 
 
             $property->setIsAvailable(1);
             $this->em->persist($property);
+
+            //disable tenant contracts
+            $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $objPropertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
+            if($tenantContracts){
+                foreach ($tenantContracts as $myContract){
+                    $tenantContracts->setEnabled(0);
+                    $this->em->persist($tenantContracts);
+                }
+            }
+
+
+
+            $this->get("services")->blameOnMe($objPropertyContract, 'update');
+
+            $this->em->flush();
+
+            $title = $this->translator->trans("push.contract_cancel_title");
+            $description = $this->translator->trans("label_property")." ".$property->getPropertyNumber().": ". $this->translator->trans("push.contract_cancel_desc");
+            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
 
             ///SEND MAIL NOTIFY THE OWNER
             if(isset($_REQUEST["notifyOwner"])){
@@ -1199,20 +1224,12 @@ class PropertyController extends Controller
                 //property_address
                 //complex_name
                 $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
-                $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
-                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'"';
+                $myJson .= '"property_address": "'.$property->getPropertyNumber().' '.$property->getAddress().'",';
+                $myJson .= '"complex_name": "'.$property->getComplex()->getName().'"';
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
 
             }
-
-            $this->get("services")->blameOnMe($propertyContract, 'update');
-
-            $this->em->flush();
-
-            $title = $this->translator->trans("push.contract_cancel_title");
-            $description = $this->translator->trans("label_property")." ".$entity->getPropertyNumber().": ". $this->translator->trans("push.contract_cancel_desc");
-            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
 
 
             $this->get('services')->flashSuccess($request);
@@ -1223,49 +1240,62 @@ class PropertyController extends Controller
         }
 
 
-        $futuretime = $propertyContract->getEndDate()->format('Y-m-d');
+        $futuretime = $objPropertyContract->getEndDate()->format('Y-m-d');
         //$secs = $futuretime - $this->nowtime;
         $remainingTime = $this->get('services')->time_elapsed_A($this->nowtime, $futuretime);
 
 
         return $this->render('BackendAdminBundle:Property:contractCancel.html.twig', array(
-            'entity' => $entity,
-            'propertyContract' => $propertyContract,
+            'entity' => $property,
+            'propertyContract' => $objPropertyContract,
             'tenantContract' => $tenantContract,
             'remainingTime' => $remainingTime
         ));
 
     }
 
-    public function contractExtendAction(Request $request, $id)
+    public function contractExtendAction(Request $request, $propertycontract)
     {
         $this->get("services")->setVars('property');
         $this->initialise();
 
-        $entity = $this->em->getRepository('BackendAdminBundle:Property')->find($id);
-        $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $id, 'propertyTransactionType' => 3, "enabled" => 1,  'isActive' => 1), array("id"=> "DESC"));
+        $objPropertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find(intval($propertycontract));
+        if(!$objPropertyContract){
+            throw $this->createNotFoundException('Not found.');
+        }
+        $objProperty = $objPropertyContract->getProperty();
         //var_dump($propertyContract->getId());die;
-        $tenantContract = $propertyContract->getMainTenantContract();
+        $tenantContract = $objPropertyContract->getMainTenantContract();
 
-        $oldEndDate = $propertyContract->getEndDate()->format("Y-m-d");
+        $oldEndDate = $objPropertyContract->getEndDate()->format("Y-m-d");
 
         if(isset($_REQUEST["submit"])){
 
             //print "<pre>";
             //var_dump($_REQUEST);die;
 
-            $propertyContract->setWhoPaysMaintenance($_REQUEST["whopaysmaintenance"]);
+            $objPropertyContract->setWhoPaysMaintenance($_REQUEST["whopaysmaintenance"]);
 
             $startDate = trim($_REQUEST["startDate"]);
             $startDate = new \DateTime($startDate);
-            $propertyContract->setStartDate($startDate);
+            $objPropertyContract->setStartDate($startDate);
 
             $endDate = trim($_REQUEST["endDate"]);
             $endDate = new \DateTime($endDate);
-            $propertyContract->setEndDate($endDate);
+            $objPropertyContract->setEndDate($endDate);
 
-            $this->em->persist($propertyContract);
+            $this->em->persist($objPropertyContract);
             //$this->em->persist($entity);
+
+            $this->get("services")->blameOnMe($objPropertyContract, 'update');
+            $this->em->flush();
+
+            $title = $this->translator->trans("push.contract_extend_title");
+            $description = $this->translator->trans("label_property")." ". $objProperty->getPropertyNumber().": ". $this->translator->trans("push.contract_extend_desc"). $objPropertyContract->getEndDate()->format("m/d/Y");
+            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
+
+            //EXTEND PAYMENTS
+            $this->createPayments($objPropertyContract->getId(), $objPropertyContract->getMaintenancePrice(), $oldEndDate, $objPropertyContract->getEndDate()->format("Y-m-d"));
 
 
             ///SEND MAIL NOTIFY THE OWNER
@@ -1285,41 +1315,29 @@ class PropertyController extends Controller
                 //expiration_date
                 //complex_name
                 $myJson = '"tenant_name": "'.$tenantContract->getUser()->getName().'",';
-                $myJson .= '"property_address": "'.$entity->getPropertyNumber().' '.$entity->getAddress().'",';
-                $myJson = '"expiration_date": "'.$propertyContract->getEndDate()->format("m/d/Y") .'",';
-                $myJson .= '"complex_name": "'.$entity->getComplex()->getName().'"';
+                $myJson .= '"property_address": "'.$objProperty->getPropertyNumber().' '.$objProperty->getAddress().'",';
+                $myJson = '"expiration_date": "'.$objPropertyContract->getEndDate()->format("m/d/Y") .'",';
+                $myJson .= '"complex_name": "'.$objProperty->getComplex()->getName().'"';
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
 
             }
 
-
-            $this->get("services")->blameOnMe($propertyContract, 'update');
-            $this->em->flush();
-
-            $title = $this->translator->trans("push.contract_extend_title");
-            $description = $this->translator->trans("label_property")." ". $entity->getPropertyNumber().": ". $this->translator->trans("push.contract_extend_desc"). $propertyContract->getEndDate()->format("m/d/Y");
-            $this->get("services")->sendPushNotification($tenantContract->getUser(), $title, $description);
-
-            //EXTEND PAYMENTS
-            $this->createPayments($propertyContract->getId(), $propertyContract->getMaintenancePrice(), $oldEndDate, $propertyContract->getEndDate()->format("Y-m-d"));
-
-
             $this->get('services')->flashSuccess($request);
-            return $this->redirectToRoute('backend_admin_property_detail', array('id' => $id));
+            return $this->redirectToRoute('backend_admin_property_detail', array('id' => $objProperty->getId()));
 
 
         }
 
 
-        $futuretime = $propertyContract->getEndDate()->format('Y-m-d');
+        $futuretime = $objPropertyContract->getEndDate()->format('Y-m-d');
         //$secs = $futuretime - $this->nowtime;
         $remainingTime = $this->get('services')->time_elapsed_A($this->nowtime, $futuretime);
 
 
         return $this->render('BackendAdminBundle:Property:contractExtend.html.twig', array(
-            'entity' => $entity,
-            'propertyContract' => $propertyContract,
+            'entity' => $objProperty,
+            'propertyContract' => $objPropertyContract,
             'tenantContract' => $tenantContract,
             'remainingTime' => $remainingTime
         ));

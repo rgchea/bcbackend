@@ -77,11 +77,11 @@ backend_admin_property_update_maintenance:
     defaults: { _controller: "BackendAdminBundle:Property:updateMaintenance" }
 
 backend_admin_property_contract_extend:
-    path:     /{id}/contractextend
+    path:     /{propertycontract}/contractextend
     defaults: { _controller: "BackendAdminBundle:Property:contractExtend" }
 
 backend_admin_property_contract_cancel:
-    path:     /{id}/contractcancel
+    path:     /{propertycontract}/contractcancel
     defaults: { _controller: "BackendAdminBundle:Property:contractCancel" }
 
 property_ticket_list_datatables:

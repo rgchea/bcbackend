@@ -275,7 +275,7 @@
                             <div class="col-md-7 text-right">
                                 {{ remainingTime }}
                                 <br/>
-                                <a href="{{ path('backend_admin_property_contract_extend', {id: entity.id}) }}" ><button type="button"  class="btn_update btn-primary">{{ 'label_extend'|trans }} </button></a>&nbsp;&nbsp;<a href="{{ path('backend_admin_property_contract_cancel', {id: entity.id}) }}"  ><button type="submit"  class="btn_cancel btn-primary">{{ 'label_cancel'|trans }}</button></a>
+                                <a href="{{ path('backend_admin_property_contract_extend', {propertycontract: propertyContract.id}) }}" ><button type="button"  class="btn_update btn-primary">{{ 'label_extend'|trans }} </button></a>&nbsp;&nbsp;<a href="{{ path('backend_admin_property_contract_cancel', {propertycontract: propertyContract.id}) }}"  ><button type="submit"  class="btn_cancel btn-primary">{{ 'label_cancel'|trans }}</button></a>
                             </div>
                         </div>
                         <div class="clearfix"></div>

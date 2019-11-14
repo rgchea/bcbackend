@@ -38,7 +38,7 @@
 
                 </div>
 
-                <form method="POST" action="{{ path('backend_admin_property_contract_extend', {id: entity.id}) }}" id="updateForm">
+                <form method="POST" action="{{ path('backend_admin_property_contract_extend', {propertycontract: propertyContract.id}) }}" id="updateForm">
                     <input type="hidden" name="submit" value="true">
                     <div class="col-md-8">
 
