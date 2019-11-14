@@ -133,7 +133,8 @@
                                                             <select name="question[{{ countQuestion }}][selectType]" onchange="changeAnswerType({{ countQuestion }}, this.value)" class="form-control classic">
                                                                 {% for q in questionTypes %}
                                                                     {% set qType = q.nameEN %}
-                                                                    <option {{ question.type_en == qType  ? 'selected=selected' : '' }} value="{{ q.id }}">{{ qType }}</option>
+                                                                    {% set qTypeDisplay = myLocale == "es" ? q.nameES : q.nameEN %}
+                                                                    <option {{ question.type_en == qType  ? 'selected=selected' : '' }} value="{{ q.id }}">{{ qTypeDisplay }}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
