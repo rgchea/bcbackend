@@ -783,7 +783,7 @@ class ComplexController extends Controller
 
 
                 $this->get('services')->flashSuccess($request);
-                return $this->redirect($this->generateUrl('backend_admin_complex_index'));
+                return $this->redirect($this->generateUrl('backend_admin_property_index'));
 
             }
 

@@ -32,10 +32,10 @@ a_month_ago: ' a month ago'
 months_ago: ' months ago'
 one_year_ago: ' one year ago'
 years_ago: ' years ago'
-label_years:  'years'
-label_months: 'months'
-label_hours: 'hours'
-label_likes: 'Likes'
+label_years: years
+label_months: months
+label_hours: hours
+label_likes: Likes
 label_access_denied: 'Access Denied'
 label_user_id: 'User ID'
 label_question_id: 'Question ID'

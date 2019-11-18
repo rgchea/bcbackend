@@ -32,9 +32,9 @@ a_month_ago: ' un mes atrás'
 months_ago: ' meses atrás'
 one_year_ago: ' un año atrás'
 years_ago: ' años atrás'
-label_years: 'años'
-label_months: 'meses'
-label_hours: 'horas'
+label_years: años
+label_months: meses
+label_hours: horas
 label_likes: 'Me gusta'
 label_access_denied: 'Acceso Denegado'
 label_user_id: 'Usuario ID'

@@ -1193,8 +1193,8 @@ class PropertyController extends Controller
             $tenantContracts = $this->em->getRepository('BackendAdminBundle:TenantContract')->findBy(array("propertyContract" => $objPropertyContract->getId(), "enabled" => 1), array("id" => "DESC"));
             if($tenantContracts){
                 foreach ($tenantContracts as $myContract){
-                    $tenantContracts->setEnabled(0);
-                    $this->em->persist($tenantContracts);
+                    $myContract->setEnabled(0);
+                    $this->em->persist($myContract);
                 }
             }
 
