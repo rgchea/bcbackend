@@ -2,69 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f24eff6c-8405-41c4-b317-20c8758f1a67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/.project" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/.project" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/app/AppKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/app/AppKernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/app/config/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesTestCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Command/AdjustCostPricesTestCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouse.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaint.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaint.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaintCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseComplaintCategory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseEquipment.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseEquipment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseGoal.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseGoal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseMinProductExistence.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseMinProductExistence.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProduct.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProductLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseProductLog.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedHouseUser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaint.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaint.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaintStatement.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderComplaintStatement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderConfirmation.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderConfirmation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderLog.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderLog.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProduct.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProductConfirmation.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderProductConfirmation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderReceipt.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderReceipt.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedOrderStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedProductListPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedProductListPrice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSale.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSale.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSaleProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/AlliedSaleProduct.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/DailyAdvice.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/DailyAdvice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Equipment.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Equipment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPrice.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPrice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPriceProduct.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ListPriceProduct.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Message.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Module.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Module.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ModuleAccess.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ModuleAccess.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/News.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/NewsRegion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/NewsRegion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductCategory.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductCategory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductMeasurement.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/ProductMeasurement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotification.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotificationRegion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/PromoNotificationRegion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Region.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Region.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Role.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Tutorial.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/Tutorial.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/UserRegion.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/UserRegion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/VersionControl.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Entity/VersionControl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedHouseProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedHouseProductRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedOrderReceiptRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/AlliedOrderReceiptRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/MessageRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Repository/MessageRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/AlliedOrderReceipt.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/AlliedOrderReceipt.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPrice.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPrice.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPriceProduct.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/ListPriceProduct.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/config/doctrine/VersionControl.orm.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Backend/AdminBundle/Resources/views/User/form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../../cmi/chicken_house/src/Pizote/ArkAdminBundle/Resources/public/img/loader.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sf_better_condos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sf_better_condos.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.en.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/translations/messages.es.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/ComplexController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Complex.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Entity/Complex.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/ComplexType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Form/ComplexType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Business/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Resources/views/Complex/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/css/ark.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/DONOTREADME.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process/app/config/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/DefaultController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/GuideController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/GuideController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ManifiestoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ManifiestoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ProcessController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ProcessController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ReportController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/ReportController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Repository/ManifiestoRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Repository/ManifiestoRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Guide/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/preCheck.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/preCheck.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/preCheckReadCode.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Process/preCheckReadCode.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Report/sale.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Report/sale.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Services/Services.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Services/Services.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/animate.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/src/FrontendBundle/Resources/public/css/animate.css" afterDir="false" />
@@ -405,26 +369,26 @@
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Command" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Manifiesto" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Command" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/routing" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views" />
-      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/doctrine" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/img/flags" />
       <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/img/favicon" />
       <recent name="$PROJECT_DIR$/app/config/ios" />
       <recent name="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/build/intermediates/assets/release/www/img" />
       <recent name="$PROJECT_DIR$/src/Pizote/ArkAdminBundle/Resources/public/js" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views/Manifiesto" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Command" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/config/routing" />
+      <recent name="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Resources/views" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -542,7 +506,8 @@
       <workItem from="1573252119508" duration="9559000" />
       <workItem from="1573485928621" duration="20221000" />
       <workItem from="1573569598490" duration="9335000" />
-      <workItem from="1573657121290" duration="22926000" />
+      <workItem from="1573657121290" duration="33769000" />
+      <workItem from="1573832883495" duration="14014000" />
     </task>
     <servers />
   </component>

@@ -39,7 +39,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="classManager" />
-    <orderEntry type="module" module-name="chicken_house" />
     <orderEntry type="module" module-name="work_process_new" />
     <orderEntry type="module" module-name="appv1" />
     <orderEntry type="module" module-name="sflow34" />

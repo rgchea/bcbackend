@@ -18,7 +18,7 @@ class ComplexType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-
+        //var_dump($options["locale"]);die;
         /*
         $sectionQuantity = array();
         for($i=1; $i<=20; $i++){
@@ -40,7 +40,22 @@ class ComplexType extends AbstractType
             ->add('latePayment',  null, array('label'=>"label_late_payment", 'required'=>false))
 
             ->add('name',  null, array('label'=>"label_name", 'required'=>true))
-            ->add('complexType',  null, array('label'=>"label_complex_type", 'required'=>true))
+            //->add('complexType',  null, array('label'=>"label_complex_type", 'required'=>true))
+            ->add('complexType', null, array('label'=>"label_complex_type", 'required' => true,
+                'class' => 'Backend\AdminBundle\Entity\ComplexType',
+                'query_builder' => function (\Doctrine\ORM\EntityRepository $er)  use ($options){
+                        $qb =  $er->createQueryBuilder('ct')
+                        ->where('ct.enabled = 1');
+                        if($options["locale"] == "en"){
+                            $qb->orderBy("ct.nameEN", "ASC");
+                        }
+                        else{
+                            $qb->orderBy("ct.nameES", "ASC");
+                        }
+
+                        return $qb;
+                }
+            ))
             ->add('geoState',  null, array('label'=>"label_state", 'required'=>true))
             ->add('address',  null, array('label'=>"label_address", 'required'=>true))
             ->add('zipCode',  null, array('label'=>"label_zip_code", 'required'=>true))
@@ -50,13 +65,13 @@ class ComplexType extends AbstractType
                 array(
                     'data_class' => null,
                     'required' => false,
-                    'label' => "Avatar",
+                    'label' => "label_complex_image",
                     'attr' => array(
                         'accept' => "image/jpeg, image/png"
                     ),
                     'constraints' => [
                         new File([
-                            'maxSize' => '1M',
+                            'maxSize' => '3M',
                             'mimeTypes' => [
                                 'image/jpeg',
                                 'image/png',
@@ -82,7 +97,8 @@ class ComplexType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Backend\AdminBundle\Entity\Complex',
-            'allow_extra_fields' => true
+            'allow_extra_fields' => true,
+            'locale' => null
         ));
     }
 }

@@ -248,11 +248,25 @@ class ComplexController extends Controller
         $entity = new Complex();
         $form   = $this->createCreateForm($entity);
 
-        $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1));
+        $countries = $this->em->getRepository('BackendAdminBundle:GeoCountry')->findBy(array("enabled" => 1), array("name" => "ASC"));
         //complex_sector_type
-        $complexSectorTypes = $this->em->getRepository('BackendAdminBundle:ComplexSectorType')->findBy(array("enabled" => 1), array("id" => "DESC"));
+        $language = $this->translator->getLocale();
+        if($language == "es"){
+            $complexSectorTypes = $this->em->getRepository('BackendAdminBundle:ComplexSectorType')->findBy(array("enabled" => 1), array("nameES" => "ASC"));
+        }
+        else{
+            $complexSectorTypes = $this->em->getRepository('BackendAdminBundle:ComplexSectorType')->findBy(array("enabled" => 1), array("nameEN" => "ASC"));
+        }
+
         ///property_type
-        $propertyTypes = $this->em->getRepository('BackendAdminBundle:PropertyType')->findBy(array("enabled" => 1), array("id" => "DESC"));
+        if($language == "es"){
+            $propertyTypes = $this->em->getRepository('BackendAdminBundle:PropertyType')->findBy(array("enabled" => 1), array("nameES" => "ASC"));
+        }
+        else{
+            $propertyTypes = $this->em->getRepository('BackendAdminBundle:PropertyType')->findBy(array("enabled" => 1), array("nameEN" => "ASC"));
+        }
+
+
 
         //redirected from REGISTER
         $register =  isset($_REQUEST["register"]) && intval($_REQUEST["register"]) != 0 ? $this->userLogged->getId() : 0;
@@ -726,6 +740,8 @@ class ComplexController extends Controller
                         $newProperty->setPropertyType($propertyType);
                         $newProperty->setComplex($entity);
                         $newProperty->setComplexSector($newSector);
+                        $address = $entity->getAddress()." ".$entity->getGeoState()->getName().",".$entity->getGeoState()->getGeoCountry()->getName()." ". $entity->getZipCode();
+                        $newProperty->setAddress($address);
 
                         //set temp code / then update
                         //$newProperty->setCode($business->getId().$entity->getId().$newSector->getId().$j);
@@ -809,9 +825,13 @@ class ComplexController extends Controller
     {
         $this->get("services")->setVars('complex');
         $this->initialise();
+
+
+
         $form = $this->createForm(ComplexType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_complex_create'),
             'method' => 'POST',
+            'locale' => $this->translator->getLocale()
         ));
 
 
@@ -835,6 +855,7 @@ class ComplexController extends Controller
 
         $form = $this->createForm(ComplexType::class, $entity, array(
             'action' => $this->generateUrl('backend_admin_complex_update', array('id' => $entity->getId())),
+            'locale' => $this->translator->getLocale()
         ));
 
 

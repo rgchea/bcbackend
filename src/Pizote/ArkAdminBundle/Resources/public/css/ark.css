@@ -733,6 +733,7 @@ a:focus {
 }
 .open .dropdown-toggle.btn-default {
     background-color: #e8e8e8;
+    color: black !important;
 }
 .open .dropdown-toggle.btn-primary {
     background-color: #4489c5;
