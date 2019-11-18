@@ -830,6 +830,7 @@ class RestController extends FOSRestController
                 }
 
                 $this->em->persist($tenantContract);
+                $this->em->flush();
             }
 
             // Flushing to DB
@@ -1075,6 +1076,14 @@ class RestController extends FOSRestController
 
             //$this->em->persist($property);
             $this->em->flush();
+
+            if($tenantContract->getMainTenant() == 1){
+                $objProperty = $tenantContract->getPropertyContract()->getProperty();
+                $objProperty->setMainTenant($user);
+                $this->em->persist($objProperty);
+                $this->em->flush();
+
+            }
 
             //push notification invitation accepted
             $title = $this->getUser()->getName()." ". $this->translator->trans("push.invitation_join_title");
