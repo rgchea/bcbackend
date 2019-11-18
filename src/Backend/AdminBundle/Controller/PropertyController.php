@@ -2229,7 +2229,7 @@ class PropertyController extends Controller
         if(count($oldPropertyContract) > 0){
             $objOldContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($oldPropertyContract);
             $oldMainTenantContract = $objOldContract->getMainTenantContract();
-            $oldProperty = $oldPropertyContract->getProperty();
+            $oldProperty = $objOldContract->getProperty();
 
             //new message from sendgrid
             if($this->translator->getLocale() == "es"){
