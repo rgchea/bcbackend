@@ -216,8 +216,8 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         }
         else{
             //EXCLUDE TICKETS FROM DISABLED CONTRACTS
-            $query->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
-            $countQuery->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
+            //$query->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
+            //$countQuery->andWhere('pc.isActive = :isActive')->setParameter('isActive', 1);
 
         }
 
@@ -275,7 +275,6 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'tc.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
-
 
                 }
 
