@@ -1227,6 +1227,7 @@ class PropertyController extends Controller
                 $myJson .= '"complex_name": "'.$property->getComplex()->getName().'"';
 
                 $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getUser()->getEmail());
+                $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $tenantContract->getOwnerEmail());
 
             }
 
@@ -2218,6 +2219,39 @@ class PropertyController extends Controller
         $this->initialise();
 
         $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find($propertyID);
+
+        if(!$objProperty){
+            throw $this->createNotFoundException('Not found.');
+        }
+
+        //mail
+        $oldPropertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->getDisableOldContracts($propertyID);
+        if(count($oldPropertyContract) > 0){
+            $objOldContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($oldPropertyContract);
+            $oldMainTenantContract = $objOldContract->getMainTenantContract();
+            $oldProperty = $oldPropertyContract->getProperty();
+
+            //new message from sendgrid
+            if($this->translator->getLocale() == "es"){
+                $templateID = "d-744e784eebb643ffa5c4a45c6143a6fc";
+            }
+            else{
+                $templateID = "d-6f2dbc6839e244758156ef7555ba8d8e";
+            }
+
+            //tenant_name
+            //property_address
+            //complex_name
+            $myJson = '"tenant_name": "'.$oldMainTenantContract->getUser()->getName().'",';
+            $myJson .= '"property_address": "'.$oldProperty->getPropertyNumber().' '.$oldProperty->getAddress().'",';
+            $myJson .= '"complex_name": "'.$oldProperty->getComplex()->getName().'"';
+
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $oldMainTenantContract->getUser()->getEmail());
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $oldMainTenantContract->getOwnerEmail());
+
+        }
+
+
 
         ////CREATE PROPERTY CONTRACT
         $propertyContract = new PropertyContract();

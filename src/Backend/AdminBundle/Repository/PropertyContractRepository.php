@@ -230,6 +230,30 @@ class PropertyContractRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function getDisableOldContracts($propertyID){
+
+        $sql = "	SELECT  id
+                    FROM    property_contract
+					WHERE   is_active = 1
+					AND     property_id = {$propertyID}
+					AND     property_transaction_type_id = 3";
+        //WHERE 	role_id = '{$roleID}'";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+        $result =  $stmt->fetchAll();
+        //var_dump();
+
+        if(count($result) > 0){
+            return $result[0]["id"];
+        }
+        else{
+            return array();
+        }
+
+
+    }
+
 
     public function getPropertiesToInvite($complexID){
 
