@@ -275,9 +275,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
                             $searchQuery = 'tc.name LIKE \'%' . $searchItem . '%\'';
                             break;
                         }
-
                 }
-
 
                 if ($searchQuery !== null) {
                     $query->andWhere($searchQuery);
