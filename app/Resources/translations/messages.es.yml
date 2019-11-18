@@ -288,8 +288,11 @@ label_active: Activo
 label_property_contract: 'Contrato de propiedad'
 label_property_share_ad: 'Crear anuncio de renta sobre propiedad'
 label_property_share: 'Compartir propiedad'
+label_share_property: 'Compartir propiedad'
 label_property_delete_ad: 'Remover anuncio de renta sobre propiedad'
 label_property_share_ad_msg: 'Un anuncio de renta ha sido publicado. Este expirará en  '
+label_property_share_line1: '¡Invita tu futuro nuevo vecino a tu condo y gana!'
+label_property_share_line2: 'Haz click aquí para invitarlo.'
 label_select: Selecccionar
 label_select_property: 'Selecciona una propiedad'
 label_start: Inicia

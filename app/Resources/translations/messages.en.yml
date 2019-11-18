@@ -288,8 +288,11 @@ label_active: Active
 label_property_contract: 'Property contract'
 label_property_share_ad: 'Create property rental ad'
 label_property_share: 'Property share'
+label_share_property: 'Share property'
 label_property_delete_ad: 'Remove property rental ad'
 label_property_share_ad_msg: 'A rental ad is published. It will expire in '
+label_property_share_line1: 'Invite your future new neighbor to your condo and win!'
+label_property_share_line2: 'Click here to invite.'
 label_select: Select
 label_select_property: 'Select a property'
 label_start: Start

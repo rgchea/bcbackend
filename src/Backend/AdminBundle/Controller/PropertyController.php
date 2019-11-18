@@ -913,8 +913,8 @@ class PropertyController extends Controller
         $entity->setComplex($objProperty->getComplex());
         $entity->setTicketType($objTicketType);
         $entity->setEnabled(1);
-        $entity->setTitle("Share property ".$propertyID);
-        $entity->setDescription("Share property ".$propertyID);
+        $entity->setTitle($this->translator->trans("label_share_property")." ".$propertyID);
+        $entity->setDescription($this->translator->trans("label_property_share_line1"). " ".$this->translator->trans("label_property_share_line2"));
         $entity->setIsPublic(1);
 
         $this->get("services")->blameOnMe($entity, "create");
