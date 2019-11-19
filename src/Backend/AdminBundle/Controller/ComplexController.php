@@ -192,14 +192,14 @@ class ComplexController extends Controller
                         {
 
                             $urlAddProperty = $this->generateUrl('backend_admin_property_new');
-                            $addProperty = "<a href='".$urlAddProperty."'><i class='fa fa-plus'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $addProperty = "<a title='".$this->translator->trans("tooltip.complex_add_property")."' href='".$urlAddProperty."'><i class='fa fa-plus'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
 
                             $urlEdit = $this->generateUrl('backend_admin_complex_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a title='".$this->translator->trans("tooltip.edit")."' href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_complex_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
+                            $delete = "<a title='".$this->translator->trans("tooltip.delete")."' class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $addProperty.$edit.$delete;
                             break;

@@ -421,3 +421,13 @@ dashboard:
     rejected: Rejected
     managers: Managers
     superv: Superv
+tooltip:
+    ticket: Respond Ticket
+    properties_doc: Tenant Management
+    edit: Edit
+    delete: Delete
+    booking_tool: Manage booking
+    poll_question: View Questions
+    poll_answers: View Answers
+    complex_add_property: Add Property
+

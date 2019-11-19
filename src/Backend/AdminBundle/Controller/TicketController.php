@@ -186,7 +186,7 @@ class TicketController extends Controller
                         {
 
                             $urlEdit = $this->generateUrl('backend_admin_ticket_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-wrench'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a title='".$this->translator->trans("tooltip.ticket")."' href='".$urlEdit."'><i class='fa fa-wrench'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $responseTemp = $edit;
                             break;

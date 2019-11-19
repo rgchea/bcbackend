@@ -149,7 +149,7 @@ class PollController extends Controller
                             $hasAnswers = $this->em->getRepository("BackendAdminBundle:Poll")->hasAnswers(intval($entity["id"]));
                             if($hasAnswers > 0){
                                 $urlAnswers = $this->generateUrl('backend_admin_poll_view_answers', array('poll' => intval($entity["id"])));
-                                $answers = "<a href='".$urlAnswers."'><i class='fa fa-file-text'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                                $answers = "<a title='".$this->translator->trans("tooltip.poll_answers")."' href='".$urlAnswers."'><i class='fa fa-file-text'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
                             }
                             else{
                                 $answers = "";
@@ -158,14 +158,13 @@ class PollController extends Controller
                             //QUESTIONS
                             //fa-question-circle
                             $urlQuestions = $this->generateUrl('backend_admin_poll_question', array('id' => intval($entity["id"])));
-                            $questions = "<a href='".$urlQuestions."'><i class='fa fa-question-circle'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
-
+                            $questions = "<a title='".$this->translator->trans("tooltip.poll_question")."' href='".$urlQuestions."'><i class='fa fa-question-circle'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlEdit = $this->generateUrl('backend_admin_poll_edit', array('id' => $entity["id"]));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a title='".$this->translator->trans("tooltip.edit")."' href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_poll_delete', array('id' => $entity["id"]));
-                            $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
+                            $delete = "<a title='".$this->translator->trans("tooltip.delete")."' class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $answers.$questions.$edit.$delete;
                             break;

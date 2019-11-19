@@ -176,7 +176,7 @@ class PropertyContractTransactionController extends Controller
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_propertycontracttransaction_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a title='".$this->translator->trans("tooltip.edit")."' href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
 
                             $responseTemp = $edit;

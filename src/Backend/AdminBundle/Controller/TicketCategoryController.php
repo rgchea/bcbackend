@@ -138,10 +138,10 @@ class TicketCategoryController extends Controller
                         {
 
                             $urlEdit = $this->generateUrl('backend_admin_ticket_category_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a title='".$this->translator->trans("tooltip.edit")."' href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_ticket_category_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
+                            $delete = "<a title='".$this->translator->trans("tooltip.delete")."' class='btn-delete'  href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
 
                             if($entity->getComplex()->getId() == 0){

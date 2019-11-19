@@ -216,6 +216,7 @@
 
 {% block extrascripts %}
 
+    $('[data-toggle="tooltip"]').tooltip();
 
     $(document).on('click', '.btn-delete', function(e){
     e.preventDefault();

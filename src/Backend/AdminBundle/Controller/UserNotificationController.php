@@ -148,7 +148,7 @@ class UserNotificationController extends Controller
                     {
 
                         $urlDelete = $this->generateUrl('backend_admin_usernotification_delete', array('id' => $entity->getId()));
-                        $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
+                        $delete = "<a title='".$this->translator->trans("tooltip.delete")."' class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                         $responseTemp = $delete;
                         break;

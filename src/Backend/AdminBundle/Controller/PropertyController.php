@@ -227,14 +227,13 @@ class PropertyController extends Controller
                         {
 
                             $urlAgreement = $this->generateUrl('backend_admin_property_new_agreement', array('property_id' => $entity->getId()));
-                            $agreement = "<a href='".$urlAgreement."'><i class='fa fa-file'></i></i><span class='item-label'></span></a>&nbsp;&nbsp;";
-
+                            $agreement = "<a title='".$this->translator->trans("tooltip.properties_doc")."' href='".$urlAgreement."'><i class='fa fa-file'></i></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlEdit = $this->generateUrl('backend_admin_property_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a title='".$this->translator->trans("tooltip.edit")."' href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             $urlDelete = $this->generateUrl('backend_admin_property_delete', array('id' => $entity->getId()));
-                            $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
+                            $delete = "<a title='".$this->translator->trans("tooltip.delete")."' class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
                             $responseTemp = $agreement.$edit.$delete;
                             break;
@@ -345,6 +344,25 @@ class PropertyController extends Controller
         }
 
 
+        //get shared ad ticket
+        $isAdShared = $em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array("ticketType" => 2, "property" => $id));
+        if($isAdShared){
+
+            $createdAt = $isAdShared->getCreatedAt()->format('Y-m-d');
+
+            $now = time(); // or your date as well
+            $your_date = strtotime($createdAt);
+            $datediff = $now - $your_date;
+            $days =  round($datediff / (60 * 60 * 24));
+            $isAdSharedDays = 30-$days;
+
+            $isAdShared = $isAdShared->getId();
+        }
+        else{
+            $isAdShared = 0;
+            $isAdSharedDays = 0;
+        }
+
 
         return $this->render('BackendAdminBundle:Property:edit.html.twig', array(
             'entity' => $entity,
@@ -352,7 +370,10 @@ class PropertyController extends Controller
             'delete_form' => $deleteForm->createView(),
             'edit' => $entity->getId(),
             'propertyContract' => $propertyContract,
-            'tenantContract' => $tenantContract
+            'tenantContract' => $tenantContract,
+            'isAdShared' => $isAdShared,
+            'isAdSharedDays' => $isAdSharedDays,
+
         ));
     }
 
@@ -1074,24 +1095,6 @@ class PropertyController extends Controller
         $log = $this->em->getRepository('BackendAdminBundle:Property')->getPropertyLog($id, $this->translator->getLocale());
 
 
-        //get shared ad ticket
-        $isAdShared = $em->getRepository('BackendAdminBundle:Ticket')->findOneBy(array("ticketType" => 2, "property" => $id));
-        if($isAdShared){
-
-            $createdAt = $isAdShared->getCreatedAt()->format('Y-m-d');
-
-            $now = time(); // or your date as well
-            $your_date = strtotime($createdAt);
-            $datediff = $now - $your_date;
-            $days =  round($datediff / (60 * 60 * 24));
-            $isAdSharedDays = 30-$days;
-
-            $isAdShared = $isAdShared->getId();
-        }
-        else{
-            $isAdShared = 0;
-            $isAdSharedDays = 0;
-        }
 
         return $this->render('BackendAdminBundle:Property:detail.html.twig', array(
             'entity' => $entity,
@@ -1100,10 +1103,7 @@ class PropertyController extends Controller
             'mainContract' => $mainContract,
             'tenantContracts' => $tenantContracts,
             'remainingTime' => $remainingTime,
-            'log' => $log,
-            'isAdShared' => $isAdShared,
-            'isAdSharedDays' => $isAdSharedDays,
-
+            'log' => $log
 
         ));
     }

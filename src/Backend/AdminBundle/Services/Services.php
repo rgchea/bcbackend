@@ -1233,21 +1233,24 @@ class Services extends Controller
 
     public function sendPushNotification($user, $title, $body){
 
-        ////ANDROID CONFIG
-        $url = "https://fcm.googleapis.com/fcm/send";
-        $serverKey = 'AAAA4OAl7oY:APA91bF3oKkPzUemIdyDqbCFF73z5h4LfzUJH6KEtuEi5Roj2L51RbjOs4MwRD4cPsPMtNcwEn2iQexli-OarI-cnqh-FlV26hS-xD2KCbjeDUtuHSfm9CiavNTniGJzddJMIn8io1io';
 
-        $headers = array();
-        $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Authorization: key=' . $serverKey;
-        ////ANDROID CONFIG END
+        if($user != NULL){
 
-        $em = $this->getDoctrine()->getManager();
-        $devices = $em->getRepository('BackendAdminBundle:Device')->findByUser($user->getId());
+////ANDROID CONFIG
+            $url = "https://fcm.googleapis.com/fcm/send";
+            $serverKey = 'AAAA4OAl7oY:APA91bF3oKkPzUemIdyDqbCFF73z5h4LfzUJH6KEtuEi5Roj2L51RbjOs4MwRD4cPsPMtNcwEn2iQexli-OarI-cnqh-FlV26hS-xD2KCbjeDUtuHSfm9CiavNTniGJzddJMIn8io1io';
 
-        foreach ($devices as $device){
+            $headers = array();
+            $headers[] = 'Content-Type: application/json';
+            $headers[] = 'Authorization: key=' . $serverKey;
+            ////ANDROID CONFIG END
 
-            $device_token = $device->getTokenPush();
+            $em = $this->getDoctrine()->getManager();
+            $devices = $em->getRepository('BackendAdminBundle:Device')->findByUser($user->getId());
+
+            foreach ($devices as $device){
+
+                $device_token = $device->getTokenPush();
 
                 //print "entra $device_token";
 
@@ -1286,7 +1289,9 @@ class Services extends Controller
                 curl_close($ch);
 
 
+            }
         }
+
     }
 
     function print_t($t){

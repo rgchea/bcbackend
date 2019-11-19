@@ -120,13 +120,16 @@
 
     <br/>
     <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
-    
+
     <div class="form-group col-md-12">
+        {#
         <div class="form-group col-md-2">
             <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
                 {{ 'label_poll_add_question'|trans  }}
             </a>
         </div>
+
+        #}
         <div class="form-group col-md-2">
             <label for="" >&nbsp;</label>
             <a class="pull-left btn btn-default btn-lg" onclick="deleteQuestion({{ countQuestion }});">

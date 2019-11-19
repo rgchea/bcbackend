@@ -420,3 +420,13 @@ dashboard:
     rejected: Rechazadas
     managers: Adminstradores
     superv: Supervisores
+tooltip:
+    ticket: Responder Ticket
+    properties_doc: Administracion de Inquilino
+    edit: Editar
+    delete: Borrar
+    booking_tool: Responder Reservación
+    poll_question: Ver preguntas
+    poll_answers: Ver respuestas
+    complex_add_property: Agregar Propiedad
+

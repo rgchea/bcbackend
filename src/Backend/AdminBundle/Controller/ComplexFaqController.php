@@ -142,7 +142,7 @@ class ComplexFaqController extends Controller
                     case 'actions':
                         {
                             $urlEdit = $this->generateUrl('backend_admin_complex_faq_edit', array('id' => $entity->getId()));
-                            $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+                            $edit = "<a title='".$this->translator->trans("tooltip.edit")."' href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
 
                             //$urlDelete = $this->generateUrl('backend_admin_complex_faq_delete', array('id' => $entity->getId()));
                             //$delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";

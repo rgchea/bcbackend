@@ -18,7 +18,6 @@
 
     {% set myLocale = app.request.getLocale() %}
 
-
         <div class="header">
             <div class="container">
                 <div class="row">
@@ -28,37 +27,7 @@
                     <div class="col-md-7 text-left">
                         <h4>{{ entity }}<span style="font-size:14px;"> {{ entity.complex }}</span> </h4>
                     </div>
-                    <div class="col-md-2">
-                        {% if isAdShared != 0 %}
 
-                            <div class="col-md-12 text-right">
-                                <label class="pull-right" >{{ 'label_property_share_ad_msg'|trans }}{{ isAdSharedDays }}&nbsp;{{ 'label_days'|trans }}</label>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="col-md-8">&nbsp;</div>
-                            <div class="col-md-2 text-right"></div>
-
-                            <div class="col-md-2">
-                                <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
-                                    {{ 'label_property_delete_ad'|trans }}
-                                </a>
-                            </div>
-
-
-                        {% else %}
-
-                            <div class="col-md-8">&nbsp;</div>
-                            <div class="col-md-2 text-right"></div>
-                            <div class="col-md-2 text-right">
-                                <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
-                                    {{ 'label_property_share_ad'|trans }}
-                                </a>
-                            </div>
-                        {% endif %}
-
-
-                        {#<button type="submit" class="btn btn-primary">Change Tenant</button>#}
-                    </div>
                 </div>
 
                 <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>

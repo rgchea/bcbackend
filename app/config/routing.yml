@@ -76,9 +76,11 @@ api_login_check:
 
 
 app.swagger_ui:
-    path: /api/doc
+    path: /api/documentation/{pass}
     methods: GET
     defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+    requirements:
+        pass: 'Df98MyKvDWmYRyQ3'
 
 
 #app.swagger:
