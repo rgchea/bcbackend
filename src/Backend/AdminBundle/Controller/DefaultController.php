@@ -52,7 +52,7 @@ class DefaultController extends Controller
             $arrMonths = array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 'Nov', "Dec");
         }
 
-        if($this->role == "ADMIN"){
+        if($this->role == "ADMIN" || $this->role == "COMPLEX ADMIN"){
 
             $complexID = $this->get("services")->getSessionComplex();
             $arrStats["tb_month"] = $this->em->getRepository("BackendAdminBundle:Ticket")->getTicketByYear($complexID);
