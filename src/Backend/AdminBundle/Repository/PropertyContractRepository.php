@@ -242,10 +242,11 @@ class PropertyContractRepository extends \Doctrine\ORM\EntityRepository
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
         $result =  $stmt->fetchAll();
-        //var_dump();
+        //var_dump($result);die;
 
         if(count($result) > 0){
-            return $result[0]["id"];
+            $val = intval($result[0]["id"]);
+            return array("id" => $val);
         }
         else{
             return array();

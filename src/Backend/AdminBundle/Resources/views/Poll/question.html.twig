@@ -3,7 +3,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li> <a href="{{ path('backend_admin_poll_index') }}">{{ 'label_menu.poll'|trans  }}</a> </li>
-    <li> <a href="{{ path('backend_admin_poll_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }} {{ entity.name }}</a> </li>
+    <li> <a href="{{ path('backend_admin_poll_edit', { 'id': entity.id }) }}">{{ 'label_edit'|trans  }}</a> </li>
 
 
 {% endblock %}
@@ -33,6 +33,12 @@
         width: 120px;
     }
 
+    .form-inputs-g .btn {
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+    }
+
     </style>
 
     <script type="text/javascript">
@@ -47,12 +53,14 @@
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 
         </div>
+        {#
         <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-
             <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
                 {{ 'label_poll_add_question'|trans  }}
             </a>
         </div>
+
+        #}
     </div>
 
     <div class="row">
@@ -61,9 +69,10 @@
             <div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
 
                 <header role="heading">
-                    <h2>{{ 'label_questions'|trans }}</h2>
+                    <h2>{{ entity.name }} - {{ 'label_questions'|trans }}</h2>
 
                 </header>
+                <br/>
 
                 <!-- widget div-->
                 <div role="content">
@@ -97,8 +106,6 @@
                                         </script>
                                         {% if pollQuestions is iterable %}
 
-
-
                                             {% for question in pollQuestions %}
 
                                                 <script type="text/javascript">
@@ -116,20 +123,21 @@
                                                             <input maxlength="250" id="myQuestion_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][question]" value="{{ question.question }}">
 
                                                         </div>
+
+                                                        {#ADD PHOTO BUTTON#}
                                                         <div class="form-group col-md-2">
-                                                            <label for="" >&nbsp;</label>
-                                                            <a class="pull-right btn btn-primary btn-lg" onclick="deleteQuestion({{ countQuestion }});">
-                                                                {{ 'label_delete'|trans  }}
+                                                            <br/>
+                                                            <a class="pull-right btn btn-info btn-lg myWidth" onclick="addPhoto({{ countQuestion }});">
+                                                                {{ 'label_poll_question_add_photo'|trans  }}
                                                             </a>
                                                         </div>
-
 
                                                     </div>
 
                                                     <div class="clearfix"></div>
                                                     {#QUESTION TYPE SELECT#}
                                                     <div class="myWidth">
-                                                        <div class="form-group col-md-8">
+                                                        <div class="form-group col-md-12">
                                                             <select name="question[{{ countQuestion }}][selectType]" onchange="changeAnswerType({{ countQuestion }}, this.value)" class="form-control classic">
                                                                 {% for q in questionTypes %}
                                                                     {% set qType = q.nameEN %}
@@ -138,18 +146,8 @@
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
-                                                        {#ADD PHOTO BUTTON#}
-                                                        <div class="form-group col-md-2">
-                                                            <a class="pull-right btn btn-primary btn-lg" onclick="addPhoto({{ countQuestion }});">
-                                                                {{ 'label_poll_question_add_photo'|trans  }}
-                                                            </a>
-                                                        </div>
-                                                        {#ADD QUESTION BUTTON#}
-                                                        <div class="form-group col-md-2">
-                                                            <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
-                                                                {{ 'label_poll_add_question'|trans  }}
-                                                            </a>
-                                                        </div>
+
+
                                                     </div>
 
                                                     <div class="clearfix"></div>
@@ -162,8 +160,8 @@
                                                             <input type="file" name="question[{{ countQuestion }}][photo]" accept="image/jpeg, image/png" class="form-control">
                                                         </div>
                                                         <div class="form-group col-md-2">
-                                                            <label for="">&nbsp;</label>
-                                                            <a class="pull-right btn btn-primary btn-lg" onclick="removePhoto({{ countQuestion }});">
+                                                            <br/>
+                                                            <a class="pull-right btn btn-default btn-lg myWidth" onclick="removePhoto({{ countQuestion }});">
                                                                 {{ 'label_poll_question_photo_delete'|trans  }}
                                                             </a>
                                                         </div>
@@ -207,6 +205,7 @@
                                                                 {{ 'label_poll_question_add_option'|trans  }}
                                                             </a>
                                                         </div>
+                                                        <div class="clearfix"></div>
                                                         {#ITERATE THROUGH MULTIPLE OPTIONS#}
                                                         {% set multipleOptionCount = 0 %}
                                                         {% for option in question.multiple %}
@@ -220,7 +219,7 @@
                                                                         <input placeholder="{{ 'label_poll_question_option'|trans }}" id="myQuestionAnswerMultiple_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][multiple][]" value="{{ option }}">
                                                                     </div>
                                                                     <div class="form-group col-md-2">
-                                                                        <a class="pull-right btn btn-primary btn-lg" onclick="removeOptionMultiple({{ countQuestion }}, {{ multipleOptionCount }});">
+                                                                        <a class="pull-right btn btn-default btn-lg" onclick="removeOptionMultiple({{ countQuestion }}, {{ multipleOptionCount }});">
                                                                             {{ 'label_delete'|trans  }}
                                                                         </a>
                                                                     </div>
@@ -248,6 +247,7 @@
                                                                 {{ 'label_poll_question_add_option'|trans  }}
                                                             </a>
                                                         </div>
+                                                        <div class="clearfix"></div>
                                                         {% set selectOneOptionCount = 0 %}
                                                         {% for option in question.selectone %}
                                                             <div class="clearfix"></div>
@@ -260,7 +260,7 @@
                                                                         <input placeholder="{{ 'label_poll_question_option'|trans }}" id="myQuestionAnswerSelectOne_{{ countQuestion }}" class="form-control" type="text" name="question[{{ countQuestion }}][selectone][]" value="{{ option }}">
                                                                     </div>
                                                                     <div class="form-group col-md-2">
-                                                                        <a class="pull-right btn btn-primary btn-lg" onclick="removeOption({{ countQuestion }}, {{ selectOneOptionCount }});">
+                                                                        <a class="pull-right btn btn-default btn-lg" onclick="removeOption({{ countQuestion }}, {{ selectOneOptionCount }});">
                                                                             {{ 'label_delete'|trans  }}
                                                                         </a>
                                                                     </div>
@@ -289,7 +289,15 @@
                                                     </div>
 
                                                 </div>
-                                                <br/><br/>
+                                                <br/>
+                                                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+
+                                                {#ADD QUESTION BUTTON#}
+                                                <div class="form-group col-md-2">
+                                                    <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
+                                                        {{ 'label_poll_add_question'|trans  }}
+                                                    </a>
+                                                </div>
 
                                                 {% set countQuestion = countQuestion + 1 %}
 
@@ -420,7 +428,7 @@
                                 '<input placeholder="'+optionPlaceholder+'"  id="myQuestionAnswerMultiple_'+questionID+'" class="form-control" type="text" name="question['+questionID+'][multiple]['+myCountOption+']">'+
                             '</div>'+
                             '<div class="form-group col-md-2">'+
-                                '<a class="pull-right btn btn-primary btn-lg" onclick="removeOptionMultiple('+questionID+', '+myCountOption+');">'+optionDelete+'</a>'+
+                                '<a class="pull-right btn btn-default btn-lg" onclick="removeOptionMultiple('+questionID+', '+myCountOption+');">'+optionDelete+'</a>'+
                             '</div>'+
                         '</div>'+
                         '<div class="clearfix"></div>'+

@@ -143,18 +143,23 @@ class PollController extends Controller
 
                     case 'actions':
                         {
+
+                            //ANSWERS
                             //fa-file-text
-
                             $hasAnswers = $this->em->getRepository("BackendAdminBundle:Poll")->hasAnswers(intval($entity["id"]));
-
                             if($hasAnswers > 0){
                                 $urlAnswers = $this->generateUrl('backend_admin_poll_view_answers', array('poll' => intval($entity["id"])));
                                 $answers = "<a href='".$urlAnswers."'><i class='fa fa-file-text'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
-
                             }
                             else{
-                                $urlAnswers = "";
+                                $answers = "";
                             }
+
+                            //QUESTIONS
+                            //fa-question-circle
+                            $urlQuestions = $this->generateUrl('backend_admin_poll_question', array('id' => intval($entity["id"])));
+                            $questions = "<a href='".$urlQuestions."'><i class='fa fa-question-circle'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
+
 
                             $urlEdit = $this->generateUrl('backend_admin_poll_edit', array('id' => $entity["id"]));
                             $edit = "<a href='".$urlEdit."'><i class='fa fa-pencil-square-o'></i><span class='item-label'></span></a>&nbsp;&nbsp;";
@@ -162,7 +167,7 @@ class PollController extends Controller
                             $urlDelete = $this->generateUrl('backend_admin_poll_delete', array('id' => $entity["id"]));
                             $delete = "<a class='btn-delete' href='".$urlDelete."'><i class='fa fa-trash-o'></i><span class='item-label'></span></a>";
 
-                            $responseTemp = $answers.$edit.$delete;
+                            $responseTemp = $answers.$questions.$edit.$delete;
                             break;
                         }
 
@@ -567,7 +572,7 @@ class PollController extends Controller
 
 
             $this->get('services')->flashSuccess($request);
-            return $this->redirect($this->generateUrl('backend_admin_poll_edit', array("id"=> $entity->getId())));
+            return $this->redirect($this->generateUrl('backend_admin_poll_question', array("id"=> $entity->getId())));
 
         }
         /*
@@ -829,7 +834,8 @@ class PollController extends Controller
         }
 
 
-        return $this->redirectToRoute('backend_admin_poll_edit', array('id' => $id));
+        //return $this->redirectToRoute('backend_admin_poll_edit', array('id' => $id));
+        return $this->redirectToRoute('backend_admin_poll_index');
 
     }
 

@@ -2226,8 +2226,10 @@ class PropertyController extends Controller
 
         //mail
         $oldPropertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->getDisableOldContracts($propertyID);
+        //print "<pre>";
+        //var_dump($oldPropertyContract);die;
         if(count($oldPropertyContract) > 0){
-            $objOldContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($oldPropertyContract);
+            $objOldContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->find($oldPropertyContract["id"]);
             $oldMainTenantContract = $objOldContract->getMainTenantContract();
             $oldProperty = $objOldContract->getProperty();
 
@@ -2242,12 +2244,19 @@ class PropertyController extends Controller
             //tenant_name
             //property_address
             //complex_name
-            $myJson = '"tenant_name": "'.$oldMainTenantContract->getUser()->getName().'",';
-            $myJson .= '"property_address": "'.$oldProperty->getPropertyNumber().' '.$oldProperty->getAddress().'",';
-            $myJson .= '"complex_name": "'.$oldProperty->getComplex()->getName().'"';
 
-            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $oldMainTenantContract->getUser()->getEmail());
-            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $oldMainTenantContract->getOwnerEmail());
+            if($oldMainTenantContract != NULL){
+                if($oldMainTenantContract->getUser() !=  NULL){
+                    $myJson = '"tenant_name": "'.$oldMainTenantContract->getUser()->getName().'",';
+                    $myJson .= '"property_address": "'.$oldProperty->getPropertyNumber().' '.$oldProperty->getAddress().'",';
+                    $myJson .= '"complex_name": "'.$oldProperty->getComplex()->getName().'"';
+
+                    $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $oldMainTenantContract->getUser()->getEmail());
+                    $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $oldMainTenantContract->getOwnerEmail());
+
+                }
+
+            }
 
         }
 
