@@ -2,6 +2,7 @@
 
 namespace Backend\AdminBundle\Controller;
 
+use Backend\AdminBundle\Entity\UserNotification;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -394,7 +395,8 @@ class PropertyContractTransactionController extends Controller
         $payment->setPropertyContract($propertyContract);
         $payment->setPropertyTransactionType($transactionType);
         //$payment->setCommonAreaReservation($entity);
-        $payment->setDescription(trim($_REQUEST["description"]));
+        $paymentDescription = trim($_REQUEST["description"]);
+        $payment->setDescription($paymentDescription);
         $payment->setComment(trim($_REQUEST["comment"]));
 
         $payment->setPaymentAmount(floatval($_REQUEST["amount"]));
@@ -414,6 +416,37 @@ class PropertyContractTransactionController extends Controller
         $message = $this->translator->trans("label_new"). " ". $this->translator->trans("label_payment"). " ". $payment->getId();
         $playKey = "BC-A-00004";//Register payment
         $this->get("services")->addPointsAdmin($complex, $message, $playKey);
+
+
+        ////CREATE USER NOTIFICATION
+        ///
+        if($payment->getPropertyContract()->getMainTenantContract()->getUser() != NULL){
+            $objUserNotification = New UserNotification();
+            $objUserNotification->setTicket(null);
+            $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(5);//TYPE=payment
+            $objUserNotification->setNotificationType($type);
+            $objUserNotification->setIsRead(0);
+            $objUserNotification->setEnabled(1);
+
+
+            $myTitle = $this->translator->getLocale() == "es" ? $type->getNameEN() : $type->getNameES();
+            $myTitle .= "# ".$payment->getId();
+            $objUserNotification->setTitle($myTitle);
+            $objUserNotification->setDescription($paymentDescription);
+            $objUserNotification->setNotice("");
+
+            $objUserNotification->setSentTo($payment->getPropertyContract()->getMainTenantContract()->getUser());
+
+            $this->get("services")->blameOnMe($objUserNotification, "create");
+            $this->get("services")->blameOnMe($objUserNotification, "update");
+            $this->em->persist($objUserNotification);
+
+            $this->em->flush();
+
+            $this->get("services")->sendPushNotification($payment->getPropertyContract()->getMainTenantContract()->getUser(), $myTitle, $paymentDescription);
+
+        }
+
 
 
         $this->get('services')->flashSuccess($request);

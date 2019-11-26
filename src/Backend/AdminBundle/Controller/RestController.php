@@ -5158,7 +5158,7 @@ class RestController extends FOSRestController
             $arrResponse = $this->callGamificationService( "GET", "account-status/".$player_id."?month=".$month."&year=".$year, array() );
 
             //var_dump($arrResponse);die;
-            $currentLevel = isset($stats["current_level"]) ? intval($stats["current_level"]) : 0;
+            $currentLevel = isset($stats["current_level"]["name"]) ? trim($stats["current_level"]["name"]) : "";
             $nextLevelPoints = isset($stats["next_level_points"]) ? intval($stats["next_level_points"]) : 0;
             $availablePoints = isset($stats["available_points"]) ? intval($stats["available_points"]) : 0;
             $exchangedPoints = isset($stats["exchanged_points"]) ? intval($stats["exchanged_points"]) : 0;
