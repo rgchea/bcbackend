@@ -112,19 +112,16 @@ class SendInvoiceCommand extends ContainerAwareCommand
                         $invoice->setUpdatedAt(new \DateTime(gmdate('Y-m-d h:i:s    ')));
                         $invoice->setSent(0);
                         $invoice->setAmount($myFee);
+
+                        if($response["error"] != false){//CODE 200 ok and Error false
+                            ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
+                            $invoice->setSent(1);
+
+                        }
+
+                        $em->persist($invoice);
+                        $em->flush();
                     }
-
-
-                    if($response["error"] != false){//CODE 200 ok and Error false
-                        ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
-                        $invoice->setSent(1);
-
-                    }
-
-
-                    $em->persist($invoice);
-                    $em->flush();
-
 
             }
         }
