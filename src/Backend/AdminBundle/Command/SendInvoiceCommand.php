@@ -96,7 +96,7 @@ class SendInvoiceCommand extends ContainerAwareCommand
                     //var_dump($body);die;
 
                     $objCountry = $em->getRepository('BackendAdminBundle:GeoCountry')->find(intval($complex["country_id"]));
-                    //$response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($objCountry,"POST", "invoice", $body);
+                    $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($objCountry,"POST", "invoice", $body);
                     //var_dump($response);die;
 
                     $business = $em->getRepository('BackendAdminBundle:Business')->findOneByCustomerId($complex["customer_id"]);
@@ -112,13 +112,13 @@ class SendInvoiceCommand extends ContainerAwareCommand
                         $invoice->setAmount($myFee);
                     }
 
-                    /*
+
                     if($response["error"] == false){//CODE 200 ok and Error false
                         ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
                         $invoice->setSent(1);
 
                     }
-                    */
+                    
 
                     $em->persist($invoice);
                     $em->flush();

@@ -4,8 +4,6 @@
     <list default="true" id="f24eff6c-8405-41c4-b317-20c8758f1a67" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendPendingInvoiceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendPendingInvoiceCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/PropertyController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/security.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/app/config/security.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/work_process_new/src/Backend/AdminBundle/Controller/DefaultController.php" afterDir="false" />
@@ -486,7 +484,7 @@
       <workItem from="1574437770712" duration="5051000" />
       <workItem from="1574695889722" duration="6504000" />
       <workItem from="1574964509204" duration="2735000" />
-      <workItem from="1574987854235" duration="12921000" />
+      <workItem from="1574987854235" duration="13135000" />
     </task>
     <servers />
   </component>
