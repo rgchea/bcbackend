@@ -26,8 +26,6 @@ class SendPendingInvoiceCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-
-
         $arrInvoice = $em->getRepository('BackendAdminBundle:Invoice')->findBySent(0);
         //die;
         //var_dump($arrInvoice);die;
