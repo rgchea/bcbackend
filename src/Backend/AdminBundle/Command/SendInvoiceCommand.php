@@ -98,6 +98,8 @@ class SendInvoiceCommand extends ContainerAwareCommand
                     $objCountry = $em->getRepository('BackendAdminBundle:GeoCountry')->find(intval($complex["country_id"]));
                     $response = $this->getApplication()->getKernel()->getContainer()->get('services')->callBCInfo($objCountry,"POST", "invoice", $body);
                     //var_dump($response);die;
+                    //$objCountry, "POST", "customer", $body
+                    //var_dump($response);die;
 
                     $business = $em->getRepository('BackendAdminBundle:Business')->findOneByCustomerId($complex["customer_id"]);
                     if($business){
@@ -113,7 +115,7 @@ class SendInvoiceCommand extends ContainerAwareCommand
                     }
 
 
-                    if($response["error"] == false){//CODE 200 ok and Error false
+                    if($response["error"] != false){//CODE 200 ok and Error false
                         ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
                         $invoice->setSent(1);
 

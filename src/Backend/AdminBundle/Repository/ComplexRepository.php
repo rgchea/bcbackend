@@ -217,6 +217,7 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                    	    INNER JOIN geo_country country ON (s.geo_country_id = country.id)
                     WHERE   c.enabled = 1
                     AND     DATE_ADD(DATE(c.created_at), INTERVAL 15 DAY) <= DATE(NOW())
+                    AND b.customer_id != 0
                     ";
         //el date add +2 es para un mes de prueba gratis
         //AND     DATE_ADD(DATE(c.created_at), INTERVAL 2 MONTH) <= DATE(NOW())
