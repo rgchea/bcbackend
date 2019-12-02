@@ -118,7 +118,7 @@ class SendInvoiceCommand extends ContainerAwareCommand
                         $invoice->setSent(1);
 
                     }
-                    
+
 
                     $em->persist($invoice);
                     $em->flush();

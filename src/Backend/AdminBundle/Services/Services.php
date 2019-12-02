@@ -899,10 +899,12 @@ class Services extends Controller
         try{
 
             $response = $client->request($method, $domain.'/?ng=api/v2/'.$service, $params);
-            //print "<pre>";
-            //var_dump($response);die;
-            //var_dump($response->getStatusCode());die;
+            /*
+            print "<pre>";
+            var_dump($response);
+            var_dump($response->getStatusCode());die;
             $statusCode = $response->getStatusCode();
+            */
             //if($statusCode == 200 || $statusCode == 201 || $statusCode == 204 ){
 
                 $arrResponse = json_decode($response->getBody(), true);
@@ -923,7 +925,7 @@ class Services extends Controller
 
 
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
-            $this->systemLog($ex->getMessage(), "space");
+            $this->systemLog($ex->getMessage(), "ibilling");
         }
 
 
