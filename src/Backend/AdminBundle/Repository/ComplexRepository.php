@@ -286,7 +286,7 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
         //var_dump($execute);die;
 
         if(!empty($execute)){
-            $myFee = floatval($execute[0]["fee"]) * intval($quantity);
+            $myFee = floatval($execute[0]["fee"]);
             return $myFee;
         }
         else{
