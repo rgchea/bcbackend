@@ -83,7 +83,7 @@ class SendInvoiceCommand extends ContainerAwareCommand
 
                         array('name' => 'items[0][description]', 'contents' => $complex["complex_name"]),///detalle
                         array('name' => 'items[0][item_code]', 'contents' => ''),
-                        array('name' => 'items[0][qty]', 'contents' => 1),
+                        array('name' => 'items[0][qty]', 'contents' => $complex["properties_quantity"]),
                         array('name' => 'items[0][amount]', 'contents' => $myFee),
                         array('name' => 'items[0][taxed]', 'contents' => 0),
 

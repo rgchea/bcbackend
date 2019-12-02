@@ -257,6 +257,8 @@ class ComplexRepository extends \Doctrine\ORM\EntityRepository
                     $arrReturn[$complexID]["fee"] = $myFee;
                     $arrReturn[$complexID]["customer_id"] = $c["customer_id"];
                     $arrReturn[$complexID]["complex_name"] = $c["complex_name"];
+                    $arrReturn[$complexID]["properties_quantity"] = $properties;
+
 
                 }
             //}
