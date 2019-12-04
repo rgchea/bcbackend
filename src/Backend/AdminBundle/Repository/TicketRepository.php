@@ -63,9 +63,9 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
              ->setParameter('share', 2)
 
              ///notifications to a sector
-             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector AND a.property = :property")
-             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector AND a.property IS NULL")
              ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector IS NULL AND a.property IS NULL")
+             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector AND a.property IS NULL")
+             ->orWhere("a.ticketType = :notification AND a.complex = :complex AND a.complexSector = :sector AND a.property = :property")
 
              ->setParameter('notification', 4)
              ->setParameter('complex', $complexID)
