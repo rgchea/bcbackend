@@ -385,8 +385,16 @@ class PropertyContractTransactionController extends Controller
         //var_dump($_REQUEST);die;
         $objProperty = $this->em->getRepository('BackendAdminBundle:Property')->find(intval($_REQUEST["property_select"]));
 
+        if(!$objProperty){
+            throw new \Exception("Invalid Property.");
+        }
+
         $propertyContract = $this->em->getRepository('BackendAdminBundle:PropertyContract')->findOneBy(array("property" => $objProperty->getId(), 'propertyTransactionType' => 3, "enabled" => 1, 'isActive' => 1), array("id"=> "DESC"));
+        //var_dump($propertyContract->getId());die;
         $transactionType = $this->em->getRepository('BackendAdminBundle:PropertyTransactionType')->find(intval($_REQUEST["type_select"]));//reservacion
+        if(!$transactionType){
+            throw new \Exception("Invalid Transaction Type.");
+        }
 
         $payment = new PropertyContractTransaction();
         $payment->setEnabled(1);
@@ -420,32 +428,36 @@ class PropertyContractTransactionController extends Controller
 
         ////CREATE USER NOTIFICATION
         ///
-        if($payment->getPropertyContract()->getMainTenantContract()->getUser() != NULL){
-            $objUserNotification = New UserNotification();
-            $objUserNotification->setTicket(null);
-            $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(5);//TYPE=payment
-            $objUserNotification->setNotificationType($type);
-            $objUserNotification->setIsRead(0);
-            $objUserNotification->setEnabled(1);
+        if($propertyContract->getMainTenantContract() != NULL){
+            if($propertyContract->getMainTenantContract()->getUser() != NULL){
+                $objUserNotification = New UserNotification();
+                $objUserNotification->setTicket(null);
+                $type = $this->em->getRepository('BackendAdminBundle:NotificationType')->findOneById(5);//TYPE=payment
+                $objUserNotification->setNotificationType($type);
+                $objUserNotification->setIsRead(0);
+                $objUserNotification->setEnabled(1);
 
 
-            $myTitle = $this->translator->getLocale() == "es" ? $type->getNameEN() : $type->getNameES();
-            $myTitle .= "# ".$payment->getId();
-            $objUserNotification->setTitle($myTitle);
-            $objUserNotification->setDescription($paymentDescription);
-            $objUserNotification->setNotice("");
+                $myTitle = $this->translator->getLocale() == "es" ? $type->getNameEN() : $type->getNameES();
+                $myTitle .= "# ".$payment->getId();
+                $objUserNotification->setTitle($myTitle);
+                $objUserNotification->setDescription($paymentDescription);
+                $objUserNotification->setNotice("");
 
-            $objUserNotification->setSentTo($payment->getPropertyContract()->getMainTenantContract()->getUser());
+                $objUserNotification->setSentTo($propertyContract->getMainTenantContract()->getUser());
 
-            $this->get("services")->blameOnMe($objUserNotification, "create");
-            $this->get("services")->blameOnMe($objUserNotification, "update");
-            $this->em->persist($objUserNotification);
+                $this->get("services")->blameOnMe($objUserNotification, "create");
+                $this->get("services")->blameOnMe($objUserNotification, "update");
+                $this->em->persist($objUserNotification);
 
-            $this->em->flush();
+                $this->em->flush();
 
-            $this->get("services")->sendPushNotification($payment->getPropertyContract()->getMainTenantContract()->getUser(), $myTitle, $paymentDescription);
+                $this->get("services")->sendPushNotification($propertyContract->getMainTenantContract()->getUser(), $myTitle, $paymentDescription);
+
+            }
 
         }
+
 
 
 
@@ -518,26 +530,34 @@ class PropertyContractTransactionController extends Controller
 
 
         ///paid & paid date
-        $mainTenant = $payment->getPropertyContract()->getProperty()->getMainTenant();
-        $payment->setPaidBy($mainTenant);
-        $gtmNow = gmdate("Y-m-d H:i:s");
-        $payment->setPaidDate(new \DateTime($gtmNow));
-        //status
-        $payment->setStatus(1);
-        $payment->setTransactionNumber(trim($_REQUEST["transaction_number"]));
+        $mainTenant = $payment->getPropertyContract()->getMainTenantContract()->getUser();
+        if($mainTenant != NULL){
 
-        //BLAME ME
-        $this->get("services")->blameOnMe($payment, "update");
+            $payment->setPaidBy($mainTenant);
+            $gtmNow = gmdate("Y-m-d H:i:s");
+            $payment->setPaidDate(new \DateTime($gtmNow));
+            //status
+            $payment->setStatus(1);//PAID
+            $payment->setTransactionNumber(trim($_REQUEST["transaction_number"]));
 
-        $this->em->persist($payment);
+            //BLAME ME
+            $this->get("services")->blameOnMe($payment, "update");
 
-        $this->em->flush();
+            $this->em->persist($payment);
+            $this->em->flush();
 
-        $title = $this->translator->trans("push.payment_received");
-        $description = $this->translator->trans("push.payment").trim($_REQUEST["transaction_number"]);
-        $this->get("services")->sendPushNotification($mainTenant, $title, $description);
+            $title = $this->translator->trans("push.payment_received");
+            $description = $this->translator->trans("push.payment").trim($_REQUEST["transaction_number"]);
+            $this->get("services")->sendPushNotification($mainTenant, $title, $description);
 
-        $this->get('services')->flashSuccess($request);
+            $this->get('services')->flashSuccess($request);
+        }
+        else{
+            $this->get('services')->flashWarning($request);
+            $this->get('services')->flashCustom($request, "Tenant not found");
+        }
+
+
         return $this->redirect($this->generateUrl('backend_admin_propertycontracttransaction_index', array('id' => $id)));
 
     }

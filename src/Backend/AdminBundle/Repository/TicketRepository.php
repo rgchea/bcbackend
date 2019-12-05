@@ -54,7 +54,7 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('p.id = :property')
 
              ///public tickets
-             ->orWhere("a.isPublic = 1 AND a.complex = :complex")
+             ->orWhere("a.isPublic = 1 AND a.complex = :complex AND a.ticketType = 1")
 
             //->andWhere('a.createdBy = :user')
             //->setParameter('user', $user)
