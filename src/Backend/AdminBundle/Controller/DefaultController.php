@@ -120,8 +120,8 @@ class DefaultController extends Controller
 		//var_dump($session->get("user_access"));die;
 		
     	return $this->render('BackendAdminBundle:Partials:menu.html.twig', 
-    							array('item' => $item, 'user_access' => $session->get("user_access"))
-							);
+                            array('item' => $item, 'user_access' => $session->get("user_access"))
+                    );
 		
     }
 
