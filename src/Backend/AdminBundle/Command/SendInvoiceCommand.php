@@ -111,9 +111,10 @@ class SendInvoiceCommand extends ContainerAwareCommand
                         $invoice->setCreatedAt(new \DateTime(gmdate('Y-m-d h:i:s')));
                         $invoice->setUpdatedAt(new \DateTime(gmdate('Y-m-d h:i:s    ')));
                         $invoice->setSent(0);
-                        $invoice->setAmount($myFee);
+                        $myAmount = $myFee*intval($complex["properties_quantity"]);
+                        $invoice->setAmount($myAmount);
 
-                        if($response["error"] != false){//CODE 200 ok and Error false
+                        if($response["error"] == false){//CODE 200 ok and Error false
                             ///INSERT ON DB O JUST PULL THE INFO FROM .INFO?
                             $invoice->setSent(1);
 
