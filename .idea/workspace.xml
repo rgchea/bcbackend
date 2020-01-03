@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f24eff6c-8405-41c4-b317-20c8758f1a67" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Controller/DefaultController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Backend/AdminBundle/Command/SendInvoiceCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../mayaexpress/appv1/platforms/android/app/src/main/assets/www/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/app/Resources/views/Emails/contact.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../robertohernandezchea/donotreadme.md" afterDir="false" />
@@ -408,7 +408,7 @@
       <workItem from="1575494448232" duration="27923000" />
       <workItem from="1576796445133" duration="5092000" />
       <workItem from="1577467842165" duration="5334000" />
-      <workItem from="1577987055793" duration="141000" />
+      <workItem from="1577987055793" duration="1062000" />
     </task>
     <servers />
   </component>
