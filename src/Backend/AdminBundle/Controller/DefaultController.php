@@ -21,6 +21,7 @@ class DefaultController extends Controller
     private $userLogged;
     private $role;
 
+    //checkout dev branch
 
     // Set up all necessary variable
     protected function initialise()
