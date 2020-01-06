@@ -23,7 +23,7 @@
             <div class="row">
                 {#{% if app.user.role.name == "ADMIN" %}#}
 
-                    <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_ticket_new') }}">
+                    <a class="pull-right btn btn-primary" href="{{ path('backend_admin_ticket_new') }}">
                         {{ 'label_create_new'|trans }} {{ 'label_ticket'|trans }}
                     </a>
 

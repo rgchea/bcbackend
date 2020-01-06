@@ -50,45 +50,30 @@
 
 
 					<div class="row">
-						<div class="col-md-4">
-							<div class="col-md-3">
-								<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
-							</div>
-							<div class="col-md-9">
-								<select  class="form-control classic" id="sector_select" name="sector_select">
-									{% for sector in complexSector %}
-										<option value="{{ sector.id }}">{{ sector }}</option>
-									{% endfor %}
-								</select>
-							</div>
-
+						<div class="col-md-4 form-group">							
+                                                        <label class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </label>														
+                                                        <select  class="form-control classic" id="sector_select" name="sector_select">
+                                                                {% for sector in complexSector %}
+                                                                        <option value="{{ sector.id }}">{{ sector }}</option>
+                                                                {% endfor %}
+                                                        </select>							
 						</div>
 
-						<div class="col-md-4">
-							<div class="col-md-5">
-								<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
-							</div>
-							<div class="col-md-7">
-								<select  class="form-control classic" id="property_select" name="property_select">
+						<div class="col-md-4 form-group">
+                                                    <label class="txt-blue-bold">{{ 'label_property_number'|trans }}: </label>
+                                                    <select  class="form-control classic" id="property_select" name="property_select">
 
-								</select>
-							</div>
-
+                                                    </select>							
 						</div>
 
 
-						<div class="col-md-4">
-							<div class="col-md-4">
-								<p class="txt-blue-bold">{{ 'label_category'|trans }}: </p>
-							</div>
-							<div class="col-md-8">
-								<select  class="form-control classic" id="category_select" name="category_select">
-									{% for category in ticketCategory %}
-										<option value="{{ category.id }}">{{ category.name }}</option>
-									{% endfor %}
-								</select>
-							</div>
-
+						<div class="col-md-4 form-group">
+                                                    <label class="txt-blue-bold">{{ 'label_category'|trans }}: </label>							
+                                                    <select  class="form-control classic" id="category_select" name="category_select">
+                                                            {% for category in ticketCategory %}
+                                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                            {% endfor %}
+                                                    </select>							
 						</div>
 
 					</div>
@@ -97,44 +82,26 @@
 
 					{% set myToken = token %}
 
-
 					<input type="hidden" name="ticket[token]" value="{{ myToken }}">
 
 					<div class="row">
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_title'|trans }}: </p>
-						</div>
-						<div class="col-md-11">
-							<input type="text" class="form-control" placeholder="" name="title" id="title">
-
-						</div>
-					</div>
-
+                                            <label class="txt-blue-bold">{{ 'label_title'|trans }}: </label>						
+                                            <input type="text" class="form-control" placeholder="" name="title" id="title">
+                                            <br>
+					</div>                                            
 					<div class="row">
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
-						</div>
-						<br/>
-						<div class="col-md-11">
-							<textarea required class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7" name="description" id="description"></textarea>
-
-						</div>
+                                            <label class="txt-blue-bold">{{ 'label_description'|trans }}: </label>												
+                                            <textarea required class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7" name="description" id="description"></textarea>
 					</div>
-
 					<br/>
-
 					<div class="clearfix"></div>
 					<br/>
 
 					<div class="row">
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_solution'|trans }}: </p>
-						</div>
-						<div class="col-md-11">
-							<textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7" name="solution" id="solution"></textarea>
-
-						</div>
+                                            <label class="txt-blue-bold">{{ 'label_solution'|trans }}: </label>						
+                                            <textarea class="form-control rounded-0" id="exampleFormControlTextarea1" rows="7" name="solution" id="solution"></textarea>
 					</div>
+                                            
 					<div class="clearfix"></div>
 					<br/>
 

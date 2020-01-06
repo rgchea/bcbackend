@@ -20,7 +20,7 @@
 				</h4>
 				<br/>
 				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8" style="float: right">
-					<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
+					<a class="pull-right btn btn-primary " href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
 						{{ 'label_property_delete_ad'|trans }}
 					</a>
 				</div>
@@ -30,7 +30,7 @@
 		{% else %}
 			{% if app.user.role.name == "ADMIN" %}{#EVALUAR QUE ROLES TENDRAN ACCESO A CREAR PROPIEDADES#}
 				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-					<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
+					<a class="pull-right btn btn-primary " href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
 						{{ 'label_property_share_ad'|trans }}
 					</a>
 				</div>

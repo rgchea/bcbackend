@@ -27,7 +27,7 @@
 								<div class="col-md-2 text-right"></div>
 
 								<div class="col-md-2">
-									<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
+									<a class="pull-right btn btn-primary " href="{{ path('backend_admin_property_delete_ad', {propertyID: entity.id, ticketID: isAdShared}) }}">
 										{{ 'label_property_delete_ad'|trans }}
 									</a>
 								</div>
@@ -38,7 +38,7 @@
 								<div class="col-md-8">&nbsp;</div>
 								<div class="col-md-2 text-right"></div>
 								<div class="col-md-2 text-right">
-									<a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
+									<a class="pull-right btn btn-primary " href="{{ path('backend_admin_property_share_ad', {propertyID: entity.id}) }}">
 										{{ 'label_property_share_ad'|trans }}
 									</a>
 								</div>
@@ -110,78 +110,32 @@
 
 
 							<div class="row">
-								<div class="col-md-4">
-									<div class="col-md-3">
-										<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}:</p>
-									</div>
-									<div class="col-md-9">
-										{{ form_errors(form.complexSector) }}
-										{{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control classic' } }
-										) }}
-									</div>
-
+								<div class="col-md-4 form-group">
+                                                                    <label class="txt-blue-bold">{{ 'label_complex_sector'|trans }}:</label>                                                                    
+                                                                    {{ form_errors(form.complexSector) }}
+                                                                    {{ form_widget(form.complexSector, { 'attr': {'class' : 'form-control classic' } } ) }}                                                                    
 								</div>
 
-								<div class="col-md-4">
-									<div class="col-md-5">
-										<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
-									</div>
-									<div class="col-md-7">
-										{{ form_errors(form.propertyNumber) }}
-										{{ form_widget(form.propertyNumber, { 'attr': {'class' : 'form-control', 'maxlength': '6' } }
-										) }}
-									</div>
-
+								<div class="col-md-4 form-group">
+                                                                    <label class="txt-blue-bold">{{ 'label_property_number'|trans }}: </label>									
+                                                                    {{ form_errors(form.propertyNumber) }}
+                                                                    {{ form_widget(form.propertyNumber, { 'attr': {'class' : 'form-control', 'maxlength': '6' } } ) }}									
 								</div>
 
 
-								<div class="col-md-4">
-									<div class="col-md-4">
-										<p class="txt-blue-bold">{{ 'label_property_type'|trans }}:</p>
-									</div>
-									<div class="col-md-8">
-										{{ form_errors(form.propertyType) }}
-										{{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control classic' } }
-										) }}
-									</div>
-
+								<div class="col-md-4 form-group">
+                                                                    <label class="txt-blue-bold">{{ 'label_property_type'|trans }}:</label>									
+                                                                    {{ form_errors(form.propertyType) }}
+                                                                    {{ form_widget(form.propertyType, { 'attr': {'class' : 'form-control classic' } }
+                                                                    ) }}									
 								</div>
 
 							</div>
-
 							<br/>
-
 							<div class="row">
-								<div class="col-md-1">
-									<p class="txt-blue-bold">{{ 'label_address'|trans }}:</p>
-								</div>
-								<div class="col-md-11">
-									{{ form_errors(form.address) }}
-									{{ form_widget(form.address, { 'attr': {'class' : 'form-control rounded-0', 'rows': '6' } }
-									) }}
-
-								</div>
-
-								{#
-								{% if edit is defined %}
-									<div class="col-md-1">
-										<p class="txt-blue-bold">QR:</p>
-									</div>
-
-
-									<div class="form-group col-md-3">
-
-										<a download="{{ entity.name }}.png" href="data:image/png;base64,{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}" >
-											<img id="property_qr" src="data:image/png;base64,
-											{{ barcode({code: entity.code, type: 'datamatrix', format: 'png', width: 10, height: 10, color: [0, 0, 0]}) }}
-											" />
-										</a>
-									</div>
-
-								{% endif %}
-
-								#}
-
+                                                            <label class="txt-blue-bold">{{ 'label_address'|trans }}:</label>				
+                                                            {{ form_errors(form.address) }}
+                                                            {{ form_widget(form.address, { 'attr': {'class' : 'form-control rounded-0', 'rows': '6' } } ) }}
 							</div>
 
 
@@ -190,71 +144,38 @@
 							{% if new is defined %}
 								<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 								<div class="row">
-									<div class="col-md-6">
-										<div class="col-md-3">
-											<p class="txt-blue-bold">{{ 'label_tenant'|trans }} {{ 'label_email'|trans }}:</p>
-										</div>
-										<div class="col-md-9">
-
-											<input type="text" class="form-control" placeholder="example@example.com" name="agreement[tenant_email]" id="agreement_tenant_email">
-
-										</div>
+                                                                    <div class="col-md-6 form-group">
+                                                                        <label class="txt-blue-bold">{{ 'label_tenant'|trans }} {{ 'label_email'|trans }}:</label>                                                                            
+                                                                        <input type="text" class="form-control" placeholder="example@example.com" name="agreement[tenant_email]" id="agreement_tenant_email">                                                                            
+                                                                    </div>
+                                                                    <div class="col-md-6 form-group">
+                                                                        <label class="txt-blue-bold">{{ 'label_owner'|trans }} {{ 'label_email'|trans }}:</label>										
+                                                                        <input type="text" class="form-control" placeholder="example@example.com" name="agreement[owner_email]" id="agreement_owner_email">
+                                                                    </div>
+								</div>
+								<br/>
+								<div class="row">
+									<div class="col-md-6 form-group">
+                                                                            <label class="txt-blue-bold">{{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}: </label>										
+                                                                            <input type="text" class="form-control" placeholder="$ 540.00" id="agreement_maintenance" name="agreement[maintenance]">
 									</div>
-									<div class="col-md-6">
-										<div class="col-md-3">
-											<p class="txt-blue-bold text-left">{{ 'label_owner'|trans }} {{ 'label_email'|trans }}:</p>
-
-
-										</div>
-										<div class="col-md-9">
-											<input type="text" class="form-control" placeholder="example@example.com" name="agreement[owner_email]" id="agreement_owner_email">
-
-										</div>
+									<div class="col-md-6 form-group">
+                                                                            <label class="txt-blue-bold">{{ 'label_who_pays_maintenance'|trans }}: </label>										
+                                                                            <div class="form-group" style="padding: 0px 10px">
+                                                                                <label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" value="owner">Owner</label>
+                                                                                <label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" checked value="tenant">Tenant</label>
+                                                                            </div>
 									</div>
 								</div>
 								<br/>
-								<div class="row color1">
-									<div class="col-md-6">
-										<div class="col-md-5">
-											<p class="txt-blue-bold text-left">{{ 'label_maintenance'|trans }} {{ 'label_cost'|trans }}: </p>
-										</div>
-										<div class="col-md-7">
-											<input type="text" class="form-control" placeholder="$ 540.00" id="agreement_maintenance" name="agreement[maintenance]">
-
-
-										</div>
+								<div class="row">
+									<div class="col-md-6 form-group">
+                                                                            <label class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </label>										
+                                                                            <input id="agreement_start_date" name="agreement[start]" type="date" class="form-control"/>
 									</div>
-									<div class="col-md-6">
-										<div class="col-md-5">
-											<p class="txt-blue-bold text-left">{{ 'label_who_pays_maintenance'|trans }}: </p>
-										</div>
-										<div class="col-md-7 text-right">
-											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" value="owner">Owner</label>
-											<label class="radio-inline"><input type="radio" name="agreement[whopaysmaintenance]" checked value="tenant">Tenant</label>
-
-
-										</div>
-									</div>
-								</div>
-								<br/>
-								<div class="row color2">
-									<div class="col-md-6">
-										<div class="col-md-3">
-											<p class="txt-blue-bold">{{ 'label_agreement_start_date'|trans }}: </p>
-										</div>
-										<div class="col-md-9">
-											<input id="agreement_start_date" name="agreement[start]" type="date" class="form-control"/>
-
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="col-md-3">
-											<p class="txt-blue-bold text-left">{{ 'label_agreement_end_date'|trans }}: </p>
-										</div>
-										<div class="col-md-9">
-											<input id="agreement_end_date" name="agreement[end]" type="date" class="form-control"/>
-
-										</div>
+									<div class="col-md-6 form-group">
+                                                                            <label class="txt-blue-bold">{{ 'label_agreement_end_date'|trans }}: </label>										
+                                                                            <input id="agreement_end_date" name="agreement[end]" type="date" class="form-control"/>
 									</div>
 								</div>
 							{% endif %}

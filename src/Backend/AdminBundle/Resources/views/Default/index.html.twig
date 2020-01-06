@@ -22,34 +22,121 @@
         <div class="header">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <h3 class="header-title">{{ user.business.name }} <span class="minify">{{ user.business.geoState.name }}, {{ user.business.address }}</span> </h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-10" style="float: left;">
-                        {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
-                    </div>
-
-                    <div class="col-md-2" style="margin-top:-15px;float: right;" >
-
-                        <div class="cuadrito-dashboard">
-                            <div class="texto-d">
-                                {{ arrStats["gxp"]["points"] }}<span class="minify"><b>GXP</b> {{ 'label_points'|trans }}</span>
-                            </div>
-
-                            <div style="text-align: center; color:#ccc;">
-                                {{ 'dashboard.level'|trans }} {{ arrStats["gxp"]["level"] }}
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                    </div>                    
+                    {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}                    
+                </div>                
             </div>
         </div>
 
         <div class="container">
+            <br>
+            <div class="row">                                            
+                <div class="col-md-2 col-sm-12">
+                    <div class="cuadrito-dashboards">
+                        <div class="texto-d">
+                            {{ arrStats["gxp"]["points"] }}
+                        </div>
+
+                        <div style="text-align: center; color:#ccc;">
+                            <b>GXP</b> {{ 'label_points'|trans }}
+                        </div>
+                        
+                        <div style="float:left; color:#ccc;">
+                            {{ 'dashboard.level'|trans }} {{ arrStats["gxp"]["level"] }}
+                        </div>
+
+                    </div>
+                </div>                            
+                <div class="col-md-2 col-sm-12">
+                    <div class="cuadrito-dashboards">
+                        <div  class="texto-d">
+                            {{ arrStats["properties"]["total"] }}
+                        </div>
+                        <div style="color:#ccc; text-align:center;">
+                            {{ 'dashboard.properties'|trans }}
+                        </div>
+                        <div style="float:left; color:#ccc;">
+                            {{ arrStats["properties"]["rented"] }} {{ 'dashboard.rented'|trans }}
+                        </div>
+                        <div style="float:right; color:#ccc">
+                            {{ arrStats["properties"]["empty"] }} {{ 'dashboard.empty'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <div class="cuadrito-dashboards">
+                        <div  class="texto-d">
+                            {{ arrStats["users"]["total"] }}
+                        </div>
+                        <div style="color:#ccc; text-align:center;">
+                            {{ 'dashboard.users'|trans }}
+                        </div>
+                        <div style="float:left; color:#ccc;">
+                            {{ arrStats["users"]["tenants"] }} {{ 'dashboard.tenants'|trans }}
+                        </div>
+                        <div style="float:right; color:#ccc">
+                            {{ arrStats["users"]["owners"] }} {{ 'dashboard.owners'|trans }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12">
+                    <div class="cuadrito-dashboards">
+                        <div  class="texto-d">
+                            {{ arrStats["tickets"]["total"] }}
+                        </div>
+                        <div style="color:#ccc; text-align:center;">
+                            {{ 'dashboard.tickets'|trans }}
+                        </div>
+                        <div style="float:left; color:#ccc;">
+                            {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_open'|trans }}
+                        </div>
+                        <div style="float:right; color:#ccc">
+                            {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_closed'|trans }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12">
+                    <div class="cuadrito-dashboards">
+                        <div  class="texto-d">
+                            {{ arrStats["reservations"]["total"] }}
+                        </div>
+                        <div style="color:#ccc; text-align:center;">
+                            {{ 'dashboard.reservations'|trans }}
+                        </div>
+                        <div style="float:left; color:#ccc;">
+                            {{ arrStats["reservations"]["approved"] }} {{ 'dashboard.approved'|trans }}
+                        </div>
+                        <div style="float:right; color:#ccc">
+                            {{ arrStats["reservations"]["rejected"] }} {{ 'dashboard.rejected'|trans }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12">
+                    <div class="cuadrito-dashboards">
+                        <div sty class="texto-d">
+                            {{ arrStats["users"]["members"] }}
+                        </div>
+                        <div style="color:#ccc; text-align:center;">
+                            {{ 'dashboard.members'|trans }}
+                        </div>
+                        <div style="float:left; color:#ccc;">
+                            {{ arrStats["users"]["managers"] }} {{ 'dashboard.managers'|trans }}
+                        </div>
+                        <div style="float:right; color:#ccc">
+                            {{ arrStats["users"]["superv"] }} {{ 'dashboard.superv'|trans }}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <hr>
+            <br>
             <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
 
                 <!-- widget div-->
@@ -80,98 +167,7 @@
                                 <div id="tb_current_month" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                             </div>
                         </div>
-
-
-
-                        <br/>
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["properties"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.properties'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["properties"]["rented"] }} {{ 'dashboard.rented'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["properties"]["empty"] }} {{ 'dashboard.empty'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["users"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.users'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["users"]["tenants"] }} {{ 'dashboard.tenants'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["users"]["owners"] }} {{ 'dashboard.owners'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["tickets"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.tickets'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_open'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_closed'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["reservations"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.reservations'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["reservations"]["approved"] }} {{ 'dashboard.approved'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["reservations"]["rejected"] }} {{ 'dashboard.rejected'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="cuadrito-dashboards">
-                                    <div sty class="texto-d">
-                                        {{ arrStats["users"]["members"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.members'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["users"]["managers"] }} {{ 'dashboard.managers'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["users"]["superv"] }} {{ 'dashboard.superv'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
+                        
                         <br/>
 
                         <div class="row">
