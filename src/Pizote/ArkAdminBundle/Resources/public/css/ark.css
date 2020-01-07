@@ -2376,19 +2376,7 @@ table.dataTable thead th {
 /*
    * Forms
    */
-.form-control {
-    text-align: center;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border: solid 1.5px #93a7b2;
-}
-.form-control:focus {
-    -webkit-box-shadow: 0 0 3px rgba(102, 175, 233, 0.6);
-    box-shadow: 0 0 3px rgba(102, 175, 233, 0.6);
-}
+
 .help-block {
     font-weight: 300;
 }
@@ -3834,7 +3822,11 @@ select{
 
 /*sidebar*/
 #notificationList{
-    box-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+    box-shadow: -2px 7px 5px 4px rgba(0,0,0,0.2);
+}
+
+#notificationList .fa-bell{
+    color: #f5bc10;
 }
 
 aside .nav li {
@@ -3972,4 +3964,12 @@ thead tr *{
 .flagstrap button{
     background-color: white !important;
     margin: 0 !important;
+}
+
+
+#myColor{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #ddd;
+    border-radius: 3px !important;
 }

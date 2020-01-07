@@ -19,105 +19,126 @@
 <link href="{{ asset('bundles/pizotearkadmin/js/fontawesome-iconpicker-master/dist/css/fontawesome-iconpicker.min.css')  }}" rel="stylesheet">
 <script src="{{ asset('bundles/pizotearkadmin/js/fontawesome-iconpicker-master/dist/js/fontawesome-iconpicker.js') }}"></script>
 
-{#https://rachel-carvalho.github.io/simple-color-picker/#}
 <link href="{{ asset('bundles/pizotearkadmin/js/simple-color-picker-master/jquery.simple-color-picker.css')  }}" rel="stylesheet" type="text/css" media="screen" />
 <script src="{{ asset('bundles/pizotearkadmin/js/simple-color-picker-master/jquery.simple-color-picker.js')  }}"></script>
 
 <div class="container">
-	<div class="row">
-	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+	<div class="row">	
 
 		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
-
-			<header role="heading">
-				<h2>{{ 'label_form'|trans }}</h2>
-			</header>
-
+			
+                    <div class="header">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h3 class="header-title">{{ 'label_form'|trans }}</h3>                                    
+                                </div>                    
+                            </div>      
+                            <div class="row">
+                                <div class="col-xs-12 col-md-8 ">
+                                    <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                              
+                    {{ form_start(form) }}
+                    {{ form_errors(form) }}       
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-8 ">
+                                <div class="row">
+                                    <div class="col-xs-12 form-group">
+                                        {{ form_label(form.name) }}
+                                        {{ form_errors(form.name) }}
+                                        {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } } ) }}
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <label for="icon" class="required" aria-required="true"></label><br/>                                        
+                                        <div class="btn-group">
+                                            <button type="button" class="btn iconpicker-component btn-default" style="pointer-events: none;">
+                                                <i class="fa fa-archive"></i> {{ 'label_icon'|trans }}
+                                            </button>
+                                            <button type="button" class="icp icp-dd btn dropdown-toggle btn-default" {% if edit is defined %}data-selected="{{ entity.icon.iconClass }}" {% endif %} data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu"></div>
+                                        </div>
+                                        <input type="hidden" name="ticket_category[iconClass]" id="iconClass" value="" >
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <label for="color" class="required" aria-required="true">Color</label><br>                                        
+                                        <div class="input-group col-xs-12">   
+                                            <span class="input-group-addon" id="myColor">                                                
+                                            </span>
+                                            {% if edit is defined %}
+                                                <input type="text" class="form-control" value="{{ entity.color }}" name="ticket_category[color]" id="myColorPicker" onchange="changeColor()" readonly/>
+                                            {% else %}
+                                                <input type="text" class="form-control" name="ticket_category[color]" id="myColorPicker" onchange="changeColor()" readonly />
+                                            {% endif %}                                            
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-xs-12 form-group">
+                                        {{ form_label(form.description) }}
+                                        {{ form_errors(form.description) }}
+                                        {{ form_widget(form.description, { 'attr': {'class' : 'form-control' } } ) }}
+                                    </div>
+                                    <div class="col-xs-12 form-group">
+                                        {{ form_label(form.complex) }}
+                                        {{ form_errors(form.complex) }}
+                                        {{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }) }}
+                                        <br>
+                                    </div>                                    
+                                    <div class="col-xs-6 form-group">
+                                        <button type="submit" class="btn btn-primary form-control">{{ 'label_save'|trans }}</button>
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <a  href="{{ path('backend_admin_ticket_category_index') }}" class="btn btn-primary button-cancel  form-control">{{ 'label_cancel'|trans }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
 			<!-- widget div-->
 			<div role="content">
 
-				<!-- widget edit box -->
-				<div class="jarviswidget-editbox">
-					<!-- This area used as dropdown edit box -->
-
-				</div>
-				<!-- end widget edit box -->
-
-				<!-- widget content -->
+								
 				<div class="widget-body">
 
 					<div class="form-inputs-g">
-                    {{ form_start(form) }}
-                    {{ form_errors(form) }}
+                    
 
-						<fieldset>
+                    <fieldset>
+                        
 
-                        <div class="form-group col-md-6">
-                            {{ form_label(form.name) }}
-                            {{ form_errors(form.name) }}
-                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
-                            ) }}
-                        </div>
+                    <div class="clearfix"></div>
+                                
+                    <div class="form-group col-md-6">
+                            
+                    </div>
 
-						<div class="clearfix"></div>
-						<div class="form-group col-sm-1">
-							<label for="icon" class="required" aria-required="true">{{ 'label_icon'|trans }}</label><br/>
-							{#<div class="btn-group">#}
-							<div>
-								<button type="button" class="btn iconpicker-component"><i
-											class="fa fa-fw fa-heart"></i></button>
-								<button type="button" class="icp icp-dd btn dropdown-toggle"
-										{% if edit is defined %}data-selected="{{ entity.icon.iconClass }}" {% endif %}
-										data-toggle="dropdown">
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<div class="dropdown-menu"></div>
-							</div>
-							<input type="hidden" name="ticket_category[iconClass]" id="iconClass" value="" >
-						</div>
-						<div class="form-group col-md-6">
-							<label for="color" class="required" aria-required="true">Color</label><br/>
-							{% if edit is defined %}
-								<input value="{{ entity.color }}" name="ticket_category[color]" id="myColorPicker" onchange="changeColor()" readonly/>
-							{% else %}
-								<input name="ticket_category[color]" id="myColorPicker" onchange="changeColor()" readonly/>
-							{% endif %}
+                    <div class="clearfix"></div>
 
-							<div id="myColor" class="foo blue"></div>
-						</div>
-
-						<div class="clearfix"></div>
-
-						<div class="form-group col-md-6">
-							{{ form_label(form.description) }}
-							{{ form_errors(form.description) }}
-							{{ form_widget(form.description, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-						<div class="clearfix"></div>
-						<div class="form-group col-md-6">
-							{{ form_label(form.complex) }}
-							{{ form_errors(form.complex) }}
-							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
-							) }}
-						</div>
-							<div class="hide">
+                    <div class="form-group col-md-6">
+                            
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-md-6">
+                            
+                    </div>
+                    <div class="hide">
                             {{ form_rest(form) }}
-                        </div>
+                    </div>
 
-						</fieldset>
+                </fieldset>
 
 						<br/>
 						<div class="row">
 							<div class="col-md-8">
 							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-							</div>
-							<div class="col-md-2">
-								<a  href="{{ path('backend_admin_ticket_category_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-							</div>
+							
 						</div>
 
 					<!--</form>-->
@@ -133,8 +154,7 @@
 		</div>
 
 		<div class="clearfix"></div>
-
-	</article>
+	
 </div>
 </div>
 <script type="text/javascript" language="Javascript">
@@ -154,7 +174,9 @@
 
 		});
 
-
+                $('#myColor').click(function(){                    
+                    $('#myColorPicker').click();
+                });
 
 		$('#myColorPicker').simpleColorPicker({ onChangeColor: function(color) { $('#myColor').css("background-color",color); } });
 
