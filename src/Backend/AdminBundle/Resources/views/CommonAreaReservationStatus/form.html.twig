@@ -27,32 +27,32 @@
 				<div class="widget-body">
 					<div class="form-inputs-g">
 					{#<form id="backend_adminbundle_common_area_reservation_status" action="{{path('backend_admin_common_area_reservation_status_create')}}" method="POST" name="backend_adminbundle_common_area_reservation_status">#}
-                    {{ form_start(form) }}
-                    {{ form_errors(form) }}
+                                            {{ form_start(form) }}
+                                            {{ form_errors(form) }}
 
 						<fieldset>
 
-							<div class="form-group col-md-6">
-								{{ form_label(form.nameEN) }}
-								{{ form_errors(form.nameEN) }}
-								{{ form_widget(form.nameEN, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
+                                            <div class="form-group col-md-6">
+                                                    {{ form_label(form.nameEN) }}
+                                                    {{ form_errors(form.nameEN) }}
+                                                    {{ form_widget(form.nameEN, { 'attr': {'class' : 'form-control' } }
+                                                    ) }}
+                                            </div>
 
-							<div class="clearfix"></div>
-							<div class="form-group col-md-6">
-								{{ form_label(form.nameES) }}
-								{{ form_errors(form.nameES) }}
-								{{ form_widget(form.nameES, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
-							<div class="clearfix"></div>
-							<div class="form-group col-md-6">
-								{{ form_label(form.comment) }}
-								{{ form_errors(form.comment) }}
-								{{ form_widget(form.comment, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
+                                            <div class="clearfix"></div>
+                                            <div class="form-group col-md-6">
+                                                    {{ form_label(form.nameES) }}
+                                                    {{ form_errors(form.nameES) }}
+                                                    {{ form_widget(form.nameES, { 'attr': {'class' : 'form-control' } }
+                                                    ) }}
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="form-group col-md-6">
+                                                    {{ form_label(form.comment) }}
+                                                    {{ form_errors(form.comment) }}
+                                                    {{ form_widget(form.comment, { 'attr': {'class' : 'form-control' } }
+                                                    ) }}
+                                            </div>
 							<div class="clearfix"></div>
 							<div class="hide">
                             {{ form_rest(form) }}

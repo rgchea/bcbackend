@@ -5,12 +5,12 @@
 <div class="header">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-10">
-				<h3 class="header-title">{{ 'label_register_create_company'|trans }}</h3>
-			</div>
-			<div class="col-md-2 text-right">
-				<h3 class="header-title-step">{{ 'label_step'|trans }} 1/2</h3>
-			</div>
+                    <div class="col-md-10">
+                            <h3 class="header-title  no-margin">{{ 'label_register_create_company'|trans }}</h3>
+                    </div>
+                    <div class="col-md-2 text-right">
+                            <h3 class="header-title-step no-margin" >{{ 'label_step'|trans }} 1/2</h3>
+                    </div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
@@ -31,7 +31,7 @@
 
 <div class="container">
 	<div class="form-inputs-g">
-
+        <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/><br>
 		{{ form_start(form) }}
 		{{ form_errors(form) }}
 
@@ -213,31 +213,23 @@
 		<div class="hide">
 			{{ form_rest(form) }}
 		</div>
+                <br>
+                <div class="row">  
+                    {% if edit is defined %}				                                                                   
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_save'|trans }}</button>                                
+                        <a  href="{{ path('backend_admin_homepage') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>                                                                                                    
+                        <div class="clearfix"></div>
+                    </div>                                                    
+                    {% else %}
 
-		<div class="row">
-
-			{% if edit is defined %}
-				<br/>
-				<div class="row">
-					<div class="col-md-8">
-					</div>
-					<div class="col-md-2">
-						<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-					</div>
-					<div class="col-md-2">
-						<a  href="{{ path('backend_admin_homepage') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-					</div>
-				</div>
-			{% else %}
-				<div class="form-group col-md-4">
-					<button type="submit" class="btn btn-primary">{{ 'label_register_create_company_2'|trans }}</button>
-				</div>
-
-			{% endif %}
-		</div>
-
-		<!--</form>-->
-		{{ form_end(form) }}
+                    <div class="form-group col-xs-12">
+                        <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_register_create_company_2'|trans }}</button>                                                                        
+                        <div class="clearfix"></div>
+                    </div>
+                    {% endif %}		
+                </div>		
+            {{ form_end(form) }}
 
 	</div>
 
