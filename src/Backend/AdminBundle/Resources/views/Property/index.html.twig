@@ -24,21 +24,14 @@
                 {% if app.user.role.name == "ADMIN" %}{#EVALUAR QUE ROLES TENDRAN ACCESO A CREAR PROPIEDADES#}
                     {#
                     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                        <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_property_new') }}">
+                        <a class="pull-right btn btn-primary " href="{{ path('backend_admin_property_new') }}">
                             {{ 'label_create_new'|trans }} {{ 'label_property'|trans }}
                         </a>
                     </div>
 
-                    #}
-                    <div class="col-md-8">&nbsp;</div>
-
-                    <div class="col-md-2 text-right">
-                        <a  href="{{ path('backend_admin_property_invitations') }}" class="btn btn-primary-blue" style="width:100%" >{{ 'label_invitations'|trans }}</a>
-                    </div>
-                    <div class="col-md-2">
-                        <a href="{{ path('backend_admin_property_new') }}"  class="btn btn-primary" style="width:100%">{{ 'label_create_new'|trans }} {{ 'label_property'|trans }}</a>
-                    </div>
-
+                    #}                                        
+                    <a href="{{ path('backend_admin_property_new') }}"  class="btn btn-primary pull-right">{{ 'label_create_new'|trans }} {{ 'label_property'|trans }}</a>                    
+                    <a href="{{ path('backend_admin_property_invitations') }}" class="btn btn-primary-blue pull-right margin-right-10">{{ 'label_invitations'|trans }}</a>                                            
                 {% endif %}
             </div>
             <br/>

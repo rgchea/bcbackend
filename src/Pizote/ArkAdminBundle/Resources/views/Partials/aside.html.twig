@@ -9,7 +9,7 @@
 	                	<td><b>{{ module.name }}</b></td>
 		                <td colspan="{{entitiesRole|length}}">&nbsp;</td>
 		                {% for role in entitiesRole %}
-							<input style="display: none" name="{{role.id}}_{{module.id}}" type="checkbox" checked="checked"/>				                								
+                                <input style="display: none" name="{{role.id}}_{{module.id}}" type="checkbox" checked="checked"/>				                								
 		                {% endfor %}
 		                
 	                </tr>

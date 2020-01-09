@@ -23,7 +23,7 @@
             <div class="row">
                 {#{% if app.user.role.name == "ADMIN" %}#}
 
-                    <a class="pull-right btn btn-primary btn-lg" href="{{ path('backend_admin_ticket_new') }}">
+                    <a class="pull-right btn btn-primary" href="{{ path('backend_admin_ticket_new') }}">
                         {{ 'label_create_new'|trans }} {{ 'label_ticket'|trans }}
                     </a>
 
@@ -37,18 +37,21 @@
 
                 {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
             </div>
+            <blockquote>
             <div class="row">
-                <div class="col-md-12">
-                    <blockquote>
-                        <div class="col-md-11">
-                            <p> {{ 'label_ticket_system_advice'|trans }}  </p>
-                        </div>
-                        <div class="col-md-1 text-right">
-                            <i style="font-size:80px;" class="fa fa-question-circle" aria-hidden="true"></i>
-                        </div>
-                    </blockquote>
+                <div class="col-xs-12 col-md-1 text-center">
+                    <br>
+{#                    <iframe width="100%" height="215" src="https://www.youtube.com/embed/Sh6lK57Cuk4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+                    <i style="font-size:50px;" class="fa fa-question-circle" aria-hidden="true"></i>
+                    <br>
+                </div>
+                <div class="col-xs-12 col-md-11" style="padding: 0px 10px;">                                                        
+                    <br>
+                    <p class="no-margin"> {{ 'label_ticket_system_advice'|trans }}  </p>                    
+                    <br>
                 </div>
             </div>
+            </blockquote>
 
         </div>
     </div>

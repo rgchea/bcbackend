@@ -12,7 +12,7 @@
 
             <div class="col-md-2">
                 <br/>
-                <a class="pull-right btn btn-info btn-lg myWidth" onclick="addPhoto({{ countQuestion }});">
+                <a class="pull-right btn btn-info  myWidth" onclick="addPhoto({{ countQuestion }});">
                     {{ 'label_poll_question_add_photo'|trans  }}
                 </a>
 
@@ -42,7 +42,7 @@
         </div>
         <div class="form-group col-md-2">
             <br/>
-            <a class="pull-right btn btn-default btn-lg" onclick="removePhoto({{ countQuestion }});">
+            <a class="pull-right btn btn-default " onclick="removePhoto({{ countQuestion }});">
                 {{ 'label_poll_question_photo_delete'|trans  }}
             </a>
         </div>
@@ -58,7 +58,7 @@
     <div style="display: none"  class="myWidth" id="myQuestionAnswerMultiple_{{ countQuestion }}">
         <div class="form-group col-md-2">
             {# ADD OPTION #}
-            <a class="pull-right btn btn-primary btn-lg" onclick="addMultipleOption({{ countQuestion }});">
+            <a class="pull-right btn btn-primary " onclick="addMultipleOption({{ countQuestion }});">
                 {{ 'label_poll_question_add_option'|trans  }}
             </a>
         </div>
@@ -80,7 +80,7 @@
     <div style="display: none"  class="myWidth" id="myQuestionAnswerSelectOne_{{ countQuestion }}">
         <div class="form-group col-md-2">
             {# ADD OPTION #}
-            <a class="pull-right btn btn-primary btn-lg" onclick="addSelectOneOption({{ countQuestion }});">
+            <a class="pull-right btn btn-primary " onclick="addSelectOneOption({{ countQuestion }});">
                 {{ 'label_poll_question_add_option'|trans  }}
             </a>
         </div>
@@ -95,7 +95,7 @@
                 </div>
                 {#
                 <div class="form-group col-md-2">
-                    <a class="pull-right btn btn-primary btn-lg" onclick="removeOption({{ countQuestion }}, 1);">
+                    <a class="pull-right btn btn-primary " onclick="removeOption({{ countQuestion }}, 1);">
                         {{ 'label_delete'|trans  }}
                     </a>
                 </div>
@@ -124,7 +124,7 @@
     <div class="form-group col-md-12">
         {#
         <div class="form-group col-md-2">
-            <a class="pull-right btn btn-primary btn-lg" onclick="addQuestion();">
+            <a class="pull-right btn btn-primary " onclick="addQuestion();">
                 {{ 'label_poll_add_question'|trans  }}
             </a>
         </div>
@@ -132,7 +132,7 @@
         #}
         <div class="form-group col-md-2">
             <label for="" >&nbsp;</label>
-            <a class="pull-left btn btn-default btn-lg" onclick="deleteQuestion({{ countQuestion }});">
+            <a class="pull-left btn btn-default " onclick="deleteQuestion({{ countQuestion }});">
                 {{ 'label_delete'|trans  }}
             </a>
         </div>

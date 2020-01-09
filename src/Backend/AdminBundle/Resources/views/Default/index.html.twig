@@ -22,34 +22,133 @@
         <div class="header">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="header-title">{{ user.business.name }} <span class="minify">{{ user.business.geoState.name }}, {{ user.business.address }}</span> </h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-10" style="float: left;">
-                        {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
-                    </div>
-
-                    <div class="col-md-2" style="margin-top:-15px;float: right;" >
-
-                        <div class="cuadrito-dashboard">
-                            <div class="texto-d">
-                                {{ arrStats["gxp"]["points"] }}<span class="minify"><b>GXP</b> {{ 'label_points'|trans }}</span>
-                            </div>
-
-                            <div style="text-align: center; color:#ccc;">
-                                {{ 'dashboard.level'|trans }} {{ arrStats["gxp"]["level"] }}
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-6">
+                        <h3 class="header-title no-margin">{{ user.business.name }}</h3>                        
+                        <p><span class="minify">{{ user.business.geoState.name }}, {{ user.business.address }}</span> </p>
+                    </div>                    
+                    {{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}                    
+                </div>                
             </div>
         </div>
 
         <div class="container">
+            <br>
+            <div class="row">                                            
+                <div class="col-md-4 col-lg-2 col-sm-12 form-group">
+                    <div class="cuadrito-dashboards" style="background-color: #d6615d;">
+                        <div class="texto-d">
+                            {{ arrStats["gxp"]["points"] }}
+                        </div>
+
+                        <div style="text-align: center;">
+                            <b>GXP</b> {{ 'label_points'|trans }}
+                        </div>
+                        
+                        <div style="float:left;">
+                            {{ 'dashboard.level'|trans }} {{ arrStats["gxp"]["level"] }}
+                        </div>
+
+                    </div>
+                </div>                            
+                <div class="col-md-4 col-lg-2 col-sm-12 form-group">
+                    <a href="{{ path('backend_admin_property_index') }}" class="no-under">
+                        <div class="cuadrito-dashboards" style="background-color: #0c2632;">
+                            <div  class="texto-d">
+                                {{ arrStats["properties"]["total"] }}
+                            </div>
+                            <div style="text-align:center;">
+                                {{ 'dashboard.properties'|trans }}
+                            </div>
+                            <div style="float:left;">
+                                {{ arrStats["properties"]["rented"] }} {{ 'dashboard.rented'|trans }}
+                            </div>
+                            <div style="float:right;">
+                                {{ arrStats["properties"]["empty"] }} {{ 'dashboard.empty'|trans }}
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 col-sm-12 form-group">
+                    <a href="{{ path('backend_admin_property_index') }}" class="no-under">
+                        <div class="cuadrito-dashboards" style="background-color: #ffba00;">
+                            <div  class="texto-d">
+                                {{ arrStats["users"]["total"] }}
+                            </div>
+                            <div style="text-align:center;">
+                                {{ 'dashboard.users'|trans }}
+                            </div>
+                            <div style="float:left;">
+                                {{ arrStats["users"]["tenants"] }} {{ 'dashboard.tenants'|trans }}
+                            </div>
+                            <div style="float:right; color:#ccc">
+                                {{ arrStats["users"]["owners"] }} {{ 'dashboard.owners'|trans }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4 col-lg-2 col-sm-12 form-group">
+                    <a href="{{ path('backend_admin_ticket_index') }}" class="no-under">
+                        <div class="cuadrito-dashboards" style="background-color: #8e0473;">
+                            <div  class="texto-d">
+                                {{ arrStats["tickets"]["total"] }}
+                            </div>
+                            <div style=" text-align:center;">
+                                {{ 'dashboard.tickets'|trans }}
+                            </div>
+                            <div style="float:left;">
+                                {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_open'|trans }}
+                            </div>
+                            <div style="float:right; color:#ccc">
+                                {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_closed'|trans }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4 col-lg-2 col-sm-12 form-group">
+                    <a href="{{ path('backend_admin_common_area_reservation_index') }}" class="no-under">
+                        <div class="cuadrito-dashboards" style="background-color: #698606;">
+                            <div  class="texto-d">
+                                {{ arrStats["reservations"]["total"] }}
+                            </div>
+                            <div style=" text-align:center;">
+                                {{ 'dashboard.reservations'|trans }}
+                            </div>
+                            <div style="float:left;">
+                                {{ arrStats["reservations"]["approved"] }} {{ 'dashboard.approved'|trans }}
+                            </div>
+                            <div style="float:right; color:#ccc">
+                                {{ arrStats["reservations"]["rejected"] }} {{ 'dashboard.rejected'|trans }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-4 col-lg-2 col-sm-12 form-group">
+                    <a href="{{ path('backend_admin_user_index') }}" class="no-under">
+                        <div class="cuadrito-dashboards" style="background-color: #026c95;">
+                            <div sty class="texto-d">
+                                {{ arrStats["users"]["members"] }}
+                            </div>
+                            <div style=" text-align:center;">
+                                {{ 'dashboard.members'|trans }}
+                            </div>
+                            <div style="float:left;">
+                                {{ arrStats["users"]["managers"] }} {{ 'dashboard.managers'|trans }}
+                            </div>
+                            <div style="float:right;">
+                                {{ arrStats["users"]["superv"] }} {{ 'dashboard.superv'|trans }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+            <hr>
+            <br>
             <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
 
                 <!-- widget div-->
@@ -80,98 +179,7 @@
                                 <div id="tb_current_month" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                             </div>
                         </div>
-
-
-
-                        <br/>
-                        <div class="row">
-
-                            <div class="col-md-3">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["properties"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.properties'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["properties"]["rented"] }} {{ 'dashboard.rented'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["properties"]["empty"] }} {{ 'dashboard.empty'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["users"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.users'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["users"]["tenants"] }} {{ 'dashboard.tenants'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["users"]["owners"] }} {{ 'dashboard.owners'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["tickets"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.tickets'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_open'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["tickets"]["open"] }} {{ 'dashboard.ticket_closed'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="cuadrito-dashboards">
-                                    <div  class="texto-d">
-                                        {{ arrStats["reservations"]["total"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.reservations'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["reservations"]["approved"] }} {{ 'dashboard.approved'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["reservations"]["rejected"] }} {{ 'dashboard.rejected'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="cuadrito-dashboards">
-                                    <div sty class="texto-d">
-                                        {{ arrStats["users"]["members"] }}
-                                    </div>
-                                    <div style="color:#ccc; text-align:center;">
-                                        {{ 'dashboard.members'|trans }}
-                                    </div>
-                                    <div style="float:left; color:#ccc;">
-                                        {{ arrStats["users"]["managers"] }} {{ 'dashboard.managers'|trans }}
-                                    </div>
-                                    <div style="float:right; color:#ccc">
-                                        {{ arrStats["users"]["superv"] }} {{ 'dashboard.superv'|trans }}
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
+                        
                         <br/>
 
                         <div class="row">

@@ -2376,19 +2376,7 @@ table.dataTable thead th {
 /*
    * Forms
    */
-.form-control {
-    text-align: center;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border: solid 1.5px #93a7b2;
-}
-.form-control:focus {
-    -webkit-box-shadow: 0 0 3px rgba(102, 175, 233, 0.6);
-    box-shadow: 0 0 3px rgba(102, 175, 233, 0.6);
-}
+
 .help-block {
     font-weight: 300;
 }
@@ -3226,14 +3214,6 @@ body.register{
     text-shadow: 1px 1px 3px rgba(150, 150, 150, 0.7);
 }
 
-.form-inputs-g .form-control{
-    text-align: left;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-}
-
-
 .form-inputs-g .panel {
     padding: 15px 20px;
     margin-top: 10px;
@@ -3264,10 +3244,6 @@ body.register{
 .form-inputs-g h3{
     color: #505050;
     font-weight: bold;
-}
-
-.form-inputs-g .form-control{
-    border: solid 1px #93a7b2;
 }
 
 
@@ -3439,9 +3415,7 @@ i {
     background-color:#03304a;
     padding:10px;
     min-height: 145px;
-    height: auto;
-    margin-left: 40px;
-    margin-top:55px;
+    height: auto;    
     color:#fff;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
@@ -3495,10 +3469,8 @@ i {
     left:       0;
     height:     100%;
     width:      100%;
-    background: rgba( 255, 255, 255, .8 )
-    url('../../pizotearkadmin/img/loader.gif')
-    50% 50%
-    no-repeat;
+    background: rgba( 255, 255, 255, .8 ) url('../../pizotearkadmin/img/loader.gif') 50% 50% no-repeat;
+    background-size: 50px 50px;
 }
 
 
@@ -3772,11 +3744,15 @@ i {
 
 
 .cuadrito-dashboards{
-
-    border: 1px solid #ccc;
+    border: none;
     width: 100%;
-    height: 75px;
-    padding: 5px;
+    height: 90px;
+    padding: 10px 15px;
+    border-radius: 3px;
+}
+
+.cuadrito-dashboards *{
+    color: white !important;
 }
 
 
@@ -3794,4 +3770,244 @@ i {
 
 .pizoteTableID{
     width: 50px !important;
+}
+
+/*AGREGADO POR DIEGO TOBAR*//*AGREGADO POR DIEGO TOBAR*/
+/*AGREGADO POR DIEGO TOBAR*//*AGREGADO POR DIEGO TOBAR*/
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="email"],
+input[type="date"]{
+    border: 1px solid #ddd;
+    border-radius: 3px !important;
+    height: 35px !important;
+    display: block;
+}
+
+textarea{
+    border: 1px solid #ddd;
+    border-radius: 3px !important;    
+    display: block;
+    resize: none;
+}
+
+.btn, button, input[type="submit"]{
+    border: none !important;
+    border-radius: 3px !important;
+    height: 35px !important;
+    display: block;
+}
+
+a.btn{
+    line-height: 22px !important;
+    font-size: 13px;
+}
+
+select{
+    border: 1px solid #ccc !important;
+    border-radius: 3px !important;
+    height: 35px !important;
+    -webkit-appearance: none;
+    padding: 0.5em 3.5em 0.5em 1em;
+    background-color: white;
+    background-image: linear-gradient(45deg, transparent 50%, #03304a 50%), linear-gradient(135deg, #03304a 50%, transparent 50%), linear-gradient(to right, #fff, #fff);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), 100% 0;
+    background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+    background-repeat: no-repeat;
+}
+
+/*sidebar*/
+#notificationList{
+    box-shadow: -2px 7px 5px 2px rgba(0,0,0,0.2);
+}
+
+#notificationList .fa-bell{
+    color: #f5bc10;
+    display: none;
+}
+
+#notificationList p.txt-blue-bold{
+    font-size: 13px;
+}
+
+#notificationList p{
+    font-size: 11px;
+}
+
+#notificationCount{
+    background-color: white;
+    color: #03304a;
+    margin: 0;
+    font-weight: bold;
+}
+#notificationCount:before{
+    border: none !important;
+}
+
+#notificationList .time{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+aside .nav li {
+    min-height: 35px;
+    height: auto;
+}
+
+aside .nav li a{
+    line-height: 35px !important;
+}
+.sidebar .nav li > a .caret {    
+    margin-top: 16px; 
+}
+
+.menu.open .submenu{
+    padding: 2px 2px 2px 0px !important;
+}
+
+/*notificaciones*/
+.navbar-default.navbar-main .navbar-nav > li.notification .dropdown-menu li > a:first{
+    border-top: none !important;
+}
+
+.navbar-default.navbar-main .navbar-nav > li.notification .dropdown-menu li > a {
+    padding: 10px;        
+    color: #666;
+    text-align: left;
+    border-top: 0.5px solid #ddd;
+    border-right: none;
+    background-color: transparent;  
+}
+.sidebar .nav .menu .submenu > .active > a, .sidebar .nav .menu .submenu > .active > a:hover, 
+.sidebar .nav .menu .submenu > .active > a:focus {
+    background-color: #020d13;
+    padding-left: 17px;
+    border-left: solid 3px #fbc210;
+    color: #fff;
+    height: auto;
+    padding-top: 0px;
+    font-size: 14px;
+}
+.navbar-default.navbar-main .navbar-nav > li.notification .dropdown-menu li > a:hover {
+    color: #428bca;
+    background-color: transparent;  
+}
+
+.navbar-default.navbar-main .navbar-nav > li.notification .dropdown-menu li:hover{
+    background-color: #eee;
+}
+
+blockquote{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/*tablas*//*tablas*//*tablas*/
+
+table th input.form-control {
+    height: 30px !important;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+#divTime label{
+    line-height: 30px;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    padding: 0px 20px;
+}
+#divTime label input{
+    line-height: 30px;
+    margin-right: 10px;
+}
+
+thead tr{
+    background-color: #03304a;
+}
+
+tfoot tr th{
+    background-color: #eee; 
+    padding: 5px 18px 5px 18px !important;
+}
+
+thead tr{
+    background-color: #03304a;
+    padding: 5px 18px 5px 18px !important;
+}
+
+thead tr th:last-child{
+    text-align: left !important;
+}
+
+tfoot tr input{
+    background-color: transparent !important;
+    border-color: #AAA !important;
+}
+
+thead tr *{
+    color: white;
+}
+
+.no-margin{
+    margin: 0 !important;
+}
+.no-padding{
+    padding: 0 !important;
+}
+.no-under{
+    text-decoration: none !important;
+}
+
+.margin-right-10{
+    margin-right: 10px;
+}
+
+.sidebar .nav .open > a, .sidebar .nav .open > a:hover, .sidebar .nav .open > a:focus{
+    background-color: #f5bc10 !important;
+}
+
+.header-title{
+    margin: 0;
+}
+
+.flagstrap {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 35px;
+    border: 1px solid #ccc;
+    background-color: white;
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.flagstrap button{
+    background-color: white !important;
+    margin: 0 !important;
+}
+
+
+#myColor{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #ddd;
+    border-radius: 3px !important;
+}
+
+.datepicker table th {
+    background-color: #bfbfbf !important;
+    color: #03304a !important;
+    border-radius: 0 !important;
+}
+
+.btn-ps{
+    display: inline-block !important;
+    width: auto !important;
+    margin-left: 10px !important;
+    padding-left: 30px;
+    padding-right: 30px;
 }
