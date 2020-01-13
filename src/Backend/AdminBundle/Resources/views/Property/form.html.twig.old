@@ -48,7 +48,7 @@
 
 		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
 
-			<header role="heading">
+			<header class="header">
 				<h2>{{ 'label_form'|trans }}</h2>
 
 			</header>

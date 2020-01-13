@@ -10,81 +10,60 @@
 
 		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
 
-			<header role="heading">
-				<h2>{{ 'label_form'|trans }}</h2>
+			<header class="header">
+				<h3 class="header-title">{{ 'label_form'|trans }}</h3>
+                                <hr class="punteada"/>
 			</header>
 
 			<!-- widget div-->
 			<div role="content">
-
-				<!-- widget edit box -->
-				<div class="jarviswidget-editbox">
-					<!-- This area used as dropdown edit box -->
-
-				</div>
-				<!-- end widget edit box -->
-
-				<!-- widget content -->
 				<div class="widget-body">
 
 					<div class="form-inputs-g">
-                    {{ form_start(form) }}
-                    {{ form_errors(form) }}
+                                            {{ form_start(form) }}
+                                            {{ form_errors(form) }}
 
 						<fieldset>
 
-                        <div class="form-group col-md-6">
-                            {{ form_label(form.name) }}
-                            {{ form_errors(form.name) }}
-                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
-                            ) }}
-                        </div>
-							<div class="clearfix"></div>
-							<div class="form-group col-md-6">
-								{{ form_label(form.timezoneOffset) }}
-								{{ form_errors(form.timezoneOffset) }}
-								{{ form_widget(form.timezoneOffset, { 'attr': {'class' : 'form-control classic' } }
-								) }}
-							</div>
-
-                        <div class="form-group col-md-6">
-                                {{ form_label(form.timezoneName) }}
-                                {{ form_errors(form.timezoneName) }}
-                                {{ form_widget(form.timezoneName, { 'attr': {'class' : 'form-control classic', 'placeholder': 'America/New_York' } }
-                                ) }}
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="form-group col-md-6">
-                                {{ form_label(form.zipCode) }}
-                                {{ form_errors(form.zipCode) }}
-                                {{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
-                                ) }}
-                        </div>
-                        <div class="form-group col-md-6">
-                                {{ form_label(form.geoCountry) }}
-                                {{ form_errors(form.geoCountry) }}
-                                {{ form_widget(form.geoCountry, { 'attr': {'class' : 'form-control classic' } }
-                                ) }}
-                        </div>
-							<div class="hide">
-                            {{ form_rest(form) }}
-                        </div>
+                                                    <div class="form-group col-md-6 col-md-offset-3">
+                                                        {{ form_label(form.name) }}
+                                                        {{ form_errors(form.name) }}
+                                                        {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+                                                        ) }}
+                                                    </div>							
+                                                    <div class="form-group col-md-6 col-md-offset-3">
+                                                            {{ form_label(form.timezoneOffset) }}
+                                                            {{ form_errors(form.timezoneOffset) }}
+                                                            {{ form_widget(form.timezoneOffset, { 'attr': {'class' : 'form-control classic' } }
+                                                            ) }}
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-md-offset-3">
+                                                            {{ form_label(form.timezoneName) }}
+                                                            {{ form_errors(form.timezoneName) }}
+                                                            {{ form_widget(form.timezoneName, { 'attr': {'class' : 'form-control classic', 'placeholder': 'America/New_York' } }
+                                                            ) }}
+                                                    </div>                        
+                                                    <div class="form-group col-md-6 col-md-offset-3">
+                                                            {{ form_label(form.zipCode) }}
+                                                            {{ form_errors(form.zipCode) }}
+                                                            {{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
+                                                            ) }}
+                                                    </div>
+                                                    <div class="form-group col-md-6 col-md-offset-3">
+                                                            {{ form_label(form.geoCountry) }}
+                                                            {{ form_errors(form.geoCountry) }}
+                                                            {{ form_widget(form.geoCountry, { 'attr': {'class' : 'form-control classic' } }
+                                                            ) }}
+                                                    </div>
+                                                    <div class="hide">
+                                                        {{ form_rest(form) }}
+                                                    </div>
 
 						</fieldset>
-
-						<br/>
-						<div class="row">
-							<div class="col-md-8">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-							</div>
-							<div class="col-md-2">
-								<a  href="{{ path('backend_admin_geo_state_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-							</div>
-						</div>
-
-					<!--</form>-->
+                                                <div class="form-group col-md-6 col-md-offset-3">
+                                                    <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_save'|trans }}</button>							
+                                                    <a  href="{{ path('backend_admin_geo_state_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>						
+						</div>					
 					{{ form_end(form) }}
 					</div>
 

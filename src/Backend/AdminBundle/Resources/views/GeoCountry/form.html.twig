@@ -4,123 +4,91 @@
     }
 </style>
 
-<div class="container">
-	<div class="row">
-	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+<div class="container">		
 
-		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" geo_country="widget">
+    <header geo_country="heading">
+            <h3 class="header-title">{{ 'label_form'|trans }}</h3>
+            <hr class="punteada"/>
+    </header>
 
-			<header geo_country="heading">
-				<h2>{{ 'label_form'|trans }}</h2>
+    <!-- widget div-->
+    <div geo_country="content">
 
-			</header>
+            <!-- widget edit box -->
+            <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
 
-			<!-- widget div-->
-			<div geo_country="content">
+            </div>
+            <!-- end widget edit box -->
 
-				<!-- widget edit box -->
-				<div class="jarviswidget-editbox">
-					<!-- This area used as dropdown edit box -->
+            <!-- widget content -->
+            <div class="widget-body">
 
-				</div>
-				<!-- end widget edit box -->
+                    <div class="form-inputs-g">
+                        {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                        <fieldset>
 
-				<!-- widget content -->
-				<div class="widget-body">
 
-					<div class="form-inputs-g">
-                    {{ form_start(form) }}
-                    {{ form_errors(form) }}
-						
 
-						<fieldset>
-							
-		
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                {{ form_label(form.name) }}
+                                {{ form_errors(form.name) }}
+                                {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } } ) }}
+                            </div>
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                    {{ form_label(form.code) }}
+                                    {{ form_errors(form.code) }}
+                                    {{ form_widget(form.code, { 'attr': {'class' : 'form-control' } } ) }}
+                            </div>                            
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                    {{ form_label(form.shortName) }}
+                                    {{ form_errors(form.shortName) }}
+                                    {{ form_widget(form.shortName, { 'attr': {'class' : 'form-control' } } ) }}
+                            </div>
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                    {{ form_label(form.ibillingDomain) }}
+                                    {{ form_errors(form.ibillingDomain) }}
+                                    {{ form_widget(form.ibillingDomain, { 'attr': {'class' : 'form-control' } } ) }}
+                            </div>                                    
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                    {{ form_label(form.ibillingToken) }}
+                                    {{ form_errors(form.ibillingToken) }}
+                                    {{ form_widget(form.ibillingToken, { 'attr': {'class' : 'form-control' } }
+                                    ) }}
+                            </div>
+                                    
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                <div class="checkbox">
+                                {{ form_label(form.enabled) }}
+                                        {{ form_errors(form.enabled) }}
+                                        {{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
+                                        ) }}
+                                </div>
+                            </div>
 
-                        <div class="form-group col-md-6">
-                            {{ form_label(form.name) }}
-                            {{ form_errors(form.name) }}
-                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
-                            ) }}
+
+                            <div class="hide">
+                                {{ form_rest(form) }}
+                            </div>
+
+                        </fieldset>
+
+                        <div class="form-group col-md-6 col-md-offset-3">
+                            <br>
+                            <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_save'|trans }}</button>                                    
+                            <a  href="{{ path('backend_admin_geo_country_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>                            
                         </div>
-						<div class="clearfix"></div>
+                       
+                        {{ form_end(form) }}
+                    </div>
 
-                        <div class="form-group col-md-6">
-                                {{ form_label(form.code) }}
-                                {{ form_errors(form.code) }}
-                                {{ form_widget(form.code, { 'attr': {'class' : 'form-control' } }
-                                ) }}
-                        </div>
-						<div class="clearfix"></div>
-                        <div class="form-group col-md-6">
-                                {{ form_label(form.shortName) }}
-                                {{ form_errors(form.shortName) }}
-                                {{ form_widget(form.shortName, { 'attr': {'class' : 'form-control' } }
-                                ) }}
-                        </div>
+            </div>
+            <!-- end widget content -->
 
-							<div class="clearfix"></div>
-							<div class="form-group col-md-6">
-								{{ form_label(form.ibillingDomain) }}
-								{{ form_errors(form.ibillingDomain) }}
-								{{ form_widget(form.ibillingDomain, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
+    </div>
+    <!-- end widget div -->
 
-							<div class="clearfix"></div>
-							<div class="form-group col-md-6">
-								{{ form_label(form.ibillingToken) }}
-								{{ form_errors(form.ibillingToken) }}
-								{{ form_widget(form.ibillingToken, { 'attr': {'class' : 'form-control' } }
-								) }}
-							</div>
-
-							<div class="clearfix"></div>
-
-							<div class="col-md-12">
-									<div class="checkbox">
-									{{ form_label(form.enabled) }}
-										{{ form_errors(form.enabled) }}
-										{{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
-										) }}
-									</div>
-							</div>
-
-
-						<div class="hide">
-                            {{ form_rest(form) }}
-                        </div>
-
-						</fieldset>
-
-						<br/>
-						<div class="row">
-							<div class="col-md-8">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-							</div>
-							<div class="col-md-2">
-								<a  href="{{ path('backend_admin_geo_country_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-							</div>
-						</div>
-
-					<!--</form>-->
-					{{ form_end(form) }}
-					</div>
-
-				</div>
-				<!-- end widget content -->
-
-			</div>
-			<!-- end widget div -->
-
-		</div>
-
-		<div class="clearfix"></div>
-
-	</article>
-</div>
 </div>
 <script type="text/javascript" language="Javascript">
 

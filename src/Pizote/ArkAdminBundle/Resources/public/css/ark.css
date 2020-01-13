@@ -1531,8 +1531,7 @@ body.fixed_header.fixed_menu .wrapper {
    * Content section
    */
 .body {
-    position: relative;
-    overflow: hidden;
+    position: relative;    
     background-color:#03304a;
 }
 .body.sr-only {
@@ -2980,15 +2979,7 @@ a.fc-event:hover {
    * Login
    */
 body.cover {
-    /*background: transparent url('../../img/login/background.jpg') 0 0;
-    background-size: cover;
-    background-attachment: fixed;
-
-    background-color: #F0F0F6;
-  */
-
     background-color: #03304a;
-
 }
 
 
@@ -3536,7 +3527,9 @@ i {
 }
 
 
-.txt-blue-bold{
+.txt-blue-bold, 
+.form-group > label,
+.form-group > .checkbox > label{
     color:#03304a;
     font-weight: bold;
     font-size: 14px;
@@ -4008,4 +4001,19 @@ hr.punteada{
     border-width: 1px; 
     border-style: dashed; 
     border-color: #93a7b2;
+}
+
+aside{
+    position: relative;
+    background-color: #03304a;
+}
+
+aside .sidebar-inner{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    overflow-y: scroll;
 }

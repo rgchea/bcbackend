@@ -4,100 +4,76 @@
     }
 </style>
 
-<div class="container">
-	<div class="row">
-	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+<div class="container">	
 
-		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
-
-			<header role="heading">
-				<h2>{{ 'label_form'|trans }}</h2>
-
-			</header>
+    <header class="header">
+        <h3 class="header-title">{{ 'label_form'|trans }}</h3>
+        <hr class="punteada"/>
+    </header>
 
 			<!-- widget div-->
-			<div role="content">
+    <div role="content">
 
-				<!-- widget edit box -->
-				<div class="jarviswidget-editbox">
-					<!-- This area used as dropdown edit box -->
+            <!-- widget content -->
+            <div class="widget-body">
 
-				</div>
-				<!-- end widget edit box -->
+                    <div class="form-inputs-g">
+                        {{ form_start(form) }}
+                        {{ form_errors(form) }}
 
-				<!-- widget content -->
-				<div class="widget-body">
+                            <fieldset>
 
-					<div class="form-inputs-g">
-                    {{ form_start(form) }}
-                    {{ form_errors(form) }}
-
-						<fieldset>
-
-                        <div class="form-group col-md-6">
-                            {{ form_label(form.nameEN) }}
-                            {{ form_errors(form.nameEN) }}
-                            {{ form_widget(form.nameEN, { 'attr': {'class' : 'form-control' } }
-                            ) }}
-                        </div>
+                                <div class="form-group col-md-6 col-md-offset-3">
+                                    {{ form_label(form.nameEN) }}
+                                    {{ form_errors(form.nameEN) }}
+                                    {{ form_widget(form.nameEN, { 'attr': {'class' : 'form-control' } }
+                                    ) }}
+                                </div>
 
 
-						<div class="form-group col-md-6">
-							{{ form_label(form.nameES) }}
-							{{ form_errors(form.nameES) }}
-							{{ form_widget(form.nameES, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
+                                <div class="form-group col-md-6 col-md-offset-3">
+                                        {{ form_label(form.nameES) }}
+                                        {{ form_errors(form.nameES) }}
+                                        {{ form_widget(form.nameES, { 'attr': {'class' : 'form-control' } }
+                                        ) }}
+                                </div>                           
 
-						<div class="clearfix"></div>
+                                <div class="form-group col-md-6 col-md-offset-3">
+                                        {{ form_label(form.descriptionEN) }}
+                                        {{ form_errors(form.descriptionEN) }}
+                                        {{ form_widget(form.descriptionEN, { 'attr': {'class' : 'form-control' } }
+                                        ) }}
+                                </div>
+                                
+                                <div class="form-group col-md-6 col-md-offset-3">
+                                        {{ form_label(form.descriptionES) }}
+                                        {{ form_errors(form.descriptionES) }}
+                                        {{ form_widget(form.descriptionES, { 'attr': {'class' : 'form-control' } }
+                                        ) }}
+                                </div>
 
-						<div class="form-group col-md-6">
-							{{ form_label(form.descriptionEN) }}
-							{{ form_errors(form.descriptionEN) }}
-							{{ form_widget(form.descriptionEN, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-						<div class="form-group col-md-6">
-							{{ form_label(form.descriptionES) }}
-							{{ form_errors(form.descriptionES) }}
-							{{ form_widget(form.descriptionES, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
+                                <div class="hide">
+                                    {{ form_rest(form) }}
+                                </div>
 
-							<div class="hide">
-                            {{ form_rest(form) }}
-                        </div>
+                            </fieldset>
 
-						</fieldset>
+                            <div class="form-group col-md-6 col-md-offset-3">
+                                <br>
+                                    <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_save'|trans }}</button>                                    
+                                    <a  href="{{ path('backend_admin_complex_type_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>                                    
+                            </div>
 
-						<br/>
-						<div class="row">
-							<div class="col-md-8">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-							</div>
-							<div class="col-md-2">
-								<a  href="{{ path('backend_admin_complex_type_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-							</div>
-						</div>
+                    <!--</form>-->
+                    {{ form_end(form) }}
+                    </div>
 
-					<!--</form>-->
-					{{ form_end(form) }}
-					</div>
+            </div>
+            <!-- end widget content -->
 
-				</div>
-				<!-- end widget content -->
-
-			</div>
+    </div>
 			<!-- end widget div -->
-
-		</div>
-
-		<div class="clearfix"></div>
-
-	</article>
-</div>
+	
 </div>
 
 <script type="text/javascript" language="Javascript">

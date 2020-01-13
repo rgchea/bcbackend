@@ -25,12 +25,18 @@
 {{ parent() }}
 
 	<div id="spinner" class="spinner" style="display:none;"></div>
+        
+        <div class="header">                
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="header-title">{{ 'label_menu.permissions'|trans }}</h3>
+                </div>                   
+            </div>    
+            <br>            
+        </div>
 
 	<div class="container">
-		<div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
-		<header>
-			<h2> {{ 'label_menu.permissions'|trans }}</h2>
-		</header>
+		<div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">		
 
 		<!-- widget div-->
 		<div>
@@ -119,10 +125,8 @@
 
 
 											<td>
-												<div class="checkbox">
-													<label>
-														<input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} />
-													</label>
+												<div class="checkbox">												
+                                                                                                    <input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} />													
 												</div>
 
 											</td>
@@ -146,10 +150,8 @@
 												{% endif %}
 											{% endfor %}
 											<td>
-												<div class="checkbox">
-													<label>
-														<input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %}/>
-													</label>
+												<div class="checkbox">                                                                                            
+                                                                                                    <input name="{{role.id}}_{{module.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %}/>                                                                                            
 												</div>
 											</td>
 
@@ -171,10 +173,8 @@
 														{% endif %}
 													{% endfor %}
 													<td>
-														<div class="checkbox">
-															<label>
-																<input name="{{role.id}}_{{submenu.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} />
-															</label>
+														<div class="checkbox">                                                                                                        
+                                                                                                                    <input name="{{role.id}}_{{submenu.moduleID}}" type="checkbox" {% if checked %}{{ 'checked="checked"' }}{% endif %} />                                                                                                       
 														</div>
 													</td>
 												{% endfor %}
