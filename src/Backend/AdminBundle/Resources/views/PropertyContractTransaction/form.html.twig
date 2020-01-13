@@ -1,15 +1,11 @@
 <script src="{{ asset('bundles/backendadmin/js/backend.js')  }}"></script>
 
 <div class="container">
-
-
 	<div class="header">
-
 		<div class="row">
 			<div class="col-md-6">
 				<h3 class="header-title">{{ new is defined ? 'label_new'|trans : '' }} {{ 'label_payment'|trans }}</h3>
 			</div>
-
 			{{ include('BackendAdminBundle:Complex:sessionComplex.html.twig') }}
 		</div>
 		<div class="row">
@@ -23,58 +19,40 @@
 					</div>
 				</blockquote>
 			</div>
-		</div>
-
+		</div>                
 
 	</div>
 
 	<!-- CONTENT -->
 	<div class="main-content no-bordertop">
-
-
 		<form method="POST" id="paymentForm" name="paymentForm" action="{{ path('backend_admin_propertycontracttransaction_create') }}">
 			<div class="form-inputs-g">
 
 				<div class="row">
-					<div class="col-md-4">
-						<div class="col-md-3">
-							<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
-						</div>
-						<div class="col-md-9">
-							<select  class="form-control classic" id="sector_select" name="sector_select">
-								{% for sector in complexSector %}
-									<option value="{{ sector.id }}">{{ sector }}</option>
-								{% endfor %}
-							</select>
-						</div>
-
+					<div class="col-md-4 form-group">
+                                            <label class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </label>                                            
+                                            <select  class="form-control classic" id="sector_select" name="sector_select">
+                                                    {% for sector in complexSector %}
+                                                            <option value="{{ sector.id }}">{{ sector }}</option>
+                                                    {% endfor %}
+                                            </select>                                            
 					</div>
 
-					<div class="col-md-4">
-						<div class="col-md-5">
-							<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
-						</div>
-						<div class="col-md-7">
-							<select  class="form-control classic" id="property_select" name="property_select">
+					<div class="col-md-4 form-group">
+                                            <label class="txt-blue-bold">{{ 'label_property_number'|trans }}: </label>                                            
+                                            <select  class="form-control classic" id="property_select" name="property_select">
 
-							</select>
-						</div>
-
+                                            </select>                                            
 					</div>
 
 
-					<div class="col-md-4">
-						<div class="col-md-4">
-							<p class="txt-blue-bold">{{ 'label_type'|trans }}: </p>
-						</div>
-						<div class="col-md-8">
-							<select  class="form-control classic" id="type_select" name="type_select">
-								{% for pt in paymentType %}
-									<option value="{{ pt.id }}">{{ pt }}</option>
-								{% endfor %}
-							</select>
-						</div>
-
+					<div class="col-md-4 form-group">
+                                            <label class="txt-blue-bold">{{ 'label_type'|trans }}: </label>						
+                                            <select  class="form-control classic" id="type_select" name="type_select">
+                                                    {% for pt in paymentType %}
+                                                            <option value="{{ pt.id }}">{{ pt }}</option>
+                                                    {% endfor %}
+                                            </select>						
 					</div>
 
 				</div>
@@ -82,51 +60,35 @@
 				<hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
 				<div class="row">
-					<div class="col-md-1">
-						<p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
-					</div>
-					<br/>
-					<div class="col-md-11">
-						<textarea class="form-control rounded-0" id="description" name="description" rows="5"></textarea>
-
-					</div>
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <label class="txt-blue-bold">{{ 'label_due_date'|trans }}: </label>
+                                        <input class="form-control" type="date" id="due_date" name="due_date" >
+                                    </div>					
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <label class="txt-blue-bold">{{ 'label_amount'|trans }}:  </label>
+                                        <input type="text" class="form-control" placeholder="$40.00" id="amount" name="amount" >
+                                    </div>
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <label class="txt-blue-bold">{{ 'label_description'|trans }}: </label>
+                                        <textarea class="form-control rounded-0" id="description" name="description" rows="5"></textarea>
+                                    </div>					                                    
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <label class="txt-blue-bold">{{ 'label_comment'|trans }}: </label>
+                                        <textarea class="form-control rounded-0" id="comment" name="comment" rows="5"></textarea>
+                                    </div>					
 				</div>
-				<br/>
+				<br/>				
 				<div class="row">
-
-					<div class="col-md-1">
-						<p class="txt-blue-bold">{{ 'label_due_date'|trans }}: </p>
-					</div>
-					<div class="col-md-5 text-left">
-						<input class="form-control" type="date" id="due_date" name="due_date" >
-					</div>
-					<div class="col-md-1">
-						<p class="txt-blue-bold">{{ 'label_amount'|trans }}: </p>
-					</div>
-					<div class="col-md-5">
-						<input type="text" class="form-control" placeholder="$40.00" id="amount" name="amount" >
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-1">
-						<p class="txt-blue-bold">{{ 'label_comment'|trans }}: </p>
-					</div>
-					<br/>
-					<div class="col-md-11">
-						<textarea class="form-control rounded-0" id="comment" name="comment" rows="5"></textarea>
-					</div>
-				</div>
-
-				<br/>
-				<div class="row">
-					<div class="col-md-8">
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_save'|trans }}</button>
+                                        <a  href="{{ path('backend_admin_propertycontracttransaction_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>                                        
+                                        <div class="clearfix"></div>
+                                    </div>
+					<div class="form-group col-md-6 col-md-offset-3">
+						
 					</div>
 					<div class="col-md-2">
-						<button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-					</div>
-					<div class="col-md-2">
-						<a  href="{{ path('backend_admin_propertycontracttransaction_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
+						
 					</div>
 				</div>
 

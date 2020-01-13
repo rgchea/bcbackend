@@ -26,14 +26,13 @@
 
 <div class="container">
 
-	<div class="row">
-	<article class="col-sm-12 col-md-12 col-lg-12 sortable-grid ui-sortable">
+	<div class="row">	
 
 		<div data-widget-editbutton="false" data-widget-colorbutton="false" id="wid-id-2" class="jarviswidget jarviswidget-sortable" style="" role="widget">
 
 			<header role="heading">
-				<h2>{{ 'label_form'|trans }}</h2>
-
+                            <h2>{{ 'label_form'|trans }}</h2>
+                            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 			</header>
 
 			<!-- widget div-->
@@ -47,8 +46,7 @@
 				<!-- end widget edit box -->
 
 				<!-- widget content -->
-				<div class="widget-body">
-					<div class="form-inputs-g">
+				<div class="widget-body">					
 					{#<form id="backend_adminbundle_complex" action="{{path('backend_admin_common_area_create')}}" method="POST" name="backend_adminbundle_complex">#}
 					{{ form_start(form) }}
 					{{ form_errors(form) }}
@@ -62,53 +60,41 @@
 
 						<input type="hidden" name="common_area[token]" value="{{ myToken }}">
 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-6 col-md-offset-3">
 							{{ form_label(form.name) }}
 							{{ form_errors(form.name) }}
 							{{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-6 col-md-offset-3">
 							{{ form_label(form.complex) }}
 							{{ form_errors(form.complex) }}
 							{{ form_widget(form.complex, { 'attr': {'class' : 'form-control classic' } }
 							) }}
 						</div>
-						<div class="clearfix"></div>
-						<div class="form-group col-md-8">
+						
+						<div class="form-group col-md-6 col-md-offset-3">
 							{{ form_label(form.description) }}
 							{{ form_errors(form.description) }}
 							{{ form_widget(form.description, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
-
-						{#
-						<div class="form-group col-md-4">
-							{{ form_label(form.commonAreaType) }}
-							{{ form_errors(form.commonAreaType) }}
-							{{ form_widget(form.commonAreaType, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-
-						#}
-						<div class="clearfix"></div>
                                                 
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-6 col-md-offset-3">
 							{{ form_label(form.regulation) }}
 							{{ form_errors(form.regulation) }}
 							{{ form_widget(form.regulation, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
-						<div class="clearfix"></div>
-						<div class="form-group col-md-8">
+						
+						<div class="form-group col-md-6 col-md-offset-3">
 							{{ form_label(form.termCondition) }}
 							{{ form_errors(form.termCondition) }}
 							{{ form_widget(form.termCondition) }}
-						</div>
-						<div class="clearfix"></div>
+						</div>						
 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-6 col-md-offset-3">
 
 							<div class="checkbox">
 								<label>
@@ -120,17 +106,15 @@
 								</label>
 
 							</div>
-						</div>
-						<div class="clearfix"></div>
-						<div class="form-group col-md-4" id="div_common_area_price" style="display: none;">
+						</div>						
+						<div class="form-group col-md-6 col-md-offset-3" id="div_common_area_price" style="display: none;">
 							{{ form_label(form.price) }}
 							{{ form_errors(form.price) }}
 							{{ form_widget(form.price, { 'attr': {'class' : 'form-control' } }
 							) }}
 						</div>
-
-						<div class="clearfix"></div>
-						<div class="form-group col-md-4" >
+						
+						<div class="form-group col-md-6 col-md-offset-3">
 							<div class="checkbox">
 								<label>
 								{{ form_label(form.hasEquipment) }}
@@ -140,31 +124,14 @@
 								</label>
 							</div>
 
-						</div>
-						<div class="clearfix"></div>
+						</div>					
 
-						<div class="form-group col-md-8" id="div_equipment" style="display: none;">
+						<div class="form-group col-md-6 col-md-offset-3" id="div_equipment" style="display: none;">
 							{{ form_label(form.equipmentDescription) }}
 							{{ form_errors(form.equipmentDescription) }}
 							{{ form_widget(form.equipmentDescription, { 'attr': {'class' : 'form-control' } }
 							) }}
-						</div>
-						<div class="clearfix"></div>
-						{#
-						<div class="form-group col-md-4">
-							{{ form_label(form.reservationHourPeriod) }}
-							{{ form_errors(form.reservationHourPeriod) }}
-							{{ form_widget(form.reservationHourPeriod, { 'attr': {'class' : 'form-control' } }
-							) }}
-						</div>
-
-						#}
-
-						{#<div class="col-md-2">
-							<label>&nbsp;</label>
-							<input type="text" class="form-control" id="inputCommonAreaType" name="extra[propertyTypeName]" style="display: none" placeholder="{{ 'label_name'|trans }}">
-						</div>#}
-						<div class="clearfix"></div>
+						</div>						
 
 
 
@@ -173,52 +140,41 @@
 						</div>
 
 					</fieldset>
-
-					<div class="clearfix"></div>
-
-					<h2 class="">{{ 'label_common_area_schedule'|trans }}</h2>
-					<div class="clearfix"></div>
-					<br/>
+                                        <br>                               
+					<h2 class="no-margin">{{ 'label_common_area_schedule'|trans }}</h2>
+                                        <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+					<br>
 					<div class="row">
-						<div class="col">
-							<div id="schedule" class="jqs-demo mb-3"></div>
-							<input type="hidden" id="my_schedule" name="my_schedule">
-						</div>
-					</div>
+                                            <div class="form-group col-xs-12">
+                                                <div id="schedule" class="jqs-demo mb-3"></div>
+                                                <input type="hidden" id="my_schedule" name="my_schedule">
+                                            </div>
+					</div>				
+                                        <br>
+                                        <h2 class="no-margin">{{ 'label_photo'|trans }} </h2>
+                                        <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+                                        <div class="row">
+                                            <div class="form-group col-md-6 col-md-offset-3">
+                                                
+                                                <h5>5 {{ 'label_max_files'|trans }} </h5>
+                                                <div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('common_area_ajax_snippet_image_send', {token: token})}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>                                        
 
-					<div class="clearfix"></div>
-					<br/>
 
-
-							<h3>{{ 'label_photo'|trans }} </h3>
-							<h2>5 {{ 'label_max_files'|trans }} </h2>
-							<div class="dropzone my-dropzone" id="form_snippet_image"  action="{{path('common_area_ajax_snippet_image_send', {token: token})}}">
-
-							</div>
-							<br/>
-
-
-
-						<div class="row">
-							<div class="col-md-8">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" id="mySubmit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-							</div>
-							<div class="col-md-2">
-								<a  href="{{ path('backend_admin_common_area_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-							</div>
-						</div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6 col-md-offset-3">                                                
+                                                <button type="submit" id="mySubmit" class="btn btn-primary btn-ps pull-right">{{ 'label_save'|trans }}</button>                                                                                                
+                                                <a  href="{{ path('backend_admin_common_area_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>                                                
+                                                <div class="clearfix"></div>
+                                            </div>                                                
+                                        </div>
 
 
 					<!--</form>-->
 					{{ form_end(form) }}
-
-				</div>
-
-
-
-
 				<!-- end widget content -->
 				</div>
 		</div>
@@ -226,9 +182,7 @@
 
 		</div>
 
-		<div class="clearfix"></div>
-
-	</article>
+	
 </div>
 
 </div>

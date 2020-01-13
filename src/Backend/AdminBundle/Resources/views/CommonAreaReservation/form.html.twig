@@ -56,21 +56,19 @@
 
 
                         <div class="row">   
-                            <div class="col-md-5">
+                            <div class="form-group col-md-6 col-md-offset-3">
                                 <div class="form-group">
                                     <label class="txt-blue-bold">{{ 'label_event_date'|trans }}: </label>
                                     <input name="event_date" id="event_date" type="text" class="form-control" data-provide="datepicker" min="{{ 'now'|date("Y-m-d") }}">
-                                </div>                                                                    
-
+                                </div>                                                                                                        
                                 <div class="form-group">
                                     <label class="txt-blue-bold">{{ 'label_time'|trans }}: </label>                                    
                                     <div id="divTime">
                                     </div>
                                 </div>                            
-                            </div>
-                            <div class="col-md-1">
-                            </div>
-                            <div class="col-md-6">                                
+                                    <hr>
+                            </div>                            
+                            <div class="form-group col-md-6 col-md-offset-3">
                                 <div class="form-group">
                                     <label class="txt-blue-bold">{{ 'label_cost'|trans }}: </label>                                                                        
                                     <input type="text" name="cost" id="cost" class="form-control" value="0.00">
@@ -87,14 +85,21 @@
                         </div>
                                                 
                     </div>
+                    <div class="row">         
+                        <div class="form-group col-md-6 col-md-offset-3">                            
+                            <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_save'|trans }}</button>   
+                            <a  href="{{ path('backend_admin_common_area_reservation_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>                            
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>                            						                            
                     <div class="row">
                         <br>
                         <div class="col-md-6 col-sm-12 form-group"></div>
                         <div class="col-md-3 col-sm-12 form-group">
-                            <button type="submit" class="btn btn-primary form-control">{{ 'label_save'|trans }}</button>
+                            
                         </div>
                         <div class="col-md-3 col-sm-12 form-group">
-                            <a  href="{{ path('backend_admin_common_area_reservation_index') }}" class="btn btn-primary button-cancel form-control">{{ 'label_cancel'|trans }}</a>
+                            
                         </div>
                     </div>
                 </form>

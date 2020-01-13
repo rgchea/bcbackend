@@ -3755,14 +3755,6 @@ i {
     color: white !important;
 }
 
-
-.pizote-thumbnail {
-    background-color: #428bca;
-    border: solid 1px #428bca;
-    padding: 2px;
-    width: 256px;
-}
-
 .button-cancel{
     background-color:#2E2E2E !important;
     color:#FFF !important;
@@ -4010,4 +4002,10 @@ thead tr *{
     margin-left: 10px !important;
     padding-left: 30px;
     padding-right: 30px;
+}
+
+hr.punteada{
+    border-width: 1px; 
+    border-style: dashed; 
+    border-color: #93a7b2;
 }

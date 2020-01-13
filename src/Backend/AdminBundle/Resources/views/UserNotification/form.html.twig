@@ -21,181 +21,103 @@
 					</div>
 				</blockquote>
 			</div>
-		</div>
+		</div>                
 	</div>
 </div>
 
 <div class="container">
+		
+    <div class="container">
 
-	<!-- CONTENT -->
-	<div class="main-content no-bordertop">
+                <form method="POST" id="ticketForm" name="ticketForm" action="{{ path('backend_admin_ticket_create') }}">
 
+                        <input type="hidden" name="notification" value="true">
+                        <div class="form-inputs-g">
+                                
+                                <div class="row">
+                                        <div class="col-md-4 form-group">
+                                                <label class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </label>                                                                                                
+                                                <select  class="form-control classic" id="sector_select" name="sector_select">
+                                                        <option value="0">{{ 'label_all'|trans }}</option>
+                                                        {% for sector in complexSector %}
+                                                                <option value="{{ sector.id }}">{{ sector }}</option>
+                                                        {% endfor %}
+                                                </select>                                                
+                                        </div>
 
+                                        <div class="col-md-4 form-group">
+                                            <label class="txt-blue-bold">{{ 'label_property_number'|trans }}: </label>                                                
+                                            <select  class="form-control classic" id="property_select" name="property_select">
 
-		<div class="container">
-
-			<form method="POST" id="ticketForm" name="ticketForm" action="{{ path('backend_admin_ticket_create') }}">
-
-				<input type="hidden" name="notification" value="true">
-				<div class="form-inputs-g">
-
-					<div class="row">
-						<div class="col-md-4">
-							<div class="col-md-3">
-								<p class="txt-blue-bold">{{ 'label_complex_sector'|trans }}: </p>
-							</div>
-							<div class="col-md-9">
-								<select  class="form-control classic" id="sector_select" name="sector_select">
-									<option value="0">{{ 'label_all'|trans }}</option>
-									{% for sector in complexSector %}
-										<option value="{{ sector.id }}">{{ sector }}</option>
-									{% endfor %}
-								</select>
-							</div>
-
-						</div>
-
-						<div class="col-md-4">
-							<div class="col-md-5">
-								<p class="txt-blue-bold">{{ 'label_property_number'|trans }}: </p>
-							</div>
-							<div class="col-md-7">
-								<select  class="form-control classic" id="property_select" name="property_select">
-
-								</select>
-							</div>
-
-						</div>
+                                            </select>                                                
+                                        </div>
 
 
-						<div class="col-md-4">
-							<div class="col-md-4">
-								<p class="txt-blue-bold">{{ 'label_category'|trans }}: </p>
-							</div>
-							<div class="col-md-8">
-								<select  class="form-control classic" id="category_select" name="category_select">
-									{% for category in ticketCategory %}
-										<option value="{{ category.id }}">{{ category.name }}</option>
-									{% endfor %}
-								</select>
-							</div>
+                                        <div class="col-md-4 form-group">
+                                            <label class="txt-blue-bold">{{ 'label_category'|trans }}: </label>                                                
+                                            <select  class="form-control classic" id="category_select" name="category_select">
+                                                    {% for category in ticketCategory %}
+                                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                                    {% endfor %}
+                                            </select>                                                
+                                        </div>
 
-						</div>
+                                </div>
+                                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
 
-					</div>
+                                <br/>
+                                <div class="row">
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <label class="txt-blue-bold">{{ 'label_title'|trans }}: </label>                                        
+                                        <input name="title" id="title" type="text" class="form-control" placeholder="">
+                                    </div>                                                                
+                                    <div class="form-group col-md-3 col-md-offset-3">
+                                        <label class="txt-blue-bold">{{ 'label_date'|trans }}: </label>                                        
+                                        <input name="myDate" id="myDate" type="date" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label class="txt-blue-bold">{{ 'label_time'|trans }}: </label>                                        
+                                        <select class="form-control classic" id="time" name="time" aria-required="true">
+                                                <option value="00:00">00:00</option>
+                                                <option value="01:00">01:00</option>
+                                                <option value="02:00">02:00</option>
+                                                <option value="03:00">03:00</option>
+                                                <option value="04:00">04:00</option>
+                                                <option value="05:00">05:00</option>
+                                                <option value="06:00">06:00</option>
+                                                <option value="07:00">07:00</option>
+                                                <option value="08:00">08:00</option>
+                                                <option value="09:00">09:00</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="12:00">12:00</option>
+                                                <option value="13:00">13:00</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="17:00">17:00</option>
+                                                <option value="18:00">18:00</option>
+                                                <option value="19:00">19:00</option>
+                                                <option value="20:00">20:00</option>
+                                                <option value="21:00">21:00</option>
+                                                <option value="22:00">22:00</option>
+                                                <option value="23:00">23:00</option>
+                                        </select>
+                                    </div>                                
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <label class="txt-blue-bold">{{ 'label_description'|trans }}: </label>                                        
+                                        <textarea required class="form-control rounded-0" id="description" name="description" rows="7"></textarea>                                        
+                                    </div>
+                                                                        
+                                    <div class="form-group col-md-6 col-md-offset-3">
+                                        <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_send_notification'|trans }}</button>                                        
+                                        <a  href="{{ path('backend_admin_usernotification_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>                                        
+                                        <div class="clearfix"></div>
+                                    </div>                                                     						                                                            
+                        </div>
+                </form>
 
-					<br/>
-					<div class="row">
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_title'|trans }}: </p>
-						</div>
-						<div class="col-md-7">
-							<input name="title" id="title" type="text" class="form-control" placeholder="">
-						</div>
-					</div>
-					<br/>
-
-					<div class="row">
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_date'|trans }}: </p>
-						</div>
-
-						<div class="col-md-3">
-							<input name="myDate" id="myDate" type="date" class="form-control" placeholder="">
-						</div>
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_time'|trans }}: </p>
-						</div>
-						<div class="col-md-3">
-							<select class="form-control classic" id="time" name="time" aria-required="true">
-								<option value="00:00">00:00</option>
-								<option value="01:00">01:00</option>
-								<option value="02:00">02:00</option>
-								<option value="03:00">03:00</option>
-								<option value="04:00">04:00</option>
-								<option value="05:00">05:00</option>
-								<option value="06:00">06:00</option>
-								<option value="07:00">07:00</option>
-								<option value="08:00">08:00</option>
-								<option value="09:00">09:00</option>
-								<option value="10:00">10:00</option>
-								<option value="11:00">11:00</option>
-								<option value="12:00">12:00</option>
-								<option value="13:00">13:00</option>
-								<option value="14:00">14:00</option>
-								<option value="15:00">15:00</option>
-								<option value="16:00">16:00</option>
-								<option value="17:00">17:00</option>
-								<option value="18:00">18:00</option>
-								<option value="19:00">19:00</option>
-								<option value="20:00">20:00</option>
-								<option value="21:00">21:00</option>
-								<option value="22:00">22:00</option>
-								<option value="23:00">23:00</option>
-							</select>
-
-						</div>
-					</div>
-
-					<div class="clearfix"></div>
-					<br/>
-
-
-					<div class="row">
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_description'|trans }}: </p>
-						</div>
-						<br/>
-						<div class="col-md-11">
-							<textarea required class="form-control rounded-0" id="description" name="description" rows="7"></textarea>
-						</div>
-					</div>
-
-					<br/>
-					<div class="row">
-						{#
-						<div class="col-md-1">
-
-						</div>
-						<div class="col-md-1">
-							<p class="txt-blue-bold">{{ 'label_remind'|trans }} </p>
-						</div>
-						<div class="col-md-3">
-							<select  class="form-control classic" id="exampleFormControlSelect1">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-							</select>
-						</div>
-						<div class="col-md-3">
-							<p class="txt-blue-bold">{{ 'label_before_event'|trans }} </p>
-						</div>
-						<div class="col-md-2">
-
-						</div>
-						#}
-						<div class="row">
-							<div class="col-md-8">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-primary">{{ 'label_send_notification'|trans }}</button>
-							</div>
-							<div class="col-md-2">
-								<a  href="{{ path('backend_admin_usernotification_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</form>
-
-		</div>
-
-	</div>
-	<!-- END: CONTENT -->
-
+        </div>	
 
 </div>
 <script type="text/javascript" language="JavaScript">

@@ -15,35 +15,103 @@
         z-index: 0;
     }
 </style>
-<div class="container">
-    <header role="heading">
-        <h2 class="header-title">{{ 'label_form'|trans }}</h2>
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <h3 class="header-title no-margin">{{ 'label_form'|trans }}</h3>
+            </div>
+            <div class="col-md-2 text-right">
+                
+            </div>
+        </div>
         <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/><br>
-    </header>
-    <div class="row">            
+    </div>
+</div>
+<div class="container">    
+    <div class="row">                                                                    
+        <!-- widget content -->
+        <div class="widget-body">
+            <div class="form-inputs-g">
+                
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
 
-            
+                <fieldset>
+                    <div class="row">                                                
+                        <div class="col-md-6 form-group col-md-offset-3">
+                            <br>
+                            <h2 class="header-title">Complex information</h2>
+                            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+                        </div>
 
-            <!-- widget div-->
-            <div role="content">
+                        <div class="col-md-6 form-group col-md-offset-3">
+                            {{ form_label(form.name) }}
+                            {{ form_errors(form.name) }}
+                            {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
 
-                <!-- widget edit box -->
-                <div class="jarviswidget-editbox">
-                    <!-- This area used as dropdown edit box -->
+                        <div class="col-md-6 form-group col-md-offset-3">
+                            {{ form_label(form.complexType) }}
+                            {{ form_errors(form.complexType) }}
+                            {{ form_widget(form.complexType, { 'attr': {'class' : 'form-control classic' } }
+                            ) }}
+                        </div>
 
-                </div>
-                <!-- end widget edit box -->
 
-                <!-- widget content -->
-                <div class="widget-body">
-                    <div class="form-inputs-g">
+                        <div class="col-md-6 form-group col-md-offset-3">
+                            {{ form_label(form.address) }}
+                            {{ form_errors(form.address) }}
+                            {{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>                        
 
-                        {#<form id="backend_adminbundle_complex" action="{{path('backend_admin_complex_create')}}" method="POST" name="backend_adminbundle_complex">#}
-                        {{ form_start(form) }}
-                        {{ form_errors(form) }}
+                        <div class="col-md-2 form-group col-md-offset-3">
+                            <label for="name">{{ 'label_country'|trans }}</label>
+                            <div id="" class="flagstrap" data-input-name="complex_country" data-selected-country="{{ entity.geoState.geoCountry.shortName }}"></div>
+                        </div>
 
-                        <fieldset>
-
+                        <div class="col-md-2 form-group">
+                            {{ form_label(form.geoState) }}
+                            {{ form_errors(form.geoState) }}
+                            <div id="divGeoState">
+                                {{ form_widget(form.geoState, { 'attr': {'class' : 'form-control' } }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            {{ form_label(form.zipCode) }}
+                            {{ form_errors(form.zipCode) }}
+                            {{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+                        
+                        <div class="col-md-6 col-md-offset-3">
+                            <br>
+                            <h2 class="header-title-step no-margin">Contact information</h2>
+                            <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>
+                        </div>            
+                        
+                        <div class="col-md-2 form-group col-md-offset-3">
+                            <div class="form-group ">
+                                <label for="name">{{ 'label_country'|trans }}</label>
+                                <div id="" class="flagstrap" data-input-name="phone_code" data-selected-country="{{ entity.phoneCountry.shortName }}"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            {{ form_label(form.phoneNumber) }}
+                            {{ form_errors(form.phoneNumber) }}
+                            {{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
+                        <div class="col-md-2 form-group">
+                            {{ form_label(form.email) }}
+                            {{ form_errors(form.email) }}
+                            {{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>                                                
+                        <div class="col-md-6 form-group col-md-offset-3">
+                            
                             {% if entity.avatarPath is null %}
 
                             {% else %}
@@ -52,230 +120,151 @@
                                 {% set avatar = avatar|replace({'/en/': '/'}) %}
                                 {% set avatar = avatar|replace({'/es/': '/'}) %}
 
-                                <img src="{{ avatar }}" alt="" class="pizote-thumbnail" />
+                                <img src="{{ avatar }}" alt="" class="pizote-thumbnail" style="width: 80%; display: block; margin: 0 auto;"/>
                             {% endif %}
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    {{ form_label(form.avatarPath) }}
-                                    {{ form_errors(form.avatarPath) }}
-                                    {{ form_widget(form.avatarPath, { 'attr': {'class' : 'form-control' } }
-                                    ) }}
+                            <hr>
+                            
+                            {{ form_label(form.avatarPath) }}
+                            {{ form_errors(form.avatarPath) }}
+                            {{ form_widget(form.avatarPath, { 'attr': {'class' : 'form-control' } }
+                            ) }}
+                        </div>
 
-                                </div>
-
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                {{ form_label(form.name) }}
-                                {{ form_errors(form.name) }}
-                                {{ form_widget(form.name, { 'attr': {'class' : 'form-control' } }
+                    </div>
+                    {% if role == "SUPER ADMIN" %}
+                        <div class="col-md-6 form-group col-md-offset-3">
+                            <div class="checkbox">
+                                {{ form_label(form.latePayment) }}
+                                {{ form_errors(form.latePayment) }}
+                                {{ form_widget(form.latePayment, { 'attr': {'class' : 'form-control' } }
                                 ) }}
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                {{ form_label(form.complexType) }}
-                                {{ form_errors(form.complexType) }}
-                                {{ form_widget(form.complexType, { 'attr': {'class' : 'form-control classic' } }
-                                ) }}
-                            </div>
-
-
-                            <div class="clearfix"></div>
-                            <div class="form-group col-md-4">
-                                {{ form_label(form.address) }}
-                                {{ form_errors(form.address) }}
-                                {{ form_widget(form.address, { 'attr': {'class' : 'form-control' } }
-                                ) }}
-                            </div>
-
-                            <div class="col-md-2"  >
-                                <label for="name">{{ 'label_country'|trans }}</label>
-
-                                <div id="" class="flagstrap" data-input-name="complex_country" data-selected-country="{{ entity.geoState.geoCountry.shortName }}"></div>
-
-                            </div>
-
-                            <div class="form-group col-md-2">
-                                {{ form_label(form.geoState) }}
-                                {{ form_errors(form.geoState) }}
-                                <div id="divGeoState">
-                                    {{ form_widget(form.geoState, { 'attr': {'class' : 'form-control' } }) }}
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4">
-                                {{ form_label(form.zipCode) }}
-                                {{ form_errors(form.zipCode) }}
-                                {{ form_widget(form.zipCode, { 'attr': {'class' : 'form-control' } }
-                                ) }}
-                            </div>
-
-                            <div class="clearfix"></div>
-
-                            <div class="clearfix"></div>
-                            <div class="form-group col-md-3">
-                                <div class="form-group ">
-                                    <label for="name">{{ 'label_country'|trans }}</label>
-                                    <div id="" class="flagstrap" data-input-name="phone_code" data-selected-country="{{ entity.phoneCountry.shortName }}"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-3">
-                                {{ form_label(form.phoneNumber) }}
-                                {{ form_errors(form.phoneNumber) }}
-                                {{ form_widget(form.phoneNumber, { 'attr': {'class' : 'form-control' } }
-                                ) }}
-                            </div>
-                            <div class="form-group col-md-6">
-                                {{ form_label(form.email) }}
-                                {{ form_errors(form.email) }}
-                                {{ form_widget(form.email, { 'attr': {'class' : 'form-control' } }
-                                ) }}
-                            </div>
-
-                            <div class="clearfix"></div>
-                            {% if role == "SUPER ADMIN" %}
-                                <div class="form-group col-md-6">
-                                    <div class="checkbox">
-                                        {{ form_label(form.latePayment) }}
-                                        {{ form_errors(form.latePayment) }}
-                                        {{ form_widget(form.latePayment, { 'attr': {'class' : 'form-control' } }
-                                        ) }}
-
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <div class="checkbox">
-                                        {{ form_label(form.enabled) }}
-                                        {{ form_errors(form.enabled) }}
-                                        {{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
-                                        ) }}
-
-                                    </div>
-                                </div>
-                            {% else %}
-
-                            {% endif %}
-
-
-                            <div class="hide">
-                                {{ form_rest(form) }}
-                            </div>
-
-                        </fieldset>
-
-
-
-                        <div class="clearfix"></div>
-                        {# SHIFTS #}
-                        <h2 class="">{{ 'label_shift'|trans }}&nbsp;{{ 'label_common_area_schedule'|trans }}</h2>
-                        <div class="clearfix"></div>
-                        <br/>
-                        <div class="row">
-                            <div class="col">
-                                <div id="shift_schedule" class="jqs-demo mb-3"></div>
-                                <input type="hidden" id="my_schedule" name="my_schedule">
                             </div>
                         </div>
 
-                        {# SHIFT MODAL USER SELECT #}
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog">
-
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header" style="padding:35px 50px;">
-                                        {#<button type="button" id="modalClose" class="close" data-dismiss="modal">&times;</button>#}
-                                        <h4 id="labelShiftUser">Select User</h4>
-                                    </div>
-                                    <div class="modal-body" style="padding:40px 50px;">
-
-                                        <div class="form-group">
-                                            <label  for="shiftUser"><span class="glyphicon glyphicon-user"></span> User</label>
-                                            <select type="text" class="form-control classic" id="selectUser" >
-                                                {% for key, cadmin in complexAdmins %}
-                                                    <option value="{{ key }}">{{ cadmin }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <button type="button" onclick="setShiftUser();" class="btn btn-primary btn-block"><span class=""></span> {{ 'label_save'|trans  }}</button>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        {#
-                                        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-
-                                        <p>Not a member? <a href="#">Sign Up</a></p>
-                                        <p>Forgot <a href="#">Password?</a></p>
-
-                                        #}
-                                    </div>
-                                </div>
+                        <div class="col-md-6 form-group col-md-offset-3">
+                            <div class="checkbox">
+                                {{ form_label(form.enabled) }}
+                                {{ form_errors(form.enabled) }}
+                                {{ form_widget(form.enabled, { 'attr': {'class' : 'form-control' } }
+                                ) }}
 
                             </div>
                         </div>
+                    {% else %}
 
-                        <div class="row">
-                            <div class="col-md-8">
-                            </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary">{{ 'label_save'|trans }}</button>
-                            </div>
-                            <div class="col-md-2">
-                                <a  href="{{ path('backend_admin_complex_index') }}" class="btn btn-primary button-cancel">{{ 'label_cancel'|trans }}</a>
-                            </div>
-                        </div>
+                    {% endif %}
+
+
+                    <div class="hide">
+                        {{ form_rest(form) }}
                     </div>
 
-
-                    <!--</form>-->
-                    {{ form_end(form) }}
-
-                    <div class="clearfix"></div>
-                    <br/>
-                    {#
-                        <h2>{{ 'label_menu.property'|trans }}</h2>
-
-                        <table id="dt_table" class="table table-striped table-hover">
-                            <tfoot class="dt_tfoot">
-                            <tr>
-                                <th>ID</th>
-                                <th>{{ 'label_complex'|trans }}</th>
-                                <th>{{ 'label_complex_sector'|trans }}</th>
-                                <th>{{ 'label_name'|trans }}</th>
-                                <th>{{ 'label_code'|trans }}</th>
-                                <th>{{ 'label_owner'|trans }}</th>
-                                <th>{{ 'label_tenant'|trans }}</th>
-
-                                <th>&nbsp;</th>
-
-                            </tr>
-                            </tfoot>
-                            <thead>
-                            <tr>
-
-                                <th>ID</th>
-                                <th>{{ 'label_complex'|trans }}</th>
-                                <th>{{ 'label_complex_sector'|trans }}</th>
-                                <th>{{ 'label_name'|trans }}</th>
-                                <th>{{ 'label_code'|trans }}</th>
-                                <th>{{ 'label_owner'|trans }}</th>
-                                <th>{{ 'label_tenant'|trans }}</th>
-
-                                <th>{{ 'label_actions'|trans }}</th>
-                            </tr>
-
-                            </thead>
-                            <tbody></tbody>
-
-                        </table>
-                    #}
+                </fieldset>
+                    <br><br>
+                <h2 class="header-title-step no-margin">{{ 'label_shift'|trans }}&nbsp;{{ 'label_common_area_schedule'|trans }}</h2>
+                <hr style="border-width: 1px; border-style: dashed; border-color: #93a7b2;"/>                
+                <div class="row">
+                    <div class="col">
+                        <div id="shift_schedule" class="jqs-demo mb-3"></div>
+                        <input type="hidden" id="my_schedule" name="my_schedule">
+                    </div>
                 </div>
 
-                </div>  
-    </div>
+                {# SHIFT MODAL USER SELECT #}
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                                {#<button type="button" id="modalClose" class="close" data-dismiss="modal">&times;</button>#}
+                                <h4 id="labelShiftUser">Select User</h4>
+                            </div>
+                            <div class="modal-body" style="padding:40px 50px;">
+
+                                <div class="form-group">
+                                    <label  for="shiftUser"><span class="glyphicon glyphicon-user"></span> User</label>
+                                    <select type="text" class="form-control classic" id="selectUser" >
+                                        {% for key, cadmin in complexAdmins %}
+                                            <option value="{{ key }}">{{ cadmin }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button type="button" onclick="setShiftUser();" class="btn btn-primary btn-block"><span class=""></span> {{ 'label_save'|trans  }}</button>
+
+                            </div>
+                            <div class="modal-footer">
+                                {#
+                                <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+
+                                <p>Not a member? <a href="#">Sign Up</a></p>
+                                <p>Forgot <a href="#">Password?</a></p>
+
+                                #}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                            
+
+                <div class="row">
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-ps pull-right">{{ 'label_register_create_complex_2'|trans }}</button>                                                        
+                        <a  href="{{ path('backend_admin_complex_index') }}" class="btn btn-primary button-cancel btn-ps pull-right">{{ 'label_cancel'|trans }}</a>
+                        <div class="clearfix"></div>
+                    </div>                                                                        
+                </div>
+            </div>
+
+
+            <!--</form>-->
+            {{ form_end(form) }}
+
+            <div class="clearfix"></div>
+            <br/>
+            {#
+                <h2>{{ 'label_menu.property'|trans }}</h2>
+
+                <table id="dt_table" class="table table-striped table-hover">
+                    <tfoot class="dt_tfoot">
+                    <tr>
+                        <th>ID</th>
+                        <th>{{ 'label_complex'|trans }}</th>
+                        <th>{{ 'label_complex_sector'|trans }}</th>
+                        <th>{{ 'label_name'|trans }}</th>
+                        <th>{{ 'label_code'|trans }}</th>
+                        <th>{{ 'label_owner'|trans }}</th>
+                        <th>{{ 'label_tenant'|trans }}</th>
+
+                        <th>&nbsp;</th>
+
+                    </tr>
+                    </tfoot>
+                    <thead>
+                    <tr>
+
+                        <th>ID</th>
+                        <th>{{ 'label_complex'|trans }}</th>
+                        <th>{{ 'label_complex_sector'|trans }}</th>
+                        <th>{{ 'label_name'|trans }}</th>
+                        <th>{{ 'label_code'|trans }}</th>
+                        <th>{{ 'label_owner'|trans }}</th>
+                        <th>{{ 'label_tenant'|trans }}</th>
+
+                        <th>{{ 'label_actions'|trans }}</th>
+                    </tr>
+
+                    </thead>
+                    <tbody></tbody>
+
+                </table>
+            #}
+        </div>
+
+    </div>      
 </div>
 <script type="text/javascript" language="Javascript">
 
