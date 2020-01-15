@@ -25,7 +25,7 @@ class Ticket
     /**
      * @var bool
      */
-    private $isPublic = '1';
+    private $isPublic = 1;
 
     /**
      * @var \DateTime

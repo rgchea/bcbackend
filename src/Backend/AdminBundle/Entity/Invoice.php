@@ -20,7 +20,7 @@ class Invoice
     /**
      * @var float
      */
-    private $amount = '0.00';
+    private $amount = 0.00;
 
     /**
      * @var bool

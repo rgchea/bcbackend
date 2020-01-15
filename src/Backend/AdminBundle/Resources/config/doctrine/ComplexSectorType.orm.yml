@@ -61,7 +61,7 @@ Backend\AdminBundle\Entity\ComplexSectorType:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         createdBy:
             targetEntity: User

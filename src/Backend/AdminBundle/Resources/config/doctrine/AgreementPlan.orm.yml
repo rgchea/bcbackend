@@ -70,7 +70,7 @@ Backend\AdminBundle\Entity\AgreementPlan:
             nullable: false
             options:
                 comment: 'si el contrato es anual'
-                default: '1'
+                default: true
     manyToOne:
         updatedBy:
             targetEntity: User

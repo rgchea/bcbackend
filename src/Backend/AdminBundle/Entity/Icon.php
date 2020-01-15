@@ -33,7 +33,7 @@ class Icon
     /**
      * @var bool
      */
-    private $enabled = true;
+    private $enabled = 1;
 
     /**
      * @var \Backend\AdminBundle\Entity\User

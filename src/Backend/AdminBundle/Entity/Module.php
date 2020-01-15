@@ -40,7 +40,7 @@ class Module
     /**
      * @var bool
      */
-    private $visible = '1';
+    private $visible = 1;
 
     /**
      * @var string|null

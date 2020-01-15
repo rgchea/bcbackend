@@ -61,7 +61,7 @@ Backend\AdminBundle\Entity\ComplexType:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         updatedBy:
             targetEntity: User

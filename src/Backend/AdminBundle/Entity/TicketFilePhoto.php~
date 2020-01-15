@@ -18,7 +18,7 @@ class TicketFilePhoto
     private $id;
 
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="3M")
      */
     private $file;
 

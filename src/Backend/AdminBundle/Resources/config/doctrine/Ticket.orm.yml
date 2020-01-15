@@ -110,7 +110,7 @@ Backend\AdminBundle\Entity\Ticket:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         tenantContract:
             targetEntity: TenantContract

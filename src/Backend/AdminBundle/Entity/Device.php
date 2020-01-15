@@ -30,7 +30,7 @@ class Device
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = 1;
 
     /**
      * @var string|null

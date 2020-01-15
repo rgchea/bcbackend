@@ -660,6 +660,9 @@ class RestController extends FOSRestController
             $email = strtolower(trim($request->get('email')));
             $lang = strtolower(trim($request->get('language')));
 
+            $this->translator->setLocale($lang);
+
+
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 return new JsonResponse(array('message' => 'Invalid email format.'), JsonResponse::HTTP_UNAUTHORIZED);
             }
@@ -690,7 +693,19 @@ class RestController extends FOSRestController
             $this->em->persist($user);
             $this->em->flush();
 
-            $message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
+            ///normal mail general template
+            //$message = $this->get('services')->generalTemplateMail($subject, $user->getEmail(), $bodyHtml);
+
+            if($lang == "es"){
+                $templateID = "d-1f612d59f48b435bb0e20916ed778b57";
+            }
+            else{
+                $templateID = "d-434a306c38d64855a554c7c70d8faa16";
+            }
+            $myJson = '"temporal_pass": "'.$pass.'"';
+
+            $sendgridResponse = $this->get('services')->callSendgrid($myJson, $templateID, $user->getEmail());
+
 
             return new JsonResponse(array(
                 'message' => "forgotPassword",

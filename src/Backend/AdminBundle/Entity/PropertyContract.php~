@@ -35,7 +35,7 @@ class PropertyContract
     /**
      * @var int|null
      */
-    private $duePaymentDay = '5';
+    private $duePaymentDay = 5;
 
     /**
      * @var float|null

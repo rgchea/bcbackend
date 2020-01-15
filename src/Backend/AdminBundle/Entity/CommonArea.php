@@ -35,7 +35,7 @@ class CommonArea
     /**
      * @var float
      */
-    private $price = '0.00';
+    private $price = 0.00;
 
 
     /**

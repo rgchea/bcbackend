@@ -23,13 +23,13 @@ Backend\AdminBundle\Entity\ModuleAccess:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
             column: can_read
         canWrite:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
             column: can_write
     manyToOne:
         module:

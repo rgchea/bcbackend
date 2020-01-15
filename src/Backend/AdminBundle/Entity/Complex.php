@@ -40,12 +40,12 @@ class Complex
     /**
      * @var bool
      */
-    private $totalVisibleAmount = '1';
+    private $totalVisibleAmount = 1;
 
     /**
      * @var bool
      */
-    private $visibleBalance = '1';
+    private $visibleBalance = 1;
 
     /**
      * @var string|null

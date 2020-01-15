@@ -72,7 +72,7 @@ Backend\AdminBundle\Entity\ComplexSector:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         complex:
             targetEntity: Complex

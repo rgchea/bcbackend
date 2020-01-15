@@ -15,27 +15,27 @@ class AgreementPlan
     /**
      * @var int
      */
-    private $ticketLimit = '1';
+    private $ticketLimit = 1;
 
     /**
      * @var int
      */
-    private $userLimit = '1';
+    private $userLimit = 1;
 
     /**
      * @var float
      */
-    private $fee = '0.00';
+    private $fee = 0.00;
 
     /**
      * @var bool
      */
-    private $montlyPayment = '0';
+    private $montlyPayment = 0;
 
     /**
      * @var bool
      */
-    private $yearlyPayment = '0';
+    private $yearlyPayment = 0;
 
     /**
      * @var \DateTime

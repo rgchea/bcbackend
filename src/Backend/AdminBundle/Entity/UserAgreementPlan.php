@@ -15,7 +15,7 @@ class UserAgreementPlan
     /**
      * @var bool
      */
-    private $isActive = '1';
+    private $isActive = 1;
 
     /**
      * @var \DateTime
@@ -25,12 +25,12 @@ class UserAgreementPlan
     /**
      * @var bool
      */
-    private $monthlyPayment = '0';
+    private $monthlyPayment = 0;
 
     /**
      * @var bool
      */
-    private $annualPayment = '0';
+    private $annualPayment = 0;
 
     /**
      * @var \DateTime
@@ -45,7 +45,7 @@ class UserAgreementPlan
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = 1;
 
     /**
      * @var \Backend\AdminBundle\Entity\AgreementPlan

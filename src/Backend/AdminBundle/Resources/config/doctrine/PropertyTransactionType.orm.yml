@@ -66,7 +66,7 @@ Backend\AdminBundle\Entity\PropertyTransactionType:
             type: boolean
             nullable: false
             options:
-                default: '1'
+                default: true
     manyToOne:
         createdBy:
             targetEntity: User

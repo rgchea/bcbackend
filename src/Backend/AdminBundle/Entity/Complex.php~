@@ -35,17 +35,17 @@ class Complex
     /**
      * @var int|null
      */
-    private $duePaymentDay = '5';
+    private $duePaymentDay = 5;
 
     /**
      * @var bool
      */
-    private $totalVisibleAmount = '1';
+    private $totalVisibleAmount = 1;
 
     /**
      * @var bool
      */
-    private $visibleBalance = '1';
+    private $visibleBalance = 1;
 
     /**
      * @var string|null
@@ -819,7 +819,7 @@ class Complex
         return $this->teamCorrelative;
     }
     /**
-     * @Assert\File(mimeTypes={ "image/png", "image/jpeg", "image/jpg" })
+     * @Assert\File(maxSize="3M", mimeTypes={ "image/png", "image/jpeg", "image/jpg" })
      */
     private $avatarPath;
 

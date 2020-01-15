@@ -40,7 +40,7 @@ class Property
     /**
      * @var bool
      */
-    private $isAvailable = '1';
+    private $isAvailable = 1;
 
     /**
      * @var \DateTime

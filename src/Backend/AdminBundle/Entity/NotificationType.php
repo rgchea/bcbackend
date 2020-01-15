@@ -36,7 +36,7 @@ class NotificationType
     /**
      * @var bool
      */
-    private $enabled = '1';
+    private $enabled = 1;
 
     /**
      * @var \Backend\AdminBundle\Entity\User

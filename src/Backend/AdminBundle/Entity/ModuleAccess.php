@@ -15,12 +15,12 @@ class ModuleAccess
     /**
      * @var bool
      */
-    private $canRead = '1';
+    private $canRead = 1;
 
     /**
      * @var bool
      */
-    private $canWrite = '1';
+    private $canWrite = 1;
 
     /**
      * @var \Backend\AdminBundle\Entity\Module
